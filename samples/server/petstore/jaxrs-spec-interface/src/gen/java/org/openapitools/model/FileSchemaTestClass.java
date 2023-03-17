@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FileSchemaTestClass  implements Serializable {
   private @Valid ModelFile _file;
-  private @Valid List<ModelFile> files = new ArrayList<>();
+  private @Valid List<ModelFile> files;
 
   /**
    **/

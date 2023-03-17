@@ -98,7 +98,7 @@ public class DefaultValue {
   private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
 
   public static final String JSON_PROPERTY_ARRAY_STRING = "array_string";
-  private List<String> arrayString = new ArrayList<>();
+  private List<String> arrayString;
 
   public static final String JSON_PROPERTY_ARRAY_STRING_NULLABLE = "array_string_nullable";
   private JsonNullable<List<String>> arrayStringNullable = JsonNullable.<List<String>>undefined();
