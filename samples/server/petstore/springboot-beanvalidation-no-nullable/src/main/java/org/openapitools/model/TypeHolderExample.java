@@ -177,7 +177,7 @@ public class TypeHolderExample {
    * @return arrayItem
   */
   @NotNull 
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

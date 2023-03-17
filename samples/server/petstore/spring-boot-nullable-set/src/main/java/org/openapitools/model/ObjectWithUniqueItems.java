@@ -37,7 +37,7 @@ public class ObjectWithUniqueItems {
 
   @JsonProperty("notNullSet")
   @Valid
-  private Set<String> notNullSet = null;
+  private Set<String> notNullSet = new LinkedHashSet<>();
 
   @JsonProperty("nullList")
   @Valid
@@ -45,7 +45,7 @@ public class ObjectWithUniqueItems {
 
   @JsonProperty("notNullList")
   @Valid
-  private List<String> notNullList = null;
+  private List<String> notNullList = new ArrayList<>();
 
   @JsonProperty("notNullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

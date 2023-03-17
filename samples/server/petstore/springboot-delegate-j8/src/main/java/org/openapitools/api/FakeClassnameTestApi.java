@@ -31,7 +31,7 @@ public interface FakeClassnameTestApi {
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
     @ApiOperation(
@@ -54,9 +54,9 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Client> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
     ) {
-        return getDelegate().testClassname(body);
+        return getDelegate().testClassname(client);
     }
 
 }

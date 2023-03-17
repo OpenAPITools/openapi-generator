@@ -28,17 +28,17 @@ public class TypeHolderDefaultDto {
   private String stringItem = "what";
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private BigDecimal numberItem = new BigDecimal("1.234");
 
   @JsonProperty("integer_item")
-  private Integer integerItem;
+  private Integer integerItem = -2;
 
   @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
   @JsonProperty("array_item")
   
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -118,6 +118,9 @@ public class TypeHolderDefaultDto {
   }
 
   public TypeHolderDefaultDto addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }

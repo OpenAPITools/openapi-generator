@@ -39,7 +39,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
   @JsonProperty("map")
   @Valid
-  private Map<String, AnimalDto> map = null;
+  private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
     this.uuid = uuid;

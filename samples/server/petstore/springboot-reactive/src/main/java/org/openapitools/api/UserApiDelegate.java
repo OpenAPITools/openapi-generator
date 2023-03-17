@@ -34,45 +34,47 @@ public interface UserApiDelegate {
      * POST /user : Create user
      * This can only be done by the logged in user.
      *
-     * @param body Created user object (required)
+     * @param user Created user object (required)
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    default Mono<ResponseEntity<Void>> createUser(Mono<User> body,
+    default Mono<ResponseEntity<Void>> createUser(Mono<User> user,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(body).then(Mono.empty());
+        return result.then(user).then(Mono.empty());
 
     }
 
     /**
      * POST /user/createWithArray : Creates list of users with given input array
+     * 
      *
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<User> body,
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<User> user,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.thenMany(body).then(Mono.empty());
+        return result.thenMany(user).then(Mono.empty());
 
     }
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
+     * 
      *
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<User> body,
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<User> user,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.thenMany(body).then(Mono.empty());
+        return result.thenMany(user).then(Mono.empty());
 
     }
 
@@ -95,6 +97,7 @@ public interface UserApiDelegate {
 
     /**
      * GET /user/{username} : Get user by user name
+     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return successful operation (status code 200)
@@ -124,6 +127,7 @@ public interface UserApiDelegate {
 
     /**
      * GET /user/login : Logs user into the system
+     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
@@ -142,6 +146,7 @@ public interface UserApiDelegate {
 
     /**
      * GET /user/logout : Logs out current logged in user session
+     * 
      *
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
@@ -158,17 +163,17 @@ public interface UserApiDelegate {
      * This can only be done by the logged in user.
      *
      * @param username name that need to be deleted (required)
-     * @param body Updated user object (required)
+     * @param user Updated user object (required)
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
     default Mono<ResponseEntity<Void>> updateUser(String username,
-        Mono<User> body,
+        Mono<User> user,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(body).then(Mono.empty());
+        return result.then(user).then(Mono.empty());
 
     }
 

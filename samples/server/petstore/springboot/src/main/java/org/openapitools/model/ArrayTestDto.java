@@ -29,15 +29,15 @@ public class ArrayTestDto {
 
   @JsonProperty("array_of_string")
   @Valid
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString = new ArrayList<>();
 
   @JsonProperty("array_array_of_integer")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @JsonProperty("array_array_of_model")
   @Valid
-  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
