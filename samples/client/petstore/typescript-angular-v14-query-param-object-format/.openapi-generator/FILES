@@ -16,5 +16,8 @@ model/order.ts
 model/pet.ts
 model/tag.ts
 model/user.ts
+ng-package.json
+package.json
 param.ts
+tsconfig.json
 variables.ts

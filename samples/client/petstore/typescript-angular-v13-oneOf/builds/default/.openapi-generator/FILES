@@ -11,5 +11,8 @@ model/apple.ts
 model/fruit.ts
 model/grape.ts
 model/models.ts
+ng-package.json
+package.json
 param.ts
+tsconfig.json
 variables.ts

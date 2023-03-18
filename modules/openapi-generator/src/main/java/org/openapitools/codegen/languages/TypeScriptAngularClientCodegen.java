@@ -184,9 +184,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
         }
 
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration(ngVersion);
+        if (!additionalProperties.containsKey(NPM_NAME)) {
+            additionalProperties.put(NPM_NAME, "<PLACEHOLDER_NPM_NAME>");
         }
+        addNpmPackageGeneration(ngVersion);
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
             setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
