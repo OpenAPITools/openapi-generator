@@ -319,7 +319,7 @@ class ModelTests(unittest.TestCase):
             self.pet.status = "error"
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("must validate the enum values ('available', 'pending', 'sold')" in str(e))
+            self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))
 
     def test_object_id(self):
         pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
