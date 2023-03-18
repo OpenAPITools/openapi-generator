@@ -35,9 +35,9 @@ class Query(BaseModel):
     def outcomes_validate_enum(cls, v):
         if v is None:
             return v
-
-        if v not in ('SUCCESS', 'FAILURE', 'SKIPPED'):
-            raise ValueError("must validate the enum values ('SUCCESS', 'FAILURE', 'SKIPPED')")
+        for i in v:
+            if i not in ('SUCCESS', 'FAILURE', 'SKIPPED'):
+                raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
         return v
 
     class Config:
