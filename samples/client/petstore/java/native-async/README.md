@@ -257,6 +257,8 @@ Class | Method | HTTP request | Description
  - [ShapeInterface](docs/ShapeInterface.md)
  - [ShapeOrNull](docs/ShapeOrNull.md)
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
+ - [SpecialCat](docs/SpecialCat.md)
+ - [SpecialCatAllOf](docs/SpecialCatAllOf.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
  - [Triangle](docs/Triangle.md)

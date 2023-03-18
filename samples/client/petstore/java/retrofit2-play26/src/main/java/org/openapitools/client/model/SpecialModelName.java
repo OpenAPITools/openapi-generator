@@ -31,7 +31,6 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-@JsonTypeName("$special[model.name]")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";

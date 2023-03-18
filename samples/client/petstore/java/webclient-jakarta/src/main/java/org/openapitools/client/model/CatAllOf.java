@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   CatAllOf.JSON_PROPERTY_DECLAWED
 })
-@JsonTypeName("Cat_allOf")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";

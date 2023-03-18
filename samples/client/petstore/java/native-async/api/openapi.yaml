@@ -1422,6 +1422,10 @@ components:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
+    Special-Cat:
+      allOf:
+      - $ref: '#/definitions/Cat'
+      - $ref: '#/components/schemas/Special_Cat_allOf'
     Address:
       additionalProperties:
         type: integer
@@ -2289,6 +2293,17 @@ components:
       properties:
         declawed:
           type: boolean
+      type: object
+      example: null
+    Special_Cat_allOf:
+      properties:
+        kind:
+          enum:
+          - lions
+          - tigers
+          - leopards
+          - jaguars
+          type: string
       type: object
       example: null
     ChildCat_allOf:

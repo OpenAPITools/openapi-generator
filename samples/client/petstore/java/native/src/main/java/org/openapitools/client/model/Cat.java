@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.SpecialCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -45,6 +46,9 @@ import org.openapitools.client.JSON;
   allowSetters = true // allows the className to be set during deserialization
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = SpecialCat.class, name = "Special-Cat"),
+})
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
@@ -172,6 +176,7 @@ public class Cat extends Animal {
 static {
   // Initialize and register the discriminator mappings.
   Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  mappings.put("Special-Cat", SpecialCat.class);
   mappings.put("Cat", Cat.class);
   JSON.registerDiscriminator(Cat.class, "className", mappings);
 }
