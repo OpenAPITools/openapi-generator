@@ -669,9 +669,8 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = mo.getModel();
                 removeSelfReferenceImports(cm);
 
-                // python client generator uses its own logic
-                if (!this.getLegacyDiscriminatorBehavior() && !(this instanceof PythonClientCodegen)) {
-                    cm.addDiscriminatorMappedModelsImports();
+                if (!this.getLegacyDiscriminatorBehavior()) {
+                    cm.addDiscriminatorMappedModelsImports(!(this instanceof PythonClientCodegen));
                 }
             }
         }

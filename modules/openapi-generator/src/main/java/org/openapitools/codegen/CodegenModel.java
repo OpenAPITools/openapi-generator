@@ -1209,12 +1209,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
-    public void addDiscriminatorMappedModelsImports() {
+    public void addDiscriminatorMappedModelsImports(boolean cleanUpMappedModels) {
         if (discriminator == null || discriminator.getMappedModels() == null) {
             return;
         }
 
-        if (!this.hasChildren && // no child
+        if (cleanUpMappedModels && !this.hasChildren && // no child
                 (this.oneOf == null || this.oneOf.isEmpty()) && // not oneOf
                 (this.anyOf == null || this.anyOf.isEmpty())) { // not anyOf
             //clear the mapping
