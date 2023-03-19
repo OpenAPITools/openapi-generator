@@ -7,7 +7,7 @@ const qunitArgs = {
   // Path to qunit tests suite
   targetUrl: `file://${path.join(__dirname, '../index.html')}`,
   // (optional, 30000 by default) global timeout for the tests suite
-  timeout: 10000,
+  timeout: 30000,
   // (optional, false by default) should the browser console be redirected or not
   redirectConsole: true,
   puppeteerArgs: [ '--disable-web-security']
