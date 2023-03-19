@@ -26,3 +26,4 @@ export 'package:openapi/src/model/foo_ref_or_value.dart';
 export 'package:openapi/src/model/pasta.dart';
 export 'package:openapi/src/model/pizza.dart';
 export 'package:openapi/src/model/pizza_speziale.dart';
+

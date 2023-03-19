@@ -13,3 +13,4 @@ export 'package:openapi/src/api/default_api.dart';
 
 export 'package:openapi/src/model/child.dart';
 export 'package:openapi/src/model/example.dart';
+

@@ -65,3 +65,4 @@ export 'package:openapi/src/model/single_ref_type.dart';
 export 'package:openapi/src/model/special_model_name.dart';
 export 'package:openapi/src/model/tag.dart';
 export 'package:openapi/src/model/user.dart';
+
