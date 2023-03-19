@@ -2146,12 +2146,12 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void shouldGenerateJsonPropertyAnnotationLocatedInGetters() throws IOException {
+    public void shouldGenerateJsonPropertyAnnotationLocatedInGetters_issue5705() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
+            .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
@@ -2161,10 +2161,40 @@ public class SpringCodegenTest {
             .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(input).generate();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        String jsonPropertyInGetClassName = "@NotNull @Schema(name = \"className\", requiredMode = Schema.RequiredMode.REQUIRED) @JsonProperty(\"className\") public String getClassName() {";
-        String jsonPropertyInGetColor = "@Schema(name = \"color\", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty(\"color\") public String getColor() {";
-        assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/java/org/openapitools/model/Animal.java"), jsonPropertyInGetClassName, jsonPropertyInGetColor);
+        JavaFileAssert.assertThat(files.get("ResponseObjectWithDifferentFieldNames.java"))
+            .hasProperty("normalPropertyName")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .toProperty().toType()
+            .hasProperty("UPPER_CASE_PROPERTY_SNAKE")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .toProperty().toType()
+            .hasProperty("lowerCasePropertyDashes")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .toProperty().toType()
+            .hasProperty("propertyNameWithSpaces")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .toProperty().toType()
+            .assertMethod("getNormalPropertyName")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"normalPropertyName\""))
+                .toMethod().toFileAssert()
+            .assertMethod("getUPPERCASEPROPERTYSNAKE")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"UPPER_CASE_PROPERTY_SNAKE\""))
+                .toMethod().toFileAssert()
+            .assertMethod("getLowerCasePropertyDashes")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"lower-case-property-dashes\""))
+                .toMethod().toFileAssert()
+            .assertMethod("getPropertyNameWithSpaces")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""));
     }
 }

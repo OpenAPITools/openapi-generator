@@ -14,6 +14,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -192,6 +193,33 @@ public interface FakeApi {
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) String body
     ) {
         return getDelegate().fakeOuterStringSerialize(body);
+    }
+
+
+    /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     */
+    @Operation(
+        operationId = "responseObjectDifferentNames",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseObjectWithDifferentFieldNames.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/fake/{petId}/response-object-different-names",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
+        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+    ) {
+        return getDelegate().responseObjectDifferentNames(petId);
     }
 
 

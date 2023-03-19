@@ -1174,6 +1174,31 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /fake/{petId}/response-object-different-names:
+    get:
+      operationId: responseObjectDifferentNames
+      parameters:
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseObjectWithDifferentFieldNames'
+          description: successful operation
+      tags:
+      - pet
+      x-accepts: application/json
+      x-tags:
+      - tag: pet
 components:
   requestBodies:
     UserArray:
@@ -2105,6 +2130,22 @@ components:
       required:
       - nullable_required_array
       - required_array
+      type: object
+    ResponseObjectWithDifferentFieldNames:
+      example:
+        UPPER_CASE_PROPERTY_SNAKE: UPPER_CASE_PROPERTY_SNAKE
+        lower-case-property-dashes: lower-case-property-dashes
+        property name with spaces: property name with spaces
+        normalPropertyName: normalPropertyName
+      properties:
+        normalPropertyName:
+          type: string
+        UPPER_CASE_PROPERTY_SNAKE:
+          type: string
+        lower-case-property-dashes:
+          type: string
+        property name with spaces:
+          type: string
       type: object
     updatePetWithForm_request:
       properties:
