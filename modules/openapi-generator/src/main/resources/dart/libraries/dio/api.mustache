@@ -7,7 +7,8 @@ import 'package:dio/dio.dart';
 {{#operations}}
 {{! No need to Import all the required model files as freezed uses the part of directive for it models}}
 {{^useFreezed}}
-    {{#imports}}import '{{.}}';
+    {{#imports}}
+import '{{.}}';
     {{/imports}}
 {{/useFreezed}}
 
@@ -51,8 +52,7 @@ class {{classname}} {
   {{/useFreezed}}
   {{^useFreezed}}
   Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({
-  {{/useFreezed}}
-  {{#allParams}}{{#isPathParam}}
+  {{/useFreezed}}{{#allParams}}{{#isPathParam}}
     required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
     {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
     {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}

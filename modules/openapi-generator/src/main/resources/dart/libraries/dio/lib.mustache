@@ -8,12 +8,11 @@ export 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
 
 {{#apiInfo}}{{#apis}}export 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
-
 {{! For freezed all the models are simply part of models.dart file utilizing the part directive}}
 {{#useFreezed}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/models.dart';{{/useFreezed}}
-
 {{! No need to export all the models files as freezed uses the part of directive for it models}}
 {{^useFreezed}}
-    {{#models}}{{#model}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
+    {{#models}}{{#model}}
+export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
     {{/model}}{{/models}}
 {{/useFreezed}}
