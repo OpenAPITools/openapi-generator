@@ -21,10 +21,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CategoryDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name = "default-name";
 
   public CategoryDto id(Long id) {
@@ -37,6 +35,7 @@ public class CategoryDto {
    * @return id
   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -55,6 +54,7 @@ public class CategoryDto {
    * @return name
   */
   @NotNull
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

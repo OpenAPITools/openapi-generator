@@ -29,19 +29,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ContainerDefaultValueDto {
 
-  @JsonProperty("nullable_array")
   @Valid
   private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
 
-  @JsonProperty("nullable_required_array")
   @Valid
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
 
-  @JsonProperty("required_array")
   @Valid
   private List<String> requiredArray = new ArrayList<>();
 
-  @JsonProperty("nullable_array_with_default")
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
 
@@ -81,6 +77,7 @@ public class ContainerDefaultValueDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
   }
@@ -108,6 +105,7 @@ public class ContainerDefaultValueDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
   }
@@ -135,6 +133,7 @@ public class ContainerDefaultValueDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
   }
@@ -162,6 +161,7 @@ public class ContainerDefaultValueDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
   }

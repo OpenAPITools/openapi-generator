@@ -26,7 +26,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class DogDto extends AnimalDto {
 
-  @JsonProperty("breed")
   private String breed;
 
   public DogDto breed(String breed) {
@@ -39,6 +38,7 @@ public class DogDto extends AnimalDto {
    * @return breed
   */
   
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

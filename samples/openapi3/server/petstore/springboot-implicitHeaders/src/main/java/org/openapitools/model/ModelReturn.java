@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelReturn {
 
-  @JsonProperty("return")
   private Integer _return;
 
   public ModelReturn _return(Integer _return) {
@@ -38,6 +37,7 @@ public class ModelReturn {
   */
   
   @Schema(name = "return", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelNameDto {
 
-  @JsonProperty("$special[property.name]")
   private Long $SpecialPropertyName;
 
   public SpecialModelNameDto $SpecialPropertyName(Long $SpecialPropertyName) {
@@ -38,6 +37,7 @@ public class SpecialModelNameDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $SpecialPropertyName;
   }

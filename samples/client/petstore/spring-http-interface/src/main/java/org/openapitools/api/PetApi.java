@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ApiResponseDto;
 import org.openapitools.model.PetDto;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -114,6 +115,22 @@ public interface PetApi {
         accept = "application/json"
     )
     ResponseEntity<PetDto> getPetById(
+         @PathVariable("petId") Long petId
+    );
+
+
+    /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     */
+    @HttpExchange(
+        method = "GET",
+        value = "/fake/{petId}/response-object-different-names",
+        accept = "application/json"
+    )
+    ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
          @PathVariable("petId") Long petId
     );
 

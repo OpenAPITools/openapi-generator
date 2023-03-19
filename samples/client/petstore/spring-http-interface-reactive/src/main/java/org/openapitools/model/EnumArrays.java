@@ -57,7 +57,6 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("just_symbol")
   private JustSymbolEnum justSymbol;
 
   /**
@@ -95,7 +94,6 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("array_enum")
   
   private List<ArrayEnumEnum> arrayEnum;
 
@@ -109,6 +107,7 @@ public class EnumArrays {
    * @return justSymbol
   */
   
+  @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -135,6 +134,7 @@ public class EnumArrays {
    * @return arrayEnum
   */
   
+  @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

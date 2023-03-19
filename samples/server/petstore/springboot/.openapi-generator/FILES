@@ -60,6 +60,7 @@ src/main/java/org/openapitools/model/OuterCompositeDto.java
 src/main/java/org/openapitools/model/OuterEnumDto.java
 src/main/java/org/openapitools/model/PetDto.java
 src/main/java/org/openapitools/model/ReadOnlyFirstDto.java
+src/main/java/org/openapitools/model/ResponseObjectWithDifferentFieldNamesDto.java
 src/main/java/org/openapitools/model/ReturnDto.java
 src/main/java/org/openapitools/model/SpecialModelNameDto.java
 src/main/java/org/openapitools/model/TagDto.java

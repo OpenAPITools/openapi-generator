@@ -27,10 +27,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClassDto {
 
-  @JsonProperty("file")
   private FileDto file;
 
-  @JsonProperty("files")
   @Valid
   private List<@Valid FileDto> files;
 
@@ -45,6 +43,7 @@ public class FileSchemaTestClassDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("file")
   public FileDto getFile() {
     return file;
   }
@@ -72,6 +71,7 @@ public class FileSchemaTestClassDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("files")
   public List<@Valid FileDto> getFiles() {
     return files;
   }

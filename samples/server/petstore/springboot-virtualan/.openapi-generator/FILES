@@ -61,6 +61,7 @@ src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java
 src/main/java/org/openapitools/virtualan/model/Pet.java
 src/main/java/org/openapitools/virtualan/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/virtualan/model/ResponseObjectWithDifferentFieldNames.java
 src/main/java/org/openapitools/virtualan/model/SpecialModelName.java
 src/main/java/org/openapitools/virtualan/model/Tag.java
 src/main/java/org/openapitools/virtualan/model/TypeHolderDefault.java

@@ -30,48 +30,34 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTestDto {
 
-  @JsonProperty("integer")
   private Integer integer;
 
-  @JsonProperty("int32")
   private Integer int32;
 
-  @JsonProperty("int64")
   private Long int64;
 
-  @JsonProperty("number")
   private BigDecimal number;
 
-  @JsonProperty("float")
   private Float _float;
 
-  @JsonProperty("double")
   private Double _double;
 
-  @JsonProperty("string")
   private String string;
 
-  @JsonProperty("byte")
   private byte[] _byte;
 
-  @JsonProperty("binary")
   private org.springframework.core.io.Resource binary;
 
-  @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
-  @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
   private UUID uuid;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;
 
   /**
@@ -106,6 +92,7 @@ public class FormatTestDto {
   */
   @Min(10) @Max(100) 
   @ApiModelProperty(value = "")
+  @JsonProperty("integer")
   public Integer getInteger() {
     return integer;
   }
@@ -127,6 +114,7 @@ public class FormatTestDto {
   */
   @Min(20) @Max(200) 
   @ApiModelProperty(value = "")
+  @JsonProperty("int32")
   public Integer getInt32() {
     return int32;
   }
@@ -146,6 +134,7 @@ public class FormatTestDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("int64")
   public Long getInt64() {
     return int64;
   }
@@ -167,6 +156,7 @@ public class FormatTestDto {
   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
   }
@@ -188,6 +178,7 @@ public class FormatTestDto {
   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
   @ApiModelProperty(value = "")
+  @JsonProperty("float")
   public Float getFloat() {
     return _float;
   }
@@ -209,6 +200,7 @@ public class FormatTestDto {
   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
   @ApiModelProperty(value = "")
+  @JsonProperty("double")
   public Double getDouble() {
     return _double;
   }
@@ -228,6 +220,7 @@ public class FormatTestDto {
   */
   @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
+  @JsonProperty("string")
   public String getString() {
     return string;
   }
@@ -247,6 +240,7 @@ public class FormatTestDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
   }
@@ -266,6 +260,7 @@ public class FormatTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("binary")
   public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
@@ -285,6 +280,7 @@ public class FormatTestDto {
   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("date")
   public LocalDate getDate() {
     return date;
   }
@@ -304,6 +300,7 @@ public class FormatTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -323,6 +320,7 @@ public class FormatTestDto {
   */
   @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
@@ -342,6 +340,7 @@ public class FormatTestDto {
   */
   @NotNull @Size(min = 10, max = 64) 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -361,6 +360,7 @@ public class FormatTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

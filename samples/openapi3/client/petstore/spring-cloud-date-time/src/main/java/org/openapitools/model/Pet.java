@@ -25,23 +25,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("@type")
   private String atType = "Pet";
 
-  @JsonProperty("age")
   private Integer age = 4;
 
-  @JsonProperty("happy")
   private Boolean happy = true;
 
-  @JsonProperty("price")
   private BigDecimal price = new BigDecimal("32000000000");
 
-  @JsonProperty("lastFeed")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
-  @JsonProperty("dateOfBirth")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
@@ -72,6 +66,7 @@ public class Pet {
   */
   @NotNull 
   @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }
@@ -91,6 +86,7 @@ public class Pet {
   */
   
   @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("age")
   public Integer getAge() {
     return age;
   }
@@ -110,6 +106,7 @@ public class Pet {
   */
   
   @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
   }
@@ -129,6 +126,7 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
   }
@@ -148,6 +146,7 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
@@ -167,6 +166,7 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }
