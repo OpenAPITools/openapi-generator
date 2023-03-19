@@ -38,6 +38,22 @@ public class Pizza extends Entity {
 
   private BigDecimal pizzaSize;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pizza#Pizza(String)}
+   */
+  @Deprecated
+  public Pizza() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pizza(String atType) {
+    super(atType);
+  }
+
   public Pizza pizzaSize(BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
     return this;

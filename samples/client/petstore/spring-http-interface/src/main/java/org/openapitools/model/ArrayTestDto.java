@@ -25,13 +25,13 @@ import jakarta.annotation.Generated;
 public class ArrayTestDto {
 
   
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   
-  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel;
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;

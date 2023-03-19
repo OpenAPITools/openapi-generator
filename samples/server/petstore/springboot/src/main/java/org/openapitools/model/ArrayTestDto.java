@@ -28,13 +28,13 @@ import javax.annotation.Generated;
 public class ArrayTestDto {
 
   @Valid
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @Valid
-  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel;
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -97,7 +97,7 @@ public class ArrayTestDto {
     return this;
   }
 
-  public ArrayTestDto addArrayArrayOfModelItem(List<ReadOnlyFirstDto> arrayArrayOfModelItem) {
+  public ArrayTestDto addArrayArrayOfModelItem(List<@Valid ReadOnlyFirstDto> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }

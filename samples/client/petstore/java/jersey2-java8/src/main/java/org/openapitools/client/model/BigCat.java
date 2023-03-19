@@ -156,11 +156,11 @@ public class BigCat extends Cat {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("BigCat", BigCat.class);
-  JSON.registerDiscriminator(BigCat.class, "className", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("BigCat", BigCat.class);
+    JSON.registerDiscriminator(BigCat.class, "className", mappings);
+  }
 }
 

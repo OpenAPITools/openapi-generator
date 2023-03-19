@@ -71,6 +71,22 @@ public class BigCatDto extends CatDto {
 
   private KindEnum kind;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link BigCatDto#BigCatDto(String)}
+   */
+  @Deprecated
+  public BigCatDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public BigCatDto(String className) {
+    super(className);
+  }
+
   public BigCatDto kind(KindEnum kind) {
     this.kind = kind;
     return this;

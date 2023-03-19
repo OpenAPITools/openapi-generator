@@ -90,10 +90,10 @@ Mammal <- R6::R6Class(
         error_messages <- append(error_messages, sprintf("Failed to lookup discriminator value for Mammal. Error message: %s. JSON input: %s", oneof_lookup_result["message"], input))
       }
 
-      Whale_result <- tryCatch({
-          Whale$public_methods$validateJSON(input)
-          Whale_instance <- Whale$new()
-          instance <- Whale_instance$fromJSON(input)
+      `Whale_result` <- tryCatch({
+          `Whale`$public_methods$validateJSON(input)
+          `Whale_instance` <- `Whale`$new()
+          instance <- `Whale_instance`$fromJSON(input)
           instance_type <- "Whale"
           matched_schemas <- append(matched_schemas, "Whale")
           matched <- matched + 1
@@ -101,14 +101,14 @@ Mammal <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(Whale_result["error"])) {
-        error_messages <- append(error_messages, Whale_result["message"])
+      if (!is.null(`Whale_result`["error"])) {
+        error_messages <- append(error_messages, `Whale_result`["message"])
       }
 
-      Zebra_result <- tryCatch({
-          Zebra$public_methods$validateJSON(input)
-          Zebra_instance <- Zebra$new()
-          instance <- Zebra_instance$fromJSON(input)
+      `Zebra_result` <- tryCatch({
+          `Zebra`$public_methods$validateJSON(input)
+          `Zebra_instance` <- `Zebra`$new()
+          instance <- `Zebra_instance`$fromJSON(input)
           instance_type <- "Zebra"
           matched_schemas <- append(matched_schemas, "Zebra")
           matched <- matched + 1
@@ -116,8 +116,8 @@ Mammal <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(Zebra_result["error"])) {
-        error_messages <- append(error_messages, Zebra_result["message"])
+      if (!is.null(`Zebra_result`["error"])) {
+        error_messages <- append(error_messages, `Zebra_result`["message"])
       }
 
       if (matched == 1) {

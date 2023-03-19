@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.2</version>
+            <version>0.2.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

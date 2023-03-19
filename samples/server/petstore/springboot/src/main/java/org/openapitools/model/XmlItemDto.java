@@ -36,7 +36,7 @@ public class XmlItemDto {
   private Boolean attributeBoolean;
 
   @Valid
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray;
 
   private String nameString;
 
@@ -47,10 +47,10 @@ public class XmlItemDto {
   private Boolean nameBoolean;
 
   @Valid
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray;
 
   @Valid
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray;
 
   private String prefixString;
 
@@ -61,10 +61,10 @@ public class XmlItemDto {
   private Boolean prefixBoolean;
 
   @Valid
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray;
 
   @Valid
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray;
 
   private String namespaceString;
 
@@ -75,10 +75,10 @@ public class XmlItemDto {
   private Boolean namespaceBoolean;
 
   @Valid
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray;
 
   @Valid
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray;
 
   private String prefixNsString;
 
@@ -89,10 +89,10 @@ public class XmlItemDto {
   private Boolean prefixNsBoolean;
 
   @Valid
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray;
 
   @Valid
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray;
 
   public XmlItemDto attributeString(String attributeString) {
     this.attributeString = attributeString;

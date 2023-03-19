@@ -35,15 +35,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public FooGetDefaultResponse(Foo stringProperty)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (stringProperty == null)
-                throw new ArgumentNullException("stringProperty is a required property for FooGetDefaultResponse and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             StringProperty = stringProperty;
         }
 
@@ -123,13 +114,23 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "string":
-                            stringProperty = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                stringProperty = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (stringProperty == null)
+                throw new ArgumentNullException(nameof(stringProperty), "Property is required for class FooGetDefaultResponse.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new FooGetDefaultResponse(stringProperty);
         }

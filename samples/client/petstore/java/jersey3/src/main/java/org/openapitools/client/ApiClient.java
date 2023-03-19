@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
@@ -43,11 +44,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.time.OffsetDateTime;
 
 import java.net.URLEncoder;
@@ -71,94 +75,93 @@ import org.openapitools.client.auth.OAuth;
  */
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
-  protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
+  private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+
+  protected Map<String, String> defaultHeaderMap = new HashMap<>();
+  protected Map<String, String> defaultCookieMap = new HashMap<>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
-  protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
-    new ServerConfiguration(
-      "http://{server}.swagger.io:{port}/v2",
-      "petstore server",
-      new HashMap<String, ServerVariable>() {{
-        put("server", new ServerVariable(
-          "No description provided",
-          "petstore",
-          new HashSet<String>(
-            Arrays.asList(
-              "petstore",
-              "qa-petstore",
-              "dev-petstore"
-            )
+  protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
+          new ServerConfiguration(
+                  "http://{server}.swagger.io:{port}/v2",
+                  "petstore server",
+                  Stream.<Entry<String, ServerVariable>>of(
+                          new SimpleEntry<>("server", new ServerVariable(
+                                  "No description provided",
+                                  "petstore",
+                                  new LinkedHashSet<>(Arrays.asList(
+                                          "petstore",
+                                          "qa-petstore",
+                                          "dev-petstore"
+                                  ))
+                          )),
+                          new SimpleEntry<>("port", new ServerVariable(
+                                  "No description provided",
+                                  "80",
+                                  new LinkedHashSet<>(Arrays.asList(
+                                          "80",
+                                          "8080"
+                                  ))
+                          ))
+                  ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
+          ),
+          new ServerConfiguration(
+                  "https://localhost:8080/{version}",
+                  "The local server",
+                  Stream.<Entry<String, ServerVariable>>of(
+                          new SimpleEntry<>("version", new ServerVariable(
+                                  "No description provided",
+                                  "v2",
+                                  new LinkedHashSet<>(Arrays.asList(
+                                          "v1",
+                                          "v2"
+                                  ))
+                          ))
+                  ).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (a, b) -> a, LinkedHashMap::new))
+          ),
+          new ServerConfiguration(
+                  "https://127.0.0.1/no_variable",
+                  "The local server without variables",
+                  new LinkedHashMap<>()
           )
-        ));
-        put("port", new ServerVariable(
-          "No description provided",
-          "80",
-          new HashSet<String>(
-            Arrays.asList(
-              "80",
-              "8080"
-            )
-          )
-        ));
-      }}
-    ),
-    new ServerConfiguration(
-      "https://localhost:8080/{version}",
-      "The local server",
-      new HashMap<String, ServerVariable>() {{
-        put("version", new ServerVariable(
-          "No description provided",
-          "v2",
-          new HashSet<String>(
-            Arrays.asList(
-              "v1",
-              "v2"
-            )
-          )
-        ));
-      }}
-    ),
-    new ServerConfiguration(
-      "https://127.0.0.1/no_variable",
-      "The local server without variables",
-      new HashMap<String, ServerVariable>()
-    )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
-  protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
-    put("PetApi.addPet", new ArrayList<ServerConfiguration>(Arrays.asList(
-      new ServerConfiguration(
-        "http://petstore.swagger.io/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      ),
+  protected Map<String, List<ServerConfiguration>> operationServers;
 
-      new ServerConfiguration(
-        "http://path-server-test.petstore.local/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      )
+  {
+    Map<String, List<ServerConfiguration>> operationServers = new LinkedHashMap<>();
+    operationServers.put("PetApi.addPet", new ArrayList<>(Arrays.asList(
+            new ServerConfiguration(
+                    "http://petstore.swagger.io/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            ),
+            new ServerConfiguration(
+                    "http://path-server-test.petstore.local/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            )
     )));
-    put("PetApi.updatePet", new ArrayList<ServerConfiguration>(Arrays.asList(
-      new ServerConfiguration(
-        "http://petstore.swagger.io/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      ),
+    operationServers.put("PetApi.updatePet", new ArrayList<>(Arrays.asList(
+            new ServerConfiguration(
+                    "http://petstore.swagger.io/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            ),
+            new ServerConfiguration(
+                    "http://path-server-test.petstore.local/v2",
+                    "No description provided",
+                    new LinkedHashMap<>()
+            )
+    )));
+    this.operationServers = operationServers;
+  }
 
-      new ServerConfiguration(
-        "http://path-server-test.petstore.local/v2",
-        "No description provided",
-        new HashMap<String, ServerVariable>()
-      )
-    )));
-  }};
-  protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
-  protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
+  protected Map<String, Integer> operationServerIndex = new HashMap<>();
+  protected Map<String, Map<String, String>> operationServerVariables = new HashMap<>();
   protected boolean debugging = false;
   protected ClientConfig clientConfig;
   protected int connectionTimeout = 0;
@@ -195,8 +198,16 @@ public class ApiClient extends JavaTimeFormatter {
     setUserAgent("OpenAPI-Generator/1.0.0/java");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();
+    authentications = new HashMap<>();
     Authentication auth = null;
+    if (authMap != null) {
+      auth = authMap.get("petstore_auth");
+    }
+    if (auth instanceof OAuth) {
+      authentications.put("petstore_auth", auth);
+    } else {
+      authentications.put("petstore_auth", new OAuth(basePath, ""));
+    }
     if (authMap != null) {
       auth = authMap.get("api_key");
     }
@@ -214,14 +225,6 @@ public class ApiClient extends JavaTimeFormatter {
       authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     }
     if (authMap != null) {
-      auth = authMap.get("bearer_test");
-    }
-    if (auth instanceof HttpBearerAuth) {
-      authentications.put("bearer_test", auth);
-    } else {
-      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
-    }
-    if (authMap != null) {
       auth = authMap.get("http_basic_test");
     }
     if (auth instanceof HttpBasicAuth) {
@@ -230,24 +233,24 @@ public class ApiClient extends JavaTimeFormatter {
       authentications.put("http_basic_test", new HttpBasicAuth());
     }
     if (authMap != null) {
+      auth = authMap.get("bearer_test");
+    }
+    if (auth instanceof HttpBearerAuth) {
+      authentications.put("bearer_test", auth);
+    } else {
+      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+    }
+    if (authMap != null) {
       auth = authMap.get("http_signature_test");
     }
     if (auth instanceof HttpSignatureAuth) {
       authentications.put("http_signature_test", auth);
     }
-    if (authMap != null) {
-      auth = authMap.get("petstore_auth");
-    }
-    if (auth instanceof OAuth) {
-      authentications.put("petstore_auth", auth);
-    } else {
-      authentications.put("petstore_auth", new OAuth(basePath, ""));
-    }
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
     // Setup authentication lookup (key: authentication alias, value: authentication name)
-    authenticationLookup = new HashMap<String, String>();
+    authenticationLookup = new HashMap<>();
   }
 
   /**
@@ -456,9 +459,10 @@ public class ApiClient extends JavaTimeFormatter {
       if (auth instanceof ApiKeyAuth) {
         String name = authEntry.getKey();
         // respect x-auth-id-alias property
-        name = authenticationLookup.containsKey(name) ? authenticationLookup.get(name) : name;
-        if (secrets.containsKey(name)) {
-          ((ApiKeyAuth) auth).setApiKey(secrets.get(name));
+        name = authenticationLookup.getOrDefault(name, name);
+        String secret = secrets.get(name);
+        if (secret != null) {
+          ((ApiKeyAuth) auth).setApiKey(secret);
         }
       }
     }
@@ -834,7 +838,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @return List of pairs
    */
   public List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
-    List<Pair> params = new ArrayList<Pair>();
+    List<Pair> params = new ArrayList<>();
 
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
@@ -893,14 +897,13 @@ public class ApiClient extends JavaTimeFormatter {
    *   application/json; charset=UTF8
    *   APPLICATION/JSON
    *   application/vnd.company+json
-   * "* / *" is also default to JSON
+   * "*{@literal /}*" is also considered JSON by this method.
    *
    * @param mime MIME
    * @return True if the MIME type is JSON
    */
   public boolean isJsonMime(String mime) {
-    String jsonMime = "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$";
-    return mime != null && (mime.matches(jsonMime) || mime.equals("*/*"));
+    return mime != null && (mime.equals("*/*") || JSON_MIME_PATTERN.matcher(mime).matches());
   }
 
   /**
@@ -912,8 +915,8 @@ public class ApiClient extends JavaTimeFormatter {
    * @return The Accept header to use. If the given array is empty,
    *   null will be returned (not to set the Accept header explicitly).
    */
-  public String selectHeaderAccept(String[] accepts) {
-    if (accepts.length == 0) {
+  public String selectHeaderAccept(String... accepts) {
+    if (accepts == null || accepts.length == 0) {
       return null;
     }
     for (String accept : accepts) {
@@ -933,8 +936,8 @@ public class ApiClient extends JavaTimeFormatter {
    * @return The Content-Type header to use. If the given array is empty,
    *   JSON will be used.
    */
-  public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) {
+  public String selectHeaderContentType(String... contentTypes) {
+    if (contentTypes == null || contentTypes.length == 0) {
       return "application/json";
     }
     for (String contentType : contentTypes) {
@@ -1072,11 +1075,6 @@ public class ApiClient extends JavaTimeFormatter {
       return file;
     }
 
-    String contentType = null;
-    List<Object> contentTypes = response.getHeaders().get("Content-Type");
-    if (contentTypes != null && !contentTypes.isEmpty())
-      contentType = String.valueOf(contentTypes.get(0));
-
     // read the entity stream multiple times
     response.bufferEntity();
 
@@ -1178,14 +1176,11 @@ public class ApiClient extends JavaTimeFormatter {
       boolean isBodyNullable)
       throws ApiException {
 
-    // Not using `.target(targetURL).path(path)` below,
-    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    if (serverIndex != null && operationServers.containsKey(operation)) {
-      Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
-      Map<String, String> variables = operationServerVariables.containsKey(operation) ?
-        operationServerVariables.get(operation) : serverVariables;
-      List<ServerConfiguration> serverConfigurations = operationServers.get(operation);
+    List<ServerConfiguration> serverConfigurations;
+    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) != null) {
+      int index = operationServerIndex.getOrDefault(operation, serverIndex).intValue();
+      Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
@@ -1196,6 +1191,8 @@ public class ApiClient extends JavaTimeFormatter {
     } else {
       targetURL = this.basePath + path;
     }
+    // Not using `.target(targetURL).path(path)` below,
+    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
     if (queryParams != null) {
@@ -1206,11 +1203,10 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
-    Invocation.Builder invocationBuilder;
+    Invocation.Builder invocationBuilder = target.request();
+
     if (accept != null) {
-      invocationBuilder = target.request().accept(accept);
-    } else {
-      invocationBuilder = target.request();
+      invocationBuilder = invocationBuilder.accept(accept);
     }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
@@ -1233,15 +1229,17 @@ public class ApiClient extends JavaTimeFormatter {
     Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
     allHeaderParams.putAll(headerParams);
 
-    // update different parameters (e.g. headers) for authentication
-    updateParamsForAuth(
-        authNames,
-        queryParams,
-        allHeaderParams,
-        cookieParams,
-        serializeToString(body, formParams, contentType, isBodyNullable),
-        method,
-        target.getUri());
+    if (authNames != null) {
+      // update different parameters (e.g. headers) for authentication
+      updateParamsForAuth(
+          authNames,
+          queryParams,
+          allHeaderParams,
+          cookieParams,
+          serializeToString(body, formParams, contentType, isBodyNullable),
+          method,
+          target.getUri());
+    }
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
@@ -1255,8 +1253,10 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
+      final int statusCode = response.getStatusInfo().getStatusCode();
+
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (response.getStatusInfo() == Status.UNAUTHORIZED) {
+      if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1271,10 +1271,9 @@ public class ApiClient extends JavaTimeFormatter {
         }
       }
 
-      int statusCode = response.getStatusInfo().getStatusCode();
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
-      if (response.getStatusInfo() == Status.NO_CONTENT) {
+      if (statusCode == Status.NO_CONTENT.getStatusCode()) {
         return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
         if (returnType == null) {
@@ -1428,10 +1427,10 @@ public class ApiClient extends JavaTimeFormatter {
    * @return a {@link java.util.Map} of response headers.
    */
   protected Map<String, List<String>> buildResponseHeaders(Response response) {
-    Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
+    Map<String, List<String>> responseHeaders = new HashMap<>();
     for (Entry<String, List<Object>> entry: response.getHeaders().entrySet()) {
       List<Object> values = entry.getValue();
-      List<String> headers = new ArrayList<String>();
+      List<String> headers = new ArrayList<>();
       for (Object o : values) {
         headers.add(String.valueOf(o));
       }

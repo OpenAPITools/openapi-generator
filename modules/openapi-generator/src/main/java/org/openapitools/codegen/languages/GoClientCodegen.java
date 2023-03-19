@@ -50,10 +50,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String modelFileFolder = null;
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
     public static final String GENERATE_INTERFACES = "generateInterfaces";
+    public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -69,6 +71,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
@@ -255,6 +258,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
+        if (additionalProperties.containsKey(MODEL_FILE_FOLDER)) {
+            modelFileFolder = additionalProperties.get(MODEL_FILE_FOLDER).toString();
+        }
+
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
         additionalProperties.put("lambda.type-to-name", (Mustache.Lambda) (fragment, writer) -> writer.write(typeToName(fragment.execute())));
@@ -301,9 +308,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return outputFolder + File.separator;
     }
 
+    /**
+     * Location of created model files (it can be overriden using --additional-properties in openapi-generator-cli
+     */
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator;
+        String modelFileFolderPath = outputFolder + File.separator;
+
+        if(modelFileFolder != null) {
+            modelFileFolderPath = modelFileFolderPath + modelFileFolder + File.separator;
+        }
+        return modelFileFolderPath.replace("/", File.separator);
     }
 
     @Override
@@ -373,10 +388,29 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
     }
 
+    /**
+     * Determines if at least one of the allOf pieces of a schema are of type string
+     *
+     * @param p
+     * @return
+     */
+    private boolean isAllOfStringSchema(Schema schema) {
+        if (schema.getAllOf() != null) {
+            Iterator<Schema> it = schema.getAllOf().iterator();
+            while (it.hasNext()) {
+                Schema childSchema = ModelUtils.getReferencedSchema(this.openAPI, it.next());
+                if (ModelUtils.isStringSchema(childSchema)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isStringSchema(p)) {
+        if (ModelUtils.isStringSchema(p) || isAllOfStringSchema(p)) {
             Object defaultObj = p.getDefault();
             if (defaultObj != null) {
                 if (defaultObj instanceof java.lang.String) {

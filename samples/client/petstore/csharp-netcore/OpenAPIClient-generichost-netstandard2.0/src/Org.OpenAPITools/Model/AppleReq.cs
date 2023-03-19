@@ -36,18 +36,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public AppleReq(string cultivar, bool mealy)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (cultivar == null)
-                throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null.");
-
-            if (mealy == null)
-                throw new ArgumentNullException("mealy is a required property for AppleReq and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Cultivar = cultivar;
             Mealy = mealy;
         }
@@ -132,13 +120,26 @@ namespace Org.OpenAPITools.Model
                             cultivar = utf8JsonReader.GetString();
                             break;
                         case "mealy":
-                            mealy = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mealy = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class AppleReq.");
+
+            if (mealy == null)
+                throw new ArgumentNullException(nameof(mealy), "Property is required for class AppleReq.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new AppleReq(cultivar, mealy);
         }

@@ -25,7 +25,7 @@ public class FileSchemaTestClass {
   private File file;
 
   
-  private List<File> files = null;
+  private List<File> files;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;

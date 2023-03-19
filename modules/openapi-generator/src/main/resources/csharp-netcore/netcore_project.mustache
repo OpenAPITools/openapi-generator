@@ -28,11 +28,11 @@
     <PackageReference Include="CompareNETObjects" Version="4.61.0" />
     {{/useCompareNetObjects}}
     {{^useGenericHost}}
-    <PackageReference Include="JsonSubTypes" Version="1.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     {{/useGenericHost}}
       {{#useRestSharp}}
-    <PackageReference Include="RestSharp" Version="108.0.2" />
+    <PackageReference Include="RestSharp" Version="108.0.3" />
       {{/useRestSharp}}
       {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="{{^netStandard}}6.0.0{{/netStandard}}{{#netStandard}}5.0.0{{/netStandard}}" />

@@ -23,10 +23,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClass {
 
+  @JsonProperty("file")
   private File file;
 
+  @JsonProperty("files")
   @Valid
-  private List<File> files = null;
+  private List<@Valid File> files = null;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -39,7 +41,6 @@ public class FileSchemaTestClass {
   */
   @Valid 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("file")
   public File getFile() {
     return file;
   }
@@ -48,14 +49,14 @@ public class FileSchemaTestClass {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<File> files) {
+  public FileSchemaTestClass files(List<@Valid File> files) {
     this.files = files;
     return this;
   }
 
   public FileSchemaTestClass addFilesItem(File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<>();
+      this.files = ;
     }
     this.files.add(filesItem);
     return this;
@@ -67,12 +68,11 @@ public class FileSchemaTestClass {
   */
   @Valid 
   @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("files")
-  public List<File> getFiles() {
+  public List<@Valid File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<File> files) {
+  public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
 

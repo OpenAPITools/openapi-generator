@@ -201,6 +201,9 @@ public class PetWithRequiredTags {
   }
 
   public PetWithRequiredTags addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -228,6 +231,9 @@ public class PetWithRequiredTags {
   }
 
   public PetWithRequiredTags addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
     this.tags.add(tagsItem);
     return this;
   }

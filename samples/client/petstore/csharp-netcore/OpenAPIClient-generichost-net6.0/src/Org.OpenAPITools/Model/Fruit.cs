@@ -36,15 +36,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Fruit(Apple apple, string color)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(Color));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Apple = apple;
             Color = color;
         }
@@ -57,15 +48,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Fruit(Banana banana, string color)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(Color));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Banana = banana;
             Color = color;
         }
@@ -162,6 +144,15 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (appleDeserialized)
                 return new Fruit(apple, color);

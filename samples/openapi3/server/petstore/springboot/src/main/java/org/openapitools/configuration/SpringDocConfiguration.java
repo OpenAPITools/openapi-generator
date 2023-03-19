@@ -29,13 +29,13 @@ public class SpringDocConfiguration {
                 )
                 .components(
                         new Components()
+                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+                                        .type(SecurityScheme.Type.OAUTH2)
+                                )
                                 .addSecuritySchemes("api_key", new SecurityScheme()
                                         .type(SecurityScheme.Type.APIKEY)
                                         .in(SecurityScheme.In.HEADER)
                                         .name("api_key")
-                                )
-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
-                                        .type(SecurityScheme.Type.OAUTH2)
                                 )
                 )
         ;

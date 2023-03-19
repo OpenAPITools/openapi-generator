@@ -99,7 +99,7 @@
       {{/useOneOfDiscriminatorLookup}}
       {{#composedSchemas.oneOf}}
       {{^isNull}}
-      {{{dataType}}}_result <- tryCatch({
+      `{{{dataType}}}_result` <- tryCatch({
           {{#isPrimitiveType}}
           instance <- jsonlite::fromJSON(input, simplifyVector = FALSE)
           if (typeof(instance) != "{{{dataType}}}") {
@@ -107,9 +107,9 @@
           }
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          {{{dataType}}}$public_methods$validateJSON(input)
-          {{{dataType}}}_instance <- {{{dataType}}}$new()
-          instance <- {{{dataType}}}_instance$fromJSON(input)
+          `{{{dataType}}}`$public_methods$validateJSON(input)
+          `{{{dataType}}}_instance` <- `{{{dataType}}}`$new()
+          instance <- `{{{dataType}}}_instance`$fromJSON(input)
           {{/isPrimitiveType}}
           instance_type <- "{{{dataType}}}"
           matched_schemas <- append(matched_schemas, "{{{dataType}}}")
@@ -118,8 +118,8 @@
         error = function(err) err
       )
 
-      if (!is.null({{{dataType}}}_result["error"])) {
-        error_messages <- append(error_messages, {{{dataType}}}_result["message"])
+      if (!is.null(`{{{dataType}}}_result`["error"])) {
+        error_messages <- append(error_messages, `{{{dataType}}}_result`["message"])
       }
 
       {{/isNull}}

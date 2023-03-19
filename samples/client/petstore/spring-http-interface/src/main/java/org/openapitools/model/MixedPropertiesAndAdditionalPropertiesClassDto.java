@@ -33,7 +33,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   private OffsetDateTime dateTime;
 
   
-  private Map<String, AnimalDto> map = null;
+  private Map<String, AnimalDto> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
     this.uuid = uuid;

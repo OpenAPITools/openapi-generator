@@ -51,6 +51,22 @@ public class EntityRef {
 
   private String atType;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link EntityRef#EntityRef(String)}
+   */
+  @Deprecated
+  public EntityRef() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public EntityRef(String atType) {
+    this.atType = atType;
+  }
+
   public EntityRef name(String name) {
     this.name = name;
     return this;

@@ -37,13 +37,28 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@JsonTypeName("Animal")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AnimalDto {
 
   private String className;
 
   private String color = "red";
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link AnimalDto#AnimalDto(String)}
+   */
+  @Deprecated
+  public AnimalDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public AnimalDto(String className) {
+    this.className = className;
+  }
 
   public AnimalDto className(String className) {
     this.className = className;

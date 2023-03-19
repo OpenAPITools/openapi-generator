@@ -35,13 +35,13 @@ public class ObjectWithUniqueItems {
   private JsonNullable<Set<String>> nullSet = JsonNullable.undefined();
 
   @Valid
-  private Set<String> notNullSet = null;
+  private Set<String> notNullSet;
 
   @Valid
   private JsonNullable<List<String>> nullList = JsonNullable.undefined();
 
   @Valid
-  private List<String> notNullList = null;
+  private List<String> notNullList;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime notNullDateField;
@@ -56,7 +56,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullSetItem(String nullSetItem) {
     if (this.nullSet == null || !this.nullSet.isPresent()) {
-      this.nullSet = JsonNullable.of(null);
+      this.nullSet = JsonNullable.of(new LinkedHashSet<>());
     }
     this.nullSet.get().add(nullSetItem);
     return this;
@@ -113,7 +113,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullListItem(String nullListItem) {
     if (this.nullList == null || !this.nullList.isPresent()) {
-      this.nullList = JsonNullable.of(null);
+      this.nullList = JsonNullable.of(new ArrayList<>());
     }
     this.nullList.get().add(nullListItem);
     return this;

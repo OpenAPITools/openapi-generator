@@ -66,17 +66,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
+    public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+
     private String basePackage;
     private String invokerPackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private boolean useBeanValidation = true;
+    private boolean skipDefaultInterface = false;
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
     private boolean useSwaggerUI = true;
@@ -87,6 +91,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean delegatePattern = false;
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
+
+    protected boolean useSpringBoot3 = false;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
@@ -149,6 +155,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
@@ -156,6 +163,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(BEAN_QUALIFIERS, "Whether to add fully-qualifier class names as bean qualifiers in @Component and " +
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
+        addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -180,6 +188,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             cliOptions.add(annotationLibraryCliOption);
         }
     }
+
     @Override
     public DocumentationProvider getDocumentationProvider() {
         return documentationProvider;
@@ -230,7 +239,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
      */
     private boolean selectedDocumentationProviderRequiresSwaggerUiBootstrap() {
-        return  getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) ||
+        return getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) ||
                 getDocumentationProvider().equals(DocumentationProvider.SOURCE);
     }
 
@@ -315,9 +324,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useTags = useTags;
     }
 
+    public void setUseSpringBoot3(boolean isSpringBoot3) {
+        this.useSpringBoot3 = isSpringBoot3;
+    }
+
+    public boolean isUseSpringBoot3() {
+        return useSpringBoot3;
+    }
+
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
     }
 
     public boolean isReactive() {
@@ -357,11 +378,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (null != defaultDocumentationProvider()) {
             documentationProvider = DocumentationProvider.ofCliOption(
-                    (String)additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
+                    (String) additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
                             defaultDocumentationProvider().toCliOptValue())
             );
 
-            if (! supportedDocumentationProvider().contains(documentationProvider)) {
+            if (!supportedDocumentationProvider().contains(documentationProvider)) {
                 String msg = String.format(Locale.ROOT,
                         "The [%s] Documentation Provider is not supported by this generator",
                         documentationProvider.toCliOptValue());
@@ -373,13 +394,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
             );
 
-            if (! supportedAnnotationLibraries().contains(annotationLibrary)) {
+            if (!supportedAnnotationLibraries().contains(annotationLibrary)) {
                 String msg = String.format(Locale.ROOT, "The Annotation Library [%s] is not supported by this generator",
                         annotationLibrary.toCliOptValue());
                 throw new IllegalArgumentException(msg);
             }
 
-            if (! documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
+            if (!documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
                 String msg = String.format(Locale.ROOT,
                         "The [%s] documentation provider does not support [%s] as complementary annotation library",
                         documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
@@ -478,6 +499,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
+        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
+            this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));
+        }
+        writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
+
         if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
             this.setReactive(convertPropertyToBoolean(REACTIVE));
             // spring webflux doesn't support @ControllerAdvice
@@ -502,6 +528,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
+
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (isUseSpringBoot3()) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+                throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            useJakartaEe=true;
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            applyJakartaPackage();
+        }
+        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
 
         modelTemplateFiles.put("model.mustache", ".kt");
 
@@ -544,10 +586,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (library.equals(SPRING_BOOT)) {
             LOGGER.info("Setup code generator for Kotlin Spring Boot");
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            if (isUseSpringBoot3()) {
+                supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
+            } else {
+                supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            }
 
             if (this.gradleBuildFile) {
-                supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
+                if (isUseSpringBoot3()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "", "build.gradle.kts"));
+                } else {
+                    supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
+                }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
             }
 

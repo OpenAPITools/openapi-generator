@@ -121,12 +121,12 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("BigCat", BigCat.class);
-  mappings.put("Cat", Cat.class);
-  JSON.registerDiscriminator(Cat.class, "className", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("BigCat", BigCat.class);
+    mappings.put("Cat", Cat.class);
+    JSON.registerDiscriminator(Cat.class, "className", mappings);
+  }
 }
 

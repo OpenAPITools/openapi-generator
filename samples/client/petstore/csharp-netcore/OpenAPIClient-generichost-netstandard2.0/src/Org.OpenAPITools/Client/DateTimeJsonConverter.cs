@@ -20,7 +20,10 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public class DateTimeJsonConverter : JsonConverter<DateTime>
     {
-        public static readonly string[] FORMATS = {
+        /// <summary>
+        /// The formats used to deserialize the date
+        /// </summary>
+        public static string[] Formats { get; } = {
             "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK",
             "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffffffK",
             "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffK",
@@ -29,6 +32,7 @@ namespace Org.OpenAPITools.Client
             "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'ffK",
             "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fK",
             "yyyy'-'MM'-'dd'T'HH':'mm':'ssK",
+            "yyyy'-'MM'-'dd",
             "yyyyMMddTHHmmss.fffffffK",
             "yyyyMMddTHHmmss.ffffffK",
             "yyyyMMddTHHmmss.fffffK",
@@ -37,6 +41,7 @@ namespace Org.OpenAPITools.Client
             "yyyyMMddTHHmmss.ffK",
             "yyyyMMddTHHmmss.fK",
             "yyyyMMddTHHmmssK",
+            "yyyyMMdd"
         };
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace Org.OpenAPITools.Client
 
             string value = reader.GetString();
 
-            foreach(string format in FORMATS)
+            foreach(string format in Formats)
                 if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
                     return result;
 
@@ -66,6 +71,6 @@ namespace Org.OpenAPITools.Client
         /// <param name="dateTimeValue"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, DateTime dateTimeValue, JsonSerializerOptions options) =>
-            writer.WriteStringValue(dateTimeValue.ToString(FORMATS[0], CultureInfo.InvariantCulture));
+            writer.WriteStringValue(dateTimeValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK", CultureInfo.InvariantCulture));
     }
 }

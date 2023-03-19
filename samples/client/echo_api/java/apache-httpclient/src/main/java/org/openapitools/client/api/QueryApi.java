@@ -21,12 +21,15 @@ import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.DataQuery;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class QueryApi {
+
+
   private ApiClient apiClient;
 
   public QueryApi() {
@@ -55,6 +60,82 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param datetimeQuery  (optional)
+   * @param dateQuery  (optional)
+   * @param stringQuery  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws ApiException {
+    return this.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param datetimeQuery  (optional)
+   * @param dateQuery  (optional)
+   * @param stringQuery  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/query/datetime/date/string";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPair("datetime_query", datetimeQuery));
+    localVarQueryParams.addAll(apiClient.parameterToPair("date_query", dateQuery));
+    localVarQueryParams.addAll(apiClient.parameterToPair("string_query", stringQuery));
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
    * @param integerQuery  (optional)
    * @param booleanQuery  (optional)
    * @param stringQuery  (optional)
@@ -62,6 +143,21 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+    return this.testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param integerQuery  (optional)
+   * @param booleanQuery  (optional)
+   * @param stringQuery  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -79,6 +175,8 @@ public class QueryApi {
     localVarQueryParams.addAll(apiClient.parameterToPair("boolean_query", booleanQuery));
     localVarQueryParams.addAll(apiClient.parameterToPair("string_query", stringQuery));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -110,6 +208,7 @@ public class QueryApi {
         localVarReturnType
     );
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -118,6 +217,19 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject) throws ApiException {
+    return this.testQueryStyleDeepObjectExplodeTrueObject(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -134,6 +246,8 @@ public class QueryApi {
     localVarQueryParameterBaseName = "query_object";
     localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -165,6 +279,7 @@ public class QueryApi {
         localVarReturnType
     );
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -173,6 +288,19 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
+    return this.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -189,6 +317,8 @@ public class QueryApi {
     localVarQueryParameterBaseName = "query_object";
     localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -220,6 +350,7 @@ public class QueryApi {
         localVarReturnType
     );
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -228,6 +359,19 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
+    return this.testQueryStyleFormExplodeTrueArrayString(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -243,6 +387,8 @@ public class QueryApi {
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "values", queryObject.getValues()));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -274,6 +420,7 @@ public class QueryApi {
         localVarReturnType
     );
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -282,6 +429,19 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeTrueObject(Pet queryObject) throws ApiException {
+    return this.testQueryStyleFormExplodeTrueObject(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeTrueObject(Pet queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -302,6 +462,8 @@ public class QueryApi {
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "tags", queryObject.getTags()));
     localVarQueryParams.addAll(apiClient.parameterToPair("status", queryObject.getStatus()));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -333,6 +495,7 @@ public class QueryApi {
         localVarReturnType
     );
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -341,6 +504,19 @@ public class QueryApi {
    * @throws ApiException if fails to make API call
    */
   public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws ApiException {
+    return this.testQueryStyleFormExplodeTrueObjectAllOf(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -356,6 +532,8 @@ public class QueryApi {
 
     localVarQueryStringJoiner.add(queryObject.toUrlQueryString());
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -387,4 +565,5 @@ public class QueryApi {
         localVarReturnType
     );
   }
+
 }

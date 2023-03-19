@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Client.Auth
         /// <returns>An authentication parameter.</returns>
         protected override async ValueTask<Parameter> GetAuthenticationParameter(string accessToken)
         {
-            var token = string.IsNullOrEmpty(Token) ? await GetToken() : Token;
+            var token = string.IsNullOrEmpty(Token) ? await GetToken().ConfigureAwait(false) : Token;
             return new HeaderParameter(KnownHeaders.Authorization, token);
         }
 
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Client.Auth
                 .AddParameter("grant_type", _grantType)
                 .AddParameter("client_id", _clientId)
                 .AddParameter("client_secret", _clientSecret);
-            var response = await client.PostAsync<TokenResponse>(request);
+            var response = await client.PostAsync<TokenResponse>(request).ConfigureAwait(false);
             return $"{response.TokenType} {response.AccessToken}";
         }
     }

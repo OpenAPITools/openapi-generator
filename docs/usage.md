@@ -642,7 +642,7 @@ openapi-generator-cli generate -i petstore.yaml -g typescript-fetch -o out \
 The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
 
 *NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
-modified by `--includes-base-dir`. Starting with 5.0.0, the `!batch` command supports multiple `!include` properties, either sequential or nested. In order to support multiple `!include` properties in a JSON file, the property name can have a suffix, e.g. `!include1`, `!include2`, etc. The suffix have no meaning other than providing unique property names.
+modified by `--includes-base-dir`. Starting with 5.0.0, the `!batch` command supports multiple `!include` properties, either sequential or nested under other keys. In order to support multiple `!include` properties in a JSON file, the property name can have a suffix, e.g. `!include1`, `!include2`, etc. The suffix have no meaning other than providing unique property names.
 
 ```text
 openapi-generator-cli help batch
@@ -697,6 +697,11 @@ additionalProperties:
     x-ext-name: "Your Name"
 EOF
 
+# create nested "shared" config
+cat > shared/nested.yaml <<EOF
+useCompareNetObjects: "true"
+EOF
+
 # create "standard" configs
 cat > kotlin.yaml <<EOF
 '!include': 'shared/common.yaml'
@@ -714,7 +719,7 @@ outputDir: out/csharp-netcore
 generatorName: csharp-netcore
 additionalProperties:
   packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}"
-  useCompareNetObjects: "true"
+  '!include': 'shared/nested.yaml'
 EOF
 
 # Generate them

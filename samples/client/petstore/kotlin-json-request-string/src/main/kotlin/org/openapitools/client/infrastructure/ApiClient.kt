@@ -149,6 +149,11 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
     }
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
+            }
+        }
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
             if (apiKey["api_key"] != null) {
                 if (apiKeyPrefix["api_key"] != null) {
@@ -156,11 +161,6 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                 } else {
                     requestConfig.headers["api_key"] = apiKey["api_key"]!!
                 }
-            }
-        }
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
     }
@@ -196,7 +196,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         val contentType = if (headers[ContentType] != null) {
             // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
+            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
         } else {
             null
         }
@@ -215,7 +215,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         val response = client.newCall(request).execute()
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         return when {

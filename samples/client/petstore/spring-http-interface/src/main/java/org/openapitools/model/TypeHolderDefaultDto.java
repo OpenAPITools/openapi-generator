@@ -24,16 +24,21 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefaultDto {
 
+  @JsonProperty("string_item")
   private String stringItem = "what";
 
-  private BigDecimal numberItem;
+  @JsonProperty("number_item")
+  private BigDecimal numberItem = new BigDecimal("1.234");
 
-  private Integer integerItem;
+  @JsonProperty("integer_item")
+  private Integer integerItem = -2;
 
+  @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
+  @JsonProperty("array_item")
   
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -45,7 +50,6 @@ public class TypeHolderDefaultDto {
    * @return stringItem
   */
   @NotNull
-  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -64,7 +68,6 @@ public class TypeHolderDefaultDto {
    * @return numberItem
   */
   @NotNull
-  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -83,7 +86,6 @@ public class TypeHolderDefaultDto {
    * @return integerItem
   */
   @NotNull
-  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -102,7 +104,6 @@ public class TypeHolderDefaultDto {
    * @return boolItem
   */
   @NotNull
-  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -117,6 +118,9 @@ public class TypeHolderDefaultDto {
   }
 
   public TypeHolderDefaultDto addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -126,7 +130,6 @@ public class TypeHolderDefaultDto {
    * @return arrayItem
   */
   @NotNull
-  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

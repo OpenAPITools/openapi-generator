@@ -32,11 +32,11 @@ public interface AnotherFakeApiDelegate {
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> body,
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -47,7 +47,7 @@ public interface AnotherFakeApiDelegate {
                 break;
             }
         }
-        return result.then(body).then(Mono.empty());
+        return result.then(client).then(Mono.empty());
 
     }
 

@@ -87,7 +87,7 @@ void (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -271,7 +271,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -366,7 +366,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 
@@ -553,7 +553,7 @@ void (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
 
 ### HTTP request headers
 

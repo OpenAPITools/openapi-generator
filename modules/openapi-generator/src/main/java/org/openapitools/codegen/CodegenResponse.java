@@ -50,6 +50,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isDateTime;
     public boolean isUuid;
     public boolean isEmail;
+    public boolean isPassword;
     public boolean isModel;
     public boolean isFreeFormObject;
     public boolean isAnyType;
@@ -98,7 +99,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public int hashCode() {
         return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
-                isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
+                isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 vars, requiredVars, isNull, hasValidation, isShort, isUnboundedInteger,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
@@ -130,6 +131,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isDateTime == that.isDateTime &&
                 isUuid == that.isUuid &&
                 isEmail == that.isEmail &&
+                isPassword == that.isPassword &&
                 isModel == that.isModel &&
                 isFreeFormObject == that.isFreeFormObject &&
                 isAnyType == that.isAnyType &&
@@ -568,6 +570,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isDateTime=").append(isDateTime);
         sb.append(", isUuid=").append(isUuid);
         sb.append(", isEmail=").append(isEmail);
+        sb.append(", isPassword=").append(isPassword);
         sb.append(", isModel=").append(isModel);
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
         sb.append(", isAnyType=").append(isAnyType);

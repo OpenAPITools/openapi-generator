@@ -35,6 +35,23 @@ public class Bar extends Entity implements BarRefOrValue {
 
   private FooRefOrValue foo;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Bar#Bar(String, String)}
+   */
+  @Deprecated
+  public Bar() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Bar(String id, String atType) {
+    super(atType);
+    this.id = id;
+  }
+
   public Bar id(String id) {
     this.id = id;
     return this;

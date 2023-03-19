@@ -29,6 +29,9 @@ public class SpringDocConfiguration {
                 )
                 .components(
                         new Components()
+                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
+                                        .type(SecurityScheme.Type.OAUTH2)
+                                )
                                 .addSecuritySchemes("api_key", new SecurityScheme()
                                         .type(SecurityScheme.Type.APIKEY)
                                         .in(SecurityScheme.In.HEADER)
@@ -42,9 +45,6 @@ public class SpringDocConfiguration {
                                 .addSecuritySchemes("http_basic_test", new SecurityScheme()
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("basic")
-                                )
-                                .addSecuritySchemes("petstore_auth", new SecurityScheme()
-                                        .type(SecurityScheme.Type.OAUTH2)
                                 )
                 )
         ;

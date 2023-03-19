@@ -96,7 +96,7 @@ public class NullableShape extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             NullableShape newNullableShape = new NullableShape();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("shapeType");
             switch (discriminatorValue) {
                 case "Quadrilateral":
@@ -186,7 +186,7 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public NullableShape() {
         super("oneOf", Boolean.TRUE);
@@ -205,7 +205,7 @@ public class NullableShape extends AbstractOpenApiSchema {
   @JsonAnySetter
   public NullableShape putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -258,7 +258,7 @@ public class NullableShape extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(NullableShape.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("Quadrilateral", Quadrilateral.class);
         mappings.put("Triangle", Triangle.class);
         mappings.put("NullableShape", NullableShape.class);
@@ -285,12 +285,12 @@ public class NullableShape extends AbstractOpenApiSchema {
            return;
         }
 
-        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

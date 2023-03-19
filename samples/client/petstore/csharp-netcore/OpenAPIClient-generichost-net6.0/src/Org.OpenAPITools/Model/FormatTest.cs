@@ -46,64 +46,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
         /// <param name="stringProperty">stringProperty</param>
+        /// <param name="unsignedInteger">unsignedInteger</param>
+        /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] byteProperty, DateTime date, DateTime dateTime, decimal decimalProperty, double doubleProperty, float floatProperty, int int32, long int64, int integer, decimal number, string password, string patternWithDigits, string patternWithDigitsAndDelimiter, string stringProperty, Guid uuid)
+        public FormatTest(System.IO.Stream binary, byte[] byteProperty, DateTime date, DateTime dateTime, decimal decimalProperty, double doubleProperty, float floatProperty, int int32, long int64, int integer, decimal number, string password, string patternWithDigits, string patternWithDigitsAndDelimiter, string stringProperty, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (integer == null)
-                throw new ArgumentNullException("integer is a required property for FormatTest and cannot be null.");
-
-            if (int32 == null)
-                throw new ArgumentNullException("int32 is a required property for FormatTest and cannot be null.");
-
-            if (int64 == null)
-                throw new ArgumentNullException("int64 is a required property for FormatTest and cannot be null.");
-
-            if (number == null)
-                throw new ArgumentNullException("number is a required property for FormatTest and cannot be null.");
-
-            if (floatProperty == null)
-                throw new ArgumentNullException("floatProperty is a required property for FormatTest and cannot be null.");
-
-            if (doubleProperty == null)
-                throw new ArgumentNullException("doubleProperty is a required property for FormatTest and cannot be null.");
-
-            if (decimalProperty == null)
-                throw new ArgumentNullException("decimalProperty is a required property for FormatTest and cannot be null.");
-
-            if (stringProperty == null)
-                throw new ArgumentNullException("stringProperty is a required property for FormatTest and cannot be null.");
-
-            if (byteProperty == null)
-                throw new ArgumentNullException("byteProperty is a required property for FormatTest and cannot be null.");
-
-            if (binary == null)
-                throw new ArgumentNullException("binary is a required property for FormatTest and cannot be null.");
-
-            if (date == null)
-                throw new ArgumentNullException("date is a required property for FormatTest and cannot be null.");
-
-            if (dateTime == null)
-                throw new ArgumentNullException("dateTime is a required property for FormatTest and cannot be null.");
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for FormatTest and cannot be null.");
-
-            if (password == null)
-                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null.");
-
-            if (patternWithDigits == null)
-                throw new ArgumentNullException("patternWithDigits is a required property for FormatTest and cannot be null.");
-
-            if (patternWithDigitsAndDelimiter == null)
-                throw new ArgumentNullException("patternWithDigitsAndDelimiter is a required property for FormatTest and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Binary = binary;
             ByteProperty = byteProperty;
             Date = date;
@@ -119,6 +67,8 @@ namespace Org.OpenAPITools.Model
             PatternWithDigits = patternWithDigits;
             PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             StringProperty = stringProperty;
+            UnsignedInteger = unsignedInteger;
+            UnsignedLong = unsignedLong;
             Uuid = uuid;
         }
 
@@ -137,12 +87,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
+        /// <example>&quot;Sun Feb 02 00:00:00 UTC 2020&quot;</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
+        /// <example>&quot;2007-12-03T10:15:30+01:00&quot;</example>
         [JsonPropertyName("dateTime")]
         public DateTime DateTime { get; set; }
 
@@ -215,8 +167,21 @@ namespace Org.OpenAPITools.Model
         public string StringProperty { get; set; }
 
         /// <summary>
+        /// Gets or Sets UnsignedInteger
+        /// </summary>
+        [JsonPropertyName("unsigned_integer")]
+        public uint UnsignedInteger { get; set; }
+
+        /// <summary>
+        /// Gets or Sets UnsignedLong
+        /// </summary>
+        [JsonPropertyName("unsigned_long")]
+        public ulong UnsignedLong { get; set; }
+
+        /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
+        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
         [JsonPropertyName("uuid")]
         public Guid Uuid { get; set; }
 
@@ -249,6 +214,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
+            sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
+            sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -354,6 +321,18 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StringProperty, must match a pattern of " + regexStringProperty, new [] { "StringProperty" });
             }
 
+            // UnsignedInteger (uint) maximum
+            if (this.UnsignedInteger > (uint)200)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+            }
+
+            // UnsignedInteger (uint) minimum
+            if (this.UnsignedInteger < (uint)20)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+            }
+
             yield break;
         }
     }
@@ -363,6 +342,16 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public class FormatTestJsonConverter : JsonConverter<FormatTest>
     {
+        /// <summary>
+        /// The format to use to serialize Date
+        /// </summary>
+        public static string DateFormat { get; set; } = "yyyy'-'MM'-'dd";
+
+        /// <summary>
+        /// The format to use to serialize DateTime
+        /// </summary>
+        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
         /// <summary>
         /// A Json reader.
         /// </summary>
@@ -395,6 +384,8 @@ namespace Org.OpenAPITools.Model
             string patternWithDigits = default;
             string patternWithDigitsAndDelimiter = default;
             string stringProperty = default;
+            uint unsignedInteger = default;
+            ulong unsignedLong = default;
             Guid uuid = default;
 
             while (utf8JsonReader.Read())
@@ -413,37 +404,48 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "binary":
-                            binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "byte":
-                            byteProperty = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                byteProperty = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "date":
-                            date = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                date = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "dateTime":
-                            dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "decimal":
-                            decimalProperty = JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                decimalProperty = JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "double":
-                            doubleProperty = utf8JsonReader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                doubleProperty = utf8JsonReader.GetDouble();
                             break;
                         case "float":
-                            floatProperty = (float)utf8JsonReader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                floatProperty = (float)utf8JsonReader.GetDouble();
                             break;
                         case "int32":
-                            int32 = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                int32 = utf8JsonReader.GetInt32();
                             break;
                         case "int64":
-                            int64 = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                int64 = utf8JsonReader.GetInt64();
                             break;
                         case "integer":
-                            integer = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                integer = utf8JsonReader.GetInt32();
                             break;
                         case "number":
-                            number = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                number = utf8JsonReader.GetDecimal();
                             break;
                         case "password":
                             password = utf8JsonReader.GetString();
@@ -457,8 +459,17 @@ namespace Org.OpenAPITools.Model
                         case "string":
                             stringProperty = utf8JsonReader.GetString();
                             break;
+                        case "unsigned_integer":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                unsignedInteger = utf8JsonReader.GetUInt32();
+                            break;
+                        case "unsigned_long":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                unsignedLong = utf8JsonReader.GetUInt64();
+                            break;
                         case "uuid":
-                            uuid = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -466,7 +477,67 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, uuid);
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (integer == null)
+                throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
+
+            if (int32 == null)
+                throw new ArgumentNullException(nameof(int32), "Property is required for class FormatTest.");
+
+            if (unsignedInteger == null)
+                throw new ArgumentNullException(nameof(unsignedInteger), "Property is required for class FormatTest.");
+
+            if (int64 == null)
+                throw new ArgumentNullException(nameof(int64), "Property is required for class FormatTest.");
+
+            if (unsignedLong == null)
+                throw new ArgumentNullException(nameof(unsignedLong), "Property is required for class FormatTest.");
+
+            if (number == null)
+                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
+
+            if (floatProperty == null)
+                throw new ArgumentNullException(nameof(floatProperty), "Property is required for class FormatTest.");
+
+            if (doubleProperty == null)
+                throw new ArgumentNullException(nameof(doubleProperty), "Property is required for class FormatTest.");
+
+            if (decimalProperty == null)
+                throw new ArgumentNullException(nameof(decimalProperty), "Property is required for class FormatTest.");
+
+            if (stringProperty == null)
+                throw new ArgumentNullException(nameof(stringProperty), "Property is required for class FormatTest.");
+
+            if (byteProperty == null)
+                throw new ArgumentNullException(nameof(byteProperty), "Property is required for class FormatTest.");
+
+            if (binary == null)
+                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
+
+            if (date == null)
+                throw new ArgumentNullException(nameof(date), "Property is required for class FormatTest.");
+
+            if (dateTime == null)
+                throw new ArgumentNullException(nameof(dateTime), "Property is required for class FormatTest.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class FormatTest.");
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
+
+            if (patternWithDigits == null)
+                throw new ArgumentNullException(nameof(patternWithDigits), "Property is required for class FormatTest.");
+
+            if (patternWithDigitsAndDelimiter == null)
+                throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -484,10 +555,8 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.ByteProperty, jsonSerializerOptions);
-            writer.WritePropertyName("date");
-            JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
-            writer.WritePropertyName("dateTime");
-            JsonSerializer.Serialize(writer, formatTest.DateTime, jsonSerializerOptions);
+            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+            writer.WriteString("dateTime", formatTest.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("decimal");
             JsonSerializer.Serialize(writer, formatTest.DecimalProperty, jsonSerializerOptions);
             writer.WriteNumber("double", formatTest.DoubleProperty);
@@ -500,6 +569,8 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
             writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);
             writer.WriteString("string", formatTest.StringProperty);
+            writer.WriteNumber("unsigned_integer", formatTest.UnsignedInteger);
+            writer.WriteNumber("unsigned_long", formatTest.UnsignedLong);
             writer.WriteString("uuid", formatTest.Uuid);
 
             writer.WriteEndObject();

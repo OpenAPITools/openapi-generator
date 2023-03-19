@@ -31,6 +31,22 @@ public class DogDto extends AnimalDto {
 
   private String breed;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link DogDto#DogDto(String)}
+   */
+  @Deprecated
+  public DogDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public DogDto(String className) {
+    super(className);
+  }
+
   public DogDto breed(String breed) {
     this.breed = breed;
     return this;

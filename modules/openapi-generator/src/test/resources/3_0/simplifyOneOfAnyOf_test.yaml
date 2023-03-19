@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfTest"
+components:
+  schemas:
+    AnyOfTest:
+      description: to test anyOf
+      anyOf:
+        - type: string
+        - type: null
+    OneOfTest:
+      description: to test oneOf
+      oneOf:
+        - type: integer
+        - $ref: null
+    OneOfNullableTest:
+      description: to test oneOf nullable
+      oneOf:
+        - type: integer
+        - type: string
+        - $ref: null
+

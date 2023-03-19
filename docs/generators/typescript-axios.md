@@ -125,6 +125,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>native</li>
 <li>new</li>
 <li>null</li>
+<li>options</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>

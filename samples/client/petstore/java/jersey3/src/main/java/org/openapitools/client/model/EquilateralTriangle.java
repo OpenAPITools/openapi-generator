@@ -111,7 +111,7 @@ public class EquilateralTriangle {
   @JsonAnySetter
   public EquilateralTriangle putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;

@@ -138,6 +138,9 @@ public class TypeHolderExampleDto {
   }
 
   public TypeHolderExampleDto addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
