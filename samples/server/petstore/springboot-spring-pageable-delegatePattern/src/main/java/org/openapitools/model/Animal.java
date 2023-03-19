@@ -35,10 +35,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Animal {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
   private String color = "red";
 
   /**
@@ -68,6 +66,7 @@ public class Animal {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -87,6 +86,7 @@ public class Animal {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

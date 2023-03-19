@@ -42,9 +42,9 @@ class DefaultValue(BaseModel):
     def array_string_enum_default_validate_enum(cls, v):
         if v is None:
             return v
-
-        if v not in ('success', 'failure', 'unclassified'):
-            raise ValueError("must validate the enum values ('success', 'failure', 'unclassified')")
+        for i in v:
+            if i not in ('success', 'failure', 'unclassified'):
+                raise ValueError("each list item must be one of ('success', 'failure', 'unclassified')")
         return v
 
     class Config:

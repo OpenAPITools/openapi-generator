@@ -24,16 +24,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OrderDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("petId")
   private Long petId;
 
-  @JsonProperty("quantity")
   private Integer quantity;
 
-  @JsonProperty("shipDate")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime shipDate;
 
@@ -74,10 +70,8 @@ public class OrderDto {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
-  @JsonProperty("complete")
   private Boolean complete = false;
 
   public OrderDto id(Long id) {
@@ -90,6 +84,7 @@ public class OrderDto {
    * @return id
   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -108,6 +103,7 @@ public class OrderDto {
    * @return petId
   */
   
+  @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
@@ -126,6 +122,7 @@ public class OrderDto {
    * @return quantity
   */
   
+  @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -144,6 +141,7 @@ public class OrderDto {
    * @return shipDate
   */
   
+  @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -162,6 +160,7 @@ public class OrderDto {
    * @return status
   */
   
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -180,6 +179,7 @@ public class OrderDto {
    * @return complete
   */
   
+  @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
   }

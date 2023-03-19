@@ -36,7 +36,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatDto extends AnimalDto {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
 
   /**
@@ -66,6 +65,7 @@ public class CatDto extends AnimalDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

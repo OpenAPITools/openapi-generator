@@ -33,10 +33,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Animal {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
   private String color = "red";
 
   /**
@@ -65,6 +63,7 @@ public class Animal {
    * @return className
   */
   @NotNull
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -83,6 +82,7 @@ public class Animal {
    * @return color
   */
   
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

@@ -24,10 +24,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CategoryDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name = "default-name";
 
   /**
@@ -57,6 +55,7 @@ public class CategoryDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -76,6 +75,7 @@ public class CategoryDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

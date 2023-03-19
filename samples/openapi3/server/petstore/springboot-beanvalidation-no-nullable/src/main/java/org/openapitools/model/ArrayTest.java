@@ -23,15 +23,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest {
 
-  @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString = null;
 
-  @JsonProperty("array_array_of_integer")
   @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
 
-  @JsonProperty("array_array_of_model")
   @Valid
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
@@ -54,6 +51,7 @@ public class ArrayTest {
   */
   
   @Schema(name = "array_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -81,6 +79,7 @@ public class ArrayTest {
   */
   @Valid 
   @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -108,6 +107,7 @@ public class ArrayTest {
   */
   @Valid 
   @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
