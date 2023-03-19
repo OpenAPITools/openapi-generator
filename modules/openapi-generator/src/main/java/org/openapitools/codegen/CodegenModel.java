@@ -1213,6 +1213,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         if (discriminator == null || discriminator.getMappedModels() == null) {
             return;
         }
+
+        if (!this.hasChildren) {// no child
+            return;
+        }
+
+        // import child schemas
         for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
             if (!"".equals(mm.getModelName())) {
                 imports.add(mm.getModelName());

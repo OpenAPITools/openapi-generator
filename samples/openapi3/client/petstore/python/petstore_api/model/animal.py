@@ -100,6 +100,3 @@ class Animal(
             _configuration=_configuration,
             **kwargs,
         )
-
-from petstore_api.model.cat import Cat
-from petstore_api.model.dog import Dog

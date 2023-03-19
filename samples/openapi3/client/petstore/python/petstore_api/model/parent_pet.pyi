@@ -72,5 +72,4 @@ class ParentPet(
             **kwargs,
         )
 
-from petstore_api.model.child_cat import ChildCat
 from petstore_api.model.grandparent_animal import GrandparentAnimal

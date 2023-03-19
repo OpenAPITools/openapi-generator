@@ -21,9 +21,6 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
 import android.os.Parcelable;
 import android.os.Parcel;
 
