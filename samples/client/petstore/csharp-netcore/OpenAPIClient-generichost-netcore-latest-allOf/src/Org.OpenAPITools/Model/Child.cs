@@ -41,15 +41,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Child(ChildAllOf childAllOf, bool boosterSeat, string firstName, string lastName, string type) : base(firstName, lastName, type)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (boosterSeat == null)
-                throw new ArgumentNullException("boosterSeat is a required property for Child and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ChildAllOf = childAllOf;
             BoosterSeat = boosterSeat;
         }
@@ -126,7 +117,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "boosterSeat":
-                            boosterSeat = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                boosterSeat = utf8JsonReader.GetBoolean();
                             break;
                         case "firstName":
                             firstName = utf8JsonReader.GetString();
@@ -142,6 +134,15 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (boosterSeat == null)
+                throw new ArgumentNullException(nameof(boosterSeat), "Property is required for class Child.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Child(childAllOf, boosterSeat, firstName, lastName, type);
         }

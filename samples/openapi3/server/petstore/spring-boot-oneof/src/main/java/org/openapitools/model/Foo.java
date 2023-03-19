@@ -32,6 +32,22 @@ public class Foo extends Entity implements FooRefOrValue {
   @JsonProperty("fooPropB")
   private String fooPropB;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Foo#Foo(String)}
+   */
+  @Deprecated
+  public Foo() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Foo(String atType) {
+    super(atType);
+  }
+
   public Foo fooPropA(String fooPropA) {
     this.fooPropA = fooPropA;
     return this;

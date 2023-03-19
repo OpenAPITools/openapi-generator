@@ -191,7 +191,7 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
 
         val contentType = if (headers[ContentType] != null) {
             // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
+            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
         } else {
             null
         }
@@ -210,7 +210,7 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
 
         val response = client.newCall(request).execute()
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         return when {

@@ -141,13 +141,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
-    {{#defaultValue}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
-    {{/defaultValue}}
-    {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -168,13 +164,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
-    {{#defaultValue}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
-    {{/defaultValue}}
-    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -389,7 +381,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return 0;
   }
 
-  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
+  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<>() {
     public {{classname}} createFromParcel(Parcel in) {
 {{#model}}
 {{#isArray}}
@@ -408,14 +400,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   };
 {{/parcelableModel}}
 {{#discriminator}}
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  {{#mappedModels}}
-  mappings.put("{{mappingName}}", {{modelName}}.class);
-  {{/mappedModels}}
-  mappings.put("{{name}}", {{classname}}.class);
-  JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    {{#mappedModels}}
+    mappings.put("{{mappingName}}", {{modelName}}.class);
+    {{/mappedModels}}
+    mappings.put("{{name}}", {{classname}}.class);
+    JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
+  }
 {{/discriminator}}
 }

@@ -160,14 +160,14 @@ namespace {{packageName}}.{{apiPackage}}
         /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{.}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
         public async Task<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{>OperationSignature}})
         {
-            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponseLocalVar = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
 
             {{^nrt}}{{#returnTypeIsPrimitive}}#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            {{/returnTypeIsPrimitive}}{{/nrt}}if (result.Content == null){{^nrt}}{{#returnTypeIsPrimitive}}
+            {{/returnTypeIsPrimitive}}{{/nrt}}if (apiResponseLocalVar.Content == null){{^nrt}}{{#returnTypeIsPrimitive}}
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/returnTypeIsPrimitive}}{{/nrt}}
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content{{#nrt}}{{#returnProperty}}{{#isPrimitiveType}}{{^isMap}}{{^isString}}.Value{{/isString}}{{/isMap}}{{/isPrimitiveType}}{{/returnProperty}}{{/nrt}};
+            return apiResponseLocalVar.Content{{#nrt}}{{#returnProperty}}{{#isPrimitiveType}}{{^isMap}}{{^isString}}{{^isContainer}}.Value{{/isContainer}}{{/isString}}{{/isMap}}{{/isPrimitiveType}}{{/returnProperty}}{{/nrt}};
         }
 
         {{#nrt}}
@@ -219,11 +219,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        protected virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
+        protected virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponseLocalVar  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
         {
         }
 
@@ -252,44 +252,44 @@ namespace {{packageName}}.{{apiPackage}}
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
         public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{>OperationSignature}})
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                {{#allParams}}{{#-first}}{{#-last}}{{paramName}} = {{/-last}}{{^-last}}var validatedParameters = {{/-last}}{{/-first}}{{/allParams}}On{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+                {{#allParams}}{{#-first}}{{#-last}}{{paramName}} = {{/-last}}{{^-last}}var validatedParameterLocalVars = {{/-last}}{{/-first}}{{/allParams}}On{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
                 {{#allParams}}
                 {{#-first}}
                 {{^-last}}
                 {{#allParams}}
-                {{paramName}} = validatedParameters.Item{{-index}};
+                {{paramName}} = validatedParameterLocalVars.Item{{-index}};
                 {{/allParams}}
                 {{/-last}}
                 {{/-first}}
                 {{/allParams}}
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     {{^servers}}
-                    uriBuilder.Host = HttpClient.BaseAddress{{nrt!}}.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "{{path}}";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress{{nrt!}}.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "{{path}}";
 
                     {{/servers}}
                     {{#servers}}
                     {{#-first}}
-                    var url = request.RequestUri = new Uri("{{url}}");
-                    uriBuilder.Host = url.Authority;
-                    uriBuilder.Scheme = url.Scheme;
-                    uriBuilder.Path = url.AbsolutePath;
+                    Uri urlLocalVar = httpRequestMessageLocalVar.RequestUri = new Uri("{{url}}");
+                    uriBuilderLocalVar.Host = urlLocalVar.Authority;
+                    uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
+                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
 
                     {{/-first}}
                     {{/servers}}
                     {{#pathParams}}
                     {{#required}}
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
                     if ({{paramName}} != null)
-                        uriBuilder.Path = uriBuilder.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
+                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
                     {{#-last}}
 
                     {{/-last}}
@@ -297,167 +297,167 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/pathParams}}
                     {{#queryParams}}
                     {{#-first}}
-                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/-first}}{{/queryParams}}{{^queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/-first}}{{/queryParams}}{{^queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
 
-                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/queryParams}}{{#queryParams}}{{#required}}{{#-first}}
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/queryParams}}{{#queryParams}}{{#required}}{{#-first}}
 
                     {{! all the redundant tags here are to get the spacing just right }}
-                    {{/-first}}{{/required}}{{/queryParams}}{{#queryParams}}{{#required}}parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
+                    {{/-first}}{{/required}}{{/queryParams}}{{#queryParams}}{{#required}}parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
                     {{/required}}{{/queryParams}}{{#queryParams}}{{#-first}}
                     {{/-first}}{{/queryParams}}{{#queryParams}}{{^required}}if ({{paramName}} != null)
-                        parseQueryString["{{baseName}}"] = Uri.EscapeDataString({{paramName}}.ToString(){{nrt!}});
+                        parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
 
-                    {{/required}}{{#-last}}uriBuilder.Query = parseQueryString.ToString();
+                    {{/required}}{{#-last}}uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     {{/-last}}
                     {{/queryParams}}
                     {{#headerParams}}
                     {{#required}}
-                    request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
 
                     {{/required}}
                     {{^required}}
                     if ({{paramName}} != null)
-                        request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
 
                     {{/required}}
                     {{/headerParams}}
                     {{#formParams}}
                     {{#-first}}
-                    MultipartContent multipartContent = new MultipartContent();
+                    MultipartContent multipartContentLocalVar = new MultipartContent();
 
-                    request.Content = multipartContent;
+                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>> formParams = new List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>>();
+                    List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>> formParameterLocalVars = new List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>>();
 
-                    multipartContent.Add(new FormUrlEncodedContent(formParams));{{/-first}}{{^isFile}}{{#required}}
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));{{/-first}}{{^isFile}}{{#required}}
 
-                    formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
+                    formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
                     {{/required}}
                     {{^required}}
                     if ({{paramName}} != null)
-                        formParams.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
+                        formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
                     {{/required}}
                     {{/isFile}}
                     {{#isFile}}
                     {{#required}}
-                    multipartContent.Add(new StreamContent({{paramName}}));
+                    multipartContentLocalVar.Add(new StreamContent({{paramName}}));
 
                     {{/required}}
                     {{^required}}
                     if ({{paramName}} != null)
-                        multipartContent.Add(new StreamContent({{paramName}}));
+                        multipartContentLocalVar.Add(new StreamContent({{paramName}}));
 
                     {{/required}}
                     {{/isFile}}
                     {{/formParams}}
                     {{#bodyParam}}
-                    request.Content = ({{paramName}} as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = ({{paramName}} as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions));
 
                     {{/bodyParam}}
                     {{#authMethods}}
                     {{#-first}}
-                    List<TokenBase> tokens = new List<TokenBase>();
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
                     {{/-first}}
                     {{#isApiKey}}
-                    ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    ApiKeyToken apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(apiKey);{{#isKeyInHeader}}
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar);{{#isKeyInHeader}}
 
-                    apiKey.UseInHeader(request, "{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}
+                    apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}
 
-                    apiKey.UseInQuery(request, uriBuilder, parseQueryString, "{{keyParamName}}");
+                    apiKeyTokenLocalVar.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "{{keyParamName}}");
 
-                    uriBuilder.Query = parseQueryString.ToString();{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
 
                     {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
-                    request.RequestUri = uriBuilder.Uri;{{#authMethods}}{{#isBasicBasic}}
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;{{#authMethods}}{{#isBasicBasic}}
 
-                    BasicToken basicToken = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BasicToken basicTokenLocalVar = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(basicToken);
+                    tokenBaseLocalVars.Add(basicTokenLocalVar);
 
-                    basicToken.UseInHeader(request, "{{keyParamName}}");{{/isBasicBasic}}{{#isBasicBearer}}
+                    basicTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isBasicBasic}}{{#isBasicBearer}}
 
-                    BearerToken bearerToken = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(bearerToken);
+                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
 
-                    bearerToken.UseInHeader(request, "{{keyParamName}}");{{/isBasicBearer}}{{#isOAuth}}
+                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isBasicBearer}}{{#isOAuth}}
 
-                    OAuthToken oauthToken = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(oauthToken);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthToken.UseInHeader(request, "{{keyParamName}}");{{/isOAuth}}{{#isHttpSignature}}
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isOAuth}}{{#isHttpSignature}}
 
-                    HttpSignatureToken signatureToken = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    HttpSignatureToken httpSignatureTokenLocalVar = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(signatureToken);
+                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBody = await request.Content{{nrt!}}.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
+                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content{{nrt!}}.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
-                    signatureToken.UseInHeader(request, requestBody, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
+                    httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
 
                     string[] contentTypes = new string[] {
                         {{/-first}}"{{{mediaType}}}"{{^-last}},
                         {{/-last}}{{#-last}} 
                     };{{/-last}}{{/consumes}}{{#consumes}}{{#-first}}
 
-                    string{{nrt?}} contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string{{nrt?}} contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);{{/-first}}{{/consumes}}{{#produces}}{{#-first}}
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);{{/-first}}{{/consumes}}{{#produces}}{{#-first}}
 
-                    string[] accepts = new string[] { {{/-first}}{{/produces}}
+                    string[] acceptLocalVars = new string[] { {{/-first}}{{/produces}}
                         {{#produces}}"{{{mediaType}}}"{{^-last}}, 
                         {{/-last}}{{/produces}}{{#produces}}{{#-last}} 
                     };{{/-last}}{{/produces}}{{#produces}}{{#-first}}
 
-                    string{{nrt?}} accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string{{nrt?}} acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
                     {{/-first}}
                     {{/produces}}
                     {{^netStandard}}
 
-                    request.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};{{/netStandard}}{{#netStandard}}
-                    request.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}}{{! early standard versions do not have HttpMethod.Patch }}
+                    httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};{{/netStandard}}{{#netStandard}}
+                    httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}}{{! early standard versions do not have HttpMethod.Patch }}
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "{{path}}", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
-                        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(responseMessage, responseContent);
+                        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(httpResponseMessageLocalVar, responseContentLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            apiResponse.Content = JsonSerializer.Deserialize<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponse.RawContent, _jsonSerializerOptions);
-                            After{{operationId}}({{#lambda.joinWithComma}}apiResponse  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            After{{operationId}}({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
                         }
                         {{#authMethods}}
-                        else if (apiResponse.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase token in tokens)
-                                token.BeginRateLimit();
+                        else if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
                         {{/authMethods}}
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnError{{operationId}}({{#lambda.joinWithComma}}e  "{{path}}"  uriBuilder.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+                OnError{{operationId}}({{#lambda.joinWithComma}}e  "{{path}}"  uriBuilderLocalVar.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
                 throw;
             }
         }

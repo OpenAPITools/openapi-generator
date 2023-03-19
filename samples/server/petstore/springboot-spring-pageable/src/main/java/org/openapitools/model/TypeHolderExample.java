@@ -44,6 +44,27 @@ public class TypeHolderExample {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link TypeHolderExample#TypeHolderExample(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
+   */
+  @Deprecated
+  public TypeHolderExample() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderExample(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.floatItem = floatItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
+
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;
@@ -145,6 +166,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -154,7 +178,7 @@ public class TypeHolderExample {
    * @return arrayItem
   */
   @NotNull 
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

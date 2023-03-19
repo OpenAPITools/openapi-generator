@@ -1,0 +1,7 @@
+README.md
+pom.xml
+src/gen/java/org/openapitools/api/RestApplication.java
+src/gen/java/org/openapitools/api/RestResourceRoot.java
+src/gen/java/org/openapitools/api/UserApi.java
+src/gen/java/org/openapitools/model/ReadonlyAndRequiredProperties.java
+src/main/openapi/openapi.yaml

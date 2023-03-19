@@ -66,6 +66,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
@@ -79,6 +80,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private boolean useBeanValidation = true;
+    private boolean skipDefaultInterface = false;
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
     private boolean useSwaggerUI = true;
@@ -153,6 +155,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
@@ -334,6 +337,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
+    }
+
     public boolean isReactive() {
         return reactive;
     }
@@ -491,6 +498,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
+            this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));
+        }
+        writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
 
         if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
             this.setReactive(convertPropertyToBoolean(REACTIVE));

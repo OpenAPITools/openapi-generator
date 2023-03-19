@@ -30,6 +30,22 @@ public class Extensible {
   @JsonProperty("@type")
   private String atType;
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link Extensible#Extensible(String)}
+   */
+  @Deprecated
+  public Extensible() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Extensible(String atType) {
+    this.atType = atType;
+  }
+
   public Extensible atSchemaLocation(String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;

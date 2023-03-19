@@ -119,7 +119,7 @@ public class DefaultValue {
 
   public static final String SERIALIZED_NAME_ARRAY_STRING = "array_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING)
-  private List<String> arrayString = new ArrayList<>();
+  private List<String> arrayString;
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_NULLABLE = "array_string_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
@@ -293,6 +293,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
+    if (this.arrayStringNullable == null) {
+      this.arrayStringNullable = new ArrayList<>();
+    }
     this.arrayStringNullable.add(arrayStringNullableItem);
     return this;
   }
@@ -320,6 +323,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
+    if (this.arrayStringExtensionNullable == null) {
+      this.arrayStringExtensionNullable = new ArrayList<>();
+    }
     this.arrayStringExtensionNullable.add(arrayStringExtensionNullableItem);
     return this;
   }

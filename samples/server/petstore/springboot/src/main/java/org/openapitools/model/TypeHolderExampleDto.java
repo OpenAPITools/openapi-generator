@@ -46,6 +46,27 @@ public class TypeHolderExampleDto {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
+  /**
+   * Default constructor
+   * @deprecated Use {@link TypeHolderExampleDto#TypeHolderExampleDto(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
+   */
+  @Deprecated
+  public TypeHolderExampleDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderExampleDto(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.floatItem = floatItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
+
   public TypeHolderExampleDto stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;
@@ -147,6 +168,9 @@ public class TypeHolderExampleDto {
   }
 
   public TypeHolderExampleDto addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -156,7 +180,7 @@ public class TypeHolderExampleDto {
    * @return arrayItem
   */
   @NotNull 
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Client
 
         public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T) await Deserialize(response, typeof(T));
+            var result = (T) await Deserialize(response, typeof(T)).ConfigureAwait(false);
             return result;
         }
 
@@ -98,17 +98,17 @@ namespace Org.OpenAPITools.Client
 
             if (type == typeof(byte[])) // return byte array
             {
-                return await response.Content.ReadAsByteArrayAsync();
+                return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }
             else if (type == typeof(FileParameter))
             {
-                return new FileParameter(await response.Content.ReadAsStreamAsync());
+                return new FileParameter(await response.Content.ReadAsStreamAsync().ConfigureAwait(false));
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = await response.Content.ReadAsByteArrayAsync();
+                var bytes = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                 if (headers != null)
                 {
                     var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -132,18 +132,18 @@ namespace Org.OpenAPITools.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
+                return Convert.ChangeType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type);
             }
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), type, _serializerSettings);
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -402,7 +402,7 @@ namespace Org.OpenAPITools.Client
         private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             T result = (T) responseData;
-            string rawContent = await response.Content.ReadAsStringAsync();
+            string rawContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
             {
@@ -511,10 +511,10 @@ namespace Org.OpenAPITools.Client
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return await ToApiResponse<T>(response, default(T), req.RequestUri);
+                    return await ToApiResponse<T>(response, default(T), req.RequestUri).ConfigureAwait(false);
                 }
 
-                object responseData = await deserializer.Deserialize<T>(response);
+                object responseData = await deserializer.Deserialize<T>(response).ConfigureAwait(false);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
@@ -523,12 +523,12 @@ namespace Org.OpenAPITools.Client
                 }
                 else if (typeof(T).Name == "Stream") // for binary response
                 {
-                    responseData = (T) (object) await response.Content.ReadAsStreamAsync();
+                    responseData = (T) (object) await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 }
 
                 InterceptResponse(req, response);
 
-                return await ToApiResponse<T>(response, responseData, req.RequestUri);
+                return await ToApiResponse<T>(response, responseData, req.RequestUri).ConfigureAwait(false);
             }
             catch (OperationCanceledException original)
             {

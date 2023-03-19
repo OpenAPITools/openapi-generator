@@ -36,18 +36,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public SpecialModelName(string specialModelNameProperty, long specialPropertyName)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (specialPropertyName == null)
-                throw new ArgumentNullException("specialPropertyName is a required property for SpecialModelName and cannot be null.");
-
-            if (specialModelNameProperty == null)
-                throw new ArgumentNullException("specialModelNameProperty is a required property for SpecialModelName and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             SpecialModelNameProperty = specialModelNameProperty;
             SpecialPropertyName = specialPropertyName;
         }
@@ -139,13 +127,26 @@ namespace Org.OpenAPITools.Model
                             specialModelNameProperty = utf8JsonReader.GetString();
                             break;
                         case "$special[property.name]":
-                            specialPropertyName = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                specialPropertyName = utf8JsonReader.GetInt64();
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (specialPropertyName == null)
+                throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
+
+            if (specialModelNameProperty == null)
+                throw new ArgumentNullException(nameof(specialModelNameProperty), "Property is required for class SpecialModelName.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new SpecialModelName(specialModelNameProperty, specialPropertyName);
         }

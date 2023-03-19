@@ -35,10 +35,12 @@ namespace {{packageName}}.Client
         /// </summary>
         public Dictionary<string, string> FormParameters { get; set; }
 
+        {{#supportsFileParameters}}
         /// <summary>
         /// File parameters to be sent along with the request.
         /// </summary>
         public Multimap<string, Stream> FileParameters { get; set; }
+        {{/supportsFileParameters}}
 
         /// <summary>
         /// Cookies to be sent along with the request.
@@ -76,7 +78,9 @@ namespace {{packageName}}.Client
             QueryParameters = new Multimap<string, string>();
             HeaderParameters = new Multimap<string, string>();
             FormParameters = new Dictionary<string, string>();
+            {{#supportsFileParameters}}
             FileParameters = new Multimap<string, Stream>();
+            {{/supportsFileParameters}}
             Cookies = new List<Cookie>();
         }
     }
