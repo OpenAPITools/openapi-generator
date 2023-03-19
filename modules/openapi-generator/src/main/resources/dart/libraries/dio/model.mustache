@@ -4,7 +4,7 @@
     {{#model}}
     {{^useFreezed}}
         {{#imports}}
-            import '{{.}}';
+import '{{.}}';
         {{/imports}}
     {{/useFreezed}}
 {{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
