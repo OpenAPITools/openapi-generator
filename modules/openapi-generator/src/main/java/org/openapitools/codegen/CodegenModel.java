@@ -1209,6 +1209,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
+    /*
+     * To clean up mapped models if needed and add mapped models to imports
+     *
+     * @param cleanUpMappedModels Clean up mapped models if set to true
+     */
     public void addDiscriminatorMappedModelsImports(boolean cleanUpMappedModels) {
         if (discriminator == null || discriminator.getMappedModels() == null) {
             return;

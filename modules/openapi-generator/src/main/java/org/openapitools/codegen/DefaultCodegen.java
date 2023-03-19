@@ -670,6 +670,8 @@ public class DefaultCodegen implements CodegenConfig {
                 removeSelfReferenceImports(cm);
 
                 if (!this.getLegacyDiscriminatorBehavior()) {
+                    // skip cleaning up mapped models for python client generator
+                    // which uses its own logic
                     cm.addDiscriminatorMappedModelsImports(!(this instanceof PythonClientCodegen));
                 }
             }
@@ -2817,9 +2819,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.isNullable = Boolean.TRUE;
         }
 
-//        if (!this.getLegacyDiscriminatorBehavior()) {
-//            m.addDiscriminatorMappedModelsImports();
-//        }
         // end of code block for composed schema
     }
 
@@ -3110,10 +3109,6 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-
-//        if (!this.getLegacyDiscriminatorBehavior()) {
-//            m.addDiscriminatorMappedModelsImports();
-//        }
 
         if (addSchemaImportsFromV3SpecLocations) {
             addImports(m.imports, m.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
@@ -7786,10 +7781,6 @@ public class DefaultCodegen implements CodegenConfig {
         cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);
-
-//        if (!this.getLegacyDiscriminatorBehavior()) {
-//            cm.addDiscriminatorMappedModelsImports();
-//        }
     }
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
