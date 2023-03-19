@@ -52,8 +52,8 @@ class {{classname}} {
   {{/useFreezed}}
   {{^useFreezed}}
   Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({
-  {{/useFreezed}}{{#allParams}}{{#isPathParam}}
-    required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+  {{/useFreezed}}
+    {{#allParams}}{{#isPathParam}}required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
     {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
     {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
     {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
@@ -139,7 +139,7 @@ class {{classname}} {
         {{/freezedUnionResponse}}
     {{/useFreezed}}
     {{^useFreezed}}
-        {{{returnType}}} _responseData;
+    {{{returnType}}} _responseData;
     {{/useFreezed}}
 
     try {
@@ -176,7 +176,7 @@ class {{classname}} {
     );{{/returnType}}
     {{^returnType}}
         {{^useFreezed}}
-        return _response;
+    return _response;
         {{/useFreezed}}
         {{#useFreezed}}
             {{#freezedUnionResponse}}
