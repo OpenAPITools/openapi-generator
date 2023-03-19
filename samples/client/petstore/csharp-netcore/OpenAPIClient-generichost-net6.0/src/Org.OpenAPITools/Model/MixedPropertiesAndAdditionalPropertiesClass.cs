@@ -34,27 +34,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime</param>
         /// <param name="map">map</param>
         /// <param name="uuid">uuid</param>
+        /// <param name="uuidWithPattern">uuidWithPattern</param>
         [JsonConstructor]
-        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid)
+        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (dateTime == null)
-                throw new ArgumentNullException("dateTime is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (map == null)
-                throw new ArgumentNullException("map is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             DateTime = dateTime;
             Map = map;
             Uuid = uuid;
+            UuidWithPattern = uuidWithPattern;
         }
 
         /// <summary>
@@ -76,6 +63,12 @@ namespace Org.OpenAPITools.Model
         public Guid Uuid { get; set; }
 
         /// <summary>
+        /// Gets or Sets UuidWithPattern
+        /// </summary>
+        [JsonPropertyName("uuid_with_pattern")]
+        public Guid UuidWithPattern { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -92,6 +85,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Map: ").Append(Map).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  UuidWithPattern: ").Append(UuidWithPattern).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -103,6 +97,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
+            // UuidWithPattern (Guid) pattern
+            Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
+            if (false == regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
+            }
+
             yield break;
         }
     }
@@ -112,6 +113,11 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
+        /// <summary>
+        /// The format to use to serialize DateTime
+        /// </summary>
+        public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
         /// <summary>
         /// A Json reader.
         /// </summary>
@@ -132,6 +138,7 @@ namespace Org.OpenAPITools.Model
             DateTime dateTime = default;
             Dictionary<string, Animal> map = default;
             Guid uuid = default;
+            Guid uuidWithPattern = default;
 
             while (utf8JsonReader.Read())
             {
@@ -149,13 +156,20 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateTime":
-                            dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map":
-                            map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "uuid":
-                            uuid = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                uuid = utf8JsonReader.GetGuid();
+                            break;
+                        case "uuid_with_pattern":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                uuidWithPattern = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -163,7 +177,25 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid);
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (uuidWithPattern == null)
+                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (dateTime == null)
+                throw new ArgumentNullException(nameof(dateTime), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (map == null)
+                throw new ArgumentNullException(nameof(map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
         }
 
         /// <summary>
@@ -177,11 +209,11 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("dateTime");
-            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTime, jsonSerializerOptions);
+            writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("map");
             JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
+            writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern);
 
             writer.WriteEndObject();
         }

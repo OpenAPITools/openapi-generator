@@ -48,10 +48,10 @@ import org.openapitools.client.JSON;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
-  private Map<String, String> mapProperty = null;
+  private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   private JsonNullable<Object> anytype1 = JsonNullable.<Object>of(null);
@@ -63,13 +63,13 @@ public class AdditionalPropertiesClass {
   private Object mapWithUndeclaredPropertiesAnytype2;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3 = "map_with_undeclared_properties_anytype_3";
-  private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = null;
+  private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
 
   public static final String JSON_PROPERTY_EMPTY_MAP = "empty_map";
   private Object emptyMap;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
-  private Map<String, String> mapWithUndeclaredPropertiesString = null;
+  private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
 
   public AdditionalPropertiesClass() { 
   }

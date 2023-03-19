@@ -40,7 +40,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('samples/**/pubspec.yaml') }}
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 2.14.0
+          sdk: 2.15.0
       - name: Run tests
         uses: ./.github/actions/run-samples
         with:

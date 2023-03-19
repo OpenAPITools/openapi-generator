@@ -45,7 +45,7 @@ func NewAllOfPrimitiveTypesAllOfWithDefaults() *AllOfPrimitiveTypesAllOf {
 
 // GetTest returns the Test field value if set, zero value otherwise.
 func (o *AllOfPrimitiveTypesAllOf) GetTest() time.Time {
-	if o == nil || isNil(o.Test) {
+	if o == nil || IsNil(o.Test) {
 		var ret time.Time
 		return ret
 	}
@@ -55,7 +55,7 @@ func (o *AllOfPrimitiveTypesAllOf) GetTest() time.Time {
 // GetTestOk returns a tuple with the Test field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AllOfPrimitiveTypesAllOf) GetTestOk() (*time.Time, bool) {
-	if o == nil || isNil(o.Test) {
+	if o == nil || IsNil(o.Test) {
 		return nil, false
 	}
 	return o.Test, true
@@ -63,7 +63,7 @@ func (o *AllOfPrimitiveTypesAllOf) GetTestOk() (*time.Time, bool) {
 
 // HasTest returns a boolean if a field has been set.
 func (o *AllOfPrimitiveTypesAllOf) HasTest() bool {
-	if o != nil && !isNil(o.Test) {
+	if o != nil && !IsNil(o.Test) {
 		return true
 	}
 
@@ -85,7 +85,7 @@ func (o AllOfPrimitiveTypesAllOf) MarshalJSON() ([]byte, error) {
 
 func (o AllOfPrimitiveTypesAllOf) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Test) {
+	if !IsNil(o.Test) {
 		toSerialize["test"] = o.Test
 	}
 

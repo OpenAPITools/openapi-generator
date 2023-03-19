@@ -59,6 +59,11 @@ module {{moduleName}}
     # @return [Proc]
     attr_accessor :access_token_getter
 
+    # Set this to return data as binary instead of downloading a temp file. When enabled (set to true)
+    # HTTP responses with return type `File` will be returned as a stream of binary data.
+    # Default to false.
+    attr_accessor :return_binary_data
+
     # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
     # details will be logged with `logger.debug` (see the `logger` attribute).
     # Default to false.
@@ -117,6 +122,7 @@ module {{moduleName}}
       @ssl_client_cert = nil
       @ssl_client_key = nil
       @middlewares = Hash.new { |h, k| h[k] = [] }
+      @configure_connection_blocks = []
       @timeout = 60
       # return data as binary instead of file
       @return_binary_data = false
@@ -357,6 +363,32 @@ module {{moduleName}}
     end
 
     {{#isFaraday}}
+    # Configure Faraday connection directly.
+    #
+    # ```
+    # c.configure_faraday_connection do |conn|
+    #   conn.use Faraday::HttpCache, shared_cache: false, logger: logger
+    #   conn.response :logger, nil, headers: true, bodies: true, log_level: :debug do |logger|
+    #     logger.filter(/(Authorization: )(.*)/, '\1[REDACTED]')
+    #   end
+    # end
+    #
+    # c.configure_faraday_connection do |conn|
+    #   conn.adapter :typhoeus
+    # end
+    # ```
+    #
+    # @param block [Proc] `#call`able object that takes one arg, the connection
+    def configure_faraday_connection(&block)
+      @configure_connection_blocks << block
+    end
+
+    def configure_connection(conn)
+      @configure_connection_blocks.each do |block|
+        block.call(conn)
+      end
+    end
+
     # Adds middleware to the stack
     def use(*middleware)
       set_faraday_middleware(:use, *middleware)

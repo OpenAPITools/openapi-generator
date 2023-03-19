@@ -16,10 +16,10 @@ delete_order(Ctx, OrderId) ->
 -spec delete_order(ctx:ctx(), binary(), maps:map()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 delete_order(Ctx, OrderId, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = delete,
-    Path = [<<"/store/order/", OrderId, "">>],
+    Path = ["/store/order/", OrderId, ""],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -37,10 +37,10 @@ get_inventory(Ctx) ->
 -spec get_inventory(ctx:ctx(), maps:map()) -> {ok, maps:map(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_inventory(Ctx, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/store/inventory">>],
+    Path = ["/store/inventory"],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -58,10 +58,10 @@ get_order_by_id(Ctx, OrderId) ->
 -spec get_order_by_id(ctx:ctx(), integer(), maps:map()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_order_by_id(Ctx, OrderId, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = [<<"/store/order/", OrderId, "">>],
+    Path = ["/store/order/", OrderId, ""],
     QS = [],
     Headers = [],
     Body1 = [],
@@ -71,7 +71,6 @@ get_order_by_id(Ctx, OrderId, Optional) ->
     petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Place an order for a pet
-%% 
 -spec place_order(ctx:ctx(), petstore_order:petstore_order()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 place_order(Ctx, PetstoreOrder) ->
     place_order(Ctx, PetstoreOrder, #{}).
@@ -79,10 +78,10 @@ place_order(Ctx, PetstoreOrder) ->
 -spec place_order(ctx:ctx(), petstore_order:petstore_order(), maps:map()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 place_order(Ctx, PetstoreOrder, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
-    Path = [<<"/store/order">>],
+    Path = ["/store/order"],
     QS = [],
     Headers = [],
     Body1 = PetstoreOrder,

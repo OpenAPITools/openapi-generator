@@ -477,3 +477,38 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
 ```
+
+- `SIMPLIFY_BOOLEAN_ENUM`: when set to `true`, convert boolean enum to just enum.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyBooleanEnum_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_BOOLEAN_ENUM=true
+```
+
+- `SIMPLIFY_ONEOF_ANYOF`: when set to `true`, simplify oneOf/anyOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying oneOf/anyOf with a single sub-schema to just the sub-schema itself.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF=true
+```
+
+- `KEEP_ONLY_FIRST_TAG_IN_OPERATION`: when set to `true`, only keep the first tag in operation if there are more than one tag defined.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer KEEP_ONLY_FIRST_TAG_IN_OPERATION=true
+```
+
+- `SET_TAGS_FOR_ALL_OPERATIONS`: when set to a string value, tags in all operatinos will reset to the string value provided.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=true
+```
+
+- `ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE`: when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1) by adding x-unsigned to the schema
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE=true
+```

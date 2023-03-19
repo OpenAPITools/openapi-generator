@@ -151,13 +151,13 @@ public class Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("Cat", Cat.class);
-  mappings.put("Dog", Dog.class);
-  mappings.put("Animal", Animal.class);
-  JSON.registerDiscriminator(Animal.class, "className", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("Cat", Cat.class);
+    mappings.put("Dog", Dog.class);
+    mappings.put("Animal", Animal.class);
+    JSON.registerDiscriminator(Animal.class, "className", mappings);
+  }
 }
 

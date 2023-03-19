@@ -56,7 +56,103 @@ paths:
             text/plain:
               schema:
                 type: string
+  # form parameter tests
+  /form/integer/boolean/string:
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s)
+      description: Test form parameter(s)
+      operationId: test/form/integer/boolean/string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                integer_form:
+                  type: integer
+                boolean_form:
+                  type: boolean
+                string_form:
+                  type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # header parameter tests
+  /header/integer/boolean/string:
+    get:
+      tags:
+        - header
+      summary: Test header parameter(s)
+      description: Test header parameter(s)
+      operationId: test/header/integer/boolean/string
+      parameters:
+      - in: header
+        name: integer_header
+        style: form #default
+        explode: true #default
+        schema:
+          type: integer
+      - in: header
+        name: boolean_header
+        style: form #default
+        explode: true #default
+        schema:
+          type: boolean
+      - in: header
+        name: string_header
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # query parameter tests
+  /query/datetime/date/string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/datetime/date/string
+      parameters:
+      - in: query
+        name: datetime_query 
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: date_query 
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: string_query 
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/integer/boolean/string:
     get:
       tags:
@@ -218,6 +314,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+  /echo/body/Pet/response_string:
+    post:
+      tags:
+        - body
+      summary: Test empty response body
+      description: Test empty response body
+      operationId: test/echo/body/Pet/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   requestBodies:
@@ -288,10 +400,23 @@ components:
             - sold
       xml:
         name: pet
+    StringEnumRef:
+      type: string
+      enum:
+      - success
+      - failure
+      - unclassified
     DefaultValue:
       type: object
       description: to test the default value of properties
       properties:
+        array_string_enum_ref_default:
+          type: array
+          items:
+            $ref: '#/components/schemas/StringEnumRef'
+          default:
+            - success
+            - failure
         array_string_enum_default:
           type: array
           items:
@@ -323,6 +448,11 @@ components:
             type: string
         array_string_nullable:
           nullable: true
+          type: array
+          items:
+            type: string
+        array_string_extension_nullable:
+          x-nullable: true
           type: array
           items:
             type: string

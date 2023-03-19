@@ -71,7 +71,7 @@ func (o *Animal) SetClassName(v string) {
 
 // GetColor returns the Color field value if set, zero value otherwise.
 func (o *Animal) GetColor() string {
-	if o == nil || isNil(o.Color) {
+	if o == nil || IsNil(o.Color) {
 		var ret string
 		return ret
 	}
@@ -81,7 +81,7 @@ func (o *Animal) GetColor() string {
 // GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Animal) GetColorOk() (*string, bool) {
-	if o == nil || isNil(o.Color) {
+	if o == nil || IsNil(o.Color) {
 		return nil, false
 	}
 	return o.Color, true
@@ -89,7 +89,7 @@ func (o *Animal) GetColorOk() (*string, bool) {
 
 // HasColor returns a boolean if a field has been set.
 func (o *Animal) HasColor() bool {
-	if o != nil && !isNil(o.Color) {
+	if o != nil && !IsNil(o.Color) {
 		return true
 	}
 
@@ -112,7 +112,7 @@ func (o Animal) MarshalJSON() ([]byte, error) {
 func (o Animal) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["className"] = o.ClassName
-	if !isNil(o.Color) {
+	if !IsNil(o.Color) {
 		toSerialize["color"] = o.Color
 	}
 	return toSerialize, nil

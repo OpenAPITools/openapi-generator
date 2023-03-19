@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 DIRECTORY=`dirname $0`
@@ -15,6 +14,7 @@ mvn -f $DIRECTORY/urlsessionLibrary/SwaggerClientTests/pom.xml integration-test
 
 # spm build
 mvn -f $DIRECTORY/alamofireLibrary/pom.xml integration-test
+mvn -f $DIRECTORY/anycodable/pom.xml integration-test
 mvn -f $DIRECTORY/asyncAwaitLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/combineLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/default/pom.xml integration-test

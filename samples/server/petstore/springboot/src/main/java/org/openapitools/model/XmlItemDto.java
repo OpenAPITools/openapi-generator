@@ -41,7 +41,7 @@ public class XmlItemDto {
 
   @JsonProperty("wrapped_array")
   @Valid
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray;
 
   @JsonProperty("name_string")
   private String nameString;
@@ -57,11 +57,11 @@ public class XmlItemDto {
 
   @JsonProperty("name_array")
   @Valid
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray;
 
   @JsonProperty("name_wrapped_array")
   @Valid
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray;
 
   @JsonProperty("prefix_string")
   private String prefixString;
@@ -77,11 +77,11 @@ public class XmlItemDto {
 
   @JsonProperty("prefix_array")
   @Valid
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray;
 
   @JsonProperty("prefix_wrapped_array")
   @Valid
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray;
 
   @JsonProperty("namespace_string")
   private String namespaceString;
@@ -97,11 +97,11 @@ public class XmlItemDto {
 
   @JsonProperty("namespace_array")
   @Valid
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray;
 
   @JsonProperty("namespace_wrapped_array")
   @Valid
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray;
 
   @JsonProperty("prefix_ns_string")
   private String prefixNsString;
@@ -117,11 +117,11 @@ public class XmlItemDto {
 
   @JsonProperty("prefix_ns_array")
   @Valid
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray;
 
   @JsonProperty("prefix_ns_wrapped_array")
   @Valid
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray;
 
   public XmlItemDto attributeString(String attributeString) {
     this.attributeString = attributeString;

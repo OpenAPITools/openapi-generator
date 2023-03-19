@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
@@ -46,13 +47,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
     public static final String RECURSION_LIMIT = "recursionLimit";
-    public static final String PYTHON_ATTR_NONE_IF_UNSET = "pythonAttrNoneIfUnset";
+    public static final String ALLOW_STRING_IN_DATETIME_PARAMETERS = "allowStringInDateTimeParameters";
+    public static final String FLOAT_STRICT_TYPE = "floatStrictType";
+    public static final String DATETIME_FORMAT = "datetimeFormat";
+    public static final String DATE_FORMAT = "dateFormat";
 
     protected String packageUrl;
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
+    protected boolean floatStrictType = true;
+    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    protected String dateFormat = "%Y-%m-%d";
 
     protected Map<Character, String> regexModifiers;
 
@@ -164,6 +172,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
+        cliOptions.add(new CliOption(ALLOW_STRING_IN_DATETIME_PARAMETERS, "Allow string as input to datetime/date parameters for backward compartibility.")
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
+                .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
+        cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
+                .defaultValue("%Y-%m-%d"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
@@ -192,6 +208,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
+
+        // map to Dot instead of Period
+        specialCharReplacements.put(".", "Dot");
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
@@ -259,6 +278,26 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
+        if (additionalProperties.containsKey(ALLOW_STRING_IN_DATETIME_PARAMETERS)) {
+            setAllowStringInDateTimeParameters(convertPropertyToBooleanAndWriteBack(ALLOW_STRING_IN_DATETIME_PARAMETERS));
+        }
+
+        if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
+            setFloatStrictType(convertPropertyToBooleanAndWriteBack(FLOAT_STRICT_TYPE));
+        }
+
+        if (additionalProperties.containsKey(DATETIME_FORMAT)) {
+            setDatetimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
+        } else {
+            additionalProperties.put(DATETIME_FORMAT, datetimeFormat);
+        }
+
+        if (additionalProperties.containsKey(DATE_FORMAT)) {
+            setDateFormat((String) additionalProperties.get(DATE_FORMAT));
+        } else {
+            additionalProperties.put(DATE_FORMAT, dateFormat);
+        }
+
         String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
         String apiPath = packagePath() + File.separatorChar + apiPackage.replace('.', File.separatorChar);
 
@@ -282,6 +321,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
@@ -388,8 +428,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+            }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -424,7 +476,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. confloat(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("gt=" + cp.getMaximum());
@@ -443,12 +494,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
+                if (floatStrictType) {
+                    fieldCustomization.add("strict=True");
+                }
+
                 pydanticImports.add("confloat");
                 return String.format(Locale.ROOT, "%s(%s)", "confloat",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
-                pydanticImports.add("StrictFloat");
-                return "StrictFloat";
+                if (floatStrictType) {
+                    pydanticImports.add("StrictFloat");
+                    return "StrictFloat";
+                } else {
+                    return "float";
+                }
             }
         } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
             if (cp.hasValidation) {
@@ -542,7 +601,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (cp.isDateTime) {
                 datetimeImports.add("datetime");
             }
-            return cp.dataType;
+
+            if (allowStringInDateTimeParameters) {
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+                return String.format(Locale.ROOT, "Union[StrictStr, %s]", cp.dataType);
+            } else {
+                return cp.dataType;
+            }
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
@@ -609,8 +675,21 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
         } else*/
         if (cp.isArray) {
-            typingImports.add("List");
-            return String.format(Locale.ROOT, "List[%s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            String constraints = "";
+            if (cp.maxItems != null) {
+                constraints += String.format(Locale.ROOT, ", max_items=%d", cp.maxItems);
+            }
+            if (cp.minItems != null) {
+                constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
+            }
+            if (cp.getUniqueItems()) {
+                constraints += ", unique_items=True";
+            }
+            pydanticImports.add("conlist");
+            typingImports.add("List"); // for return type
+            return String.format(Locale.ROOT, "conlist(%s%s)",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
@@ -645,7 +724,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. confloat(ge=10, le=100, strict=True)
-                fieldCustomization.add("strict=True");
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("lt=" + cp.getMaximum());
@@ -664,12 +742,20 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
+                if (floatStrictType) {
+                    fieldCustomization.add("strict=True");
+                }
+
                 pydanticImports.add("confloat");
                 return String.format(Locale.ROOT, "%s(%s)", "confloat",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
-                pydanticImports.add("StrictFloat");
-                return "StrictFloat";
+                if (floatStrictType) {
+                    pydanticImports.add("StrictFloat");
+                    return "StrictFloat";
+                } else {
+                    return "float";
+                }
             }
         } else if (cp.isInteger || cp.isLong || cp.isShort || cp.isUnboundedInteger) {
             if (cp.hasValidation) {
@@ -817,10 +903,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 if (!StringUtils.isEmpty(param.description)) { // has description
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", param.description));
-                }
-
-                if (param.isArray && param.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
                 }
 
                 /* TODO support example
@@ -974,7 +1056,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 codegenProperties = model.vars;
             }
 
-            //loop through properties/schemas to setup typing, pydantic
+            //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports);
                 List<String> fields = new ArrayList<>();
@@ -1006,10 +1088,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fields.add(String.format(Locale.ROOT, "description=\"%s\"", cp.description));
                 }
 
-                if (cp.isArray && cp.getUniqueItems()) { // a set
-                    fields.add("unique_items=True");
-                }
-
                 /* TODO review as example may break the build
                 if (!StringUtils.isEmpty(cp.getExample())) { // has example
                     fields.add(String.format(Locale.ROOT, "example=%s", cp.getExample()));
@@ -1020,7 +1098,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     if (cp.defaultValue == null) {
                         fieldCustomization = "None";
                     } else {
-                        fieldCustomization = cp.defaultValue;
+                        if (cp.isArray || cp.isMap) {
+                            // TODO handle default value for array/map
+                            fieldCustomization = "None";
+                        } else {
+                            fieldCustomization = cp.defaultValue;
+                        }
                     }
                 } else { // required field
                     fieldCustomization = firstField;
@@ -1036,9 +1119,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__oneof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "__anyof_schema_%d", property_count++));
+                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 
@@ -1051,15 +1134,17 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 modelImports.add(model.parent);
             }
 
-            // set enum type in extensions
+            // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
-                        model.vendorExtensions.put("x-py-enum-type", "str");
+                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
+                        // update `name`, e.g.
+                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
-                        model.vendorExtensions.put("x-py-enum-type", "int");
+                        model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
+                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
                     }
-                    break;
                 }
             }
 
@@ -1243,38 +1328,50 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
+            return name;
+        } else {
+            return "\'" + name + "\'";
+        }
+    }
+
+    public String toEnumVariableName(String name, String datatype) {
+        if ("int".equals(datatype)) {
+            return "NUMBER_" + name;
+        }
+
+        // remove quote e.g. 'abc' => abc
+        name = name.substring(1, name.length() - 1);
+
         if (name.length() == 0) {
             return "EMPTY";
         }
 
-        if (name.trim().length() == 0) {
-            return "SPACE_" + name.length();
+        if (" ".equals(name)) {
+            return "SPACE";
         }
 
-        // for symbol, e.g. $, #
-        if (getSymbolName(name) != null) {
-            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        if ("_".equals(name)) {
+            return "UNDERSCORE";
         }
 
-        // number
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return "NUMBER_" + varName;
-        }
-
-        // string
-        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
-
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
-            return escapeReservedWord(enumName);
+        if (reservedWords.contains(name)) {
+            name = name.toUpperCase(Locale.ROOT);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+            name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
         } else {
-            return enumName;
+            name = name.toUpperCase(Locale.ROOT);
         }
+
+        name = name.replace(" ", "_");
+        name = name.replaceFirst("^_", "");
+        name = name.replaceFirst("_$", "");
+
+        if (name.matches("\\d.*")) {
+            name = "ENUM_" + name.toUpperCase(Locale.ROOT);
+        }
+
+        return name;
     }
 
     @Override
@@ -1288,7 +1385,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return "self::" + datatype + "_" + value;
+        return value;
     }
 
     /**
@@ -1310,5 +1407,27 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return this.reservedWordsMappings().get(name);
         }
         return "var_" + name;
+    }
+
+    public void setAllowStringInDateTimeParameters(boolean allowStringInDateTimeParameters) {
+        this.allowStringInDateTimeParameters = allowStringInDateTimeParameters;
+    }
+
+    public void setFloatStrictType(boolean floatStrictType) {
+        this.floatStrictType = floatStrictType;
+    }
+
+    public void setDatetimeFormat(String datetimeFormat) {
+        this.datetimeFormat = datetimeFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 }

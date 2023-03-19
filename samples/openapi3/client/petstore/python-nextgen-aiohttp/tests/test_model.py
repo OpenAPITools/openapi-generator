@@ -204,6 +204,16 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
 
+    def test_float_strict_type(self):
+        # assigning 123 to float shouldn't throw an exception
+        a = petstore_api.FormatTest(number=39.8, float=123, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        self.assertEqual(a.float, 123.0)
+
+        json_str = '{"number": 34.5, "float": "456", "date": "2013-12-08", "password": "empty1234567", "pattern_with_digits": "1234567890", "pattern_with_digits_and_delimiter": "image_123" , "string": "string"}'
+        # no exception thrown when assigning 456 (integer) to float type since strict is set to false
+        f = petstore_api.FormatTest.from_json(json_str)
+        self.assertEqual(f.float, 456.0)
+
     def test_valdiator(self):
         # test regular expression
         a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
@@ -211,7 +221,7 @@ class ModelTests(unittest.TestCase):
             a.pattern_with_digits_and_delimiter = "123"
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("must validate the regular expression /^image_\d{1,3}$/i" in str(e))
+            self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
@@ -225,4 +235,4 @@ class ModelTests(unittest.TestCase):
             self.pet.status = "error"
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("must validate the enum values ('available', 'pending', 'sold')" in str(e))
+            self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))

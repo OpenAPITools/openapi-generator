@@ -55,7 +55,7 @@ public class TypeHolderExample {
   private Boolean boolItem;
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
-  private List<Integer> arrayItem = null;
+  private List<Integer> arrayItem;
 
   public TypeHolderExample() {
   }
@@ -197,6 +197,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }

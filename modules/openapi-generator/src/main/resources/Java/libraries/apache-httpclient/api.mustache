@@ -15,6 +15,7 @@ import {{invokerPackage}}.Pair;
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,8 @@ import java.util.StringJoiner;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
+
+
   private ApiClient apiClient;
 
   public {{classname}}() {
@@ -65,6 +68,33 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    {{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}Collections.emptyMap());
+  }
+
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   * @param additionalHeaders additionalHeaders for this call
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -126,6 +156,8 @@ public class {{classname}} {
       localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
 
+    localVarHeaderParams.putAll(additionalHeaders);
+
     {{#cookieParams}}if ({{paramName}} != null)
       localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
     {{/cookieParams}}
@@ -168,6 +200,7 @@ public class {{classname}} {
         {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}
     );
   }
+
   {{/operation}}
 }
 {{/operations}}

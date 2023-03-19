@@ -701,6 +701,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -716,12 +722,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -782,6 +782,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -797,12 +803,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -988,6 +988,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1003,12 +1009,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1070,6 +1070,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1085,12 +1091,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1151,6 +1151,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1166,12 +1172,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1235,6 +1235,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1250,12 +1256,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1432,6 +1432,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1447,12 +1453,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request
@@ -1513,6 +1513,12 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (petstore_auth) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
             // authentication (http_signature_test) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
@@ -1528,12 +1534,6 @@ namespace Org.OpenAPITools.Api
                         localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
                     }
                 }
-            }
-            // authentication (petstore_auth) required
-            // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
 
             // make the HTTP request

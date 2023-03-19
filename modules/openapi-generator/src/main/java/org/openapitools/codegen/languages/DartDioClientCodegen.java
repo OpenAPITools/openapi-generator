@@ -47,9 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -109,13 +107,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
-        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
-        finalProperties.setDefault("true");
-        cliOptions.add(finalProperties);
-
         // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
+
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
+        finalProperties.setDefault("true");
+        cliOptions.add(finalProperties);
 
         final Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
@@ -147,7 +145,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Dio client library with null-safety.";
+        return "Generates a Dart Dio client library.";
     }
 
     @Override
@@ -672,7 +670,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            resultImports.addAll(rewriteImports(op.imports, false));
             if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }

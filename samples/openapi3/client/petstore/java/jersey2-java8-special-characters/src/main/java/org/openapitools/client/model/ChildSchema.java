@@ -92,7 +92,7 @@ public class ChildSchema extends Parent {
   @JsonAnySetter
   public ChildSchema putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -160,11 +160,11 @@ public class ChildSchema extends Parent {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("ChildSchema", ChildSchema.class);
-  JSON.registerDiscriminator(ChildSchema.class, "objectType", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("ChildSchema", ChildSchema.class);
+    JSON.registerDiscriminator(ChildSchema.class, "objectType", mappings);
+  }
 }
 

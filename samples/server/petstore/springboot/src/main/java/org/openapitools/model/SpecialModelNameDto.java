@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * SpecialModelNameDto
  */
 
-@JsonTypeName("$special[model.name]")
+@JsonTypeName("_special_model.name_")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelNameDto {
 
@@ -54,8 +54,8 @@ public class SpecialModelNameDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelNameDto $SpecialModelName = (SpecialModelNameDto) o;
-    return Objects.equals(this.$SpecialPropertyName, $SpecialModelName.$SpecialPropertyName);
+    SpecialModelNameDto specialModelName = (SpecialModelNameDto) o;
+    return Objects.equals(this.$SpecialPropertyName, specialModelName.$SpecialPropertyName);
   }
 
   @Override

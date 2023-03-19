@@ -7,7 +7,8 @@ from __future__ import absolute_import
 import re  # noqa: F401
 
 from pydantic import validate_arguments, ValidationError
-from typing_extensions import Annotated
+from typing_extensions import Annotated{{#asyncio}}
+from typing import overload, Optional, Union, Awaitable{{/asyncio}}
 
 {{#imports}}
 {{import}}
@@ -34,8 +35,18 @@ class {{classname}}(object):
         self.api_client = api_client
 {{#operation}}
 
+{{#asyncio}}
+    @overload
+    async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+        ...
+
+    @overload
+    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}async_req: Optional[bool]=True, **kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+        ...
+
+{{/asyncio}}
     @validate_arguments
-    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+    def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}{{#asyncio}}async_req: Optional[bool]=None, {{/asyncio}}**kwargs) -> {{#asyncio}}Union[{{{returnType}}}{{^returnType}}None{{/returnType}}, Awaitable[{{{returnType}}}{{^returnType}}None{{/returnType}}]]{{/asyncio}}{{^asyncio}}{{{returnType}}}{{^returnType}}None{{/returnType}}{{/asyncio}}:  # noqa: E501
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -67,6 +78,10 @@ class {{classname}}(object):
         :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
         kwargs['_return_http_data_only'] = True
+{{#asyncio}}
+        if async_req is not None:
+            kwargs['async_req'] = async_req
+{{/asyncio}}
         return self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
 
     @validate_arguments
@@ -165,24 +180,45 @@ class {{classname}}(object):
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
             {{/isArray}}
+
 {{/pathParams}}
 
         # process the query parameters
         _query_params = []
 {{#queryParams}}
         if _params.get('{{paramName}}') is not None:  # noqa: E501
-            _query_params.append(('{{baseName}}', _params['{{paramName}}'])){{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}
-{{/queryParams}}
+            {{#isDateTime}}
+            if isinstance(_params['{{paramName}}'], datetime):
+                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format)))
+            else:
+                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
+            if isinstance(_params['{{paramName}}'], datetime):
+                _query_parame.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDate}}
+            {{^isDate}}
+            _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDate}}
+            {{/isDateTime}}
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
 
+{{/queryParams}}
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
 {{#headerParams}}
         if _params['{{paramName}}']:
-            _header_params['{{baseName}}'] = _params['{{paramName}}']{{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isArray}}
-{{/headerParams}}
+            _header_params['{{baseName}}'] = _params['{{paramName}}']
+            {{#isArray}}
+            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            {{/isArray}}
 
+{{/headerParams}}
         # process the form parameters
         _form_params = []
         _files = {}
@@ -197,15 +233,15 @@ class {{classname}}(object):
             {{#isArray}}
             _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
             {{/isArray}}
-{{/formParams}}
 
+{{/formParams}}
         # process the body parameter
         _body_params = None
 {{#bodyParam}}
         if _params['{{paramName}}']:
             _body_params = _params['{{paramName}}']
-{{/bodyParam}}
 
+{{/bodyParam}}
         {{#hasProduces}}
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

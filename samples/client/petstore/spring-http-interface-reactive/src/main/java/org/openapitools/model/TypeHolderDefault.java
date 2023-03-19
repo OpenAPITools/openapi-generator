@@ -26,17 +26,37 @@ public class TypeHolderDefault {
   private String stringItem = "what";
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private BigDecimal numberItem = new BigDecimal("1.234");
 
   @JsonProperty("integer_item")
-  private Integer integerItem;
+  private Integer integerItem = -2;
 
   @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
   @JsonProperty("array_item")
   
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link TypeHolderDefault#TypeHolderDefault(String, BigDecimal, Integer, Boolean, List<Integer>)}
+   */
+  @Deprecated
+  public TypeHolderDefault() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -116,6 +136,9 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }

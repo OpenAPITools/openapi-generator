@@ -38,7 +38,7 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
-  private List<String> values = new ArrayList<>();
+  private List<String> values;
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }

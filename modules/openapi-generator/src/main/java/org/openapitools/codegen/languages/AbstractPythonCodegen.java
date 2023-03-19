@@ -125,7 +125,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
 
-
     /**
      * Return the default value of the property
      *
@@ -285,7 +284,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation) {
-        boolean cycleFound = includedSchemas.stream().filter(s->schema.equals(s)).count() > 1;
+        boolean cycleFound = includedSchemas.stream().filter(s -> schema.equals(s)).count() > 1;
         if (cycleFound) {
             return "";
         }
@@ -716,5 +715,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PYTHON; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PYTHON;
+    }
 }

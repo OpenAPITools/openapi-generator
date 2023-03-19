@@ -145,7 +145,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "URL",
                         "AnyObject",
                         "Any",
-                        "Decimal")
+                        "Decimal",
+                        "AnyCodable") // from AnyCodable dependency
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -731,11 +732,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // FIXME parameter should not be assigned. Also declare it as "final"
         name = sanitizeName(name);
 
-        if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
+        if (!StringUtils.isEmpty(modelNameSuffix) && !isLanguageSpecificType(name)) { // set model suffix
             name = name + "_" + modelNameSuffix;
         }
 
-        if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
+        if (!StringUtils.isEmpty(modelNamePrefix) && !isLanguageSpecificType(name)) { // set model prefix
             name = modelNamePrefix + "_" + name;
         }
 
@@ -1084,6 +1085,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
                         .replaceAll("[-_ :\\(\\)]", "")),
                 LOWERCASE_FIRST_LETTER);
+    }
+
+    private Boolean isLanguageSpecificType(String name) {
+        return languageSpecificPrimitives.contains(name);
     }
 
     private String replaceSpecialCharacters(String name) {

@@ -71,6 +71,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
@@ -387,10 +388,29 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
     }
 
+    /**
+     * Determines if at least one of the allOf pieces of a schema are of type string
+     *
+     * @param p
+     * @return
+     */
+    private boolean isAllOfStringSchema(Schema schema) {
+        if (schema.getAllOf() != null) {
+            Iterator<Schema> it = schema.getAllOf().iterator();
+            while (it.hasNext()) {
+                Schema childSchema = ModelUtils.getReferencedSchema(this.openAPI, it.next());
+                if (ModelUtils.isStringSchema(childSchema)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isStringSchema(p)) {
+        if (ModelUtils.isStringSchema(p) || isAllOfStringSchema(p)) {
             Object defaultObj = p.getDefault();
             if (defaultObj != null) {
                 if (defaultObj instanceof java.lang.String) {

@@ -19,7 +19,7 @@ class Pet {
     
     List<String> photoUrls = new ArrayList<>()
     
-    List<Tag> tags = new ArrayList<>()
+    List<Tag> tags
     /* pet status in the store */
     String status
 }

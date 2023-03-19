@@ -37,7 +37,7 @@ public class ObjectWithUniqueItems {
 
   @JsonProperty("notNullSet")
   @Valid
-  private Set<String> notNullSet = null;
+  private Set<String> notNullSet;
 
   @JsonProperty("nullList")
   @Valid
@@ -45,7 +45,7 @@ public class ObjectWithUniqueItems {
 
   @JsonProperty("notNullList")
   @Valid
-  private List<String> notNullList = null;
+  private List<String> notNullList;
 
   @JsonProperty("notNullDateField")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -62,7 +62,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullSetItem(String nullSetItem) {
     if (this.nullSet == null || !this.nullSet.isPresent()) {
-      this.nullSet = JsonNullable.of(null);
+      this.nullSet = JsonNullable.of(new LinkedHashSet<>());
     }
     this.nullSet.get().add(nullSetItem);
     return this;
@@ -117,7 +117,7 @@ public class ObjectWithUniqueItems {
 
   public ObjectWithUniqueItems addNullListItem(String nullListItem) {
     if (this.nullList == null || !this.nullList.isPresent()) {
-      this.nullList = JsonNullable.of(null);
+      this.nullList = JsonNullable.of(new ArrayList<>());
     }
     this.nullList.get().add(nullListItem);
     return this;

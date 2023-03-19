@@ -12,7 +12,10 @@ namespace {{packageName}}.{{clientPackage}}
     /// </summary>
     {{>visibility}} class DateTimeJsonConverter : JsonConverter<DateTime>
     {
-        public static readonly string[] FORMATS = {
+        /// <summary>
+        /// The formats used to deserialize the date
+        /// </summary>
+        public static string[] Formats { get; } = {
 {{>DateTimeFormats}}
         };
 
@@ -29,7 +32,7 @@ namespace {{packageName}}.{{clientPackage}}
 
             string value = reader.GetString(){{nrt!}};
 
-            foreach(string format in FORMATS)
+            foreach(string format in Formats)
                 if (DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime result))
                     return result;
 
@@ -43,6 +46,6 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="dateTimeValue"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, DateTime dateTimeValue, JsonSerializerOptions options) =>
-            writer.WriteStringValue(dateTimeValue.ToString(FORMATS[0], CultureInfo.InvariantCulture));
+            writer.WriteStringValue(dateTimeValue.ToString("{{{dateTimeFormat}}}", CultureInfo.InvariantCulture));
     }
 }

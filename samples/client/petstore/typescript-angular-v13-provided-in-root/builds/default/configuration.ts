@@ -87,6 +87,15 @@ export class Configuration {
             this.credentials = {};
         }
 
+        // init default petstore_auth credential
+        if (!this.credentials['petstore_auth']) {
+            this.credentials['petstore_auth'] = () => {
+                return typeof this.accessToken === 'function'
+                    ? this.accessToken()
+                    : this.accessToken;
+            };
+        }
+
         // init default api_key credential
         if (!this.credentials['api_key']) {
             this.credentials['api_key'] = () => {
@@ -95,15 +104,6 @@ export class Configuration {
                 } else {
                     return this.apiKeys['api_key'] || this.apiKeys['api_key'];
                 }
-            };
-        }
-
-        // init default petstore_auth credential
-        if (!this.credentials['petstore_auth']) {
-            this.credentials['petstore_auth'] = () => {
-                return typeof this.accessToken === 'function'
-                    ? this.accessToken()
-                    : this.accessToken;
             };
         }
     }

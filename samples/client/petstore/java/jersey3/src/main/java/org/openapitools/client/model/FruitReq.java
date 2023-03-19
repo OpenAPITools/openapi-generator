@@ -164,7 +164,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public FruitReq() {
         super("oneOf", Boolean.TRUE);
@@ -208,12 +208,12 @@ public class FruitReq extends AbstractOpenApiSchema {
            return;
         }
 
-        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

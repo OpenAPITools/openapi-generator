@@ -31,6 +31,7 @@ docs/models/ChildCatAllOf.md
 docs/models/ClassModel.md
 docs/models/ComplexQuadrilateral.md
 docs/models/DanishPig.md
+docs/models/DateOnlyClass.md
 docs/models/DeprecatedObject.md
 docs/models/Dog.md
 docs/models/DogAllOf.md
@@ -147,6 +148,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
+src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/DogAllOf.cs

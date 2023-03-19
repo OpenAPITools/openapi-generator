@@ -42,6 +42,12 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
+# Configure OAuth2 access token for authorization: petstore_auth
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
+)
+
 # Configure HTTP message signature: http_signature_test
 # The HTTP Signature Header mechanism that can be used by a client to
 # authenticate the sender of a message and ensure that particular headers
@@ -100,12 +106,6 @@ configuration = petstore_api.Configuration(
                          ],
         signature_max_validity = datetime.timedelta(minutes=5)
     )
-)
-
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    access_token = 'YOUR_ACCESS_TOKEN'
 )
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
@@ -188,7 +188,7 @@ headers | Unset | headers were not defined |
 
 ### Authorization
 
-[http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
+[petstore_auth](../../../README.md#petstore_auth), [http_signature_test](../../../README.md#http_signature_test)
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
@@ -342,6 +342,12 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
+# Configure OAuth2 access token for authorization: petstore_auth
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
+)
+
 # Configure HTTP message signature: http_signature_test
 # The HTTP Signature Header mechanism that can be used by a client to
 # authenticate the sender of a message and ensure that particular headers
@@ -400,12 +406,6 @@ configuration = petstore_api.Configuration(
                          ],
         signature_max_validity = datetime.timedelta(minutes=5)
     )
-)
-
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    access_token = 'YOUR_ACCESS_TOKEN'
 )
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
@@ -505,7 +505,7 @@ headers | Unset | headers were not defined |
 
 ### Authorization
 
-[http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
+[petstore_auth](../../../README.md#petstore_auth), [http_signature_test](../../../README.md#http_signature_test)
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
@@ -535,6 +535,12 @@ configuration = petstore_api.Configuration(
 # in accordance with the API server security policy.
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
+
+# Configure OAuth2 access token for authorization: petstore_auth
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
+)
 
 # Configure HTTP message signature: http_signature_test
 # The HTTP Signature Header mechanism that can be used by a client to
@@ -594,12 +600,6 @@ configuration = petstore_api.Configuration(
                          ],
         signature_max_validity = datetime.timedelta(minutes=5)
     )
-)
-
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    access_token = 'YOUR_ACCESS_TOKEN'
 )
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
@@ -699,7 +699,7 @@ headers | Unset | headers were not defined |
 
 ### Authorization
 
-[http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
+[petstore_auth](../../../README.md#petstore_auth), [http_signature_test](../../../README.md#http_signature_test)
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
@@ -850,6 +850,12 @@ configuration = petstore_api.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
+# Configure OAuth2 access token for authorization: petstore_auth
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2",
+    access_token = 'YOUR_ACCESS_TOKEN'
+)
+
 # Configure HTTP message signature: http_signature_test
 # The HTTP Signature Header mechanism that can be used by a client to
 # authenticate the sender of a message and ensure that particular headers
@@ -908,12 +914,6 @@ configuration = petstore_api.Configuration(
                          ],
         signature_max_validity = datetime.timedelta(minutes=5)
     )
-)
-
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    access_token = 'YOUR_ACCESS_TOKEN'
 )
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
@@ -1004,7 +1004,7 @@ headers | Unset | headers were not defined |
 
 ### Authorization
 
-[http_signature_test](../../../README.md#http_signature_test), [petstore_auth](../../../README.md#petstore_auth)
+[petstore_auth](../../../README.md#petstore_auth), [http_signature_test](../../../README.md#http_signature_test)
 
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
