@@ -30,7 +30,9 @@ from petstore_api.exceptions import ApiAttributeError
 
 
 def lazy_import():
+    from petstore_api.model.child_cat import ChildCat
     from petstore_api.model.grandparent_animal import GrandparentAnimal
+    globals()['ChildCat'] = ChildCat
     globals()['GrandparentAnimal'] = GrandparentAnimal
 
 

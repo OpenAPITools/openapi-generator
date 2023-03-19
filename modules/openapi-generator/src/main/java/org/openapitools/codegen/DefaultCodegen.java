@@ -50,6 +50,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -611,6 +612,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Loop through all models to update different flags (e.g. isSelfReference), children models, etc
+     * and update mapped models for import.
      *
      * @param objs Map of models
      * @return maps of models with various updates
@@ -661,10 +663,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // loop through properties of each model to detect self-reference
+        // and update mapped models for import
         for (ModelsMap entry : objs.values()) {
             for (ModelMap mo : entry.getModels()) {
                 CodegenModel cm = mo.getModel();
                 removeSelfReferenceImports(cm);
+
+                // python client generator uses its own logic
+                if (!this.getLegacyDiscriminatorBehavior() && !(this instanceof PythonClientCodegen)) {
+                    cm.addDiscriminatorMappedModelsImports();
+                }
             }
         }
         setCircularReferences(allModels);
@@ -2655,9 +2663,6 @@ public class DefaultCodegen implements CodegenConfig {
                     if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                         LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", m.name);
                         m.setDiscriminator(createDiscriminator(m.name, innerSchema, this.openAPI));
-                        if (!this.getLegacyDiscriminatorBehavior()) {
-                            m.addDiscriminatorMappedModelsImports();
-                        }
                         modelDiscriminators++;
                     }
 
@@ -2812,6 +2817,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.TRUE.equals(schema.getNullable())) {
             m.isNullable = Boolean.TRUE;
         }
+
+//        if (!this.getLegacyDiscriminatorBehavior()) {
+//            m.addDiscriminatorMappedModelsImports();
+//        }
         // end of code block for composed schema
     }
 
@@ -2999,9 +3008,6 @@ public class DefaultCodegen implements CodegenConfig {
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
-        if (!this.getLegacyDiscriminatorBehavior()) {
-            m.addDiscriminatorMappedModelsImports();
-        }
 
         if (schema.getDeprecated() != null) {
             m.isDeprecated = schema.getDeprecated();
@@ -3105,6 +3111,10 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
+
+//        if (!this.getLegacyDiscriminatorBehavior()) {
+//            m.addDiscriminatorMappedModelsImports();
+//        }
 
         if (addSchemaImportsFromV3SpecLocations) {
             addImports(m.imports, m.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
@@ -7757,9 +7767,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel cm = new CodegenModel();
 
         cm.setDiscriminator(createDiscriminator("", cs, openAPI));
-        if (!this.getLegacyDiscriminatorBehavior()) {
-            cm.addDiscriminatorMappedModelsImports();
-        }
+
         for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
             if (o.get$ref() == null) {
                 if (cm.discriminator != null && o.get$ref() == null) {
@@ -7779,6 +7787,10 @@ public class DefaultCodegen implements CodegenConfig {
         cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);
+
+//        if (!this.getLegacyDiscriminatorBehavior()) {
+//            cm.addDiscriminatorMappedModelsImports();
+//        }
     }
 
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {

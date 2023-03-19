@@ -3,7 +3,9 @@
 //
 
 // ignore_for_file: unused_element
+import 'Bar';
 import 'package:openapi/src/model/bar_ref.dart';
+import 'BarRef';
 import 'package:openapi/src/model/bar.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';

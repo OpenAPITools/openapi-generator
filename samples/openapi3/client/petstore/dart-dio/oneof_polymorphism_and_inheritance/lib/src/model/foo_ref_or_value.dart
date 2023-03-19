@@ -4,6 +4,8 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/foo.dart';
+import 'Foo';
+import 'FooRef';
 import 'package:openapi/src/model/foo_ref.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';

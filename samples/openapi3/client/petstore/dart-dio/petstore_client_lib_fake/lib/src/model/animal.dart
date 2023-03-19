@@ -3,6 +3,8 @@
 //
 
 // ignore_for_file: unused_element
+import 'Cat';
+import 'Dog';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 

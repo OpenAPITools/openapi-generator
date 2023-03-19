@@ -5,6 +5,8 @@
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/extensible.dart';
 import 'package:openapi/src/model/addressable.dart';
+import 'BarRef';
+import 'FooRef';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 

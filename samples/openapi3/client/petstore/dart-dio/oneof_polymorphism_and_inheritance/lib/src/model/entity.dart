@@ -3,8 +3,14 @@
 //
 
 // ignore_for_file: unused_element
+import 'Pizza';
+import 'Bar';
 import 'package:openapi/src/model/extensible.dart';
+import 'Foo';
+import 'BarCreate';
+import 'Pasta';
 import 'package:openapi/src/model/addressable.dart';
+import 'PizzaSpeziale';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
