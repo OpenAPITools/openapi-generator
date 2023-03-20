@@ -272,4 +272,42 @@ public class MicronautClientCodegenTest extends AbstractMicronautCodegenTest {
         // Micronaut AuthorizationFilter should match the provided pattern
         assertFileContains(outputPath + "/src/main/java/org/openapitools/auth/AuthorizationFilter.java", "@Filter(\"pet/**\")");
     }
+
+    @Test
+    public void testNoConfigureClientId() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
+
+        // Micronaut declarative http client should not specify a Client id
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client( path = \"${openapi-micronaut-client-base-path}\")");
+    }
+
+    @Test
+    public void testConfigureClientId() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.CLIENT_ID, "unit-test");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
+
+        // Micronaut declarative http client should use the provided Client id
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client( id = \"unit-test\", path = \"${openapi-micronaut-client-base-path}\")");
+    }
+
+    @Test
+    public void testDefaultPathSeparator() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
+
+        // Micronaut declarative http client should use the default path separator
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client( path = \"${openapi-micronaut-client-base-path}\")");
+    }
+
+    @Test
+    public void testConfigurePathSeparator() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(JavaMicronautClientCodegen.BASE_PATH_SEPARATOR, ".");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
+
+        // Micronaut declarative http client should use the provided path separator
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client( path = \"${openapi-micronaut-client.base-path}\")");
+    }
 }

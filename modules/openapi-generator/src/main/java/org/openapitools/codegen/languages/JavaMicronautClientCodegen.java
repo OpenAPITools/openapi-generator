@@ -14,14 +14,19 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     public static final String OPT_CONFIGURE_AUTH = "configureAuth";
     public static final String OPT_CONFIGURE_AUTH_FILTER_PATTERN = "configureAuthFilterPattern";
+    public static final String OPT_CONFIGURE_CLIENT_ID = "configureClientId";
     public static final String ADDITIONAL_CLIENT_TYPE_ANNOTATIONS = "additionalClientTypeAnnotations";
     public static final String AUTHORIZATION_FILTER_PATTERN = "authorizationFilterPattern";
+    public static final String BASE_PATH_SEPARATOR = "basePathSeparator";
+    public static final String CLIENT_ID = "clientId";
 
     public static final String NAME = "java-micronaut-client";
 
     protected boolean configureAuthorization;
     protected List<String> additionalClientTypeAnnotations;
     protected String authorizationFilterPattern;
+    protected String basePathSeparator = "-";
+    protected String clientId;
 
     public JavaMicronautClientCodegen() {
         super();
@@ -36,7 +41,9 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
         cliOptions.add(CliOption.newBoolean(OPT_CONFIGURE_AUTH, "Configure all the authorization methods as specified in the file", configureAuthorization));
         cliOptions.add(CliOption.newString(ADDITIONAL_CLIENT_TYPE_ANNOTATIONS, "Additional annotations for client type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
-        cliOptions.add(CliOption.newString(AUTHORIZATION_FILTER_PATTERN, "Configure the authorization filter pattern for the client. Generally defined when generating clients from multiple specification files."));
+        cliOptions.add(CliOption.newString(AUTHORIZATION_FILTER_PATTERN, "Configure the authorization filter pattern for the client. Generally defined when generating clients from multiple specification files"));
+        cliOptions.add(CliOption.newString(BASE_PATH_SEPARATOR, "Configure the separator to use between the application name and base path when referencing the property").defaultValue(basePathSeparator));
+        cliOptions.add(CliOption.newString(CLIENT_ID, "Configure the service ID for the Client"));
     }
 
     @Override
@@ -71,6 +78,12 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         writePropertyBack(OPT_USE_AUTH, true);
 
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, false);
+        writePropertyBack(OPT_CONFIGURE_CLIENT_ID, false);
+
+        if(additionalProperties.containsKey(BASE_PATH_SEPARATOR)) {
+            basePathSeparator = additionalProperties.get(BASE_PATH_SEPARATOR).toString();
+        }
+        writePropertyBack(BASE_PATH_SEPARATOR, basePathSeparator);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
@@ -99,6 +112,18 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
             additionalProperties.put(ADDITIONAL_CLIENT_TYPE_ANNOTATIONS, additionalClientTypeAnnotations);
         }
 
+        if (additionalProperties.containsKey(CLIENT_ID)) {
+            String id = additionalProperties.get(CLIENT_ID).toString();
+            this.setClientId(id);
+            additionalProperties.put(CLIENT_ID, clientId);
+        }
+
+        if (additionalProperties.containsKey(BASE_PATH_SEPARATOR)) {
+            String separator = additionalProperties.get(BASE_PATH_SEPARATOR).toString();
+            this.setBasePathSeparator(separator);
+            additionalProperties.put(BASE_PATH_SEPARATOR, basePathSeparator);
+        }
+
         // Api file
         apiTemplateFiles.clear();
         apiTemplateFiles.put("client/api.mustache", ".java");
@@ -125,5 +150,14 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     public void setAuthorizationFilterPattern(final String pattern) {
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, true);
         this.authorizationFilterPattern = pattern;
+    }
+
+    public void setClientId(final String id) {
+        writePropertyBack(OPT_CONFIGURE_CLIENT_ID, true);
+        this.clientId = id;
+    }
+
+    public void setBasePathSeparator(final String separator) {
+        this.basePathSeparator = separator;
     }
 }
