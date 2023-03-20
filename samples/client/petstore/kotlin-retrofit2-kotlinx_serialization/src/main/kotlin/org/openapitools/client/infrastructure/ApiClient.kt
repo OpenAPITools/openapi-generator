@@ -23,6 +23,11 @@ class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val callFactory : Call.Factory? = null,
+    private val converterFactories: List<Converter.Factory> = listOf(
+        ScalarsConverterFactory.create(),
+        kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
+    ),
+    @Deprecated("this property is deprecated. use converterFactories.")
     private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
@@ -31,8 +36,11 @@ class ApiClient(
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()))
+            .apply {
+                converterFactories.forEach {
+                    addConverterFactory(it)
+                }
+            }
             .apply {
                 if (converterFactory != null) {
                     addConverterFactory(converterFactory)

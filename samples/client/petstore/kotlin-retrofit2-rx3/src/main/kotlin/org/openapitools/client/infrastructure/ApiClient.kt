@@ -24,6 +24,12 @@ class ApiClient(
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
     private val callFactory : Call.Factory? = null,
+    private val converterFactories: List<Converter.Factory> = listOf(
+        ScalarsConverterFactory.create(),
+        RxJava3CallAdapterFactory.create(),
+        MoshiConverterFactory.create(serializerBuilder.build()),
+    ),
+    @Deprecated("this property is deprecated. use converterFactories.")
     private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
@@ -32,10 +38,11 @@ class ApiClient(
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create())
-
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
+            .apply {
+                converterFactories.forEach {
+                    addConverterFactory(it)
+                }
+            }
             .apply {
                 if (converterFactory != null) {
                     addConverterFactory(converterFactory)
