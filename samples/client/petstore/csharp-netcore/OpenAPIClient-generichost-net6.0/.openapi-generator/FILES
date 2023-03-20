@@ -86,6 +86,8 @@ docs/models/ShapeOrNull.md
 docs/models/SimpleQuadrilateral.md
 docs/models/SpecialModelName.md
 docs/models/Tag.md
+docs/models/TestCollectionEndingWithWordList.md
+docs/models/TestCollectionEndingWithWordListObject.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
 docs/models/User.md
@@ -203,6 +205,8 @@ src/Org.OpenAPITools/Model/ShapeOrNull.cs
 src/Org.OpenAPITools/Model/SimpleQuadrilateral.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs
