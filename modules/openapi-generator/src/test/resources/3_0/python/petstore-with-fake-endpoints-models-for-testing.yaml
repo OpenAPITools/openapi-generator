@@ -1234,6 +1234,20 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/any_type_body:
+    post:
+      tags:
+        - fake
+      summary: test any type request body
+      operationId: fakeAnyTypeRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

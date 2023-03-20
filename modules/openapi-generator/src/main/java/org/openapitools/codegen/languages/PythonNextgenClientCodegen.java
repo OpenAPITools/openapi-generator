@@ -422,9 +422,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> modelImports) {
         if (cp == null) {
             // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
-            pydanticImports.add("StrictStr");
-            return "StrictStr";
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+            typingImports.add("Any");
+            return "Any";
         }
 
         if (cp.isArray) {
@@ -651,9 +651,9 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> modelImports) {
         if (cp == null) {
             // if codegen property (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
-            pydanticImports.add("StrictStr");
-            return "StrictStr";
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+            typingImports.add("Any");
+            return "Any";
         }
 
         if (cp.isEnum) {
