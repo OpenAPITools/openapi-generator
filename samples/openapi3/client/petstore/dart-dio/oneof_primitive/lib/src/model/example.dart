@@ -4,7 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/child.dart';
-import 'dart:core';
+import 'package:openapi/src/model/dart:core.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/one_of.dart';
