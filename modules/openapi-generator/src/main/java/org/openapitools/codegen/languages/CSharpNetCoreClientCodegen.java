@@ -860,6 +860,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
             }
         }
+
+        // include the spec in the output
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+
     }
 
     public void setClientPackage(String clientPackage) {

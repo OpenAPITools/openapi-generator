@@ -1,5 +1,6 @@
 .gitignore
 README.md
+api/openapi.yaml
 docs/Activity.md
 docs/ActivityOutputElementRepresentation.md
 docs/AdditionalPropertiesClass.md
