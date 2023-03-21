@@ -1662,4 +1662,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // process 'additionalProperties'
         setAddProps(schema, m);
     }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateYAMLSpecFile(objs);
+        return objs;
+    }
 }
