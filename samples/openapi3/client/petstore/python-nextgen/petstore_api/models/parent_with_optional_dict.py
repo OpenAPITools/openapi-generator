@@ -18,20 +18,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
-from typing import Dict, Optional
-from pydantic import BaseModel, Field, StrictStr
-from petstore_api.models.animal import Animal
 
-class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
+from typing import Dict, Optional
+from pydantic import BaseModel, Field
+from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
+
+class ParentWithOptionalDict(BaseModel):
     """
-    MixedPropertiesAndAdditionalPropertiesClass
+    ParentWithOptionalDict
     """
-    uuid: Optional[StrictStr] = None
-    date_time: Optional[datetime] = Field(None, alias="dateTime")
-    map: Optional[Dict[str, Animal]] = None
+    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(None, alias="optionalDict")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["uuid", "dateTime", "map"]
+    __properties = ["optionalDict"]
 
     class Config:
         allow_population_by_field_name = True
@@ -46,8 +44,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> MixedPropertiesAndAdditionalPropertiesClass:
-        """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a JSON string"""
+    def from_json(cls, json_str: str) -> ParentWithOptionalDict:
+        """Create an instance of ParentWithOptionalDict from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -57,13 +55,13 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each value in map (dict)
+        # override the default output from pydantic by calling `to_dict()` of each value in optional_dict (dict)
         _field_dict = {}
-        if self.map:
-            for _key in self.map:
-                if self.map[_key]:
-                    _field_dict[_key] = self.map[_key].to_dict()
-            _dict['map'] = _field_dict
+        if self.optional_dict:
+            for _key in self.optional_dict:
+                if self.optional_dict[_key]:
+                    _field_dict[_key] = self.optional_dict[_key].to_dict()
+            _dict['optionalDict'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -72,18 +70,16 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> MixedPropertiesAndAdditionalPropertiesClass:
-        """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a dict"""
+    def from_dict(cls, obj: dict) -> ParentWithOptionalDict:
+        """Create an instance of ParentWithOptionalDict from a dict"""
         if obj is None:
             return None
 
         if type(obj) is not dict:
-            return MixedPropertiesAndAdditionalPropertiesClass.parse_obj(obj)
+            return ParentWithOptionalDict.parse_obj(obj)
 
-        _obj = MixedPropertiesAndAdditionalPropertiesClass.parse_obj({
-            "uuid": obj.get("uuid"),
-            "date_time": obj.get("dateTime"),
-            "map": dict((_k, Dict[str, Animal].from_dict(_v)) for _k, _v in obj.get("map").items()) if obj.get("map") is not None else None
+        _obj = ParentWithOptionalDict.parse_obj({
+            "optional_dict": dict((_k, Dict[str, InnerDictWithProperty].from_dict(_v)) for _k, _v in obj.get("optionalDict").items()) if obj.get("optionalDict") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
