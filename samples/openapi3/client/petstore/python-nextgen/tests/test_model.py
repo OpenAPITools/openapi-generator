@@ -387,3 +387,9 @@ class ModelTests(unittest.TestCase):
         enum_test = petstore_api.EnumTest(enum_string_required="lower")
         self.assertEqual(enum_test.enum_integer_default, 5)
 
+    def test_object_with_optional_dict(self):
+        # for https://github.com/OpenAPITools/openapi-generator/issues/14913
+        # shouldn't throw exception by the optional dict property
+        a = petstore_api.ParentWithOptionalDict.from_dict({})
+        self.assertFalse(a is None)
+

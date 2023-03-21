@@ -39,6 +39,7 @@ docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/InnerDictWithProperty.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -55,6 +56,7 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
+docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
@@ -115,6 +117,7 @@ petstore_api/models/foo_get_default_response.py
 petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
+petstore_api/models/inner_dict_with_property.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
@@ -131,6 +134,7 @@ petstore_api/models/outer_enum_default_value.py
 petstore_api/models/outer_enum_integer.py
 petstore_api/models/outer_enum_integer_default_value.py
 petstore_api/models/outer_object_with_enum_property.py
+petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
 petstore_api/models/read_only_first.py
