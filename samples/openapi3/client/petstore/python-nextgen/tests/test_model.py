@@ -393,3 +393,6 @@ class ModelTests(unittest.TestCase):
         a = petstore_api.ParentWithOptionalDict.from_dict({})
         self.assertFalse(a is None)
 
+        b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
+        self.assertFalse(b is None)
+        self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
