@@ -105,36 +105,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Whale`. If the actual instance is not `Whale`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Whale</returns>
-        public Whale GetWhale()
-        {
-            return (Whale)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Zebra</returns>
-        public Zebra GetZebra()
-        {
-            return (Zebra)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Pig`. If the actual instance is not `Pig`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Pig</returns>
-        public Pig GetPig()
-        {
-            return (Pig)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
