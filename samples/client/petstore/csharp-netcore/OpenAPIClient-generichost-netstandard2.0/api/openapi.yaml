@@ -2174,6 +2174,18 @@ components:
           format: date
           type: string
       type: object
+    TestCollectionEndingWithWordListObject:
+      properties:
+        TestCollectionEndingWithWordList:
+          items:
+            $ref: '#/components/schemas/TestCollectionEndingWithWordList'
+          type: array
+      type: object
+    TestCollectionEndingWithWordList:
+      properties:
+        value:
+          type: string
+      type: object
     _foo_get_default_response:
       example:
         string:

@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList)
+        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordTestCollectionEndingWithWordList> testCollectionEndingWithWordList)
         {
             TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
         }
@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [JsonPropertyName("TestCollectionEndingWithWordList")]
-        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
+        public List<TestCollectionEndingWithWordTestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default;
+            List<TestCollectionEndingWithWordTestCollectionEndingWithWordList> testCollectionEndingWithWordList = default;
 
             while (utf8JsonReader.Read())
             {
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "TestCollectionEndingWithWordList":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                testCollectionEndingWithWordList = JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions);
+                                testCollectionEndingWithWordList = JsonSerializer.Deserialize<List<TestCollectionEndingWithWordTestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
