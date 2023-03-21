@@ -80,13 +80,7 @@ import okhttp3.MediaType.Companion.toMediaType
         {{#kotlinx_serialization}}
         kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
         {{/kotlinx_serialization}}
-    ),
-    @Deprecated(
-        message = "This property is deprecated. Please use converterFactories",
-        replaceWith = ReplaceWith("converterFactories"),
-        level = DeprecationLevel.ERROR
     )
-    private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -97,11 +91,6 @@ import okhttp3.MediaType.Companion.toMediaType
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)
-                }
-            }
-            .apply {
-                if (converterFactory != null) {
-                    addConverterFactory(converterFactory)
                 }
             }
     }
