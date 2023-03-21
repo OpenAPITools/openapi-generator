@@ -33,7 +33,6 @@ create_user(Ctx, PetstoreUser, Optional) ->
     petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Creates list of users with given input array
-%% 
 -spec create_users_with_array_input(ctx:ctx(), list()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_users_with_array_input(Ctx, PetstoreUserArray) ->
     create_users_with_array_input(Ctx, PetstoreUserArray, #{}).
@@ -54,7 +53,6 @@ create_users_with_array_input(Ctx, PetstoreUserArray, Optional) ->
     petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Creates list of users with given input array
-%% 
 -spec create_users_with_list_input(ctx:ctx(), list()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 create_users_with_list_input(Ctx, PetstoreUserArray) ->
     create_users_with_list_input(Ctx, PetstoreUserArray, #{}).
@@ -96,7 +94,6 @@ delete_user(Ctx, Username, Optional) ->
     petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Get user by user name
-%% 
 -spec get_user_by_name(ctx:ctx(), binary()) -> {ok, petstore_user:petstore_user(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 get_user_by_name(Ctx, Username) ->
     get_user_by_name(Ctx, Username, #{}).
@@ -117,7 +114,6 @@ get_user_by_name(Ctx, Username, Optional) ->
     petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Logs user into the system
-%% 
 -spec login_user(ctx:ctx(), binary(), binary()) -> {ok, binary(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 login_user(Ctx, Username, Password) ->
     login_user(Ctx, Username, Password, #{}).
@@ -138,7 +134,6 @@ login_user(Ctx, Username, Password, Optional) ->
     petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Logs out current logged in user session
-%% 
 -spec logout_user(ctx:ctx()) -> {ok, [], petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 logout_user(Ctx) ->
     logout_user(Ctx, #{}).
