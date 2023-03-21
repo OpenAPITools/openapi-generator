@@ -154,6 +154,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_inner_dict_with_property.py
-test/test_parent_with_optional_dict.py
 tox.ini
