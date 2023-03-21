@@ -126,6 +126,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new SimpleQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new SpecialModelNameJsonConverter());
             _jsonOptions.Converters.Add(new TagJsonConverter());
+            _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
+            _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
