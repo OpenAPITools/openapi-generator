@@ -916,6 +916,37 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldGenerateValidCodeForReactiveControllerWithoutParams_issue14907() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_14907.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("readAgreements", "ServerWebExchange");
+    }
+
+    @Test
     public void shouldEscapeReservedKeyWordsForRequestParameters_7506_Regression() throws Exception {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
