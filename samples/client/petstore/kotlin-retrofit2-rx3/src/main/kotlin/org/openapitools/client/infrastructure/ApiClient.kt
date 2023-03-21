@@ -28,13 +28,7 @@ class ApiClient(
         ScalarsConverterFactory.create(),
         RxJava3CallAdapterFactory.create(),
         MoshiConverterFactory.create(serializerBuilder.build()),
-    ),
-    @Deprecated(
-        message = "This property is deprecated. Please use converterFactories",
-        replaceWith = ReplaceWith("converterFactories"),
-        level = DeprecationLevel.ERROR
     )
-    private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -45,11 +39,6 @@ class ApiClient(
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)
-                }
-            }
-            .apply {
-                if (converterFactory != null) {
-                    addConverterFactory(converterFactory)
                 }
             }
     }
