@@ -71,7 +71,6 @@ get_order_by_id(Ctx, OrderId, Optional) ->
     petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Place an order for a pet
-%% 
 -spec place_order(ctx:ctx(), petstore_order:petstore_order()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
 place_order(Ctx, PetstoreOrder) ->
     place_order(Ctx, PetstoreOrder, #{}).
