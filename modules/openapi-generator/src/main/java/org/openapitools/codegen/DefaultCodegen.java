@@ -5618,6 +5618,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param modelName model name
      */
     protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+        if (composed == null || childSchema == null) {
+            return;
+        }
+
         // import only if it's not allOf composition schema (without discriminator)
         if (!(composed.getAllOf() != null && childSchema.getDiscriminator() == null)) {
             addImport(model, modelName);
