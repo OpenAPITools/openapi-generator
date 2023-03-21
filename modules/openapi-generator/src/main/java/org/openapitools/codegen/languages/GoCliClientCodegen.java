@@ -227,13 +227,19 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
 
         if (parameter.baseType.contains("interface{}")) {
             parameter.vendorExtensions.put("x-baseType", "Interface");
-        } else {
-            // Set x-baseType as baseType but with the naming convention of the model template inside clisdkclient (Capitalfirstletteronly)
-            StringBuilder sb = new StringBuilder(parameter.baseType.toLowerCase(Locale.getDefault()));
-            char firstChar = parameter.baseType.charAt(0);
-            sb.setCharAt(0, Character.toUpperCase(firstChar));
-            parameter.vendorExtensions.put("x-baseType", sb.toString());
         }
+
+        if (parameter.baseType.contains("time.Time")) {
+            parameter.vendorExtensions.put("x-baseType", "Time");
+            return;
+        } 
+
+        // Set x-baseType as baseType but with the naming convention of the model template inside clisdkclient (Capitalfirstletteronly)
+        StringBuilder sb = new StringBuilder(parameter.baseType.toLowerCase(Locale.getDefault()));
+        char firstChar = parameter.baseType.charAt(0);
+        sb.setCharAt(0, Character.toUpperCase(firstChar));
+        parameter.vendorExtensions.put("x-baseType", sb.toString());
+        
     }
 
     @Override
