@@ -21,9 +21,13 @@ import io.ktor.http.content.PartData
 import io.ktor.http.encodeURLQueryComponent
 import io.ktor.http.encodedPath
 import io.ktor.http.takeFrom
+import io.ktor.http.ContentType.Application
 import io.ktor.serialization.gson.*
 import com.google.gson.GsonBuilder
 import java.text.DateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import org.openapitools.client.auth.*
 
 open class ApiClient(
@@ -56,6 +60,10 @@ open class ApiClient(
           const val BASE_URL = "http://petstore.swagger.io/v2"
           val JSON_DEFAULT : GsonBuilder.() -> Unit = {
             setDateFormat(DateFormat.LONG)
+            registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
+            registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+            registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+            registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
             setPrettyPrinting()
           }
           protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
@@ -156,6 +164,7 @@ open class ApiClient(
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
+                this.contentType(Application.Json)
                 setBody(body)
             }
         }

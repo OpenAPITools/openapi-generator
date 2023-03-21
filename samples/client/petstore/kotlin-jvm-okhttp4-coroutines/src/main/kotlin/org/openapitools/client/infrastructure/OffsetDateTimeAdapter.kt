@@ -22,14 +22,26 @@ class OffsetDateTimeAdapter(private val formatter: DateTimeFormatter = DateTimeF
     override fun read(out: JsonReader?): OffsetDateTime? {
         out ?: return null
 
-        when (out.peek()) {
+        return when (out.peek()) {
             NULL -> {
                 out.nextNull()
                 return null
             }
-            else -> {
-                return OffsetDateTime.parse(out.nextString(), formatter)
-            }
+            else -> OffsetDateTime.parse(tryFormatDateTime(out.nextString()), formatter)
         }
+    }
+
+    private fun tryFormatDateTime(stringValue: String): String {
+        val offset = stringValue.substringAfter("+")
+        return when (offset.length) {
+            4 -> fixOffsetValue(stringValue, offset)
+            else -> stringValue
+        }
+    }
+
+    private fun fixOffsetValue(stringValue: String = "0000", offset: String): String  {
+        val offsetChars = offset.toCharArray().toMutableList()
+        offsetChars.add(2, ':')
+        return stringValue.replaceAfter("+", offsetChars.joinToString(""))
     }
 }

@@ -2,8 +2,11 @@ package {{packageName}}.infrastructure
 
 import io.ktor.http.Headers
 import io.ktor.http.isSuccess
+import io.ktor.util.InternalAPI
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
+import io.ktor.utils.io.readUTF8Line
+
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class HttpResponse<T : Any>(val response: io.ktor.client.statement.HttpResponse, val provider: BodyProvider<T>) {
     val status: Int = response.status.value
@@ -26,10 +29,15 @@ import io.ktor.util.reflect.typeInfo
     suspend fun <V : Any> typedBody(response: io.ktor.client.statement.HttpResponse, type: TypeInfo): V
 }
 
+@OptIn(InternalAPI::class)
 {{#nonPublicApi}}internal {{/nonPublicApi}}class TypedBodyProvider<T : Any>(private val type: TypeInfo) : BodyProvider<T> {
     @Suppress("UNCHECKED_CAST")
-    override suspend fun body(response: io.ktor.client.statement.HttpResponse): T =
-            response.call.body(type) as T
+    override suspend fun body(response: io.ktor.client.statement.HttpResponse): T = when {
+        response.status.isSuccess() -> response.call.body(type) as T
+        response.isClientError -> throw ClientException("Client error : ${response.status.value} ${response.content.readUTF8Line()}", response.status.value, response)
+        response.isServerError -> throw ServerException("Server error : ${response.status.value} ${response.content.readUTF8Line()}", response.status.value, response)
+        else -> throw RuntimeException()
+    }
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun <V : Any> typedBody(response: io.ktor.client.statement.HttpResponse, type: TypeInfo): V =

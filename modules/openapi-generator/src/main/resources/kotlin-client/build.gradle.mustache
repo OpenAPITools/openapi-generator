@@ -53,7 +53,6 @@ apply plugin: 'kotlinx-serialization'
 {{#idea}}
 apply plugin: 'idea'
 {{/idea}}
-apply plugin: 'maven-publish'
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -113,6 +112,7 @@ dependencies {
     implementation "io.ktor:ktor-client-jackson:$ktor_version"
     implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
     {{/jackson}}
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
     {{/jvm-ktor}}
     {{#jvm-okhttp3}}
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
