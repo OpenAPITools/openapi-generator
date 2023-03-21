@@ -21,7 +21,11 @@ class ApiClient(
         ScalarsConverterFactory.create(),
         MoshiConverterFactory.create(serializerBuilder.build()),
     ),
-    @Deprecated("this property is deprecated. use converterFactories.")
+    @Deprecated(
+        message = "This property is deprecated. Please use converterFactories",
+        replaceWith = ReplaceWith("converterFactories"),
+        level = DeprecationLevel.ERROR
+    )
     private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
