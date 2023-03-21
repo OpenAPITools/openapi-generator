@@ -89,26 +89,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `SimpleQuadrilateral`. If the actual instance is not `SimpleQuadrilateral`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of SimpleQuadrilateral</returns>
-        public SimpleQuadrilateral GetSimpleQuadrilateral()
-        {
-            return (SimpleQuadrilateral)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of ComplexQuadrilateral</returns>
-        public ComplexQuadrilateral GetComplexQuadrilateral()
-        {
-            return (ComplexQuadrilateral)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
