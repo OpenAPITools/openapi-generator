@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListObject" /> class.
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList.</param>
-        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordTestCollectionEndingWithWordList> testCollectionEndingWithWordList = default(List<TestCollectionEndingWithWordTestCollectionEndingWithWordList>))
+        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default(List<TestCollectionEndingWithWordList>))
         {
             this.TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
         }
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [DataMember(Name = "TestCollectionEndingWithWordList", EmitDefaultValue = false)]
-        public List<TestCollectionEndingWithWordTestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
+        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
