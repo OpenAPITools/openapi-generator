@@ -673,17 +673,11 @@ public class ModelUtils {
      * @return true if it's a model with at least one properties
      */
     public static boolean isModel(Schema schema) {
-        if (schema == null) {
-            return false;
-        }
-
-        // has properties
-        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
-            return true;
-        }
-
-        // composed schema is a model, consider very simple ObjectSchema a model
-        return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
+        return (schema != null) &&
+                // has properties
+                ((null != schema.getProperties() && !schema.getProperties().isEmpty())
+                // composed schema is a model, consider very simple ObjectSchema a model
+                || (schema instanceof ComposedSchema || schema instanceof ObjectSchema));
     }
 
     /**
