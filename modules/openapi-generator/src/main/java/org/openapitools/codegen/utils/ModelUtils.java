@@ -459,10 +459,7 @@ public class ModelUtils {
      * @return true if the specified schema is a Composed schema.
      */
     public static boolean isComposedSchema(Schema schema) {
-        if (schema instanceof ComposedSchema) {
-            return true;
-        }
-        return false;
+        return schema instanceof ComposedSchema;
     }
 
     /**
