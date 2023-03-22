@@ -438,17 +438,11 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isObjectSchema(Schema schema) {
-        if (schema instanceof ObjectSchema) {
-            return true;
-        }
-
-        // must not be a map
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
-            return true;
-        }
-
-        // must have at least one property
-        return schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty();
+        return (schema instanceof ObjectSchema) ||
+                // must not be a map
+                (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) ||
+                // must have at least one property
+                (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
     }
 
     /**
