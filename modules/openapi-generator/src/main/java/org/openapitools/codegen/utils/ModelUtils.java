@@ -590,10 +590,7 @@ public class ModelUtils {
     }
 
     public static boolean isNumberSchema(Schema schema) {
-        if (schema instanceof NumberSchema) {
-            return true;
-        }
-        return SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType());
+        return schema instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType());
     }
 
     public static boolean isFloatSchema(Schema schema) {
