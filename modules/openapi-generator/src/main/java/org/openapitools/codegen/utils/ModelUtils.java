@@ -574,10 +574,7 @@ public class ModelUtils {
     }
 
     public static boolean isIntegerSchema(Schema schema) {
-        if (schema instanceof IntegerSchema) {
-            return true;
-        }
-        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType());
+        return schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType());
     }
 
     public static boolean isShortSchema(Schema schema) {
