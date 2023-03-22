@@ -227,6 +227,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
 
         if (parameter.baseType.contains("interface{}")) {
             parameter.vendorExtensions.put("x-baseType", "Interface");
+            return;
         }
 
         if (parameter.baseType.contains("time.Time")) {
