@@ -634,12 +634,10 @@ public class ModelUtils {
     }
 
     public static boolean isBinarySchema(Schema schema) {
-        if (schema instanceof BinarySchema) {
-            return true;
-        }
-        // format: binary
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat());
+        return (schema instanceof BinarySchema) ||
+                // format: binary
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isFileSchema(Schema schema) {
