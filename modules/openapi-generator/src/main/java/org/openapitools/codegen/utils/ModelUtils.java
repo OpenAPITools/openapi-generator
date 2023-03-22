@@ -641,11 +641,9 @@ public class ModelUtils {
     }
 
     public static boolean isFileSchema(Schema schema) {
-        if (schema instanceof FileSchema) {
-            return true;
-        }
-        // file type in oas2 mapped to binary in oas3
-        return isBinarySchema(schema);
+        return (schema instanceof FileSchema) ||
+                // file type in oas2 mapped to binary in oas3
+                isBinarySchema(schema);
     }
 
     public static boolean isUUIDSchema(Schema schema) {
