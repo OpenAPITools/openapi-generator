@@ -647,12 +647,10 @@ public class ModelUtils {
     }
 
     public static boolean isUUIDSchema(Schema schema) {
-        if (schema instanceof UUIDSchema) {
-            return true;
-        }
-        // format: uuid
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat());
+        return (schema instanceof UUIDSchema) ||
+                // format: uuid
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isURISchema(Schema schema) {
