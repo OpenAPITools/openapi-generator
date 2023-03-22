@@ -297,10 +297,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                     param.dataType = "std::optional<Pistache::Http::Header::Raw>";
                     param.baseType = "std::optional<Pistache::Http::Header::Raw>";
                 } else if (param.isQueryParam) {
-                    if (param.isPrimitiveType) {
-                        param.dataType = "std::optional<" + param.dataType + ">";
-                    } else {
-                        param.dataType = "std::optional<" + param.dataType + ">";
+                    param.dataType = "std::optional<" + param.dataType + ">";
+                    if (!param.isPrimitiveType) {
                         param.baseType = "std::optional<" + param.baseType + ">";
                     }
                 }
