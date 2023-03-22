@@ -928,11 +928,7 @@ public class ModelUtils {
     }
 
     public static Parameter getParameter(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
             return openAPI.getComponents().getParameters().get(name);
         }
         return null;
