@@ -332,14 +332,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         String result = super.apiFilename(templateName, tag);
 
         if (templateName.endsWith("impl-header.mustache")) {
-            int ix = result.lastIndexOf(File.separatorChar);
-            result = result.substring(0, ix) + result.substring(ix, result.length() - 2) + "Impl.h";
-            result = result.replace(apiFileFolder(), implFileFolder());
+            result = injectImplInFilename(result, ".h");
         } else if (templateName.endsWith("impl-source.mustache")) {
-            int ix = result.lastIndexOf(File.separatorChar);
-            result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "Impl.cpp";
-            result = result.replace(apiFileFolder(), implFileFolder());
+            result = injectImplInFilename(result, ".cpp");
         }
+        return result;
+    }
+
+    private String injectImplInFilename(String result, String suffix) {
+        int ix = result.lastIndexOf(File.separatorChar);
+        result = result.substring(0, ix) + result.substring(ix, result.length() - suffix.length()) + "Impl" + suffix;
+        result = result.replace(apiFileFolder(), implFileFolder());
         return result;
     }
 
