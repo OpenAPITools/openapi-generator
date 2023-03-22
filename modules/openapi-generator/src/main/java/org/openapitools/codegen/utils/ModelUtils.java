@@ -613,12 +613,10 @@ public class ModelUtils {
     }
 
     public static boolean isDateTimeSchema(Schema schema) {
-        if (schema instanceof DateTimeSchema) {
-            return true;
-        }
-        // format: date-time
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat());
+        return (schema instanceof DateTimeSchema) ||
+                // format: date-time
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isPasswordSchema(Schema schema) {
