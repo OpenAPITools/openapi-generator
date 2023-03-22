@@ -586,10 +586,7 @@ public class ModelUtils {
     }
 
     public static boolean isBooleanSchema(Schema schema) {
-        if (schema instanceof BooleanSchema) {
-            return true;
-        }
-        return SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType());
+        return schema instanceof BooleanSchema || SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType());
     }
 
     public static boolean isNumberSchema(Schema schema) {
