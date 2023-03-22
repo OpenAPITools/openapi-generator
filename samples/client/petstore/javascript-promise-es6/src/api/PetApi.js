@@ -39,7 +39,7 @@ export default class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} [pet] Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     addPetWithHttpInfo(pet, opts) {
@@ -96,7 +96,7 @@ export default class PetApi {
     /**
      * Deletes a pet
      * 
-     * @param {Number} petId Pet id to delete
+     * @param {Number} [petId] Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
@@ -150,7 +150,7 @@ export default class PetApi {
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
-     * @param {Array.<module:model/String>} status Status values that need to be considered for filter
+     * @param {Array.<module:model/String>} [status] Status values that need to be considered for filter
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Array.<module:model/Pet>} and HTTP response
      */
     findPetsByStatusWithHttpInfo(status) {
@@ -198,7 +198,7 @@ export default class PetApi {
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @param {Array.<String>} tags Tags to filter by
+     * @param {Array.<String>} [tags] Tags to filter by
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link Array.<module:model/Pet>} and HTTP response
      */
     findPetsByTagsWithHttpInfo(tags) {
@@ -246,7 +246,7 @@ export default class PetApi {
     /**
      * Find pet by ID
      * Returns a single pet
-     * @param {Number} petId ID of pet to return
+     * @param {Number} [petId] ID of pet to return
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Pet} and HTTP response
      */
     getPetByIdWithHttpInfo(petId) {
@@ -294,7 +294,7 @@ export default class PetApi {
     /**
      * Update an existing pet
      * 
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} [pet] Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     updatePetWithHttpInfo(pet, opts) {
@@ -351,7 +351,7 @@ export default class PetApi {
     /**
      * Updates a pet in the store with form data
      * 
-     * @param {Number} petId ID of pet that needs to be updated
+     * @param {Number} [petId] ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
      * @param {String} opts.status Updated status of the pet
@@ -408,7 +408,7 @@ export default class PetApi {
     /**
      * uploads an image
      * 
-     * @param {Number} petId ID of pet to update
+     * @param {Number} [petId] ID of pet to update
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param {File} opts.file file to upload
@@ -465,8 +465,8 @@ export default class PetApi {
     /**
      * uploads an image (required)
      * 
-     * @param {Number} petId ID of pet to update
-     * @param {File} requiredFile file to upload
+     * @param {Number} [petId] ID of pet to update
+     * @param {File} [requiredFile] file to upload
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/ApiResponse} and HTTP response

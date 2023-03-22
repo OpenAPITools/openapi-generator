@@ -38,7 +38,7 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} [user] Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     createUserWithHttpInfo(user) {
@@ -85,7 +85,7 @@ export default class UserApi {
     /**
      * Creates list of users with given input array
      * 
-     * @param {Array.<module:model/User>} user List of user object
+     * @param {Array.<module:model/User>} [user] List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     createUsersWithArrayInputWithHttpInfo(user) {
@@ -132,7 +132,7 @@ export default class UserApi {
     /**
      * Creates list of users with given input array
      * 
-     * @param {Array.<module:model/User>} user List of user object
+     * @param {Array.<module:model/User>} [user] List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     createUsersWithListInputWithHttpInfo(user) {
@@ -179,7 +179,7 @@ export default class UserApi {
     /**
      * Delete user
      * This can only be done by the logged in user.
-     * @param {String} username The name that needs to be deleted
+     * @param {String} [username] The name that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     deleteUserWithHttpInfo(username) {
@@ -227,7 +227,7 @@ export default class UserApi {
     /**
      * Get user by user name
      * 
-     * @param {String} username The name that needs to be fetched. Use user1 for testing.
+     * @param {String} [username] The name that needs to be fetched. Use user1 for testing.
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/User} and HTTP response
      */
     getUserByNameWithHttpInfo(username) {
@@ -275,8 +275,8 @@ export default class UserApi {
     /**
      * Logs user into the system
      * 
-     * @param {String} username The user name for login
-     * @param {String} password The password for login in clear text
+     * @param {String} [username] The user name for login
+     * @param {String} [password] The password for login in clear text
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link String} and HTTP response
      */
     loginUserWithHttpInfo(username, password) {
@@ -371,8 +371,8 @@ export default class UserApi {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {String} [username] name that need to be deleted
+     * @param {module:model/User} [user] Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     updateUserWithHttpInfo(username, user) {

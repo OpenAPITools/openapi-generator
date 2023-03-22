@@ -83,7 +83,7 @@ export default class FakeApi {
 
     /**
      * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} [pet] Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
      * @param {String} opts.query1 query parameter
      * @param {String} opts.header1 header parameter
@@ -313,7 +313,7 @@ export default class FakeApi {
 
     /**
      * Test serialization of enum (int) properties with examples
-     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {module:model/OuterObjectWithEnumProperty} [outerObjectWithEnumProperty] Input enum (int) as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterObjectWithEnumProperty} and HTTP response
      */
     fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty) {
@@ -358,7 +358,7 @@ export default class FakeApi {
 
     /**
      * For this test, the body has to be a binary file.
-     * @param {File} body image to upload
+     * @param {File} [body] image to upload
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testBodyWithBinaryWithHttpInfo(body) {
@@ -403,7 +403,7 @@ export default class FakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} [fileSchemaTestClass]
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass) {
@@ -447,8 +447,8 @@ export default class FakeApi {
 
 
     /**
-     * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {String} [query]
+     * @param {module:model/User} [user]
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testBodyWithQueryParamsWithHttpInfo(query, user) {
@@ -499,7 +499,7 @@ export default class FakeApi {
     /**
      * To test \"client\" model
      * To test \"client\" model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} [client] client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
     testClientModelWithHttpInfo(client) {
@@ -546,10 +546,10 @@ export default class FakeApi {
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * @param {Number} number None
-     * @param {Number} _double None
-     * @param {String} patternWithoutDelimiter None
-     * @param {Blob} _byte None
+     * @param {Number} [number] None
+     * @param {Number} [_double] None
+     * @param {String} [patternWithoutDelimiter] None
+     * @param {Blob} [_byte] None
      * @param {Object} opts Optional parameters
      * @param {Number} opts.integer None
      * @param {Number} opts.int32 None
@@ -719,9 +719,9 @@ export default class FakeApi {
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
-     * @param {Number} requiredStringGroup Required String in group parameters
-     * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
-     * @param {Number} requiredInt64Group Required Integer in group parameters
+     * @param {Number} [requiredStringGroup] Required String in group parameters
+     * @param {Boolean} [requiredBooleanGroup] Required Boolean in group parameters
+     * @param {Number} [requiredInt64Group] Required Integer in group parameters
      * @param {Object} opts Optional parameters
      * @param {Number} opts.stringGroup String in group parameters
      * @param {Boolean} opts.booleanGroup Boolean in group parameters
@@ -793,7 +793,7 @@ export default class FakeApi {
     /**
      * test inline additionalProperties
      * 
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} [requestBody] request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testInlineAdditionalPropertiesWithHttpInfo(requestBody) {
@@ -840,8 +840,8 @@ export default class FakeApi {
     /**
      * test json serialization of form data
      * 
-     * @param {String} param field1
-     * @param {String} param2 field2
+     * @param {String} [param] field1
+     * @param {String} [param2] field2
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testJsonFormDataWithHttpInfo(param, param2) {
@@ -894,12 +894,12 @@ export default class FakeApi {
 
     /**
      * To test the collection format in query parameters
-     * @param {Array.<String>} pipe 
-     * @param {Array.<String>} ioutil 
-     * @param {Array.<String>} http 
-     * @param {Array.<String>} url 
-     * @param {Array.<String>} context 
-     * @param {String} allowEmpty 
+     * @param {Array.<String>} [pipe]
+     * @param {Array.<String>} [ioutil]
+     * @param {Array.<String>} [http]
+     * @param {Array.<String>} [url]
+     * @param {Array.<String>} [context]
+     * @param {String} [allowEmpty]
      * @param {Object} opts Optional parameters
      * @param {Object.<String, {String: String}>} opts.language 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response

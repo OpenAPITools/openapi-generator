@@ -38,7 +38,7 @@ export default class FakeClassnameTags123Api {
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} [client] client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
     testClassnameWithHttpInfo(client) {
