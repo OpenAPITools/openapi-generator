@@ -113,11 +113,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
                 Boolean.toString(this.variableNameFirstCharacterUppercase));
 
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
-        supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        setupSupportingFiles();
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
@@ -149,6 +145,15 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         importMapping.put("nlohmann::json", "#include <nlohmann/json.hpp>");
     }
 
+    private void setupSupportingFiles() {
+        supportingFiles.clear();
+        supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
+        supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
+        supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
+        supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -157,12 +162,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         }
         if (additionalProperties.containsKey("modelNamePrefix")) {
             additionalProperties().put("prefix", modelNamePrefix);
-            supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
-            supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
-            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            setupSupportingFiles();
         }
         if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
             reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
