@@ -627,12 +627,10 @@ public class ModelUtils {
     }
 
     public static boolean isByteArraySchema(Schema schema) {
-        if (schema instanceof ByteArraySchema) {
-            return true;
-        }
-        // format: byte
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat());
+        return (schema instanceof ByteArraySchema) ||
+                // format: byte
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isBinarySchema(Schema schema) {
