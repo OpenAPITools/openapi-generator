@@ -45,7 +45,7 @@ export default class StoreApi {
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * @param {String} orderId ID of the order that needs to be deleted
+     * @param {String} [orderId] ID of the order that needs to be deleted
      * @param {module:api/StoreApi~deleteOrderCallback} callback The callback function, accepting three arguments: error, data, response
      */
     deleteOrder(orderId, callback) {
@@ -124,7 +124,7 @@ export default class StoreApi {
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
-     * @param {Number} orderId ID of pet that needs to be fetched
+     * @param {Number} [orderId] ID of pet that needs to be fetched
      * @param {module:api/StoreApi~getOrderByIdCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}
      */
@@ -167,7 +167,7 @@ export default class StoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param {module:model/Order} order order placed for purchasing the pet
+     * @param {module:model/Order} [order] order placed for purchasing the pet
      * @param {module:api/StoreApi~placeOrderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Order}
      */
