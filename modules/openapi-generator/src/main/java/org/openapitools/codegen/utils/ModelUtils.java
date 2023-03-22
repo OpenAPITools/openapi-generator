@@ -660,12 +660,10 @@ public class ModelUtils {
     }
 
     public static boolean isEmailSchema(Schema schema) {
-        if (schema instanceof EmailSchema) {
-            return true;
-        }
-        // format: email
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat());
+        return (schema instanceof EmailSchema) ||
+                // format: email
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isDecimalSchema(Schema schema) {
