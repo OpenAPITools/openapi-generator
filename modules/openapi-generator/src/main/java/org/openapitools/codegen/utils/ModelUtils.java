@@ -606,13 +606,10 @@ public class ModelUtils {
     }
 
     public static boolean isDateSchema(Schema schema) {
-        if (schema instanceof DateSchema) {
-            return true;
-        }
-
-        // format: date
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat());
+        return (schema instanceof DateSchema) ||
+                // format: date
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isDateTimeSchema(Schema schema) {
