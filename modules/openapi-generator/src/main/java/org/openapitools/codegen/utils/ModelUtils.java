@@ -412,10 +412,7 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isTypeObjectSchema(Schema schema) {
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
     }
 
     /**
