@@ -1260,11 +1260,7 @@ public class ModelUtils {
     }
 
     public static Header getHeader(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
             return openAPI.getComponents().getHeaders().get(name);
         }
         return null;
