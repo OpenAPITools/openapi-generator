@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
+import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -23,6 +24,8 @@ class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val callFactory : Call.Factory? = null,
+    private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
+    ),
     private val converterFactories: List<Converter.Factory> = listOf(
         ScalarsConverterFactory.create(),
         kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
@@ -34,6 +37,11 @@ class ApiClient(
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
+            .apply {
+                callAdapterFactories.forEach {
+                    addCallAdapterFactory(it)
+                }
+            }
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)

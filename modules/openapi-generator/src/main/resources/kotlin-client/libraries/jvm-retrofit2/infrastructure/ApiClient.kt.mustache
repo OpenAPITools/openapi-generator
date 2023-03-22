@@ -29,6 +29,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
+import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 {{#useRxJava}}
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -60,11 +61,7 @@ import okhttp3.MediaType.Companion.toMediaType
     private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlinx_serialization}},
     private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder{{/kotlinx_serialization}},
     private val callFactory : Call.Factory? = null,
-    private val converterFactories: List<Converter.Factory> = listOf(
-        ScalarsConverterFactory.create(),
-        {{#gson}}
-        GsonConverterFactory.create(serializerBuilder.create()),
-        {{/gson}}
+    private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
         {{#useRxJava}}
         RxJavaCallAdapterFactory.create(),
         {{/useRxJava}}
@@ -74,6 +71,12 @@ import okhttp3.MediaType.Companion.toMediaType
         {{#useRxJava3}}
         RxJava3CallAdapterFactory.create(),
         {{/useRxJava3}}
+    ),
+    private val converterFactories: List<Converter.Factory> = listOf(
+        ScalarsConverterFactory.create(),
+        {{#gson}}
+        GsonConverterFactory.create(serializerBuilder.create()),
+        {{/gson}}
         {{#moshi}}
         MoshiConverterFactory.create(serializerBuilder.build()),
         {{/moshi}}
@@ -88,6 +91,11 @@ import okhttp3.MediaType.Companion.toMediaType
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
+            .apply {
+                callAdapterFactories.forEach {
+                    addCallAdapterFactory(it)
+                }
+            }
             .apply {
                 converterFactories.forEach {
                     addConverterFactory(it)
