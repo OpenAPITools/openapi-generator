@@ -36,7 +36,7 @@ export default class UserApi extends ApiClient {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} [user] Created user object
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -72,7 +72,7 @@ export default class UserApi extends ApiClient {
     /**
      * Creates list of users with given input array
      * 
-     * @param {Array.<module:model/User>} user List of user object
+     * @param {Array.<module:model/User>} [user] List of user object
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -108,7 +108,7 @@ export default class UserApi extends ApiClient {
     /**
      * Creates list of users with given input array
      * 
-     * @param {Array.<module:model/User>} user List of user object
+     * @param {Array.<module:model/User>} [user] List of user object
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -144,7 +144,7 @@ export default class UserApi extends ApiClient {
     /**
      * Delete user
      * This can only be done by the logged in user.
-     * @param {String} username The name that needs to be deleted
+     * @param {String} [username] The name that needs to be deleted
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -181,7 +181,7 @@ export default class UserApi extends ApiClient {
     /**
      * Get user by user name
      * 
-     * @param {String} username The name that needs to be fetched. Use user1 for testing.
+     * @param {String} [username] The name that needs to be fetched. Use user1 for testing.
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/User>}
      */
@@ -218,8 +218,8 @@ export default class UserApi extends ApiClient {
     /**
      * Logs user into the system
      * 
-     * @param {String} username The user name for login
-     * @param {String} password The password for login in clear text
+     * @param {String} [username] The user name for login
+     * @param {String} [password] The password for login in clear text
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<String>}
      */
@@ -292,8 +292,8 @@ export default class UserApi extends ApiClient {
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {String} [username] name that need to be deleted
+     * @param {module:model/User} [user] Updated user object
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */

@@ -36,7 +36,7 @@ export default class FakeClassnameTags123Api extends ApiClient {
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} [client] client model
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/Client>}
      */

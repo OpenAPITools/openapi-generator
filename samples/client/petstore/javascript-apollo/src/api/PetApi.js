@@ -37,7 +37,7 @@ export default class PetApi extends ApiClient {
     /**
      * Add a new pet to the store
      * 
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} [pet] Pet object that needs to be added to the store
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -83,7 +83,7 @@ export default class PetApi extends ApiClient {
     /**
      * Deletes a pet
      * 
-     * @param {Number} petId Pet id to delete
+     * @param {Number} [petId] Pet id to delete
      * @param {Object} opts Optional parameters
      * @param {String} opts.apiKey 
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
@@ -124,7 +124,7 @@ export default class PetApi extends ApiClient {
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
-     * @param {Array.<module:model/String>} status Status values that need to be considered for filter
+     * @param {Array.<module:model/String>} [status] Status values that need to be considered for filter
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<Array.<module:model/Pet>>}
      */
@@ -161,7 +161,7 @@ export default class PetApi extends ApiClient {
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @param {Array.<String>} tags Tags to filter by
+     * @param {Array.<String>} [tags] Tags to filter by
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<Array.<module:model/Pet>>}
      */
@@ -198,7 +198,7 @@ export default class PetApi extends ApiClient {
     /**
      * Find pet by ID
      * Returns a single pet
-     * @param {Number} petId ID of pet to return
+     * @param {Number} [petId] ID of pet to return
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/Pet>}
      */
@@ -235,7 +235,7 @@ export default class PetApi extends ApiClient {
     /**
      * Update an existing pet
      * 
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} [pet] Pet object that needs to be added to the store
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -281,7 +281,7 @@ export default class PetApi extends ApiClient {
     /**
      * Updates a pet in the store with form data
      * 
-     * @param {Number} petId ID of pet that needs to be updated
+     * @param {Number} [petId] ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
      * @param {String} opts.name Updated name of the pet
      * @param {String} opts.status Updated status of the pet
@@ -324,7 +324,7 @@ export default class PetApi extends ApiClient {
     /**
      * uploads an image
      * 
-     * @param {Number} petId ID of pet to update
+     * @param {Number} [petId] ID of pet to update
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param {File} opts.file file to upload
@@ -367,8 +367,8 @@ export default class PetApi extends ApiClient {
     /**
      * uploads an image (required)
      * 
-     * @param {Number} petId ID of pet to update
-     * @param {File} requiredFile file to upload
+     * @param {Number} [petId] ID of pet to update
+     * @param {File} [requiredFile] file to upload
      * @param {Object} opts Optional parameters
      * @param {String} opts.additionalMetadata Additional data to pass to server
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}

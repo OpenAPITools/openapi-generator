@@ -36,7 +36,7 @@ export default class StoreApi extends ApiClient {
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * @param {String} orderId ID of the order that needs to be deleted
+     * @param {String} [orderId] ID of the order that needs to be deleted
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -104,7 +104,7 @@ export default class StoreApi extends ApiClient {
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
-     * @param {Number} orderId ID of pet that needs to be fetched
+     * @param {Number} [orderId] ID of pet that needs to be fetched
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/Order>}
      */
@@ -141,7 +141,7 @@ export default class StoreApi extends ApiClient {
     /**
      * Place an order for a pet
      * 
-     * @param {module:model/Order} order order placed for purchasing the pet
+     * @param {module:model/Order} [order] order placed for purchasing the pet
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/Order>}
      */

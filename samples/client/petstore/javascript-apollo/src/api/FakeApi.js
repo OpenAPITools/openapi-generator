@@ -72,7 +72,7 @@ export default class FakeApi extends ApiClient {
 
     /**
      * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} [pet] Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
      * @param {String} opts.query1 query parameter
      * @param {String} opts.header1 header parameter
@@ -245,7 +245,7 @@ export default class FakeApi extends ApiClient {
 
     /**
      * Test serialization of enum (int) properties with examples
-     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {module:model/OuterObjectWithEnumProperty} [outerObjectWithEnumProperty] Input enum (int) as post body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/OuterObjectWithEnumProperty>}
      */
@@ -280,7 +280,7 @@ export default class FakeApi extends ApiClient {
 
     /**
      * For this test, the body has to be a binary file.
-     * @param {File} body image to upload
+     * @param {File} [body] image to upload
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -315,7 +315,7 @@ export default class FakeApi extends ApiClient {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} [fileSchemaTestClass] 
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -349,8 +349,8 @@ export default class FakeApi extends ApiClient {
     }
 
     /**
-     * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {String} [query] 
+     * @param {module:model/User} [user] 
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -391,7 +391,7 @@ export default class FakeApi extends ApiClient {
     /**
      * To test \"client\" model
      * To test \"client\" model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} [client] client model
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/Client>}
      */
@@ -427,10 +427,10 @@ export default class FakeApi extends ApiClient {
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * @param {Number} number None
-     * @param {Number} _double None
-     * @param {String} patternWithoutDelimiter None
-     * @param {Blob} _byte None
+     * @param {Number} [number] None
+     * @param {Number} [_double] None
+     * @param {String} [patternWithoutDelimiter] None
+     * @param {Blob} [_byte] None
      * @param {Object} opts Optional parameters
      * @param {Number} opts.integer None
      * @param {Number} opts.int32 None
@@ -555,9 +555,9 @@ export default class FakeApi extends ApiClient {
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
-     * @param {Number} requiredStringGroup Required String in group parameters
-     * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
-     * @param {Number} requiredInt64Group Required Integer in group parameters
+     * @param {Number} [requiredStringGroup] Required String in group parameters
+     * @param {Boolean} [requiredBooleanGroup] Required Boolean in group parameters
+     * @param {Number} [requiredInt64Group] Required Integer in group parameters
      * @param {Object} opts Optional parameters
      * @param {Number} opts.stringGroup String in group parameters
      * @param {Boolean} opts.booleanGroup Boolean in group parameters
@@ -612,7 +612,7 @@ export default class FakeApi extends ApiClient {
     /**
      * test inline additionalProperties
      * 
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} [requestBody] request body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -648,8 +648,8 @@ export default class FakeApi extends ApiClient {
     /**
      * test json serialization of form data
      * 
-     * @param {String} param field1
-     * @param {String} param2 field2
+     * @param {String} [param] field1
+     * @param {String} [param2] field2
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -690,12 +690,12 @@ export default class FakeApi extends ApiClient {
 
     /**
      * To test the collection format in query parameters
-     * @param {Array.<String>} pipe 
-     * @param {Array.<String>} ioutil 
-     * @param {Array.<String>} http 
-     * @param {Array.<String>} url 
-     * @param {Array.<String>} context 
-     * @param {String} allowEmpty 
+     * @param {Array.<String>} [pipe] 
+     * @param {Array.<String>} [ioutil] 
+     * @param {Array.<String>} [http] 
+     * @param {Array.<String>} [url] 
+     * @param {Array.<String>} [context] 
+     * @param {String} [allowEmpty] 
      * @param {Object} opts Optional parameters
      * @param {Object.<String, {String: String}>} opts.language 
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}

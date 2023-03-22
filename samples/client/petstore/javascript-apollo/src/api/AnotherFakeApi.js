@@ -36,7 +36,7 @@ export default class AnotherFakeApi extends ApiClient {
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} [client] client model
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/Client>}
      */
