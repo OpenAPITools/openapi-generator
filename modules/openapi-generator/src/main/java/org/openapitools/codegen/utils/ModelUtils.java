@@ -953,11 +953,7 @@ public class ModelUtils {
     }
 
     public static Callback getCallback(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
             return openAPI.getComponents().getCallbacks().get(name);
         }
         return null;
