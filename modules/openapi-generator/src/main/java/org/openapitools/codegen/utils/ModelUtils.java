@@ -1458,17 +1458,17 @@ public class ModelUtils {
     public static boolean isExtensionParent(Schema schema) {
         if (schema.getExtensions() == null) {
             return false;
+        }
+
+        Object xParent = schema.getExtensions().get("x-parent");
+        if (xParent == null) {
+            return false;
+        } else if (xParent instanceof Boolean) {
+            return (Boolean) xParent;
+        } else if (xParent instanceof String) {
+            return StringUtils.isNotEmpty((String) xParent);
         } else {
-            Object xParent = schema.getExtensions().get("x-parent");
-            if (xParent == null) {
-                return false;
-            } else if (xParent instanceof Boolean) {
-                return (Boolean) xParent;
-            } else if (xParent instanceof String) {
-                return StringUtils.isNotEmpty((String) xParent);
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
