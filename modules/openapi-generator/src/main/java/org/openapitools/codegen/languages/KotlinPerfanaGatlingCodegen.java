@@ -6,7 +6,6 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -21,7 +20,6 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.joda.time.DateTime;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
@@ -34,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -353,13 +353,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                 Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema, this.openAPI);
                 rootNode.set(propertyName, this.createJsonRequestBodyFromSchema(nestedPropertiesMap));
             } else {
-                if (schema.getEnum() != null) {
-                    ArrayNode arrayNode = this.objectMapper.createArrayNode();
-                    arrayNode.add("#{" + propertyName + "}");
-                    rootNode.set(propertyName, arrayNode);
-                } else {
-                    rootNode.put(propertyName, "#{" + propertyName + "}");
-                }
+                rootNode.put(propertyName, "#{" + propertyName + "}");
             }
         }
         return rootNode;
@@ -382,15 +376,16 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                 if (schema.getMaximum() != null) {
                     rootNode.put(propertyName, schema.getMaximum());
                 } else if (schema.getFormat() != null) {
-                    DateTime date = DateTime.now();
+                    LocalDateTime currentDateTime = LocalDateTime.now();
                     switch (schema.getFormat()) {
                         case "date":
-                            String dateString = date.toLocalDate().toString();
+                            String dateString = currentDateTime.toLocalDate().toString();
                             rootNode.put(propertyName, dateString);
                             break;
                         case "date-time":
-                            String dateTimeString = date.toLocalDateTime().toString();
-                            rootNode.put(propertyName, dateTimeString);
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            String formattedDateTime = currentDateTime.format(formatter);
+                            rootNode.put(propertyName, formattedDateTime);
                             break;
                         case "int32":
                         case "int64":
@@ -404,8 +399,8 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                             break;
                     }
                 } else if (schema.getEnum() != null) {
-                    ArrayNode arrayNode = getFirstValueFromEnum(schema, this.objectMapper);
-                    rootNode.set(propertyName, arrayNode);
+                    String enumValue = schema.getEnum().get(0).toString();
+                    rootNode.put(propertyName, enumValue);
                 } else if (schema.getPattern() != null) {
                     rootNode.put(propertyName, schema.getPattern());
                 } else if (schema.getType() != null) {
@@ -456,18 +451,12 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         return nestedModel.getProperties();
     }
 
-    private ArrayNode getFirstValueFromEnum(Schema<?> schema, ObjectMapper objectMapper) {
-        String enumValue = schema.getEnum().get(0).toString();
-        ArrayNode arrayNode = objectMapper.createArrayNode();
-        arrayNode.add(enumValue);
-        return arrayNode;
-    }
-
     private void writeBodyJsonFile(Operation operation, ObjectNode node) {
         try {
             String jsonBodyParams = this.objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
             String bodyFilePath = this.outputFolder + File.separator + this.bodiesFolder + File.separator +
                     operation.getOperationId().replace("_", "") + "Body.json";
+
             FileUtils.writeStringToFile(new File(bodyFilePath), jsonBodyParams, StandardCharsets.UTF_8);
         } catch (IOException var5) {
             LOGGER.error("Could not create request body file for operationId" + operation.getOperationId(), var5);
