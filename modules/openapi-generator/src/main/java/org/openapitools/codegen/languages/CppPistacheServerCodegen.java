@@ -339,9 +339,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         return result;
     }
 
-    private String injectImplInFilename(String result, String suffix) {
-        int ix = result.lastIndexOf(File.separatorChar);
-        result = result.substring(0, ix) + result.substring(ix, result.length() - suffix.length()) + "Impl" + suffix;
+    private String injectImplInFilename(String filename, String suffix) {
+        String result = filename.substring(0, filename.length() - suffix.length()) + "Impl" + suffix;
         result = result.replace(apiFileFolder(), implFileFolder());
         return result;
     }
