@@ -620,12 +620,10 @@ public class ModelUtils {
     }
 
     public static boolean isPasswordSchema(Schema schema) {
-        if (schema instanceof PasswordSchema) {
-            return true;
-        }
-        // double
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat());
+        return (schema instanceof PasswordSchema) ||
+                // double
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isByteArraySchema(Schema schema) {
