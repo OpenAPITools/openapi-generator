@@ -540,19 +540,9 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
-        if (schema instanceof MapSchema) {
-            return true;
-        }
-
-        if (schema == null) {
-            return false;
-        }
-
-        if (schema.getAdditionalProperties() instanceof Schema) {
-            return true;
-        }
-
-        return schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties();
+        return (schema instanceof MapSchema) ||
+                (schema.getAdditionalProperties() instanceof Schema) ||
+                (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
     }
 
     /**
