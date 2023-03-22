@@ -586,12 +586,9 @@ public class ModelUtils {
     }
 
     public static boolean isUnsignedLongSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
                 "int64".equals(schema.getFormat()) && // format: int64
-                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE))) { // x-unsigned: true
-            return true;
-        }
-        return false;
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE));
     }
 
     public static boolean isBooleanSchema(Schema schema) {
