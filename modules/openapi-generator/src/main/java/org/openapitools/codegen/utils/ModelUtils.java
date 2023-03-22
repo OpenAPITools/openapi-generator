@@ -903,11 +903,7 @@ public class ModelUtils {
     }
 
     public static ApiResponse getApiResponse(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
             return openAPI.getComponents().getResponses().get(name);
         }
         return null;
