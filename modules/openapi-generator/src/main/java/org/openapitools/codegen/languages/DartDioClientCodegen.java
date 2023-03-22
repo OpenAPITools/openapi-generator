@@ -734,7 +734,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 resultImports.add(i);
             } else if (importMapping().containsKey(modelImport)) {
                 resultImports.add(importMapping().get(modelImport));
-            } else if ("dart:core".equals(modelImport)) { // import dart:core directly
+            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
                 resultImports.add(modelImport);
             } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
                 resultImports.add(modelImport);
