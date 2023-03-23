@@ -286,4 +286,13 @@
         <junit-version>4.13.2</junit-version>
         <spotless.version>2.27.2</spotless.version>
     </properties>
+{{#customRepository}}
+    <repositories>
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+        </repository>
+    </repositories>
+{{/customRepository}}
 </project>

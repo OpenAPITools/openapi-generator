@@ -356,4 +356,13 @@
         <okio-version>1.17.5</okio-version>
         <junit-version>4.13.2</junit-version>
     </properties>
+{{#customRepository}}
+    <repositories>
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+        </repository>
+    </repositories>
+{{/customRepository}}
 </project>

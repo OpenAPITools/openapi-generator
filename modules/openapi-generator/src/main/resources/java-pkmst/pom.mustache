@@ -54,6 +54,13 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
       </repository>
+{{#customRepository}}
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+       </repository>
+{{/customRepository}}
    </repositories>
    <dependencies>
       <dependency>

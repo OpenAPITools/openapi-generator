@@ -118,5 +118,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <beanvalidation-version>2.0.2</beanvalidation-version>
     </properties>
-
 </project>

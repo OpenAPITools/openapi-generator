@@ -396,4 +396,13 @@
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <scribejava-version>8.0.0</scribejava-version>
     </properties>
+{{#customRepository}}
+    <repositories>
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+        </repository>
+    </repositories>
+{{/customRepository}}
 </project>

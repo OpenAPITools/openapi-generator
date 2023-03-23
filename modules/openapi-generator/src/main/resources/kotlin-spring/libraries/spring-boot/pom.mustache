@@ -184,4 +184,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+{{#customRepository}}
+    <repositories>
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+        </repository>
+    </repositories>
+{{/customRepository}}
 </project>

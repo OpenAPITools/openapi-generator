@@ -400,4 +400,13 @@
         {{/hasOAuthMethods}}
         <spotless.version>2.21.0</spotless.version>
     </properties>
+{{#customRepository}}
+    <repositories>
+        <repository>
+            <id>{{{customRepositoryId}}}</id>
+            <name>{{{customRepositoryName}}}</name>
+            <url>{{{customRepositoryUrl}}}</url>
+        </repository>
+    </repositories>
+{{/customRepository}}
 </project>

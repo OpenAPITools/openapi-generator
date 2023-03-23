@@ -89,6 +89,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
 
+
+    public static final String CUSTOM_REPOSITORY_ID = "customRepositoryId";
+    public static final String CUSTOM_REPOSITORY_ID_DESC = "Repository ID in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String CUSTOM_REPOSITORY_NAME = "customRepositoryName";
+    public static final String CUSTOM_REPOSITORY_NAME_DESC = "Repository name in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
+
+    public static final String CUSTOM_REPOSITORY_URL = "customRepositoryUrl";
+    public static final String CUSTOM_REPOSITORY_URL_DESC = "Repository URL in generated pom N.B. customRepositoryId, customRepositoryName and customRepositoryUrl must all be specified for any of them to take effect";
+
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -129,6 +139,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentArtifactId = "";
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
+    protected boolean customRepository = false;
+    protected String customRepositoryId = "";
+    protected String customRepositoryName = "";
+    protected String customRepositoryUrl = "";
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
@@ -282,6 +296,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
+
+        cliOptions.add(CliOption.newString(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID, AbstractJavaCodegen.CUSTOM_REPOSITORY_ID_DESC));
+        cliOptions.add(CliOption.newString(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME, AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME_DESC));
+        cliOptions.add(CliOption.newString(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL, AbstractJavaCodegen.CUSTOM_REPOSITORY_URL_DESC));
+
         CliOption snapShotVersion = CliOption.newString(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC);
         Map<String, String> snapShotVersionOptions = new HashMap<>();
         snapShotVersionOptions.put("true", "Use a SnapShot Version");
@@ -562,6 +581,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
         }
 
+        if (additionalProperties.containsKey(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID)) {
+            this.setCustomRepositoryId((String) additionalProperties.get(AbstractJavaCodegen.CUSTOM_REPOSITORY_ID));
+        }
+
+        if (additionalProperties.containsKey(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME)) {
+            this.setCustomRepositoryName((String) additionalProperties.get(AbstractJavaCodegen.CUSTOM_REPOSITORY_NAME));
+        }
+
+        if (additionalProperties.containsKey(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL)) {
+            this.setCustomRepositoryUrl((String) additionalProperties.get(AbstractJavaCodegen.CUSTOM_REPOSITORY_URL));
+        }
+
         if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
             this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
         }
@@ -576,6 +607,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
+        }
+
+        if (!StringUtils.isEmpty(customRepositoryId) && !StringUtils.isEmpty(customRepositoryName) && !StringUtils.isEmpty(customRepositoryUrl)) {
+            additionalProperties.put("customRepository", true);
         }
 
         // make api and model doc path available in mustache template
@@ -2204,6 +2239,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setParentOverridden(final boolean parentOverridden) {
         this.parentOverridden = parentOverridden;
+    }
+
+    public void setCustomRepositoryId(final String customRepositoryId) {
+        this.customRepositoryId = customRepositoryId;
+    }
+
+    public void setCustomRepositoryName(final String customRepositoryName) {
+        this.customRepositoryName = customRepositoryName;
+    }
+
+    public void setCustomRepositoryUrl(final String customRepositoryUrl) {
+        this.customRepositoryUrl = customRepositoryUrl;
+    }
+
+    public void setCustomRepository(final boolean customRepository) {
+        this.customRepository = customRepository;
     }
 
     public List<String> getAdditionalModelTypeAnnotations() {
