@@ -22,7 +22,6 @@ import io.micronaut.http.exceptions.HttpStatusException;
 import {{import}};
 {{/imports}}
 import {{javaxPackage}}.annotation.Generated;
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,6 @@ import java.util.Map;
 {{#generateControllerFromExamples}}
 import java.util.Arrays;
 {{/generateControllerFromExamples}}
-{{/fullJavaUtil}}
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid;
 import {{javaxPackage}}.validation.constraints.*;
