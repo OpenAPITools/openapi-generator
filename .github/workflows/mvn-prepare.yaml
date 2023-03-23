@@ -1,0 +1,15 @@
+name: pre-mvn-prepare
+run-name: pre-mvn-prepare
+on:
+  push:
+    branches:
+      - 'master'
+jobs:
+  redirect-amadeus-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - shell: bash
+        run: |
+          sed -i 's/<url>https\:\/\/oss.sonatype.org\/service\/local\/staging\/deploy\/maven2\/<\/url>/<url>https\:\/\/repository.rnd.amadeus.net\/maven-dev-odi-nce<\/url>/g' pom.xml
+          sed -i 's/<id>ossrh<\/id>/<id>central<\/id>/g' pom.xml
