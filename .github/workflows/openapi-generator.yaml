@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-build-
       - name: redirect-amadeus-repo
         run: |
-          sed -i 's/<url>https\:\/\/oss.sonatype.org\/service\/local\/staging\/deploy\/maven2\/<\/url>/<url>https\:\/\/repository.rnd.amadeus.net\/maven-dev-odi-nce<\/url>/g' pom.xml
+          sed -i 's/<url>https:\/\/oss\.sonatype\.org\/service\/local\/staging\/deploy\/maven2\/<\/url>/<url>https:\/\/repository\.rnd\.amadeus\.net\/maven-dev-odi-nce<\/url>/g' pom.xml
           sed -i 's/<id>ossrh<\/id>/<id>central<\/id>/g' pom.xml
       - name: Run maven
         run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
