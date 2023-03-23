@@ -28,7 +28,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${petstore-micronaut-base-path}")
+@Client(
+  
+  path = "${petstore-micronaut-base-path}"
+)
 public interface FakeClassnameTags123Api {
     /**
      * To test class name in snake case
