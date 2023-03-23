@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -21,6 +22,7 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
 
   @BuiltValueField(wireName: r'SingleRefType')
   SingleRefType? get singleRefType;
+  // enum singleRefTypeEnum {  admin,  user,  };
 
   AllOfWithSingleRef._();
 
