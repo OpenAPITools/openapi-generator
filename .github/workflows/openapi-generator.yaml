@@ -35,6 +35,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
+      - name: redirect-amadeus-repo
+      - uses: actions/checkout@v3
+         - shell: bash
+            run: |
+              sed -i 's/<url>https\:\/\/oss.sonatype.org\/service\/local\/staging\/deploy\/maven2\/<\/url>/<url>https\:\/\/repository.rnd.amadeus.net\/maven-dev-odi-nce<\/url>/g' pom.xml
+              sed -i 's/<id>ossrh<\/id>/<id>central<\/id>/g' pom.xml
       - name: Run maven
         run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run: ls -la  modules/openapi-generator-cli/target
