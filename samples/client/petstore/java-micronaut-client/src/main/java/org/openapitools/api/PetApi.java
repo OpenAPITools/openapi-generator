@@ -32,7 +32,6 @@ import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Client(
-  
   path = "${petstore-micronaut-base-path}"
 )
 public interface PetApi {
