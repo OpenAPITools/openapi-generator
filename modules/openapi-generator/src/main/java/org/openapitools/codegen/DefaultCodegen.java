@@ -50,6 +50,7 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -611,6 +612,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Loop through all models to update different flags (e.g. isSelfReference), children models, etc
+     * and update mapped models for import.
      *
      * @param objs Map of models
      * @return maps of models with various updates
@@ -661,10 +663,17 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // loop through properties of each model to detect self-reference
+        // and update mapped models for import
         for (ModelsMap entry : objs.values()) {
             for (ModelMap mo : entry.getModels()) {
                 CodegenModel cm = mo.getModel();
                 removeSelfReferenceImports(cm);
+
+                if (!this.getLegacyDiscriminatorBehavior()) {
+                    // skip cleaning up mapped models for python client generator
+                    // which uses its own logic
+                    cm.addDiscriminatorMappedModelsImports(!(this instanceof PythonClientCodegen));
+                }
             }
         }
         setCircularReferences(allModels);
@@ -2655,9 +2664,6 @@ public class DefaultCodegen implements CodegenConfig {
                     if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                         LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", m.name);
                         m.setDiscriminator(createDiscriminator(m.name, innerSchema, this.openAPI));
-                        if (!this.getLegacyDiscriminatorBehavior()) {
-                            m.addDiscriminatorMappedModelsImports();
-                        }
                         modelDiscriminators++;
                     }
 
@@ -2812,6 +2818,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.TRUE.equals(schema.getNullable())) {
             m.isNullable = Boolean.TRUE;
         }
+
         // end of code block for composed schema
     }
 
@@ -2999,9 +3006,6 @@ public class DefaultCodegen implements CodegenConfig {
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
-        if (!this.getLegacyDiscriminatorBehavior()) {
-            m.addDiscriminatorMappedModelsImports();
-        }
 
         if (schema.getDeprecated() != null) {
             m.isDeprecated = schema.getDeprecated();
@@ -3455,15 +3459,15 @@ public class DefaultCodegen implements CodegenConfig {
                 break;
             }
             currentSchemaName = queue.remove(0);
-            MappedModel mm = new MappedModel(currentSchemaName, toModelName(currentSchemaName));
-            descendentSchemas.add(mm);
             Schema cs = schemas.get(currentSchemaName);
             Map<String, Object> vendorExtensions = cs.getExtensions();
-            if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
-                String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
-                descendentSchemas.add(mm);
-            }
+            String mappingName =
+                Optional.ofNullable(vendorExtensions)
+                    .map(ve -> ve.get("x-discriminator-value"))
+                    .map(discriminatorValue -> (String) discriminatorValue)
+                    .orElse(currentSchemaName);
+            MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName));
+            descendentSchemas.add(mm);
         }
         return descendentSchemas;
     }
@@ -3513,10 +3517,11 @@ public class DefaultCodegen implements CodegenConfig {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
             List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
-                // add only if the mapping names are not the same
+                // add only if the mapping names are not the same and the model names are not the same
                 boolean matched = false;
                 for (MappedModel uniqueDescendant : uniqueDescendants) {
-                    if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())) {
+                    if (uniqueDescendant.getMappingName().equals(otherDescendant.getMappingName())
+                        || (uniqueDescendant.getModelName().equals(otherDescendant.getModelName()))) {
                         matched = true;
                         break;
                     }
@@ -7760,9 +7765,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenModel cm = new CodegenModel();
 
         cm.setDiscriminator(createDiscriminator("", cs, openAPI));
-        if (!this.getLegacyDiscriminatorBehavior()) {
-            cm.addDiscriminatorMappedModelsImports();
-        }
+
         for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
             if (o.get$ref() == null) {
                 if (cm.discriminator != null && o.get$ref() == null) {
