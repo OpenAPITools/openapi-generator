@@ -302,5 +302,6 @@ public class OpenAPINormalizerTest {
         Schema newSchema = (Schema) (schema2.getAllOf().get(1));
         assertEquals(((Schema) newSchema.getProperties().get("isParent")).getType(), "boolean");
         assertEquals(((Schema) newSchema.getProperties().get("mum_or_dad")).getType(), "string");
+        assertEquals(newSchema.getRequired().get(0), "isParent");
     }
 }

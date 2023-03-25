@@ -798,9 +798,27 @@ public class OpenAPINormalizer {
         }
 
         ObjectSchema os = new ObjectSchema();
-        os.setProperties(schema.getProperties()); // set the properties of the new schema to the properties of schema
+        // set the properties, etc of the new schema to the properties of schema
+        os.setProperties(schema.getProperties());
+        os.setRequired(schema.getRequired());
+        os.setAdditionalProperties(schema.getAdditionalProperties());
+        os.setNullable(schema.getNullable());
+        os.setDescription(schema.getDescription());
+        os.setDeprecated(schema.getDeprecated());
+        os.setExample(schema.getExample());
+        os.setExamples(schema.getExamples());
+        os.setTitle(schema.getTitle());
         schema.getAllOf().add(os); // move new schema as a child schema of allOf
-        schema.setProperties(null); // remove properties
+        // clean up by removing properties, etc
+        schema.setProperties(null);
+        schema.setRequired(null);
+        schema.setAdditionalProperties(null);
+        schema.setNullable(null);
+        schema.setDescription(null);
+        schema.setDeprecated(null);
+        schema.setExample(null);
+        schema.setExamples(null);
+        schema.setTitle(null);
 
         // at this point the schema becomes a simple allOf (no properties) with an additional schema containing
         // the properties

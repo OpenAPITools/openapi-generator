@@ -95,3 +95,5 @@ components:
           type: boolean
         mum_or_dad:
           type: string
+      required:
+        - isParent
