@@ -27,6 +27,7 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 {{>generatedAnnotation}}
 public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
 {{#operations}}
+   {{^interfaceOnly}}public{{/interfaceOnly}} static final String PATH = "{{commonPath}}";
 {{#operation}}
 
 {{#interfaceOnly}}{{>apiInterface}}{{/interfaceOnly}}{{^interfaceOnly}}{{>apiMethod}}{{/interfaceOnly}}
