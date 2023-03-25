@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, string color = "red")
+        public Animal(string className, string color = @"red")
         {
             ClassName = className;
             Color = color;

@@ -37,10 +37,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
-        public Foo(string bar = "bar")
+        public Foo(string bar = @"bar")
         {
             // use default value if no "bar" provided
-            this.Bar = bar ?? "bar";
+            this.Bar = bar ?? @"bar";
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

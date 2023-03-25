@@ -179,6 +179,7 @@ Class | Method | HTTP request | Description
  - [Model.HealthCheckResult](HealthCheckResult.md)
  - [Model.IsoscelesTriangle](IsoscelesTriangle.md)
  - [Model.List](List.md)
+ - [Model.LiteralStringClass](LiteralStringClass.md)
  - [Model.Mammal](Mammal.md)
  - [Model.MapTest](MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](MixedPropertiesAndAdditionalPropertiesClass.md)

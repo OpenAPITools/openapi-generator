@@ -2186,6 +2186,15 @@ components:
         value:
           type: string
       type: object
+    LiteralStringClass:
+      properties:
+        escapedLiteralString:
+          default: C:\\Users\\username
+          type: string
+        unescapedLiteralString:
+          default: C:\Users\username
+          type: string
+      type: object
     _foo_get_default_response:
       example:
         string:

@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        public Foo(string bar = "bar")
+        public Foo(string bar = @"bar")
         {
             Bar = bar;
         }
