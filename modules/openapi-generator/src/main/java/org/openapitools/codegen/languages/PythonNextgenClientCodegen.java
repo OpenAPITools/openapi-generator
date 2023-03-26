@@ -47,7 +47,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
     public static final String RECURSION_LIMIT = "recursionLimit";
-    public static final String ALLOW_STRING_IN_DATETIME_PARAMETERS = "allowStringInDateTimeParameters";
     public static final String FLOAT_STRICT_TYPE = "floatStrictType";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
@@ -57,7 +56,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
     protected boolean floatStrictType = true;
     protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     protected String dateFormat = "%Y-%m-%d";
@@ -172,8 +170,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
-        cliOptions.add(new CliOption(ALLOW_STRING_IN_DATETIME_PARAMETERS, "Allow string as input to datetime/date parameters for backward compartibility.")
-                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
@@ -276,10 +272,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
-        }
-
-        if (additionalProperties.containsKey(ALLOW_STRING_IN_DATETIME_PARAMETERS)) {
-            setAllowStringInDateTimeParameters(convertPropertyToBooleanAndWriteBack(ALLOW_STRING_IN_DATETIME_PARAMETERS));
         }
 
         if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
@@ -602,13 +594,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 datetimeImports.add("datetime");
             }
 
-            if (allowStringInDateTimeParameters) {
-                pydanticImports.add("StrictStr");
-                typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[StrictStr, %s]", cp.dataType);
-            } else {
-                return cp.dataType;
-            }
+            return cp.dataType;
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
@@ -1407,10 +1393,6 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             return this.reservedWordsMappings().get(name);
         }
         return "var_" + name;
-    }
-
-    public void setAllowStringInDateTimeParameters(boolean allowStringInDateTimeParameters) {
-        this.allowStringInDateTimeParameters = allowStringInDateTimeParameters;
     }
 
     public void setFloatStrictType(boolean floatStrictType) {
