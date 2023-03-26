@@ -1903,13 +1903,9 @@ public class ModelUtils {
      * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
      */
     public static boolean isAllOfWithProperties(Schema schema) {
-        if (hasAllOf(schema) && (schema.getProperties() != null && !schema.getProperties().isEmpty()) &&
+        return hasAllOf(schema) && (schema.getProperties() != null && !schema.getProperties().isEmpty()) &&
                 (schema.getOneOf() == null || schema.getOneOf().isEmpty()) &&
-                (schema.getAnyOf() == null || schema.getAnyOf().isEmpty())) {
-            return true;
-        }
-
-        return false;
+                (schema.getAnyOf() == null || schema.getAnyOf().isEmpty());
     }
 
     /**
