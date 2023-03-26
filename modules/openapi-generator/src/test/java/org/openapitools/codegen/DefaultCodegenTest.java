@@ -4582,6 +4582,18 @@ public class DefaultCodegenTest {
         Assert.assertFalse(defaultEnumSchemaProperty.isContainer);
         Assert.assertFalse(defaultEnumSchemaProperty.isPrimitiveType);
         Assert.assertEquals(defaultEnumSchemaProperty.defaultValue, "2");
+
+        // test allOf with a single sub-schema and no default value set in the top level
+        CodegenProperty allOfEnumSchemaProperty = modelWithReferencedSchema.vars.get(5);
+        Assert.assertEquals(allOfEnumSchemaProperty.getName(), "allofMinusnumberMinusenum");
+        Assert.assertFalse(allOfEnumSchemaProperty.isEnum);
+        Assert.assertTrue(allOfEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(allOfEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(allOfEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(allOfEnumSchemaProperty.isString);
+        Assert.assertFalse(allOfEnumSchemaProperty.isContainer);
+        Assert.assertFalse(allOfEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(allOfEnumSchemaProperty.defaultValue, "null");
     }
 
     @Test
