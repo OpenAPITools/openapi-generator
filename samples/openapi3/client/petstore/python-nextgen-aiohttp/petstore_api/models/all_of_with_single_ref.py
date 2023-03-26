@@ -19,15 +19,16 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Optional
+from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
+from petstore_api.models.single_ref_type import SingleRefType
 
 class AllOfWithSingleRef(BaseModel):
     """
     AllOfWithSingleRef
     """
     username: Optional[StrictStr] = None
-    single_ref_type: Optional[Any] = Field(None, alias="SingleRefType")
+    single_ref_type: Optional[SingleRefType] = Field(None, alias="SingleRefType")
     __properties = ["username", "SingleRefType"]
 
     class Config:
@@ -53,9 +54,6 @@ class AllOfWithSingleRef(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of single_ref_type
-        if self.single_ref_type:
-            _dict['SingleRefType'] = self.single_ref_type.to_dict()
         return _dict
 
     @classmethod
@@ -69,7 +67,7 @@ class AllOfWithSingleRef(BaseModel):
 
         _obj = AllOfWithSingleRef.parse_obj({
             "username": obj.get("username"),
-            "single_ref_type": SingleRefType.from_dict(obj.get("SingleRefType")) if obj.get("SingleRefType") is not None else None
+            "single_ref_type": obj.get("SingleRefType")
         })
         return _obj
 

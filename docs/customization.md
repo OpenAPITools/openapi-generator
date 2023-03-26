@@ -458,7 +458,6 @@ OpenAPI Normalizer (off by default) transforms the input OpenAPI doc/spec (which
 
 - `REF_AS_PARENT_IN_ALLOF`: when set to `true`, child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
 
-
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
@@ -512,3 +511,11 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE=true
 ```
+
+- `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY`: When set to true, refactor schema with allOf and properties in the same level to a schema with allOf only and, the allOf contains a new schema containing the properties in the top level.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true
+```
+

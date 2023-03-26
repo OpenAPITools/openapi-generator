@@ -3795,8 +3795,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema original = null;
-        // check if it's allOf (only 1 sub schema) with default/nullable/etc set in the top level
-        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1 &&  ModelUtils.hasCommonAttributesDefined(p) ) {
+        // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
+        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1 && !(this instanceof PythonClientCodegen)) {
             if (p.getAllOf().get(0) instanceof Schema) {
                 original = p;
                 p = (Schema) p.getAllOf().get(0);
@@ -4002,7 +4002,7 @@ public class DefaultCodegen implements CodegenConfig {
         // restore original schema with default value, nullable, readonly etc
         if (original != null) {
             p = original;
-            // evaluate common attributes defined in the top level
+            // evaluate common attributes if defined in the top level
             if (p.getNullable() != null) {
                 property.isNullable = p.getNullable();
             } else if (p.getExtensions() != null && p.getExtensions().containsKey("x-nullable")) {
