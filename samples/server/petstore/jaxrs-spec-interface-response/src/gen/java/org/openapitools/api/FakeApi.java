@@ -27,6 +27,7 @@ import javax.validation.Valid;
 @Api(description = "the fake API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public interface FakeApi {
+    static final String PATH = "/fake";
 
     @POST
     @Path("/create_xml_item")
