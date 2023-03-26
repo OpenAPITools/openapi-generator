@@ -412,10 +412,7 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isTypeObjectSchema(Schema schema) {
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
     }
 
     /**
@@ -441,17 +438,11 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isObjectSchema(Schema schema) {
-        if (schema instanceof ObjectSchema) {
-            return true;
-        }
-
-        // must not be a map
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
-            return true;
-        }
-
-        // must have at least one property
-        return schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty();
+        return (schema instanceof ObjectSchema) ||
+                // must not be a map
+                (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) ||
+                // must have at least one property
+                (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
     }
 
     /**
@@ -462,10 +453,7 @@ public class ModelUtils {
      * @return true if the specified schema is a Composed schema.
      */
     public static boolean isComposedSchema(Schema schema) {
-        if (schema instanceof ComposedSchema) {
-            return true;
-        }
-        return false;
+        return schema instanceof ComposedSchema;
     }
 
     /**
@@ -498,11 +486,7 @@ public class ModelUtils {
             count++;
         }
 
-        if (count > 1) {
-            return true;
-        }
-
-        return false;
+        return count > 1;
     }
 
     /**
@@ -540,19 +524,9 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
-        if (schema instanceof MapSchema) {
-            return true;
-        }
-
-        if (schema == null) {
-            return false;
-        }
-
-        if (schema.getAdditionalProperties() instanceof Schema) {
-            return true;
-        }
-
-        return schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties();
+        return (schema instanceof MapSchema) ||
+                (schema.getAdditionalProperties() instanceof Schema) ||
+                (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
     }
 
     /**
@@ -574,10 +548,7 @@ public class ModelUtils {
     }
 
     public static boolean isIntegerSchema(Schema schema) {
-        if (schema instanceof IntegerSchema) {
-            return true;
-        }
-        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType());
+        return schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType());
     }
 
     public static boolean isShortSchema(Schema schema) {
@@ -587,12 +558,9 @@ public class ModelUtils {
     }
 
     public static boolean isUnsignedIntegerSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
                 ("int32".equals(schema.getFormat()) || schema.getFormat() == null) && // format: int32
-                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE))) { // x-unsigned: true
-            return true;
-        }
-        return false;
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE));
     }
 
     public static boolean isLongSchema(Schema schema) {
@@ -602,26 +570,17 @@ public class ModelUtils {
     }
 
     public static boolean isUnsignedLongSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
                 "int64".equals(schema.getFormat()) && // format: int64
-                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE))) { // x-unsigned: true
-            return true;
-        }
-        return false;
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE));
     }
 
     public static boolean isBooleanSchema(Schema schema) {
-        if (schema instanceof BooleanSchema) {
-            return true;
-        }
-        return SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType());
+        return schema instanceof BooleanSchema || SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType());
     }
 
     public static boolean isNumberSchema(Schema schema) {
-        if (schema instanceof NumberSchema) {
-            return true;
-        }
-        return SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType());
+        return schema instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType());
     }
 
     public static boolean isFloatSchema(Schema schema) {
@@ -637,66 +596,51 @@ public class ModelUtils {
     }
 
     public static boolean isDateSchema(Schema schema) {
-        if (schema instanceof DateSchema) {
-            return true;
-        }
-
-        // format: date
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat());
+        return (schema instanceof DateSchema) ||
+                // format: date
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isDateTimeSchema(Schema schema) {
-        if (schema instanceof DateTimeSchema) {
-            return true;
-        }
-        // format: date-time
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat());
+        return (schema instanceof DateTimeSchema) ||
+                // format: date-time
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isPasswordSchema(Schema schema) {
-        if (schema instanceof PasswordSchema) {
-            return true;
-        }
-        // double
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat());
+        return (schema instanceof PasswordSchema) ||
+                // double
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isByteArraySchema(Schema schema) {
-        if (schema instanceof ByteArraySchema) {
-            return true;
-        }
-        // format: byte
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat());
+        return (schema instanceof ByteArraySchema) ||
+                // format: byte
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isBinarySchema(Schema schema) {
-        if (schema instanceof BinarySchema) {
-            return true;
-        }
-        // format: binary
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat());
+        return (schema instanceof BinarySchema) ||
+                // format: binary
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isFileSchema(Schema schema) {
-        if (schema instanceof FileSchema) {
-            return true;
-        }
-        // file type in oas2 mapped to binary in oas3
-        return isBinarySchema(schema);
+        return (schema instanceof FileSchema) ||
+                // file type in oas2 mapped to binary in oas3
+                isBinarySchema(schema);
     }
 
     public static boolean isUUIDSchema(Schema schema) {
-        if (schema instanceof UUIDSchema) {
-            return true;
-        }
-        // format: uuid
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat());
+        return (schema instanceof UUIDSchema) ||
+                // format: uuid
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isURISchema(Schema schema) {
@@ -706,12 +650,10 @@ public class ModelUtils {
     }
 
     public static boolean isEmailSchema(Schema schema) {
-        if (schema instanceof EmailSchema) {
-            return true;
-        }
-        // format: email
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat());
+        return (schema instanceof EmailSchema) ||
+                // format: email
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isDecimalSchema(Schema schema) {
@@ -727,17 +669,11 @@ public class ModelUtils {
      * @return true if it's a model with at least one properties
      */
     public static boolean isModel(Schema schema) {
-        if (schema == null) {
-            return false;
-        }
-
-        // has properties
-        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
-            return true;
-        }
-
-        // composed schema is a model, consider very simple ObjectSchema a model
-        return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
+        return (schema != null) &&
+                // has properties
+                ((null != schema.getProperties() && !schema.getProperties().isEmpty())
+                // composed schema is a model, consider very simple ObjectSchema a model
+                || (schema instanceof ComposedSchema || schema instanceof ObjectSchema));
     }
 
     /**
@@ -747,16 +683,12 @@ public class ModelUtils {
      * @return true if it's a model with at least one properties
      */
     public static boolean isModelWithPropertiesOnly(Schema schema) {
-        if (schema == null) {
-            return false;
-        }
-
-        if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
-                (schema.getAdditionalProperties() == null || // no additionalProperties is set
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()))) {
-            return true;
-        }
-        return false;
+        return (schema != null) &&
+                // has properties
+                (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
+                // no additionalProperties is set
+                (schema.getAdditionalProperties() == null ||
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()));
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -967,11 +899,7 @@ public class ModelUtils {
     }
 
     public static ApiResponse getApiResponse(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
             return openAPI.getComponents().getResponses().get(name);
         }
         return null;
@@ -996,11 +924,7 @@ public class ModelUtils {
     }
 
     public static Parameter getParameter(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
             return openAPI.getComponents().getParameters().get(name);
         }
         return null;
@@ -1025,11 +949,7 @@ public class ModelUtils {
     }
 
     public static Callback getCallback(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
             return openAPI.getComponents().getCallbacks().get(name);
         }
         return null;
@@ -1336,11 +1256,7 @@ public class ModelUtils {
     }
 
     public static Header getHeader(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
             return openAPI.getComponents().getHeaders().get(name);
         }
         return null;
@@ -1538,17 +1454,17 @@ public class ModelUtils {
     public static boolean isExtensionParent(Schema schema) {
         if (schema.getExtensions() == null) {
             return false;
+        }
+
+        Object xParent = schema.getExtensions().get("x-parent");
+        if (xParent == null) {
+            return false;
+        } else if (xParent instanceof Boolean) {
+            return (Boolean) xParent;
+        } else if (xParent instanceof String) {
+            return StringUtils.isNotEmpty((String) xParent);
         } else {
-            Object xParent = schema.getExtensions().get("x-parent");
-            if (xParent == null) {
-                return false;
-            } else if (xParent instanceof Boolean) {
-                return (Boolean) xParent;
-            } else if (xParent instanceof String) {
-                return StringUtils.isNotEmpty((String) xParent);
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
