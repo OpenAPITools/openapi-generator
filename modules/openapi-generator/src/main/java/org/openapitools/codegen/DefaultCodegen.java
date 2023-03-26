@@ -5724,6 +5724,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (CodegenProperty var : cm.vars) {
                     // create a map of codegen properties for lookup later
                     varsMap.put(var.baseName, var);
+                    var.isOverridden = false;
                 }
             }
         }
@@ -5746,6 +5747,10 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     // properties in the parent model only
                     cp = fromProperty(key, prop, mandatory.contains(key));
+                }
+
+                if (cm != null && cm.allVars == vars && cp.isOverridden == null) { // processing allVars and it's a parent property
+                    cp.isOverridden = true;
                 }
 
                 vars.add(cp);

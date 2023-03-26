@@ -1908,4 +1908,50 @@ public class JavaClientCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"Dog\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"Lizard\")");
     }
+
+    @Test
+    public void testIsOverriddenProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("Cat");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm1 = codegen.fromModel("Cat", test1);
+
+        CodegenProperty cp0 = cm1.getAllVars().get(0);
+        Assert.assertEquals(cp0.getName(), "petType");
+        Assert.assertEquals(cp0.isOverridden, true);
+
+        CodegenProperty cp1 = cm1.getAllVars().get(1);
+        Assert.assertEquals(cp1.getName(), "name");
+        Assert.assertEquals(cp1.isOverridden, false);
+    }
+
+    @Test
+    public void testForJavaApacheHttpClientOverrideSetter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/allOf_composition_discriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "  @Override\n" +
+                "  public Cat petType(String petType) {");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "  }\n" +
+                "\n" +
+                "  public Pet petType(String petType) {\n");
+
+    }
 }
