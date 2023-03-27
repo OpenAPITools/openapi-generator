@@ -89,26 +89,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `BasquePig`. If the actual instance is not `BasquePig`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of BasquePig</returns>
-        public BasquePig GetBasquePig()
-        {
-            return (BasquePig)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of DanishPig</returns>
-        public DanishPig GetDanishPig()
-        {
-            return (DanishPig)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

@@ -211,6 +211,8 @@ Class | Method | HTTP request | Description
  - [Model.SimpleQuadrilateral](SimpleQuadrilateral.md)
  - [Model.SpecialModelName](SpecialModelName.md)
  - [Model.Tag](Tag.md)
+ - [Model.TestCollectionEndingWithWordList](TestCollectionEndingWithWordList.md)
+ - [Model.TestCollectionEndingWithWordListObject](TestCollectionEndingWithWordListObject.md)
  - [Model.Triangle](Triangle.md)
  - [Model.TriangleInterface](TriangleInterface.md)
  - [Model.User](User.md)

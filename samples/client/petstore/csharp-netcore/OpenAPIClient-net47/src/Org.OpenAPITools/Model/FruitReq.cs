@@ -97,26 +97,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `AppleReq`. If the actual instance is not `AppleReq`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of AppleReq</returns>
-        public AppleReq GetAppleReq()
-        {
-            return (AppleReq)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of BananaReq</returns>
-        public BananaReq GetBananaReq()
-        {
-            return (BananaReq)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

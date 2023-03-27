@@ -64,7 +64,7 @@ class ApiClient(object):
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
-        # use default configuraiton if none is provided
+        # use default configuration if none is provided
         if configuration is None:
             configuration = Configuration.get_default()
         self.configuration = configuration

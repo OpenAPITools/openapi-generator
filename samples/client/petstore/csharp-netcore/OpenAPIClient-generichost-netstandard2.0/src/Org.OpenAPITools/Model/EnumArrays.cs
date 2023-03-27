@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
-                return "&gt;&#x3D;";
+                return ">=";
 
             if (value == JustSymbolEnum.Dollar)
                 return "$";

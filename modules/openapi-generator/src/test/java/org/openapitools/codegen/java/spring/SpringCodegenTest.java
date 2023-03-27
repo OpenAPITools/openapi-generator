@@ -916,6 +916,37 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldGenerateValidCodeForReactiveControllerWithoutParams_issue14907() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_14907.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("readAgreements", "ServerWebExchange");
+    }
+
+    @Test
     public void shouldEscapeReservedKeyWordsForRequestParameters_7506_Regression() throws Exception {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
@@ -2158,6 +2189,44 @@ public class SpringCodegenTest {
 
         return generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
+    }
+
+    @Test
+    public void testMappingSubtypesIssue13150() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_13150.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        String jsonSubType = "@JsonSubTypes({\n" +
+            "  @JsonSubTypes.Type(value = Foo.class, name = \"foo\")\n" +
+            "})";
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Parent.java"), jsonSubType);
     }
 
     @Test

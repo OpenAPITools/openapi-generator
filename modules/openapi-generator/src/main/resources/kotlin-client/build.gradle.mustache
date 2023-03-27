@@ -54,10 +54,12 @@ apply plugin: 'kotlinx-serialization'
 apply plugin: 'idea'
 {{/idea}}
 apply plugin: 'maven-publish'
+{{^useSettingsGradle}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
 }
+{{/useSettingsGradle}}
 
 test {
     useJUnitPlatform()

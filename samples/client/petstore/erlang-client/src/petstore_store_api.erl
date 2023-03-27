@@ -19,14 +19,14 @@ delete_order(Ctx, OrderId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = delete,
-    Path = ["/store/order/", OrderId, ""],
+    Path = [?BASE_URL, "/store/order/", OrderId, ""],
     QS = [],
     Headers = [],
     Body1 = [],
     ContentTypeHeader = petstore_utils:select_header_content_type([]),
     Opts = maps:get(hackney_opts, Optional, []),
 
-    petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+    petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Returns pet inventories by status
 %% Returns a map of status codes to quantities
@@ -40,14 +40,14 @@ get_inventory(Ctx, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = ["/store/inventory"],
+    Path = [?BASE_URL, "/store/inventory"],
     QS = [],
     Headers = [],
     Body1 = [],
     ContentTypeHeader = petstore_utils:select_header_content_type([]),
     Opts = maps:get(hackney_opts, Optional, []),
 
-    petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+    petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Find purchase order by ID
 %% For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
@@ -61,14 +61,14 @@ get_order_by_id(Ctx, OrderId, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = get,
-    Path = ["/store/order/", OrderId, ""],
+    Path = [?BASE_URL, "/store/order/", OrderId, ""],
     QS = [],
     Headers = [],
     Body1 = [],
     ContentTypeHeader = petstore_utils:select_header_content_type([]),
     Opts = maps:get(hackney_opts, Optional, []),
 
-    petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+    petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 %% @doc Place an order for a pet
 -spec place_order(ctx:ctx(), petstore_order:petstore_order()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
@@ -81,13 +81,13 @@ place_order(Ctx, PetstoreOrder, Optional) ->
     Cfg = maps:get(cfg, Optional, application:get_env(petstore_api, config, #{})),
 
     Method = post,
-    Path = ["/store/order"],
+    Path = [?BASE_URL, "/store/order"],
     QS = [],
     Headers = [],
     Body1 = PetstoreOrder,
     ContentTypeHeader = petstore_utils:select_header_content_type([<<"application/json">>]),
     Opts = maps:get(hackney_opts, Optional, []),
 
-    petstore_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+    petstore_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
 

@@ -48,6 +48,7 @@ from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
@@ -64,6 +65,7 @@ from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
 from petstore_api.models.read_only_first import ReadOnlyFirst

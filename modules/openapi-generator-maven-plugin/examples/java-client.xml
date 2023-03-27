@@ -67,6 +67,7 @@
                             <apiPackage>remote.org.openapitools.client.api</apiPackage>
                             <modelPackage>remote.org.openapitools.client.model</modelPackage>
                             <invokerPackage>remote.org.openapitools.client</invokerPackage>
+                            <cleanupOutput>true</cleanupOutput>
                         </configuration>
                     </execution>
                 </executions>
@@ -76,8 +77,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <proc>none</proc>
                 </configuration>
             </plugin>

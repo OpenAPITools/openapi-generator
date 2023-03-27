@@ -51,17 +51,6 @@ class TestManual(unittest.TestCase):
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30.000000-0500&date_query=2013-10-20&string_query=string_query_example")
 
-    def testDateTimeQueryWithString(self):
-        api_instance = openapi_client.QueryApi()
-        datetime_query = '19:20:30 2013-10-20' # datetime |  (optional)
-        date_query = '2013-10-20' # date |  (optional)
-        string_query = 'string_query_example' # str |  (optional)
-    
-        # Test query parameter(s)
-        api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
-        e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=19%3A20%3A30%202013-10-20&date_query=2013-10-20&string_query=string_query_example")
-
 class EchoServerResponseParser():
     def __init__(self, http_response):
         if http_response is None:
