@@ -6,8 +6,13 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire",
         "state": {
           "branch": null,
+<<<<<<< HEAD
           "revision": "8dd85aee02e39dd280c75eef88ffdb86eed4b07b",
           "version": "5.6.2"
+=======
+          "revision": "78424be314842833c04bc3bef5b72e85fff99204",
+          "version": "5.6.4"
+>>>>>>> 9a8de285a65 (feat(swift5): allow to swift build in linux)
         }
       },
       {
