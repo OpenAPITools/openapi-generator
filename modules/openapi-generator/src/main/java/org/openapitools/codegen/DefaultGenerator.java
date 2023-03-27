@@ -745,6 +745,7 @@ public class DefaultGenerator implements Generator {
                     }
                     operationData.put("operation", apiOperation);
                     operationData.put("classname", config.toModelName(apiOperation.operationId + "Request"));
+                    operationData.put("apiName", config.toApiName(tag));
                     operationData.putAll(config.additionalProperties());
 
                     // Determine filename
