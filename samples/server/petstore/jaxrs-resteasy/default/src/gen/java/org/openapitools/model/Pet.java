@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 import javax.validation.Valid;
 
-
 @ApiModel(description="A pet for sale in the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class Pet   {
   
@@ -54,7 +53,6 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  
   public Long getId() {
     return id;
   }
@@ -80,8 +78,7 @@ public class Pet   {
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
-    @NotNull
-
+  @NotNull
   public String getName() {
     return name;
   }
@@ -94,8 +91,7 @@ public class Pet   {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-    @NotNull
-
+  @NotNull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -122,7 +118,6 @@ public class Pet   {
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
-  
   public StatusEnum getStatus() {
     return status;
   }

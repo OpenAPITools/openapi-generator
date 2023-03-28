@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 import javax.validation.Valid;
 
-
 @ApiModel(description="A tag for a pet")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class Tag   {
   
@@ -22,7 +21,6 @@ public class Tag   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  
   public Long getId() {
     return id;
   }
@@ -35,7 +33,6 @@ public class Tag   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  
   public String getName() {
     return name;
   }
