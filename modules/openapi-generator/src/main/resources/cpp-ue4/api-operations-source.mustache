@@ -172,11 +172,15 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 		HttpRequest->SetContentAsString(JsonBody);
 		{{/bodyParams.0}}
 		{{^bodyParams.0}}
-		// Form parameters
+		// Form parameters added to try to generate a json body when no body parameters are specified.
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 		Writer->WriteObjectStart();
 		{{#formParams}}
+		{{#isFile}}
+		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Form parameter ({{baseName}}) was ignored, Files are not supported in json body"));
+		{{/isFile}}
+		{{^isFile}}
 		{{#required}}
 		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
 		WriteJsonValue(Writer, {{paramName}});
@@ -187,6 +191,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 			WriteJsonValue(Writer, {{paramName}}.GetValue());
 		}
 		{{/required}}
+		{{/isFile}}
 		{{/formParams}}
 		Writer->WriteObjectEnd();
 		Writer->Close();
