@@ -496,11 +496,15 @@ public class {{classname}} {
     {{#formParams}}
     {{#isArray}}
     for (int i=0; i < {{paramName}}.size(); i++) {
-        formValues.add(new BasicNameValuePair("{{{baseName}}}", {{paramName}}.get(i).toString()));
+        if ({{paramName}}.get(i) != null) {
+            formValues.add(new BasicNameValuePair("{{{baseName}}}", {{paramName}}.get(i).toString()));
+        }
     }
     {{/isArray}}
     {{^isArray}}
-    formValues.add(new BasicNameValuePair("{{{baseName}}}", {{paramName}}.toString()));
+    if ({{paramName}} != null) {
+        formValues.add(new BasicNameValuePair("{{{baseName}}}", {{paramName}}.toString()));
+    }
     {{/isArray}}
     {{/formParams}}
     HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
