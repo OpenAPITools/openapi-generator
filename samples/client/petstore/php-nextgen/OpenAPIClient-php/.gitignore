@@ -13,3 +13,6 @@ composer.phar
 
 # PHPUnit cache
 .phpunit.result.cache
+
+# PHPLint cache
+build/phplint.cache
