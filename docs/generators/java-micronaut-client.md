@@ -29,10 +29,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-micronaut-client|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|authorizationFilterPattern|Configure the authorization filter pattern for the client. Generally defined when generating clients from multiple specification files| |null|
+|basePathSeparator|Configure the separator to use between the application name and base path when referencing the property| |-|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |build|Specify for which build tool to generate files|<dl><dt>**gradle**</dt><dd>Gradle configuration is generated for the project</dd><dt>**all**</dt><dd>Both Gradle and Maven configurations are generated</dd><dt>**maven**</dt><dd>Maven configuration is generated for the project</dd></dl>|all|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
+|clientId|Configure the service ID for the Client| |null|
 |configureAuth|Configure all the authorization methods as specified in the file| |false|
 |containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateFormat|Specify the format pattern of date as a string| |null|
