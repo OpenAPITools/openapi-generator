@@ -14,8 +14,6 @@
 """
 
 
-from __future__ import absolute_import
-
 # import models into model package
 from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category

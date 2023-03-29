@@ -13,8 +13,6 @@
 """
 
 
-from __future__ import absolute_import
-
 # import models into model package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef

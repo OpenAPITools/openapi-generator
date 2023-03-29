@@ -12,8 +12,6 @@
 """
 
 
-from __future__ import absolute_import
-
 import copy
 import logging
 import multiprocessing
