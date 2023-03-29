@@ -1201,7 +1201,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
             }
 
-            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-regex", regex.replace("\"","\\\""));
+            vendorExtensions.put("x-pattern", pattern.replace("\"","\\\""));
             vendorExtensions.put("x-modifiers", modifiers);
         }
     }

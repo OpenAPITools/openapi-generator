@@ -1591,6 +1591,9 @@ components:
         string:
           type: string
           pattern: '/[a-z]/i'
+        string_with_double_quote_pattern:
+          type: string
+          pattern: 'this is "something"'
         byte:
           type: string
           format: byte
