@@ -160,7 +160,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_circular_reference_model.py
-test/test_first_ref.py
-test/test_second_ref.py
 tox.ini
