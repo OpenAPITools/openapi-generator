@@ -346,7 +346,6 @@ public class DefaultValue {
     this.stringNullable = stringNullable;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

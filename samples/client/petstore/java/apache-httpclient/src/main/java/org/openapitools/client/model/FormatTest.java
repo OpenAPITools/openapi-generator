@@ -531,7 +531,6 @@ public class FormatTest {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
