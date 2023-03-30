@@ -209,7 +209,7 @@ class ModelTests(unittest.TestCase):
         a = petstore_api.FormatTest(number=39.8, float=123, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
         self.assertEqual(a.float, 123.0)
 
-        json_str = '{"number": 34.5, "float": "456", "date": "2013-12-08", "password": "empty1234567", "pattern_with_digits": "1234567890", "pattern_with_digits_and_delimiter": "image_123" , "string": "string"}'
+        json_str = "{\"number\": 34.5, \"float\": \"456\", \"date\": \"2013-12-08\", \"password\": \"empty1234567\", \"pattern_with_digits\": \"1234567890\", \"pattern_with_digits_and_delimiter\": \"image_123\", \"string_with_double_quote_pattern\": \"this is \\\"something\\\"\", \"string\": \"string\"}"
         # no exception thrown when assigning 456 (integer) to float type since strict is set to false
         f = petstore_api.FormatTest.from_json(json_str)
         self.assertEqual(f.float, 456.0)

@@ -34,6 +34,7 @@ class FormatTest(BaseModel):
     double: Optional[confloat(le=123.4, ge=67.8)] = None
     decimal: Optional[condecimal()] = None
     string: Optional[constr(strict=True)] = None
+    string_with_double_quote_pattern: Optional[constr(strict=True)] = None
     byte: Optional[StrictBytes] = None
     binary: Optional[StrictBytes] = None
     var_date: date = Field(..., alias="date")
@@ -42,12 +43,18 @@ class FormatTest(BaseModel):
     password: constr(strict=True, max_length=64, min_length=10) = ...
     pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
-    __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
+    __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
     @validator('string')
     def string_validate_regular_expression(cls, v):
         if not re.match(r"[a-z]", v ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
+        return v
+
+    @validator('string_with_double_quote_pattern')
+    def string_with_double_quote_pattern_validate_regular_expression(cls, v):
+        if not re.match(r"this is \"something\"", v):
+            raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return v
 
     @validator('pattern_with_digits')
@@ -105,6 +112,7 @@ class FormatTest(BaseModel):
             "double": obj.get("double"),
             "decimal": obj.get("decimal"),
             "string": obj.get("string"),
+            "string_with_double_quote_pattern": obj.get("string_with_double_quote_pattern"),
             "byte": obj.get("byte"),
             "binary": obj.get("binary"),
             "var_date": obj.get("date"),
