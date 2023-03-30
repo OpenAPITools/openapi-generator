@@ -13,7 +13,6 @@ go/error.go
 go/helpers.go
 go/impl.go
 go/logger.go
-go/model_an_object.go
 go/model_api_response.go
 go/model_category.go
 go/model_order.go

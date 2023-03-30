@@ -33,7 +33,7 @@ type User struct {
 	DeepSliceModel *[][][]Tag `json:"deepSliceModel"`
 
 	// An array 1-deep.
-	DeepSliceMap [][]AnObject `json:"deepSliceMap,omitempty"`
+	DeepSliceMap [][]map[string]interface{} `json:"deepSliceMap,omitempty"`
 }
 
 // AssertUserRequired checks if the required fields are not zero-ed
@@ -51,9 +51,6 @@ func AssertUserRequired(obj User) error {
 		if err := AssertRecurseTagRequired(*obj.DeepSliceModel); err != nil {
 			return err
 		}
-	}
-	if err := AssertRecurseAnObjectRequired(obj.DeepSliceMap); err != nil {
-		return err
 	}
 	return nil
 }

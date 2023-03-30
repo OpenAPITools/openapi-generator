@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  description: "This is a sample server Petstore server. For this sample, you can\
-    \ use the api key `special-key` to test the authorization filters."
+  description: This is a sample server Petstore server. For this sample, you can use
+    the api key `special-key` to test the authorization filters.
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -22,7 +22,6 @@ tags:
 paths:
   /pet:
     post:
-      description: ""
       operationId: addPet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -46,7 +45,6 @@ paths:
       tags:
       - pet
     put:
-      description: ""
       externalDocs:
         description: API documentation for the updatePet operation
         url: http://petstore.swagger.io/v2/doc/updatePet
@@ -122,8 +120,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: "Multiple tags can be provided with comma separated strings. Use\
-        \ tag1, tag2, tag3 for testing."
+      description: Multiple tags can be provided with comma separated strings. Use
+        tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -160,7 +158,6 @@ paths:
       - pet
   /pet/{petId}:
     delete:
-      description: ""
       operationId: deletePet
       parameters:
       - explode: false
@@ -222,7 +219,6 @@ paths:
       tags:
       - pet
     post:
-      description: ""
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
@@ -235,10 +231,18 @@ paths:
           type: integer
         style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithForm_request'
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
+              type: object
       responses:
         "405":
           description: Invalid input
@@ -251,7 +255,6 @@ paths:
       - pet
   /pet/{petId}/uploadImage:
     post:
-      description: ""
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
@@ -264,10 +267,19 @@ paths:
           type: integer
         style: simple
       requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFile_request'
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
+              type: object
       responses:
         "200":
           content:
@@ -303,7 +315,6 @@ paths:
       - store
   /store/order:
     post:
-      description: ""
       operationId: placeOrder
       requestBody:
         content:
@@ -403,7 +414,6 @@ paths:
       - user
   /user/createWithArray:
     post:
-      description: ""
       operationId: createUsersWithArrayInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -417,7 +427,6 @@ paths:
       - user
   /user/createWithList:
     post:
-      description: ""
       operationId: createUsersWithListInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -431,7 +440,6 @@ paths:
       - user
   /user/login:
     get:
-      description: ""
       operationId: loginUser
       parameters:
       - description: The user name for login
@@ -440,7 +448,7 @@ paths:
         name: username
         required: true
         schema:
-          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
         style: form
       - description: The password for login in clear text
@@ -491,7 +499,6 @@ paths:
       - user
   /user/logout:
     get:
-      description: ""
       operationId: logoutUser
       responses:
         default:
@@ -525,7 +532,6 @@ paths:
       tags:
       - user
     get:
-      description: ""
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
@@ -603,6 +609,16 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+    inline_object:
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+    inline_object_1:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -650,7 +666,7 @@ components:
           format: int64
           type: integer
         name:
-          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
       title: Pet category
       type: object
@@ -777,7 +793,7 @@ components:
           type: string
       title: An uploaded response
       type: object
-    updatePetWithForm_request:
+    inline_object:
       properties:
         name:
           description: Updated name of the pet
@@ -786,7 +802,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    uploadFile_request:
+    inline_object_1:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
