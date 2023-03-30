@@ -2126,3 +2126,24 @@ components:
       properties:
         optionalDict:
           $ref: "#/components/schemas/DictWithAdditionalProperties"
+    Circular-Reference-Model:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/FirstRef'
+    FirstRef:
+      type: object
+      properties:
+        category:
+          type: string
+        self_ref:
+          $ref: '#/components/schemas/SecondRef'
+    SecondRef:
+      type: object
+      properties:
+        category:
+          type: string
+        circular_ref:
+          $ref: '#/components/schemas/Circular-Reference-Model'
