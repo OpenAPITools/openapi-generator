@@ -1,4 +1,5 @@
 # coding: utf-8
+
 """
     Echo Server API
 
@@ -11,7 +12,6 @@
     Do not edit the class manually.
 """
 
-from __future__ import absolute_import
 
 import atexit
 import datetime

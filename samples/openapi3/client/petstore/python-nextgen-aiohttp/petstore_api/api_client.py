@@ -1,4 +1,5 @@
 # coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -10,7 +11,6 @@
     Do not edit the class manually.
 """
 
-from __future__ import absolute_import
 
 import atexit
 import datetime
