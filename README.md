@@ -1119,7 +1119,6 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 
 :heart: = Link to support the contributor directly
 
-
 ## [7 - License](#table-of-contents)
 -------
 
