@@ -326,6 +326,22 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: text/plain
+  /binary/gif:
+    post:
+      description: Test binary (gif) response body
+      operationId: test/binary/gif
+      responses:
+        "200":
+          content:
+            image/gif:
+              schema:
+                format: binary
+                type: string
+          description: Successful operation
+      summary: Test binary (gif) response body
+      tags:
+      - body
+      x-accepts: image/gif
 components:
   requestBodies:
     Pet:
