@@ -229,7 +229,9 @@ class ApiClient(object):
 
         response_type = response_types_map.get(str(response_data.status), None)
 
-        if response_type not in ["file", "bytes"]:
+        if response_type == "bytearray":
+            response_data.data = response_data.data
+        else:
             match = None
             content_type = response_data.getheader('content-type')
             if content_type is not None:
@@ -238,8 +240,9 @@ class ApiClient(object):
             response_data.data = response_data.data.decode(encoding)
 
         # deserialize response data
-
-        if response_type:
+        if response_type == "bytearray":
+            return_data = response_data.data
+        elif response_type:
             return_data = self.deserialize(response_data, response_type)
         else:
             return_data = None

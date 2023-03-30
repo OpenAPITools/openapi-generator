@@ -68,15 +68,14 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-    pet = openapi_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
 
     try:
-        # Test body parameter(s)
-        api_response = api_instance.test_echo_body_pet(pet=pet)
-        print("The response of BodyApi->test_echo_body_pet:\n")
+        # Test binary (gif) response body
+        api_response = api_instance.test_binary_gif()
+        print("The response of BodyApi->test_binary_gif:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling BodyApi->test_echo_body_pet: %s\n" % e)
+        print("Exception when calling BodyApi->test_binary_gif: %s\n" % e)
 
 ```
 
@@ -86,6 +85,7 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*BodyApi* | [**test_binary_gif**](docs/BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**test_echo_body_pet**](docs/BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**test_echo_body_pet_response_string**](docs/BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body
 *FormApi* | [**test_form_integer_boolean_string**](docs/FormApi.md#test_form_integer_boolean_string) | **POST** /form/integer/boolean/string | Test form parameter(s)

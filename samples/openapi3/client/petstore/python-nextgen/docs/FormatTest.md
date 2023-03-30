@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 
 **string_with_double_quote_pattern** | **str** |  | [optional] 
-**byte** | **str** |  | [optional] 
-**binary** | **str** |  | [optional] 
+**byte** | [**bytearray**](bytearray.md) |  | [optional] 
+**binary** | [**bytearray**](bytearray.md) |  | [optional] 
 **var_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
