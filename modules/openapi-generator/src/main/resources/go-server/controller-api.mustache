@@ -90,7 +90,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#allParams}}
 	{{#isPathParam}}
 	{{#isNumber}}
-		{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
 		if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
