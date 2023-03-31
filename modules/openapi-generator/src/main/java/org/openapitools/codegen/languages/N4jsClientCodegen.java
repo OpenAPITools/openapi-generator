@@ -194,7 +194,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 				passedValue = (Boolean) value;
 			} else {
 				try {
-					passedValue = Boolean.parseBoolean(value.toString().toLowerCase());
+					passedValue = Boolean.parseBoolean(value.toString());
 				} catch (Exception e) {
 					// ignore
 				}
