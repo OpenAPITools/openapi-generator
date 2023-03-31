@@ -113,8 +113,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         typeMapping.put("array", "List");
         typeMapping.put("set", "List");
         typeMapping.put("map", "Dict");
-        typeMapping.put("file", "str");
         typeMapping.put("decimal", "decimal.Decimal");
+        typeMapping.put("file", "bytearray");
+        typeMapping.put("binary", "bytearray");
+        typeMapping.put("ByteArray", "bytearray");
 
         languageSpecificPrimitives.remove("file");
         languageSpecificPrimitives.add("decimal.Decimal");

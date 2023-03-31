@@ -83,12 +83,11 @@ public class BodyApiExample {
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
         BodyApi apiInstance = new BodyApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            Pet result = apiInstance.testEchoBodyPet(pet);
+            File result = apiInstance.testBinaryGif();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling BodyApi#testEchoBodyPet");
+            System.err.println("Exception when calling BodyApi#testBinaryGif");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -105,6 +104,8 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
+*BodyApi* | [**testBinaryGifWithHttpInfo**](docs/BodyApi.md#testBinaryGifWithHttpInfo) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
