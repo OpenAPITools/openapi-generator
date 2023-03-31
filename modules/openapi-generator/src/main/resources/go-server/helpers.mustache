@@ -34,7 +34,7 @@ func IsZeroValue(val interface{}) bool {
 
 // AssertRecurseInterfaceRequired recursively checks each struct in a slice against the callback.
 // This method traverse nested slices in a preorder fashion.
-func AssertRecurseInterfaceRequired[S [][]any, T any](obj S, callback func(T) error) error {
+func AssertRecurseInterfaceRequired[T any](obj interface{}, callback func(T) error) error {
 	return AssertRecurseValueRequired(reflect.ValueOf(obj), callback)
 }
 
