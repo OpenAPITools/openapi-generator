@@ -405,6 +405,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String ref = p.get$ref();
+        String type;
 
         if (ref != null && !ref.isEmpty()) {
             type = toModelName(openAPIType);
