@@ -17,7 +17,7 @@ import { HttpFile } from '../http/http';
 export class PetsFilteredPatchRequest {
     'age': number;
     'nickname'?: string;
-    'petType': PetsFilteredPatchRequestPetTypeEnum;
+    'pet_type': PetsFilteredPatchRequestPetTypeEnum;
     'hunts'?: boolean;
 
     static readonly discriminator: string | undefined = undefined;
@@ -36,7 +36,7 @@ export class PetsFilteredPatchRequest {
             "format": ""
         },
         {
-            "name": "petType",
+            "name": "pet_type",
             "baseName": "pet_type",
             "type": "PetsFilteredPatchRequestPetTypeEnum",
             "format": ""

@@ -13,14 +13,14 @@
 import { HttpFile } from '../http/http';
 
 export class PetByType {
-    'petType': PetByTypePetTypeEnum;
+    'pet_type': PetByTypePetTypeEnum;
     'hunts'?: boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "petType",
+            "name": "pet_type",
             "baseName": "pet_type",
             "type": "PetByTypePetTypeEnum",
             "format": ""

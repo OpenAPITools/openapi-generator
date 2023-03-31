@@ -13,20 +13,20 @@
 import { HttpFile } from '../http/http';
 
 export class Response {
-    'nonUniqueArray'?: Array<string>;
-    'uniqueArray'?: Set<string>;
+    'non_unique_array'?: Array<string>;
+    'unique_array'?: Set<string>;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "nonUniqueArray",
+            "name": "non_unique_array",
             "baseName": "non-unique-array",
             "type": "Array<string>",
             "format": ""
         },
         {
-            "name": "uniqueArray",
+            "name": "unique_array",
             "baseName": "unique-array",
             "type": "Set<string>",
             "format": ""
