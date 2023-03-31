@@ -108,7 +108,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 		typeMapping.put("Map", "any");
 		typeMapping.put("map", "any");
 		typeMapping.put("date", "string");
-		typeMapping.put("DateTime", "Date");
+		typeMapping.put("DateTime", "string");
 		typeMapping.put("binary", "any");
 		typeMapping.put("File", "any");
 		typeMapping.put("file", "any");
@@ -189,10 +189,15 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 	private boolean processBooleanOpt(String OPT, boolean defaultValue) {
 		boolean passedValue = defaultValue;
 		if (additionalProperties.containsKey(OPT)) {
-			try {
-				passedValue = Boolean.parseBoolean(additionalProperties.get(OPT).toString());
-			} catch (Exception e) {
-				// ignore
+			Object value = additionalProperties.get(OPT);
+			if (value instanceof Boolean) {
+				passedValue = (Boolean) value;
+			} else {
+				try {
+					passedValue = Boolean.parseBoolean(value.toString().toLowerCase());
+				} catch (Exception e) {
+					// ignore
+				}
 			}
 		}
 		additionalProperties.put(OPT, passedValue);
