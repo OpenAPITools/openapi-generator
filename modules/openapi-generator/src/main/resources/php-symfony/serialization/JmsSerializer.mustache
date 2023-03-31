@@ -95,7 +95,7 @@ class JmsSerializer implements SerializerInterface
                 break;
             case 'DateTime':
             case '\DateTime':
-                return new DateTime($data);
+                return is_null($data) ? null :new DateTime($data);
             default:
                 throw new RuntimeException(sprintf("Type %s is unsupported", $type));
         }

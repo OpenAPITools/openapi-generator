@@ -2,7 +2,7 @@
 
 # flake8: noqa
 
-
+import json
 import os
 import time
 import unittest
@@ -73,6 +73,83 @@ class ModelTests(unittest.TestCase):
         self.pet1.tags = []
         self.assertFalse(self.pet1 == self.pet2)
 
+    def test_oneOf_array_of_integers(self):
+        # test new Color 
+        new_color = petstore_api.Color()
+        self.assertEqual("null", new_color.to_json())
+        self.assertEqual(None, new_color.actual_instance)
+
+        # test the oneof schema validator
+        json_str = '[12,34,56]'
+        array_of_integers = json.loads(json_str)
+        # no error should be thrown
+        new_color.oneof_schema_1_validator = array_of_integers
+        new_color.actual_instance = array_of_integers
+        new_color.actual_instance = None
+
+        # test the oneof schema validator with invalid input 
+        json_str = '[12,34,56120938]'
+        array_of_integers = json.loads(json_str)
+        try:
+            new_color.oneof_schema_1_validator = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        try:
+            new_color.actual_instance = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test from_josn
+        json_str = '[12,34,56]'
+        p = petstore_api.Color.from_json(json_str)
+        self.assertEqual(p.actual_instance, [12, 34,56])
+
+        try:
+            p = petstore_api.Color.from_json('[2342112,0,0,0]')
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test nullable
+        p = petstore_api.Color.from_json(None)
+        self.assertEqual(p.actual_instance, None)
+
+    def test_anyOf_array_of_integers(self):
+        # test new Color 
+        new_color = petstore_api.AnyOfColor()
+        self.assertEqual("null", new_color.to_json())
+        self.assertEqual(None, new_color.actual_instance)
+
+        # test the oneof schema validator
+        json_str = '[12,34,56]'
+        array_of_integers = json.loads(json_str)
+        # no error should be thrown
+        new_color.anyof_schema_1_validator = array_of_integers
+        new_color.actual_instance = array_of_integers
+
+        # test the oneof schema validator with invalid input 
+        json_str = '[12,34,56120938]'
+        array_of_integers = json.loads(json_str)
+        try:
+            new_color.anyof_schema_1_validator = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        try:
+            new_color.actual_instance = array_of_integers
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test from_josn
+        json_str = '[12,34,56]'
+        p = petstore_api.AnyOfColor.from_json(json_str)
+        self.assertEqual(p.actual_instance, [12, 34,56])
+
+        try:
+            p = petstore_api.AnyOfColor.from_json('[2342112,0,0,0]')
+        except ValueError as e:
+            self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
     def test_oneOf(self):
         # test new Pig
         new_pig = petstore_api.Pig()
@@ -82,6 +159,11 @@ class ModelTests(unittest.TestCase):
         # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.Pig.from_json(json_str)
+        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+
+        # test from_dict
+        json_dict = {"className": "BasquePig", "color": "red"}
+        p = petstore_api.Pig.from_dict(json_dict)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
 
         # test init
@@ -104,7 +186,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except AttributeError as e:
             self.assertEqual(str(e), "'int' object has no attribute 'get'")
-        # comment out below as the error message is different using oneOf discriminator looku option
+        # comment out below as the error message is different using oneOf discriminator lookup option
         #except ValueError as e:
         #    error_message = (
         #        "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
@@ -135,6 +217,11 @@ class ModelTests(unittest.TestCase):
         # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.AnyOfPig.from_json(json_str)
+        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+
+        # test from_dict
+        json_dict = {"className": "BasquePig", "color": "red"}
+        p = petstore_api.AnyOfPig.from_dict(json_dict)
         self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
 
         # test init
@@ -232,7 +319,7 @@ class ModelTests(unittest.TestCase):
             self.pet.status = "error"
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("must validate the enum values ('available', 'pending', 'sold')" in str(e))
+            self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))
 
     def test_object_id(self):
         pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
@@ -295,3 +382,17 @@ class ModelTests(unittest.TestCase):
         ## Serializing json  
         #json_object = json.dumps(dictionary) 
         #self.assertEqual(json_object, "")
+
+    def test_inline_enum_default(self):
+        enum_test = petstore_api.EnumTest(enum_string_required="lower")
+        self.assertEqual(enum_test.enum_integer_default, 5)
+
+    def test_object_with_optional_dict(self):
+        # for https://github.com/OpenAPITools/openapi-generator/issues/14913
+        # shouldn't throw exception by the optional dict property
+        a = petstore_api.ParentWithOptionalDict.from_dict({})
+        self.assertFalse(a is None)
+
+        b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
+        self.assertFalse(b is None)
+        self.assertEqual(b.optional_dict["key"].a_property["a"], "b")

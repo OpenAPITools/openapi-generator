@@ -27,17 +27,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTestDto {
 
-  @JsonProperty("array_of_string")
   @Valid
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
-  @JsonProperty("array_array_of_integer")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
-  @JsonProperty("array_array_of_model")
   @Valid
-  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel;
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -58,6 +55,7 @@ public class ArrayTestDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -85,6 +83,7 @@ public class ArrayTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -98,7 +97,7 @@ public class ArrayTestDto {
     return this;
   }
 
-  public ArrayTestDto addArrayArrayOfModelItem(List<ReadOnlyFirstDto> arrayArrayOfModelItem) {
+  public ArrayTestDto addArrayArrayOfModelItem(List<@Valid ReadOnlyFirstDto> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -112,6 +111,7 @@ public class ArrayTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

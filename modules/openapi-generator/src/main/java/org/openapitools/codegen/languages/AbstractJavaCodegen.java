@@ -1004,7 +1004,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
                 String defaultValue = "";
 
-                if (cp.items.isEnum) { // enum
+                if (cp.items.getIsEnumOrRef()) { // inline or ref enum
                     List<String> defaultValues = new ArrayList<>();
                     for (String _value : _values) {
                         defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));
@@ -1013,6 +1013,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 } else {
                     if (cp.items.isString) { // array item is string
                         defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
+                    } else if (cp.items.isNumeric) {
+                        defaultValue = _values.stream()
+                                .map(v -> {
+                                    if ("BigInteger".equals(cp.items.dataType)) {
+                                        return "new BigInteger(\"" + v + "\")";
+                                    } else if ("BigDecimal".equals(cp.items.dataType)) {
+                                        return "new BigDecimal(\"" + v + "\")";
+                                    } else if (cp.items.isFloat) {
+                                        return v + "f";
+                                    } else {
+                                        return v;
+                                    }
+                                })
+                                .collect(Collectors.joining(", "));
                     } else { // array item is non-string, e.g. integer
                         defaultValue = StringUtils.join(_values, ", ");
                     }
@@ -1037,8 +1051,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
-                if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
-                    return "null";
+                // nullable, optional or containerDefaultToNull set to true
+                if (cp.isNullable || !cp.required || containerDefaultToNull) {
+                    return null;
                 } else {
                     if (ModelUtils.isSet(schema)) {
                         return String.format(Locale.ROOT, "new %s<>()",
@@ -1061,7 +1076,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
-                return "null";
+                return null;
             }
 
             if (getAdditionalProperties(schema) == null) {
@@ -1542,6 +1557,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
+            // check if the operation has form parameters
+            if (op.getHasFormParams()) {
+                additionalProperties.put("hasFormParamsInSpec", true);
+            }
             Collection<String> operationImports = new ConcurrentSkipListSet<>();
             for (CodegenParameter p : op.allParams) {
                 if (importMapping.containsKey(p.dataType)) {
@@ -1552,6 +1571,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             handleImplicitHeaders(op);
         }
+
         return objs;
     }
 
@@ -2267,6 +2287,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 operation.allParams.add(p);
             }
         }
+        operation.hasParams = !operation.allParams.isEmpty();
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {

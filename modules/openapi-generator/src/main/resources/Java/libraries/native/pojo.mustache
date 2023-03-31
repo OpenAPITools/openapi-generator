@@ -82,12 +82,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
-  {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-  {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
@@ -136,7 +131,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
     }
     try {
       this.{{name}}.get().add({{name}}Item);
@@ -146,11 +141,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = new ArrayList<>();
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
-    {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -161,7 +154,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
     }
     try {
       this.{{name}}.get().put(key, {{name}}Item);
@@ -171,11 +164,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
-    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -439,8 +430,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for ({{items.dataType}} _item : {{getter}}()) {
         if (_item != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix)),
-              URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20"));
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
         i++;
       }

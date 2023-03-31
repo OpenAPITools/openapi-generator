@@ -38,13 +38,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  private List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
   }
@@ -149,7 +149,6 @@ public class ArrayTest {
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(Object o) {

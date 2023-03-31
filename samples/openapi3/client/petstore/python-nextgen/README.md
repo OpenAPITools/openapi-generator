@@ -40,6 +40,10 @@ Then import the package:
 import petstore_api
 ```
 
+### Tests
+
+Execute `pytest` to run the tests.
+
 ## Getting Started
 
 Please follow the [installation procedure](#installation--usage) and then run the following:
@@ -84,6 +88,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_any_type_request_body**](docs/FakeApi.md#fake_any_type_request_body) | **POST** /fake/any_type_body | test any type request body
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -95,6 +100,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
+*FakeApi* | [**test_date_time_query_parameter**](docs/FakeApi.md#test_date_time_query_parameter) | **PUT** /fake/date-time-query-params | 
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -129,6 +135,7 @@ Class | Method | HTTP request | Description
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
+ - [AnyOfColor](docs/AnyOfColor.md)
  - [AnyOfPig](docs/AnyOfPig.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -139,8 +146,10 @@ Class | Method | HTTP request | Description
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
+ - [CircularReferenceModel](docs/CircularReferenceModel.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [Color](docs/Color.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
@@ -151,11 +160,13 @@ Class | Method | HTTP request | Description
  - [EnumTest](docs/EnumTest.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [FirstRef](docs/FirstRef.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [List](docs/List.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -172,11 +183,14 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [SecondRef](docs/SecondRef.md)
  - [SelfReferenceModel](docs/SelfReferenceModel.md)
  - [SingleRefType](docs/SingleRefType.md)
+ - [SpecialCharacterEnum](docs/SpecialCharacterEnum.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
@@ -185,6 +199,16 @@ Class | Method | HTTP request | Description
 
 
 ## Documentation For Authorization
+
+
+## petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+ - **write:pets**: modify pets in your account
+ - **read:pets**: read your pets
 
 
 ## api_key
@@ -201,28 +225,18 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
-## bearer_test
-
-- **Type**: Bearer authentication (JWT)
-
-
 ## http_basic_test
 
 - **Type**: HTTP basic authentication
 
 
+## bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+
 ## http_signature_test
 
-
-
-## petstore_auth
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
 
 
 ## Author

@@ -43,6 +43,7 @@ src/main/java/org/openapitools/model/CatAllOf.java
 src/main/java/org/openapitools/model/Category.java
 src/main/java/org/openapitools/model/ClassModel.java
 src/main/java/org/openapitools/model/Client.java
+src/main/java/org/openapitools/model/ContainerDefaultValue.java
 src/main/java/org/openapitools/model/Dog.java
 src/main/java/org/openapitools/model/DogAllOf.java
 src/main/java/org/openapitools/model/EnumArrays.java
@@ -65,6 +66,7 @@ src/main/java/org/openapitools/model/OuterComposite.java
 src/main/java/org/openapitools/model/OuterEnum.java
 src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/model/ResponseObjectWithDifferentFieldNames.java
 src/main/java/org/openapitools/model/SpecialModelName.java
 src/main/java/org/openapitools/model/Tag.java
 src/main/java/org/openapitools/model/TypeHolderDefault.java

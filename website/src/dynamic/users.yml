@@ -49,6 +49,11 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: Amazon Web Services (AWS)
+  image: "img/companies/aws.png"
+  infoLink: "https://aws.amazon.com/"
+  pinned: false 
+-
   caption: "b<>com"
   image: "img/companies/b-com.png"
   infoLink: "https://b-com.com/en"
@@ -157,6 +162,11 @@
   caption: Deeproute.ai
   image: "img/companies/deeproute_logo.jpg"
   infoLink: "https://www.deeproute.ai/"
+  pinned: false
+-
+  caption: "dmTECH GmbH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmTECH.de"
   pinned: false
 -
   caption: "dwango"
@@ -603,7 +613,6 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
-
 -
   caption: 3DS OUTSCALE
   image: "img/companies/outscale.png"

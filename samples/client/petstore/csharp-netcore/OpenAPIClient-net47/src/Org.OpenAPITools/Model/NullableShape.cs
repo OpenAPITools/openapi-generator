@@ -98,26 +98,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Triangle</returns>
-        public Triangle GetTriangle()
-        {
-            return (Triangle)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Quadrilateral</returns>
-        public Quadrilateral GetQuadrilateral()
-        {
-            return (Quadrilateral)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

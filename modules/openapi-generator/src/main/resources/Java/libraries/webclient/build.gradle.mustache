@@ -32,8 +32,14 @@ if(hasProperty('target') && target == 'android') {
         }
 
         compileOptions {
+            {{#useJakartaEe}}
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+            {{/useJakartaEe}}
+            {{^useJakartaEe}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
+            {{/useJakartaEe}}
         }
 
         // Rename the aar correctly
@@ -66,7 +72,7 @@ if(hasProperty('target') && target == 'android') {
 
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
+        archiveClassifier = 'sources'
     }
 
     artifacts {
@@ -78,8 +84,14 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
 
+    {{#useJakartaEe}}
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+    {{/useJakartaEe}}
 
     publishing {
         publications {
@@ -91,17 +103,17 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task execute(type:JavaExec) {
-       main = System.getProperty('mainClass')
+       mainClass = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+        archiveClassifier = 'sources'
         from sourceSets.main.allSource
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from javadoc.destinationDir
     }
 
@@ -112,22 +124,36 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
+    {{#swagger1AnnotationLibrary}}
     swagger_annotations_version = "1.6.3"
+    {{/swagger1AnnotationLibrary}}
+    {{#useJakartaEe}}
+    spring_boot_version = "3.0.1"
+    jakarta_annotation_version = "2.1.1"
+    reactor_version = "3.5.1"
+    reactor_netty_version = "1.1.1"
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
     spring_boot_version = "2.6.6"
-    jackson_version = "2.13.4"
-    jackson_databind_version = "2.13.4.2"
-    {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.4"
-    {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
     reactor_version = "3.4.3"
     reactor_netty_version = "1.0.4"
+    {{/useJakartaEe}}
+    jackson_version = "2.13.4"
+    jackson_databind_version = "2.13.4.2"
+    {{#openApiNullable}}
+    jackson_databind_nullable_version = "0.2.6"
+    {{/openApiNullable}}
+    {{#joda}}
     jodatime_version = "2.9.9"
+    {{/joda}}
     junit_version = "4.13.2"
 }
 
 dependencies {
+    {{#swagger1AnnotationLibrary}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    {{/swagger1AnnotationLibrary}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"

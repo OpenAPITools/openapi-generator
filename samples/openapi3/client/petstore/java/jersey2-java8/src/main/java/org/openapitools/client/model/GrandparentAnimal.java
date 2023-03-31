@@ -25,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ChildCat;
-import org.openapitools.client.model.ParentPet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -120,13 +118,13 @@ public class GrandparentAnimal {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("ChildCat", ChildCat.class);
-  mappings.put("ParentPet", ParentPet.class);
-  mappings.put("GrandparentAnimal", GrandparentAnimal.class);
-  JSON.registerDiscriminator(GrandparentAnimal.class, "pet_type", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("ChildCat", ChildCat.class);
+    mappings.put("ParentPet", ParentPet.class);
+    mappings.put("GrandparentAnimal", GrandparentAnimal.class);
+    JSON.registerDiscriminator(GrandparentAnimal.class, "pet_type", mappings);
+  }
 }
 

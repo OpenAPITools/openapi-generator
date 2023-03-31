@@ -76,7 +76,7 @@
             {{#allowableValues}}
             {{#enumVars}}
             if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
-                return {{^isNumeric}}"{{/isNumeric}}{{value}}{{^isNumeric}}"{{/isNumeric}};
+                return {{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}};
 
             {{/enumVars}}
             {{/allowableValues}}

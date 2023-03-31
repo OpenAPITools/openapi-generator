@@ -111,7 +111,7 @@ impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -120,7 +120,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
@@ -630,50 +630,6 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 impl AnyOfObject {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-/// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
-/// which helps with FFI.
-#[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
-pub enum AnyOfObjectAnyOf {
-    #[serde(rename = "FOO")]
-    Foo,
-    #[serde(rename = "BAR")]
-    Bar,
-}
-
-impl std::fmt::Display for AnyOfObjectAnyOf {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            AnyOfObjectAnyOf::Foo => write!(f, "FOO"),
-            AnyOfObjectAnyOf::Bar => write!(f, "BAR"),
-        }
-    }
-}
-
-impl std::str::FromStr for AnyOfObjectAnyOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "FOO" => std::result::Result::Ok(AnyOfObjectAnyOf::Foo),
-            "BAR" => std::result::Result::Ok(AnyOfObjectAnyOf::Bar),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
-        }
-    }
-}
-
-impl AnyOfObjectAnyOf {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -1242,54 +1198,6 @@ impl Model12345AnyOfObject {
     }
 }
 
-/// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
-/// which helps with FFI.
-#[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
-pub enum Model12345AnyOfObjectAnyOf {
-    #[serde(rename = "FOO")]
-    Foo,
-    #[serde(rename = "BAR")]
-    Bar,
-    #[serde(rename = "*")]
-    Star,
-}
-
-impl std::fmt::Display for Model12345AnyOfObjectAnyOf {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            Model12345AnyOfObjectAnyOf::Foo => write!(f, "FOO"),
-            Model12345AnyOfObjectAnyOf::Bar => write!(f, "BAR"),
-            Model12345AnyOfObjectAnyOf::Star => write!(f, "*"),
-        }
-    }
-}
-
-impl std::str::FromStr for Model12345AnyOfObjectAnyOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "FOO" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::Foo),
-            "BAR" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::Bar),
-            "*" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::Star),
-            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
-        }
-    }
-}
-
-impl Model12345AnyOfObjectAnyOf {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultigetGet201Response {
@@ -1499,7 +1407,7 @@ impl<'a> std::iter::IntoIterator for &'a MyIdList {
     type IntoIter = std::slice::Iter<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -1508,7 +1416,7 @@ impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
     type IntoIter = std::slice::IterMut<'a, i32>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 
@@ -2853,7 +2761,7 @@ impl<'a> std::iter::IntoIterator for &'a XmlArray {
     type IntoIter = std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).iter()
+        self.0.iter()
     }
 }
 
@@ -2862,7 +2770,7 @@ impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
     type IntoIter = std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).iter_mut()
+        self.0.iter_mut()
     }
 }
 

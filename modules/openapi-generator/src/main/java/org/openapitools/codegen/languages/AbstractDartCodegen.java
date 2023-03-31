@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -556,8 +555,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         final CodegenProperty property = super.fromProperty(name, p, required);
 
-        // Handle composed properties
-        if (ModelUtils.isComposedSchema(p)) {
+        // Handle composed properties and it's NOT allOf with a single ref only
+        if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
             ComposedSchema composed = (ComposedSchema) p;
 
             // Count the occurrences of allOf/anyOf/oneOf with exactly one child element

@@ -21,7 +21,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class DogAllOf {
 
-  @JsonProperty("breed")
   private String breed;
 
   public DogAllOf breed(String breed) {
@@ -34,6 +33,7 @@ public class DogAllOf {
    * @return breed
   */
   
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

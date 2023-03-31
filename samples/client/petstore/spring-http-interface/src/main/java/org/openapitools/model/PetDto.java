@@ -29,22 +29,17 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class PetDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private CategoryDto category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   
-  private List<TagDto> tags = null;
+  private List<TagDto> tags;
 
   /**
    * pet status in the store
@@ -83,7 +78,6 @@ public class PetDto {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
   public PetDto id(Long id) {
@@ -96,6 +90,7 @@ public class PetDto {
    * @return id
   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -114,6 +109,7 @@ public class PetDto {
    * @return category
   */
   
+  @JsonProperty("category")
   public CategoryDto getCategory() {
     return category;
   }
@@ -132,6 +128,7 @@ public class PetDto {
    * @return name
   */
   @NotNull
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -146,6 +143,9 @@ public class PetDto {
   }
 
   public PetDto addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -155,6 +155,7 @@ public class PetDto {
    * @return photoUrls
   */
   @NotNull
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -182,6 +183,7 @@ public class PetDto {
    * @return tags
   */
   
+  @JsonProperty("tags")
   public List<TagDto> getTags() {
     return tags;
   }
@@ -200,6 +202,7 @@ public class PetDto {
    * @return status
   */
   
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

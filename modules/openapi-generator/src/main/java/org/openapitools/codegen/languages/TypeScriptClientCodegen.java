@@ -410,7 +410,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelImport(String name) {
-        return ".." + File.separator + modelPackage() + File.separator + toModelName(name);
+        // Use `/` instead of `File.Separator`. `File.Separator` is `\` in Windows, which is invalid Typescript.
+        return "../" + modelPackage() + "/" + toModelName(name);
     }
 
     protected String addPrefix(String name, String prefix) {
@@ -886,7 +887,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = getSchemaAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + "; }";
+            String postfix = "";
+            if (Boolean.TRUE.equals(inner.getNullable())) {
+                postfix = " | null";
+            }
+            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + postfix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {

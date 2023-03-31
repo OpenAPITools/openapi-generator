@@ -17,6 +17,21 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /hello:
+    get:
+      summary: Hello
+      description: Hello
+      operationId: Hello
+      responses:
+        '200':
+          description: UUIDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
   /foo:
     get:
       responses:
@@ -848,6 +863,14 @@ paths:
         - fake
       description: Test serialization of outer string types
       operationId: fakeOuterStringSerialize
+      parameters:
+        - name: required_string_uuid
+          in: query
+          description: Required UUID String
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Output string
@@ -1117,6 +1140,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /country:
+    post:
+      operationId: getCountry
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+              - required:
+                - country
+                type: object
+                properties:
+                  country:
+                    type: string
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1466,9 +1506,19 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        unsigned_integer:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+          x-unsigned: true
         int64:
           type: integer
           format: int64
+        unsigned_long:
+          type: integer
+          format: int64
+          x-unsigned: true
         number:
           maximum: 543.2
           minimum: 32.1
@@ -1604,6 +1654,10 @@ components:
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
+        uuid_with_pattern:
+          type: string
+          format: uuid
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         uuid:
           type: string
           format: uuid
@@ -2187,3 +2241,22 @@ components:
           format: uuid
           example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           nullable: true
+    DateOnlyClass:
+      type: object
+      properties:
+        dateOnlyProperty:
+          type: string
+          format: date
+          example: "2017-07-21"
+    TestCollectionEndingWithWordListObject:
+      type: object
+      properties:
+        TestCollectionEndingWithWordList:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestCollectionEndingWithWordList'
+    TestCollectionEndingWithWordList:
+      type: object
+      properties:
+        value:
+          type: string

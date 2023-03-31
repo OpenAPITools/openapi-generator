@@ -70,6 +70,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageCompany = "OpenAPI";
     protected String packageCopyright = "No Copyright";
     protected String packageAuthors = "OpenAPI";
+    public static final String DATE_FORMAT = "dateFormat";
+    protected String dateFormat = "yyyy'-'MM'-'dd";
+    public static final String DATETIME_FORMAT = "dateTimeFormat";
+    protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
     protected String interfacePrefix = "I";
     protected String enumNameSuffix = "Enum";
@@ -160,8 +164,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "decimal",
                         "int?",
                         "int",
+                        "uint",
+                        "uint?",
                         "long?",
                         "long",
+                        "ulong",
+                        "ulong?",
                         "float?",
                         "float",
                         "byte[]",
@@ -197,8 +205,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
-        typeMapping.put("float", "float?");
+        typeMapping.put("UnsignedInteger", "uint?");
+        typeMapping.put("UnsignedLong", "ulong?");
         typeMapping.put("long", "long?");
+        typeMapping.put("float", "float?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
         typeMapping.put("BigDecimal", "decimal?");
@@ -215,11 +225,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // nullable type
         nullableType = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "DateTimeOffset", "Guid")
+                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
+                        "DateTime", "DateTimeOffset", "Guid")
         );
         // value Types
         valueTypes = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double")
+                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double")
         );
 
         this.setSortParamsByRequiredFlag(true);
@@ -324,6 +335,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setPackageProductName((String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_PRODUCTNAME, packageProductName);
+        }
+
+        // {{dateFormat}}
+        if (additionalProperties.containsKey(DATE_FORMAT)) {
+            setDateFormat((String) additionalProperties.get(DATE_FORMAT));
+        } else {
+            additionalProperties.put(DATE_FORMAT, this.dateFormat);
+        }
+
+        // {{dateTimeFormat}}
+        if (additionalProperties.containsKey(DATETIME_FORMAT)) {
+            setDateTimeFormat((String) additionalProperties.get(DATETIME_FORMAT));
+        } else {
+            additionalProperties.put(DATETIME_FORMAT, this.dateTimeFormat);
         }
 
         // {{packageDescription}}
@@ -527,13 +552,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         // fix incorrect data types for maps of maps
-        if (property.datatypeWithEnum.contains("List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace("List>", property.items.datatypeWithEnum + ">");
+        if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
             property.dataType = property.datatypeWithEnum;
         }
-        if (property.datatypeWithEnum.contains("Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace("Dictionary>", property.items.datatypeWithEnum + ">");
+        if (property.datatypeWithEnum.endsWith(", Dictionary>") && property.items != null) {
+            property.datatypeWithEnum = property.datatypeWithEnum.replace(", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
             property.dataType = property.datatypeWithEnum;
+        }
+
+        // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
+        if (property.datatypeWithEnum.equals("decimal")) {
+            property.isDecimal = true;
         }
     }
 
@@ -1262,6 +1292,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.packageProductName = packageProductName;
     }
 
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+
+    public void setDateTimeFormat(String dateTimeFormat) {
+        this.dateTimeFormat = dateTimeFormat;
+    }
+
     public void setPackageDescription(String packageDescription) {
         this.packageDescription = packageDescription;
     }
@@ -1334,7 +1372,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
         // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
         // but we're not supporting unsigned integral types or shorts.
-        if (datatype.startsWith("int") || datatype.startsWith("long") || datatype.startsWith("byte")) {
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("long") || datatype.startsWith("ulong") ||
+                datatype.startsWith("byte")) {
             return value;
         }
 

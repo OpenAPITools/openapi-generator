@@ -27,17 +27,30 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Bar extends Entity implements BarRefOrValue {
 
-  @JsonProperty("id")
   private String id;
 
-  @JsonProperty("barPropA")
   private String barPropA;
 
-  @JsonProperty("fooPropB")
   private String fooPropB;
 
-  @JsonProperty("foo")
   private FooRefOrValue foo;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Bar#Bar(String, String)}
+   */
+  @Deprecated
+  public Bar() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Bar(String id, String atType) {
+    super(atType);
+    this.id = id;
+  }
 
   public Bar id(String id) {
     this.id = id;
@@ -50,6 +63,7 @@ public class Bar extends Entity implements BarRefOrValue {
   */
   @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }
@@ -69,6 +83,7 @@ public class Bar extends Entity implements BarRefOrValue {
   */
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("barPropA")
   public String getBarPropA() {
     return barPropA;
   }
@@ -88,6 +103,7 @@ public class Bar extends Entity implements BarRefOrValue {
   */
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("fooPropB")
   public String getFooPropB() {
     return fooPropB;
   }
@@ -107,6 +123,7 @@ public class Bar extends Entity implements BarRefOrValue {
   */
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foo")
   public FooRefOrValue getFoo() {
     return foo;
   }

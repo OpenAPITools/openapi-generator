@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fake_any_type_request_body**](FakeApi.md#fake_any_type_request_body) | **POST** /fake/any_type_body | test any type request body
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -15,12 +16,73 @@ Method | HTTP request | Description
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**test_date_time_query_parameter**](FakeApi.md#test_date_time_query_parameter) | **PUT** /fake/date-time-query-params | 
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 
+
+# **fake_any_type_request_body**
+> fake_any_type_request_body(body=body)
+
+test any type request body
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import os
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    body = None # object |  (optional)
+
+    try:
+        # test any type request body
+        api_instance.fake_any_type_request_body(body=body)
+    except Exception as e:
+        print("Exception when calling FakeApi->fake_any_type_request_body: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **object**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_health_get**
 > HealthCheckResult fake_health_get()
@@ -550,7 +612,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = 'body_example' # str | image to upload
+    body = petstore_api.bytearray() # bytearray | image to upload
 
     try:
         api_instance.test_body_with_binary(body)
@@ -562,7 +624,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **str**| image to upload | 
+ **body** | **bytearray**| image to upload | 
 
 ### Return type
 
@@ -770,6 +832,67 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **test_date_time_query_parameter**
+> test_date_time_query_parameter(date_time_query, str_query)
+
+
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import os
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    date_time_query = '2013-10-20T19:20:30+01:00' # datetime | 
+    str_query = 'str_query_example' # str | 
+
+    try:
+        api_instance.test_date_time_query_parameter(date_time_query, str_query)
+    except Exception as e:
+        print("Exception when calling FakeApi->test_date_time_query_parameter: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **date_time_query** | **datetime**|  | 
+ **str_query** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
 
@@ -811,13 +934,13 @@ with petstore_api.ApiClient(configuration) as api_client:
     number = 3.4 # float | None
     double = 3.4 # float | None
     pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-    byte = 'byte_example' # str | None
+    byte = petstore_api.bytearray() # bytearray | None
     integer = 56 # int | None (optional)
     int32 = 56 # int | None (optional)
     int64 = 56 # int | None (optional)
     float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
-    binary = 'binary_example' # str | None (optional)
+    binary = petstore_api.bytearray() # bytearray | None (optional)
     var_date = '2013-10-20' # date | None (optional)
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
@@ -837,13 +960,13 @@ Name | Type | Description  | Notes
  **number** | **float**| None | 
  **double** | **float**| None | 
  **pattern_without_delimiter** | **str**| None | 
- **byte** | **str**| None | 
+ **byte** | **bytearray**| None | 
  **integer** | **int**| None | [optional] 
  **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 
  **float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
- **binary** | **str**| None | [optional] 
+ **binary** | **bytearray**| None | [optional] 
  **var_date** | **date**| None | [optional] 
  **date_time** | **datetime**| None | [optional] 
  **password** | **str**| None | [optional] 

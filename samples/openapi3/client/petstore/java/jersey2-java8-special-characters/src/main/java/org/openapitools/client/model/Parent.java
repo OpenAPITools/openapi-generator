@@ -25,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ChildSchema;
-import org.openapitools.client.model.MySchemaNameCharacters;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -120,13 +118,13 @@ public class Parent {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("ChildSchema", ChildSchema.class);
-  mappings.put("MySchemaName._-Characters", MySchemaNameCharacters.class);
-  mappings.put("Parent", Parent.class);
-  JSON.registerDiscriminator(Parent.class, "objectType", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("ChildSchema", ChildSchema.class);
+    mappings.put("MySchemaName._-Characters", MySchemaNameCharacters.class);
+    mappings.put("Parent", Parent.class);
+    JSON.registerDiscriminator(Parent.class, "objectType", mappings);
+  }
 }
 

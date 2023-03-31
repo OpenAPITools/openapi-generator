@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.AnimalDto;
-import org.openapitools.model.BigCatDto;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -34,12 +33,26 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCatDto.class, name = "BigCat")
 })
 
-@JsonTypeName("Cat")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatDto extends AnimalDto {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link CatDto#CatDto(String)}
+   */
+  @Deprecated
+  public CatDto() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public CatDto(String className) {
+    super(className);
+  }
 
   public CatDto declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -52,6 +65,7 @@ public class CatDto extends AnimalDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

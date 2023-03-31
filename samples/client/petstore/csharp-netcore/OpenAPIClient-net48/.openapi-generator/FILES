@@ -1,6 +1,7 @@
 .gitignore
 Org.OpenAPITools.sln
 README.md
+api/openapi.yaml
 appveyor.yml
 docs/Activity.md
 docs/ActivityOutputElementRepresentation.md
@@ -25,6 +26,7 @@ docs/ChildCatAllOf.md
 docs/ClassModel.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
+docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -83,6 +85,8 @@ docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestCollectionEndingWithWordList.md
+docs/TestCollectionEndingWithWordListObject.md
 docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
@@ -141,6 +145,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
+src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/DogAllOf.cs
@@ -194,6 +199,8 @@ src/Org.OpenAPITools/Model/ShapeOrNull.cs
 src/Org.OpenAPITools/Model/SimpleQuadrilateral.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs

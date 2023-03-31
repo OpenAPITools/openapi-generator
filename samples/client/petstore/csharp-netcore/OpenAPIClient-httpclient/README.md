@@ -130,6 +130,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
+*DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -194,6 +196,7 @@ Class | Method | HTTP request | Description
  - [Model.ClassModel](docs/ClassModel.md)
  - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [Model.DanishPig](docs/DanishPig.md)
+ - [Model.DateOnlyClass](docs/DateOnlyClass.md)
  - [Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.DogAllOf](docs/DogAllOf.md)
@@ -247,6 +250,8 @@ Class | Method | HTTP request | Description
  - [Model.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
+ - [Model.TestCollectionEndingWithWordList](docs/TestCollectionEndingWithWordList.md)
+ - [Model.TestCollectionEndingWithWordListObject](docs/TestCollectionEndingWithWordListObject.md)
  - [Model.Triangle](docs/Triangle.md)
  - [Model.TriangleInterface](docs/TriangleInterface.md)
  - [Model.User](docs/User.md)
@@ -256,6 +261,16 @@ Class | Method | HTTP request | Description
 
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization
+
+<a name="petstore_auth"></a>
+### petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - write:pets: modify pets in your account
+  - read:pets: read your pets
 
 <a name="api_key"></a>
 ### api_key
@@ -271,27 +286,17 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-<a name="bearer_test"></a>
-### bearer_test
-
-- **Type**: Bearer Authentication
-
 <a name="http_basic_test"></a>
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
 
+<a name="bearer_test"></a>
+### bearer_test
+
+- **Type**: Bearer Authentication
+
 <a name="http_signature_test"></a>
 ### http_signature_test
 
-
-<a name="petstore_auth"></a>
-### petstore_auth
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - write:pets: modify pets in your account
-  - read:pets: read your pets
 

@@ -210,6 +210,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -234,7 +237,6 @@ public class TypeHolderExample {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

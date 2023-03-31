@@ -1,7 +1,6 @@
 -module(openapi_logic_handler).
 
 -export([handle_request/4]).
--export([authorize_api_key/3]).
 -type context() :: #{binary() => any()}.
 -type handler_response() ::{
     Status :: cowboy:http_status(),

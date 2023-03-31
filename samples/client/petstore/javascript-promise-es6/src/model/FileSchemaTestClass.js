@@ -74,7 +74,7 @@ class FileSchemaTestClass {
             }
             // validate the optional field `files` (array)
             for (const item of data['files']) {
-                File.validateJsonObject(item);
+                File.validateJSON(item);
             };
         }
 

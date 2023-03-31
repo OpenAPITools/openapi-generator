@@ -121,9 +121,10 @@ _responseData = deserialize<Map<String, int>, int>(_response.data!, 'Map<String,
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<Map<String, int>>(
@@ -190,9 +191,10 @@ _responseData = deserialize<Order, Order>(_response.data!, 'Order', growable: tr
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<Order>(
@@ -254,9 +256,10 @@ _bodyData=jsonEncode(order);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     final _response = await _dio.request<Object>(
@@ -276,9 +279,10 @@ _responseData = deserialize<Order, Order>(_response.data!, 'Order', growable: tr
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<Order>(

@@ -21,7 +21,9 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
+{{/useResponseEntity}}
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -109,7 +111,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
         {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
@@ -119,9 +121,9 @@ public class {{classname}}Controller implements {{classname}} {
         {{>methodBody}}
         {{/async}}
         {{#async}}
-        return new Callable<ResponseEntity<{{>returnTypes}}>>() {
+        return new Callable<{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}>() {
             @Override
-            public ResponseEntity<{{>returnTypes}}> call() {
+            public {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} call() {
                 {{>methodBody}}
             }
         };

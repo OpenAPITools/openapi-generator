@@ -96,7 +96,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             Quadrilateral newQuadrilateral = new Quadrilateral();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("quadrilateralType");
             switch (discriminatorValue) {
                 case "ComplexQuadrilateral":
@@ -184,7 +184,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
@@ -203,7 +203,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
   @JsonAnySetter
   public Quadrilateral putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -256,7 +256,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Quadrilateral.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
         mappings.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
         mappings.put("Quadrilateral", Quadrilateral.class);
@@ -278,12 +278,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

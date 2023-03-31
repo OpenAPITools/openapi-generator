@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.virtualan.model.Animal;
-import org.openapitools.virtualan.model.BigCat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -35,8 +34,23 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Cat#Cat(String)}
+   */
+  @Deprecated
+  public Cat() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Cat(String className) {
+    super(className);
+  }
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -49,6 +63,7 @@ public class Cat extends Animal {
   */
   
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

@@ -67,6 +67,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ClassModelJsonConverter());
             _jsonOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
+            _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
             _jsonOptions.Converters.Add(new DogJsonConverter());
             _jsonOptions.Converters.Add(new DogAllOfJsonConverter());
@@ -125,6 +126,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new SimpleQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new SpecialModelNameJsonConverter());
             _jsonOptions.Converters.Add(new TagJsonConverter());
+            _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
+            _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());

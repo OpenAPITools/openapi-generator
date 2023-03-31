@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.AnimalDto;
-import org.openapitools.model.BigCatDto;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -31,11 +30,9 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = BigCatDto.class, name = "BigCat")
 })
 
-@JsonTypeName("Cat")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatDto extends AnimalDto {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
 
   public CatDto declawed(Boolean declawed) {
@@ -48,6 +45,7 @@ public class CatDto extends AnimalDto {
    * @return declawed
   */
   
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

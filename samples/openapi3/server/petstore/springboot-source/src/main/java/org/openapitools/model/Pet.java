@@ -25,22 +25,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -79,8 +74,24 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pet#Pet(String, List<String>)}
+   */
+  @Deprecated
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String name, List<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
 
   public Pet id(Long id) {
     this.id = id;
@@ -92,6 +103,7 @@ public class Pet {
    * @return id
   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -110,6 +122,7 @@ public class Pet {
    * @return category
   */
   @Valid 
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -128,6 +141,7 @@ public class Pet {
    * @return name
   */
   @NotNull 
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -142,6 +156,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -151,6 +168,7 @@ public class Pet {
    * @return photoUrls
   */
   @NotNull 
+  @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -159,7 +177,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -177,11 +195,12 @@ public class Pet {
    * @return tags
   */
   @Valid 
-  public List<Tag> getTags() {
+  @JsonProperty("tags")
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -195,6 +214,7 @@ public class Pet {
    * @return status
   */
   
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

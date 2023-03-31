@@ -41,6 +41,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
@@ -59,6 +60,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
@@ -98,11 +100,26 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
+    @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
+    private boolean cleanupOutput;
+
     /**
      * Location of the OpenAPI spec, as URL or file.
      */
     @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
     private String inputSpec;
+
+    /**
+     * Local root folder with spec files
+     */
+    @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
+    private String inputSpecRootDirectory;
+
+    /**
+     * Name of the file that will contains all merged specs
+     */
+    @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
+    private String mergedFileName;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -468,6 +485,12 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
+                .buildMergedSpec();
+            LOGGER.info("Merge input spec would be used - {}", inputSpec);
+        }
+
         File inputSpecFile = new File(inputSpec);
 
         if (output == null) {
@@ -475,6 +498,16 @@ public class CodeGenMojo extends AbstractMojo {
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
+
+        if (cleanupOutput) {
+            try {
+                FileUtils.deleteDirectory(output);
+                LOGGER.info("Previous run output is removed from {}", output);
+            } catch (IOException e) {
+                LOGGER.warn("Failed to clean-up output directory {}", output, e);
+            }
+        }
+
         addCompileSourceRootIfConfigured();
 
         try {

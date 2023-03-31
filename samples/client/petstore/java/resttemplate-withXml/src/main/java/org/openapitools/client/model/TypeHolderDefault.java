@@ -190,6 +190,9 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -212,7 +215,6 @@ public class TypeHolderDefault {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

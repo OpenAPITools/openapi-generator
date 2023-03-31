@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.openapitools.model.BarRef;
-import org.openapitools.model.FooRef;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -37,26 +35,35 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EntityRef {
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("@referredType")
   private String atReferredType;
 
-  @JsonProperty("href")
   private String href;
 
-  @JsonProperty("id")
   private String id;
 
-  @JsonProperty("@schemaLocation")
   private String atSchemaLocation;
 
-  @JsonProperty("@baseType")
   private String atBaseType;
 
-  @JsonProperty("@type")
   private String atType;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link EntityRef#EntityRef(String)}
+   */
+  @Deprecated
+  public EntityRef() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public EntityRef(String atType) {
+    this.atType = atType;
+  }
 
   public EntityRef name(String name) {
     this.name = name;
@@ -69,6 +76,7 @@ public class EntityRef {
   */
   
   @Schema(name = "name", description = "Name of the related entity.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -88,6 +96,7 @@ public class EntityRef {
   */
   
   @Schema(name = "@referredType", description = "The actual type of the target instance when needed for disambiguation.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("@referredType")
   public String getAtReferredType() {
     return atReferredType;
   }
@@ -107,6 +116,7 @@ public class EntityRef {
   */
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("href")
   public String getHref() {
     return href;
   }
@@ -126,6 +136,7 @@ public class EntityRef {
   */
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }
@@ -145,6 +156,7 @@ public class EntityRef {
   */
   
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
     return atSchemaLocation;
   }
@@ -164,6 +176,7 @@ public class EntityRef {
   */
   
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("@baseType")
   public String getAtBaseType() {
     return atBaseType;
   }
@@ -183,6 +196,7 @@ public class EntityRef {
   */
   @NotNull 
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }

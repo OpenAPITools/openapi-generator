@@ -3389,11 +3389,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
 
     
@@ -3474,11 +3474,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
             if (status) {
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
@@ -3518,11 +3518,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
             if (tags) {
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
@@ -3598,11 +3598,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
 
     

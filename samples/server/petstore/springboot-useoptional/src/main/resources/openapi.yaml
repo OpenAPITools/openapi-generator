@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: "This spec is mainly for testing Petstore server and contains fake\
     \ endpoints, models. Please do not use this for any other purpose. Special characters:\
@@ -20,23 +20,14 @@ tags:
 paths:
   /pet:
     post:
+      description: ""
       operationId: addPet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
         "200":
-          content: {}
           description: successful operation
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -45,35 +36,23 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: pet
     put:
+      description: ""
       operationId: updatePet
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Pet'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Pet'
-        description: Pet object that needs to be added to the store
-        required: true
+        $ref: '#/components/requestBodies/Pet'
       responses:
         "200":
-          content: {}
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
         "405":
-          content: {}
           description: Validation exception
       security:
       - petstore_auth:
@@ -82,7 +61,6 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -122,7 +100,6 @@ paths:
                 type: array
           description: successful operation
         "400":
-          content: {}
           description: Invalid status value
       security:
       - petstore_auth:
@@ -169,7 +146,6 @@ paths:
                 uniqueItems: true
           description: successful operation
         "400":
-          content: {}
           description: Invalid tag value
       security:
       - petstore_auth:
@@ -183,25 +159,29 @@ paths:
       - tag: pet
   /pet/{petId}:
     delete:
+      description: ""
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
-          content: {}
           description: successful operation
         "400":
-          content: {}
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -218,12 +198,14 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -235,10 +217,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Pet not found
       security:
       - api_key: []
@@ -249,15 +229,18 @@ paths:
       x-tags:
       - tag: pet
     post:
+      description: ""
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -265,7 +248,6 @@ paths:
               $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
-          content: {}
           description: Invalid input
       security:
       - petstore_auth:
@@ -280,15 +262,18 @@ paths:
       - tag: pet
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -336,10 +321,11 @@ paths:
       - tag: store
   /store/order:
     post:
+      description: ""
       operationId: placeOrder
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/Order'
         description: order placed for purchasing the pet
@@ -355,13 +341,11 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         "400":
-          content: {}
           description: Invalid Order
       summary: Place an order for a pet
       tags:
       - store
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: store
@@ -372,17 +356,17 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: order_id
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Delete purchase order by ID
       tags:
@@ -396,6 +380,7 @@ paths:
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: order_id
         required: true
@@ -404,6 +389,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -415,10 +401,8 @@ paths:
                 $ref: '#/components/schemas/Order'
           description: successful operation
         "400":
-          content: {}
           description: Invalid ID supplied
         "404":
-          content: {}
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -432,87 +416,74 @@ paths:
       operationId: createUser
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Created user object
         required: true
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Create user
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
   /user/createWithArray:
     post:
+      description: ""
       operationId: createUsersWithArrayInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
   /user/createWithList:
     post:
+      description: ""
       operationId: createUsersWithListInput
       requestBody:
-        content:
-          '*/*':
-            schema:
-              items:
-                $ref: '#/components/schemas/User'
-              type: array
-        description: List of user object
-        required: true
+        $ref: '#/components/requestBodies/UserArray'
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
   /user/login:
     get:
+      description: ""
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -526,16 +497,19 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
-          content: {}
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -545,10 +519,10 @@ paths:
       - tag: user
   /user/logout:
     get:
+      description: ""
       operationId: logoutUser
       responses:
         default:
-          content: {}
           description: successful operation
       summary: Logs out current logged in user session
       tags:
@@ -562,17 +536,17 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       summary: Delete user
       tags:
@@ -581,14 +555,17 @@ paths:
       x-tags:
       - tag: user
     get:
+      description: ""
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
@@ -600,10 +577,8 @@ paths:
                 $ref: '#/components/schemas/User'
           description: successful operation
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       summary: Get user by user name
       tags:
@@ -616,30 +591,29 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         description: Updated user object
         required: true
       responses:
         "400":
-          content: {}
           description: Invalid user supplied
         "404":
-          content: {}
           description: User not found
       summary: Updated user
       tags:
       - user
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: user
@@ -648,12 +622,7 @@ paths:
       description: To test class name in snake case
       operationId: testClassname
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
+        $ref: '#/components/requestBodies/Client'
       responses:
         "200":
           content:
@@ -666,7 +635,6 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -677,43 +645,57 @@ paths:
       operationId: testGroupParameters
       parameters:
       - description: Required String in group parameters
+        explode: true
         in: query
         name: required_string_group
         required: true
         schema:
           type: integer
+        style: form
       - description: Required Boolean in group parameters
+        explode: false
         in: header
         name: required_boolean_group
         required: true
         schema:
           type: boolean
+        style: simple
       - description: Required Integer in group parameters
+        explode: true
         in: query
         name: required_int64_group
         required: true
         schema:
           format: int64
           type: integer
+        style: form
       - description: String in group parameters
+        explode: true
         in: query
         name: string_group
+        required: false
         schema:
           type: integer
+        style: form
       - description: Boolean in group parameters
+        explode: false
         in: header
         name: boolean_group
+        required: false
         schema:
           type: boolean
+        style: simple
       - description: Integer in group parameters
+        explode: true
         in: query
         name: int64_group
+        required: false
         schema:
           format: int64
           type: integer
+        style: form
       responses:
         "400":
-          content: {}
           description: Something wrong
       summary: Fake endpoint to test group parameters (optional)
       tags:
@@ -730,6 +712,7 @@ paths:
         explode: false
         in: header
         name: enum_header_string_array
+        required: false
         schema:
           items:
             default: $
@@ -740,8 +723,10 @@ paths:
           type: array
         style: simple
       - description: Header parameter enum test (string)
+        explode: false
         in: header
         name: enum_header_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -749,10 +734,12 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: simple
       - description: Query parameter enum test (string array)
-        explode: false
+        explode: true
         in: query
         name: enum_query_string_array
+        required: false
         schema:
           items:
             default: $
@@ -763,8 +750,10 @@ paths:
           type: array
         style: form
       - description: Query parameter enum test (string)
+        explode: true
         in: query
         name: enum_query_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -772,24 +761,31 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_integer
+        required: false
         schema:
           enum:
           - 1
           - -2
           format: int32
           type: integer
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_double
+        required: false
         schema:
           enum:
           - 1.1
           - -1.2
           format: double
           type: number
+        style: form
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -797,10 +793,8 @@ paths:
               $ref: '#/components/schemas/testEnumParameters_request'
       responses:
         "400":
-          content: {}
           description: Invalid request
         "404":
-          content: {}
           description: Not found
       summary: To test enum parameters
       tags:
@@ -813,12 +807,7 @@ paths:
       description: To test "client" model
       operationId: testClientModel
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
+        $ref: '#/components/requestBodies/Client'
       responses:
         "200":
           content:
@@ -829,7 +818,6 @@ paths:
       summary: To test "client" model
       tags:
       - fake
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -846,13 +834,10 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/testEndpointParameters_request'
-        required: true
       responses:
         "400":
-          content: {}
           description: Invalid username supplied
         "404":
-          content: {}
           description: User not found
       security:
       - http_basic_test: []
@@ -873,11 +858,10 @@ paths:
       operationId: fakeOuterNumberSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterNumber'
         description: Input number as post body
-        required: false
       responses:
         "200":
           content:
@@ -887,8 +871,7 @@ paths:
           description: Output number
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -898,11 +881,10 @@ paths:
       operationId: fakeOuterStringSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterString'
         description: Input string as post body
-        required: false
       responses:
         "200":
           content:
@@ -912,8 +894,7 @@ paths:
           description: Output string
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -923,11 +904,10 @@ paths:
       operationId: fakeOuterBooleanSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterBoolean'
         description: Input boolean as post body
-        required: false
       responses:
         "200":
           content:
@@ -937,8 +917,7 @@ paths:
           description: Output boolean
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: '*/*'
       x-tags:
       - tag: fake
@@ -948,11 +927,10 @@ paths:
       operationId: fakeOuterCompositeSerialize
       requestBody:
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/OuterComposite'
         description: Input composite as post body
-        required: false
       responses:
         "200":
           content:
@@ -962,23 +940,21 @@ paths:
           description: Output composite
       tags:
       - fake
-      x-codegen-request-body-name: body
-      x-content-type: '*/*'
+      x-content-type: application/json
       x-accepts: '*/*'
       x-tags:
       - tag: fake
   /fake/jsonFormData:
     get:
+      description: ""
       operationId: testJsonFormData
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/testJsonFormData_request'
-        required: true
       responses:
         "200":
-          content: {}
           description: successful operation
       summary: test json serialization of form data
       tags:
@@ -989,6 +965,7 @@ paths:
       - tag: fake
   /fake/inline-additionalProperties:
     post:
+      description: ""
       operationId: testInlineAdditionalProperties
       requestBody:
         content:
@@ -1001,12 +978,10 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: successful operation
       summary: test inline additionalProperties
       tags:
       - fake
-      x-codegen-request-body-name: param
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -1015,11 +990,13 @@ paths:
     put:
       operationId: testBodyWithQueryParams
       parameters:
-      - in: query
+      - explode: true
+        in: query
         name: query
         required: true
         schema:
           type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -1028,11 +1005,9 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: Success
       tags:
       - fake
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -1065,12 +1040,10 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: successful operation
       summary: creates an XmlItem
       tags:
       - fake
-      x-codegen-request-body-name: XmlItem
       x-content-type: application/xml
       x-accepts: application/json
       x-tags:
@@ -1080,12 +1053,7 @@ paths:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
+        $ref: '#/components/requestBodies/Client'
       responses:
         "200":
           content:
@@ -1096,7 +1064,6 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -1114,11 +1081,9 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
           description: Success
       tags:
       - fake
-      x-codegen-request-body-name: body
       x-content-type: application/json
       x-accepts: application/json
       x-tags:
@@ -1128,7 +1093,7 @@ paths:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
       parameters:
-      - explode: false
+      - explode: true
         in: query
         name: pipe
         required: true
@@ -1137,14 +1102,8 @@ paths:
             type: string
           type: array
         style: form
-      - in: query
-        name: ioutil
-        required: true
-        schema:
-          items:
-            type: string
-          type: array
-      - in: query
+      - explode: false
+        in: query
         name: http
         required: true
         schema:
@@ -1172,7 +1131,6 @@ paths:
         style: form
       responses:
         "200":
-          content: {}
           description: Success
       tags:
       - fake
@@ -1181,21 +1139,23 @@ paths:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
+      description: ""
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/uploadFileWithRequiredFile_request'
-        required: true
       responses:
         "200":
           content:
@@ -1214,7 +1174,59 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /fake/{petId}/response-object-different-names:
+    get:
+      operationId: responseObjectDifferentNames
+      parameters:
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseObjectWithDifferentFieldNames'
+          description: successful operation
+      tags:
+      - pet
+      x-accepts: application/json
+      x-tags:
+      - tag: pet
 components:
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/User'
+            type: array
+      description: List of user object
+      required: true
+    Client:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Client'
+      description: client model
+      required: true
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
   schemas:
     Order:
       example:
@@ -1355,6 +1367,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -1381,21 +1394,12 @@ components:
         message:
           type: string
       type: object
-    $special[model.name]:
-      properties:
-        $special[property.name]:
-          format: int64
-          type: integer
-      type: object
-      xml:
-        name: "$special[model.name]"
     Return:
       description: Model for testing reserved words
       properties:
         return:
           format: int32
           type: integer
-      type: object
       xml:
         name: Return
     Name:
@@ -1415,7 +1419,6 @@ components:
           type: integer
       required:
       - name
-      type: object
       xml:
         name: Name
     "200_response":
@@ -1426,7 +1429,6 @@ components:
           type: integer
         class:
           type: string
-      type: object
       xml:
         name: Name
     ClassModel:
@@ -1434,7 +1436,6 @@ components:
       properties:
         _class:
           type: string
-      type: object
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
@@ -1496,7 +1497,6 @@ components:
           type: string
         byte:
           format: byte
-          pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
           type: string
         binary:
           format: binary
@@ -1590,7 +1590,6 @@ components:
         map_array_anytype:
           additionalProperties:
             items:
-              properties: {}
               type: object
             type: array
           type: object
@@ -1603,15 +1602,12 @@ components:
         map_map_anytype:
           additionalProperties:
             additionalProperties:
-              properties: {}
               type: object
             type: object
           type: object
         anytype_1:
-          properties: {}
           type: object
-        anytype_2:
-          type: object
+        anytype_2: {}
         anytype_3:
           properties: {}
           type: object
@@ -1647,7 +1643,6 @@ components:
     AdditionalPropertiesArray:
       additionalProperties:
         items:
-          properties: {}
           type: object
         type: array
       properties:
@@ -1657,7 +1652,6 @@ components:
     AdditionalPropertiesObject:
       additionalProperties:
         additionalProperties:
-          properties: {}
           type: object
         type: object
       properties:
@@ -1666,7 +1660,6 @@ components:
       type: object
     AdditionalPropertiesAnyType:
       additionalProperties:
-        properties: {}
         type: object
       properties:
         name:
@@ -1872,13 +1865,20 @@ components:
           default: what
           type: string
         number_item:
+          default: 1.234
           type: number
         integer_item:
+          default: -2
           type: integer
         bool_item:
           default: true
           type: boolean
         array_item:
+          default:
+          - 0
+          - 1
+          - 2
+          - 3
           items:
             type: integer
           type: array
@@ -2103,6 +2103,58 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
+    _special_model.name_:
+      properties:
+        $special[property.name]:
+          format: int64
+          type: integer
+      xml:
+        name: "$special[model.name]"
+    ContainerDefaultValue:
+      properties:
+        nullable_array:
+          items:
+            type: string
+          nullable: true
+          type: array
+        nullable_required_array:
+          items:
+            type: string
+          nullable: true
+          type: array
+        required_array:
+          items:
+            type: string
+          nullable: false
+          type: array
+        nullable_array_with_default:
+          default:
+          - foo
+          - bar
+          items:
+            type: string
+          nullable: true
+          type: array
+      required:
+      - nullable_required_array
+      - required_array
+      type: object
+    ResponseObjectWithDifferentFieldNames:
+      example:
+        UPPER_CASE_PROPERTY_SNAKE: UPPER_CASE_PROPERTY_SNAKE
+        lower-case-property-dashes: lower-case-property-dashes
+        property name with spaces: property name with spaces
+        normalPropertyName: normalPropertyName
+      properties:
+        normalPropertyName:
+          type: string
+        UPPER_CASE_PROPERTY_SNAKE:
+          type: string
+        lower-case-property-dashes:
+          type: string
+        property name with spaces:
+          type: string
+      type: object
     updatePetWithForm_request:
       properties:
         name:
@@ -2146,7 +2198,6 @@ components:
       properties:
         integer:
           description: None
-          format: int32
           maximum: 100
           minimum: 10
           type: integer
@@ -2282,4 +2333,3 @@ components:
     http_basic_test:
       scheme: basic
       type: http
-x-original-swagger-version: "2.0"

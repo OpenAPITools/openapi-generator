@@ -47,9 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -109,13 +107,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
-        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
-        finalProperties.setDefault("true");
-        cliOptions.add(finalProperties);
-
         // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
+
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
+        finalProperties.setDefault("true");
+        cliOptions.add(finalProperties);
 
         final Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
@@ -147,7 +145,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Dio client library with null-safety.";
+        return "Generates a Dart Dio client library.";
     }
 
     @Override
@@ -339,12 +337,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessModels(objs);
         List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
-
-        for (ModelMap mo : models) {
-            CodegenModel cm = mo.getModel();
-            cm.imports = rewriteImports(cm.imports, true);
-            cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
-        }
         return objs;
     }
 
@@ -585,6 +577,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
         }
+
+        // loop through models to update the imports
+        for (ModelsMap entry : objs.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
+                cm.imports = rewriteImports(cm.imports, true);
+                cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+            }
+        }
+
         return objs;
     }
 
@@ -672,7 +674,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            resultImports.addAll(rewriteImports(op.imports, false));
             if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
@@ -733,6 +734,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 resultImports.add(i);
             } else if (importMapping().containsKey(modelImport)) {
                 resultImports.add(importMapping().get(modelImport));
+            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
+                resultImports.add(modelImport);
+            } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
+                resultImports.add(modelImport);
             } else {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
             }
