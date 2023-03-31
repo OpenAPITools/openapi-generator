@@ -78,8 +78,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     protected String npmRepository = null;
     protected String snapshot = null;
 
-    protected String modelPropertyNaming = "camelCase";
-
     private final DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private final DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
@@ -286,17 +284,6 @@ cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url yo
         return "../" + modelPackage() + "/" + toModelName(name);
     }
 
-    public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
-        }
-    }
-
     @Override
     public String toEnumValue(String value, String datatype) {
         if ("number".equals(datatype)) {
@@ -374,8 +361,6 @@ cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url yo
     @Override
     public void processOpts() {
         super.processOpts();
-
-        convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6);
 
         // change package names
         apiPackage = this.apiPackage + ".apis";
