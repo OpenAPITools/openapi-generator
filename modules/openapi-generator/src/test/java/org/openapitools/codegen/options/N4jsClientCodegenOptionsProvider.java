@@ -27,6 +27,7 @@ public class N4jsClientCodegenOptionsProvider implements OptionsProvider {
                 .put(N4jsClientCodegen.GENERATE_DEFAULT_API_EXECUTER, GENERATE_DEFAULT_API_EXECUTER__VALUE)
                 .put(CodegenConstants.API_PACKAGE, "")
                 .put(CodegenConstants.MODEL_PACKAGE, "")
+                .put(CodegenConstants.API_NAME_PREFIX, "")
                 .build();
     }
 
