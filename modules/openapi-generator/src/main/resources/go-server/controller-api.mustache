@@ -89,6 +89,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/hasQueryParams}}
 	{{#allParams}}
 	{{#isPathParam}}
+	{{#isNumber}}
+		{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+		if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isNumber}}
 	{{#isFloat}}
 	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
 	if err != nil {
@@ -117,6 +124,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}
+	{{^isNumber}}
 	{{^isFloat}}
 	{{^isDouble}}
 	{{^isLong}}
@@ -126,8 +134,16 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isLong}}
 	{{/isDouble}}
 	{{/isFloat}}
+	{{/isNumber}}
 	{{/isPathParam}}
 	{{#isQueryParam}}
+	{{#isNumber}}
+	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isNumber}}
 	{{#isFloat}}
 	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
@@ -164,6 +180,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isBoolean}}
 	{{#isArray}}
+	{{#items.isNumber}}
+	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isNumber}}
 	{{#items.isFloat}}
 	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
@@ -192,6 +215,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/items.isInteger}}
+	{{^items.isNumber}}
 	{{^items.isFloat}}
 	{{^items.isDouble}}
 	{{^items.isLong}}
@@ -201,7 +225,9 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/items.isLong}}
 	{{/items.isDouble}}
 	{{/items.isFloat}}
+	{{/items.isNumber}}
 	{{/isArray}}
+	{{^isNumber}}
 	{{^isFloat}}
 	{{^isDouble}}
 	{{^isLong}}
@@ -215,6 +241,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isLong}}
 	{{/isDouble}}
 	{{/isFloat}}
+	{{/isNumber}}
 	{{/isQueryParam}}
 	{{#isFormParam}}
 	{{#isFile}}{{#isArray}}
