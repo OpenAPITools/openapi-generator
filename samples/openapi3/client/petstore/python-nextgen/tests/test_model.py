@@ -289,7 +289,7 @@ class ModelTests(unittest.TestCase):
         # test enum ref property
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d.to_json(), '{"value": 1, "str_value": null}')
+        self.assertEqual(d.to_json(), '{"value": 1}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
@@ -297,6 +297,13 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
+        d4 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=None)
+        self.assertEqual(d4.to_json(), '{"value": 1, "str_value": null}')
+        d5 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
+        self.assertEqual(d5.__fields_set__, {'value'})
+        d5.str_value = None # set None explicitly
+        self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
+        self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
     def test_valdiator(self):
         # test regular expression
