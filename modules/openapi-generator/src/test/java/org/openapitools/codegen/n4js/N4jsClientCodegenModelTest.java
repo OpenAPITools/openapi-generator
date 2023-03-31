@@ -622,7 +622,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "List<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -654,7 +654,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "Set<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "Set");
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
@@ -740,7 +740,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setList2D");
         Assert.assertEquals(property.dataType, "List<List<Pet>>");
         Assert.assertEquals(property.name, "list2D");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -825,7 +825,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -888,7 +888,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -921,7 +921,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "Set<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "Set");
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
@@ -958,7 +958,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Child>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -1466,7 +1466,7 @@ public class N4jsClientCodegenModelTest {
         Assert.assertEquals(property2.setter, "setArray");
         Assert.assertEquals(property2.dataType, "List<String>");
         Assert.assertEquals(property2.name, "array");
-        Assert.assertEquals(property2.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "List");
         Assert.assertTrue(property2.isContainer);
         Assert.assertTrue(property2.isXmlWrapped);
