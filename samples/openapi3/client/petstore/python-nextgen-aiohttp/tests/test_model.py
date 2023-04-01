@@ -195,7 +195,7 @@ class ModelTests(unittest.TestCase):
         # test enum ref property
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d.to_json(), '{"value": 1, "str_value": null}')
+        self.assertEqual(d.to_json(), '{"value": 1}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
