@@ -121,6 +121,8 @@ before_install:
   - cat /etc/hosts
   # show java version
   - java -version
+  - export TRAVIS_BRANCH=master
+  - export TRAVIS_PULL_REQUEST=false
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d ;
       gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
@@ -156,25 +158,7 @@ script:
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
-        echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
-        echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-        pushd .;
-        cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
-        echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
-        popd;
-      elif [ -z $TRAVIS_TAG ] && [[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]; then
-        echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
-        echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
-        pushd .;
-        cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
-        echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
-        popd;
-      fi;
+      export TRAVIS_TAG=v6.5.0;
       if [ -n $TRAVIS_TAG ] && [[ "$TRAVIS_TAG" =~ ^[v][0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         echo "Publishing the gradle plugin to Gradle Portal on tag $TRAVIS_TAG (only)";
         pushd .;
@@ -185,37 +169,6 @@ after_success:
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
-      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
-      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker buildx create --use;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME -t $DOCKER_GENERATOR_IMAGE_NAME:latest-release ./modules/openapi-generator-online;
-          echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
-      fi;
-      if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
-          echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME for master";
-      fi;
-    fi;
-  ## docker: build cli image and push to Docker Hub
-  - if [ $DOCKER_HUB_USERNAME ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
-      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
-      export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
-      export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker buildx create --use;
-      docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest-release ./modules/openapi-generator-cli;
-          echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
-      fi;
-      if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
-          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
-      fi;
-    fi;
   # publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
   #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   #    cd website;
