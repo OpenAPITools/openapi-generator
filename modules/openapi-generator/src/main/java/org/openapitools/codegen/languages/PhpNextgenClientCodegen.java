@@ -41,6 +41,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     public PhpNextgenClientCodegen() {
         super();
 
+        // override default src and test folders to comply PSD skeleton
+        setSrcBasePath("src");
+        setTestBasePath("tests");
+
         // mark as beta so far
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA).build();

@@ -400,6 +400,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         this.srcBasePath = srcBasePath;
     }
 
+    public void setTestBasePath(String testBasePath) {
+        this.testBasePath = testBasePath;
+    }
+
     public void setParameterNamingConvention(String variableNamingConvention) {
         this.variableNamingConvention = variableNamingConvention;
     }
