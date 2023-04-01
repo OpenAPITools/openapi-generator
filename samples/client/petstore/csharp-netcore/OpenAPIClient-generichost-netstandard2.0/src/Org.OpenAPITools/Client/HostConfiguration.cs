@@ -90,6 +90,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new HealthCheckResultJsonConverter());
             _jsonOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ListJsonConverter());
+            _jsonOptions.Converters.Add(new LiteralStringClassJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
             _jsonOptions.Converters.Add(new MixedPropertiesAndAdditionalPropertiesClassJsonConverter());
