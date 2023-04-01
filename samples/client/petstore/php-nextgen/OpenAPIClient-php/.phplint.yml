@@ -1,6 +1,6 @@
 path:
-  - ./lib
-  - ./test
+  - ./src
+  - ./tests
 jobs: 10
 extensions:
   - php
