@@ -12,8 +12,6 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 
 from pydantic import validate_arguments, ValidationError
@@ -1312,7 +1310,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param body: image to upload (required)
-        :type body: str
+        :type body: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -1345,7 +1343,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param body: image to upload (required)
-        :type body: str
+        :type body: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2087,7 +2085,7 @@ class FakeApi(object):
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: str
+        :type byte: bytearray
         :param integer: None
         :type integer: int
         :param int32: None
@@ -2099,7 +2097,7 @@ class FakeApi(object):
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: str
+        :type binary: bytearray
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -2146,7 +2144,7 @@ class FakeApi(object):
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: str
+        :type byte: bytearray
         :param integer: None
         :type integer: int
         :param int32: None
@@ -2158,7 +2156,7 @@ class FakeApi(object):
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: str
+        :type binary: bytearray
         :param var_date: None
         :type var_date: date
         :param date_time: None

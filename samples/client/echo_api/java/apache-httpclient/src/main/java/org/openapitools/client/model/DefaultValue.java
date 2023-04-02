@@ -407,7 +407,6 @@ public class DefaultValue {
     this.stringNullable = JsonNullable.<String>of(stringNullable);
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

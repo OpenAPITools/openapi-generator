@@ -270,7 +270,23 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isReadOnly}}
 
   {{/vars}}
+  {{#parent}}
+  {{#allVars}}
+  {{#isOverridden}}
+  @Override
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{setter}}(JsonNullable.<{{{datatypeWithEnum}}}>of({{name}}));
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{setter}}({{name}});
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    return this;
+  }
 
+  {{/isOverridden}}
+  {{/allVars}}
+  {{/parent}}
   @Override
   public boolean equals(Object o) {
   {{#useReflectionEqualsHashCode}}

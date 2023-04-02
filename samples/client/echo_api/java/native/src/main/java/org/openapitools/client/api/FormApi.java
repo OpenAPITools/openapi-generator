@@ -157,9 +157,15 @@ public class FormApi {
     localVarRequestBuilder.header("Accept", "text/plain");
 
     List<NameValuePair> formValues = new ArrayList<>();
-    formValues.add(new BasicNameValuePair("integer_form", integerForm.toString()));
-    formValues.add(new BasicNameValuePair("boolean_form", booleanForm.toString()));
-    formValues.add(new BasicNameValuePair("string_form", stringForm.toString()));
+    if (integerForm != null) {
+        formValues.add(new BasicNameValuePair("integer_form", integerForm.toString()));
+    }
+    if (booleanForm != null) {
+        formValues.add(new BasicNameValuePair("boolean_form", booleanForm.toString()));
+    }
+    if (stringForm != null) {
+        formValues.add(new BasicNameValuePair("string_form", stringForm.toString()));
+    }
     HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
     ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
     try {

@@ -1032,20 +1032,48 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     List<NameValuePair> formValues = new ArrayList<>();
-    formValues.add(new BasicNameValuePair("integer", integer.toString()));
-    formValues.add(new BasicNameValuePair("int32", int32.toString()));
-    formValues.add(new BasicNameValuePair("int64", int64.toString()));
-    formValues.add(new BasicNameValuePair("number", number.toString()));
-    formValues.add(new BasicNameValuePair("float", _float.toString()));
-    formValues.add(new BasicNameValuePair("double", _double.toString()));
-    formValues.add(new BasicNameValuePair("string", string.toString()));
-    formValues.add(new BasicNameValuePair("pattern_without_delimiter", patternWithoutDelimiter.toString()));
-    formValues.add(new BasicNameValuePair("byte", _byte.toString()));
-    formValues.add(new BasicNameValuePair("binary", binary.toString()));
-    formValues.add(new BasicNameValuePair("date", date.toString()));
-    formValues.add(new BasicNameValuePair("dateTime", dateTime.toString()));
-    formValues.add(new BasicNameValuePair("password", password.toString()));
-    formValues.add(new BasicNameValuePair("callback", paramCallback.toString()));
+    if (integer != null) {
+        formValues.add(new BasicNameValuePair("integer", integer.toString()));
+    }
+    if (int32 != null) {
+        formValues.add(new BasicNameValuePair("int32", int32.toString()));
+    }
+    if (int64 != null) {
+        formValues.add(new BasicNameValuePair("int64", int64.toString()));
+    }
+    if (number != null) {
+        formValues.add(new BasicNameValuePair("number", number.toString()));
+    }
+    if (_float != null) {
+        formValues.add(new BasicNameValuePair("float", _float.toString()));
+    }
+    if (_double != null) {
+        formValues.add(new BasicNameValuePair("double", _double.toString()));
+    }
+    if (string != null) {
+        formValues.add(new BasicNameValuePair("string", string.toString()));
+    }
+    if (patternWithoutDelimiter != null) {
+        formValues.add(new BasicNameValuePair("pattern_without_delimiter", patternWithoutDelimiter.toString()));
+    }
+    if (_byte != null) {
+        formValues.add(new BasicNameValuePair("byte", _byte.toString()));
+    }
+    if (binary != null) {
+        formValues.add(new BasicNameValuePair("binary", binary.toString()));
+    }
+    if (date != null) {
+        formValues.add(new BasicNameValuePair("date", date.toString()));
+    }
+    if (dateTime != null) {
+        formValues.add(new BasicNameValuePair("dateTime", dateTime.toString()));
+    }
+    if (password != null) {
+        formValues.add(new BasicNameValuePair("password", password.toString()));
+    }
+    if (paramCallback != null) {
+        formValues.add(new BasicNameValuePair("callback", paramCallback.toString()));
+    }
     HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
     ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
     try {
@@ -1172,9 +1200,13 @@ public class FakeApi {
 
     List<NameValuePair> formValues = new ArrayList<>();
     for (int i=0; i < enumFormStringArray.size(); i++) {
-        formValues.add(new BasicNameValuePair("enum_form_string_array", enumFormStringArray.get(i).toString()));
+        if (enumFormStringArray.get(i) != null) {
+            formValues.add(new BasicNameValuePair("enum_form_string_array", enumFormStringArray.get(i).toString()));
+        }
     }
-    formValues.add(new BasicNameValuePair("enum_form_string", enumFormString.toString()));
+    if (enumFormString != null) {
+        formValues.add(new BasicNameValuePair("enum_form_string", enumFormString.toString()));
+    }
     HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
     ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
     try {
@@ -1585,8 +1617,12 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     List<NameValuePair> formValues = new ArrayList<>();
-    formValues.add(new BasicNameValuePair("param", param.toString()));
-    formValues.add(new BasicNameValuePair("param2", param2.toString()));
+    if (param != null) {
+        formValues.add(new BasicNameValuePair("param", param.toString()));
+    }
+    if (param2 != null) {
+        formValues.add(new BasicNameValuePair("param2", param2.toString()));
+    }
     HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
     ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
     try {

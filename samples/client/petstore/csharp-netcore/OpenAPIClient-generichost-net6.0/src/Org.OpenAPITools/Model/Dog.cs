@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        internal Dog(DogAllOf dogAllOf, string className, string color = @"red") : base(className, color)
         {
             DogAllOf = dogAllOf;
         }

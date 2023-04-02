@@ -64,6 +64,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     private String testFolder;
 
+    // map of set (model imports)
+    private HashMap<String, HashSet<String>> circularImports = new HashMap<>();
+    // map of codegen models
+    private HashMap<String, CodegenModel> codegenModelMap = new HashMap<>();
+
     public PythonNextgenClientCodegen() {
         super();
 
@@ -108,8 +113,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         typeMapping.put("array", "List");
         typeMapping.put("set", "List");
         typeMapping.put("map", "Dict");
-        typeMapping.put("file", "str");
         typeMapping.put("decimal", "decimal.Decimal");
+        typeMapping.put("file", "bytearray");
+        typeMapping.put("binary", "bytearray");
+        typeMapping.put("ByteArray", "bytearray");
 
         languageSpecificPrimitives.remove("file");
         languageSpecificPrimitives.add("decimal.Decimal");
@@ -404,6 +411,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
      * @param typingImports typing imports
      * @param pydantic pydantic imports
      * @param datetimeImports datetime imports
+     * @param modelImports model imports
+     * @param classname class name
      * @return pydantic type
      *
      */
@@ -411,7 +420,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
-                                   Set<String> modelImports) {
+                                   Set<String> modelImports,
+                                   String classname) {
         if (cp == null) {
             // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
             LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
@@ -432,11 +442,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             }
             pydanticImports.add("conlist");
             return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "Dict[str, %s]",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname));
         } else if (cp.isString || cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -612,7 +623,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 CodegenMediaType cmt = contents.get(key);
                 // TODO process the first one only at the moment
                 if (cmt != null)
-                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports);
+                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, classname);
             }
             throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
         } else {
@@ -627,6 +638,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
      * @param typingImports typing imports
      * @param pydantic pydantic imports
      * @param datetimeImports datetime imports
+     * @param modelImports model imports
+     * @param classname class name
      * @return pydantic type
      *
      */
@@ -634,7 +647,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
-                                   Set<String> modelImports) {
+                                   Set<String> modelImports,
+                                   String classname) {
         if (cp == null) {
             // if codegen property (e.g. map/dict of undefined type) is null, default to string
             LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
@@ -674,11 +688,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             pydanticImports.add("conlist");
             typingImports.add("List"); // for return type
             return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -846,10 +860,24 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             typingImports.add("Any");
             return "Dict[str, Any]";
         } else if (!cp.isPrimitiveType || cp.isModel) { // model
-            if (!cp.isCircularReference) {
-                // skip import if it's a circular reference
+            // skip import if it's a circular reference
+            if (classname == null) {
+                // for parameter model, import directly
                 hasModelsToImport = true;
                 modelImports.add(cp.dataType);
+            } else {
+                if (circularImports.containsKey(cp.dataType)) {
+                    if (circularImports.get(cp.dataType).contains(classname)) {
+                        // cp.dataType import map of set contains this model (classname), don't import
+                        LOGGER.debug("Skipped importing {} in {} due to circular import.", cp.dataType, classname);
+                    } else {
+                        // not circular import, so ok to import it
+                        hasModelsToImport = true;
+                        modelImports.add(cp.dataType);
+                    }
+                } else {
+                    LOGGER.error("Failed to look up {} from the imports (map of set) of models.", cp.dataType);
+                }
             }
             return cp.dataType;
         } else {
@@ -871,7 +899,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
             List<CodegenParameter> params = operation.allParams;
             for (CodegenParameter param : params) {
-                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports);
+                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, null);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -923,7 +951,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
                 String typing = getPydanticType(operation.returnProperty, typingImports,
-                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports);
+                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, null);
             }
 
         }
@@ -983,11 +1011,116 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            // create hash map of codegen model
+            CodegenModel cm = ModelUtils.getModelByName(entry.getKey(), objs);
+            codegenModelMap.put(cm.classname, ModelUtils.getModelByName(entry.getKey(), objs));
+        }
+
+        // create circular import
+        for (String m : codegenModelMap.keySet()) {
+            createImportMapOfSet(m, codegenModelMap);
+        }
+
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             entry.setValue(postProcessModelsMap(entry.getValue()));
         }
 
         return processed;
+    }
+
+    /**
+     * Update circularImports with the model name (key) and its imports gathered recursively
+     *
+     * @param modelName       model name
+     * @param codegenModelMap a map of CodegenModel
+     */
+    void createImportMapOfSet(String modelName, Map<String, CodegenModel> codegenModelMap) {
+        HashSet<String> imports = new HashSet<>();
+        circularImports.put(modelName, imports);
+
+        CodegenModel cm = codegenModelMap.get(modelName);
+
+        if (cm == null) {
+            LOGGER.warn("Failed to lookup model in createImportMapOfSet: " + modelName);
+            return;
+        }
+
+        List<CodegenProperty> codegenProperties = null;
+        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
+            codegenProperties = cm.getComposedSchemas().getOneOf();
+        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+            codegenProperties = cm.getComposedSchemas().getAnyOf();
+        } else { // typical model
+            codegenProperties = cm.vars;
+        }
+
+        for (CodegenProperty cp : codegenProperties) {
+            String modelNameFromDataType = getModelNameFromDataType(cp);
+            if (modelNameFromDataType != null) { // model
+                imports.add(modelNameFromDataType); // update import
+                // go through properties or sub-schemas of the model recursively to identify more (model) import if any
+                updateImportsFromCodegenModel(modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
+            }
+        }
+    }
+
+    /**
+     * Update set of imports from codegen model recursivly
+     *
+     * @param modelName model name
+     * @param cm        codegen model
+     * @param imports   set of imports
+     */
+    public void updateImportsFromCodegenModel(String modelName, CodegenModel cm, Set<String> imports) {
+        if (cm == null) {
+            LOGGER.warn("Failed to lookup model in createImportMapOfSet " + modelName);
+            return;
+        }
+
+        List<CodegenProperty> codegenProperties = null;
+        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
+            codegenProperties = cm.getComposedSchemas().getOneOf();
+        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+            codegenProperties = cm.getComposedSchemas().getAnyOf();
+        } else { // typical model
+            codegenProperties = cm.vars;
+        }
+
+        for (CodegenProperty cp : codegenProperties) {
+            String modelNameFromDataType = getModelNameFromDataType(cp);
+            if (modelNameFromDataType != null) { // model
+                if (modelName.equals(modelNameFromDataType)) { // self referencing
+                    continue;
+                } else if (imports.contains(modelNameFromDataType)) { // circular import
+                    continue;
+                } else {
+                    imports.add(modelNameFromDataType); // update import
+                    // go through properties of the model recursively to identify more (model) import if any
+                    updateImportsFromCodegenModel(modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the model name (if any) from data type of codegen property.
+     * Returns null if it's not a model.
+     *
+     * @param cp Codegen property
+     * @return model name
+     */
+    private String getModelNameFromDataType(CodegenProperty cp) {
+        if (cp.isArray) {
+            return getModelNameFromDataType(cp.items);
+        } else if (cp.isMap) {
+            return getModelNameFromDataType(cp.items);
+        } else if (!cp.isPrimitiveType || cp.isModel) {
+            return cp.dataType;
+        } else {
+            return null;
+        }
     }
 
     private ModelsMap postProcessModelsMap(ModelsMap objs) {
@@ -1044,7 +1177,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
-                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports);
+                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, model.classname);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -1201,7 +1334,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
             }
 
-            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-regex", regex.replace("\"","\\\""));
+            vendorExtensions.put("x-pattern", pattern.replace("\"","\\\""));
             vendorExtensions.put("x-modifiers", modifiers);
         }
     }
