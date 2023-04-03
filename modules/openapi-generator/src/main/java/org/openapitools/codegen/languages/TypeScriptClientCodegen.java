@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -294,17 +293,6 @@ cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url yo
     }
 
     @Override
-    public String toEnumName(CodegenProperty property) {
-        String enumName = toModelName(property.name) + "Enum";
-
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
-        } else {
-            return enumName;
-        }
-    }
-
-    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         List<ModelMap> models = postProcessModelsEnum(objs).getModels();
@@ -417,10 +405,6 @@ cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url yo
         }
 
         // NPM Settings
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
