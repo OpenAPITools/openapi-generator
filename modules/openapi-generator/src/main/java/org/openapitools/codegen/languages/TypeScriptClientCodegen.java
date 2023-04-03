@@ -87,7 +87,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
         this.frameworkToHttpLibMap.put("jquery", "jquery");
 
-
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
 
         outputFolder = "generated-code" + File.separator + "typescript";
@@ -104,8 +103,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         typeMapping.put("object", "any");
         typeMapping.put("DateTime", "Date");
 
-cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-//        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
+        cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_RXJS_SWITCH, TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
@@ -126,6 +124,9 @@ cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url yo
         platformOption.defaultValue(PLATFORMS[0]);
 
         cliOptions.add(platformOption);
+
+        // Set property naming to camelCase
+        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
 
         // Git
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
