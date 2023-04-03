@@ -393,7 +393,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             setParamNaming((String) additionalProperties.get(CodegenConstants.PARAM_NAMING));
         }
 
-        convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6);
+        setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
 
         if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
             setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
