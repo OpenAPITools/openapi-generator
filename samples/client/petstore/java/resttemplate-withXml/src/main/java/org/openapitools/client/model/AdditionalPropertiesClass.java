@@ -144,6 +144,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, String> getMapString() {
     return mapString;
@@ -152,6 +155,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
@@ -178,6 +184,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_number")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -186,6 +195,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_number")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -212,6 +224,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -220,6 +235,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
@@ -246,6 +264,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_boolean")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -254,6 +275,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_boolean")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -280,6 +304,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_array_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -288,6 +315,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_array_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
@@ -314,6 +344,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_array_anytype")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -322,6 +355,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_array_anytype")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -348,6 +384,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_map_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -356,6 +395,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_map_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
@@ -382,6 +424,9 @@ public class AdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_map_anytype")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -390,6 +435,9 @@ public class AdditionalPropertiesClass {
 
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // xmlName=
+  @JacksonXmlProperty(localName = "map_map_anytype")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }

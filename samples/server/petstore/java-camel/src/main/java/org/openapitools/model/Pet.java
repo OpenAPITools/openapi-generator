@@ -38,7 +38,7 @@ public class Pet {
   @JacksonXmlProperty(localName = "id")
   private Long id;
 
-  @JacksonXmlProperty(localName = "category")
+  @JacksonXmlProperty(localName = "Category")
   private Category category;
 
   @JacksonXmlProperty(localName = "name")
