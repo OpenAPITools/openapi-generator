@@ -213,9 +213,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
                     .doNotOverwrite());
-            applyJakartaPackage();
-            useJakartaEe=true;
-            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
         } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
                     .doNotOverwrite());
