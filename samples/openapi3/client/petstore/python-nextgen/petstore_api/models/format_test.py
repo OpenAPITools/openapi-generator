@@ -94,12 +94,6 @@ class FormatTest(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of byte
-        if self.byte:
-            _dict['byte'] = self.byte.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of binary
-        if self.binary:
-            _dict['binary'] = self.binary.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -126,8 +120,8 @@ class FormatTest(BaseModel):
             "decimal": obj.get("decimal"),
             "string": obj.get("string"),
             "string_with_double_quote_pattern": obj.get("string_with_double_quote_pattern"),
-            "byte": bytearray.from_dict(obj.get("byte")) if obj.get("byte") is not None else None,
-            "binary": bytearray.from_dict(obj.get("binary")) if obj.get("binary") is not None else None,
+            "byte": obj.get("byte"),
+            "binary": obj.get("binary"),
             "var_date": obj.get("date"),
             "date_time": obj.get("dateTime"),
             "uuid": obj.get("uuid"),

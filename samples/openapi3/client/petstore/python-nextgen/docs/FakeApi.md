@@ -612,7 +612,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = petstore_api.bytearray() # bytearray | image to upload
+    body = None # bytearray | image to upload
 
     try:
         api_instance.test_body_with_binary(body)
@@ -934,13 +934,13 @@ with petstore_api.ApiClient(configuration) as api_client:
     number = 3.4 # float | None
     double = 3.4 # float | None
     pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-    byte = petstore_api.bytearray() # bytearray | None
+    byte = None # bytearray | None
     integer = 56 # int | None (optional)
     int32 = 56 # int | None (optional)
     int64 = 56 # int | None (optional)
     float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
-    binary = petstore_api.bytearray() # bytearray | None (optional)
+    binary = None # bytearray | None (optional)
     var_date = '2013-10-20' # date | None (optional)
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
