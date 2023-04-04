@@ -45,7 +45,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 	{{{.}}}
 {{/additionalClientTypeAnnotations}}
 {{>common/generatedAnnotation}}
-@Client("${{openbrace}}{{{applicationName}}}-base-path{{closebrace}}")
+@Client({{#configureClientId}}
+  id = "{{clientId}}",
+  path = {{/configureClientId}}"${{openbrace}}{{{applicationName}}}{{basePathSeparator}}base-path{{closebrace}}")
 public interface {{classname}} {
 {{#operations}}
     {{#operation}}

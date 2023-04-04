@@ -2287,6 +2287,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 operation.allParams.add(p);
             }
         }
+        operation.hasParams = !operation.allParams.isEmpty();
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {

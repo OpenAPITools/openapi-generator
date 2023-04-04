@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Filename</returns>
         public static string SanitizeFilename(string filename)
         {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
+            Match match = Regex.Match(filename, ".*[/\\](.*)$");
             return match.Success ? match.Groups[1].Value : filename;
         }
 
@@ -115,8 +116,12 @@ namespace Org.OpenAPITools.Client
                 return dateTimeOffset.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
             if (obj is bool boolean)
                 return boolean ? "true" : "false";
-            if (obj is ICollection collection)
-                return string.Join(",", collection.Cast<object>());
+            if (obj is ICollection collection) {
+                List<string> entries = new List<string>();
+                foreach (var entry in collection)
+                    entries.Add(ParameterToString(entry, configuration));
+                return string.Join(",", entries);
+            }
             if (obj is Enum && HasEnumMemberAttrValue(obj))
                 return GetEnumMemberAttrValue(obj);
 

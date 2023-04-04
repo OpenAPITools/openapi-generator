@@ -103,7 +103,8 @@ class EnumTest(BaseModel):
                           },
                           exclude_none=True)
         # set to None if outer_enum (nullable) is None
-        if self.outer_enum is None:
+        # and __fields_set__ contains the field
+        if self.outer_enum is None and "outer_enum" in self.__fields_set__:
             _dict['outerEnum'] = None
 
         return _dict

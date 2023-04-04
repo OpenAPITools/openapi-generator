@@ -18,6 +18,7 @@ docs/Capitalization.md
 docs/Cat.md
 docs/CatAllOf.md
 docs/Category.md
+docs/CircularReferenceModel.md
 docs/ClassModel.md
 docs/Client.md
 docs/Color.md
@@ -34,6 +35,7 @@ docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
+docs/FirstRef.md
 docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
@@ -61,6 +63,7 @@ docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
 docs/ReadOnlyFirst.md
+docs/SecondRef.md
 docs/SelfReferenceModel.md
 docs/SingleRefType.md
 docs/SpecialCharacterEnum.md
@@ -99,6 +102,7 @@ petstore_api/models/capitalization.py
 petstore_api/models/cat.py
 petstore_api/models/cat_all_of.py
 petstore_api/models/category.py
+petstore_api/models/circular_reference_model.py
 petstore_api/models/class_model.py
 petstore_api/models/client.py
 petstore_api/models/color.py
@@ -112,6 +116,7 @@ petstore_api/models/enum_class.py
 petstore_api/models/enum_test.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
+petstore_api/models/first_ref.py
 petstore_api/models/foo.py
 petstore_api/models/foo_get_default_response.py
 petstore_api/models/format_test.py
@@ -138,6 +143,7 @@ petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
 petstore_api/models/read_only_first.py
+petstore_api/models/second_ref.py
 petstore_api/models/self_reference_model.py
 petstore_api/models/single_ref_type.py
 petstore_api/models/special_character_enum.py
