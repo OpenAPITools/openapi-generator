@@ -14,8 +14,7 @@ import org.jboss.resteasy.annotations.GZIP;
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
 {{#supportAsync}}
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.CompletableFuture;
+import io.smallrye.mutiny.Uni;
 {{/supportAsync}}
 
 import java.io.InputStream;
