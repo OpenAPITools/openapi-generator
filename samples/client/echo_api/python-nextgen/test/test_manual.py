@@ -59,6 +59,17 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_binary_gif()
         self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==")
 
+    def testNumberPropertiesOnly(self):
+        n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
+        self.assertEqual(n.number, 123)
+        self.assertEqual(n.float, 456)
+        self.assertEqual(n.double, 34)
+
+        n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123.1, "float": 456.2, "double": 34.3}')
+        self.assertEqual(n.number, 123.1)
+        self.assertEqual(n.float, 456.2)
+        self.assertEqual(n.double, 34.3)
+
 class EchoServerResponseParser():
     def __init__(self, http_response):
         if http_response is None:
