@@ -26,7 +26,6 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>3.0.0.CR1</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
-    <mapstruct.version>1.5.3.Final</mapstruct.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
   </properties>
   <dependencyManagement>
@@ -66,17 +65,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.mapstruct</groupId>
-        <artifactId>mapstruct</artifactId>
-        <version>${mapstruct.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.mapstruct</groupId>
-        <artifactId>mapstruct-processor</artifactId>
-        <version>${mapstruct.version}</version>
-        <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
