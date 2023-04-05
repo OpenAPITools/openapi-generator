@@ -134,8 +134,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 // java8 tag has been deprecated
                 //setJava8ModeAndAdditionalProperties(true);
             }
-        } else if(QUARKUS_LIBRARY.equals(library)){
-            additionalProperties.put(SUPPORT_ASYNC,"true");
         }
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
