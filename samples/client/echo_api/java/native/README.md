@@ -139,6 +139,7 @@ Class | Method | HTTP request | Description
  - [DataQuery](docs/DataQuery.md)
  - [DataQueryAllOf](docs/DataQueryAllOf.md)
  - [DefaultValue](docs/DefaultValue.md)
+ - [NumberPropertiesOnly](docs/NumberPropertiesOnly.md)
  - [Pet](docs/Pet.md)
  - [Query](docs/Query.md)
  - [StringEnumRef](docs/StringEnumRef.md)
