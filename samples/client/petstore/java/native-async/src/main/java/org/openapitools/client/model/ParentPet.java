@@ -52,6 +52,12 @@ public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }
 
+  @Override
+  public ParentPet petType(String petType) {
+    this.setPetType(petType);
+    return this;
+  }
+
   /**
    * Return true if this ParentPet object is equal to o.
    */
