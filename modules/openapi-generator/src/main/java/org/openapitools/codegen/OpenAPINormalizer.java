@@ -728,7 +728,7 @@ public class OpenAPINormalizer {
 
             // if only one element left, simplify to just the element (schema)
             if (schema.getAnyOf().size() == 1) {
-                if (schema.getNullable()) { // retain nullable setting
+                if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
                     ((Schema) schema.getAnyOf().get(0)).setNullable(true);
                 }
                 return (Schema) schema.getAnyOf().get(0);
