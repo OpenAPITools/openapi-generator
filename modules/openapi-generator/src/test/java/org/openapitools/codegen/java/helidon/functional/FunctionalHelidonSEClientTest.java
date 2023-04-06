@@ -1,6 +1,6 @@
 /*
- * Copyright 2022 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright (c) 2022 Oracle and/or its affiliates
+ * Copyright 2022, 2023 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright (c) 2022, 2023 Oracle and/or its affiliates
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ package org.openapitools.codegen.java.helidon.functional;
 
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 
 public class FunctionalHelidonSEClientTest extends FunctionalHelidonClientBase {
 
@@ -26,5 +29,12 @@ public class FunctionalHelidonSEClientTest extends FunctionalHelidonClientBase {
     public void setup() {
         library("se");
         generatorName("java-helidon-client");
+    }
+
+    @Test
+    void buildJsonbProject() {
+        inputSpec("src/test/resources/3_0/petstore.yaml");
+        generate(createConfigurator().addAdditionalProperty(SERIALIZATION_LIBRARY, "jsonb"));
+        buildAndVerify("target/openapi-java-client.jar");
     }
 }
