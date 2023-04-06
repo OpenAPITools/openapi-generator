@@ -47,18 +47,18 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
     public static final String RECURSION_LIMIT = "recursionLimit";
-    public static final String FLOAT_STRICT_TYPE = "floatStrictType";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
+    public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageUrl;
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected boolean floatStrictType = true;
     protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     protected String dateFormat = "%Y-%m-%d";
+    protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
 
     protected Map<Character, String> regexModifiers;
 
@@ -177,8 +177,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
-        cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
-                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
+                .defaultValue("Union[StrictFloat, StrictInt]"));
         cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
                 .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
@@ -281,8 +281,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
-        if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
-            setFloatStrictType(convertPropertyToBooleanAndWriteBack(FLOAT_STRICT_TYPE));
+        if (additionalProperties.containsKey(MAP_NUMBER_TO)) {
+            setMapNumberTo(String.valueOf(additionalProperties.get(MAP_NUMBER_TO)));
         }
 
         if (additionalProperties.containsKey(DATETIME_FORMAT)) {
@@ -478,34 +478,59 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
+                List<String> intFieldCustomization = new ArrayList<>();
+
                 // e.g. confloat(ge=10, le=100, strict=True)
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
+                        fieldCustomization.add("lt=" + cp.getMaximum());
+                        intFieldCustomization.add("lt=" + Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 becomes < 8
                     } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
+                        fieldCustomization.add("le=" + cp.getMaximum());
+                        intFieldCustomization.add("le=" + Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 becomes <= 7
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
+                        fieldCustomization.add("gt=" + cp.getMinimum());
+                        intFieldCustomization.add("gt=" + Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 becomes > 7
                     } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
+                        fieldCustomization.add("ge=" + cp.getMinimum());
+                        intFieldCustomization.add("ge=" + Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 becomes >= 8
                     }
                 }
                 if (cp.getMultipleOf() != null) {
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
                     fieldCustomization.add("strict=True");
+                    intFieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    pydanticImports.add("conint");
+                    typingImports.add("Union");
+                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
+                            StringUtils.join(fieldCustomization, ", "),
+                            "conint",
+                            StringUtils.join(intFieldCustomization, ", ")
+                    );
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    fieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else { // float
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
                 }
-
-                pydanticImports.add("confloat");
-                return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                        StringUtils.join(fieldCustomization, ", "));
             } else {
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    typingImports.add("Union");
+                    pydanticImports.add("StrictFloat");
+                    pydanticImports.add("StrictInt");
+                    return "Union[StrictFloat, StrictInt]";
+                } else if ("StrictFloat".equals(mapNumberTo)) {
                     pydanticImports.add("StrictFloat");
                     return "StrictFloat";
                 } else {
@@ -723,34 +748,59 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
+                List<String> intFieldCustomization = new ArrayList<>();
+
                 // e.g. confloat(ge=10, le=100, strict=True)
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("lt=" + cp.getMaximum());
+                        intFieldCustomization.add("lt=" + (int) Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 => < 8
                     } else {
                         fieldCustomization.add("le=" + cp.getMaximum());
+                        intFieldCustomization.add("le=" + (int) Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 => <= 7
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
                         fieldCustomization.add("gt=" + cp.getMinimum());
+                        intFieldCustomization.add("gt=" + (int) Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 => > 7
                     } else {
                         fieldCustomization.add("ge=" + cp.getMinimum());
+                        intFieldCustomization.add("ge=" + (int) Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 => >= 8
                     }
                 }
                 if (cp.getMultipleOf() != null) {
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
                     fieldCustomization.add("strict=True");
+                    intFieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    pydanticImports.add("conint");
+                    typingImports.add("Union");
+                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
+                            StringUtils.join(fieldCustomization, ", "),
+                            "conint",
+                            StringUtils.join(intFieldCustomization, ", ")
+                    );
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    fieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else { // float
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
                 }
-
-                pydanticImports.add("confloat");
-                return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                        StringUtils.join(fieldCustomization, ", "));
             } else {
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    typingImports.add("Union");
+                    pydanticImports.add("StrictFloat");
+                    pydanticImports.add("StrictInt");
+                    return "Union[StrictFloat, StrictInt]";
+                } else if ("StrictFloat".equals(mapNumberTo)) {
                     pydanticImports.add("StrictFloat");
                     return "StrictFloat";
                 } else {
@@ -1334,8 +1384,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
             }
 
-            vendorExtensions.put("x-regex", regex.replace("\"","\\\""));
-            vendorExtensions.put("x-pattern", pattern.replace("\"","\\\""));
+            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
+            vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
             vendorExtensions.put("x-modifiers", modifiers);
         }
     }
@@ -1529,8 +1579,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         return "var_" + name;
     }
 
-    public void setFloatStrictType(boolean floatStrictType) {
-        this.floatStrictType = floatStrictType;
+    public void setMapNumberTo(String mapNumberTo) {
+        if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)
+                || "StrictFloat".equals(mapNumberTo)
+                || "float".equals(mapNumberTo)) {
+            this.mapNumberTo = mapNumberTo;
+        } else {
+            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictStr or float");
+        }
     }
 
     public void setDatetimeFormat(String datetimeFormat) {

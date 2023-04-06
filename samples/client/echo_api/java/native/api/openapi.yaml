@@ -521,6 +521,19 @@ components:
       allOf:
       - $ref: '#/components/schemas/DataQuery_allOf'
       - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      properties:
+        number:
+          type: number
+        float:
+          format: float
+          type: number
+        double:
+          format: double
+          maximum: 50.2
+          minimum: 0.8
+          type: number
+      type: object
     test_form_integer_boolean_string_request:
       properties:
         integer_form:

@@ -516,3 +516,16 @@ components:
             format: date-time
             description: A date
       - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      type: object
+      properties:
+        number:
+          type: number
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double
+          minimum: 0.8
+          maximum: 50.2
