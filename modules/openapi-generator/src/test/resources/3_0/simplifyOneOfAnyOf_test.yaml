@@ -42,4 +42,10 @@ components:
         - type: integer
         - type: string
         - $ref: null
-
+    SingleAnyOfTest:
+      description: to test anyOf (enum string only)
+      anyOf:
+        - type: string
+          enum:
+            - A
+            - B
