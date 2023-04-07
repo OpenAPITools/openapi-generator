@@ -120,6 +120,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
         languageSpecificPrimitives.remove("file");
         languageSpecificPrimitives.add("decimal.Decimal");
+        languageSpecificPrimitives.add("bytearray");
+        languageSpecificPrimitives.add("none_type");
 
         supportsInheritance = true;
         modelPackage = "models";

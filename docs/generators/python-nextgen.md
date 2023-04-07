@@ -50,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Dict</li>
 <li>List</li>
 <li>bool</li>
+<li>bytearray</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>
@@ -58,6 +59,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>float</li>
 <li>int</li>
 <li>list</li>
+<li>none_type</li>
 <li>object</li>
 <li>str</li>
 </ul>
