@@ -132,6 +132,7 @@ public class OpenAPINormalizerTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
+        assertTrue(schema3.getEnum().size() > 0);
     }
 
     @Test
