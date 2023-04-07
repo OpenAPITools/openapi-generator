@@ -598,7 +598,7 @@ public class OpenAPINormalizer {
 
     /**
      * If the schema is anyOf and the sub-schemas are either string or enum of string,
-     * then simplify it to just string as many generators do not yet support anyOf.
+     * then simplify it to just enum of string as many generators do not yet support anyOf.
      *
      * @param schema Schema
      * @return Schema
@@ -624,12 +624,12 @@ public class OpenAPINormalizer {
         s0 = ModelUtils.getReferencedSchema(openAPI, s0);
         s1 = ModelUtils.getReferencedSchema(openAPI, s1);
 
-        // find the string schema (not enum)
+        // find the string schema (enum)
         if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
             if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
-                result = (StringSchema) s1;
-            } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
                 result = (StringSchema) s0;
+            } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
+                result = (StringSchema) s1;
             } else { // both are string
                 result = schema;
             }
