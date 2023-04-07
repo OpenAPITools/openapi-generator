@@ -16,13 +16,13 @@
 <div align="center">
 
 [Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`6.6.0`):
-[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
 [7.0.x](https://github.com/OpenAPITools/openapi-generator/tree/7.0.x) (`7.0.x`):
-[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/7.0.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/7.0.x.svg?label=Integration%20Test)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/7.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=7.0.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/7.0.x?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
@@ -904,6 +904,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2022-12-13 - [API-First with Spring WebFlux and OpenAPI Generator](https://boottechnologies-ci.medium.com/api-first-with-spring-webflux-and-openapi-generator-38b7804c4ed4) by [Eric Anicet](https://boottechnologies-ci.medium.com/)
 - 2023-01-06 - [Major Improvements with Helidon and OpenAPI](https://medium.com/helidon/major-improvements-with-helidon-and-openapi-f76a0951508e) by [Tim Quinn](https://medium.com/@tquinno600)
 - 2023-02-02 - [Replacing Postman with the Jetbrains HTTP Client](https://lengrand.fr/replacing-postman-in-seconds-with-the-jetbrains-http-client/) by [julien Lengrand-Lambert](https://github.com/jlengrand)
+- 2023-03-15 - [OpenAPI Generatorに適したOpenAPIの書き方](https://techblog.zozo.com/entry/how-to-write-openapi-for-openapi-generator) by [ZOZO Tech Blog](https://techblog.zozo.com/)
+- 2023-03-19 - [EXOGEM: Extending OpenAPI Generator for Monitoring of RESTful APIs](https://link.springer.com/chapter/10.1007/978-3-031-26507-5_10) by Daniel Friis Holtebo, Jannik Lucas Sommer, Magnus Mølgaard Lund, Alessandro Tibo, Junior Dongo & Michele Albano at "ICSOC 2022: Service-Oriented Computing – ICSOC 2022 Workshops"
+- 2023-03-28 - [API-First Design with OpenAPI Generator](https://www.linkedin.com/pulse/api-first-design-openapi-generator-jonathan-manera/) by [Jonathan Manera](https://www.linkedin.com/in/manerajona/)
+- 2023-03-28 - [ハンズオンで学ぶサーバーサイド Kotlin（Spring Boot&Arrow&OpenAPI Generator）v1.0.1](https://zenn.dev/msksgm/books/implementing-server-side-kotlin-development) by [msk](https://zenn.dev/msksgm)
 
 ## [6 - About Us](#table-of-contents)
 
