@@ -21,8 +21,8 @@ aenum = ">=3.1.11"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=7.2.1"
-tox = ">=4.4.6"
-flake8 = ">=6.0.0"
+tox = ">=3.9.0"
+flake8 = ">=4.0.0"
 
 [build-system]
 requires = ["setuptools"]
