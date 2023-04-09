@@ -262,7 +262,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("README.handlebars", "", "README.md"));
 
         // Ensure we're using the appropriate template engine, and configure it while we're at it.
-        // We had to use handlebars because the truthy value of mustache includes `""` and `"null"`,
+        // We had to use handlebars because the truthy values of mustache include `""` and `"null"`,
         // and things went south for default values and examples (but descriptions were OK, somehow)
         TemplatingEngineAdapter templatingEngine = getTemplatingEngine();
         if (templatingEngine instanceof HandlebarsEngineAdapter) {
@@ -315,21 +315,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
 
-    // When example is "null" (with quotes), mustache's {{#example}} triggers
-    // Not sure why this happens on {{#example}} but not {{#description}}
-    // Perhaps I'm just using mustache wrong…  Anyway, it's voodoo.
-    // Also, even with this fix, {{#example}} still triggers.
-    // → That just because of how mustache works. (false or [] only)
-    // → I'll switch to handlebars.
-    // → Pebble would perhaps help reduce injections, with custom escaping filters for each context:
-    //   → Comments
-    //   → Variable names
-    //   → Function names
-    //   → Quoted
-    //   → Typed values (int, etc.)
-    // → Handlebars also has a discrepancy between description and example, both 'null'
-    // → We need this (hot?)fix in the end.
-    // → Or not, there's a {{#hasExamples}} we could perhaps use
     @Override
     public String toExampleValue(Schema schema) {
         if (schema.getExample() != null) {
@@ -339,7 +324,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return "";
     }
 
-    // → Same code smell, I'm probably handling this wrong.
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
