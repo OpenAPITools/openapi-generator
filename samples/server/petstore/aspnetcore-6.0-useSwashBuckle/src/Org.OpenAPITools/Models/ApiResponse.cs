@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// Describes the result of uploading an image resource
     /// </summary>
     [DataContract]
-    public partial class ApiResponse : IEquatable<ApiResponse>
+    public class ApiResponse : IEquatable<ApiResponse>
     {
         /// <summary>
         /// Gets or Sets Code

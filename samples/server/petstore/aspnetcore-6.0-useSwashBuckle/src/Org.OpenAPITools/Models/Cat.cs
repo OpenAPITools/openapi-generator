@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Cat : Animal, IEquatable<Cat>
+    public class Cat : Animal, IEquatable<Cat>
     {
         /// <summary>
         /// Gets or Sets Declawed

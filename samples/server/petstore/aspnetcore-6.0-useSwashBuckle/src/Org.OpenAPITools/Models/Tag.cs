@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// A tag for a pet
     /// </summary>
     [DataContract]
-    public partial class Tag : IEquatable<Tag>
+    public class Tag : IEquatable<Tag>
     {
         /// <summary>
         /// Gets or Sets Id

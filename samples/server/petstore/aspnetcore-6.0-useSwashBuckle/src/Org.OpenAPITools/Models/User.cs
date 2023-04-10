@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// A User who is purchasing from the pet store
     /// </summary>
     [DataContract]
-    public partial class User : IEquatable<User>
+    public class User : IEquatable<User>
     {
         /// <summary>
         /// Gets or Sets Id

@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class DogAllOf : IEquatable<DogAllOf>
+    public class DogAllOf : IEquatable<DogAllOf>
     {
         /// <summary>
         /// Gets or Sets Breed

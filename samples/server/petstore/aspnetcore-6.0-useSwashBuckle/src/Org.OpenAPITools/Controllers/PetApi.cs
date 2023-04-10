@@ -14,9 +14,6 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -26,7 +23,7 @@ namespace Org.OpenAPITools.Controllers
     /// 
     /// </summary>
     [ApiController]
-    public class PetApiController : ControllerBase
+    public abstract class PetApiController : ControllerBase
     { 
         /// <summary>
         /// Add a new pet to the store
@@ -38,25 +35,8 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet")]
         [Consumes("application/json", "application/xml")]
         [ValidateModelState]
-        [SwaggerOperation("AddPet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
-        public virtual IActionResult AddPet([FromBody]Pet pet)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Pet));
-            //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(405);
-            string exampleJson = null;
-            exampleJson = "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}";
-            exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Pet>(exampleJson)
-            : default(Pet);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        [ProducesResponseType(statusCode: 200, type: typeof(Pet))]
+        public abstract IActionResult AddPet([FromBody]Pet pet);
 
         /// <summary>
         /// Deletes a pet
@@ -67,15 +47,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpDelete]
         [Route("/v2/pet/{petId}")]
         [ValidateModelState]
-        [SwaggerOperation("DeletePet")]
-        public virtual IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader]string apiKey)
-        {
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            throw new NotImplementedException();
-        }
+        public abstract IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader]string apiKey);
 
         /// <summary>
         /// Finds Pets by status
@@ -87,25 +59,8 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/v2/pet/findByStatus")]
         [ValidateModelState]
-        [SwaggerOperation("FindPetsByStatus")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
-        public virtual IActionResult FindPetsByStatus([FromQuery (Name = "status")][Required()]List<string> status)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Pet>));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n} ]";
-            exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<Pet>>(exampleJson)
-            : default(List<Pet>);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        [ProducesResponseType(statusCode: 200, type: typeof(List<Pet>))]
+        public abstract IActionResult FindPetsByStatus([FromQuery (Name = "status")][Required()]List<string> status);
 
         /// <summary>
         /// Finds Pets by tags
@@ -117,26 +72,9 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/v2/pet/findByTags")]
         [ValidateModelState]
-        [SwaggerOperation("FindPetsByTags")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<Pet>), description: "successful operation")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<Pet>))]
         [Obsolete]
-        public virtual IActionResult FindPetsByTags([FromQuery (Name = "tags")][Required()]List<string> tags)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Pet>));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}, {\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n} ]";
-            exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<Pet>>(exampleJson)
-            : default(List<Pet>);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        public abstract IActionResult FindPetsByTags([FromQuery (Name = "tags")][Required()]List<string> tags);
 
         /// <summary>
         /// Find pet by ID
@@ -150,27 +88,8 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet/{petId}")]
         [Authorize(Policy = "api_key")]
         [ValidateModelState]
-        [SwaggerOperation("GetPetById")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
-        public virtual IActionResult GetPetById([FromRoute (Name = "petId")][Required]long petId)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Pet));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}";
-            exampleJson = "<Pet>\n  <id>123456789</id>\n  <Category>\n    <id>123456789</id>\n    <name>aeiou</name>\n  </Category>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n    <Tag>\n      <id>123456789</id>\n      <name>aeiou</name>\n    </Tag>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Pet>(exampleJson)
-            : default(Pet);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        [ProducesResponseType(statusCode: 200, type: typeof(Pet))]
+        public abstract IActionResult GetPetById([FromRoute (Name = "petId")][Required]long petId);
 
         /// <summary>
         /// Update an existing pet
@@ -184,29 +103,8 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet")]
         [Consumes("application/json", "application/xml")]
         [ValidateModelState]
-        [SwaggerOperation("UpdatePet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Pet), description: "successful operation")]
-        public virtual IActionResult UpdatePet([FromBody]Pet pet)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Pet));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(405);
-            string exampleJson = null;
-            exampleJson = "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}";
-            exampleJson = "<Pet>\n  <id>123456789</id>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Pet>(exampleJson)
-            : default(Pet);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        [ProducesResponseType(statusCode: 200, type: typeof(Pet))]
+        public abstract IActionResult UpdatePet([FromBody]Pet pet);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -219,15 +117,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet/{petId}")]
         [Consumes("application/x-www-form-urlencoded")]
         [ValidateModelState]
-        [SwaggerOperation("UpdatePetWithForm")]
-        public virtual IActionResult UpdatePetWithForm([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "name")]string name, [FromForm (Name = "status")]string status)
-        {
-
-            //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(405);
-
-            throw new NotImplementedException();
-        }
+        public abstract IActionResult UpdatePetWithForm([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "name")]string name, [FromForm (Name = "status")]string status);
 
         /// <summary>
         /// uploads an image
@@ -240,21 +130,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet/{petId}/uploadImage")]
         [Consumes("multipart/form-data")]
         [ValidateModelState]
-        [SwaggerOperation("UploadFile")]
-        [SwaggerResponse(statusCode: 200, type: typeof(ApiResponse), description: "successful operation")]
-        public virtual IActionResult UploadFile([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "additionalMetadata")]string additionalMetadata, IFormFile file)
-        {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(ApiResponse));
-            string exampleJson = null;
-            exampleJson = "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<ApiResponse>(exampleJson)
-            : default(ApiResponse);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        [ProducesResponseType(statusCode: 200, type: typeof(ApiResponse))]
+        public abstract IActionResult UploadFile([FromRoute (Name = "petId")][Required]long petId, [FromForm (Name = "additionalMetadata")]string additionalMetadata, IFormFile file);
     }
 }

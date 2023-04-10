@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// A pet for sale in the pet store
     /// </summary>
     [DataContract]
-    public partial class Pet : IEquatable<Pet>
+    public class Pet : IEquatable<Pet>
     {
         /// <summary>
         /// Gets or Sets Id

@@ -14,9 +14,6 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -26,7 +23,7 @@ namespace Org.OpenAPITools.Controllers
     /// 
     /// </summary>
     [ApiController]
-    public class FakeApiController : ControllerBase
+    public abstract class FakeApiController : ControllerBase
     { 
         /// <summary>
         /// fake endpoint to test parameter example (object)
@@ -36,14 +33,6 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/v2/fake/parameter_example_test")]
         [ValidateModelState]
-        [SwaggerOperation("FakeParameterExampleTest")]
-        public virtual IActionResult FakeParameterExampleTest([FromQuery (Name = "data")][Required()]Pet data)
-        {
-
-            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(0);
-
-            throw new NotImplementedException();
-        }
+        public abstract IActionResult FakeParameterExampleTest([FromQuery (Name = "data")][Required()]Pet data);
     }
 }

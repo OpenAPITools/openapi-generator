@@ -7,3 +7,5 @@ additionalProperties:
   aspnetCoreVersion: "6.0"
   userSecretsGuid: 'cb87e868-8646-48ef-9bb6-344b537d0d37'
   useSwashBuckle: false
+  buildTarget: library
+  isLibrary: true

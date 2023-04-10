@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Models
     [SwaggerSubType(typeof(Cat), DiscriminatorValue =  "CAT")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "DOG")]
     [SwaggerSubType(typeof(Dog), DiscriminatorValue =  "DOG")]
-    public partial class Animal : IEquatable<Animal>
+    public class Animal : IEquatable<Animal>
     {
         /// <summary>
         /// Gets or Sets ClassName

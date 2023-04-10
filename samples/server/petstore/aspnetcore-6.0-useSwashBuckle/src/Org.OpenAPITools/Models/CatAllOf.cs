@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class CatAllOf : IEquatable<CatAllOf>
+    public class CatAllOf : IEquatable<CatAllOf>
     {
         /// <summary>
         /// Gets or Sets Declawed
