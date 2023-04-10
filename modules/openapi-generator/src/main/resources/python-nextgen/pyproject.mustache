@@ -2,7 +2,7 @@
 name = "{{{packageName}}}"
 version = "{{{packageVersion}}}"
 description = "{{{appName}}}"
-authors = ["{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}"]
+authors = ["{{infoName}}{{^infoName}}OpenAPI Generator Community{{/infoName}} <{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}>"]
 license = "{{{licenseInfo}}}{{^licenseInfo}}NoLicense{{/licenseInfo}}"
 readme = "README.md"
 repository = "https://github.com/{{{gitRepoId}}}/{{{gitUserId}}}"
@@ -34,3 +34,4 @@ flake8 = ">=6.0.0"
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+

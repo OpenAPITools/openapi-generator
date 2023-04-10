@@ -2,7 +2,7 @@
 name = "petstore_api"
 version = "1.0.0"
 description = "OpenAPI Petstore"
-authors = ["team@openapitools.org"]
+authors = ["OpenAPI Generator Community <team@openapitools.org>"]
 license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/GIT_REPO_ID/GIT_USER_ID"
@@ -27,3 +27,4 @@ flake8 = ">=6.0.0"
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
