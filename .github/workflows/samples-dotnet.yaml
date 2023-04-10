@@ -7,12 +7,14 @@ on:
       - 'samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
   pull_request:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
       - 'samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore**/'
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
 jobs:
   build:
     name: Build .Net projects
@@ -30,6 +32,7 @@ jobs:
           - samples/server/petstore/aspnetcore-6.0
           - samples/server/petstore/aspnetcore-6.0-pocoModels
           - samples/server/petstore/aspnetcore-6.0-project4Models
+          - samples/server/petstore/aspnetcore-6.0-useSwashBuckle
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3.0.3
