@@ -17,7 +17,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using JsonSubTypes;
-using Swashbuckle.AspNetCore.Annotations;
 using Org.OpenAPITools.Converters;
 
 namespace Org.OpenAPITools.Models
@@ -27,11 +26,8 @@ namespace Org.OpenAPITools.Models
     /// </summary>
     [DataContract]
     [JsonConverter(typeof(JsonSubtypes), "ClassName")]
-    [SwaggerDiscriminator("ClassName")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "CAT")]
-    [SwaggerSubType(typeof(Cat), DiscriminatorValue =  "CAT")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "DOG")]
-    [SwaggerSubType(typeof(Dog), DiscriminatorValue =  "DOG")]
     public class Animal : IEquatable<Animal>
     {
         /// <summary>
