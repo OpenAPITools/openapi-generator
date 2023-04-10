@@ -204,6 +204,11 @@
   infoLink: "https://www.fenergo.com/"
   pinned: false
 -
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
+  pinned: false
+-
   caption: FiNC Technologies
   image: "img/companies/finc-technologies.png"
   infoLink: "https://company.finc.com/"
