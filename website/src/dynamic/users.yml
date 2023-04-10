@@ -84,7 +84,7 @@
   infoLink: "https://www.bithost.ch/"
   pinned: true
 -
-  caption: Bosch Connected Industry
+  caption: Bosch Connected IndustryfF
   image: "img/companies/bosch.png"
   infoLink: "https://www.bosch-connected-industry.com"
   pinned: false
@@ -202,6 +202,11 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
   pinned: false
 -
   caption: FiNC Technologies
