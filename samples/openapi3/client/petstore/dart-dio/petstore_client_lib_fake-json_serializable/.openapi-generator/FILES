@@ -84,6 +84,8 @@ lib/src/model/cat.dart
 lib/src/model/cat_all_of.dart
 lib/src/model/category.dart
 lib/src/model/class_model.dart
+lib/src/model/date.dart
+lib/src/model/date_serializer.dart
 lib/src/model/deprecated_object.dart
 lib/src/model/dog.dart
 lib/src/model/dog_all_of.dart

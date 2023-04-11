@@ -6,6 +6,7 @@
 import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date_serializer.dart';
 
 part 'pet.g.dart';
 
