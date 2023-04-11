@@ -106,6 +106,10 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
+	if err := AssertPetConstraints(petParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
 	result, err := c.service.AddPet(r.Context(), petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -192,6 +196,10 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := AssertPetRequired(petParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertPetConstraints(petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}

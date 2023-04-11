@@ -9,9 +9,18 @@
 
 package petstoreserver
 
+
 import (
 	"time"
 )
+
+
+import "errors" // FIXME: why not in #imports
+import "encoding/json" // FIXME: why not in #imports
+
+var _ = errors.New("") // to enforce the use of errors
+var _ = json.NewDecoder(nil) // to enforce the use of encoding/json
+
 
 // OrderInfo - An order info for a pets from the pet store
 type OrderInfo struct {
@@ -23,7 +32,36 @@ type OrderInfo struct {
 	ShipDate time.Time `json:"shipDate,omitempty"`
 }
 
+// UnmarshalJSON parse JSON while respecting the default values specified
+func (o *OrderInfo) UnmarshalJSON(data []byte) error {
+    type Alias OrderInfo // Avoid infinite recursion
+    aux := Alias{
+	}
+    if err := json.Unmarshal(data, &aux); err != nil {
+        return err
+    }
+    *o = OrderInfo(aux)
+    return nil
+}
+
 // AssertOrderInfoRequired checks if the required fields are not zero-ed
 func AssertOrderInfoRequired(obj OrderInfo) error {
 	return nil
+}
+
+// AssertOrderInfoConstraints checks if the values respects the defined constraints
+func AssertOrderInfoConstraints(obj OrderInfo) error {
+	return nil
+}
+
+// AssertRecurseOrderInfoRequired recursively checks if required fields are not zero-ed in a nested slice.
+// Accepts only nested slice of OrderInfo (e.g. [][]OrderInfo), otherwise ErrTypeAssertionError is thrown.
+func AssertRecurseOrderInfoRequired(objSlice interface{}) error {
+	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+		aOrderInfo, ok := obj.(OrderInfo)
+		if !ok {
+			return ErrTypeAssertionError
+		}
+		return AssertOrderInfoRequired(aOrderInfo)
+	})
 }

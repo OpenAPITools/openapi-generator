@@ -9,6 +9,15 @@
 
 package petstoreserver
 
+
+
+import "errors" // FIXME: why not in #imports
+import "encoding/json" // FIXME: why not in #imports
+
+var _ = errors.New("") // to enforce the use of errors
+var _ = json.NewDecoder(nil) // to enforce the use of encoding/json
+
+
 // ApiResponse - Describes the result of uploading an image resource
 type ApiResponse struct {
 
@@ -19,7 +28,36 @@ type ApiResponse struct {
 	Message string `json:"message,omitempty"`
 }
 
+// UnmarshalJSON parse JSON while respecting the default values specified
+func (o *ApiResponse) UnmarshalJSON(data []byte) error {
+    type Alias ApiResponse // Avoid infinite recursion
+    aux := Alias{
+	}
+    if err := json.Unmarshal(data, &aux); err != nil {
+        return err
+    }
+    *o = ApiResponse(aux)
+    return nil
+}
+
 // AssertApiResponseRequired checks if the required fields are not zero-ed
 func AssertApiResponseRequired(obj ApiResponse) error {
 	return nil
+}
+
+// AssertApiResponseConstraints checks if the values respects the defined constraints
+func AssertApiResponseConstraints(obj ApiResponse) error {
+	return nil
+}
+
+// AssertRecurseApiResponseRequired recursively checks if required fields are not zero-ed in a nested slice.
+// Accepts only nested slice of ApiResponse (e.g. [][]ApiResponse), otherwise ErrTypeAssertionError is thrown.
+func AssertRecurseApiResponseRequired(objSlice interface{}) error {
+	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+		aApiResponse, ok := obj.(ApiResponse)
+		if !ok {
+			return ErrTypeAssertionError
+		}
+		return AssertApiResponseRequired(aApiResponse)
+	})
 }

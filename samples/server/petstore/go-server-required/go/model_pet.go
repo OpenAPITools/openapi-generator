@@ -9,6 +9,15 @@
 
 package petstoreserver
 
+
+
+import "errors" // FIXME: why not in #imports
+import "encoding/json" // FIXME: why not in #imports
+
+var _ = errors.New("") // to enforce the use of errors
+var _ = json.NewDecoder(nil) // to enforce the use of encoding/json
+
+
 // Pet - A pet for sale in the pet store
 type Pet struct {
 
@@ -24,6 +33,18 @@ type Pet struct {
 
 	// pet status in the store
 	Status string `json:"status,omitempty"`
+}
+
+// UnmarshalJSON parse JSON while respecting the default values specified
+func (o *Pet) UnmarshalJSON(data []byte) error {
+    type Alias Pet // Avoid infinite recursion
+    aux := Alias{
+	}
+    if err := json.Unmarshal(data, &aux); err != nil {
+        return err
+    }
+    *o = Pet(aux)
+    return nil
 }
 
 // AssertPetRequired checks if the required fields are not zero-ed
@@ -51,4 +72,21 @@ func AssertPetRequired(obj Pet) error {
 		}
 	}
 	return nil
+}
+
+// AssertPetConstraints checks if the values respects the defined constraints
+func AssertPetConstraints(obj Pet) error {
+	return nil
+}
+
+// AssertRecursePetRequired recursively checks if required fields are not zero-ed in a nested slice.
+// Accepts only nested slice of Pet (e.g. [][]Pet), otherwise ErrTypeAssertionError is thrown.
+func AssertRecursePetRequired(objSlice interface{}) error {
+	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+		aPet, ok := obj.(Pet)
+		if !ok {
+			return ErrTypeAssertionError
+		}
+		return AssertPetRequired(aPet)
+	})
 }

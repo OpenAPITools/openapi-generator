@@ -93,35 +93,35 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#allParams}}
 	{{#isPathParam}}
 	{{#isNumber}}
-	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}}{{#defaultValue}}, WithDefault(float64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 		if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isNumber}}
 	{{#isFloat}}
-	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}}{{#defaultValue}}, WithDefault(float64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isFloat}}
 	{{#isDouble}}
-	{{paramName}}Param, err := parseFloat64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseFloat64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}}{{#defaultValue}}, WithDefault(float64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isDouble}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}}{{#defaultValue}}, WithDefault(int64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseInt32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseInt32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}}{{#defaultValue}}, WithDefault(int64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -141,42 +141,42 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isPathParam}}
 	{{#isQueryParam}}
 	{{#isNumber}}
-	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(float64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isNumber}}
 	{{#isFloat}}
-	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(float64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isFloat}}
 	{{#isDouble}}
-	{{paramName}}Param, err := parseFloat64Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseFloat64Parameter(query.Get("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(float64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isDouble}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(int64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseInt32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseInt32Parameter(query.Get("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(int64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}Param, err := parseBoolParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseBoolParameter(query.Get("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault({{defaultValue}}){{/defaultValue}})
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -184,35 +184,35 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isBoolean}}
 	{{#isArray}}
 	{{#items.isNumber}}
-	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isNumber}}
 	{{#items.isFloat}}
-	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 	return
 	}
 	{{/items.isFloat}}
 	{{#items.isDouble}}
-	{{paramName}}Param, err := parseFloat64ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseFloat64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(float64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(float64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isDouble}}
 	{{#items.isLong}}
-	{{paramName}}Param, err := parseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	{{paramName}}Param, err := parseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isLong}}
 	{{#items.isInteger}}
-	{{paramName}}Param, err := parseInt32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	{{paramName}}Param, err := parseInt32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -237,7 +237,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isBoolean}}
 	{{^isArray}}
-	{{paramName}}Param := query.Get("{{baseName}}")
+	{{paramName}}Param := "{{#defaultValue}}{{defaultValue}}{{/defaultValue}}"
+	if query.Has("{{baseName}}") {
+		{{paramName}}Param = query.Get("{{baseName}}")
+	}
 	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
@@ -257,16 +260,16 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isFile}}
 	{{#isLong}}{{#isArray}}
-	{{paramName}}Param, err := parseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := parseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
+	{{paramName}}Param, err := parseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}}){{/isArray}}{{^isArray}}
+	{{paramName}}Param, err := parseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(int64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}}){{/isArray}}
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}{{#isArray}}
-	{{paramName}}Param, err := parseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := parseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
+	{{paramName}}Param, err := parseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}}){{/isArray}}{{^isArray}}
+	{{paramName}}Param, err := parseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}{{#defaultValue}}, WithDefault(int64({{defaultValue}})){{/defaultValue}}{{#minimum}}, WithMinimum(int64({{minimum}})){{/minimum}}{{#maximum}}, WithMaximum(int64({{maximum}})){{/maximum}}){{/isArray}}
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -304,6 +307,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isArray}}
 		{{#isModel}}
 	if err := Assert{{baseType}}Required({{paramName}}Param); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := Assert{{baseType}}Constraints({{paramName}}Param); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}

@@ -9,6 +9,15 @@
 
 package petstoreserver
 
+
+
+import "errors" // FIXME: why not in #imports
+import "encoding/json" // FIXME: why not in #imports
+
+var _ = errors.New("") // to enforce the use of errors
+var _ = json.NewDecoder(nil) // to enforce the use of encoding/json
+
+
 // Tag - A tag for a pet
 type Tag struct {
 
@@ -17,7 +26,36 @@ type Tag struct {
 	Name string `json:"name,omitempty"`
 }
 
+// UnmarshalJSON parse JSON while respecting the default values specified
+func (o *Tag) UnmarshalJSON(data []byte) error {
+    type Alias Tag // Avoid infinite recursion
+    aux := Alias{
+	}
+    if err := json.Unmarshal(data, &aux); err != nil {
+        return err
+    }
+    *o = Tag(aux)
+    return nil
+}
+
 // AssertTagRequired checks if the required fields are not zero-ed
 func AssertTagRequired(obj Tag) error {
 	return nil
+}
+
+// AssertTagConstraints checks if the values respects the defined constraints
+func AssertTagConstraints(obj Tag) error {
+	return nil
+}
+
+// AssertRecurseTagRequired recursively checks if required fields are not zero-ed in a nested slice.
+// Accepts only nested slice of Tag (e.g. [][]Tag), otherwise ErrTypeAssertionError is thrown.
+func AssertRecurseTagRequired(objSlice interface{}) error {
+	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
+		aTag, ok := obj.(Tag)
+		if !ok {
+			return ErrTypeAssertionError
+		}
+		return AssertTagRequired(aTag)
+	})
 }

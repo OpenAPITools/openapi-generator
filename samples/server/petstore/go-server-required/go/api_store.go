@@ -100,7 +100,7 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
-	orderIdParam, err := parseInt64Parameter(chi.URLParam(r, "orderId"), true)
+	orderIdParam, err := parseInt64Parameter(chi.URLParam(r, "orderId"), true, WithMinimum(int64(1)), WithMaximum(int64(5)))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -125,6 +125,10 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	if err := AssertOrderRequired(orderParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertOrderConstraints(orderParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
