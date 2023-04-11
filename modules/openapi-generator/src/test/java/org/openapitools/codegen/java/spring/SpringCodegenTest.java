@@ -651,6 +651,9 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);
         codegen.setOutputDir(output.getAbsolutePath());
+        Map<String, String> schemaMapping = codegen.schemaMapping();
+        schemaMapping.put("ResponseTest3", "example.ResponseTest3DTO");
+        schemaMapping.put("ResponseTest4", "org.example.ResponseTest4DTO");
         codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
@@ -684,6 +687,12 @@ public class SpringCodegenTest {
               .toType()
               .hasProperty("listDtos")
               .withType( "List<@Valid ResponseTest2>" )
+              .toType()
+              .hasProperty("listQualifiedDtos")
+              .withType("List<example.@Valid ResponseTest3DTO>")
+              .toType()
+              .hasProperty("listMultilevelQualifiedDtos")
+              .withType("List<org.example.@Valid ResponseTest4DTO>")
               .toType()
               .hasProperty("nullableStrings")
               .withType( "JsonNullable<Set<String>>" )

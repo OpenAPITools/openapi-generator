@@ -63,6 +63,16 @@ components:
           items:
             $ref: '#/components/schemas/ResponseTest2'
           maxItems: 10
+        listQualifiedDtos:
+          type: array
+          description: DTOs with a qualified type (schema mapping)
+          items:
+            $ref: '#/components/schemas/ResponseTest3'
+        listMultilevelQualifiedDtos:
+          type: array
+          description: DTOs with a qualified type having more than one level
+          items:
+            $ref: '#/components/schemas/ResponseTest4'
         nullableStrings:
           type: array
           description: dtos
@@ -97,5 +107,17 @@ components:
       type: object
       properties:
         label:
+          type: string
+          nullable: false
+    ResponseTest3:
+      type: object
+      properties:
+        note:
+          type: string
+          nullable: false
+    ResponseTest4:
+      type: object
+      properties:
+        tag:
           type: string
           nullable: false
