@@ -329,7 +329,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
 
-        codegenModel.vendorExtensions.put("x-xojo-project-id", String.format("%014XFF", projectObjectNumber));
+        codegenModel.vendorExtensions.put("x-xojo-project-id", String.format(Locale.ROOT, "%014XFF", projectObjectNumber));
         projectObjectNumber = projectObjectNumber + 16;
 
         if (allDefinitions != null) {
@@ -378,7 +378,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
             objs.put("vendorExtensions", vendorExtensions);
         }
 
-        vendorExtensions.put("x-xojo-project-id", String.format("%014XFF", projectObjectNumber));
+        vendorExtensions.put("x-xojo-project-id", String.format(Locale.ROOT, "%014XFF", projectObjectNumber));
         projectObjectNumber = projectObjectNumber + 16;
 
         return objs;
