@@ -132,10 +132,10 @@ func {{operationIdSnakeCase}}(
 	{{/if}}
 	{{/each}}
 	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := self.bee_convert_http_method("{{httpMethod}}")
+	var bzz_method := self._bee_convert_http_method("{{httpMethod}}")
 
 	# Compute the URL path to the API resource
-	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", bee_urlize_path_param({{{paramName}}})){{/each}}
+	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", _bee_urlize_path_param({{{paramName}}})){{/each}}
 
 	# Collect the headers
 	var bzz_headers := Dictionary()

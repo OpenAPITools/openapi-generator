@@ -6,7 +6,7 @@ class_name {{>partials/api_base_class_name}}
 # Every property/method defined here may collide with userland,
 # so these are all listed and excluded in our CodeGen Java file.
 # We want to keep the amount of renaming to a minimum, though.
-# Therefore, we use the bee_ prefix, even if awkward.
+# Therefore, we use the bee_ and _bee_ prefixes, even if awkward.
 
 
 const BEE_CONTENT_TYPE_TEXT := "text/plain"
@@ -49,7 +49,8 @@ var bee_client: HTTPClient:
 
 
 # General configuration that can be shared across Api instances for convenience.
-# If no configuration was provided, we'll lazily make one with defaults as best we can.
+# If no configuration was provided, we'll lazily make one with defaults,
+# but you probably want to make your own with your own domain and scheme.
 var bee_config: {{>partials/api_config_class_name}}:
 	set(value):
 		bee_config = value
@@ -60,12 +61,12 @@ var bee_config: {{>partials/api_config_class_name}}:
 		return bee_config
 
 
-func bee_next_loop_iteration():
-	# I can't find `idle_frame` in 4-beta3, but we probably want idle_frame here
+func _bee_next_loop_iteration():
+	# I can't find `idle_frame` in 4.0, but we probably want idle_frame here
 	return Engine.get_main_loop().process_frame
 
 
-func bee_connect_client_if_needed(
+func _bee_connect_client_if_needed(
 	on_success: Callable,  # func()
 	on_failure: Callable,  # func(error: {{>partials/api_error_class_name}})
 	#finally: Callable,
@@ -84,14 +85,15 @@ func bee_connect_client_if_needed(
 		on_success.call()
 
 	var connecting := self.bee_client.connect_to_host(
-		self.bee_config.host, self.bee_config.port
+		self.bee_config.host, self.bee_config.port, self.bee_config.tls_options
 	)
 	if connecting != OK:
 		var error := {{>partials/api_error_class_name}}.new()
 		error.internal_code = connecting
 		error.identifier = "apibee.connect_to_host.failure"
-		error.message = "%s: failed to connect to `%s' port %d with error %d" % [
-			self.bee_name, self.bee_config.host, self.bee_config.port, connecting
+		error.message = "%s: failed to connect to `%s' port `%d' with error: %s" % [
+			self.bee_name, self.bee_config.host, self.bee_config.port,
+			_bee_httpclient_status_string(connecting),
 		]
 		on_failure.call(error)
 		return
@@ -106,14 +108,16 @@ func bee_connect_client_if_needed(
 		self.bee_config.log_debug("Connecting…")
 		if self.bee_config.polling_interval_ms:
 			OS.delay_msec(self.bee_config.polling_interval_ms)
-		await bee_next_loop_iteration()
+		await _bee_next_loop_iteration()
 
-	if self.bee_client.get_status() != HTTPClient.STATUS_CONNECTED:
+	var connected := self.bee_client.get_status()
+	if connected != HTTPClient.STATUS_CONNECTED:
 		var error := {{>partials/api_error_class_name}}.new()
-		error.internal_code = connecting
+		error.internal_code = connected as Error
 		error.identifier = "apibee.connect_to_host.wrong_status"
-		error.message = "%s: failed to connect to `%s' port %d, with client status %d" % [
-			self.bee_name, self.bee_config.host, self.bee_config.port, self.bee_client.get_status()
+		error.message = "%s: failed to connect to `%s' port `%d' : %s" % [
+			self.bee_name, self.bee_config.host, self.bee_config.port,
+			_bee_httpclient_status_string(connected),
 		]
 		on_failure.call(error)
 		return
@@ -121,7 +125,6 @@ func bee_connect_client_if_needed(
 	on_success.call()
 
 
-# @protected
 func bee_request(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
@@ -135,7 +138,7 @@ func bee_request(
 	# Denormalization is handled in each generated API endpoint in the on_success callable of this method.
 	# This is because this method already has plethora of parameters and we don't want even more.
 
-	bee_request_text(
+	_bee_request_text(
 		method, path, headers, query, body,
 		func(responseText, responseCode, responseHeaders):
 			var mime: String = responseHeaders['Mime']
@@ -176,8 +179,7 @@ func bee_request(
 	)
 
 
-# @protected
-func bee_request_text(
+func _bee_request_text(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
 	headers: Dictionary,
@@ -186,9 +188,9 @@ func bee_request_text(
 	on_success: Callable,  # func(responseText: String, responseCode: int, responseHeaders: Dictionary)
 	on_failure: Callable,  # func(error: {{>partials/api_error_class_name}})
 ):
-	bee_connect_client_if_needed(
+	_bee_connect_client_if_needed(
 		func():
-			bee_do_request_text(method, path, headers, query, body, on_success, on_failure)
+			_bee_do_request_text(method, path, headers, query, body, on_success, on_failure)
 			,
 		func(error):
 			on_failure.call(error)
@@ -196,8 +198,7 @@ func bee_request_text(
 	)
 
 
-# @protected
-func bee_do_request_text(
+func _bee_do_request_text(
 	method: int,  # one of HTTPClient.METHOD_XXXXX
 	path: String,
 	headers: Dictionary,
@@ -227,7 +228,7 @@ func bee_do_request_text(
 			body_normalized = body.bee_normalize()
 
 	var body_serialized := ""
-	var content_type := self.bee_get_content_type(headers)
+	var content_type := self._bee_get_content_type(headers)
 	if content_type == BEE_CONTENT_TYPE_JSON:
 		body_serialized = JSON.stringify(body_normalized)
 	elif content_type == BEE_CONTENT_TYPE_FORM:
@@ -246,6 +247,12 @@ func bee_do_request_text(
 	for key in headers:
 		headers_for_godot.append("%s: %s" % [key, headers[key]])
 
+	self.bee_config.log_info("%s: REQUEST %s %s" % [self.bee_name, method, path_queried])
+	if not headers.is_empty():
+		self.bee_config.log_debug("→ HEADERS: %s" % [str(headers)])
+	if body_serialized:
+		self.bee_config.log_debug("→ BODY: \n%s" % [body_serialized])
+
 	var requesting := self.bee_client.request(method, path_queried, headers_for_godot, body_serialized)
 	if requesting != OK:
 		var error := {{>partials/api_error_class_name}}.new()
@@ -263,14 +270,13 @@ func bee_do_request_text(
 		self.bee_config.log_debug("Requesting…")
 		if self.bee_config.polling_interval_ms:
 			OS.delay_msec(self.bee_config.polling_interval_ms)
-		await bee_next_loop_iteration()
-#		if OS.has_feature("web") or async:
+		await _bee_next_loop_iteration()
 
 	if not self.bee_client.has_response():
 		var error := {{>partials/api_error_class_name}}.new()
 		error.identifier = "apibee.request.no_response"
-		error.message = "%s: request to `%s' yielded no response whatsoever." % [
-			self.bee_name, path
+		error.message = "%s: request to `%s' returned no response whatsoever. (status=%d)" % [
+			self.bee_name, path, self.bee_client.get_status(),
 		]
 		on_failure.call(error)
 		return
@@ -293,15 +299,9 @@ func bee_do_request_text(
 		if chunk.size() == 0:  # Got nothing, wait for buffers to fill a bit.
 			if self.bee_config.polling_interval_ms:
 				OS.delay_usec(self.bee_config.polling_interval_ms)
-			await bee_next_loop_iteration()
+			await _bee_next_loop_iteration()
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
-
-	self.bee_config.log_info("%s: REQUEST %s %s" % [self.bee_name, method, path_queried])
-	if not headers.is_empty():
-		self.bee_config.log_debug("→ HEADERS: %s" % [str(headers)])
-	if body_serialized:
-		self.bee_config.log_debug("→ BODY: \n%s" % [body_serialized])
 
 	self.bee_config.log_info("%s: RESPONSE %d (%d bytes)" % [
 		self.bee_name, response_code, response_bytes.size()
@@ -331,7 +331,7 @@ func bee_do_request_text(
 			self.bee_name, path, response_code
 		]
 		error.message += "\n%s" % [
-			bee_format_error_response(response_text)
+			_bee_format_error_response(response_text)
 		]
 		on_failure.call(error)
 		return
@@ -343,7 +343,7 @@ func bee_do_request_text(
 			self.bee_name, path, response_code
 		]
 		error.message += "\n%s" % [
-			bee_format_error_response(response_text)
+			_bee_format_error_response(response_text)
 		]
 		on_failure.call(error)
 		return
@@ -363,7 +363,7 @@ func bee_do_request_text(
 	on_success.call(response_text, response_code, response_headers)
 
 
-func bee_convert_http_method(method: String) -> int:
+func _bee_convert_http_method(method: String) -> int:
 	match method:
 		'GET': return HTTPClient.METHOD_GET
 		'POST': return HTTPClient.METHOD_POST
@@ -382,23 +382,23 @@ func bee_convert_http_method(method: String) -> int:
 			return HTTPClient.METHOD_GET
 
 
-func bee_urlize_path_param(anything) -> String:
-	var serialized := bee_escape_path_param(str(anything))
+func _bee_urlize_path_param(anything) -> String:
+	var serialized := _bee_escape_path_param(str(anything))
 	return serialized
 
 
-func bee_escape_path_param(value: String) -> String:
+func _bee_escape_path_param(value: String) -> String:
 	# TODO: escape for URL
 	return value
 
 
-func bee_get_content_type(headers: Dictionary) -> String:
+func _bee_get_content_type(headers: Dictionary) -> String:
 	if headers.has("Content-Type"):
 		return headers["Content-Type"]
 	return BEE_PRODUCIBLE_CONTENT_TYPES[0]
 
 
-func bee_format_error_response(response: String) -> String:
+func _bee_format_error_response(response: String) -> String:
 	# TODO: handle other (de)serialization schemes
 	var parser := JSON.new()
 	var parsing := parser.parse(response)
@@ -414,3 +414,58 @@ func bee_format_error_response(response: String) -> String:
 	else:
 		return response
 	return s
+
+
+func _bee_httpclient_status_info(status: int) -> Dictionary:
+	# At some point Godot ought to natively implement this and we won't need this "shim" anymore.
+	match status:
+		HTTPClient.STATUS_DISCONNECTED: return {
+			"name": "STATUS_DISCONNECTED",
+			"description": "Disconnected from the server."
+		}
+		HTTPClient.STATUS_RESOLVING: return {
+			"name": "STATUS_RESOLVING",
+			"description": "Currently resolving the hostname for the given URL into an IP."
+		}
+		HTTPClient.STATUS_CANT_RESOLVE: return {
+			"name": "STATUS_CANT_RESOLVE",
+			"description": "DNS failure: Can't resolve the hostname for the given URL."
+		}
+		HTTPClient.STATUS_CONNECTING: return {
+			"name": "STATUS_CONNECTING",
+			"description": "Currently connecting to server."
+		}
+		HTTPClient.STATUS_CANT_CONNECT: return {
+			"name": "STATUS_CANT_CONNECT",
+			"description": "Can't connect to the server."
+		}
+		HTTPClient.STATUS_CONNECTED: return {
+			"name": "STATUS_CONNECTED",
+			"description": "Connection established."
+		}
+		HTTPClient.STATUS_REQUESTING: return {
+			"name": "STATUS_REQUESTING",
+			"description": "Currently sending request."
+		}
+		HTTPClient.STATUS_BODY: return {
+			"name": "STATUS_BODY",
+			"description": "HTTP body received."
+		}
+		HTTPClient.STATUS_CONNECTION_ERROR: return {
+			"name": "STATUS_CONNECTION_ERROR",
+			"description": "Error in HTTP connection."
+		}
+		HTTPClient.STATUS_TLS_HANDSHAKE_ERROR: return {
+			"name": "STATUS_TLS_HANDSHAKE_ERROR",
+			"description": "Error in TLS handshake."
+		}
+	return {
+		"name": "UNKNOWN (%d)" % status,
+		"description": "Unknown HTTPClient status."
+	}
+
+
+func _bee_httpclient_status_string(status: int) -> String:
+	var info := _bee_httpclient_status_info(status)
+	return "%s (%s)" % [info["description"], info["name"]]
+

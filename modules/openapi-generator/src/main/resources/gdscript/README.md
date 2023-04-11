@@ -24,7 +24,3 @@ Godot does not have an `Exception` (`try / catch`) mechanism, by design.
 
 Therefore, whenever there's trouble in paradise, we pass around an `ApiError` object. (a `RefCounted`, don't worry about garbage collection)
 
-
-
-
-

@@ -5,19 +5,24 @@ class_name {{>partials/api_config_class_name}}
 
 
 # Configuration options for Api endpoints
-# ---------------------------------------
+# =======================================
 #
-# Its purpose is to help you share configuration customizations across Apis:
-# - host & port
-# - headers & security schemes
+# Helps share configuration customizations across Apis:
+# - host, port & scheme
+# - extra headers
+# - security layer options (TLS certificates)
 # - log level
+#
+# You probably want to make an instance of this class with your own values,
+# and feed it to each Api's `bee_config` before calling the Api's methods.
+#
 # Since it is a Resource, you may use `ResourceSaver.save()` and `load()`
-# to save it and load it from file, if you want.
+# to save it and load it from file, for convenience.
 #
 
 
-# These are constant, immutable default values.
-# To set different values at runtime, use the public properties below.
+# These are constant, immutable default values.  Best not edit them.
+# To set different values at runtime, use the @export'ed properties below.
 const BEE_DEFAULT_HOST := "{{#if host}}{{{host}}}{{else}}localhost{{/if}}"
 const BEE_DEFAULT_PORT_HTTP := 80
 const BEE_DEFAULT_PORT_HTTPS := 443
@@ -25,7 +30,6 @@ const BEE_DEFAULT_POLLING_INTERVAL_MS := 333  # milliseconds
 
 
 # Configuration also handles logging because it's convenient.
-# You may extend this class and override the log methods with your own if you need to.
 enum LogLevel {
 	SILENT,
 	ERROR,
@@ -34,10 +38,17 @@ enum LogLevel {
 	DEBUG,
 }
 
+
+# Log level to configure verbosity.
+# @export_enum ain't working for ints yet (2023-03)
+@export var log_level := LogLevel.WARNING
+
 {{!--
 # Not sure if this should hold the HTTPClient instance or not.  Not for now.
+# Godot recommends using a single client for all requests, so it should.
+
 # Godot's HTTP Client we are using.
-# If none was set (by you), we'll make one.
+# If none was set (by you), we'll lazily make one.
 var bee_client: HTTPClient:
 	set(value):
 		bee_client = value
@@ -53,10 +64,10 @@ var bee_client: HTTPClient:
 @export var host := BEE_DEFAULT_HOST:
 	set(value):
 		if value.begins_with("https://"):
-			ssl_enabled = true
+			tls_enabled = true
 			value = value.substr(8)  # "https://".length() == 8
 		elif value.begins_with("http://"):
-			ssl_enabled = false
+			tls_enabled = false
 			value = value.substr(7)  # "http://".length() == 7
 		host = value
 
@@ -86,18 +97,32 @@ var bee_client: HTTPClient:
 @export var polling_interval_ms := BEE_DEFAULT_POLLING_INTERVAL_MS  # milliseconds
 
 
-# Should we encrypt packets ?  Yes.  Let's encrypt !
-@export var ssl_enabled := false:
+# Enable the Transport Security Layer (packet encryption, HTTPS)
+@export var tls_enabled := false:
 	set(value):
-		ssl_enabled = value
-		port = BEE_DEFAULT_PORT_HTTPS if ssl_enabled else BEE_DEFAULT_PORT_HTTP
+		tls_enabled = value
+		port = BEE_DEFAULT_PORT_HTTPS if tls_enabled else BEE_DEFAULT_PORT_HTTP
 
 
-@export var verify_host := true  # only used if ssl is enabled
+# You should preload your *.crt file (the whole chain) in here if you want TLS.
+# I usually concatenate my /etc/ssl/certs/ca-certificates.crt and webserver certs here.
+# Remember to add the *.crt file to the exports, if necessary.
+@export var trusted_chain: X509Certificate  # only used if tls is enabled
+@export var common_name_override := ""  # for TLSOptions
 
 
-# @export_enum ain't working for ints yet
-@export var log_level := LogLevel.WARNING
+# Dynamic accessor using the TLS properties above, but you may inject your own
+# for example if you need to use TLSOptions.client_unsafe.  Best not @export this.
+var tls_options: TLSOptions:
+	set(value):
+		tls_options = value
+	get:
+		if not tls_enabled:
+			return null
+		if not tls_options:
+			tls_options = TLSOptions.client(trusted_chain, common_name_override)
+		return tls_options
+
 
 func log_error(message: String):
 	if self.log_level >= LogLevel.ERROR:
@@ -140,7 +165,7 @@ func set_security_{{name}}(value: String):
 
 
 {{else}}
-# → Skipped because it's not implemented in the gdscript templates.  (contribs welcome)
+# → Skipped: not implemented in the gdscript templates.  (contribs welcome)
 
 
 {{/if}}
