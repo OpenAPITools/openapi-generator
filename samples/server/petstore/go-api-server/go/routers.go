@@ -139,8 +139,8 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 	return file, nil
 }
 
-// parseInt64Parameter parses a string parameter to an int64.
-func parseInt64Parameter(param string, required bool) (int64, error) {
+// parseFloatParameter parses a string parameter to an int64.
+func parseFloatParameter(param string, bitSize int, required bool) (float64, error) {
 	if param == "" {
 		if required {
 			return 0, errors.New(errMsgRequiredMissing)
@@ -149,25 +149,42 @@ func parseInt64Parameter(param string, required bool) (int64, error) {
 		return 0, nil
 	}
 
-	return strconv.ParseInt(param, 10, 64)
+	return strconv.ParseFloat(param, bitSize)
+}
+
+// parseFloat64Parameter parses a string parameter to an float64.
+func parseFloat64Parameter(param string, required bool) (float64, error) {
+	return parseFloatParameter(param, 64, required)
+}
+
+// parseFloat32Parameter parses a string parameter to an float32.
+func parseFloat32Parameter(param string, required bool) (float32, error) {
+	val, err := parseFloatParameter(param, 32, required)
+	return float32(val), err
+}
+
+// parseIntParameter parses a string parameter to an int64.
+func parseIntParameter(param string, bitSize int, required bool) (int64, error) {
+	if param == "" {
+		if required {
+			return 0, errors.New(errMsgRequiredMissing)
+		}
+
+		return 0, nil
+	}
+
+	return strconv.ParseInt(param, 10, bitSize)
+}
+
+// parseInt64Parameter parses a string parameter to an int64.
+func parseInt64Parameter(param string, required bool) (int64, error) {
+	return parseIntParameter(param, 64, required)
 }
 
 // parseInt32Parameter parses a string parameter to an int32.
 func parseInt32Parameter(param string, required bool) (int32, error) {
-	if param == "" {
-		if required {
-			return 0, errors.New(errMsgRequiredMissing)
-		}
-
-		return 0, nil
-	}
-
-	val, err := strconv.ParseInt(param, 10, 32)
-	if err != nil {
-		return -1, err
-	}
-
-	return int32(val), nil
+	val, err := parseIntParameter(param, 32, required)
+	return int32(val), err
 }
 
 // parseBoolParameter parses a string parameter to a bool
@@ -187,6 +204,55 @@ func parseBoolParameter(param string, required bool) (bool, error) {
 
 	return bool(val), nil
 }
+
+// parseFloat64ArrayParameter parses a string parameter containing array of values to []Float64.
+func parseFloat64ArrayParameter(param, delim string, required bool) ([]float64, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	str := strings.Split(param, delim)
+	floats := make([]float64, len(str))
+
+	for i, s := range str {
+		if v, err := strconv.ParseFloat(s, 64); err != nil {
+			return nil, err
+		} else {
+			floats[i] = v
+		}
+	}
+
+	return floats, nil
+}
+
+// parseFloat32ArrayParameter parses a string parameter containing array of values to []float32.
+func parseFloat32ArrayParameter(param, delim string, required bool) ([]float32, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
+	}
+
+	str := strings.Split(param, delim)
+	floats := make([]float32, len(str))
+
+	for i, s := range str {
+		if v, err := strconv.ParseFloat(s, 32); err != nil {
+			return nil, err
+		} else {
+			floats[i] = float32(v)
+		}
+	}
+
+	return floats, nil
+}
+
 
 // parseInt64ArrayParameter parses a string parameter containing array of values to []int64.
 func parseInt64ArrayParameter(param, delim string, required bool) ([]int64, error) {
