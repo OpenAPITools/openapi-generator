@@ -60,7 +60,8 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -458,6 +459,19 @@ public class DefaultGenerator implements Generator {
                 Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
 
+        boolean skipAllFluentSetters = false;
+        boolean perModelSkipFluentSetters;
+        List<String> modelsNoFluentSetters = Collections.emptyList();
+        Object skipFluentSettersProp = config.additionalProperties().get("skipFluentSetters");
+        if (skipFluentSettersProp != null) {
+            String skipFluentSetters = skipFluentSettersProp.toString();
+            perModelSkipFluentSetters = !skipFluentSetters.matches("true|false");
+            skipAllFluentSetters = !perModelSkipFluentSetters && Boolean.parseBoolean(skipFluentSetters);
+            if (perModelSkipFluentSetters) {
+                modelsNoFluentSetters = Arrays.asList(skipFluentSetters.split(","));
+            }
+        }
+
         // process models only
         for (String name : modelKeys) {
             try {
@@ -524,6 +538,11 @@ public class DefaultGenerator implements Generator {
                 ModelsMap models = processModels(config, schemaMap);
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
+                if (modelsNoFluentSetters.contains(name) || skipAllFluentSetters) {
+                    models.put("skipFluentSetters", true);
+                } else {
+                    models.put("skipFluentSetters", false);
+                }
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
                 throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
@@ -869,9 +888,9 @@ public class DefaultGenerator implements Generator {
      * <p>
      * Examples:
      * <p>
-     *   boolean hasOAuthMethods
+     * boolean hasOAuthMethods
      * <p>
-     *   List&lt;CodegenSecurity&gt; oauthMethods
+     * List&lt;CodegenSecurity&gt; oauthMethods
      *
      * @param bundle the map which the booleans and collections will be added
      */

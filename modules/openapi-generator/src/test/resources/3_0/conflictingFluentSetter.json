@@ -1,0 +1,36 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Api",
+    "description": "Issue 14770. An api with 2 models with conflicting setters and fluent setters.",
+    "version": "1"
+  },
+  "paths": {
+  },
+  "components": {
+    "schemas": {
+      "Type": {
+        "type": "object",
+        "properties": {
+          "constraints": {
+            "type": "string"
+          },
+          "setConstraints": {
+            "type": "string"
+          }
+        }
+      },
+      "Type1": {
+        "type": "object",
+        "properties": {
+          "constraints": {
+            "type": "string"
+          },
+          "setConstraints": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -31,15 +31,19 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Locale;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JavaModelTest {
 
@@ -436,6 +440,7 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
         Assert.assertTrue(property.getUniqueItemsBoolean());
     }
+
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {
         final Schema propertySchema = new ArraySchema()
@@ -1125,14 +1130,14 @@ public class JavaModelTest {
         Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
         Assert.assertEquals(cp.pattern, "^[A-Z]+$");
     }
-    
+
     @Test(description = "convert string property with password format")
     public void stringPropertyPasswordFormatTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema property = new StringSchema().format("password");
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
-        
+
         final CodegenProperty cp = codegen.fromProperty("somePropertyWithPasswordFormat", property);
         Assert.assertEquals(cp.isPassword, true);
     }
@@ -1361,6 +1366,142 @@ public class JavaModelTest {
         Assert.assertEquals(cr.containerType, "array");
 
         Assert.assertTrue(co.imports.contains("Pet"));
+    }
+
+    @Test(description = "test generate model with fluent setter skipped for particular class 'skipFluentSetters=Type'")
+    public void generateModelWithClassSkipFluentSetterSkipsFluentSetterForThatClass() throws Exception {
+        String inputSpec = "src/test/resources/3_0/conflictingFluentSetter.json";
+
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Assert.assertTrue(new File(inputSpec).exists(), "Spec file not found");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary("rest-assured")
+                .addAdditionalProperty("java8", "true")
+                .addAdditionalProperty(CodegenConstants.SKIP_FLUENT_SETTERS, "Type")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
+                .setInputSpec(inputSpec)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File typeModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type.java");
+        String typeModel = new String(Files.readAllBytes(typeModelFile.getAbsoluteFile().toPath()), StandardCharsets.UTF_8);
+        assertThat(typeModel)
+                .describedAs("Should not contain fluent setters")
+                .doesNotContain("public Type setConstraints");
+
+        File type1ModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type1.java");
+        String type1Model = new String(Files.readAllBytes(type1ModelFile.getAbsoluteFile().toPath()), StandardCharsets.UTF_8);
+        assertThat(type1Model)
+                .describedAs("Should contain fluent setters")
+                .contains("public Type1 setConstraints");
+    }
+
+
+    @Test(description = "test generate model with fluent setter skipped for all classes 'skipFluentSetters=true'")
+    public void generateModelWithSkipFluentSetterTrueSkipsAll() throws Exception {
+        String inputSpec = "src/test/resources/3_0/conflictingFluentSetter.json";
+
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Assert.assertTrue(new File(inputSpec).exists(), "Spec file not found");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary("rest-assured")
+                .addAdditionalProperty("java8", "true")
+                .addAdditionalProperty(CodegenConstants.SKIP_FLUENT_SETTERS, "true")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
+                .setInputSpec(inputSpec)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File typeModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type.java");
+        String typeModel = Files.readString(typeModelFile.getAbsoluteFile().toPath());
+        assertThat(typeModel)
+                .describedAs("Should not contain fluent setters")
+                .doesNotContain("public Type setConstraints");
+
+        File type1ModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type1.java");
+        String type1Model = Files.readString(type1ModelFile.getAbsoluteFile().toPath());
+        assertThat(type1Model)
+                .describedAs("Should not contain fluent setters")
+                .doesNotContain("public Type1 setConstraints");
+    }
+
+    @Test(description = "test generate model with fluent setter skip option NOT specified generates fluent setter for all models")
+    public void generateModelWithSkipFluentSetterNotSpecifiedGeneratesFluentSetters() throws Exception {
+        String inputSpec = "src/test/resources/3_0/conflictingFluentSetter.json";
+
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Assert.assertTrue(new File(inputSpec).exists(), "Spec file not found");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary("rest-assured")
+                .addAdditionalProperty("java8", "true")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
+                .setInputSpec(inputSpec)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File typeModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type.java");
+        String typeModel = Files.readString(typeModelFile.getAbsoluteFile().toPath());
+        assertThat(typeModel)
+                .describedAs("Should not contain fluent setters")
+                .contains("public Type setConstraints");
+
+        File type1ModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type1.java");
+        String type1Model = Files.readString(type1ModelFile.getAbsoluteFile().toPath());
+        assertThat(type1Model)
+                .describedAs("Should not contain fluent setters")
+                .contains("public Type1 setConstraints");
+    }
+
+    @Test(description = "test generate model with fluent setter skipped for multiple classes")
+    public void generateModelWithMultipleSkipFluentSetterClassesSpecified() throws Exception {
+        String inputSpec = "src/test/resources/3_0/conflictingFluentSetter.json";
+
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Assert.assertTrue(new File(inputSpec).exists(), "Spec file not found");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary("rest-assured")
+                .addAdditionalProperty("java8", "true")
+                .addAdditionalProperty(CodegenConstants.SKIP_FLUENT_SETTERS, "Type,Type1")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
+                .setInputSpec(inputSpec)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File typeModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type.java");
+        String typeModel = Files.readString(typeModelFile.getAbsoluteFile().toPath());
+        assertThat(typeModel)
+                .describedAs("Should not contain fluent setters")
+                .doesNotContain("public Type1 setConstraints");
+
+        File type1ModelFile = new File(output, "src/main/java/org/openapitools/client/model/Type1.java");
+        String type1Model = Files.readString(type1ModelFile.getAbsoluteFile().toPath());
+        assertThat(type1Model)
+                .describedAs("Should not contain fluent setters")
+                .doesNotContain("public Type1 setConstraints");
     }
 
     @Test

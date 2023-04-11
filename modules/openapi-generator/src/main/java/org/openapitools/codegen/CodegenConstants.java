@@ -137,6 +137,7 @@ public class CodegenConstants {
 
     public static final String SERIALIZE_BIG_DECIMAL_AS_STRING = "bigDecimalAsString";
     public static final String SERIALIZE_BIG_DECIMAL_AS_STRING_DESC = "Treat BigDecimal values as Strings to avoid precision loss.";
+    public static final String SKIP_FLUENT_SETTERS = "skipFluentSetters";
 
     public static final String LIBRARY = "library";
     public static final String LIBRARY_DESC = "library template (sub-template)";

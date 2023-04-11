@@ -27,6 +27,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   {{/vars}}
   {{#vars}}
+  {{^skipFluentSetters}}
   /**{{#description}}
    * {{{.}}}{{/description}}{{#minimum}}
    * minimum: {{.}}{{/minimum}}{{#maximum}}
@@ -36,6 +37,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     this.{{name}} = {{name}};
     return this;
   }
+  {{/skipFluentSetters}}
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
