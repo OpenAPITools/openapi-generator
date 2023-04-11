@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+{{#useDateLibCore}}import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/date_serializer.dart';{{/useDateLibCore}}
 
 part '{{classFilename}}.g.dart';
 
@@ -50,6 +51,9 @@ class {{{classname}}} {
   @JsonKey(ignore: true)
   {{/isBinary}}
 
+  {{#isDate}}
+  @DateSerializer()
+  {{/isDate}}
 
   {{#required}}
   {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
