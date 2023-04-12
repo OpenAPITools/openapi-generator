@@ -141,7 +141,7 @@
     <build>
         <defaultGoal>install</defaultGoal>
         <directory>target</directory>
-        <finalName>${project.artifactId}-${project.version}</finalName>
+        <finalName>${project.artifactId}-v${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
