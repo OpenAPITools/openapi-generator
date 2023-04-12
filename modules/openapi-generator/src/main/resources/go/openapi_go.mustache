@@ -2,7 +2,7 @@ package openapi
 
 import _ "embed"
 
-//go:embed ./openapi.yaml
+//go:embed openapi.yaml
 var spec []byte
 
 func GetSpec() []byte {
