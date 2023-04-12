@@ -14,7 +14,7 @@
   <build>
     <defaultGoal>install</defaultGoal>
     <directory>target</directory>
-    <finalName>${project.artifactId}-${project.version}</finalName>
+    <finalName>${project.artifactId}-v${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
