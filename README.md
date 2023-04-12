@@ -1036,6 +1036,7 @@ Here is a list of template creators:
    * Erlang Server: @galaxie
    * F# (Giraffe) Server: @nmfisher
    * Go Server: @guohuang
+   * Go Server (refactored in 7.0.0): @lwj5
    * Go (Echo) Server: @ph4r5h4d
    * Go (Gin) Server: @kemokemo
    * GraphQL Express Server: @renepardon
@@ -1140,7 +1141,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Elm                   | @eriktim (2018/09)                                                                                                                                                                                                                                    |
 | Erlang                | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10)                                                                                                                                                                                      |
 | F#                    | @nmfisher (2019/05)                                                                                                                                                                                                                                   |
-| Go                    | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @jirikuncar (2021/01) @ph4r5h4d (2021/04)                                                                                                                                                   |
+| Go                    | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @jirikuncar (2021/01) @ph4r5h4d (2021/04) @lwj5 (2023/04)                                                                                                                                                   |
 | GraphQL               | @renepardon (2018/12)                                                                                                                                                                                                                                 |
 | Groovy                |                                                                                                                                                                                                                                                       |
 | Haskell               |                                                                                                                                                                                                                                                       |
