@@ -59,7 +59,7 @@ func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}
 	{{/chi}}
 {{/routers}}
 	for _, api := range routers {
-		for name, route := range api.Routes() {
+		for {{#routers}}{{#mux}}name{{/mux}}{{#chi}}_{{/chi}}{{/routers}}, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
 {{#routers}}
