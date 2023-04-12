@@ -23,7 +23,7 @@ type {{classname}} struct {
 {{#deprecated}}
 	// Deprecated
 {{/deprecated}}
-	{{name}} {{^isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
@@ -360,7 +360,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	{{#deprecated}}
 		// Deprecated
 	{{/deprecated}}
-		{{name}} {{^isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+		{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}},omitempty"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 	{{/vars}}
 	}
 
