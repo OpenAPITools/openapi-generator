@@ -29,7 +29,7 @@ REQUIRES = [
     "aiohttp >= 3.0.0",
     "pem>=19.3.0",
     "pycryptodome>=3.9.0",
-    "pydantic",
+    "pydantic >= 1.10.5, < 2",
     "aenum"
 ]
 
