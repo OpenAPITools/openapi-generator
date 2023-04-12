@@ -44,7 +44,7 @@ func NewRouter(routers ...Router) chi.Router {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 	for _, api := range routers {
-		for name, route := range api.Routes() {
+		for _, route := range api.Routes() {
 			var handler http.Handler
 			handler = route.HandlerFunc
 			router.Method(route.Method, route.Pattern, handler)
