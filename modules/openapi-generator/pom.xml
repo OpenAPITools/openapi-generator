@@ -273,6 +273,12 @@
             <version>${commons-io.version}</version>
         </dependency>
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-ext</artifactId>
             <version>${slf4j.version}</version>

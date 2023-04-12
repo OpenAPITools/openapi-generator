@@ -105,36 +105,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `EquilateralTriangle`. If the actual instance is not `EquilateralTriangle`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of EquilateralTriangle</returns>
-        public EquilateralTriangle GetEquilateralTriangle()
-        {
-            return (EquilateralTriangle)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of IsoscelesTriangle</returns>
-        public IsoscelesTriangle GetIsoscelesTriangle()
-        {
-            return (IsoscelesTriangle)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of ScaleneTriangle</returns>
-        public ScaleneTriangle GetScaleneTriangle()
-        {
-            return (ScaleneTriangle)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

@@ -37,18 +37,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(ShapeType));
-
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(TriangleType));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -63,18 +51,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(ShapeType));
-
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(TriangleType));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -89,18 +65,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(ShapeType));
-
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(TriangleType));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
@@ -153,12 +117,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -234,6 +199,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class Triangle.");
+
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (equilateralTriangleDeserialized)
                 return new Triangle(equilateralTriangle, shapeType, triangleType);

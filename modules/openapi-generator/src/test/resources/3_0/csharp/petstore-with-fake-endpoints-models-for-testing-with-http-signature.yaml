@@ -17,6 +17,21 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /hello:
+    get:
+      summary: Hello
+      description: Hello
+      operationId: Hello
+      responses:
+        '200':
+          description: UUIDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
   /foo:
     get:
       responses:
@@ -1491,9 +1506,19 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        unsigned_integer:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+          x-unsigned: true
         int64:
           type: integer
           format: int64
+        unsigned_long:
+          type: integer
+          format: int64
+          x-unsigned: true
         number:
           maximum: 543.2
           minimum: 32.1
@@ -2223,3 +2248,24 @@ components:
           type: string
           format: date
           example: "2017-07-21"
+    TestCollectionEndingWithWordListObject:
+      type: object
+      properties:
+        TestCollectionEndingWithWordList:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestCollectionEndingWithWordList'
+    TestCollectionEndingWithWordList:
+      type: object
+      properties:
+        value:
+          type: string
+    LiteralStringClass:
+      type: object
+      properties:
+        escapedLiteralString:
+          type: string
+          default: C:\\Users\\username
+        unescapedLiteralString:
+          type: string
+          default: C:\Users\username

@@ -1507,6 +1507,9 @@ components:
       - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
         propertyName: className
       properties:
         className:

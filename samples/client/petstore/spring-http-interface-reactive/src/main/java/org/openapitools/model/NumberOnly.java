@@ -20,7 +20,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NumberOnly {
 
-  @JsonProperty("JustNumber")
   private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
@@ -33,6 +32,7 @@ public class NumberOnly {
    * @return justNumber
   */
   
+  @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
     return justNumber;
   }

@@ -337,12 +337,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessModels(objs);
         List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
-
-        for (ModelMap mo : models) {
-            CodegenModel cm = mo.getModel();
-            cm.imports = rewriteImports(cm.imports, true);
-            cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
-        }
         return objs;
     }
 
@@ -583,6 +577,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
         }
+
+        // loop through models to update the imports
+        for (ModelsMap entry : objs.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
+                cm.imports = rewriteImports(cm.imports, true);
+                cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+            }
+        }
+
         return objs;
     }
 
@@ -730,6 +734,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 resultImports.add(i);
             } else if (importMapping().containsKey(modelImport)) {
                 resultImports.add(importMapping().get(modelImport));
+            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
+                resultImports.add(modelImport);
+            } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
+                resultImports.add(modelImport);
             } else {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
             }

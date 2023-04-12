@@ -130,6 +130,17 @@ public class DataQuery extends Query {
     this.date = date;
   }
 
+  @Override
+  public DataQuery id(Long id) {
+    this.setId(id);
+    return this;
+  }
+
+  @Override
+  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
+    this.setOutcomes(outcomes);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

@@ -26,7 +26,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pasta extends Entity {
 
-  @JsonProperty("vendor")
   private String vendor;
 
   /**
@@ -56,6 +55,7 @@ public class Pasta extends Entity {
   */
   
   @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("vendor")
   public String getVendor() {
     return vendor;
   }

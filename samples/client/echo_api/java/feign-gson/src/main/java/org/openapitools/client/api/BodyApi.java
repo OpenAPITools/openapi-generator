@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
+import java.io.File;
 import org.openapitools.client.model.Pet;
 
 import java.util.ArrayList;
@@ -14,6 +15,31 @@ import feign.*;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public interface BodyApi extends ApiClient.Api {
+
+
+  /**
+   * Test binary (gif) response body
+   * Test binary (gif) response body
+   * @return File
+   */
+  @RequestLine("POST /binary/gif")
+  @Headers({
+    "Accept: image/gif",
+  })
+  File testBinaryGif();
+
+  /**
+   * Test binary (gif) response body
+   * Similar to <code>testBinaryGif</code> but it also returns the http response headers .
+   * Test binary (gif) response body
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /binary/gif")
+  @Headers({
+    "Accept: image/gif",
+  })
+  ApiResponse<File> testBinaryGifWithHttpInfo();
+
 
 
   /**

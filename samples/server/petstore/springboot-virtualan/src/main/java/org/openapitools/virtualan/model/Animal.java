@@ -7,9 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.openapitools.virtualan.model.BigCat;
-import org.openapitools.virtualan.model.Cat;
-import org.openapitools.virtualan.model.Dog;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -38,10 +35,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Animal {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
   private String color = "red";
 
   /**
@@ -71,6 +66,7 @@ public class Animal {
   */
   @NotNull 
   @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -90,6 +86,7 @@ public class Animal {
   */
   
   @Schema(name = "color", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

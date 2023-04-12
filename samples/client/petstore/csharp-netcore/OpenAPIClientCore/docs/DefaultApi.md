@@ -6,6 +6,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 |--------|--------------|-------------|
 | [**FooGet**](DefaultApi.md#fooget) | **GET** /foo |  |
 | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country |  |
+| [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello |
 
 <a name="fooget"></a>
 # **FooGet**
@@ -169,6 +170,92 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="hello"></a>
+# **Hello**
+> List&lt;Guid&gt; Hello ()
+
+Hello
+
+Hello
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class HelloExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new DefaultApi(config);
+
+            try
+            {
+                // Hello
+                List<Guid> result = apiInstance.Hello();
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling DefaultApi.Hello: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the HelloWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Hello
+    ApiResponse<List<Guid>> response = apiInstance.HelloWithHttpInfo();
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling DefaultApi.HelloWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+### Return type
+
+**List<Guid>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | UUIDs |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -27,11 +27,11 @@ public interface FakeClassnameTestApiDelegate {
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    default ResponseEntity<Client> testClassname(Client body) {
+    default ResponseEntity<Client> testClassname(Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

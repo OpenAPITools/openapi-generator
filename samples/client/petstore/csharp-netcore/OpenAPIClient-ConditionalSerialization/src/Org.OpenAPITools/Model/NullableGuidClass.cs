@@ -49,6 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
+        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
         [DataMember(Name = "uuid", EmitDefaultValue = true)]
         public Guid? Uuid
         {
@@ -145,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

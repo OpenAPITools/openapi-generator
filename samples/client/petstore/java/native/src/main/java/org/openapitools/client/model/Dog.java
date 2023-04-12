@@ -78,6 +78,18 @@ public class Dog extends Animal {
   }
 
 
+  @Override
+  public Dog className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Dog color(String color) {
+    this.setColor(color);
+    return this;
+  }
+
   /**
    * Return true if this Dog object is equal to o.
    */

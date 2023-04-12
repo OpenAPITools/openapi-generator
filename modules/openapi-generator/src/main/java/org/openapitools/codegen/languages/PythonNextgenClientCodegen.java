@@ -47,24 +47,27 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
     public static final String RECURSION_LIMIT = "recursionLimit";
-    public static final String ALLOW_STRING_IN_DATETIME_PARAMETERS = "allowStringInDateTimeParameters";
-    public static final String FLOAT_STRICT_TYPE = "floatStrictType";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
+    public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageUrl;
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected boolean allowStringInDateTimeParameters = false; // use StrictStr instead of datetime in parameters
-    protected boolean floatStrictType = true;
     protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     protected String dateFormat = "%Y-%m-%d";
+    protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
 
     protected Map<Character, String> regexModifiers;
 
     private String testFolder;
+
+    // map of set (model imports)
+    private HashMap<String, HashSet<String>> circularImports = new HashMap<>();
+    // map of codegen models
+    private HashMap<String, CodegenModel> codegenModelMap = new HashMap<>();
 
     public PythonNextgenClientCodegen() {
         super();
@@ -110,11 +113,15 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         typeMapping.put("array", "List");
         typeMapping.put("set", "List");
         typeMapping.put("map", "Dict");
-        typeMapping.put("file", "str");
         typeMapping.put("decimal", "decimal.Decimal");
+        typeMapping.put("file", "bytearray");
+        typeMapping.put("binary", "bytearray");
+        typeMapping.put("ByteArray", "bytearray");
 
         languageSpecificPrimitives.remove("file");
         languageSpecificPrimitives.add("decimal.Decimal");
+        languageSpecificPrimitives.add("bytearray");
+        languageSpecificPrimitives.add("none_type");
 
         supportsInheritance = true;
         modelPackage = "models";
@@ -172,10 +179,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
-        cliOptions.add(new CliOption(ALLOW_STRING_IN_DATETIME_PARAMETERS, "Allow string as input to datetime/date parameters for backward compartibility.")
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(FLOAT_STRICT_TYPE, "Use strict type for float, i.e. StrictFloat or confloat(strict=true, ...)")
-                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
+                .defaultValue("Union[StrictFloat, StrictInt]"));
         cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
                 .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
@@ -278,12 +283,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
-        if (additionalProperties.containsKey(ALLOW_STRING_IN_DATETIME_PARAMETERS)) {
-            setAllowStringInDateTimeParameters(convertPropertyToBooleanAndWriteBack(ALLOW_STRING_IN_DATETIME_PARAMETERS));
-        }
-
-        if (additionalProperties.containsKey(FLOAT_STRICT_TYPE)) {
-            setFloatStrictType(convertPropertyToBooleanAndWriteBack(FLOAT_STRICT_TYPE));
+        if (additionalProperties.containsKey(MAP_NUMBER_TO)) {
+            setMapNumberTo(String.valueOf(additionalProperties.get(MAP_NUMBER_TO)));
         }
 
         if (additionalProperties.containsKey(DATETIME_FORMAT)) {
@@ -321,6 +322,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
@@ -411,6 +413,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
      * @param typingImports typing imports
      * @param pydantic pydantic imports
      * @param datetimeImports datetime imports
+     * @param modelImports model imports
+     * @param classname class name
      * @return pydantic type
      *
      */
@@ -418,12 +422,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
-                                   Set<String> modelImports) {
+                                   Set<String> modelImports,
+                                   String classname) {
         if (cp == null) {
             // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
-            pydanticImports.add("StrictStr");
-            return "StrictStr";
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+            typingImports.add("Any");
+            return "Any";
         }
 
         if (cp.isArray) {
@@ -439,11 +444,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             }
             pydanticImports.add("conlist");
             return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "Dict[str, %s]",
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname));
         } else if (cp.isString || cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -474,34 +480,59 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
+                List<String> intFieldCustomization = new ArrayList<>();
+
                 // e.g. confloat(ge=10, le=100, strict=True)
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
-                        fieldCustomization.add("gt=" + cp.getMaximum());
+                        fieldCustomization.add("lt=" + cp.getMaximum());
+                        intFieldCustomization.add("lt=" + Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 becomes < 8
                     } else {
-                        fieldCustomization.add("ge=" + cp.getMaximum());
+                        fieldCustomization.add("le=" + cp.getMaximum());
+                        intFieldCustomization.add("le=" + Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 becomes <= 7
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
-                        fieldCustomization.add("lt=" + cp.getMinimum());
+                        fieldCustomization.add("gt=" + cp.getMinimum());
+                        intFieldCustomization.add("gt=" + Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 becomes > 7
                     } else {
-                        fieldCustomization.add("le=" + cp.getMinimum());
+                        fieldCustomization.add("ge=" + cp.getMinimum());
+                        intFieldCustomization.add("ge=" + Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 becomes >= 8
                     }
                 }
                 if (cp.getMultipleOf() != null) {
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
                     fieldCustomization.add("strict=True");
+                    intFieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    pydanticImports.add("conint");
+                    typingImports.add("Union");
+                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
+                            StringUtils.join(fieldCustomization, ", "),
+                            "conint",
+                            StringUtils.join(intFieldCustomization, ", ")
+                    );
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    fieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else { // float
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
                 }
-
-                pydanticImports.add("confloat");
-                return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                        StringUtils.join(fieldCustomization, ", "));
             } else {
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    typingImports.add("Union");
+                    pydanticImports.add("StrictFloat");
+                    pydanticImports.add("StrictInt");
+                    return "Union[StrictFloat, StrictInt]";
+                } else if ("StrictFloat".equals(mapNumberTo)) {
                     pydanticImports.add("StrictFloat");
                     return "StrictFloat";
                 } else {
@@ -601,13 +632,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 datetimeImports.add("datetime");
             }
 
-            if (allowStringInDateTimeParameters) {
-                pydanticImports.add("StrictStr");
-                typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[StrictStr, %s]", cp.dataType);
-            } else {
-                return cp.dataType;
-            }
+            return cp.dataType;
         } else if (cp.isUuid) {
             return cp.dataType;
         } else if (cp.isFreeFormObject) { // type: object
@@ -625,7 +650,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 CodegenMediaType cmt = contents.get(key);
                 // TODO process the first one only at the moment
                 if (cmt != null)
-                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports);
+                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, classname);
             }
             throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
         } else {
@@ -640,6 +665,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
      * @param typingImports typing imports
      * @param pydantic pydantic imports
      * @param datetimeImports datetime imports
+     * @param modelImports model imports
+     * @param classname class name
      * @return pydantic type
      *
      */
@@ -647,12 +674,13 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                                    Set<String> typingImports,
                                    Set<String> pydanticImports,
                                    Set<String> datetimeImports,
-                                   Set<String> modelImports) {
+                                   Set<String> modelImports,
+                                   String classname) {
         if (cp == null) {
             // if codegen property (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to string (StrictStr in Pydantic)");
-            pydanticImports.add("StrictStr");
-            return "StrictStr";
+            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+            typingImports.add("Any");
+            return "Any";
         }
 
         if (cp.isEnum) {
@@ -687,11 +715,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             pydanticImports.add("conlist");
             typingImports.add("List"); // for return type
             return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports),
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports));
+            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -722,34 +750,59 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         } else if (cp.isNumber || cp.isFloat || cp.isDouble) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
+                List<String> intFieldCustomization = new ArrayList<>();
+
                 // e.g. confloat(ge=10, le=100, strict=True)
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("lt=" + cp.getMaximum());
+                        intFieldCustomization.add("lt=" + (int) Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 => < 8
                     } else {
                         fieldCustomization.add("le=" + cp.getMaximum());
+                        intFieldCustomization.add("le=" + (int) Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 => <= 7
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
                         fieldCustomization.add("gt=" + cp.getMinimum());
+                        intFieldCustomization.add("gt=" + (int) Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 => > 7
                     } else {
                         fieldCustomization.add("ge=" + cp.getMinimum());
+                        intFieldCustomization.add("ge=" + (int) Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 => >= 8
                     }
                 }
                 if (cp.getMultipleOf() != null) {
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
 
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
                     fieldCustomization.add("strict=True");
+                    intFieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    pydanticImports.add("conint");
+                    typingImports.add("Union");
+                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
+                            StringUtils.join(fieldCustomization, ", "),
+                            "conint",
+                            StringUtils.join(intFieldCustomization, ", ")
+                    );
+                } else if ("StrictFloat".equals(mapNumberTo)) {
+                    fieldCustomization.add("strict=True");
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
+                } else { // float
+                    pydanticImports.add("confloat");
+                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                            StringUtils.join(fieldCustomization, ", "));
                 }
-
-                pydanticImports.add("confloat");
-                return String.format(Locale.ROOT, "%s(%s)", "confloat",
-                        StringUtils.join(fieldCustomization, ", "));
             } else {
-                if (floatStrictType) {
+                if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)) {
+                    typingImports.add("Union");
+                    pydanticImports.add("StrictFloat");
+                    pydanticImports.add("StrictInt");
+                    return "Union[StrictFloat, StrictInt]";
+                } else if ("StrictFloat".equals(mapNumberTo)) {
                     pydanticImports.add("StrictFloat");
                     return "StrictFloat";
                 } else {
@@ -859,10 +912,24 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             typingImports.add("Any");
             return "Dict[str, Any]";
         } else if (!cp.isPrimitiveType || cp.isModel) { // model
-            if (!cp.isCircularReference) {
-                // skip import if it's a circular reference
+            // skip import if it's a circular reference
+            if (classname == null) {
+                // for parameter model, import directly
                 hasModelsToImport = true;
                 modelImports.add(cp.dataType);
+            } else {
+                if (circularImports.containsKey(cp.dataType)) {
+                    if (circularImports.get(cp.dataType).contains(classname)) {
+                        // cp.dataType import map of set contains this model (classname), don't import
+                        LOGGER.debug("Skipped importing {} in {} due to circular import.", cp.dataType, classname);
+                    } else {
+                        // not circular import, so ok to import it
+                        hasModelsToImport = true;
+                        modelImports.add(cp.dataType);
+                    }
+                } else {
+                    LOGGER.error("Failed to look up {} from the imports (map of set) of models.", cp.dataType);
+                }
             }
             return cp.dataType;
         } else {
@@ -884,7 +951,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
             List<CodegenParameter> params = operation.allParams;
             for (CodegenParameter param : params) {
-                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports);
+                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, null);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -936,7 +1003,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
                 String typing = getPydanticType(operation.returnProperty, typingImports,
-                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports);
+                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, null);
             }
 
         }
@@ -996,11 +1063,116 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            // create hash map of codegen model
+            CodegenModel cm = ModelUtils.getModelByName(entry.getKey(), objs);
+            codegenModelMap.put(cm.classname, ModelUtils.getModelByName(entry.getKey(), objs));
+        }
+
+        // create circular import
+        for (String m : codegenModelMap.keySet()) {
+            createImportMapOfSet(m, codegenModelMap);
+        }
+
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             entry.setValue(postProcessModelsMap(entry.getValue()));
         }
 
         return processed;
+    }
+
+    /**
+     * Update circularImports with the model name (key) and its imports gathered recursively
+     *
+     * @param modelName       model name
+     * @param codegenModelMap a map of CodegenModel
+     */
+    void createImportMapOfSet(String modelName, Map<String, CodegenModel> codegenModelMap) {
+        HashSet<String> imports = new HashSet<>();
+        circularImports.put(modelName, imports);
+
+        CodegenModel cm = codegenModelMap.get(modelName);
+
+        if (cm == null) {
+            LOGGER.warn("Failed to lookup model in createImportMapOfSet: " + modelName);
+            return;
+        }
+
+        List<CodegenProperty> codegenProperties = null;
+        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
+            codegenProperties = cm.getComposedSchemas().getOneOf();
+        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+            codegenProperties = cm.getComposedSchemas().getAnyOf();
+        } else { // typical model
+            codegenProperties = cm.vars;
+        }
+
+        for (CodegenProperty cp : codegenProperties) {
+            String modelNameFromDataType = getModelNameFromDataType(cp);
+            if (modelNameFromDataType != null) { // model
+                imports.add(modelNameFromDataType); // update import
+                // go through properties or sub-schemas of the model recursively to identify more (model) import if any
+                updateImportsFromCodegenModel(modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
+            }
+        }
+    }
+
+    /**
+     * Update set of imports from codegen model recursivly
+     *
+     * @param modelName model name
+     * @param cm        codegen model
+     * @param imports   set of imports
+     */
+    public void updateImportsFromCodegenModel(String modelName, CodegenModel cm, Set<String> imports) {
+        if (cm == null) {
+            LOGGER.warn("Failed to lookup model in createImportMapOfSet " + modelName);
+            return;
+        }
+
+        List<CodegenProperty> codegenProperties = null;
+        if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
+            codegenProperties = cm.getComposedSchemas().getOneOf();
+        } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
+            codegenProperties = cm.getComposedSchemas().getAnyOf();
+        } else { // typical model
+            codegenProperties = cm.vars;
+        }
+
+        for (CodegenProperty cp : codegenProperties) {
+            String modelNameFromDataType = getModelNameFromDataType(cp);
+            if (modelNameFromDataType != null) { // model
+                if (modelName.equals(modelNameFromDataType)) { // self referencing
+                    continue;
+                } else if (imports.contains(modelNameFromDataType)) { // circular import
+                    continue;
+                } else {
+                    imports.add(modelNameFromDataType); // update import
+                    // go through properties of the model recursively to identify more (model) import if any
+                    updateImportsFromCodegenModel(modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the model name (if any) from data type of codegen property.
+     * Returns null if it's not a model.
+     *
+     * @param cp Codegen property
+     * @return model name
+     */
+    private String getModelNameFromDataType(CodegenProperty cp) {
+        if (cp.isArray) {
+            return getModelNameFromDataType(cp.items);
+        } else if (cp.isMap) {
+            return getModelNameFromDataType(cp.items);
+        } else if (!cp.isPrimitiveType || cp.isModel) {
+            return cp.dataType;
+        } else {
+            return null;
+        }
     }
 
     private ModelsMap postProcessModelsMap(ModelsMap objs) {
@@ -1057,7 +1229,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
-                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports);
+                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, model.classname);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -1214,7 +1386,8 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
             }
 
-            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
+            vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
             vendorExtensions.put("x-modifiers", modifiers);
         }
     }
@@ -1408,12 +1581,14 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         return "var_" + name;
     }
 
-    public void setAllowStringInDateTimeParameters(boolean allowStringInDateTimeParameters) {
-        this.allowStringInDateTimeParameters = allowStringInDateTimeParameters;
-    }
-
-    public void setFloatStrictType(boolean floatStrictType) {
-        this.floatStrictType = floatStrictType;
+    public void setMapNumberTo(String mapNumberTo) {
+        if ("Union[StrictFloat, StrictInt]".equals(mapNumberTo)
+                || "StrictFloat".equals(mapNumberTo)
+                || "float".equals(mapNumberTo)) {
+            this.mapNumberTo = mapNumberTo;
+        } else {
+            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictStr or float");
+        }
     }
 
     public void setDatetimeFormat(String datetimeFormat) {

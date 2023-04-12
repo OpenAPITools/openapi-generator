@@ -2438,8 +2438,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
                 if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                     LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", m.name);
                     m.setDiscriminator(createDiscriminator(m.name, innerSchema, this.openAPI));
+                    // directly include the function `addDiscriminatorMappedModelsImports` inline below
+                    // as the function has been updated
+                    //m.addDiscriminatorMappedModelsImports();
                     if (!this.getLegacyDiscriminatorBehavior()) {
-                        m.addDiscriminatorMappedModelsImports();
+                        if (m.discriminator != null && m.discriminator.getMappedModels() != null) {
+                            for (CodegenDiscriminator.MappedModel mm : m.discriminator.getMappedModels()) {
+                                if (!"".equals(mm.getModelName())) {
+                                    m.getImports().add(mm.getModelName());
+                                }
+                            }
+                        }
                     }
                     modelDiscriminators++;
                 }

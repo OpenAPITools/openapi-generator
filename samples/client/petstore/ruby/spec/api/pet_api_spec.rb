@@ -39,7 +39,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'add_pet test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -47,11 +47,11 @@ describe 'PetApi' do
   # Deletes a pet
   # @param pet_id Pet id to delete
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :api_key 
+  # @option opts [String] :api_key
   # @return [nil]
   describe 'delete_pet test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -63,7 +63,7 @@ describe 'PetApi' do
   # @return [Array<Pet>]
   describe 'find_pets_by_status test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -75,7 +75,7 @@ describe 'PetApi' do
   # @return [Array<Pet>]
   describe 'find_pets_by_tags test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -87,7 +87,7 @@ describe 'PetApi' do
   # @return [Pet]
   describe 'get_pet_by_id test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -98,7 +98,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'update_pet test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -111,7 +111,7 @@ describe 'PetApi' do
   # @return [nil]
   describe 'update_pet_with_form test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -124,7 +124,7 @@ describe 'PetApi' do
   # @return [ApiResponse]
   describe 'upload_file test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -137,7 +137,7 @@ describe 'PetApi' do
   # @return [ApiResponse]
   describe 'upload_file_with_required_file test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 

@@ -35,15 +35,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ArrayOfNumberOnly(List<decimal> arrayNumber)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (arrayNumber == null)
-                throw new ArgumentNullException("arrayNumber is a required property for ArrayOfNumberOnly and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ArrayNumber = arrayNumber;
         }
 
@@ -72,12 +63,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -123,13 +115,23 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "ArrayNumber":
-                            arrayNumber = JsonSerializer.Deserialize<List<decimal>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayNumber = JsonSerializer.Deserialize<List<decimal>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (arrayNumber == null)
+                throw new ArgumentNullException(nameof(arrayNumber), "Property is required for class ArrayOfNumberOnly.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ArrayOfNumberOnly(arrayNumber);
         }

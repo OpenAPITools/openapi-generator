@@ -59,7 +59,7 @@ public class FileSchemaTestClass implements Parcelable {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files = new ArrayList<>();
+  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }

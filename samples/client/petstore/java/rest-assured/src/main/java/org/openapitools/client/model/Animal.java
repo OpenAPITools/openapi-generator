@@ -21,9 +21,6 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -89,7 +86,6 @@ public class Animal {
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {

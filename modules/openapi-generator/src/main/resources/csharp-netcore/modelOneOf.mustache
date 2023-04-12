@@ -65,6 +65,7 @@
                 }
             }
         }
+        {{^skipOneOfAnyOfGetter}}
         {{#composedSchemas.oneOf}}
         {{^isNull}}
 
@@ -79,6 +80,7 @@
         }
         {{/isNull}}
         {{/composedSchemas.oneOf}}
+        {{/skipOneOfAnyOfGetter}}
 
         /// <summary>
         /// Returns the string presentation of the object

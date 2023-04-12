@@ -11,6 +11,7 @@ docs/DataQueryAllOf.md
 docs/DefaultValue.md
 docs/FormApi.md
 docs/HeaderApi.md
+docs/NumberPropertiesOnly.md
 docs/PathApi.md
 docs/Pet.md
 docs/Query.md
@@ -36,6 +37,7 @@ openapi_client/models/category.py
 openapi_client/models/data_query.py
 openapi_client/models/data_query_all_of.py
 openapi_client/models/default_value.py
+openapi_client/models/number_properties_only.py
 openapi_client/models/pet.py
 openapi_client/models/query.py
 openapi_client/models/string_enum_ref.py
@@ -43,6 +45,7 @@ openapi_client/models/tag.py
 openapi_client/models/test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.py
 openapi_client/models/test_query_style_form_explode_true_array_string_query_object_parameter.py
 openapi_client/rest.py
+pyproject.toml
 requirements.txt
 setup.cfg
 setup.py

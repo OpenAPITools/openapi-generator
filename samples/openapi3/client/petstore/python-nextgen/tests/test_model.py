@@ -289,7 +289,7 @@ class ModelTests(unittest.TestCase):
         # test enum ref property
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
-        self.assertEqual(d.to_json(), '{"value": 1, "str_value": null}')
+        self.assertEqual(d.to_json(), '{"value": 1}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
@@ -297,6 +297,13 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
+        d4 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=None)
+        self.assertEqual(d4.to_json(), '{"value": 1, "str_value": null}')
+        d5 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
+        self.assertEqual(d5.__fields_set__, {'value'})
+        d5.str_value = None # set None explicitly
+        self.assertEqual(d5.__fields_set__, {'value', 'str_value'})
+        self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
     def test_valdiator(self):
         # test regular expression
@@ -319,7 +326,7 @@ class ModelTests(unittest.TestCase):
             self.pet.status = "error"
             self.assertTrue(False) # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue("must validate the enum values ('available', 'pending', 'sold')" in str(e))
+            self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))
 
     def test_object_id(self):
         pet_ap = petstore_api.Pet(name="test name", photo_urls=["string"])
@@ -387,3 +394,12 @@ class ModelTests(unittest.TestCase):
         enum_test = petstore_api.EnumTest(enum_string_required="lower")
         self.assertEqual(enum_test.enum_integer_default, 5)
 
+    def test_object_with_optional_dict(self):
+        # for https://github.com/OpenAPITools/openapi-generator/issues/14913
+        # shouldn't throw exception by the optional dict property
+        a = petstore_api.ParentWithOptionalDict.from_dict({})
+        self.assertFalse(a is None)
+
+        b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
+        self.assertFalse(b is None)
+        self.assertEqual(b.optional_dict["key"].a_property["a"], "b")

@@ -51,7 +51,7 @@ public class FileSchemaTestClass {
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=ModelFile
   @XmlElement(name = "files")
-  private List<ModelFile> files = new ArrayList<>();
+  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -116,7 +116,6 @@ public class FileSchemaTestClass {
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {

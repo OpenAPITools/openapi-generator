@@ -40,6 +40,10 @@ Then import the package:
 import petstore_api
 ```
 
+### Tests
+
+Execute `pytest` to run the tests.
+
 ## Getting Started
 
 Please follow the [installation procedure](#installation--usage) and then run the following:
@@ -84,6 +88,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_any_type_request_body**](docs/FakeApi.md#fake_any_type_request_body) | **POST** /fake/any_type_body | test any type request body
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -141,6 +146,7 @@ Class | Method | HTTP request | Description
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
+ - [CircularReferenceModel](docs/CircularReferenceModel.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Color](docs/Color.md)
@@ -154,11 +160,13 @@ Class | Method | HTTP request | Description
  - [EnumTest](docs/EnumTest.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [FirstRef](docs/FirstRef.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [List](docs/List.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -175,9 +183,11 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [SecondRef](docs/SecondRef.md)
  - [SelfReferenceModel](docs/SelfReferenceModel.md)
  - [SingleRefType](docs/SingleRefType.md)
  - [SpecialCharacterEnum](docs/SpecialCharacterEnum.md)

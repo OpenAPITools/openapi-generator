@@ -61,6 +61,25 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> GetCountryWithHttpInfo(string country);
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>List&lt;Guid&gt;</returns>
+        List<Guid> Hello();
+
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of List&lt;Guid&gt;</returns>
+        ApiResponse<List<Guid>> HelloWithHttpInfo();
         #endregion Synchronous Operations
     }
 
@@ -114,6 +133,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> GetCountryWithHttpInfoAsync(string country, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;Guid&gt;</returns>
+        System.Threading.Tasks.Task<List<Guid>> HelloAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -535,6 +575,107 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetCountry", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>List&lt;Guid&gt;</returns>
+        public List<Guid> Hello()
+        {
+            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = HelloWithHttpInfo();
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of List&lt;Guid&gt;</returns>
+        public Org.OpenAPITools.Client.ApiResponse<List<Guid>> HelloWithHttpInfo()
+        {
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<List<Guid>>("/hello", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Hello", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;Guid&gt;</returns>
+        public async System.Threading.Tasks.Task<List<Guid>> HelloAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = await HelloWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Guid>>("/hello", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Hello", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

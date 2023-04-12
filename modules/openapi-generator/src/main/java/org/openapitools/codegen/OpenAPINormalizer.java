@@ -65,6 +65,7 @@ public class OpenAPINormalizer {
 
     // when set to true, oneOf/anyOf schema with only one sub-schema is simplified to just the sub-schema
     // and if sub-schema contains "null", remove it and set nullable to true instead
+    // and if sub-schema contains enum of "null", remove it and set nullable to true instead
     final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
     boolean simplifyOneOfAnyOf;
 
@@ -75,6 +76,16 @@ public class OpenAPINormalizer {
     // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
+
+    // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
+    // by adding x-unsigned to the schema
+    final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
+    boolean addUnsignedToIntegerWithInvalidMaxValue;
+
+    // when set to true, refactor schema with allOf and properties in the same level to a schema with allOf only and
+    // the allOf contains a new schema containing the properties in the top level
+    final String REFACTOR_ALLOF_WITH_PROPERTIES_ONLY = "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY";
+    boolean refactorAllOfWithPropertiesOnly;
 
     // ============= end of rules =============
 
@@ -132,6 +143,13 @@ public class OpenAPINormalizer {
             setTagsForAllOperations = rules.get(SET_TAGS_FOR_ALL_OPERATIONS);
         }
 
+        if (enableAll || "true".equalsIgnoreCase(rules.get(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE))) {
+            addUnsignedToIntegerWithInvalidMaxValue = true;
+        }
+
+        if (enableAll || "true".equalsIgnoreCase(rules.get(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY))) {
+            refactorAllOfWithPropertiesOnly = true;
+        }
     }
 
     /**
@@ -333,6 +351,15 @@ public class OpenAPINormalizer {
             normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
+        } else if (ModelUtils.isOneOf(schema)) { // oneOf
+            return normalizeOneOf(schema, visitedSchemas);
+        } else if (ModelUtils.isAnyOf(schema)) { // anyOf
+            return normalizeAnyOf(schema, visitedSchemas);
+        } else if (ModelUtils.isAllOfWithProperties(schema)) { // allOf with properties
+            schema = normalizeAllOfWithProperties(schema, visitedSchemas);
+            normalizeSchema(schema, visitedSchemas);
+        } else if (ModelUtils.isAllOf(schema)) { // allOf
+            return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
 
@@ -361,12 +388,12 @@ public class OpenAPINormalizer {
             }
 
             return cs;
-        } else if (schema.getNot() != null) {// not schema
-            normalizeSchema(schema.getNot(), visitedSchemas);
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
+        } else if (schema instanceof IntegerSchema) {
+            normalizeIntegerSchema(schema, visitedSchemas);
         } else if (schema instanceof Schema) {
             normalizeSchemaWithOnlyProperties(schema, visitedSchemas);
         } else {
@@ -378,6 +405,10 @@ public class OpenAPINormalizer {
 
     private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
         processSimplifyBooleanEnum(schema);
+    }
+
+    private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
+        processAddUnsignedToIntegerWithInvalidMaxValue(schema);
     }
 
     private void normalizeSchemaWithOnlyProperties(Schema schema, Set<Schema> visitedSchemas) {
@@ -404,6 +435,20 @@ public class OpenAPINormalizer {
         }
         // process rules here
         processUseAllOfRefAsParent(schema);
+
+        return schema;
+    }
+
+    private Schema normalizeAllOfWithProperties(Schema schema, Set<Schema> visitedSchemas) {
+        for (Object item : schema.getAllOf()) {
+            if (!(item instanceof Schema)) {
+                throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
+            }
+            // normalize allOf sub schemas one by one
+            normalizeSchema((Schema) item, visitedSchemas);
+        }
+        // process rules here
+        schema = processRefactorAllOfWithPropertiesOnly(schema);
 
         return schema;
     }
@@ -446,6 +491,10 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+        // loop through properties, if any
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            normalizeProperties(schema.getProperties(), visitedSchemas);
+        }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
 
@@ -549,7 +598,7 @@ public class OpenAPINormalizer {
 
     /**
      * If the schema is anyOf and the sub-schemas are either string or enum of string,
-     * then simplify it to just string as many generators do not yet support anyOf.
+     * then simplify it to just enum of string as many generators do not yet support anyOf.
      *
      * @param schema Schema
      * @return Schema
@@ -564,7 +613,7 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        Schema s0 = null, s1 = null;
+        Schema result = null, s0 = null, s1 = null;
         if (schema.getAnyOf().size() == 2) {
             s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
             s1 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(1));
@@ -575,18 +624,30 @@ public class OpenAPINormalizer {
         s0 = ModelUtils.getReferencedSchema(openAPI, s0);
         s1 = ModelUtils.getReferencedSchema(openAPI, s1);
 
-        // find the string schema (not enum)
+        // find the string schema (enum)
         if (s0 instanceof StringSchema && s1 instanceof StringSchema) {
             if (((StringSchema) s0).getEnum() != null) { // s0 is enum, s1 is string
-                return (StringSchema) s1;
+                result = (StringSchema) s0;
             } else if (((StringSchema) s1).getEnum() != null) { // s1 is enum, s0 is string
-                return (StringSchema) s0;
+                result = (StringSchema) s1;
             } else { // both are string
-                return schema;
+                result = schema;
             }
         } else {
-            return schema;
+            result = schema;
         }
+
+        // set nullable
+        if (schema.getNullable() != null) {
+            result.setNullable(schema.getNullable());
+        }
+
+        // set default
+        if (schema.getDefault() != null) {
+            result.setDefault(schema.getDefault());
+        }
+
+        return result;
     }
 
     /**
@@ -602,11 +663,22 @@ public class OpenAPINormalizer {
         }
 
         if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
-            // convert null sub-schema to `nullable: true`
             for (int i = 0; i < schema.getOneOf().size(); i++) {
+                // convert null sub-schema to `nullable: true`
                 if (schema.getOneOf().get(i) == null || ((Schema) schema.getOneOf().get(i)).getType() == null) {
                     schema.getOneOf().remove(i);
                     schema.setNullable(true);
+                    continue;
+                }
+
+                // convert enum of null only to `nullable:true`
+                Schema oneOfElement = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getOneOf().get(i));
+                if (oneOfElement.getEnum() != null && oneOfElement.getEnum().size() == 1) {
+                    if ("null".equals(String.valueOf(oneOfElement.getEnum().get(0)))) {
+                        schema.setNullable(true);
+                        schema.getOneOf().remove(i);
+                        continue;
+                    }
                 }
             }
 
@@ -635,17 +707,28 @@ public class OpenAPINormalizer {
         }
 
         if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
-            // convert null sub-schema to `nullable: true`
             for (int i = 0; i < schema.getAnyOf().size(); i++) {
+                // convert null sub-schema to `nullable: true`
                 if (schema.getAnyOf().get(i) == null || ((Schema) schema.getAnyOf().get(i)).getType() == null) {
                     schema.getAnyOf().remove(i);
                     schema.setNullable(true);
+                    continue;
+                }
+
+                // convert enum of null only to `nullable:true`
+                Schema anyOfElement = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getAnyOf().get(i));
+                if (anyOfElement.getEnum() != null && anyOfElement.getEnum().size() == 1) {
+                    if ("null".equals(String.valueOf(anyOfElement.getEnum().get(0)))) {
+                        schema.setNullable(true);
+                        schema.getAnyOf().remove(i);
+                        continue;
+                    }
                 }
             }
 
             // if only one element left, simplify to just the element (schema)
             if (schema.getAnyOf().size() == 1) {
-                if (schema.getNullable()) { // retain nullable setting
+                if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
                     ((Schema) schema.getAnyOf().get(0)).setNullable(true);
                 }
                 return (Schema) schema.getAnyOf().get(0);
@@ -673,6 +756,74 @@ public class OpenAPINormalizer {
                 bs.setEnum(null);
             }
         }
+    }
+
+    /**
+     * If the schema is integer and the max value is invalid (out of bound)
+     * then add x-unsigned to use unsigned integer/long instead.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private void processAddUnsignedToIntegerWithInvalidMaxValue(Schema schema) {
+        if (!addUnsignedToIntegerWithInvalidMaxValue && !enableAll) {
+            return;
+        }
+
+        if (schema instanceof IntegerSchema) {
+            if (ModelUtils.isLongSchema(schema)) {
+                if ("18446744073709551615".equals(String.valueOf(schema.getMaximum())) &&
+                        "0".equals(String.valueOf(schema.getMinimum()))) {
+                    schema.addExtension("x-unsigned", true);
+                }
+            } else {
+                if ("4294967295".equals(String.valueOf(schema.getMaximum())) &&
+                        "0".equals(String.valueOf(schema.getMinimum()))) {
+                    schema.addExtension("x-unsigned", true);
+                }
+            }
+        }
+    }
+
+    /*
+     * When set to true, refactor schema with allOf and properties in the same level to a schema with allOf only and
+     * the allOf contains a new schema containing the properties in the top level.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processRefactorAllOfWithPropertiesOnly(Schema schema) {
+        if (!refactorAllOfWithPropertiesOnly && !enableAll) {
+            return schema;
+        }
+
+        ObjectSchema os = new ObjectSchema();
+        // set the properties, etc of the new schema to the properties of schema
+        os.setProperties(schema.getProperties());
+        os.setRequired(schema.getRequired());
+        os.setAdditionalProperties(schema.getAdditionalProperties());
+        os.setNullable(schema.getNullable());
+        os.setDescription(schema.getDescription());
+        os.setDeprecated(schema.getDeprecated());
+        os.setExample(schema.getExample());
+        os.setExamples(schema.getExamples());
+        os.setTitle(schema.getTitle());
+        schema.getAllOf().add(os); // move new schema as a child schema of allOf
+        // clean up by removing properties, etc
+        schema.setProperties(null);
+        schema.setRequired(null);
+        schema.setAdditionalProperties(null);
+        schema.setNullable(null);
+        schema.setDescription(null);
+        schema.setDeprecated(null);
+        schema.setExample(null);
+        schema.setExamples(null);
+        schema.setTitle(null);
+
+        // at this point the schema becomes a simple allOf (no properties) with an additional schema containing
+        // the properties
+
+        return schema;
     }
 
     // ===================== end of rules =====================

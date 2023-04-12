@@ -11,7 +11,9 @@ using Newtonsoft.Json;
 {{#model}}
 {{#discriminator}}
 using JsonSubTypes;
+{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
+{{/useSwashbuckle}}
 {{/discriminator}}
 {{/model}}
 {{/models}}
@@ -27,10 +29,14 @@ namespace {{modelPackage}}
     [DataContract]
     {{#discriminator}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{#useSwashbuckle}}
     [SwaggerDiscriminator("{{{discriminatorName}}}")]
+    {{/useSwashbuckle}}
     {{#mappedModels}}
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{#useSwashbuckle}}
     [SwaggerSubType(typeof({{{modelName}}}), DiscriminatorValue =  "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{/useSwashbuckle}}
     {{/mappedModels}}
     {{/discriminator}}
     public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} {{#parent}}: {{{.}}}{{^pocoModels}}, {{/pocoModels}}{{/parent}}{{^pocoModels}}{{^parent}}: {{/parent}}IEquatable<{{classname}}>{{/pocoModels}}
@@ -51,7 +57,8 @@ namespace {{modelPackage}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
-        /// <value>{{.}}</value>{{/description}}{{#required}}
+        /// <value>{{.}}</value>{{/description}}{{#example}}
+        /// <example>{{.}}</example>{{/example}}{{#required}}
         [Required]{{/required}}{{#pattern}}
         [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
         [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}

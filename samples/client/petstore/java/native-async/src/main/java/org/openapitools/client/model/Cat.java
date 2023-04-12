@@ -78,6 +78,18 @@ public class Cat extends Animal {
   }
 
 
+  @Override
+  public Cat className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Cat color(String color) {
+    this.setColor(color);
+    return this;
+  }
+
   /**
    * Return true if this Cat object is equal to o.
    */

@@ -1176,7 +1176,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
-    file = 'file_example' # str | file to upload (optional)
+    file = None # bytearray | file to upload (optional)
 
     try:
         # uploads an image
@@ -1193,7 +1193,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
  **additional_metadata** | **str**| Additional data to pass to server | [optional] 
- **file** | **str**| file to upload | [optional] 
+ **file** | **bytearray**| file to upload | [optional] 
 
 ### Return type
 
@@ -1250,7 +1250,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
-    required_file = 'required_file_example' # str | file to upload
+    required_file = None # bytearray | file to upload
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 
     try:
@@ -1267,7 +1267,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
- **required_file** | **str**| file to upload | 
+ **required_file** | **bytearray**| file to upload | 
  **additional_metadata** | **str**| Additional data to pass to server | [optional] 
 
 ### Return type

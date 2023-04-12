@@ -4,9 +4,9 @@
 
 """
 Run the tests.
-$ pip install nose (optional)
+$ pip install -U pytest
 $ cd OpenAPIPetstore-python
-$ nosetests -v
+$ pytest
 """
 from collections import namedtuple
 import json

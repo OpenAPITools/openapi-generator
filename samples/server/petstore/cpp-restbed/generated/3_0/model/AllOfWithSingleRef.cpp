@@ -20,6 +20,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <regex>
+#include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -63,7 +64,6 @@ ptree AllOfWithSingleRef::toPropertyTree() const
 	ptree pt;
 	ptree tmp_node;
 	pt.put("username", m_Username);
-	pt.add_child("SingleRefType", m_SingleRefType.toPropertyTree());
 	return pt;
 }
 
@@ -71,9 +71,6 @@ void AllOfWithSingleRef::fromPropertyTree(ptree const &pt)
 {
 	ptree tmp_node;
 	m_Username = pt.get("username", "");
-	if (pt.get_child_optional("SingleRefType")) {
-        m_SingleRefType = fromPt<SingleRefType>(pt.get_child("SingleRefType"));
-	}
 }
 
 std::string AllOfWithSingleRef::getUsername() const

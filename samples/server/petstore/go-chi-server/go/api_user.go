@@ -169,7 +169,6 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 // DeleteUser - Delete user
 func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
-	
 	result, err := c.service.DeleteUser(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -183,7 +182,6 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 // GetUserByName - Get user by user name
 func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
-	
 	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -224,7 +222,6 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 // UpdateUser - Updated user
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
-	
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()

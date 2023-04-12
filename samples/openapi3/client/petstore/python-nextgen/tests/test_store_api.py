@@ -4,9 +4,9 @@
 
 """
 Run the tests.
-$ pip install nose (optional)
+$ pip install -U pytest
 $ cd OpenAP/Petstore-python
-$ nosetests -v
+$ pytest
 """
 
 import os

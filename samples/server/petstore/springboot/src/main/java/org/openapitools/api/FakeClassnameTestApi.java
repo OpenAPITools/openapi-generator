@@ -35,7 +35,7 @@ public interface FakeClassnameTestApi {
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
      *
-     * @param body client model (required)
+     * @param clientDto client model (required)
      * @return successful operation (status code 200)
      */
     @ApiOperation(
@@ -58,7 +58,7 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ClientDto> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto body
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

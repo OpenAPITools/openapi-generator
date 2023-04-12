@@ -20,10 +20,12 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
+import java.io.File;
 import org.openapitools.client.model.Pet;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BodyApi {
+
+
   private ApiClient apiClient;
 
   public BodyApi() {
@@ -50,6 +54,73 @@ public class BodyApi {
   }
 
   /**
+   * Test binary (gif) response body
+   * Test binary (gif) response body
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File testBinaryGif() throws ApiException {
+    return this.testBinaryGif(Collections.emptyMap());
+  }
+
+
+  /**
+   * Test binary (gif) response body
+   * Test binary (gif) response body
+   * @param additionalHeaders additionalHeaders for this call
+   * @return File
+   * @throws ApiException if fails to make API call
+   */
+  public File testBinaryGif(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/binary/gif";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "image/gif"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<File> localVarReturnType = new TypeReference<File>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
    * Test body parameter(s)
    * Test body parameter(s)
    * @param pet Pet object that needs to be added to the store (optional)
@@ -57,6 +128,19 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public Pet testEchoBodyPet(Pet pet) throws ApiException {
+    return this.testEchoBodyPet(pet, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Pet
+   * @throws ApiException if fails to make API call
+   */
+  public Pet testEchoBodyPet(Pet pet, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -71,6 +155,8 @@ public class BodyApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -102,6 +188,7 @@ public class BodyApi {
         localVarReturnType
     );
   }
+
   /**
    * Test empty response body
    * Test empty response body
@@ -110,6 +197,19 @@ public class BodyApi {
    * @throws ApiException if fails to make API call
    */
   public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
+    return this.testEchoBodyPetResponseString(pet, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test empty response body
+   * Test empty response body
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testEchoBodyPetResponseString(Pet pet, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // create path and map variables
@@ -124,6 +224,8 @@ public class BodyApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -155,4 +257,5 @@ public class BodyApi {
         localVarReturnType
     );
   }
+
 }

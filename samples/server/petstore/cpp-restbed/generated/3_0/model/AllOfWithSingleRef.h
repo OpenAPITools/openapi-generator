@@ -25,6 +25,7 @@
 #include "SingleRefType.h"
 #include <memory>
 #include <vector>
+#include <array>
 #include <boost/property_tree/ptree.hpp>
 #include "helpers.h"
 
@@ -72,7 +73,7 @@ public:
 
 protected:
     std::string m_Username = "";
-    SingleRefType m_SingleRefType;
+    SingleRefType m_SingleRefType = SingleRefType{};
 };
 
 std::vector<AllOfWithSingleRef> createAllOfWithSingleRefVectorFromJsonString(const std::string& json);

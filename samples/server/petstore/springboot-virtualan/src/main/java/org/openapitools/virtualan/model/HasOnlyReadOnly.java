@@ -23,10 +23,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HasOnlyReadOnly {
 
-  @JsonProperty("bar")
   private String bar;
 
-  @JsonProperty("foo")
   private String foo;
 
   public HasOnlyReadOnly bar(String bar) {
@@ -40,6 +38,7 @@ public class HasOnlyReadOnly {
   */
   
   @Schema(name = "bar", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
@@ -59,6 +58,7 @@ public class HasOnlyReadOnly {
   */
   
   @Schema(name = "foo", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }

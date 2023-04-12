@@ -1234,6 +1234,20 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/any_type_body:
+    post:
+      tags:
+        - fake
+      summary: test any type request body
+      operationId: fakeAnyTypeRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1577,6 +1591,9 @@ components:
         string:
           type: string
           pattern: '/[a-z]/i'
+        string_with_double_quote_pattern:
+          type: string
+          pattern: 'this is "something"'
         byte:
           type: string
           format: byte
@@ -2095,3 +2112,38 @@ components:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+    InnerDictWithProperty:
+      type: object
+      properties:
+        aProperty:
+          type: object
+    DictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    ParentWithOptionalDict:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"
+    Circular-Reference-Model:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/FirstRef'
+    FirstRef:
+      type: object
+      properties:
+        category:
+          type: string
+        self_ref:
+          $ref: '#/components/schemas/SecondRef'
+    SecondRef:
+      type: object
+      properties:
+        category:
+          type: string
+        circular_ref:
+          $ref: '#/components/schemas/Circular-Reference-Model'
