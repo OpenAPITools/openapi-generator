@@ -328,9 +328,13 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
             if (schema instanceof StringSchema) {
-                return "\"" + schema.getDefault().toString() + "\"" ;
+                return "\"" + schema.getDefault().toString().replace("\"", "") + "\"" ;
             }
             return schema.getDefault().toString();
+        }
+
+        if (schema instanceof StringSchema) {
+            return "\"\"";
         }
 
         return "";
@@ -371,9 +375,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 // Local properties used in Model classes
                 "bee_class_name",
                 // Local method names used in base API class
-                "bee_connect_client_if_needed", "bee_request", "bee_request_text", "bee_do_request_text",
-                "bee_convert_http_method", "bee_urlize_path_param", "bee_escape_path_param",
-                "bee_next_loop_iteration", "bee_get_content_type", "bee_format_error_response",
+                "bee_connect_client_if_needed", "bee_request", "_bee_request_text", "_bee_do_request_text",
+                "_bee_convert_http_method", "_bee_urlize_path_param", "_bee_escape_path_param",
+                "_bee_next_loop_iteration", "_bee_get_content_type", "_bee_format_error_response",
                 // Local properties used in base API class
                 "bee_config", "bee_client", "bee_name",
                 // Local variable names used in API methods (endpoints)

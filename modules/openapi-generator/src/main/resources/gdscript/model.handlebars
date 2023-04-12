@@ -5,6 +5,7 @@
 
 # {{classname}} Model
 {{#if description}}
+{{! FIXME: multiline description (how?) }}
 # {{{description}}}
 {{/if}}
 # namespace: {{modelPackage}}
@@ -24,14 +25,15 @@ var bee_class_name := "{{classname}}"
 # /!.  DEPRECATED
 {{/if}}
 {{#if description}}
+{{! FIXME: multiline description (how?) }}
 # {{{description}}}
 {{/if}}
 # Type: {{>partials/data_type}}
 {{#if isDate}}
-#       (but it's actually a Date ; no generated conversion because of lack of support for timezones in Godot)
+#       (but it's actually a Date ; no timezones support in Godot)
 {{/if}}
 {{#if isDateTime}}
-#       (but it's actually a DateTime ; no generated conversion because of lack of support for timezones in Godot)
+#       (but it's actually a DateTime ; no timezones support in Godot)
 {{/if}}
 # Required: {{#unless required}}False{{/unless}}{{#if required}}True{{/if}}
 {{#if example}}

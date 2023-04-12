@@ -3,10 +3,12 @@
 {{> doc_auth_partial}}
 --}}
 
-# Customize configuration, if needed
+# Customize configuration
 var config := {{>partials/api_config_class_name}}.new()
 config.host = "localhost"
 config.port = 8080
+config.trusted_chain = preload("res://my_cert_chain.crt")
+config.tls_enabled = true
 
 var api = {{{classname}}}.new()
 api.config = config  # optionally

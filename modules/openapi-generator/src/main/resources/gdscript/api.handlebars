@@ -9,6 +9,18 @@
 {{#with operations}}
 {{#each operation}}
 
+class {{coreNamePrefix}}{{operationIdCamelCase}}Request:
+	pass
+
+	{{#allParams}}
+	# {{description}}
+
+	{{#vars}}
+	var {{baseName}}: {{dataType}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}
+	{{/vars}}
+	{{/allParams}}
+
+
 {{#if isDeprecated}}
 # /!.  DEPRECATED
 {{/if}}
@@ -25,13 +37,7 @@
 # {{{notes}}}
 {{/if}}
 func {{operationIdSnakeCase}}(
-	{{#each allParams}}
-	# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
-	# {{{description}}}
-	{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#if defaultValue}}{{{defaultValue}}}{{/if}}{{#unless defaultValue}}null{{/unless}}{{/unless}},
-	{{/each}}
-	on_success: Callable = Callable(),  # func(result{{#if returnType}}: {{returnType}}{{/if}})
-	on_failure: Callable = Callable(),  # func(error: {{>partials/api_error_class_name}})
+{{>partials/api_method_params}}
 ):
 	{{!--
 	# Note: `bzz_` prefix in variable names is to reduce collisions and therefore renames.
@@ -202,6 +208,22 @@ func {{operationIdSnakeCase}}(
 			on_failure.call(bzz_error)
 			,  # ざわ‥
 	)
+
+
+func {{operationIdSnakeCase}}_threaded(
+{{>partials/api_method_params}}
+) -> Thread:
+	var bzz_thread := Thread.new()
+	var bzz_callable := Callable(self, "{{operationIdSnakeCase}}")
+	bzz_callable.bind(
+	{{#each allParams}}
+		{{paramName}},
+	{{/each}}
+		on_success,
+		on_failure,
+	)
+	bzz_thread.start(bzz_callable)
+	return bzz_thread
 {{/each}}
 
 {{/with}}
