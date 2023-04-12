@@ -52,15 +52,3 @@ func AssertPetRequired(obj Pet) error {
 	}
 	return nil
 }
-
-// AssertRecursePetRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Pet (e.g. [][]Pet), otherwise ErrTypeAssertionError is thrown.
-func AssertRecursePetRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aPet, ok := obj.(Pet)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertPetRequired(aPet)
-	})
-}
