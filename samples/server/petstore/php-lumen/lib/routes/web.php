@@ -108,13 +108,6 @@ $router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams
 $router->get('/v2/fake/health', 'FakeApi@fakeHealthGet');
 
 /**
- * get fakeHttpSignatureTest
- * Summary: test http signature authentication
- * Notes: 
- */
-$router->get('/v2/fake/http-signature-test', 'FakeApi@fakeHttpSignatureTest');
-
-/**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 

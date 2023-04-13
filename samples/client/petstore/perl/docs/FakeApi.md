@@ -10,7 +10,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-[**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -65,56 +64,6 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **fake_http_signature_test**
-> fake_http_signature_test(pet => $pet, query_1 => $query_1, header_1 => $header_1)
-
-test http signature authentication
-
-### Example
-```perl
-use Data::Dumper;
-use WWW::OpenAPIClient::FakeApi;
-my $api_instance = WWW::OpenAPIClient::FakeApi->new(
-
-    # Configure HTTP basic authorization: http_signature_test
-    
-);
-
-my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs to be added to the store
-my $query_1 = "query_1_example"; # string | query parameter
-my $header_1 = "header_1_example"; # string | header parameter
-
-eval {
-    $api_instance->fake_http_signature_test(pet => $pet, query_1 => $query_1, header_1 => $header_1);
-};
-if ($@) {
-    warn "Exception when calling FakeApi->fake_http_signature_test: $@\n";
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
- **query_1** | **string**| query parameter | [optional] 
- **header_1** | **string**| header parameter | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

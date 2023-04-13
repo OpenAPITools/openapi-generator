@@ -12,7 +12,6 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
-import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -29,11 +28,6 @@ import javax.validation.constraints.*;
 public class FakeApiServiceImpl extends FakeApiService {
     @Override
     public Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
-    public Response fakeHttpSignatureTest(Pet pet, String query1, String header1, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

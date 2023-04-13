@@ -61,7 +61,6 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTags**](doc//AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](doc//DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeHealthGet**](doc//FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
-*FakeApi* | [**fakeHttpSignatureTest**](doc//FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](doc//FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](doc//FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](doc//FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -184,9 +183,6 @@ Class | Method | HTTP request | Description
 ## bearer_test
 
 - **Type**: HTTP Bearer authentication
-
-## http_signature_test
-
 
 
 ## Author

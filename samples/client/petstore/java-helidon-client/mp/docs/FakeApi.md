@@ -5,7 +5,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
-| [**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
@@ -46,41 +45,6 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
-
-
-## fakeHttpSignatureTest
-
-> void fakeHttpSignatureTest(pet, query1, header1)
-
-test http signature authentication
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
-| **query1** | **String**| query parameter | [optional] |
-| **header1** | **String**| header parameter | [optional] |
-
-### Return type
-
-[**void**](Void.md)
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
-- **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
 
 
 ### HTTP response details

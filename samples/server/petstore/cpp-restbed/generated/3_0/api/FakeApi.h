@@ -37,7 +37,6 @@
 #include "HealthCheckResult.h"
 #include "OuterComposite.h"
 #include "OuterObjectWithEnumProperty.h"
-#include "Pet.h"
 #include "User.h"
 #include <map>
 #include <string>
@@ -102,68 +101,6 @@ protected:
 
     virtual std::pair<int, HealthCheckResult> handler_GET(
         );
-
-
-protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
-    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
-
-    virtual std::pair<int, std::string> handleFakeApiException(const FakeApiException& e);
-    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
-    virtual std::pair<int, std::string> handleUnspecifiedException();
-
-    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
-        const std::string& header);
-
-    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
-    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
-        const int status, const std::string& result);
-
-private:
-    void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
-};
-
-/// <summary>
-/// test http signature authentication
-/// </summary>
-/// <remarks>
-/// 
-/// </remarks>
-class  FakeHttp_signature_testResource: public restbed::Resource
-{
-public:
-    FakeHttp_signature_testResource(const std::string& context = "/v2");
-    virtual ~FakeHttp_signature_testResource() = default;
-
-    FakeHttp_signature_testResource(
-        const FakeHttp_signature_testResource& other) = default; // copy constructor
-    FakeHttp_signature_testResource(FakeHttp_signature_testResource&& other) noexcept = default; // move constructor
-
-    FakeHttp_signature_testResource& operator=(const FakeHttp_signature_testResource& other) = default; // copy assignment
-    FakeHttp_signature_testResource& operator=(FakeHttp_signature_testResource&& other) noexcept = default; // move assignment
-
-    /////////////////////////////////////////////////////
-    // Set these to implement the server functionality //
-    /////////////////////////////////////////////////////
-    std::function<int(
-        Pet & pet, std::string & query1, std::string & header1)> handler_GET_func =
-            [](Pet &, std::string &, std::string &) -> int
-                { throw FakeApiException(501, "Not implemented"); };
-
-
-protected:
-    //////////////////////////////////////////////////////////
-    // As an alternative to setting the `std::function`s    //
-    // override these to implement the server functionality //
-    //////////////////////////////////////////////////////////
-
-    virtual int handler_GET(
-        Pet & pet, std::string & query1, std::string & header1);
 
 
 protected:
@@ -961,7 +898,6 @@ private:
 } /* namespace FakeApiResources */
 
 using FakeApiFakeHealthResource [[deprecated]] = FakeApiResources::FakeHealthResource;
-using FakeApiFakeHttp_signature_testResource [[deprecated]] = FakeApiResources::FakeHttp_signature_testResource;
 using FakeApiFakeOuterBooleanResource [[deprecated]] = FakeApiResources::FakeOuterBooleanResource;
 using FakeApiFakeOuterCompositeResource [[deprecated]] = FakeApiResources::FakeOuterCompositeResource;
 using FakeApiFakeOuterNumberResource [[deprecated]] = FakeApiResources::FakeOuterNumberResource;
@@ -985,7 +921,6 @@ public:
 	virtual ~FakeApi();
 
     std::shared_ptr<FakeApiResources::FakeHealthResource> getFakeHealthResource();
-    std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> getFakeHttp_signature_testResource();
     std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> getFakeOuterBooleanResource();
     std::shared_ptr<FakeApiResources::FakeOuterCompositeResource> getFakeOuterCompositeResource();
     std::shared_ptr<FakeApiResources::FakeOuterNumberResource> getFakeOuterNumberResource();
@@ -1000,7 +935,6 @@ public:
     std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> getFakeTest_query_parametersResource();
 
     void setResource(std::shared_ptr<FakeApiResources::FakeHealthResource> resource);
-    void setResource(std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeOuterCompositeResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeOuterNumberResource> resource);
@@ -1015,8 +949,6 @@ public:
     void setResource(std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> resource);
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeHealthResource(std::shared_ptr<FakeApiResources::FakeHealthResource> spFakeApiFakeHealthResource);
-    [[deprecated("use setResource()")]]
-    virtual void setFakeApiFakeHttp_signature_testResource(std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> spFakeApiFakeHttp_signature_testResource);
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeOuterBooleanResource(std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> spFakeApiFakeOuterBooleanResource);
     [[deprecated("use setResource()")]]
@@ -1048,7 +980,6 @@ public:
 
 protected:
 	std::shared_ptr<FakeApiResources::FakeHealthResource> m_spFakeHealthResource;
-	std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> m_spFakeHttp_signature_testResource;
 	std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> m_spFakeOuterBooleanResource;
 	std::shared_ptr<FakeApiResources::FakeOuterCompositeResource> m_spFakeOuterCompositeResource;
 	std::shared_ptr<FakeApiResources::FakeOuterNumberResource> m_spFakeOuterNumberResource;

@@ -42,7 +42,6 @@ paths:
         '405':
           description: Invalid input
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -65,7 +64,6 @@ paths:
         '405':
           description: Validation exception
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -113,7 +111,6 @@ paths:
         '400':
           description: Invalid status value
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -158,7 +155,6 @@ paths:
         '400':
           description: Invalid tag value
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -349,7 +345,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -856,7 +852,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1208,46 +1204,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /fake/http-signature-test:
-    get:
-      tags:
-        - fake
-      summary: test http signature authentication
-      operationId: fake-http-signature-test
-      parameters:
-        - name: query_1
-          in: query
-          description: query parameter
-          required: optional
-          schema:
-            type: string
-        - name: header_1
-          in: header
-          description: header parameter
-          required: optional
-          schema:
-            type: string
-      security:
-        - http_signature_test: []
-      requestBody:
-        $ref: '#/components/requestBodies/Pet'
-      responses:
-        200:
-          description: The instance started successfully
-  /fake/any_type_body:
-    post:
-      tags:
-        - fake
-      summary: test any type request body
-      operationId: fakeAnyTypeRequestBody
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        200:
-          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1325,12 +1281,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    http_signature_test:
-      # Test the 'HTTP signature' security scheme.
-      # Each HTTP request is cryptographically signed as specified
-      # in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-      type: http
-      scheme: signature
   schemas:
     Foo:
       type: object

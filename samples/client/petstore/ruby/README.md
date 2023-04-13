@@ -78,7 +78,6 @@ Class | Method | HTTP request | Description
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *Petstore::DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
 *Petstore::FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-*Petstore::FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -204,7 +203,4 @@ Class | Method | HTTP request | Description
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
-
-### http_signature_test
-
 

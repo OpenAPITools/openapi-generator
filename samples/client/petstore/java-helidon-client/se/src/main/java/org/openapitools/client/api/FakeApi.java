@@ -25,7 +25,6 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
-import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 /**
@@ -40,15 +39,6 @@ public interface FakeApi {
   * @return {@code ApiResponse<HealthCheckResult>}
   */
   ApiResponse<HealthCheckResult> fakeHealthGet();
-
- /**
-  * test http signature authentication
-  * @param pet Pet object that needs to be added to the store (required)
-  * @param query1 query parameter (optional)
-  * @param header1 header parameter (optional)
-  * @return {@code ApiResponse<Void>}
-  */
-  ApiResponse<Void> fakeHttpSignatureTest(Pet pet, String query1, String header1);
 
   ApiResponse<Boolean> fakeOuterBooleanSerialize(Boolean body);
 

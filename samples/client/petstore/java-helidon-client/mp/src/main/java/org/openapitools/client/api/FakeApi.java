@@ -35,7 +35,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
-import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 /**
@@ -55,14 +54,6 @@ public interface FakeApi  {
     @Path("/health")
     @Produces({ "application/json" })
     HealthCheckResult fakeHealthGet() throws ApiException, ProcessingException;
-
-    /**
-     * test http signature authentication
-     */
-    @GET
-    @Path("/http-signature-test")
-    @Consumes({ "application/json", "application/xml" })
-    void fakeHttpSignatureTest(Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1") String header1) throws ApiException, ProcessingException;
 
     @POST
     @Path("/outer/boolean")
