@@ -10,6 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
 | [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
 | [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int |  |
+| [**fake_unsupported_scheme_test**](FakeApi.md#fake_unsupported_scheme_test) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only |
 | [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary |  |
 | [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
 | [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
@@ -407,6 +408,76 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: */*
+
+
+## fake_unsupported_scheme_test
+
+> fake_unsupported_scheme_test(pet, opts)
+
+test behavior with unsupported http scheme only
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+end
+
+api_instance = Petstore::FakeApi.new
+pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
+opts = {
+  query_1: 'query_1_example', # String | query parameter
+  header_1: 'header_1_example' # String | header parameter
+}
+
+begin
+  # test behavior with unsupported http scheme only
+  api_instance.fake_unsupported_scheme_test(pet, opts)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_unsupported_scheme_test: #{e}"
+end
+```
+
+#### Using the fake_unsupported_scheme_test_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> fake_unsupported_scheme_test_with_http_info(pet, opts)
+
+```ruby
+begin
+  # test behavior with unsupported http scheme only
+  data, status_code, headers = api_instance.fake_unsupported_scheme_test_with_http_info(pet, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->fake_unsupported_scheme_test_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
+| **query_1** | **String** | query parameter | [optional] |
+| **header_1** | **String** | header parameter | [optional] |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+[unsupported_test](../README.md#unsupported_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 
 ## test_body_with_binary

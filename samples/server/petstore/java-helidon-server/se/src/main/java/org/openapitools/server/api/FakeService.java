@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 
 import io.helidon.webserver.Routing;
@@ -34,6 +35,7 @@ public interface FakeService extends Service {
         rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
         rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
         rules.post("/fake/property/enum-int", Handler.create(OuterObjectWithEnumProperty.class, this::fakePropertyEnumIntegerSerialize));
+        rules.get("/fake/unsupported-scheme-test", Handler.create(Pet.class, this::fakeUnsupportedSchemeTest));
         rules.put("/fake/body-with-binary", this::testBodyWithBinary);
         rules.put("/fake/body-with-file-schema", Handler.create(FileSchemaTestClass.class, this::testBodyWithFileSchema));
         rules.put("/fake/body-with-query-params", Handler.create(User.class, this::testBodyWithQueryParams));
@@ -90,6 +92,14 @@ public interface FakeService extends Service {
      * @param outerObjectWithEnumProperty Input enum (int) as post body 
      */
     void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response, OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+    /**
+     * GET /fake/unsupported-scheme-test : test behavior with unsupported http scheme only.
+     * @param request the server request
+     * @param response the server response
+     * @param pet Pet object that needs to be added to the store 
+     */
+    void fakeUnsupportedSchemeTest(ServerRequest request, ServerResponse response, Pet pet);
 
     /**
      * PUT /fake/body-with-binary.

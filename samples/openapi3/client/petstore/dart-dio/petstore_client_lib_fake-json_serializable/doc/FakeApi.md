@@ -15,6 +15,7 @@ Method | HTTP request | Description
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[**fakeUnsupportedSchemeTest**](FakeApi.md#fakeunsupportedschemetest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only
 [**testBodyWithBinary**](FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 [**testBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -276,6 +277,53 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **fakeUnsupportedSchemeTest**
+> fakeUnsupportedSchemeTest(pet, query1, header1)
+
+test behavior with unsupported http scheme only
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+// TODO Configure HTTP basic authorization: unsupported_test
+//defaultApiClient.getAuthentication<HttpBasicAuth>('unsupported_test').username = 'YOUR_USERNAME'
+//defaultApiClient.getAuthentication<HttpBasicAuth>('unsupported_test').password = 'YOUR_PASSWORD';
+
+final api = Openapi().getFakeApi();
+final Pet pet = ; // Pet | Pet object that needs to be added to the store
+final String query1 = query1_example; // String | query parameter
+final String header1 = header1_example; // String | header parameter
+
+try {
+    api.fakeUnsupportedSchemeTest(pet, query1, header1);
+} catch on DioError (e) {
+    print('Exception when calling FakeApi->fakeUnsupportedSchemeTest: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **query1** | **String**| query parameter | [optional] 
+ **header1** | **String**| header parameter | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[unsupported_test](../README.md#unsupported_test)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

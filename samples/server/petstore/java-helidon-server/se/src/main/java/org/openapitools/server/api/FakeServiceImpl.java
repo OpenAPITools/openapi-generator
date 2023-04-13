@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 import java.util.logging.Logger;
 
@@ -47,6 +48,10 @@ public class FakeServiceImpl implements FakeService {
     }
 
     public void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response, OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    public void fakeUnsupportedSchemeTest(ServerRequest request, ServerResponse response, Pet pet) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 

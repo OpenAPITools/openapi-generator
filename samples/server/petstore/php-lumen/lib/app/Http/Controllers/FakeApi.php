@@ -534,4 +534,32 @@ class FakeApi extends Controller
 
         return response('How about implementing testQueryParameterCollectionFormat as a put method ?');
     }
+    /**
+     * Operation fakeUnsupportedSchemeTest
+     *
+     * test behavior with unsupported http scheme only.
+     *
+     *
+     * @return Http response
+     */
+    public function fakeUnsupportedSchemeTest()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['pet'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet when calling fakeUnsupportedSchemeTest');
+        }
+        $pet = $input['pet'];
+
+        $query_1 = $input['query_1'];
+
+        $header_1 = $input['header_1'];
+
+
+        return response('How about implementing fakeUnsupportedSchemeTest as a get method ?');
+    }
 }

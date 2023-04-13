@@ -21,6 +21,7 @@ import type {
   HealthCheckResult,
   OuterComposite,
   OuterObjectWithEnumProperty,
+  Pet,
   User,
 } from '../models';
 import {
@@ -36,6 +37,8 @@ import {
     OuterCompositeToJSON,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
+    PetFromJSON,
+    PetToJSON,
     UserFromJSON,
     UserToJSON,
 } from '../models';
@@ -58,6 +61,12 @@ export interface FakeOuterStringSerializeRequest {
 
 export interface FakePropertyEnumIntegerSerializeRequest {
     outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
+}
+
+export interface FakeUnsupportedSchemeTestRequest {
+    pet: Pet;
+    query1?: string;
+    header1?: string;
 }
 
 export interface TestBodyWithBinaryRequest {
@@ -324,6 +333,46 @@ export class FakeApi extends runtime.BaseAPI {
     async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OuterObjectWithEnumProperty> {
         const response = await this.fakePropertyEnumIntegerSerializeRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * test behavior with unsupported http scheme only
+     */
+    async fakeUnsupportedSchemeTestRaw(requestParameters: FakeUnsupportedSchemeTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.pet === null || requestParameters.pet === undefined) {
+            throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling fakeUnsupportedSchemeTest.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.query1 !== undefined) {
+            queryParameters['query_1'] = requestParameters.query1;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.header1 !== undefined && requestParameters.header1 !== null) {
+            headerParameters['header_1'] = String(requestParameters.header1);
+        }
+
+        const response = await this.request({
+            path: `/fake/unsupported-scheme-test`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PetToJSON(requestParameters.pet),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * test behavior with unsupported http scheme only
+     */
+    async fakeUnsupportedSchemeTest(requestParameters: FakeUnsupportedSchemeTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.fakeUnsupportedSchemeTestRaw(requestParameters, initOverrides);
     }
 
     /**

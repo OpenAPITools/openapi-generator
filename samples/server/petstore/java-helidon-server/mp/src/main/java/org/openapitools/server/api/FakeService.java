@@ -23,6 +23,7 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
@@ -71,6 +72,11 @@ public interface FakeService {
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+    @GET
+    @Path("/unsupported-scheme-test")
+    @Consumes({ "application/json", "application/xml" })
+    void fakeUnsupportedSchemeTest(@Valid @NotNull Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1);
 
     @PUT
     @Path("/body-with-binary")

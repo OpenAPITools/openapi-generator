@@ -35,6 +35,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 /**
@@ -84,6 +85,14 @@ public interface FakeApi  {
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException, ProcessingException;
+
+    /**
+     * test behavior with unsupported http scheme only
+     */
+    @GET
+    @Path("/unsupported-scheme-test")
+    @Consumes({ "application/json", "application/xml" })
+    void fakeUnsupportedSchemeTest(Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1") String header1) throws ApiException, ProcessingException;
 
     @PUT
     @Path("/body-with-binary")

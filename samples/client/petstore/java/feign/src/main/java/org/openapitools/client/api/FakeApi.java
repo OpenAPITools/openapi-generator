@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -195,6 +196,95 @@ public interface FakeApi extends ApiClient.Api {
   ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 
 
+
+  /**
+   * test behavior with unsupported http scheme only
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   */
+  @RequestLine("GET /fake/unsupported-scheme-test?query_1={query1}")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+    "header_1: {header1}"
+  })
+  void fakeUnsupportedSchemeTest(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
+
+  /**
+   * test behavior with unsupported http scheme only
+   * Similar to <code>fakeUnsupportedSchemeTest</code> but it also returns the http response headers .
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   */
+  @RequestLine("GET /fake/unsupported-scheme-test?query_1={query1}")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+    "header_1: {header1}"
+  })
+  ApiResponse<Void> fakeUnsupportedSchemeTestWithHttpInfo(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
+
+
+  /**
+   * test behavior with unsupported http scheme only
+   * 
+   * Note, this is equivalent to the other <code>fakeUnsupportedSchemeTest</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link FakeUnsupportedSchemeTestQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param header1 header parameter (optional)
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>query1 - query parameter (optional)</li>
+   *   </ul>
+   */
+  @RequestLine("GET /fake/unsupported-scheme-test?query_1={query1}")
+  @Headers({
+  "Content-Type: application/json",
+  "Accept: application/json",
+      "header_1: {header1}"
+  })
+  void fakeUnsupportedSchemeTest(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) FakeUnsupportedSchemeTestQueryParams queryParams);
+
+  /**
+  * test behavior with unsupported http scheme only
+  * 
+  * Note, this is equivalent to the other <code>fakeUnsupportedSchemeTest</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+              * @param pet Pet object that needs to be added to the store (required)
+              * @param header1 header parameter (optional)
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>query1 - query parameter (optional)</li>
+      *   </ul>
+      */
+      @RequestLine("GET /fake/unsupported-scheme-test?query_1={query1}")
+      @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+          "header_1: {header1}"
+      })
+   ApiResponse<Void> fakeUnsupportedSchemeTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) FakeUnsupportedSchemeTestQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>fakeUnsupportedSchemeTest</code> method in a fluent style.
+   */
+  public static class FakeUnsupportedSchemeTestQueryParams extends HashMap<String, Object> {
+    public FakeUnsupportedSchemeTestQueryParams query1(final String value) {
+      put("query_1", EncodingUtils.encode(value));
+      return this;
+    }
+  }
 
   /**
    * 

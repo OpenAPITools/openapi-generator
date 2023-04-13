@@ -10,6 +10,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**fakeUnsupportedSchemeTest()**](FakeApi.md#fakeUnsupportedSchemeTest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only |
 | [**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
 | [**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
@@ -348,6 +349,65 @@ No authorization required
 
 - **Content-Type**: `application/json`
 - **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeUnsupportedSchemeTest()`
+
+```php
+fakeUnsupportedSchemeTest($pet, $query_1, $header_1)
+```
+
+test behavior with unsupported http scheme only
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$query_1 = 'query_1_example'; // string | query parameter
+$header_1 = 'header_1_example'; // string | header parameter
+
+try {
+    $apiInstance->fakeUnsupportedSchemeTest($pet, $query_1, $header_1);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeUnsupportedSchemeTest: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+| **query_1** | **string**| query parameter | [optional] |
+| **header_1** | **string**| header parameter | [optional] |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[unsupported_test](../../README.md#unsupported_test)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`, `application/xml`
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

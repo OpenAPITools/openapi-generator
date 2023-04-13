@@ -10,6 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakePropertyEnumIntegerSerialize**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**fakeUnsupportedSchemeTest**](FakeApi.md#fakeUnsupportedSchemeTest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only |
 | [**testBodyWithBinary**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
 | [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
@@ -226,6 +227,41 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Output enum (int) |  -  |
+
+
+## fakeUnsupportedSchemeTest
+
+> void fakeUnsupportedSchemeTest(pet, query1, header1)
+
+test behavior with unsupported http scheme only
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
+| **query1** | **String**| query parameter | [optional] |
+| **header1** | **String**| header parameter | [optional] |
+
+### Return type
+
+[**void**](Void.md)
+
+### Authorization
+
+[unsupported_test](../README.md#unsupported_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The instance started successfully |  -  |
 
 
 ## testBodyWithBinary

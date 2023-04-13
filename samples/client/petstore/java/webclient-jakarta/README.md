@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fakeUnsupportedSchemeTest**](docs/FakeApi.md#fakeUnsupportedSchemeTest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only
 *FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -240,6 +241,11 @@ Authentication schemes defined for the API:
 - **Type**: HTTP basic authentication
 
 ### bearer_test
+
+
+- **Type**: HTTP basic authentication
+
+### unsupported_test
 
 
 - **Type**: HTTP basic authentication

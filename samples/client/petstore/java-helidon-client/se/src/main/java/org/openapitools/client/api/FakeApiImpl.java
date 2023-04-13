@@ -41,6 +41,7 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 import java.util.ArrayList;
 import org.openapitools.client.Pair;
@@ -62,6 +63,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<BigDecimal> RESPONSE_TYPE_fakeOuterNumberSerialize = ResponseType.create(BigDecimal.class);
   protected static final GenericType<String> RESPONSE_TYPE_fakeOuterStringSerialize = ResponseType.create(String.class);
   protected static final GenericType<OuterObjectWithEnumProperty> RESPONSE_TYPE_fakePropertyEnumIntegerSerialize = ResponseType.create(OuterObjectWithEnumProperty.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_fakeUnsupportedSchemeTest = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithBinary = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithFileSchema = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithQueryParams = ResponseType.create(Void.class);
@@ -303,6 +305,57 @@ public class FakeApiImpl implements FakeApi {
   protected ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeSubmit(WebClientRequestBuilder webClientRequestBuilder, OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(outerObjectWithEnumProperty);
     return ApiResponse.create(RESPONSE_TYPE_fakePropertyEnumIntegerSerialize, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> fakeUnsupportedSchemeTest(Pet pet, String query1, String header1) {
+    Objects.requireNonNull(pet, "Required parameter 'pet' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = fakeUnsupportedSchemeTestRequestBuilder(pet, query1, header1);
+    return fakeUnsupportedSchemeTestSubmit(webClientRequestBuilder, pet, query1, header1);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the fakeUnsupportedSchemeTest operation.
+   * Optional customization point for subclasses.
+   *
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @return WebClientRequestBuilder for fakeUnsupportedSchemeTest
+   */
+  protected WebClientRequestBuilder fakeUnsupportedSchemeTestRequestBuilder(Pet pet, String query1, String header1) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("GET");
+
+    List<Pair> queryParams = new ArrayList<>();
+    queryParams.addAll(ApiClient.parameterToPairs("query_1", query1));
+    queryParams.forEach(p -> webClientRequestBuilder.queryParam(p.getName(), p.getValue()));
+
+    WebClientRequestHeaders headers = webClientRequestBuilder.headers();
+    if (header1 != null) {
+      headers.put("header_1", header1);
+    }
+
+    webClientRequestBuilder.path("/fake/unsupported-scheme-test");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the fakeUnsupportedSchemeTest operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> fakeUnsupportedSchemeTestSubmit(WebClientRequestBuilder webClientRequestBuilder, Pet pet, String query1, String header1) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(pet);
+    return ApiResponse.create(RESPONSE_TYPE_fakeUnsupportedSchemeTest, webClientResponse);
   }
 
   @Override

@@ -20,6 +20,7 @@ const BASE_URL = "https://127.0.0.1/no_varaible";
 const SLEEP_DURATION = 0.1;
 // Global variables should be initialized.
 let booleanGroup = "TODO_EDIT_THE_BOOLEAN_GROUP";
+let header1 = "TODO_EDIT_THE_HEADER_1";
 let apiKey = "TODO_EDIT_THE_API_KEY";
 let requiredBooleanGroup = "TODO_EDIT_THE_REQUIRED_BOOLEAN_GROUP";
 let enumHeaderStringArray = "TODO_EDIT_THE_ENUM_HEADER_STRING_ARRAY";
@@ -274,6 +275,23 @@ export default function() {
 
             check(request, {
                 "successful operation": (r) => r.status === 200
+            });
+        }
+    });
+
+    group("/fake/unsupported-scheme-test", () => {
+        let query1 = 'TODO_EDIT_THE_QUERY_1'; // specify value as there is no example value for this parameter in OpenAPI spec
+
+        // Request No. 1: fake-unsupported-scheme-test
+        {
+            let url = BASE_URL + `/fake/unsupported-scheme-test?query_1=${query_1}`;
+            // TODO: edit the parameters of the request body.
+            let body = {"id": "long", "category": {"id": "long", "name": "string"}, "name": "string", "photoUrls": "set", "tags": "list", "status": "string"};
+            let params = {headers: {"Content-Type": "application/json", "header_1": `${header1}`, "Accept": "application/json"}};
+            let request = http.get(url, JSON.stringify(body), params);
+
+            check(request, {
+                "The instance started successfully": (r) => r.status === 200
             });
         }
     });

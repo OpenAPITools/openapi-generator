@@ -164,6 +164,13 @@ $router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSeri
 $router->put('/v2/fake/test-query-parameters', 'FakeApi@testQueryParameterCollectionFormat');
 
 /**
+ * get fakeUnsupportedSchemeTest
+ * Summary: test behavior with unsupported http scheme only
+ * Notes: 
+ */
+$router->get('/v2/fake/unsupported-scheme-test', 'FakeApi@fakeUnsupportedSchemeTest');
+
+/**
  * patch testClassname
  * Summary: To test class name in snake case
  * Notes: To test class name in snake case

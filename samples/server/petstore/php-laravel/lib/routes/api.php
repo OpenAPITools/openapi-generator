@@ -148,6 +148,13 @@ Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntege
  */
 Route::put('/v2/fake/test-query-parameters', 'FakeController@testQueryParameterCollectionFormat');
 /**
+ * get fakeUnsupportedSchemeTest
+ * Summary: test behavior with unsupported http scheme only
+ * Notes: 
+
+ */
+Route::get('/v2/fake/unsupported-scheme-test', 'FakeController@fakeUnsupportedSchemeTest');
+/**
  * patch testClassname
  * Summary: To test class name in snake case
  * Notes: To test class name in snake case

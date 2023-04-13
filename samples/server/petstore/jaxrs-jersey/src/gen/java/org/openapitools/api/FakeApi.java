@@ -17,6 +17,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -136,6 +137,20 @@ public class FakeApi  {
     public Response fakePropertyEnumIntegerSerialize(@ApiParam(value = "Input enum (int) as post body", required = true) @NotNull @Valid  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
+    }
+    @javax.ws.rs.GET
+    @Path("/unsupported-scheme-test")
+    @Consumes({ "application/json", "application/xml" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test behavior with unsupported http scheme only", notes = "", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "unsupported_test")
+    }, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = Void.class)
+    })
+    public Response fakeUnsupportedSchemeTest(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@ApiParam(value = "query parameter") @QueryParam("query_1")  String query1,@ApiParam(value = "header parameter" )@HeaderParam("header_1") String header1,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeUnsupportedSchemeTest(pet, query1, header1, securityContext);
     }
     @javax.ws.rs.PUT
     @Path("/body-with-binary")

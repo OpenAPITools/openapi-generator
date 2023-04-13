@@ -369,6 +369,8 @@ sub update_params_for_auth {
                 $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
         }
+        elsif ($auth eq 'unsupported_test') {
+        }
         else {
            # TODO show warning about security definition not found
         }

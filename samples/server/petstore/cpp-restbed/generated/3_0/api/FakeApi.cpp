@@ -798,6 +798,123 @@ std::string FakePropertyEnum_intResource::extractFormParamsFromBody(const std::s
     }
     return "";
 }
+FakeUnsupported_scheme_testResource::FakeUnsupported_scheme_testResource(const std::string& context /* = "/v2" */)
+{
+	this->set_path(context + "/fake/unsupported-scheme-test");
+	this->set_method_handler("GET",
+		std::bind(&FakeUnsupported_scheme_testResource::handler_GET_internal, this,
+			std::placeholders::_1));
+}
+
+std::pair<int, std::string> FakeUnsupported_scheme_testResource::handleFakeApiException(const FakeApiException& e)
+{
+    return std::make_pair<int, std::string>(e.getStatus(), e.what());
+}
+
+std::pair<int, std::string> FakeUnsupported_scheme_testResource::handleStdException(const std::exception& e)
+{
+    return std::make_pair<int, std::string>(500, e.what());
+}
+
+std::pair<int, std::string> FakeUnsupported_scheme_testResource::handleUnspecifiedException()
+{
+    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
+}
+
+void FakeUnsupported_scheme_testResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+{
+    session->set_header(header, "");
+}
+
+void FakeUnsupported_scheme_testResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
+{
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
+}
+
+void FakeUnsupported_scheme_testResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+{
+    session->close(status, result, { {"Connection", "close"} });
+}
+
+void FakeUnsupported_scheme_testResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
+{
+    const auto request = session->get_request();
+    // body params or form params here from the body content string
+    std::string bodyContent = extractBodyContent(session);
+    auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
+    // Getting the query params
+    std::string query1 = request->get_query_parameter("query1", "");
+    // Getting the headers
+    std::string header1 = request->get_header("header_1", "");
+    
+    int status_code = 500;
+    std::string result = "";
+    
+    try {
+        status_code =
+            handler_GET(pet, query1, header1);
+    }
+    catch(const FakeApiException& e) {
+        std::tie(status_code, result) = handleFakeApiException(e);
+    }
+    catch(const std::exception& e) {
+        std::tie(status_code, result) = handleStdException(e);
+    }
+    catch(...) {
+        std::tie(status_code, result) = handleUnspecifiedException();
+    }
+    
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, application/xml, "
+    };
+    
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+        return;
+    }
+    defaultSessionClose(session, status_code, result);
+}
+
+
+int FakeUnsupported_scheme_testResource::handler_GET(
+        Pet & pet, std::string & query1, std::string & header1)
+{
+    return handler_GET_func(pet, query1, header1);
+}
+
+
+std::string FakeUnsupported_scheme_testResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
+
+std::string FakeUnsupported_scheme_testResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+    const auto uri = restbed::Uri("urlencoded?" + body, true);
+    const auto params = uri.get_query_parameters();
+    const auto result = params.find(paramName);
+    if (result != params.cend()) {
+        return result->second;
+    }
+    return "";
+}
 FakeBody_with_binaryResource::FakeBody_with_binaryResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/fake/body-with-binary");
@@ -1864,6 +1981,12 @@ std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> FakeApi::getFake
     }
     return m_spFakePropertyEnum_intResource;
 }
+std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> FakeApi::getFakeUnsupported_scheme_testResource() {
+    if (!m_spFakeUnsupported_scheme_testResource) {
+        setResource(std::make_shared<FakeApiResources::FakeUnsupported_scheme_testResource>());
+    }
+    return m_spFakeUnsupported_scheme_testResource;
+}
 std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> FakeApi::getFakeBody_with_binaryResource() {
     if (!m_spFakeBody_with_binaryResource) {
         setResource(std::make_shared<FakeApiResources::FakeBody_with_binaryResource>());
@@ -1930,6 +2053,10 @@ void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakePropertyEnum_int
     m_spFakePropertyEnum_intResource = resource;
     m_service->publish(m_spFakePropertyEnum_intResource);
 }
+void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> resource) {
+    m_spFakeUnsupported_scheme_testResource = resource;
+    m_service->publish(m_spFakeUnsupported_scheme_testResource);
+}
 void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> resource) {
     m_spFakeBody_with_binaryResource = resource;
     m_service->publish(m_spFakeBody_with_binaryResource);
@@ -1982,6 +2109,10 @@ void FakeApi::setFakeApiFakePropertyEnum_intResource(std::shared_ptr<FakeApiReso
     m_spFakePropertyEnum_intResource = spFakePropertyEnum_intResource;
     m_service->publish(m_spFakePropertyEnum_intResource);
 }
+void FakeApi::setFakeApiFakeUnsupported_scheme_testResource(std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> spFakeUnsupported_scheme_testResource) {
+    m_spFakeUnsupported_scheme_testResource = spFakeUnsupported_scheme_testResource;
+    m_service->publish(m_spFakeUnsupported_scheme_testResource);
+}
 void FakeApi::setFakeApiFakeBody_with_binaryResource(std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> spFakeBody_with_binaryResource) {
     m_spFakeBody_with_binaryResource = spFakeBody_with_binaryResource;
     m_service->publish(m_spFakeBody_with_binaryResource);
@@ -2030,6 +2161,9 @@ void FakeApi::publishDefaultResources() {
     }
     if (!m_spFakePropertyEnum_intResource) {
         setResource(std::make_shared<FakeApiResources::FakePropertyEnum_intResource>());
+    }
+    if (!m_spFakeUnsupported_scheme_testResource) {
+        setResource(std::make_shared<FakeApiResources::FakeUnsupported_scheme_testResource>());
     }
     if (!m_spFakeBody_with_binaryResource) {
         setResource(std::make_shared<FakeApiResources::FakeBody_with_binaryResource>());

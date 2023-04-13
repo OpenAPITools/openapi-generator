@@ -1185,6 +1185,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/unsupported-scheme-test:
+    get:
+      tags:
+        - fake
+      summary: test behavior with unsupported http scheme only
+      operationId: fake-unsupported-scheme-test
+      parameters:
+        - name: query_1
+          in: query
+          description: query parameter
+          required: optional
+          schema:
+            type: string
+        - name: header_1
+          in: header
+          description: header parameter
+          required: optional
+          schema:
+            type: string
+      security:
+        - unsupported_test: []
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        200:
+          description: The instance started successfully
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1262,6 +1288,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    unsupported_test:
+      type: http
+      scheme: foobar
   schemas:
     Foo:
       type: object

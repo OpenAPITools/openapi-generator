@@ -15,6 +15,7 @@ import 'package:openapi/src/model/model_client.dart';
 import 'package:openapi/src/model/model_enum_class.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/user.dart';
 
 class FakeApi {
@@ -529,6 +530,88 @@ _responseData = deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProp
       statusMessage: _response.statusMessage,
       extra: _response.extra,
     );
+  }
+
+  /// test behavior with unsupported http scheme only
+  /// 
+  ///
+  /// Parameters:
+  /// * [pet] - Pet object that needs to be added to the store
+  /// * [query1] - query parameter
+  /// * [header1] - header parameter
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<void>> fakeUnsupportedSchemeTest({ 
+    required Pet pet,
+    String? query1,
+    String? header1,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/fake/unsupported-scheme-test';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        if (header1 != null) r'header_1': header1,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'http',
+            'scheme': 'foobar',
+            'name': 'unsupported_test',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      if (query1 != null) r'query_1': query1,
+    };
+
+    dynamic _bodyData;
+
+    try {
+_bodyData=jsonEncode(pet);
+    } catch(error, stackTrace) {
+      throw DioError(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+          queryParameters: _queryParameters,
+        ),
+        type: DioErrorType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    return _response;
   }
 
   /// testBodyWithBinary

@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [**FakePropertyEnumIntegerSerialize**](FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[**FakeUnsupportedSchemeTest**](FakeApi.md#fakeunsupportedschemetest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only
 [**TestBodyWithBinary**](FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -461,6 +462,84 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Output enum (int) |  -  |
+
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FakeUnsupportedSchemeTest
+
+> void FakeUnsupportedSchemeTest (Pet pet, string query1 = null, string header1 = null)
+
+test behavior with unsupported http scheme only
+
+### Example
+
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class FakeUnsupportedSchemeTestExample
+    {
+        public static void Main()
+        {
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+
+            var apiInstance = new FakeApi(Configuration.Default);
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var query1 = "query1_example";  // string | query parameter (optional) 
+            var header1 = "header1_example";  // string | header parameter (optional) 
+
+            try
+            {
+                // test behavior with unsupported http scheme only
+                apiInstance.FakeUnsupportedSchemeTest(pet, query1, header1);
+            }
+            catch (ApiException e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeUnsupportedSchemeTest: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **query1** | **string**| query parameter | [optional] 
+ **header1** | **string**| header parameter | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[unsupported_test](../README.md#unsupported_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The instance started successfully |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

@@ -330,6 +330,72 @@ class FakeApi {
     return null;
   }
 
+  /// test behavior with unsupported http scheme only
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Pet] pet (required):
+  ///   Pet object that needs to be added to the store
+  ///
+  /// * [String] query1:
+  ///   query parameter
+  ///
+  /// * [String] header1:
+  ///   header parameter
+  Future<Response> fakeUnsupportedSchemeTestWithHttpInfo(Pet pet, { String? query1, String? header1, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/unsupported-scheme-test';
+
+    // ignore: prefer_final_locals
+    Object? postBody = pet;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (query1 != null) {
+      queryParams.addAll(_queryParams('', 'query_1', query1));
+    }
+
+    if (header1 != null) {
+      headerParams[r'header_1'] = parameterToString(header1);
+    }
+
+    const contentTypes = <String>['application/json', 'application/xml'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test behavior with unsupported http scheme only
+  ///
+  /// Parameters:
+  ///
+  /// * [Pet] pet (required):
+  ///   Pet object that needs to be added to the store
+  ///
+  /// * [String] query1:
+  ///   query parameter
+  ///
+  /// * [String] header1:
+  ///   header parameter
+  Future<void> fakeUnsupportedSchemeTest(Pet pet, { String? query1, String? header1, }) async {
+    final response = await fakeUnsupportedSchemeTestWithHttpInfo(pet,  query1: query1, header1: header1, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// For this test, the body has to be a binary file.
   ///
   /// Note: This method returns the HTTP [Response].

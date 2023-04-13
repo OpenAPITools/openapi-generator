@@ -403,6 +403,89 @@ sub fake_property_enum_integer_serialize {
 }
 
 #
+# fake_unsupported_scheme_test
+#
+# test behavior with unsupported http scheme only
+#
+# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param string $query_1 query parameter (optional)
+# @param string $header_1 header parameter (optional)
+{
+    my $params = {
+    'pet' => {
+        data_type => 'Pet',
+        description => 'Pet object that needs to be added to the store',
+        required => '1',
+    },
+    'query_1' => {
+        data_type => 'string',
+        description => 'query parameter',
+        required => '0',
+    },
+    'header_1' => {
+        data_type => 'string',
+        description => 'header parameter',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'fake_unsupported_scheme_test' } = {
+        summary => 'test behavior with unsupported http scheme only',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub fake_unsupported_scheme_test {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'pet' is set
+    unless (exists $args{'pet'}) {
+      croak("Missing the required parameter 'pet' when calling fake_unsupported_scheme_test");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/unsupported-scheme-test';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json', 'application/xml');
+
+    # query params
+    if ( exists $args{'query_1'}) {
+        $query_params->{'query_1'} = $self->{api_client}->to_query_value($args{'query_1'});
+    }
+
+    # header params
+    if ( exists $args{'header_1'}) {
+        $header_params->{'header_1'} = $self->{api_client}->to_header_value($args{'header_1'});
+    }
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'pet'}) {
+        $_body_data = $args{'pet'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw(unsupported_test )];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_body_with_binary
 #
 # 

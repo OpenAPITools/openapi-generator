@@ -73,6 +73,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterNumberSerialize**](doc/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterStringSerialize**](doc/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [*FakeApi*](doc/FakeApi.md) | [**fakePropertyEnumIntegerSerialize**](doc/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[*FakeApi*](doc/FakeApi.md) | [**fakeUnsupportedSchemeTest**](doc/FakeApi.md#fakeunsupportedschemetest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithBinary**](doc/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithFileSchema**](doc/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithQueryParams**](doc/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -188,6 +189,10 @@ Class | Method | HTTP request | Description
 - **Type**: HTTP basic authentication
 
 ## bearer_test
+
+- **Type**: HTTP basic authentication
+
+## unsupported_test
 
 - **Type**: HTTP basic authentication
 

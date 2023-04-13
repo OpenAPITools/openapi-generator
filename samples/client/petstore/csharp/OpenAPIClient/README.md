@@ -113,6 +113,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**FakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**FakeUnsupportedSchemeTest**](docs/FakeApi.md#fakeunsupportedschemetest) | **GET** /fake/unsupported-scheme-test | test behavior with unsupported http scheme only
 *FakeApi* | [**TestBodyWithBinary**](docs/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -239,4 +240,8 @@ Class | Method | HTTP request | Description
 
 
 - **Type**: HTTP bearer authentication
+
+
+### unsupported_test
+
 

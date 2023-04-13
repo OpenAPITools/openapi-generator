@@ -23,6 +23,7 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
@@ -89,6 +90,12 @@ public class FakeServiceImpl implements FakeService {
     public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
         OuterObjectWithEnumProperty result = null; // Replace with correct business logic.
         return result;
+    }
+
+    @GET
+    @Path("/unsupported-scheme-test")
+    @Consumes({ "application/json", "application/xml" })
+    public void fakeUnsupportedSchemeTest(@Valid @NotNull Pet pet,@QueryParam("query_1") String query1,@HeaderParam("header_1")  String header1) {
     }
 
     @PUT

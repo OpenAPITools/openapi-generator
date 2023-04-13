@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 import java.util.HashMap;
@@ -473,6 +474,87 @@ public class FakeApi {
      */
     public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
+    }
+    /**
+     * test behavior with unsupported http scheme only
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param pet Pet object that needs to be added to the store
+     * @param query1 query parameter
+     * @param header1 header parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec fakeUnsupportedSchemeTestRequestCreation(Pet pet, String query1, String header1) throws WebClientResponseException {
+        Object postBody = pet;
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new WebClientResponseException("Missing the required parameter 'pet' when calling fakeUnsupportedSchemeTest", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
+
+        if (header1 != null)
+        headerParams.add("header_1", apiClient.parameterToString(header1));
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json", "application/xml"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] { "unsupported_test" };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/unsupported-scheme-test", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test behavior with unsupported http scheme only
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param pet Pet object that needs to be added to the store
+     * @param query1 query parameter
+     * @param header1 header parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> fakeUnsupportedSchemeTest(Pet pet, String query1, String header1) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return fakeUnsupportedSchemeTestRequestCreation(pet, query1, header1).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test behavior with unsupported http scheme only
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param pet Pet object that needs to be added to the store
+     * @param query1 query parameter
+     * @param header1 header parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> fakeUnsupportedSchemeTestWithHttpInfo(Pet pet, String query1, String header1) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return fakeUnsupportedSchemeTestRequestCreation(pet, query1, header1).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test behavior with unsupported http scheme only
+     * 
+     * <p><b>200</b> - The instance started successfully
+     * @param pet Pet object that needs to be added to the store
+     * @param query1 query parameter
+     * @param header1 header parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fakeUnsupportedSchemeTestWithResponseSpec(Pet pet, String query1, String header1) throws WebClientResponseException {
+        return fakeUnsupportedSchemeTestRequestCreation(pet, query1, header1);
     }
     /**
      * 

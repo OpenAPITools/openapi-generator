@@ -69,6 +69,8 @@ public class ApiClient {
         auth = new HttpBasicAuth();
       } else if ("bearer_test".equals(authName)) {
         auth = new HttpBearerAuth("bearer");
+      } else if ("unsupported_test".equals(authName)) {
+        throw new RuntimeException("auth name \"" + authName + "\" is not a supported basic auth type");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }

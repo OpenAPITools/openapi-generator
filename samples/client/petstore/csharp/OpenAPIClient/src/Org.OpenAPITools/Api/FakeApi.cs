@@ -150,6 +150,31 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of OuterObjectWithEnumProperty</returns>
         ApiResponse<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeWithHttpInfo (OuterObjectWithEnumProperty outerObjectWithEnumProperty);
         /// <summary>
+        /// test behavior with unsupported http scheme only
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <returns></returns>
+        void FakeUnsupportedSchemeTest (Pet pet, string query1 = default(string), string header1 = default(string));
+
+        /// <summary>
+        /// test behavior with unsupported http scheme only
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> FakeUnsupportedSchemeTestWithHttpInfo (Pet pet, string query1 = default(string), string header1 = default(string));
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -565,6 +590,33 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (OuterObjectWithEnumProperty)</returns>
         System.Threading.Tasks.Task<ApiResponse<OuterObjectWithEnumProperty>> FakePropertyEnumIntegerSerializeWithHttpInfoAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// test behavior with unsupported http scheme only
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task FakeUnsupportedSchemeTestAsync (Pet pet, string query1 = default(string), string header1 = default(string), CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// test behavior with unsupported http scheme only
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> FakeUnsupportedSchemeTestWithHttpInfoAsync (Pet pet, string query1 = default(string), string header1 = default(string), CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -1826,6 +1878,169 @@ namespace Org.OpenAPITools.Api
             return new ApiResponse<OuterObjectWithEnumProperty>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (OuterObjectWithEnumProperty) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterObjectWithEnumProperty)));
+        }
+
+        /// <summary>
+        /// test behavior with unsupported http scheme only 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <returns></returns>
+        public void FakeUnsupportedSchemeTest (Pet pet, string query1 = default(string), string header1 = default(string))
+        {
+             FakeUnsupportedSchemeTestWithHttpInfo(pet, query1, header1);
+        }
+
+        /// <summary>
+        /// test behavior with unsupported http scheme only 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> FakeUnsupportedSchemeTestWithHttpInfo (Pet pet, string query1 = default(string), string header1 = default(string))
+        {
+            // verify the required parameter 'pet' is set
+            if (pet == null)
+                throw new ApiException(400, "Missing required parameter 'pet' when calling FakeApi->FakeUnsupportedSchemeTest");
+
+            var localVarPath = "/fake/unsupported-scheme-test";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json", 
+                "application/xml"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (query1 != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query_1", query1)); // query parameter
+            if (header1 != null) localVarHeaderParams.Add("header_1", this.Configuration.ApiClient.ParameterToString(header1)); // header parameter
+            if (pet != null && pet.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(pet); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = pet; // byte array
+            }
+
+            // authentication (unsupported_test) required
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakeUnsupportedSchemeTest", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        /// test behavior with unsupported http scheme only 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task FakeUnsupportedSchemeTestAsync (Pet pet, string query1 = default(string), string header1 = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        {
+             await FakeUnsupportedSchemeTestWithHttpInfoAsync(pet, query1, header1, cancellationToken);
+
+        }
+
+        /// <summary>
+        /// test behavior with unsupported http scheme only 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="query1">query parameter (optional)</param>
+        /// <param name="header1">header parameter (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> FakeUnsupportedSchemeTestWithHttpInfoAsync (Pet pet, string query1 = default(string), string header1 = default(string), CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'pet' is set
+            if (pet == null)
+                throw new ApiException(400, "Missing required parameter 'pet' when calling FakeApi->FakeUnsupportedSchemeTest");
+
+            var localVarPath = "/fake/unsupported-scheme-test";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json", 
+                "application/xml"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (query1 != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query_1", query1)); // query parameter
+            if (header1 != null) localVarHeaderParams.Add("header_1", this.Configuration.ApiClient.ParameterToString(header1)); // header parameter
+            if (pet != null && pet.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(pet); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = pet; // byte array
+            }
+
+            // authentication (unsupported_test) required
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakeUnsupportedSchemeTest", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
         }
 
         /// <summary>

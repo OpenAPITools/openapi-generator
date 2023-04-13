@@ -37,6 +37,7 @@
 #include "HealthCheckResult.h"
 #include "OuterComposite.h"
 #include "OuterObjectWithEnumProperty.h"
+#include "Pet.h"
 #include "User.h"
 #include <map>
 #include <string>
@@ -435,6 +436,68 @@ protected:
 
 private:
     void handler_POST_internal(const std::shared_ptr<restbed::Session> session);
+};
+
+/// <summary>
+/// test behavior with unsupported http scheme only
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+class  FakeUnsupported_scheme_testResource: public restbed::Resource
+{
+public:
+    FakeUnsupported_scheme_testResource(const std::string& context = "/v2");
+    virtual ~FakeUnsupported_scheme_testResource() = default;
+
+    FakeUnsupported_scheme_testResource(
+        const FakeUnsupported_scheme_testResource& other) = default; // copy constructor
+    FakeUnsupported_scheme_testResource(FakeUnsupported_scheme_testResource&& other) noexcept = default; // move constructor
+
+    FakeUnsupported_scheme_testResource& operator=(const FakeUnsupported_scheme_testResource& other) = default; // copy assignment
+    FakeUnsupported_scheme_testResource& operator=(FakeUnsupported_scheme_testResource&& other) noexcept = default; // move assignment
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<int(
+        Pet & pet, std::string & query1, std::string & header1)> handler_GET_func =
+            [](Pet &, std::string &, std::string &) -> int
+                { throw FakeApiException(501, "Not implemented"); };
+
+
+protected:
+    //////////////////////////////////////////////////////////
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
+    //////////////////////////////////////////////////////////
+
+    virtual int handler_GET(
+        Pet & pet, std::string & query1, std::string & header1);
+
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
+    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
+
+    virtual std::pair<int, std::string> handleFakeApiException(const FakeApiException& e);
+    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
+    virtual std::pair<int, std::string> handleUnspecifiedException();
+
+    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
+        const std::string& header);
+
+    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
+    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result);
+
+private:
+    void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
 };
 
 /// <summary>
@@ -903,6 +966,7 @@ using FakeApiFakeOuterCompositeResource [[deprecated]] = FakeApiResources::FakeO
 using FakeApiFakeOuterNumberResource [[deprecated]] = FakeApiResources::FakeOuterNumberResource;
 using FakeApiFakeOuterStringResource [[deprecated]] = FakeApiResources::FakeOuterStringResource;
 using FakeApiFakePropertyEnum_intResource [[deprecated]] = FakeApiResources::FakePropertyEnum_intResource;
+using FakeApiFakeUnsupported_scheme_testResource [[deprecated]] = FakeApiResources::FakeUnsupported_scheme_testResource;
 using FakeApiFakeBody_with_binaryResource [[deprecated]] = FakeApiResources::FakeBody_with_binaryResource;
 using FakeApiFakeBody_with_file_schemaResource [[deprecated]] = FakeApiResources::FakeBody_with_file_schemaResource;
 using FakeApiFakeBody_with_query_paramsResource [[deprecated]] = FakeApiResources::FakeBody_with_query_paramsResource;
@@ -926,6 +990,7 @@ public:
     std::shared_ptr<FakeApiResources::FakeOuterNumberResource> getFakeOuterNumberResource();
     std::shared_ptr<FakeApiResources::FakeOuterStringResource> getFakeOuterStringResource();
     std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> getFakePropertyEnum_intResource();
+    std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> getFakeUnsupported_scheme_testResource();
     std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> getFakeBody_with_binaryResource();
     std::shared_ptr<FakeApiResources::FakeBody_with_file_schemaResource> getFakeBody_with_file_schemaResource();
     std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> getFakeBody_with_query_paramsResource();
@@ -940,6 +1005,7 @@ public:
     void setResource(std::shared_ptr<FakeApiResources::FakeOuterNumberResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeOuterStringResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> resource);
+    void setResource(std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeBody_with_file_schemaResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> resource);
@@ -959,6 +1025,8 @@ public:
     virtual void setFakeApiFakeOuterStringResource(std::shared_ptr<FakeApiResources::FakeOuterStringResource> spFakeApiFakeOuterStringResource);
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakePropertyEnum_intResource(std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> spFakeApiFakePropertyEnum_intResource);
+    [[deprecated("use setResource()")]]
+    virtual void setFakeApiFakeUnsupported_scheme_testResource(std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> spFakeApiFakeUnsupported_scheme_testResource);
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeBody_with_binaryResource(std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> spFakeApiFakeBody_with_binaryResource);
     [[deprecated("use setResource()")]]
@@ -985,6 +1053,7 @@ protected:
 	std::shared_ptr<FakeApiResources::FakeOuterNumberResource> m_spFakeOuterNumberResource;
 	std::shared_ptr<FakeApiResources::FakeOuterStringResource> m_spFakeOuterStringResource;
 	std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> m_spFakePropertyEnum_intResource;
+	std::shared_ptr<FakeApiResources::FakeUnsupported_scheme_testResource> m_spFakeUnsupported_scheme_testResource;
 	std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> m_spFakeBody_with_binaryResource;
 	std::shared_ptr<FakeApiResources::FakeBody_with_file_schemaResource> m_spFakeBody_with_file_schemaResource;
 	std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> m_spFakeBody_with_query_paramsResource;

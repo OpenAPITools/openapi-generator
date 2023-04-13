@@ -1218,6 +1218,38 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /fake/unsupported-scheme-test:
+    get:
+      operationId: fake-unsupported-scheme-test
+      parameters:
+      - description: query parameter
+        explode: true
+        in: query
+        name: query_1
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: header parameter
+        explode: false
+        in: header
+        name: header_1
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        "200":
+          description: The instance started successfully
+      security:
+      - unsupported_test: []
+      summary: test behavior with unsupported http scheme only
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -2134,5 +2166,8 @@ components:
     bearer_test:
       bearerFormat: JWT
       scheme: bearer
+      type: http
+    unsupported_test:
+      scheme: foobar
       type: http
 

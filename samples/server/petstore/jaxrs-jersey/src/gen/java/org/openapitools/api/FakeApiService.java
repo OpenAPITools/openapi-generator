@@ -15,6 +15,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public abstract class FakeApiService {
     public abstract Response fakeOuterNumberSerialize(BigDecimal body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response fakeUnsupportedSchemeTest(Pet pet,String query1,String header1,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithBinary(File body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext) throws NotFoundException;
