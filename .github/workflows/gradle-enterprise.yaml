@@ -38,3 +38,5 @@ jobs:
             ${{ runner.os }}-build-
       - name: Run maven
         run: mvn clean install
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
