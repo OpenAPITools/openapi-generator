@@ -37,4 +37,4 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run maven
-        run: mvn clean package
+        run: mvn clean install
