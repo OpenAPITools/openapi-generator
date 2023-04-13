@@ -337,7 +337,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
             return "\"\"";
         }
 
-        return super.toDefaultValue(schema);
+        return null;  // if instead we call super here, we get "null" where we should not
     }
 
     @Override
