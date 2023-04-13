@@ -22,13 +22,13 @@ Protected Module XojoOpenAPIClientSynchronous
 		  Dim contentEncoding As TextEncoding = nil
 		  
 		  Dim components() As String = contentType.SplitB(";")
-		  for each component As String in components
+		  For Each component As String In components
 		    Dim directive() As String = component.SplitB("=")
-		    If Ubound(directive) > 0 and directive(0).EndsWith("charset") then
+		    If Ubound(directive) > 0 And directive(0).RightB(7) = "charset" Then
 		      contentEncoding = GetInternetTextEncoding(directive(1))
 		      If contentEncoding <> Nil Then Return contentEncoding
 		    End If
-		  next
+		  Next
 		  
 		  Return Encodings.UTF8
 		End Function
@@ -39,7 +39,7 @@ Protected Module XojoOpenAPIClientSynchronous
 
 		  Dim d As New Xoson.DateIntermediate(stringRepresentation)
 
-		  return New Date(d.year, d.month, d.day, d.hour, d.minute, d.second, 0.0)
+		  Return New Date(d.year, d.month, d.day, d.hour, d.minute, d.second, 0.0)
 		End Function
 	#tag EndMethod
 
@@ -48,7 +48,7 @@ Protected Module XojoOpenAPIClientSynchronous
 
 		  Dim d As New Xoson.DateIntermediate(stringRepresentation)
 
-		  return New Xojo.Core.Date(d.year, d.month, d.day, d.hour, d.minute, d.second, d.millisecond * 1000, new Xojo.Core.TimeZone("Etc/UTC"))
+		  Return New Xojo.Core.Date(d.year, d.month, d.day, d.hour, d.minute, d.second, d.millisecond * 1000, new Xojo.Core.TimeZone("Etc/UTC"))
 		End Function
 	#tag EndMethod
 
@@ -94,7 +94,7 @@ Protected Module XojoOpenAPIClientSynchronous
 		  mb.Byte(19) = &h2E
 		  mb.StringValue(20,3) = "000" 'milliseconds are not available in Date
 		  mb.Byte(23) = &h5A
-		  return DefineEncoding(mb.StringValue(0, 24), Encodings.UTF8)
+		  Return DefineEncoding(mb.StringValue(0, 24), Encodings.UTF8)
 		End Function
 	#tag EndMethod
 
@@ -117,7 +117,7 @@ Protected Module XojoOpenAPIClientSynchronous
 		  mb.Byte(19) = &h2E
 		  mb.StringValue(20,3) = Format(utcDate.Nanosecond / 1000, "000")
 		  mb.Byte(23) = &h5A
-		  return DefineEncoding(mb.StringValue(0, 24), Encodings.UTF8)
+		  Return DefineEncoding(mb.StringValue(0, 24), Encodings.UTF8)
 		End Function
 	#tag EndMethod
 

@@ -4,7 +4,6 @@ Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
 		  #Pragma Unused args
-		  'TODO add sensible sample code
 		  Dim m As New Mock
 		  m.testPetApi("http://localhost:4010") 'original basePath: http://petstore.swagger.io/v2
 		  m.testStoreApi("http://localhost:4010") 'original basePath: http://petstore.swagger.io/v2
