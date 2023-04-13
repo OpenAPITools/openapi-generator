@@ -199,6 +199,8 @@ public interface CodegenConfig {
 
     String toApiImport(String name);
 
+    boolean supportsSecurityScheme(SecurityScheme securityScheme);
+
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
     Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
@@ -232,6 +234,14 @@ public interface CodegenConfig {
     void setSkipOverwrite(boolean skipOverwrite);
 
     boolean isRemoveOperationIdPrefix();
+
+    boolean isSkipUnsupportedAuthMethods();
+
+    void setSkipUnsupportedAuthMethods(boolean skipUnsupportedAuthMethods);
+
+    boolean isFailExecutionIfUnsupportedAuthMethods();
+
+    void setFailExecutionIfUnsupportedAuthMethods(boolean failExecutionIfUnsupportedAuthMethods);
 
     void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
 

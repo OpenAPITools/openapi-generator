@@ -179,6 +179,7 @@ public class ApiClient extends JavaTimeFormatter {
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
     authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+    // Authentication 'http_signature_test' (http/signature) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 

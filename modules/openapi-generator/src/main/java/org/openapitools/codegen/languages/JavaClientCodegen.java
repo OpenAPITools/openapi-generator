@@ -298,6 +298,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
+        modifyFeatureSet(features -> features.excludeSecurityFeatures(SecurityFeature.SignatureAuth));//jersey only
+        
         if (WEBCLIENT.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
         } else if (MICROPROFILE.equals(getLibrary())) {
@@ -589,6 +591,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if (JERSEY2.equals(getLibrary())) {
+            modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.SignatureAuth));
+            
             additionalProperties.put("jersey2", true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -606,6 +610,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportsAdditionalPropertiesWithComposedSchema = true;
 
         } else if (JERSEY3.equals(getLibrary())) {
+            modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.SignatureAuth));
+
             additionalProperties.put("jersey3", true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -631,6 +637,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (JERSEY1.equals(getLibrary())) {
+            modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.SignatureAuth));
+
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTTEMPLATE.equals(getLibrary())) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);

@@ -39,10 +39,18 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-{{^authMethods}} All endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
-{{#authMethods}}## {{{name}}}
+{{^authMethods}}Endpoints do not require authorization.
+{{/authMethods}}{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+### {{{name}}}
 
+{{#isUnsupported}}
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: {{{type}}}
+- **Characterization**: {{{scheme}}}{{{keyParamName}}}{{{flow}}}
+- **Description**: {{{description}}}
+{{/isUnsupported}}
+{{^isUnsupported}}
 {{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
@@ -60,6 +68,12 @@ Class | Method | HTTP request | Description
 {{#scopes}} - **{{{scope}}}**: {{{description}}}
 {{/scopes}}
 {{/isOAuth}}
+{{#isOpenId}}
+- **Type**: OpenIDConnect
+- **Connect URL**: {{{openIdConnectUrl}}}
+- **Bearer Format**: {{{bearerFormat}}}
+{{/isOpenId}}
+{{/isUnsupported}}
 
 {{/authMethods}}
 

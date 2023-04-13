@@ -59,7 +59,8 @@ public class ApiClient {
 
     public ApiClient() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<>();{{#authMethods}}{{#isBasicBasic}}
+        authentications = new HashMap<>();{{#authMethods}}{{#isUnsupported}}
+        // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasicBasic}}
         // authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         // authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}

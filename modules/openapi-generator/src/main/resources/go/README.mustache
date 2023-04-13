@@ -103,6 +103,13 @@ Class | Method | HTTP request | Description
 {{#authMethods}}
 ### {{{name}}}
 
+{{#isUnsupported}}
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: {{{type}}}
+- **Characterization**: {{{scheme}}}{{{keyParamName}}}{{{flow}}}
+- **Description**: {{{description}}}
+{{/isUnsupported}}
+{{^isUnsupported}}
 {{#isApiKey}}
 - **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
@@ -211,6 +218,12 @@ r, err := client.Service.Operation(auth, args)
 ```
 
 {{/isOAuth}}
+{{#isOpenId}}
+- **Type**: OpenIDConnect
+- **Connect URL**: {{{openIdConnectUrl}}}
+- **Bearer Format**: {{{bearerFormat}}}
+{{/isOpenId}}
+{{/isUnsupported}}
 {{/authMethods}}
 
 ## Documentation for Utility Methods

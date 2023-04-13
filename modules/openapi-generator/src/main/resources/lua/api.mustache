@@ -81,6 +81,9 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{
 
 	{{/bodyParams}}
 	{{#authMethods}}
+    {{#isUnsupported}}
+    -- authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
 	{{#isApiKey}}
 	{{#isKeyInHeader}}
 	-- api key in headers '{{keyParamName}}'

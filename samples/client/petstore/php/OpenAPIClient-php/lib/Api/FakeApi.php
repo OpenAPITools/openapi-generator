@@ -926,6 +926,7 @@ class FakeApi
             }
         }
 
+        // authentication 'http_signature_test' (http/signature) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {

@@ -29,6 +29,10 @@
 == Access
 
 {{#authMethods}}
+{{#isUnsupported}}
+* *Type: _{{type}}_*, Characterization: _{{scheme}}{{keyParamName}}{{flow}}_, Description: _{{description}}_ :warning: Not supported right now by generated client; runtime errors may occur!
+{{/isUnsupported}}
+{{^isUnsupported}}
 {{#isBasic}}
 {{#isBasicBasic}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBasic}}
 {{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
@@ -36,6 +40,8 @@
 {{/isBasic}}
 {{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
 {{#isApiKey}}* *APIKey* KeyParamName:     _{{keyParamName}}_,     KeyInQuery: _{{isKeyInQuery}}_, KeyInHeader: _{{isKeyInHeader}}_{{/isApiKey}}
+{{#isOpenId}}- **Type**: OpenIDConnect, Connect URL: _{{{openIdConnectUrl}}}_, Bearer Format: _{{{bearerFormat}}}_{{/isOpenId}}
+{{/isUnsupported}}
 {{/authMethods}}
 
 {{/hasAuthMethods}}

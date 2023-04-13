@@ -254,6 +254,24 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testSupportedSecuritySchemesRestEasy() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.RESTEASY);
+        codegen.processOpts();
+
+        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.SignatureAuth));
+    }
+
+    @Test
+    public void testSupportedSecuritySchemesOkHttpGson() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.OKHTTP_GSON);
+        codegen.processOpts();
+
+        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.SignatureAuth));
+    }
+
+    @Test
     public void testPackageNamesSetInvokerDerivedFromApi() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");

@@ -203,10 +203,14 @@ data {{title}}Backend{{#hasAuthMethods}} a{{/hasAuthMethods}} m = {{title}}Backe
 {{#authMethods}}
 {{^isOAuth}}
 -- | Authentication settings for {{title}}.
+{{#isUnsupported}}
+-- | Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?).
+{{/isUnsupported}}
+{{^isUnsupported}}
 -- lookupUser is used to retrieve a user given a header value. The data type can be specified by providing an
 -- type instance for AuthServerData. authError is a function that given a request returns a custom error that
 -- is returned when the header is not found.
-{{/isOAuth}}
+{{/isUnsupported}}
 {{#isApiKey}}
 data {{title}}Auth = {{title}}Auth
   { lookupUser :: ByteString -> Handler AuthServer
@@ -225,6 +229,7 @@ data {{title}}Auth = {{title}}Auth
   , authError :: Request -> ServerError
   }
 {{/isBasicBasic}}
+{{/isOAuth}}
 {{/authMethods}}
 
 newtype {{title}}Client a = {{title}}Client
@@ -317,10 +322,12 @@ serverWaiApplication{{title}} {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAu
 
 {{#authMethods}}
 {{^isOAuth}}
+{{#isUnsupported}}
+-- Authentication '{{name}}' ({{typeDescription}}) required for {{title}} but this authentication method is unsupported by this generated code (TODO: write log warning?)
+{{/isUnsupported}}
 -- Authentication is implemented with servants generalized authentication:
 -- https://docs.servant.dev/en/stable/tutorial/Authentication.html#generalized-authentication
 
-{{/isOAuth}}
 {{#isApiKey}}
 authHandler :: {{title}}Auth -> AuthHandler Request AuthServer
 authHandler {{title}}Auth{..} = mkAuthHandler handler
@@ -373,6 +380,7 @@ type instance AuthClientData Protected = BasicAuthData
 clientAuth :: BasicAuthData -> AuthClient
 clientAuth key = mkAuthenticatedRequest key basicAuthReq
 {{/isBasicBasic}}
+{{/isOAuth}}
 {{/authMethods}}
 
 serverContext :: {{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}Context ({{#hasAuthMethods}}AuthHandler Request AuthServer ': {{/hasAuthMethods}}'[])

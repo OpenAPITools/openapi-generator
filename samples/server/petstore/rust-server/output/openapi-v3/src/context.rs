@@ -104,6 +104,7 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
         let context = A::default().push(XSpanIdString::get_or_generate(&request));
         let headers = request.headers();
 
+        // Authentication 'authScheme' (oauth2/accessCode) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
         {
             use swagger::auth::Bearer;
             use std::ops::Deref;

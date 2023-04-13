@@ -238,7 +238,7 @@ export class {{classname}} {
 {{#-first}}
         let localVarCredential: string | undefined;
 {{/-first}}
-        // authentication ({{name}}) required
+        // authentication ({{name}}) required{{#isUnsupported}} but this authentication method ({{typeDescription}}) is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
         localVarCredential = this.configuration.lookupCredential('{{name}}');
         if (localVarCredential) {
 {{#isApiKey}}

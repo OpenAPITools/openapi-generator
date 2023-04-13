@@ -124,6 +124,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public void processOpts() {
+        modifyFeatureSet(features -> features.excludeSecurityFeatures(SecurityFeature.OpenIDConnect));//quarkus only
+        
         if (additionalProperties.containsKey(GENERATE_POM)) {
             generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
         }
@@ -165,6 +167,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 useMicroProfileOpenAPIAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_MICROPROFILE_OPENAPI_ANNOTATIONS).toString());
             }
             writePropertyBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
+            modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.OpenIDConnect));//quarkus only
         }
 
 

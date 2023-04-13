@@ -193,6 +193,9 @@ public class ApiInvoker {
     // Setup authentications (key: authentication name, value: authentication).
     INSTANCE.authentications = new HashMap<String, Authentication>();
     {{#authMethods}}
+    {{#isUnsupported}}
+    // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
     {{#isApiKey}}
     INSTANCE.authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
     {{/isApiKey}}

@@ -61,6 +61,9 @@ public class ApiClient {
             {{#hasAuthMethods}}
             Interceptor auth = null;
             {{#authMethods}}if ("{{name}}".equals(authName)) {
+            {{#isUnsupported}}
+            // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+            {{/isUnsupported}}
             {{#isBasicBasic}}
                 auth = new HttpBasicAuth();
             {{/isBasicBasic}}

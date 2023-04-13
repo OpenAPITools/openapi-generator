@@ -134,7 +134,8 @@ public class ApiClient {
         init();
         initHttpClient();
 
-        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isUnsupported}}
+        // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
@@ -154,7 +155,8 @@ public class ApiClient {
 
         httpClient = client;
 
-        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isUnsupported}}
+        // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
@@ -227,10 +229,11 @@ public class ApiClient {
                 retryingOAuth
         );
         initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
-        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{^isOAuth}}{{#isUnsupported}}
+        // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/authMethods}}{{#withAWSV4Signature}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
         authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
 
         // Prevent the authentications from being modified.

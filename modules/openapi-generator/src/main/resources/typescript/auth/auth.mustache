@@ -148,6 +148,9 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
     {{/useInversify}}
 
     {{#authMethods}}
+    {{#isUnsupported}}
+    // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
     if (config["{{name}}"]) {
         authMethods["{{name}}"] = new {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(
             {{#isApiKey}}

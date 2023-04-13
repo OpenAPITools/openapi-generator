@@ -69,7 +69,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((configuration && configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
 
     {{#authMethods}}
-            // authentication {{name}} required
+            // authentication {{name}} required{{#isUnsupported}} but this authentication method ({{typeDescription}}) is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
             {{#isApiKey}}
             {{#isKeyInHeader}}
             await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", configuration)

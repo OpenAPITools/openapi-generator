@@ -707,6 +707,9 @@ use {{invokerPackage}}\ObjectSerializer;
         }
 
         {{#authMethods}}
+        {{#isUnsupported}}
+        // authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+        {{/isUnsupported}}
         {{#isApiKey}}
         // this endpoint requires API key authentication
         $apiKey = $this->config->getApiKeyWithPrefix('{{keyParamName}}');

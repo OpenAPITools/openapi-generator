@@ -128,6 +128,9 @@ import okhttp3.MediaType.Companion.toMediaType
     ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, serializerBuilder{{/kotlinx_serialization}}) {
         authNames.forEach { authName ->
             val auth = when (authName) { {{#authMethods}}
+                {{#isUnsupported}}
+                // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+                {{/isUnsupported}}
                 {{#isBasicBasic}}"{{name}}" -> HttpBasicAuth()
                 {{/isBasicBasic}}{{#isBasicBearer}}"{{name}}" -> HttpBearerAuth("{{scheme}}")
                 {{/isBasicBearer}}{{#isApiKey}}"{{name}}" -> ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}")
