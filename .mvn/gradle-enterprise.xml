@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<!-- Common gradle-enterprise.xml configuration for Maven shared between CI agents and developers building locally.
+
+     The build cache credentials required for CI builds to write to the remote build cache are read from environment variables.
+     Possibly, the credentials are configured in Jenkins via Credentials plugin (https://plugins.jenkins.io/credentials/) and
+     Credentials Binding plugin (https://plugins.jenkins.io/credentials-binding/), or the credentials are injected using the
+     vendor-specific mechanism of the CI server running the build.
+
+     Note: In the XML configuration below, you need to adjust
+
+             - the server url of your Gradle Enterprise server
+             - the name of the environment variable that reveals the build is running in a CI environment
+             - the names of the environment variables holding the build cache credentials
+
+           to the specifics of your CI server settings. -->
+
+<gradleEnterprise
+    xmlns="https://www.gradle.com/gradle-enterprise-maven" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://www.gradle.com/gradle-enterprise-maven https://www.gradle.com/schema/gradle-enterprise-maven.xsd">
+  <server>
+    <url>https://ge.openapi-generator.tech/</url> <!-- adjust to your GE server -->
+    <allowUntrusted>false</allowUntrusted> <!-- ensure a trusted certificate is configured -->
+  </server>
+  <buildScan>
+    <captureGoalInputFiles>true</captureGoalInputFiles>
+    <backgroundBuildScanUpload>#{isFalse(env['CI'])}</backgroundBuildScanUpload> <!-- adjust to your CI provider -->
+    <publish>ALWAYS</publish>
+    <publishIfAuthenticated>true</publishIfAuthenticated>
+  </buildScan>
+  <buildCache>
+    <local>
+      <enabled>true</enabled>
+    </local>
+    <remote>
+     <!-- Use the Gradle Enterprise connector's access key based authentication. 
+          This is available in Gradle Enterprise 2022.3+ and Gradle Enterprise Plugin 3.11+. -->
+      <enabled>true</enabled>
+      <storeEnabled>#{isTrue(env['CI'])}</storeEnabled> <!-- adjust to your CI provider -->
+
+      <!-- Use build cache node credentials.
+           This is available in all Gradle Enterprise and Gradle Enterprise Plugin versions.
+      <server>
+        <url>https://enterprise-samples.gradle.com/cache/</url> 
+        <allowUntrusted>false</allowUntrusted>
+        <credentials>
+          <username>${env.GRADLE_ENTERPRISE_CACHE_USERNAME}</username>
+          <password>${env.GRADLE_ENTERPRISE_CACHE_PASSWORD}</password>
+        </credentials>
+      </server> -->
+    </remote>
+  </buildCache>
+</gradleEnterprise>
