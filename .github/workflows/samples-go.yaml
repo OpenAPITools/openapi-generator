@@ -5,12 +5,12 @@ on:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
-      #- 'samples/server/petstore/go-chi-server/**'
+      - 'samples/server/petstore/go-chi-server/**'
   pull_request:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
-      #- 'samples/server/petstore/go-chi-server/**'
+      - 'samples/server/petstore/go-chi-server/**'
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
         sample:
           - samples/server/petstore/go-echo-server/
           - samples/server/petstore/go-api-server/
-          #- samples/server/petstore/go-chi-server/
+          - samples/server/petstore/go-chi-server/
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
