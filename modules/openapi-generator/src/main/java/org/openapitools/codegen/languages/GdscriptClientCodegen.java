@@ -207,23 +207,20 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("datetime", "String");
         typeMapping.put("DateTime", "String");  // case matters (format: date-time)
         typeMapping.put("date-time", "String");  // possibly useless
-        //typeMapping.put("binary", "any");
+        //typeMapping.put("binary", "?");
         typeMapping.put("file", "String");  // untested
         typeMapping.put("ByteArray", "Array");
         typeMapping.put("UUID", "String");
-        //typeMapping.put("Error", "Error");
+        //typeMapping.put("Error", "?");
         //typeMapping.put("AnyType", "Variant");
 
         cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all core classes"));
         cliOptions.add(new CliOption(CORE_NAME_SUFFIX, "PascalCase suffix added to all core classes"));
 
-        // This constructor is ran twice, because … reasons.
         // Also, I have not taken care of escaping things properly in the templates.
         // I'm not sure how to handle the different escaping strategies required.
-        LOGGER.warn("---- THIS GENERATOR IS UNSAFE AND MALICIOUS OAS FILES MAY HURT YOU ----");
+        LOGGER.warn("---- THE GENERATED CODE MAY BE UNSAFE AND MALICIOUS OAS FILES MAY HURT YOU ----");
         LOGGER.warn("PLEASE READ *CAREFULLY* THE OAS FILE YOU ARE USING BEFORE YOU TRUST IT.");
-        LOGGER.info("This generation itself should be safe but maybe not the generated code.");
-
     }
 
     @Override
@@ -231,12 +228,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return "handlebars";
     }
 
-
     public void processAdditionalProperties() {
-
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
-
         additionalProperties.put("modelNameSuffix", modelNameSuffix);
 
         if (additionalProperties.containsKey(CORE_NAME_PREFIX)) {
@@ -275,6 +269,16 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath);
+    }
+
+    @Override
     public String escapeUnsafeCharacters(String input) {
         // There might be ways to inject code in Gdscript, but I don't see any for now.  (no /* */ comments)
         // TODO: review this with someone knowledgeable
@@ -292,6 +296,13 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 ;
     }
 
+    public String escapeStringLiteral(String input) {
+        return input
+                .replace("\"", "\\\"")
+                .replaceAll("[\\\\]+$", "")
+                ;
+    }
+
     // In GDScript we want our file names to match our class names.
     // This ensures we get the (optional) prefix and suffix added to the file name.
     // Perhaps we'll even do (optional) snake_case in here later on.
@@ -305,20 +316,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String apiDocFileFolder() {
-        return (outputFolder + File.separator + apiDocPath);
-    }
-
-    @Override
-    public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath);
-    }
-
-
-    @Override
     public String toExampleValue(Schema schema) {
         if (schema.getExample() != null) {
-            return super.toExampleValue(schema);
+            return escapeStringLiteral(super.toExampleValue(schema));
         }
 
         return "";
@@ -328,7 +328,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
             if (schema instanceof StringSchema) {
-                return "\"" + schema.getDefault().toString().replace("\"", "") + "\"" ;
+                return "\"" + escapeStringLiteral(schema.getDefault().toString()) + "\"";
             }
             return schema.getDefault().toString();
         }
@@ -337,23 +337,28 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
             return "\"\"";
         }
 
-        return "";
+        return super.toDefaultValue(schema);
     }
 
-    // ApiPlatform for example generates `SomeModel.jsonld` models.
-    // We do not support jsonld for now, so we are skipping them.
+    @Override
+    public String getTypeDeclaration(Schema schema) {
+        String type = super.getTypeDeclaration(schema);
+
+        // purpose: camelize the inline response models dataType (requests are already fine)
+        // Possibly not the correct way to do it but I've tried many, many things.
+        if (type.contains("_")) {
+            type = camelize(type);
+        }
+
+        return type;
+    }
+
     @Override
     public Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs) {
         objs = super.updateAllModels(objs);
 
         String[] names = objs.keySet().toArray(new String[0]);
         for (String modelName : names) {
-            // Skip models with underscores, responses and @context in jsonld
-            // eg: api_somemodel_get_collection_200_response, SomeModel_jsonld__context
-            if (modelName.contains("_")) {
-                objs.remove(modelName);
-                LOGGER.warn("Skipped model " + modelName + " (underscore not supported)");
-            }
             // Skip models with jsonld, we don't support them atm
             // eg: Announcement.jsonld
             if (modelName.contains("jsonld")) {
@@ -361,7 +366,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 LOGGER.warn("Skipped model " + modelName + " (jsonld not supported)");
             }
             // Also skip Hydra models, we're not supporting them atm
-            if (modelName.contains("Hydra")) {
+            if (modelName.contains("Hydra") || modelName.contains("hydra")) {
                 objs.remove(modelName);
                 LOGGER.warn("Skipped model " + modelName + " (hydra not supported)");
             }
