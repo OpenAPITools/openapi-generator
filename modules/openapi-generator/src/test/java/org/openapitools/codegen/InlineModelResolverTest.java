@@ -1051,6 +1051,42 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineSchemaSkipReuseSetToFalse() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        //inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "false"); // default is false
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
+
+        // mega_200_response is NOT created since meta_200_response is reused
+        Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
+        assertNull(schema2);
+    }
+
+    @Test
+    public void testInlineSchemaSkipReuseSetToTrue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "true");
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema.getProperties().get("id") instanceof IntegerSchema);
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("mega_200_response");
+        assertTrue(schema2.getProperties().get("name") instanceof StringSchema);
+        assertTrue(schema2.getProperties().get("id") instanceof IntegerSchema);
+    }
+
+    @Test
     public void resolveInlineRequestBodyAllOf() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
@@ -1066,5 +1102,30 @@ public class InlineModelResolverTest {
 
         //RequestBody referencedRequestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
         //assertTrue(referencedRequestBody.getRequired());
+    }
+
+    @Test
+    public void testInlineSchemaAllOfPropertyOfOneOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_allof_propertyof_oneof.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Order_allOf_inline_oneof");
+        assertEquals(((Schema) schema.getOneOf().get(0)).get$ref(), "#/components/schemas/Tag");
+        assertEquals(((Schema) schema.getOneOf().get(1)).get$ref(), "#/components/schemas/Filter");
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Order_allOf_inline_model");
+        assertTrue(schema2.getProperties().get("something") instanceof StringSchema);
+    }
+
+    @Test
+    public void testNestedAnyOf() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/nested_anyof.yaml");
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.flatten(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("SomeData_anyOf");
+        assertTrue((Schema) schema.getAnyOf().get(0) instanceof StringSchema);
+        assertTrue((Schema) schema.getAnyOf().get(1) instanceof IntegerSchema);
     }
 }

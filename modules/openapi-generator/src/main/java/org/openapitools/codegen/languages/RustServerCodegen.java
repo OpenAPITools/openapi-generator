@@ -1275,7 +1275,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 int position = property.dataType.lastIndexOf(":");
                 property.dataType = property.dataType.substring(0, position) + camelize(property.dataType.substring(position));
             } else {
-                property.dataType = camelize(property.dataType, false);
+                property.dataType = camelize(property.dataType);
             }
             property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
         } else {

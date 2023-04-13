@@ -26,25 +26,35 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("@type")
   private String atType = "Pet";
 
-  @JsonProperty("age")
   private Integer age = 4;
 
-  @JsonProperty("happy")
   private Boolean happy = true;
 
-  @JsonProperty("price")
   private BigDecimal price = new BigDecimal("32000000000");
 
-  @JsonProperty("lastFeed")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
-  @JsonProperty("dateOfBirth")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Pet#Pet(String)}
+   */
+  @Deprecated
+  public Pet() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pet(String atType) {
+    this.atType = atType;
+  }
 
   public Pet atType(String atType) {
     this.atType = atType;
@@ -57,6 +67,7 @@ public class Pet {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("@type")
   public String getAtType() {
     return atType;
   }
@@ -76,6 +87,7 @@ public class Pet {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("age")
   public Integer getAge() {
     return age;
   }
@@ -95,6 +107,7 @@ public class Pet {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("happy")
   public Boolean getHappy() {
     return happy;
   }
@@ -114,6 +127,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("price")
   public BigDecimal getPrice() {
     return price;
   }
@@ -133,6 +147,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
     return lastFeed;
   }
@@ -152,6 +167,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }

@@ -25,21 +25,36 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefault {
 
-  @JsonProperty("string_item")
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link TypeHolderDefault#TypeHolderDefault(String, BigDecimal, Integer, Boolean, List<Integer>)}
+   */
+  @Deprecated
+  public TypeHolderDefault() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -52,6 +67,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -71,6 +87,7 @@ public class TypeHolderDefault {
   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -90,6 +107,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -109,6 +127,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -123,6 +142,9 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -133,6 +155,7 @@ public class TypeHolderDefault {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

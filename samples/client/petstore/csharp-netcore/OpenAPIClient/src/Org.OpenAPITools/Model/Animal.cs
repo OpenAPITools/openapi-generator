@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = "red")
+        public Animal(string className = default(string), string color = @"red")
         {
             // to ensure "className" is required (not null)
             if (className == null)
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
             }
             this.ClassName = className;
             // use default value if no "color" provided
-            this.Color = color ?? "red";
+            this.Color = color ?? @"red";
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }

@@ -35,11 +35,11 @@ elif [ "$NODE_INDEX" = "2" ]; then
   #sudo apt-get -y build-dep libcurl4-gnutls-dev
   #sudo apt-get -y install libcurl4-gnutls-dev
 
-  # Install golang version 1.14
+  # Install golang version 1.18
   go version
-  sudo mkdir /usr/local/go1.14
-  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
-  export PATH="/usr/local/go1.14/go/bin:$PATH"
+  sudo mkdir /usr/local/go1.18
+  wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.18
+  export PATH="/usr/local/go1.18/go/bin:$PATH"
   go version
 
   # run integration tests
@@ -53,9 +53,9 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #./configure --enable-optimizations
   #sudo make altinstall
   pyenv install --list 
-  pyenv install 3.6.3
+  pyenv install 3.7.12
   pyenv install 2.7.14
-  pyenv global 3.6.3
+  pyenv global 3.7.12
 
   # Install node@stable (for angular 6)
   set +e

@@ -135,7 +135,7 @@ my $cleared_tokens_cmp = {
         };
 cmp_deeply( $api->_cfg->clear_tokens, $cleared_tokens_cmp, 'clear_tokens() returns the correct data structure' );
 
-my $bad_token = { bad_token_name => 'bad token value' }; # value should should be hashref
+my $bad_token = { bad_token_name => 'bad token value' }; # value should be hashref
 dies_ok { $api->_cfg->accept_tokens($bad_token) } "bad token causes exception";
 
 

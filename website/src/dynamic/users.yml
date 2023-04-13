@@ -49,6 +49,11 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: Amazon Web Services (AWS)
+  image: "img/companies/aws.png"
+  infoLink: "https://aws.amazon.com/"
+  pinned: false 
+-
   caption: "b<>com"
   image: "img/companies/b-com.png"
   infoLink: "https://b-com.com/en"
@@ -159,6 +164,11 @@
   infoLink: "https://www.deeproute.ai/"
   pinned: false
 -
+  caption: "dmTECH GmbH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmTECH.de"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -192,6 +202,11 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
   pinned: false
 -
   caption: FiNC Technologies
@@ -409,6 +424,11 @@
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
 -
+  caption: "PTV Group"
+  image: "img/companies/ptvgroup.png"
+  infoLink: "https://www.myptv.com/"
+  pinned: false  
+-
   caption: Puppet
   image: "img/companies/puppet.svg"
   infoLink: "https://www.puppet.com"
@@ -514,6 +534,11 @@
   infoLink: "http://www.tui-infotec.com/"
   pinned: false
 -
+  caption: "Twilio"
+  image: "img/companies/twilio.png"
+  infoLink: "https://twilio.com"
+  pinned: false
+-
   caption: "Twitter"
   image: "img/companies/twitter.png"
   infoLink: "https://twitter.com"
@@ -593,7 +618,6 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
-
 -
   caption: 3DS OUTSCALE
   image: "img/companies/outscale.png"

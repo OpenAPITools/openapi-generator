@@ -74,14 +74,14 @@ class SchemaForRequestBodyApplicationJson(
         
             def __new__(
                 cls,
-                *args: typing.Union[dict, frozendict.frozendict, ],
+                *_args: typing.Union[dict, frozendict.frozendict, ],
                 foo: typing.Union[MetaOapg.properties.foo, str, schemas.Unset] = schemas.unset,
                 _configuration: typing.Optional[schemas.Configuration] = None,
                 **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
             ) -> 'not_schema':
                 return super().__new__(
                     cls,
-                    *args,
+                    *_args,
                     foo=foo,
                     _configuration=_configuration,
                     **kwargs,
@@ -90,13 +90,13 @@ class SchemaForRequestBodyApplicationJson(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        *_args: typing.Union[dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[schemas.AnyTypeSchema, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, None, list, tuple, bytes],
     ) -> 'SchemaForRequestBodyApplicationJson':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             _configuration=_configuration,
             **kwargs,
         )
@@ -127,18 +127,62 @@ _status_code_to_response = {
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _post_not_more_complex_schema_request_body_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: typing_extensions.Literal["application/json"] = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def _post_not_more_complex_schema_request_body_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+
+    @typing.overload
+    def _post_not_more_complex_schema_request_body_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def _post_not_more_complex_schema_request_body_oapg(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _post_not_more_complex_schema_request_body_oapg(
-        self: api_client.Api,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         :param skip_deserialization: If true then api_response.response will be set but
             api_response.body and api_response.headers will not be deserialized into schema
@@ -180,7 +224,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 
@@ -188,17 +236,62 @@ class BaseApi(api_client.Api):
 class PostNotMoreComplexSchemaRequestBody(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def post_not_more_complex_schema_request_body(
-        self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: typing_extensions.Literal["application/json"] = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def post_not_more_complex_schema_request_body(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+
+    @typing.overload
+    def post_not_more_complex_schema_request_body(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def post_not_more_complex_schema_request_body(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def post_not_more_complex_schema_request_body(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._post_not_more_complex_schema_request_body_oapg(
             body=body,
             content_type=content_type,
@@ -211,17 +304,62 @@ class PostNotMoreComplexSchemaRequestBody(BaseApi):
 class ApiForpost(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def post(
-        self: BaseApi,
-        body: typing.Union[SchemaForRequestBodyApplicationJson, dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: typing_extensions.Literal["application/json"] = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+
+    @typing.overload
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        skip_deserialization: typing_extensions.Literal[True],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
+        content_type: str = ...,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def post(
+        self,
+        body: typing.Union[SchemaForRequestBodyApplicationJson,dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal.Decimal, bool, None, list, tuple, bytes, io.FileIO, io.BufferedReader, ],
         content_type: str = 'application/json',
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._post_not_more_complex_schema_request_body_oapg(
             body=body,
             content_type=content_type,

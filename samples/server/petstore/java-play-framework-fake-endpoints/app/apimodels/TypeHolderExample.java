@@ -136,7 +136,10 @@ public class TypeHolderExample   {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
-    arrayItem.add(arrayItemItem);
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
+    this.arrayItem.add(arrayItemItem);
     return this;
   }
 

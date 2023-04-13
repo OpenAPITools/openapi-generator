@@ -103,10 +103,16 @@ FString Base64UrlEncode(const T& Value)
 	return Base64String;
 }
 
-template<typename T>
+template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
 inline FStringFormatArg ToStringFormatArg(const T& Value)
 {
 	return FStringFormatArg(Value);
+}
+
+template<typename T, typename std::enable_if<std::is_base_of<Model, T>::value, int>::type = 0>
+inline FStringFormatArg ToStringFormatArg(const T& EnumModelValue)
+{
+	return FStringFormatArg(T::EnumToString(EnumModelValue.Value));
 }
 
 inline FStringFormatArg ToStringFormatArg(const FDateTime& Value)

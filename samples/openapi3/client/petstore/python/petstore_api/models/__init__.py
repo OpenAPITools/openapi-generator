@@ -6,7 +6,7 @@
 # if you have many models here with many references from one model to another this may
 # raise a RecursionError
 # to avoid this, import only the models that you directly need like:
-# from from petstore_api.model.pet import Pet
+# from petstore_api.model.pet import Pet
 # or import this package, but before doing it, use:
 # import sys
 # sys.setrecursionlimit(n)
@@ -98,11 +98,14 @@ from petstore_api.model.number import Number
 from petstore_api.model.number_only import NumberOnly
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_interface import ObjectInterface
+from petstore_api.model.object_model_with_arg_and_args_properties import ObjectModelWithArgAndArgsProperties
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.object_with_all_of_with_req_test_prop_from_unset_add_prop import ObjectWithAllOfWithReqTestPropFromUnsetAddProp
 from petstore_api.model.object_with_decimal_properties import ObjectWithDecimalProperties
 from petstore_api.model.object_with_difficultly_named_props import ObjectWithDifficultlyNamedProps
 from petstore_api.model.object_with_inline_composition_property import ObjectWithInlineCompositionProperty
 from petstore_api.model.object_with_invalid_named_refed_properties import ObjectWithInvalidNamedRefedProperties
+from petstore_api.model.object_with_optional_test_prop import ObjectWithOptionalTestProp
 from petstore_api.model.object_with_validations import ObjectWithValidations
 from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet

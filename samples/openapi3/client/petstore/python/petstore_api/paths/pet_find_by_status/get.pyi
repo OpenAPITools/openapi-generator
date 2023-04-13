@@ -27,7 +27,7 @@ from petstore_api import schemas  # noqa: F401
 
 from petstore_api.model.pet import Pet
 
-# query params
+# Query params
 
 
 class StatusSchema(
@@ -57,12 +57,12 @@ class StatusSchema(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
+        _arg: typing.Union[typing.Tuple[typing.Union[MetaOapg.items, str, ]], typing.List[typing.Union[MetaOapg.items, str, ]]],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'StatusSchema':
         return super().__new__(
             cls,
-            arg,
+            _arg,
             _configuration=_configuration,
         )
 
@@ -107,12 +107,12 @@ class SchemaFor200ResponseBodyApplicationXml(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
+        _arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationXml':
         return super().__new__(
             cls,
-            arg,
+            _arg,
             _configuration=_configuration,
         )
 
@@ -133,12 +133,12 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     def __new__(
         cls,
-        arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
+        _arg: typing.Union[typing.Tuple['Pet'], typing.List['Pet']],
         _configuration: typing.Optional[schemas.Configuration] = None,
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
-            arg,
+            _arg,
             _configuration=_configuration,
         )
 
@@ -184,18 +184,49 @@ _all_accept_content_types = (
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _find_pets_by_status_oapg(
+        self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def _find_pets_by_status_oapg(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def _find_pets_by_status_oapg(
+        self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _find_pets_by_status_oapg(
-        self: api_client.Api,
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         Finds Pets by status
         :param skip_deserialization: If true then api_response.response will be set but
@@ -243,7 +274,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 
@@ -251,17 +286,49 @@ class BaseApi(api_client.Api):
 class FindPetsByStatus(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def find_pets_by_status(
-        self: BaseApi,
+        self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def find_pets_by_status(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def find_pets_by_status(
+        self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def find_pets_by_status(
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._find_pets_by_status_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,
@@ -274,17 +341,49 @@ class FindPetsByStatus(BaseApi):
 class ApiForget(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def get(
-        self: BaseApi,
+        self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def get(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def get(
+        self,
+        query_params: RequestQueryParams = frozendict.frozendict(),
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def get(
+        self,
         query_params: RequestQueryParams = frozendict.frozendict(),
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._find_pets_by_status_oapg(
             query_params=query_params,
             accept_content_types=accept_content_types,

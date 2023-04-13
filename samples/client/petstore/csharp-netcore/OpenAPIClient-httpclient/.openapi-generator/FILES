@@ -1,7 +1,10 @@
 .gitignore
 Org.OpenAPITools.sln
 README.md
+api/openapi.yaml
 appveyor.yml
+docs/Activity.md
+docs/ActivityOutputElementRepresentation.md
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -23,6 +26,7 @@ docs/ChildCatAllOf.md
 docs/ClassModel.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
+docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -47,6 +51,7 @@ docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/IsoscelesTriangle.md
 docs/List.md
+docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -54,6 +59,7 @@ docs/Model200Response.md
 docs/ModelClient.md
 docs/Name.md
 docs/NullableClass.md
+docs/NullableGuidClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -80,6 +86,8 @@ docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestCollectionEndingWithWordList.md
+docs/TestCollectionEndingWithWordListObject.md
 docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
@@ -113,6 +121,8 @@ src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Client/WebRequestPathBuilder.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
+src/Org.OpenAPITools/Model/Activity.cs
+src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Animal.cs
 src/Org.OpenAPITools/Model/ApiResponse.cs
@@ -133,6 +143,7 @@ src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
+src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/DogAllOf.cs
@@ -154,6 +165,7 @@ src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
+src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
@@ -161,6 +173,7 @@ src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs
 src/Org.OpenAPITools/Model/NullableClass.cs
+src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
 src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs
@@ -185,6 +198,8 @@ src/Org.OpenAPITools/Model/ShapeOrNull.cs
 src/Org.OpenAPITools/Model/SimpleQuadrilateral.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs

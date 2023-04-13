@@ -105,6 +105,17 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
         let headers = request.headers();
 
         {
+            use swagger::auth::Bearer;
+            use std::ops::Deref;
+            if let Some(bearer) = swagger::auth::from_headers::<Bearer>(headers) {
+                let auth_data = AuthData::Bearer(bearer);
+                let context = context.push(Some(auth_data));
+                let context = context.push(None::<Authorization>);
+
+                return self.inner.call((request, context))
+            }
+        }
+        {
             use swagger::auth::api_key_from_header;
 
             if let Some(header) = api_key_from_header(headers, "api_key") {
@@ -133,17 +144,6 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
             use std::ops::Deref;
             if let Some(basic) = swagger::auth::from_headers::<Basic>(headers) {
                 let auth_data = AuthData::Basic(basic);
-                let context = context.push(Some(auth_data));
-                let context = context.push(None::<Authorization>);
-
-                return self.inner.call((request, context))
-            }
-        }
-        {
-            use swagger::auth::Bearer;
-            use std::ops::Deref;
-            if let Some(bearer) = swagger::auth::from_headers::<Bearer>(headers) {
-                let auth_data = AuthData::Bearer(bearer);
                 let context = context.push(Some(auth_data));
                 let context = context.push(None::<Authorization>);
 

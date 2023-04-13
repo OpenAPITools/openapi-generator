@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |addConsumesProducesJson|Add @Consumes/@Produces Json to API interface| |false|
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
@@ -29,6 +30,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
+|camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|legacy|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
@@ -51,7 +54,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools.api|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
@@ -71,15 +74,18 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/gen/java|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |title|a title describing the application| |OpenAPI Server|
+|useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk.| |false|
 |useAnnotatedBasePath|Use @Path annotations for basePath| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useBeanValidationFeature|Use BeanValidation Feature| |false|
 |useGenericResponse|Use generic response| |false|
 |useGzipFeature|Use Gzip Feature| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useLoggingFeature|Use Logging Feature| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
 |useMultipartFeature|Use Multipart Feature| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |useSpringAnnotationConfig|Use Spring Annotation Config| |false|
 |useSwaggerFeature|Use Swagger Feature| |false|
 |useSwaggerUI|Use Swagger UI| |false|

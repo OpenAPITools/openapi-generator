@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -144,8 +145,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "float32", "float64")
         );
 
-        importMapping = new HashMap<>();
-
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("openapi"));
@@ -224,7 +223,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word);
+        return word != null && (reservedWords.contains(word) || reservedWordsMappings().containsKey(word));
     }
 
     @Override
@@ -232,7 +231,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
-        name = camelize(toVarName(name), true);
+        name = camelize(toVarName(name), LOWERCASE_FIRST_LETTER);
 
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
@@ -330,6 +329,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return apiName;
     }
 
+    @Override
+    public String toApiTestFilename(String name) {
+        return toApiFilename(name) + "_test";
+    }
+
     /**
      * Return the golang implementation type for the specified property.
      *
@@ -401,7 +405,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String ref = p.get$ref();
-        String type = null;
+        String type;
 
         if (ref != null && !ref.isEmpty()) {
             type = toModelName(openAPIType);
@@ -621,13 +625,34 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 iterator.remove();
         }
 
-        boolean addedTimeImport = false;
-        boolean addedOSImport = false;
         for (ModelMap m : objs.getModels()) {
+            boolean addedTimeImport = false;
+            boolean addedOSImport = false;
             CodegenModel model = m.getModel();
-            for (CodegenProperty cp : model.vars) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) ||
-                        (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+
+            List<CodegenProperty> inheritedProperties = new ArrayList<>();
+            if (model.getComposedSchemas() != null) {
+                if (model.getComposedSchemas().getAnyOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getAnyOf());
+                }
+                if (model.getComposedSchemas().getOneOf() != null) {
+                    inheritedProperties.addAll(model.getComposedSchemas().getOneOf());
+                }
+            }
+
+            List<CodegenProperty> codegenProperties = new ArrayList<>();
+            if(model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
+                // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
+                codegenProperties.addAll(model.vars);
+            } else {
+                // If the model is no model, but is a
+                // anyOf or oneOf, add all first level options
+                // from anyOf or oneOf.
+                codegenProperties.addAll(inheritedProperties);
+            }
+
+            for (CodegenProperty cp : codegenProperties) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
@@ -637,7 +662,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     addedOSImport = true;
                 }
             }
-
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
             }

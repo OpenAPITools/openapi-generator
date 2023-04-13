@@ -31,6 +31,9 @@
         {{#description}}
         /// <value>{{description}}</value>
         {{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{^conditionalSerialization}}
         [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#required}}true{{/required}}{{^required}}{{#isBoolean}}true{{/isBoolean}}{{^isBoolean}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/isBoolean}}{{/required}}{{/vendorExtensions.x-emit-default-value}})]
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
@@ -50,7 +53,7 @@
         {{#isReadOnly}}
         [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#required}}true{{/required}}{{^required}}{{#isBoolean}}true{{/isBoolean}}{{^isBoolean}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/isBoolean}}{{/required}}{{/vendorExtensions.x-emit-default-value}})]
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
-        
+
 
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
@@ -179,6 +182,9 @@
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{description}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{^conditionalSerialization}}
         [DataMember(Name = "{{baseName}}"{{#required}}, IsRequired = true{{/required}}, EmitDefaultValue = {{#vendorExtensions.x-emit-default-value}}true{{/vendorExtensions.x-emit-default-value}}{{^vendorExtensions.x-emit-default-value}}{{#required}}true{{/required}}{{^required}}{{#isBoolean}}true{{/isBoolean}}{{^isBoolean}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/isBoolean}}{{/required}}{{/vendorExtensions.x-emit-default-value}})]
         {{#isDate}}
@@ -440,7 +446,7 @@
             {{^isByteArray}}
             // {{{name}}} ({{{dataType}}}) pattern
             Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
-            if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
+            if (false == regex{{{name}}}.Match(this.{{{name}}}{{#isUuid}}.ToString(){{/isUuid}}).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
             }

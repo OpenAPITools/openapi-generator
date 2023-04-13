@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiPackage|api package for generated code| |org.openapitools.api|
 |apiSuffix|suffix for api classes| |Api|
@@ -39,15 +40,17 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson or 'kotlinx_serialization'| |moshi|
 |serverPort|configuration the port in which the sever is to run on| |8080|
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|
 |serviceInterface|generate service interfaces to go alongside controllers. In most cases this option would be used to update an existing project, so not to override implementations. Useful to help facilitate the generation gap pattern| |false|
+|skipDefaultInterface|Whether to skip generation of default implementations for interfaces| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
+|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
 

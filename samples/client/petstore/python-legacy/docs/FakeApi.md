@@ -749,7 +749,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Someting wrong |  -  |
+**400** | Something wrong |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -777,7 +777,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    param = {'key': 'param_example'} # dict(str, str) | request body
+    param = {'key': 'param_example'} # dict[str, str] | request body
 
     try:
         # test inline additionalProperties
@@ -790,7 +790,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**dict(str, str)**](str.md)| request body | 
+ **param** | [**dict[str, str]**](str.md)| request body | 
 
 ### Return type
 

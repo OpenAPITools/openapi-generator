@@ -66,9 +66,10 @@ class AnotherFakeApi {
           _dio.options,
           _path,
         ),
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     final _response = await _dio.request<Object>(
@@ -93,9 +94,10 @@ class AnotherFakeApi {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<ModelClient>(

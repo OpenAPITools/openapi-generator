@@ -106,6 +106,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
+        /// <example>&quot;2020-02-02T20:20:20.000222Z&quot;</example>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
         public DateTime ShipDate { get; set; }
 
@@ -189,7 +190,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

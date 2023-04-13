@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -70,7 +69,7 @@ public class Drawing {
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  private List<Shape> shapes = null;
+  private List<Shape> shapes;
 
   public Drawing() {
   }
@@ -86,7 +85,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public Shape getMainShape() {
     return mainShape;
@@ -109,7 +107,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
@@ -132,7 +129,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public NullableShape getNullableShape() {
     return nullableShape;
@@ -163,7 +159,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public List<Shape> getShapes() {
     return shapes;
@@ -254,9 +249,7 @@ public class Drawing {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Drawing.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }

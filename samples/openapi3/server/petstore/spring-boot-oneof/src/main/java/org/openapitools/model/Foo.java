@@ -26,11 +26,25 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Foo extends Entity implements FooRefOrValue {
 
-  @JsonProperty("fooPropA")
   private String fooPropA;
 
-  @JsonProperty("fooPropB")
   private String fooPropB;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Foo#Foo(String)}
+   */
+  @Deprecated
+  public Foo() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Foo(String atType) {
+    super(atType);
+  }
 
   public Foo fooPropA(String fooPropA) {
     this.fooPropA = fooPropA;
@@ -42,7 +56,8 @@ public class Foo extends Entity implements FooRefOrValue {
    * @return fooPropA
   */
   
-  @Schema(name = "fooPropA", required = false)
+  @Schema(name = "fooPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("fooPropA")
   public String getFooPropA() {
     return fooPropA;
   }
@@ -61,7 +76,8 @@ public class Foo extends Entity implements FooRefOrValue {
    * @return fooPropB
   */
   
-  @Schema(name = "fooPropB", required = false)
+  @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("fooPropB")
   public String getFooPropB() {
     return fooPropB;
   }

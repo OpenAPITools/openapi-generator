@@ -26,8 +26,23 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal {
 
-  @JsonProperty("breed")
   private String breed;
+
+  /**
+   * Default constructor
+   * @deprecated Use {@link Dog#Dog(String)}
+   */
+  @Deprecated
+  public Dog() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Dog(String className) {
+    super(className);
+  }
 
   public Dog breed(String breed) {
     this.breed = breed;
@@ -39,7 +54,8 @@ public class Dog extends Animal {
    * @return breed
   */
   
-  @Schema(name = "breed", required = false)
+  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

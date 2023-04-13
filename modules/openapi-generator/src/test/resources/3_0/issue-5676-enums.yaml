@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Enum test
+servers:
+  - url: http://localhost:3000
+paths:
+  /fake/request-object-with-inline-enum:
+    post:
+      operationId: fakeRequestObjectWithInlineEnum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Contains property enumType that represents inline enum.
+              properties:
+                id:
+                  type: number
+                enumType:
+                  type: string
+                  enum:
+                    - one
+                    - two
+                    - three
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+  /fake/request-object-with-referenced-enum:
+    post:
+      operationId: fakeRequestObjectWithReferencedEnum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Contains property enumType that represents referenced enum.
+              properties:
+                id:
+                  type: number
+                enumType:
+                  $ref: '#/components/schemas/StringEnum'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+  /fake/request-array-with-inline-enum:
+    post:
+      operationId: fakeRequestArrayWithInlineEnum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Contains property enumTypes that represents array of inline enums.
+              properties:
+                id:
+                  type: number
+                enumTypes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - one
+                      - two
+                      - three
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+  /fake/request-array-with-referenced-enum:
+    post:
+      operationId: fakeRequestArrayWithReferencedEnum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Contains property enumTypes that represents array of referenced enums.
+              properties:
+                id:
+                  type: number
+                enumTypes:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/StringEnum'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+  /fake/request-map-with-inline-enum:
+    post:
+      operationId: fakeRequestMapWithInlineEnum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Contains property enumTypes that represents map of inline enums.
+              properties:
+                id:
+                  type: number
+                enumTypes:
+                  type: object
+                  additionalProperties:
+                    type: string
+                    enum:
+                      - one
+                      - two
+                      - three
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+  /fake/request-map-with-referenced-enum:
+    post:
+      operationId: fakeRequestMapWithReferencedEnum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Contains property enumTypes that represents map of referenced enums.
+              properties:
+                id:
+                  type: number
+                enumTypes:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/StringEnum'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+  /fake/multipart-request-with-inline-enum:
+    post:
+      operationId: fakeRequestMultipartWithInlineEnum
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              description: Contains property enumType that represents inline enum.
+              properties:
+                id:
+                  type: number
+                enumType:
+                  type: string
+                  enum:
+                    - one
+                    - two
+                    - three
+  /fake/multipart-request-with-referenced-enum:
+    post:
+      operationId: fakeRequestMultipartWithReferencedEnum
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              description: Contains property enumType that represents referenced enum.
+              properties:
+                id:
+                  type: number
+                enumType:
+                  $ref: '#/components/schemas/StringEnum'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnumPatternObject'
+components:
+  schemas:
+    StringEnum:
+      type: string
+      enum:
+        - one
+        - two
+        - three
+    NumberEnum:
+      type: number
+      enum:
+        - 1
+        - 2
+        - 3
+    EnumPatternObject:
+      type: object
+      properties:
+        string-enum:
+          $ref: "#/components/schemas/StringEnum"
+        nullable-string-enum:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/StringEnum"
+        number-enum:
+          $ref: "#/components/schemas/NumberEnum"
+        nullable-number-enum:
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/NumberEnum"
+        default-number-enum:
+          default: 2
+          allOf:
+            - $ref: "#/components/schemas/NumberEnum"
+        allof-number-enum:
+          allOf:
+            - $ref: "#/components/schemas/NumberEnum"
+

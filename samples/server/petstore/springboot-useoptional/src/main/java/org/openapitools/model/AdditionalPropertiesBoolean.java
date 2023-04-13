@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
 
-  @JsonProperty("name")
   private String name;
 
   public AdditionalPropertiesBoolean name(String name) {
@@ -38,6 +37,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

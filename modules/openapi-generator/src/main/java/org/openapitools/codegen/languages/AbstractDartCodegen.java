@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -373,7 +373,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -555,8 +555,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         final CodegenProperty property = super.fromProperty(name, p, required);
 
-        // Handle composed properties
-        if (ModelUtils.isComposedSchema(p)) {
+        // Handle composed properties and it's NOT allOf with a single ref only
+        if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
             ComposedSchema composed = (ComposedSchema) p;
 
             // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
@@ -721,18 +721,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId);
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             operationId = newOperationId;
         }

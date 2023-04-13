@@ -31,12 +31,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
-  {{#isContainer}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#required}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}}{{#isNullable}} = null{{/isNullable}}{{/required}}{{^required}} = null{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
   private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-  {{/isContainer}}
   {{/vars}}
   {{#generateBuilders}}
   {{^additionalProperties}}
@@ -88,7 +83,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#isArray}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
 
     this.{{name}}.add({{name}}Item);
@@ -106,7 +101,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#isMap}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
 
     this.{{name}}.put(key, {{name}}Item);

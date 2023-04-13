@@ -28,14 +28,14 @@ NestedOneOf <- R6::R6Class(
     #'
     #' @param size size
     #' @param nested_pig nested_pig
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `size` = NULL, `nested_pig` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`size` = NULL, `nested_pig` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`size`)) {
-        stopifnot(is.numeric(`size`), length(`size`) == 1)
+        if (!(is.numeric(`size`) && length(`size`) == 1)) {
+          stop(paste("Error! Invalid data for `size`. Must be an integer:", `size`))
+        }
         self$`size` <- `size`
       }
       if (!is.null(`nested_pig`)) {
@@ -85,9 +85,9 @@ NestedOneOf <- R6::R6Class(
         self$`size` <- this_object$`size`
       }
       if (!is.null(this_object$`nested_pig`)) {
-        nested_pig_object <- Pig$new()
-        nested_pig_object$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
-        self$`nested_pig` <- nested_pig_object
+        `nested_pig_object` <- Pig$new()
+        `nested_pig_object`$fromJSON(jsonlite::toJSON(this_object$`nested_pig`, auto_unbox = TRUE, digits = NA))
+        self$`nested_pig` <- `nested_pig_object`
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -143,7 +143,7 @@ NestedOneOf <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`size` <- this_object$`size`
-      self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$nested_pig, auto_unbox = TRUE, digits = NA))
+      self$`nested_pig` <- Pig$new()$fromJSON(jsonlite::toJSON(this_object$`nested_pig`, auto_unbox = TRUE, digits = NA))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -203,18 +203,19 @@ NestedOneOf <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#NestedOneOf$unlock()
+# NestedOneOf$unlock()
 #
-## Below is an example to define the print fnuction
-#NestedOneOf$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+## Below is an example to define the print function
+# NestedOneOf$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#NestedOneOf$lock()
+# NestedOneOf$lock()
 

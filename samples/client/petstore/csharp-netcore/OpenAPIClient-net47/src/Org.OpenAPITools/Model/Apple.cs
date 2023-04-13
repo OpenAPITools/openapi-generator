@@ -136,17 +136,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Cultivar (string) pattern
-            Regex regexCultivar = new Regex(@"^[a-zA-Z\\s]*$", RegexOptions.CultureInvariant);
+            Regex regexCultivar = new Regex("^[a-zA-Z\\s]*$", RegexOptions.CultureInvariant);
             if (false == regexCultivar.Match(this.Cultivar).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
             }
 
             // Origin (string) pattern
-            Regex regexOrigin = new Regex(@"^[A-Z\\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexOrigin = new Regex("^[A-Z\\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexOrigin.Match(this.Origin).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });

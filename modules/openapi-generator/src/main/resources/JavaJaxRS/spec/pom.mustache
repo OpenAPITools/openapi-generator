@@ -89,11 +89,20 @@
       <artifactId>joda-time</artifactId>
       <version>${joda-version}</version>
     </dependency>
+    {{#useJakartaEe}}
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>${javax.annotation-api-version}</version>
+    </dependency>
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
     <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <version>${javax.annotation-api-version}</version>
     </dependency>
+    {{/useJakartaEe}}
     {{#useSwaggerAnnotations}}
     <dependency>
       <groupId>io.swagger</groupId>
@@ -154,10 +163,25 @@
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.2</junit-version>
     <joda-version>2.10.13</joda-version>
+{{#useJakartaEe}}
+    <javax.annotation-api-version>2.1.1</javax.annotation-api-version>
+{{/useJakartaEe}}
+{{^useJakartaEe}}
     <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
+{{/useJakartaEe}}
 {{#useBeanValidation}}
+{{#useJakartaEe}}
+    <beanvalidation-version>3.0.2</beanvalidation-version>
+{{/useJakartaEe}}
+{{^useJakartaEe}}
     <beanvalidation-version>2.0.2</beanvalidation-version>
+{{/useJakartaEe}}
 {{/useBeanValidation}}
+{{#useJakartaEe}}
+    <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
+{{/useJakartaEe}}
+{{^useJakartaEe}}
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
+{{/useJakartaEe}}
   </properties>
 </project>

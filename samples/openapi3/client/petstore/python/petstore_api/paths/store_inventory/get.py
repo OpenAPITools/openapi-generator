@@ -49,13 +49,13 @@ class SchemaFor200ResponseBodyApplicationJson(
 
     def __new__(
         cls,
-        *args: typing.Union[dict, frozendict.frozendict, ],
+        *_args: typing.Union[dict, frozendict.frozendict, ],
         _configuration: typing.Optional[schemas.Configuration] = None,
         **kwargs: typing.Union[MetaOapg.additional_properties, decimal.Decimal, int, ],
     ) -> 'SchemaFor200ResponseBodyApplicationJson':
         return super().__new__(
             cls,
-            *args,
+            *_args,
             _configuration=_configuration,
             **kwargs,
         )
@@ -86,17 +86,45 @@ _all_accept_content_types = (
 
 
 class BaseApi(api_client.Api):
+    @typing.overload
+    def _get_inventory_oapg(
+        self,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def _get_inventory_oapg(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def _get_inventory_oapg(
+        self,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
 
     def _get_inventory_oapg(
-        self: api_client.Api,
+        self,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         """
         Returns pet inventories by status
         :param skip_deserialization: If true then api_response.response will be set but
@@ -130,7 +158,11 @@ class BaseApi(api_client.Api):
                 api_response = api_client.ApiResponseWithoutDeserialization(response=response)
 
         if not 200 <= response.status <= 299:
-            raise exceptions.ApiException(api_response=api_response)
+            raise exceptions.ApiException(
+                status=response.status,
+                reason=response.reason,
+                api_response=api_response
+            )
 
         return api_response
 
@@ -138,16 +170,45 @@ class BaseApi(api_client.Api):
 class GetInventory(BaseApi):
     # this class is used by api classes that refer to endpoints with operationId fn names
 
+    @typing.overload
     def get_inventory(
-        self: BaseApi,
+        self,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def get_inventory(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def get_inventory(
+        self,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def get_inventory(
+        self,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._get_inventory_oapg(
             accept_content_types=accept_content_types,
             stream=stream,
@@ -159,16 +220,45 @@ class GetInventory(BaseApi):
 class ApiForget(BaseApi):
     # this class is used by api classes that refer to endpoints by path and http method names
 
+    @typing.overload
     def get(
-        self: BaseApi,
+        self,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: typing_extensions.Literal[False] = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+    ]: ...
+
+    @typing.overload
+    def get(
+        self,
+        skip_deserialization: typing_extensions.Literal[True],
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+    ) -> api_client.ApiResponseWithoutDeserialization: ...
+
+    @typing.overload
+    def get(
+        self,
+        accept_content_types: typing.Tuple[str] = _all_accept_content_types,
+        stream: bool = False,
+        timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        skip_deserialization: bool = ...,
+    ) -> typing.Union[
+        ApiResponseFor200,
+        api_client.ApiResponseWithoutDeserialization,
+    ]: ...
+
+    def get(
+        self,
         accept_content_types: typing.Tuple[str] = _all_accept_content_types,
         stream: bool = False,
         timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
         skip_deserialization: bool = False,
-    ) -> typing.Union[
-        ApiResponseFor200,
-        api_client.ApiResponseWithoutDeserialization
-    ]:
+    ):
         return self._get_inventory_oapg(
             accept_content_types=accept_content_types,
             stream=stream,

@@ -32,6 +32,7 @@ import org.openapitools.codegen.meta.Stability;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -273,7 +274,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                     // camelize path variable
-                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), LOWERCASE_FIRST_LETTER) + "}";
                 }
             }
 

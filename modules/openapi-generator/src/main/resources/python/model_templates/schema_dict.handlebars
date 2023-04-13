@@ -32,4 +32,8 @@ class {{> model_templates/classname }}(
 {{/if}}
     {{> model_templates/property_type_hints }}
 
+{{#if additionalProperties}}
     {{> model_templates/new }}
+{{else}}
+    {{> model_templates/new addPropsUnset=true }}
+{{/if}}

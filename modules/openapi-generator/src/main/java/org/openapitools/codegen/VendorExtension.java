@@ -15,6 +15,7 @@ public enum VendorExtension {
     X_CONTENT_TYPE("x-content-type", ExtensionLevel.OPERATION, "Specify custom value for 'Content-Type' header for operation", null),
     X_CLASS_EXTRA_ANNOTATION("x-class-extra-annotation", ExtensionLevel.MODEL, "List of custom annotations to be added to model", null),
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", ExtensionLevel.FIELD, "List of custom annotations to be added to property", null),
+    X_VERSION_PARAM("x-version-param", ExtensionLevel.OPERATION_PARAMETER, "Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false", null),
     ;
 
     private final String name;
@@ -52,7 +53,8 @@ public enum VendorExtension {
     public enum ExtensionLevel {
         FIELD,
         MODEL,
-        OPERATION
+        OPERATION,
+        OPERATION_PARAMETER
     }
 
 }

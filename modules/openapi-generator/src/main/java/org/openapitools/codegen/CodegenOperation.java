@@ -27,6 +27,7 @@ public class CodegenOperation {
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
+            hasVersionHeaders = false, hasVersionQueryParams = false,
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
@@ -48,6 +49,7 @@ public class CodegenOperation {
     public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<CodegenParameter>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
@@ -157,6 +159,10 @@ public class CodegenOperation {
         return nonEmpty(optionalParams);
     }
 
+    public boolean getHasRequiredAndNotNullableParams() {
+        return nonEmpty(requiredAndNotNullableParams);
+    }
+
     /**
      * Check if there's at least one required parameter
      *
@@ -191,6 +197,27 @@ public class CodegenOperation {
      */
     public boolean getHasDefaultResponse() {
         return responses.stream().anyMatch(response -> response.isDefault);
+    }
+
+    public boolean getAllResponsesAreErrors() {
+        return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
+    }
+
+    /**
+     * @return contentTypeToOperation
+     * returns a map where the key is the request body content type and the value is the current CodegenOperation
+     * this is needed by templates when a different signature is needed for each request body content type
+     */
+    public Map<String, CodegenOperation> contentTypeToOperation() {
+        LinkedHashMap<String, CodegenOperation> contentTypeToOperation = new LinkedHashMap<>();
+        if (bodyParam == null) {
+            return null;
+        }
+        LinkedHashMap<String, CodegenMediaType> content = bodyParam.getContent();
+        for (String contentType: content.keySet()) {
+            contentTypeToOperation.put(contentType, this);
+        }
+        return contentTypeToOperation;
     }
 
     /**
@@ -343,6 +370,7 @@ public class CodegenOperation {
         sb.append(", cookieParams=").append(cookieParams);
         sb.append(", requiredParams=").append(requiredParams);
         sb.append(", optionalParams=").append(optionalParams);
+        sb.append(", requiredAndNotNullableParams=").append(requiredAndNotNullableParams);
         sb.append(", authMethods=").append(authMethods);
         sb.append(", tags=").append(tags);
         sb.append(", responses=").append(responses);
@@ -421,6 +449,7 @@ public class CodegenOperation {
                 Objects.equals(cookieParams, that.cookieParams) &&
                 Objects.equals(requiredParams, that.requiredParams) &&
                 Objects.equals(optionalParams, that.optionalParams) &&
+                Objects.equals(requiredAndNotNullableParams, that.requiredAndNotNullableParams) &&
                 Objects.equals(authMethods, that.authMethods) &&
                 Objects.equals(tags, that.tags) &&
                 Objects.equals(responses, that.responses) &&
@@ -450,6 +479,6 @@ public class CodegenOperation {
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
                 vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
-                operationIdSnakeCase, hasErrorResponseObject);
+                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams);
     }
 }

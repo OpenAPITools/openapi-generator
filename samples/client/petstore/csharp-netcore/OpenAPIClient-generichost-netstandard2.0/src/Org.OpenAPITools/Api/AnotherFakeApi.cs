@@ -19,10 +19,11 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.Api
+namespace Org.OpenAPITools.IApi
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IAnotherFakeApi : IApi
     {
@@ -48,20 +49,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
-        Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);    }
+        Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+    }
+}
 
+namespace Org.OpenAPITools.Api
+{
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class AnotherFakeApi : IAnotherFakeApi
+    public partial class AnotherFakeApi : IApi.IAnotherFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
-        /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
-        /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs> ApiResponded;
 
         /// <summary>
         /// The logger
@@ -120,6 +119,15 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Logs the api response
+        /// </summary>
+        /// <param name="args"></param>
+        protected virtual void OnApiResponded(ApiResponseEventArgs args)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
+        }
+
+        /// <summary>
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -128,12 +136,12 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
         public async Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<ModelClient> result = await Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            ApiResponse<ModelClient> apiResponseLocalVar = await Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (apiResponseLocalVar.Content == null)
+                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
 
-            return result.Content;
+            return apiResponseLocalVar.Content;
         }
 
         /// <summary>
@@ -145,18 +153,58 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
         public async Task<ModelClient> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<ModelClient> result = null;
+            ApiResponse<ModelClient> apiResponseLocalVar = null;
             try 
             {
-                result = await Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+                apiResponseLocalVar = await Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
             }
 
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
+            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
+                ? apiResponseLocalVar.Content
                 : null;
+        }
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="modelClient"></param>
+        /// <returns></returns>
+        protected virtual ModelClient OnCall123TestSpecialTags(ModelClient modelClient)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (modelClient == null)
+                throw new ArgumentNullException(nameof(modelClient));
+
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return modelClient;
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="modelClient"></param>
+        protected virtual void AfterCall123TestSpecialTags(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        {
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="modelClient"></param>
+        protected virtual void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -168,80 +216,72 @@ namespace Org.OpenAPITools.Api
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
         public async Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                modelClient = OnCall123TestSpecialTags(modelClient);
 
-                if (modelClient == null)
-                    throw new ArgumentNullException(nameof(modelClient));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/another-fake/dummy";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/another-fake/dummy";
 
-                    request.Content = (modelClient as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (modelClient as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
-                    request.RequestUri = uriBuilder.Uri;
+
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
                         "application/json" 
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/json" 
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
-                    request.Method = new HttpMethod("PATCH");
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = new HttpMethod("PATCH");
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/another-fake/dummy", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        if (ApiResponded != null)
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpResponseMessageLocalVar, responseContentLocalVar);
+
+                        if (apiResponseLocalVar.IsSuccessStatusCode)
                         {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/another-fake/dummy"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
+                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<ModelClient>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
+                            AfterCall123TestSpecialTags(apiResponseLocalVar, modelClient);
                         }
 
-                        ApiResponse<ModelClient> apiResponse = new ApiResponse<ModelClient>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<ModelClient>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorCall123TestSpecialTags(e, "/another-fake/dummy", uriBuilderLocalVar.Path, modelClient);
                 throw;
             }
-        }    }
+        }
+    }
 }

@@ -20,11 +20,11 @@ import javax.validation.Valid
  */
 data class ModelApiResponse(
 
-    @field:JsonProperty("code") val code: kotlin.Int? = null,
+    @get:JsonProperty("code") val code: kotlin.Int? = null,
 
-    @field:JsonProperty("type") val type: kotlin.String? = null,
+    @get:JsonProperty("type") val type: kotlin.String? = null,
 
-    @field:JsonProperty("message") val message: kotlin.String? = null
+    @get:JsonProperty("message") val message: kotlin.String? = null
 ) {
 
 }

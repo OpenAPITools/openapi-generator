@@ -306,7 +306,11 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse<any>(response);
         {{/isArray}}
         {{#returnSimpleType}}
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<{{returnType}}>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}

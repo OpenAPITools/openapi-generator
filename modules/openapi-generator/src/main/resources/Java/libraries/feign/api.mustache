@@ -124,7 +124,7 @@ public interface {{classname}} extends ApiClient.Api {
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
 
   /**
   * {{summary}}
@@ -164,7 +164,7 @@ public interface {{classname}} extends ApiClient.Api {
           "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
       })
-   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
 
 
    /**

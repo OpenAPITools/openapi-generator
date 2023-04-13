@@ -117,7 +117,7 @@
 #' ####################  add_pet_optional  ####################
 #'
 #' library(petstore)
-#' var_pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
 #'
 #' #Add a new pet to the store (optional body)
 #' api_instance <- FakeApi$new()
@@ -155,7 +155,7 @@
 #'
 #' library(petstore)
 #' var_dummy <- "dummy_example" # character | dummy required parameter
-#' var_var_data_file <- "var_data_file_example" # character | header data file
+#' var_var_data_file <- "var_data_file_example" # character | header data file (Optional)
 #'
 #' #test data_file to ensure it's escaped correctly
 #' api_instance <- FakeApi$new()
@@ -188,7 +188,7 @@
 #' ####################  fake_path_array  ####################
 #'
 #' library(petstore)
-#' var_path_array <- ["path_array_example"] # array[character] | dummy path parameter
+#' var_path_array <- c("inner_example") # array[character] | dummy path parameter
 #'
 #' #test array parameter in path
 #' api_instance <- FakeApi$new()
@@ -238,8 +238,8 @@
 #' ####################  fake_set_query  ####################
 #'
 #' library(petstore)
-#' var_set_dummy <- ["set_dummy_example"] # set[character] | set query
-#' var_array_dummy <- ["array_dummy_example"] # array[character] | array query
+#' var_set_dummy <- c("inner_example") # set[character] | set query
+#' var_array_dummy <- c("inner_example") # array[character] | array query
 #'
 #' #test set query parameter
 #' api_instance <- FakeApi$new()
@@ -361,15 +361,15 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -481,15 +481,15 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$deserialize(local_var_resp$response, "User", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
