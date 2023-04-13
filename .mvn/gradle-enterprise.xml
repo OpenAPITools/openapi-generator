@@ -28,26 +28,4 @@
     <publish>ALWAYS</publish>
     <publishIfAuthenticated>true</publishIfAuthenticated>
   </buildScan>
-  <buildCache>
-    <local>
-      <enabled>true</enabled>
-    </local>
-    <remote>
-     <!-- Use the Gradle Enterprise connector's access key based authentication. 
-          This is available in Gradle Enterprise 2022.3+ and Gradle Enterprise Plugin 3.11+. -->
-      <enabled>true</enabled>
-      <storeEnabled>#{isTrue(env['CI'])}</storeEnabled> <!-- adjust to your CI provider -->
-
-      <!-- Use build cache node credentials.
-           This is available in all Gradle Enterprise and Gradle Enterprise Plugin versions.
-      <server>
-        <url>https://enterprise-samples.gradle.com/cache/</url> 
-        <allowUntrusted>false</allowUntrusted>
-        <credentials>
-          <username>${env.GRADLE_ENTERPRISE_CACHE_USERNAME}</username>
-          <password>${env.GRADLE_ENTERPRISE_CACHE_PASSWORD}</password>
-        </credentials>
-      </server> -->
-    </remote>
-  </buildCache>
 </gradleEnterprise>
