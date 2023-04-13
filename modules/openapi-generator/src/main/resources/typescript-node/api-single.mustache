@@ -225,6 +225,9 @@ export class {{classname}} {
 
         let authenticationPromise = Promise.resolve();
 {{#authMethods}}
+        {{#isUnsupported}}
+        // authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+        {{/isUnsupported}}
     {{#isApiKey}}
         if (this.authentications.{{name}}.apiKey) {
             authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));

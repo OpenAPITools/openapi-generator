@@ -17,6 +17,9 @@ apiClient_t *apiClient_create() {
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
+    {{#hasOnlyUnsupportedMethods}}
+    //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     {{#authMethods}}
     {{#isBasicBasic}}
     apiClient->username = NULL;
@@ -64,6 +67,9 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
     {{#hasAuthMethods}}
+    {{#hasOnlyUnsupportedMethods}}
+    //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     {{#authMethods}}
     {{#isBasicBasic}}
     apiClient->username = NULL;
@@ -448,6 +454,9 @@ void apiClient_invoke(apiClient_t    *apiClient,
             curl_easy_setopt(handle, CURLOPT_NOPROGRESS, 0L);
         }
 
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isApiKey}}

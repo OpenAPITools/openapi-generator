@@ -134,12 +134,18 @@ public class ApiClient {
         init();
         initHttpClient();
 
-        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Setup authentications (key: authentication name, value: authentication).
+        {{#authMethods}}
+        // Authentication '{{name}}' ({{typeDescription}}) required{{#isUnsupported}} but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
-        authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}
+        {{/authMethods}}
+        {{#withAWSV4Signature}}
+        // Authentication AWS4Auth required
+        authentications.put("AWS4Auth", new AWS4Auth());
+        {{/withAWSV4Signature}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -154,12 +160,18 @@ public class ApiClient {
 
         httpClient = client;
 
-        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        // Setup authentications (key: authentication name, value: authentication).
+        {{#authMethods}}
+        // Authentication '{{name}}' ({{typeDescription}}) required{{#isUnsupported}} but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
-        authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}
+        {{/authMethods}}
+        {{#withAWSV4Signature}}
+        // Authentication AWS4Auth required
+        authentications.put("AWS4Auth", new AWS4Auth());
+        {{/withAWSV4Signature}}
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -221,17 +233,27 @@ public class ApiClient {
                 throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
             }
         }
+        // Authentication '{{name}}' (oauth2/{{flow}}) required
         RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, clientSecret, parameters);
         authentications.put(
                 "{{name}}",
                 retryingOAuth
         );
         initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
-        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+
+        // Setup other authentications (key: authentication name, value: authentication).
+        {{#authMethods}}
+        {{^isOAuth}}
+        // Authentication '{{name}}' ({{typeDescription}}) required{{#isUnsupported}} but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/authMethods}}{{#withAWSV4Signature}}
-        authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{#withAWSV4Signature}}
+        // Authentication AWS4Auth required
+        authentications.put("AWS4Auth", new AWS4Auth());
+        {{/withAWSV4Signature}}
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);

@@ -15,6 +15,9 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     let uri = Request.build_uri "{{{path}}}" in
     let headers = Request.default_headers in
 {{#hasAuthMethods}}
+    {{#hasOnlyUnsupportedMethods}}
+    //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     {{#authMethods}}
         {{#isApiKey}}
             {{#isKeyInHeader}}
@@ -33,6 +36,9 @@ let {{{operationId}}} {{^hasParams}}(){{/hasParams}}{{#allParams}}{{> to_param}}
     let uri = Request.{{> to_optional_prefix}}add_query_param{{#isArray}}_list{{/isArray}} uri "{{{baseName}}}" {{> to_string}} {{{paramName}}} in
 {{/queryParams}}
 {{#hasAuthMethods}}
+    {{#hasOnlyUnsupportedMethods}}
+    //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     {{#authMethods}}
         {{#isApiKey}}
             {{#isKeyInQuery}}

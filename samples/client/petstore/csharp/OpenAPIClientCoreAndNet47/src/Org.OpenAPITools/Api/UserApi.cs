@@ -583,7 +583,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.CreateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -660,7 +660,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.CreateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -735,7 +735,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithArrayInput";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -812,7 +812,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithArrayInput";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -887,7 +887,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithListInput";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -964,7 +964,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithListInput";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1038,7 +1038,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.DeleteUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1114,7 +1114,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.DeleteUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1489,7 +1489,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.LogoutUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1556,7 +1556,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.LogoutUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1640,7 +1640,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.UpdateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1726,7 +1726,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "UserApi.UpdateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));

@@ -12,5 +12,8 @@
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}
     }){{/useSwaggerAnnotations}}
     {{#useCoroutines}}suspend {{/useCoroutines}}fun {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): Response {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}    
         return Response.ok().entity("magic!").build();
     }

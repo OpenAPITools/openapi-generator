@@ -264,6 +264,9 @@ import com.squareup.moshi.adapter
     {{#hasAuthMethods}}
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         {{#authMethods}}
+        {{#isUnsupported}}
+        // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: log warning?)
+        {{/isUnsupported}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
         if (requestConfig.headers["{{keyParamName}}"].isNullOrEmpty()) {

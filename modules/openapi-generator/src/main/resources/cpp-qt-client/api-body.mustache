@@ -233,7 +233,10 @@ QString {{classname}}::getParamStyleDelimiter(const QString &style, const QStrin
 {{#operation}}
 void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     QString fullPath = QString(_serverConfigs["{{nickname}}"][_serverIndices.value("{{nickname}}")].URL()+"{{{path}}}");
-    {{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}
+    {{#authMethods}}{{^isOAuth}}
+    {{#isUnsupported}}
+    // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+{{/isUnsupported}}{{#isApiKey}}{{#isKeyInHeader}}
     if (_apiKeys.contains("{{name}}")) {
         addHeaders("{{name}}",_apiKeys.find("{{name}}").value());
     }
@@ -253,7 +256,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QByteArray b64;
         b64.append(_username.toUtf8() + ":" + _password.toUtf8());
         addHeaders("Authorization","Basic " + b64.toBase64());
-    }{{/isBasicBasic}}{{/authMethods}}
+    }{{/isBasicBasic}}{{/isOAuth}}{{/authMethods}}
     {{#pathParams}}
     {{^required}}if ({{paramName}}.hasValue()) {{/required}}
     {
@@ -678,7 +681,12 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if (findChildren<{{prefix}}HttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
-    });{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    });{{#authMethods}}
+    {{#isOAuth}}
+    {{#isUnsupported}}
+    // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
+    {{#isCode}}
     _OauthMethod = 2;
     _implicitFlow.unlink();
     _credentialFlow.unlink();

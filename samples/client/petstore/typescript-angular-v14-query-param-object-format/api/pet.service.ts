@@ -113,7 +113,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
@@ -195,7 +195,7 @@ export class PetService {
         }
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
@@ -266,7 +266,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
@@ -341,7 +341,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
@@ -409,7 +409,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (api_key) required
+        // authentication 'api_key' (apiKey/header[api_key]) required
         localVarCredential = this.configuration.lookupCredential('api_key');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('api_key', localVarCredential);
@@ -476,7 +476,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
@@ -556,7 +556,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
@@ -646,7 +646,7 @@ export class PetService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         localVarCredential = this.configuration.lookupCredential('petstore_auth');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);

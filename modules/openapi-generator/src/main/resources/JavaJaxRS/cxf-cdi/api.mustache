@@ -61,6 +61,9 @@ public class {{classname}}  {
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}} })
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{#isMultipart}}{{paramName}}InputStream, {{paramName}}Detail{{/isMultipart}}{{^isMultipart}}{{paramName}}{{/isMultipart}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}, {{/allParams}}securityContext);
     }
 {{/operation}}

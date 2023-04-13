@@ -65,6 +65,9 @@ async def {{operationId}}(
     {{/hasAuthMethods}}
 ) -> {{returnType}}{{^returnType}}None{{/returnType}}:
     {{#notes}}"""{{.}}"""
+    {{#hasOnlyUnsupportedMethods}}
+    # TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     return Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}}){{/notes}}{{^notes}}...{{/notes}}
 {{^-last}}
 

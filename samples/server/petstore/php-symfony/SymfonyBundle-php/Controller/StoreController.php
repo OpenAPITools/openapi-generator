@@ -140,7 +140,7 @@ class StoreController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 

@@ -83,6 +83,9 @@ fun Application.main() {
     install(Resources)
     {{/featureResources}}
     {{#hasAuthMethods}}
+    {{#hasOnlyUnsupportedMethods}}
+    //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     install(Authentication) {
     {{#authMethods}}
         {{#isBasicBasic}}

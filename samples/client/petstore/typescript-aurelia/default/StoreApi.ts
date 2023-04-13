@@ -103,7 +103,7 @@ export class StoreApi extends Api {
       // Set HTTP method
       .asGet()
 
-      // Authentication 'api_key' required
+      // Authentication 'api_key' (apiKey/header[api_key]) required
       .withHeader('api_key', this.authStorage.getapi_key())
       // Send the request
       .send();

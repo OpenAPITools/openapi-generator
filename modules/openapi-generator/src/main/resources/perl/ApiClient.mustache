@@ -330,6 +330,9 @@ sub update_params_for_auth {
         }
         {{#authMethods}}
         elsif ($auth eq '{{name}}') {
+            {{#isUnsupported}}
+            # authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+            {{/isUnsupported}}
             {{#isApiKey}}
             {{#isKeyInHeader}}
             my $api_key = $self->get_api_key_with_prefix('{{keyParamName}}');

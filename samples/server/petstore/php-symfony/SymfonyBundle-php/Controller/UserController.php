@@ -67,7 +67,7 @@ class UserController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 
@@ -150,7 +150,7 @@ class UserController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 
@@ -235,7 +235,7 @@ class UserController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 
@@ -313,7 +313,7 @@ class UserController extends Controller
     public function deleteUserAction(Request $request, $username)
     {
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 
@@ -565,7 +565,7 @@ class UserController extends Controller
     public function logoutUserAction(Request $request)
     {
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 
@@ -631,7 +631,7 @@ class UserController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 

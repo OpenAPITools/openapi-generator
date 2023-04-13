@@ -203,7 +203,7 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory() const
         throw ApiException(415, utility::conversions::to_string_t("StoreApi->getInventory does not consume any supported media type"));
     }
 
-    // authentication (api_key) required
+    // authentication 'api_key' (apiKey/header[api_key]) required
     {
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )

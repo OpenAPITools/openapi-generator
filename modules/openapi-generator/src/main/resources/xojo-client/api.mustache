@@ -69,6 +69,9 @@ Protected Class {{classname}}
 		  Next
 		  
 		  If localVarHeaderStrings{{paramName}}.Ubound() > -1 Then localVarHTTPSocket.SetRequestHeader(EncodeURLComponent("{{baseName}}"), Join(localVarHeaderStrings{{paramName}}, ","))){{/items}}{{/isArray}}{{/headerParams}}
+          {{#hasOnlyUnsupportedMethods}}
+          // TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+          {{/hasOnlyUnsupportedMethods}}
 		  {{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}If me.ApiKey{{{name}}} = "" Then Raise New {{> nameException}}(kErrorCannotAuthenticate, "API key is unset. Please assign a value to `{{classname}}.ApiKey{{{name}}}` before invoking `{{classname}}.{{operationId}}()`.")
 		  {{#isKeyInQuery}}If localVarQueryParams = "" then
 		    localVarQueryParams = "?"

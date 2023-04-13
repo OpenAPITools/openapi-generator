@@ -99,6 +99,9 @@ interface {{classname}} {
             consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
     {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}    
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}

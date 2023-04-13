@@ -302,6 +302,9 @@
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        {{#hasOnlyUnsupportedMethods}}
+        // TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
 {{#hasAuthMethods}}
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {

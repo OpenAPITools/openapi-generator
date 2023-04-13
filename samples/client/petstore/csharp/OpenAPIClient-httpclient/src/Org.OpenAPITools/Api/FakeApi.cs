@@ -2145,7 +2145,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
             }
 
-            // authentication (http_basic_test) required
+            // authentication 'http_basic_test' (http/basic) required
             // http basic authentication required
             if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -2282,7 +2282,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
             }
 
-            // authentication (http_basic_test) required
+            // authentication 'http_basic_test' (http/basic) required
             // http basic authentication required
             if (!string.IsNullOrEmpty(this.Configuration.Username) || !string.IsNullOrEmpty(this.Configuration.Password) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -2557,7 +2557,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
             }
 
-            // authentication (bearer_test) required
+            // authentication 'bearer_test' (http/bearer[JWT]) required
             // bearer authentication required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -2640,7 +2640,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
             }
 
-            // authentication (bearer_test) required
+            // authentication 'bearer_test' (http/bearer[JWT]) required
             // bearer authentication required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {

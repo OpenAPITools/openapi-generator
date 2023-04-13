@@ -62,6 +62,9 @@ public class {{classname}}  {
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},
         {{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}},{{/allParams}}securityContext);
     }
 {{/operation}}

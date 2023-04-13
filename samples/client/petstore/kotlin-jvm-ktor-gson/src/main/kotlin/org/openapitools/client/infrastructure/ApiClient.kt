@@ -48,7 +48,9 @@ open class ApiClient(
 
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf(
+                
                 "petstore_auth" to OAuth(), 
+                
                 "api_key" to ApiKeyAuth("header", "api_key"))
     }
 

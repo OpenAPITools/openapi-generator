@@ -104,8 +104,11 @@ public class ApiClient {
         initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         authentications.put("petstore_auth", new OAuth());
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        // Authentication 'auth_cookie' (apiKey/cookie[AUTH_KEY]) required
         authentications.put("auth_cookie", new ApiKeyAuth("cookie", "AUTH_KEY"));
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -122,8 +125,11 @@ public class ApiClient {
         httpClient = client;
 
         // Setup authentications (key: authentication name, value: authentication).
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         authentications.put("petstore_auth", new OAuth());
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        // Authentication 'auth_cookie' (apiKey/cookie[AUTH_KEY]) required
         authentications.put("auth_cookie", new ApiKeyAuth("cookie", "AUTH_KEY"));
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -183,14 +189,18 @@ public class ApiClient {
                 throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
             }
         }
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.IMPLICIT, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth
         );
         initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
-        // Setup authentications (key: authentication name, value: authentication).
+
+        // Setup other authentications (key: authentication name, value: authentication).
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        // Authentication 'auth_cookie' (apiKey/cookie[AUTH_KEY]) required
         authentications.put("auth_cookie", new ApiKeyAuth("cookie", "AUTH_KEY"));
 
         // Prevent the authentications from being modified.

@@ -52,6 +52,9 @@ class {{classname}} {
     ProgressCallback? onReceiveProgress,
   }) async {
     final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}}.toString()){{/pathParams}};
+    {{#hasOnlyUnsupportedMethods}}
+    //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+    {{/hasOnlyUnsupportedMethods}}
     final _options = Options(
       method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
       {{#isResponseFile}}

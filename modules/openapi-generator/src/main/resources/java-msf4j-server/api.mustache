@@ -49,6 +49,9 @@ public class {{classname}}  {
         {{/-last}}{{/responses}} })
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}})
     throws NotFoundException {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}InputStream, {{paramName}}Detail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}}{{^-last}},{{/-last}}{{/allParams}});
     }
 {{/operation}}

@@ -701,13 +701,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
@@ -782,13 +782,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
@@ -860,7 +860,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
             }
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -925,7 +925,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("api_key", Org.OpenAPITools.Client.ClientUtils.ParameterToString(apiKey)); // header parameter
             }
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -988,13 +988,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
@@ -1070,13 +1070,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
@@ -1151,13 +1151,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
@@ -1235,13 +1235,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
@@ -1310,7 +1310,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1371,7 +1371,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.PathParameters.Add("petId", Org.OpenAPITools.Client.ClientUtils.ParameterToString(petId)); // path parameter
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1432,13 +1432,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
@@ -1513,13 +1513,13 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
-            // authentication (http_signature_test) required
+            // authentication 'http_signature_test' (http/signature) required
             if (this.Configuration.HttpSigningConfiguration != null)
             {
                 var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
@@ -1598,7 +1598,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1670,7 +1670,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             }
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1741,7 +1741,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.FileParameters.Add("file", file);
             }
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1815,7 +1815,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.FileParameters.Add("file", file);
             }
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1888,7 +1888,7 @@ namespace Org.OpenAPITools.Api
             }
             localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1964,7 +1964,7 @@ namespace Org.OpenAPITools.Api
             }
             localVarRequestOptions.FileParameters.Add("requiredFile", requiredFile);
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {

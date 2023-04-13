@@ -163,7 +163,7 @@ export class StoreService {
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
-        // authentication (api_key) required
+        // authentication 'api_key' (apiKey/header[api_key]) required
         localVarCredential = this.configuration.lookupCredential('api_key');
         if (localVarCredential) {
             localVarHeaders = localVarHeaders.set('api_key', localVarCredential);

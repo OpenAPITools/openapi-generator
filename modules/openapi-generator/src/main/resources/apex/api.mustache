@@ -72,6 +72,9 @@ public class {{classname}} {
         form.addAll(client.makeParam('{{baseName}}', ({{{dataType}}}) params.get('{{paramName}}')));
       {{/isArray}}
     {{/formParams}}
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
 
         {{#returnType}}return ({{{.}}}) {{/returnType}}client.invoke(
             '{{httpMethod}}', '{{path}}',{{#bodyParam}}

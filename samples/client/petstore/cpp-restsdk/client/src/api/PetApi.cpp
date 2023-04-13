@@ -122,7 +122,7 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> body) const
         throw ApiException(415, utility::conversions::to_string_t("PetApi->addPet does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
@@ -232,7 +232,7 @@ pplx::task<void> PetApi::deletePet(int64_t petId, boost::optional<utility::strin
         throw ApiException(415, utility::conversions::to_string_t("PetApi->deletePet does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("DELETE"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
@@ -342,7 +342,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
         throw ApiException(415, utility::conversions::to_string_t("PetApi->findPetsByStatus does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
@@ -474,7 +474,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
         throw ApiException(415, utility::conversions::to_string_t("PetApi->findPetsByTags does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
@@ -604,7 +604,7 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId) const
         throw ApiException(415, utility::conversions::to_string_t("PetApi->getPetById does not consume any supported media type"));
     }
 
-    // authentication (api_key) required
+    // authentication 'api_key' (apiKey/header[api_key]) required
     {
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
@@ -757,7 +757,7 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> body) const
         throw ApiException(415, utility::conversions::to_string_t("PetApi->updatePet does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("PUT"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
@@ -872,7 +872,7 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, boost::optional<utilit
         throw ApiException(415, utility::conversions::to_string_t("PetApi->updatePetWithForm does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
@@ -988,7 +988,7 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost
         throw ApiException(415, utility::conversions::to_string_t("PetApi->uploadFile does not consume any supported media type"));
     }
 
-    // authentication (petstore_auth) required
+    // authentication 'petstore_auth' (oauth2/implicit) required
     // oauth2 authentication is added automatically as part of the http_client_config
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)

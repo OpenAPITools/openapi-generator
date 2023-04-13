@@ -69,8 +69,11 @@ import {{packageName}}.auth.*
 
     {{#hasAuthMethods}}
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
-        mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-                "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}
+        mapOf({{#authMethods}}
+                {{#isUnsupported}}
+                // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+                {{/isUnsupported}}
+                {{#isBasic}}{{#isBasicBasic}}"{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}
                 "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
                 "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
                 "{{name}}" to OAuth(){{/isOAuth}}{{^-last}}, {{/-last}}{{/authMethods}})
@@ -202,6 +205,9 @@ import {{packageName}}.auth.*
     }
 
     private fun <T: Any?> RequestConfig<T>.updateForAuth(authNames: kotlin.collections.List<String>) {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         for (authName in authNames) {
             val auth = authentications?.get(authName) ?: throw Exception("Authentication undefined: $authName")
             auth.apply(query, headers)

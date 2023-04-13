@@ -47,7 +47,7 @@ class RegisterRoutes
             'authMethods' => [
                 {{#hasAuthMethods}}
                 {{#authMethods}}
-                // {{type}} security schema named '{{name}}'
+                // security schema named '{{name}}' ({{typeDescription}}) required{{#isUnsupported}} but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
                 {{#isBasicBasic}}
                 [
                     'type' => '{{type}}',

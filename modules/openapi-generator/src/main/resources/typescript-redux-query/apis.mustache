@@ -111,6 +111,9 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     const { meta = {} } = requestConfig;
 
     {{#authMethods}}
+    {{#isUnsupported}}
+    // authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
     {{#isBasic}}
     {{#isBasicBasic}}
     meta.authType = ['basic'];

@@ -72,7 +72,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -125,7 +125,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -177,7 +177,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -233,7 +233,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -263,7 +263,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -315,7 +315,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -345,7 +345,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -382,7 +382,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // oauth2 security schema named 'petstore_auth'
+                // security schema named 'petstore_auth' (oauth2/implicit) required
                 [
                     'type' => 'oauth2',
                     'isBasic' => false,
@@ -423,7 +423,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -551,7 +551,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -581,7 +581,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -611,7 +611,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -705,7 +705,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -740,7 +740,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,
@@ -815,7 +815,7 @@ class RegisterRoutes
                 ],
             ],
             'authMethods' => [
-                // apiKey security schema named 'api_key'
+                // security schema named 'api_key' (apiKey/header[api_key]) required
                 [
                     'type' => 'apiKey',
                     'isBasic' => false,

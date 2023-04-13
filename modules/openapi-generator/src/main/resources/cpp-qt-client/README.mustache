@@ -150,10 +150,19 @@ servers:
 
 ## Documentation for Authorization
 
-{{^authMethods}}All endpoints do not require authorization.
-{{/authMethods}}Authentication schemes defined for the API:
-{{#authMethods}}### {{name}}
+{{^authMethods}}Endpoints do not require authorization.
+{{/authMethods}}{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+### {{name}}
 
+{{#isUnsupported}}
+
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: {{{type}}}
+- **Characterization**: {{{scheme}}}{{{keyParamName}}}{{{flow}}}
+- **Description**: {{{description}}}
+{{/isUnsupported}}
+{{^isUnsupported}}
 {{#isApiKey}}
 
 - **Type**: API key
@@ -181,6 +190,13 @@ servers:
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}
 {{/isOAuth}}
+{{#isOpenId}}
+
+- **Type**: OpenIDConnect
+- **Connect URL**: {{{openIdConnectUrl}}}
+- **Bearer Format**: {{{bearerFormat}}}
+{{/isOpenId}}
+{{/isUnsupported}}
 
 {{/authMethods}}
 

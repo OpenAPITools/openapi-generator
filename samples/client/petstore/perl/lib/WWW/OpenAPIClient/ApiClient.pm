@@ -370,6 +370,7 @@ sub update_params_for_auth {
             }
         }
         elsif ($auth eq 'http_signature_test') {
+            # authentication 'http_signature_test' (http/signature) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
         }
         else {
            # TODO show warning about security definition not found

@@ -61,6 +61,9 @@ public class {{classname}}  {
         {{/-last}}{{/responses}} })
     public Response {{nickname}}({{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{^isMultipart}}{{>formParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return service.{{nickname}}({{#isMultipart}}input,{{/isMultipart}}{{#allParams}}{{^isMultipart}}{{paramName}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}}{{paramName}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}securityContext);
     }
 {{/operation}}

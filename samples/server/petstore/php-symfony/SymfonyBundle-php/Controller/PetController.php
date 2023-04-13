@@ -77,7 +77,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -157,7 +157,7 @@ class PetController extends Controller
     public function deletePetAction(Request $request, $petId)
     {
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -247,7 +247,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -341,7 +341,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -431,7 +431,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'api_key' required
+        // Authentication 'api_key' (apiKey/header[api_key]) required
         // Set key with prefix in header
         $securityapi_key = $request->headers->get('api_key');
 
@@ -527,7 +527,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -613,7 +613,7 @@ class PetController extends Controller
     public function updatePetWithFormAction(Request $request, $petId)
     {
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
@@ -711,7 +711,7 @@ class PetController extends Controller
         }
 
         // Handle authentication
-        // Authentication 'petstore_auth' required
+        // Authentication 'petstore_auth' (oauth2/implicit) required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 

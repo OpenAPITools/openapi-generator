@@ -50,7 +50,7 @@ export class PetService {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()
@@ -88,7 +88,7 @@ export class PetService {
             headers['api_key'] = String(apiKey);
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()
@@ -125,7 +125,7 @@ export class PetService {
             queryParameters.push('status='+encodeURIComponent(status.join(COLLECTION_FORMATS['csv'])));
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()
@@ -162,7 +162,7 @@ export class PetService {
             queryParameters.push('tags='+encodeURIComponent(tags.join(COLLECTION_FORMATS['csv'])));
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()
@@ -194,7 +194,7 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
-        // authentication (api_key) required
+        // authentication 'api_key' (apiKey/header[api_key]) required
         if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['api_key']) {
             headers['api_key'] = this.APIConfiguration.apiKeys['api_key'];
         }
@@ -223,7 +223,7 @@ export class PetService {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()
@@ -258,7 +258,7 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()
@@ -301,7 +301,7 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.APIConfiguration.accessToken) {
             let accessToken = typeof this.APIConfiguration.accessToken === 'function'
                 ? this.APIConfiguration.accessToken()

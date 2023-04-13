@@ -336,7 +336,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = modelClient;
 
-            // authentication (api_key_query) required
+            // authentication 'api_key_query' (apiKey/query[api_key_query]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
             {
                 localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")));
@@ -401,7 +401,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = modelClient;
 
-            // authentication (api_key_query) required
+            // authentication 'api_key_query' (apiKey/query[api_key_query]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
             {
                 localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "api_key_query", this.Configuration.GetApiKeyWithPrefix("api_key_query")));

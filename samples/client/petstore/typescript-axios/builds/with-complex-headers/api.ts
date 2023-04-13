@@ -291,7 +291,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -350,7 +350,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -391,7 +391,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -433,7 +433,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -475,7 +475,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication api_key required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
 
@@ -511,7 +511,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -555,7 +555,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new URLSearchParams();
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -607,7 +607,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
-            // authentication petstore_auth required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
@@ -1025,7 +1025,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication api_key required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
 

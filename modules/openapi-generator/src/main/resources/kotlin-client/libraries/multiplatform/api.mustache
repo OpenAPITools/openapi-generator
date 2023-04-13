@@ -64,6 +64,9 @@ import kotlinx.serialization.encoding.*
         val localVariableHeaders = mutableMapOf<String, String>(){{#headerParams}}
         {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
 
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
             "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},

@@ -225,6 +225,7 @@ export class FakeApi extends runtime.BaseAPI {
             headerParameters['header_1'] = String(requestParameters.header1);
         }
 
+        // authentication 'http_signature_test' (http/signature) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
         const response = await this.request({
             path: `/fake/http-signature-test`,
             method: 'GET',

@@ -108,7 +108,7 @@ export class {{classname}} {
 
 {{/headerParams}}
 {{#authMethods}}
-        // authentication ({{name}}) required
+        // authentication '{{name}}' ({{typeDescription}}) required{{#isUnsupported}} but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
         if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['{{keyParamName}}']) {

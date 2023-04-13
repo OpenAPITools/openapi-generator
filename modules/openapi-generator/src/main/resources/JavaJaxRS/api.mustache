@@ -87,6 +87,9 @@ public class {{classname}}  {
     {{/implicitHeadersParams.0}}
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return delegate.{{nickname}}({{#allParams}}{{#isFormParam}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{/isFormParam}}{{^isFile}}{{paramName}}{{/isFile}}{{^isFormParam}}{{#isFile}}{{paramName}}{{/isFile}}{{/isFormParam}}, {{/allParams}}securityContext);
     }
 {{/operation}}

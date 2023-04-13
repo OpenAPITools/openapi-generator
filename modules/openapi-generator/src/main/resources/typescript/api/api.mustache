@@ -154,6 +154,9 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{#hasAuthMethods}}
         let authMethod: SecurityAuthentication | undefined;
         {{/hasAuthMethods}}
+        {{#hasOnlyUnsupportedMethods}}
+        // TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         {{#authMethods}}
         // Apply auth methods
         authMethod = _config.authMethods["{{name}}"]

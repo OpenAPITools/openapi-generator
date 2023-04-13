@@ -56,7 +56,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
@@ -112,7 +112,7 @@ export class PetService {
             headers['api_key'] = String(apiKey);
         }
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
@@ -159,7 +159,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
@@ -209,7 +209,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
@@ -254,7 +254,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (api_key) required
+        // authentication 'api_key' (apiKey/header[api_key]) required
         if (this.configuration.apiKeys["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
@@ -295,7 +295,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
@@ -350,7 +350,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()
@@ -418,7 +418,7 @@ export class PetService {
 
         let headers = {...this.defaultHeaders};
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
                 ? this.configuration.accessToken()

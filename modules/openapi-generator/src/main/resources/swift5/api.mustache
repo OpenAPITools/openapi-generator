@@ -441,6 +441,9 @@ extension {{projectName}}API {
 
         let localVariableRequestBuilder: RequestBuilder<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.Type = {{projectName}}API.requestBuilderFactory.{{#returnType}}getBuilder(){{/returnType}}{{^returnType}}getNonDecodableBuilder(){{/returnType}}
 
+        {{#hasOnlyUnsupportedMethods}}
+        // TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return localVariableRequestBuilder.init(method: "{{httpMethod}}", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}})
     }
 {{/useVapor}}

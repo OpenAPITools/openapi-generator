@@ -82,7 +82,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication api_key required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             await setApiKeyToObject(localVarHeaderParameter, "api_key", configuration)
 
 

@@ -70,6 +70,7 @@ public class ApiClient {
       } else if ("bearer_test".equals(authName)) {
         auth = new HttpBearerAuth("bearer");
       } else if ("http_signature_test".equals(authName)) {
+      // Authentication 'http_signature_test' (http/signature) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }

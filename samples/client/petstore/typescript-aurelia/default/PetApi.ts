@@ -114,7 +114,7 @@ export class PetApi extends Api {
       .withHeader('content-type', 'application/json')
       .withContent(JSON.stringify(params['body'] || {}))
 
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 
@@ -143,7 +143,7 @@ export class PetApi extends Api {
       // Set HTTP method
       .asDelete()
       .withHeader('api_key', params['apiKey'])
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 
@@ -175,7 +175,7 @@ export class PetApi extends Api {
         'status': params['status'],
       })
 
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 
@@ -207,7 +207,7 @@ export class PetApi extends Api {
         'tags': params['tags'],
       })
 
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 
@@ -236,7 +236,7 @@ export class PetApi extends Api {
       // Set HTTP method
       .asGet()
 
-      // Authentication 'api_key' required
+      // Authentication 'api_key' (apiKey/header[api_key]) required
       .withHeader('api_key', this.authStorage.getapi_key())
       // Send the request
       .send();
@@ -267,7 +267,7 @@ export class PetApi extends Api {
       .withHeader('content-type', 'application/json')
       .withContent(JSON.stringify(params['body'] || {}))
 
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 
@@ -303,7 +303,7 @@ export class PetApi extends Api {
         'status': params['status'],
       }))
 
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 
@@ -339,7 +339,7 @@ export class PetApi extends Api {
         'file': params['file'],
       }))
 
-      // Authentication 'petstore_auth' required
+      // Authentication 'petstore_auth' (oauth2/implicit) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
       // Send the request
       .send();
 

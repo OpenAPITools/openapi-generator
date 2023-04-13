@@ -65,6 +65,9 @@ public interface {{classname}} {
     )
 {{#useSpringCloudClient}}
     {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}){{^jdk8}};{{/jdk8}}{{#jdk8}} {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}    
         // do some magic!
         return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED){{#async}}){{/async}};
     }{{/jdk8}}

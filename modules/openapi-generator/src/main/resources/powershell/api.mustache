@@ -176,6 +176,9 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
 
         {{/bodyParam}}
         {{#authMethods}}
+        {{#isUnsupported}}
+        # Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+        {{/isUnsupported}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
         if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {

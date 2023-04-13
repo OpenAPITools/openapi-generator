@@ -194,6 +194,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     authentications = new HashMap<String, Authentication>();
     Authentication auth = null;
     {{#authMethods}}
+    {{#isUnsupported}}
+    // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
     if (authMap != null) {
       auth = authMap.get("{{name}}");
     }

@@ -214,33 +214,46 @@ No model defined in this package
 <a id="documentation-for-authorization"></a>{{! TODO: optional documentation for authorization? }}
 ## Documentation for Authorization
 
-{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
-{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{^authMethods}}Endpoints do not require authorization.
+{{/authMethods}}{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
 <a id="{{name}}"></a>
 ### {{name}}
-
-{{#isApiKey}}- **Type**: API key
+{{#isUnsupported}}
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: {{{type}}}
+- **Characterization**: {{{scheme}}}{{{keyParamName}}}{{{flow}}}
+- **Description**: {{{description}}}
+{{/isUnsupported}}
+{{^isUnsupported}}
+{{#isApiKey}}
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{#isBasicBasic}}
+- **Type**: HTTP basic authentication
 {{/isBasicBasic}}
-{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{#isBasicBearer}}
+- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
-{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
 {{/isHttpSignature}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}
 {{/isOAuth}}
-{{#isOpenId}}- **Type**: OpenIDConnect
+{{#isOpenId}}
+- **Type**: OpenIDConnect
 - **Connect URL**: {{{openIdConnectUrl}}}
 - **Bearer Format**: {{{bearerFormat}}}
 {{/isOpenId}}
+{{/isUnsupported}}
 
 {{/authMethods}}
 ```

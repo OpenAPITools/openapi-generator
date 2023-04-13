@@ -130,7 +130,7 @@ export class StoreApi {
             'application/json'
         ];
 
-        // authentication (api_key) required
+        // authentication 'api_key' (apiKey/header[api_key]) required
         if (this.configuration.apiKey) {
             headerParams['api_key'] = this.configuration.apiKey;
         }

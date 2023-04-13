@@ -86,7 +86,7 @@ export class {{classname}} extends Api {
 {{#headerParams}}
       .withHeader('{{baseName}}', params['{{paramName}}']){{/headerParams}}
 {{#authMethods}}
-      // Authentication '{{name}}' required
+      // Authentication '{{name}}' ({{typeDescription}}) required{{#isUnsupported}} but this authentication method is unsupported by this generated code (TODO: write log warning?){{/isUnsupported}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
       .withHeader('{{keyParamName}}', this.authStorage.get{{name}}())

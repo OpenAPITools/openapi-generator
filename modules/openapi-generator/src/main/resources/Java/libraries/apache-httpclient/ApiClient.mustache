@@ -155,15 +155,26 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+    authentications = new HashMap<String, Authentication>();
+    {{#authMethods}}
+    {{#isUnsupported}}
+    // Authentication '{{name}}' ({{typeDescription}}) required but this authentication method is unsupported by this generated code (TODO: write log warning?)
+    {{/isUnsupported}}
+    {{#isBasic}}{{#isBasicBasic}}authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
     authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
     authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-    authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+    authentications.put("{{name}}", new OAuth());{{/isOAuth}}
+    {{/authMethods}}
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
     this.httpClient = httpClient;
+    {{#hasOnlyUnsupportedMethods}}
+    {{#isFailExecutionIfUnsupportedAuthMethods}}
+
+    throw new RuntimeException("API requires an unsupported authentication method. Please adapt the openapi.yaml to remove the required unsupported authentication methods or to add at least one supported authentication method, or regenerate with another library.");
+    {{/isFailExecutionIfUnsupportedAuthMethods}}
+    {{/hasOnlyUnsupportedMethods}}
   }
 
   public ApiClient() {
@@ -305,6 +316,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @return The authentication, null if not found
    */
   public Authentication getAuthentication(String authName) {
+    {{#unsupportedAuthMethods}}
+    {{#isFailExecutionIfUnsupportedAuthMethods}}
+    if ({{name}}.equals(authName)) {
+        throw new RuntimeException(authName + " is not of a supported authentication type");
+    }
+    {{/isFailExecutionIfUnsupportedAuthMethods}}
+    {{/unsupportedAuthMethods}}
     return authentications.get(authName);
   }
 

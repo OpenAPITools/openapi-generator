@@ -607,7 +607,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -699,7 +699,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -784,7 +784,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.DeletePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -871,7 +871,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.DeletePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -959,7 +959,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1049,7 +1049,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1139,7 +1139,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1231,7 +1231,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1313,7 +1313,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.GetPetById";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1386,7 +1386,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.GetPetById";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -1465,7 +1465,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1557,7 +1557,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1649,7 +1649,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePetWithForm";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1743,7 +1743,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePetWithForm";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1837,7 +1837,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UploadFile";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
@@ -1933,7 +1933,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UploadFile";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (petstore_auth) required
+            // authentication 'petstore_auth' (oauth2/implicit) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {

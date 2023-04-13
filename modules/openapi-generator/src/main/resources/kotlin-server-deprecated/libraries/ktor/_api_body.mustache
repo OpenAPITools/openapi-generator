@@ -1,4 +1,7 @@
 {{#hasAuthMethods}}
+{{#hasOnlyUnsupportedMethods}}
+//TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+{{/hasOnlyUnsupportedMethods}}
 {{>libraries/ktor/_principal}}
 if (principal == null) {
     call.respond(HttpStatusCode.Unauthorized)

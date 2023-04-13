@@ -283,6 +283,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 void PFXStoreApi::getInventory() {
     QString fullPath = QString(_serverConfigs["getInventory"][_serverIndices.value("getInventory")].URL()+"/store/inventory");
     
+
     if (_apiKeys.contains("api_key")) {
         addHeaders("api_key",_apiKeys.find("api_key").value());
     }
@@ -310,6 +311,7 @@ void PFXStoreApi::getInventory() {
             emit allPendingRequestsCompleted();
         }
     });
+
 
     worker->execute(&input);
 }

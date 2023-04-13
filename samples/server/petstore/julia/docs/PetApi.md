@@ -34,7 +34,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -69,7 +69,7 @@ Nothing
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -127,7 +127,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -185,7 +185,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -221,7 +221,7 @@ Nothing
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 
@@ -257,7 +257,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth) [UNSUPPORTED by generated client]
 
 ### HTTP request headers
 

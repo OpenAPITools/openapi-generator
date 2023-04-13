@@ -43,6 +43,13 @@ Class | Method
 {{#authMethods}}
 <a id="{{name}}"></a>
 ### {{{name}}}
+{{#isUnsupported}}
+:warning: Not supported right now by generated client; runtime errors may occur!
+- **Type**: {{{type}}}
+- **Characterization**: {{{scheme}}}{{{keyParamName}}}{{{flow}}}
+- **Description**: {{{description}}}
+{{/isUnsupported}}
+{{^isUnsupported}}
 {{#isApiKey}}- **Type**: API key
 
 Example
@@ -90,6 +97,12 @@ Example
     result = callApi(api, args...; api_key)
 ```
 {{/isOAuth}}
+{{#isOpenId}}
+- **Type**: OpenIDConnect
+- **Connect URL**: {{{openIdConnectUrl}}}
+- **Bearer Format**: {{{bearerFormat}}}
+{{/isOpenId}}
+{{/isUnsupported}}
 {{/authMethods}}
 
 ## Author

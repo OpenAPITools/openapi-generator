@@ -19,5 +19,8 @@
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}
     }){{/useSwaggerAnnotations}}
     public {{#supportAsync}}CompletionStage<{{/supportAsync}}Response{{#supportAsync}}>{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         return {{#supportAsync}}CompletableFuture.supplyAsync(() -> {{/supportAsync}}Response.ok().entity("magic!").build(){{#supportAsync}}){{/supportAsync}};
     }

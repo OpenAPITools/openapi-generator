@@ -527,7 +527,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "StoreApi.GetInventory";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));
@@ -596,7 +596,7 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "StoreApi.GetInventory";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (api_key) required
+            // authentication 'api_key' (apiKey/header[api_key]) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key")))
             {
                 localVarRequestOptions.HeaderParameters.Add("api_key", this.Configuration.GetApiKeyWithPrefix("api_key"));

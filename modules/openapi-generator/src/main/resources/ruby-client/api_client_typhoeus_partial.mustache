@@ -52,6 +52,9 @@
       follow_location = opts[:follow_location] || true
 
       {{#hasAuthMethods}}
+      {{#hasOnlyUnsupportedMethods}}
+      # TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+      {{/hasOnlyUnsupportedMethods}}
       update_params_for_auth! header_params, query_params, opts[:auth_names]
       {{/hasAuthMethods}}
 

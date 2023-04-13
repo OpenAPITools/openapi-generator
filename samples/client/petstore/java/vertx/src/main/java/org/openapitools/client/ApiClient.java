@@ -85,8 +85,11 @@ public class ApiClient extends JavaTimeFormatter {
 
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();
+        
         authentications.put("petstore_auth", new OAuth());
+        
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
         authentications.put("http_basic_test", new HttpBasicAuth());
         // Prevent the authentications from being modified.

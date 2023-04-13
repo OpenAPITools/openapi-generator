@@ -24,11 +24,12 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenSecurity {
+    public String typeDescription;
     public String name;
     public String description;
     public String type;
     public String scheme;
-    public Boolean isBasic, isOAuth, isApiKey, isOpenId;
+    public Boolean isBasic, isOAuth, isApiKey, isOpenId, isUnsupported;
     // is Basic is true for all http authentication type.
     // Those are to differentiate basic and bearer authentication
     // isHttpSignature is to support HTTP signature authorization scheme.
@@ -53,6 +54,7 @@ public class CodegenSecurity {
         this.name = original.name;
         this.description = original.description;
         this.type = original.type;
+        this.typeDescription = original.typeDescription;
         this.scheme = original.scheme;
         this.isBasic = original.isBasic;
         this.isBasicBasic = original.isBasicBasic;
@@ -62,6 +64,7 @@ public class CodegenSecurity {
         this.isApiKey = original.isApiKey;
         this.isOAuth = original.isOAuth;
         this.isOpenId = original.isOpenId;
+        this.isUnsupported = original.isUnsupported;
         this.keyParamName = original.keyParamName;
         this.isCode = original.isCode;
         this.isImplicit = original.isImplicit;
@@ -119,6 +122,7 @@ public class CodegenSecurity {
                 Objects.equals(isOAuth, that.isOAuth) &&
                 Objects.equals(isOpenId, that.isOpenId) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
+                Objects.equals(isUnsupported, that.isUnsupported) &&
                 Objects.equals(isBasicBasic, that.isBasicBasic) &&
                 Objects.equals(isHttpSignature, that.isHttpSignature) &&
                 Objects.equals(isBasicBearer, that.isBasicBearer) &&
@@ -144,7 +148,7 @@ public class CodegenSecurity {
     public int hashCode() {
 
         return Objects.hash(name, description, type, scheme, isBasic, isOAuth, isOpenId, isApiKey,
-                isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
+                isUnsupported, isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
                 authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit,
                 openIdConnectUrl);
@@ -161,6 +165,7 @@ public class CodegenSecurity {
         sb.append(", isOAuth=").append(isOAuth);
         sb.append(", isOpenIdConnect=").append(isOpenId);
         sb.append(", isApiKey=").append(isApiKey);
+        sb.append(", isUnsupported=").append(isUnsupported);
         sb.append(", isBasicBasic=").append(isBasicBasic);
         sb.append(", isHttpSignature=").append(isHttpSignature);
         sb.append(", isBasicBearer=").append(isBasicBearer);

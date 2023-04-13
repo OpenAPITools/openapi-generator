@@ -76,7 +76,7 @@ export class PetApi {
         let produces: string[] = [
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'
@@ -152,7 +152,7 @@ export class PetApi {
         let produces: string[] = [
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'
@@ -227,7 +227,7 @@ export class PetApi {
             'application/json'
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'
@@ -302,7 +302,7 @@ export class PetApi {
             'application/json'
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'
@@ -374,7 +374,7 @@ export class PetApi {
             'application/json'
         ];
 
-        // authentication (api_key) required
+        // authentication 'api_key' (apiKey/header[api_key]) required
         if (this.configuration.apiKey) {
             headerParams['api_key'] = this.configuration.apiKey;
         }
@@ -442,7 +442,7 @@ export class PetApi {
         let produces: string[] = [
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'
@@ -527,7 +527,7 @@ export class PetApi {
         let produces: string[] = [
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'
@@ -617,7 +617,7 @@ export class PetApi {
             'application/json'
         ];
 
-        // authentication (petstore_auth) required
+        // authentication 'petstore_auth' (oauth2/implicit) required
         // oauth required
         if (this.configuration.accessToken) {
             let accessToken = typeof this.configuration.accessToken === 'function'

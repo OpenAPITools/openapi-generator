@@ -259,6 +259,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
@@ -425,6 +426,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
@@ -599,6 +601,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
@@ -783,6 +786,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
@@ -858,6 +862,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::getPetById(const qint64 &pet_id) {
     QString fullPath = QString(_serverConfigs["getPetById"][_serverIndices.value("getPetById")].URL()+"/pet/{petId}");
     
+
     if (_apiKeys.contains("api_key")) {
         addHeaders("api_key",_apiKeys.find("api_key").value());
     }
@@ -899,6 +904,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
             emit allPendingRequestsCompleted();
         }
     });
+
 
     worker->execute(&input);
 }
@@ -953,6 +959,7 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
@@ -1063,6 +1070,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
@@ -1173,6 +1181,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
             emit allPendingRequestsCompleted();
         }
     });
+
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();

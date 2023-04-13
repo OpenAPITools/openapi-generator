@@ -341,6 +341,9 @@ impl<S, C> Api<C> for Client<S, C> where
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}} + Clone + Send + Sync + 'static,
 {
     fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), crate::ServiceError>> {
+        {{#hasOnlyUnsupportedMethods}}
+        // TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         match self.client_service.clone().poll_ready(cx) {
             Poll::Ready(Err(e)) => Poll::Ready(Err(e.into())),
             Poll::Ready(Ok(o)) => Poll::Ready(Ok(o)),

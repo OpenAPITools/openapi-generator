@@ -246,6 +246,9 @@ public interface {{classname}} {
         {{/hasParams}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true){{/swagger2AnnotationLibrary}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
         {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
     ){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
+        {{#hasOnlyUnsupportedMethods}}
+        //TODO log warning because none of the authentication methods specified by this API are supported by the used generator?
+        {{/hasOnlyUnsupportedMethods}}
         {{#delegate-method}}
         {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
     }
