@@ -7,11 +7,15 @@ You can copy them all (or parts) and override them as needed.
 
 ## Domain Overview
 
-
 ### ApiBee
 
 Base class for all Api endpoints classes.
 Holds most of the nitty-gritty.
+
+
+### ApiConfig
+
+Reusable configuration (host, port, etc.) for Apis, injected into their constructor.
 
 
 ### ApiError

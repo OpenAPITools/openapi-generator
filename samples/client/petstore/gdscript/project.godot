@@ -24,3 +24,7 @@ Logger="*res://demo/Logger.gd"
 
 file_logging/enable_file_logging=true
 file_logging/log_path="/tmp/gdscript_petstore.log"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
