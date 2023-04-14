@@ -4,6 +4,9 @@
 
 {{>partials/api_headers}}
 
+func _bzz_get_api_name() -> String:
+	return "{{classname}}"
+
 {{#with operations}}
 {{#each operation}}
 
@@ -111,10 +114,10 @@ func {{operationIdSnakeCase}}(
 	{{/if}}
 	{{/each}}
 	# Convert the String HTTP method to a Constant Godot understands
-	var bzz_method := self._bee_convert_http_method("{{httpMethod}}")
+	var bzz_method := self._bzz_convert_http_method("{{httpMethod}}")
 
 	# Compute the URL path to the API resource
-	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", _bee_urlize_path_param({{{paramName}}})){{/each}}
+	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", _bzz_urlize_path_param({{{paramName}}})){{/each}}
 
 	# Collect the headers
 	var bzz_headers := Dictionary()
@@ -165,14 +168,14 @@ func {{operationIdSnakeCase}}(
 	{{/each}}
 	{{/if}}
 
-	self.bee_request(
+	self.bzz_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 {{#with returnProperty}}
 	{{#if isArray}}
-			bzz_result = {{>partials/complex_type}}.bee_denormalize_multiple(bzz_result)
+			bzz_result = {{>partials/complex_type}}.bzz_denormalize_multiple(bzz_result)
 	{{else if isModel}}
-			bzz_result = {{>partials/data_type}}.bee_denormalize_single(bzz_result)
+			bzz_result = {{>partials/data_type}}.bzz_denormalize_single(bzz_result)
 	{{/if}}
 {{/with}}
 			on_success.call(bzz_result)

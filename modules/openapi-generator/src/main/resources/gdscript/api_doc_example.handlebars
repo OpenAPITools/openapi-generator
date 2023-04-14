@@ -1,27 +1,27 @@
 ```gdscript
-{{!--
-{{> doc_auth_partial}}
---}}
 
 # Customize configuration
 var config := {{>partials/api_config_class_name}}.new()
 config.host = "localhost"
 config.port = 8080
-config.trusted_chain = preload("res://my_cert_chain.crt")
-config.tls_enabled = true
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = {{{classname}}}.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = {{{classname}}}.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = {{{classname}}}.new(config, client)
 
 {{#each bodyParams}}
 {{#if dataType}}
 {{#if isModel}}
 var {{paramName}} = {{dataType}}.new()
-# … fill model with data
+# … fill model {{paramName}} with data
 {{/if}}
 {{/if}}
 {{/each}}
 
+# Invoke an endpoint
 api.{{{operationIdSnakeCase}}}(
 {{#each allParams}}
 	# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
@@ -31,13 +31,12 @@ api.{{{operationIdSnakeCase}}}(
 {{/each}}
 	# On Success
 	func(result):{{#with returnProperty}}  # result is {{>partials/complex_type}}{{/with}}
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "{{operationIdSnakeCase}}", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is {{>partials/api_error_class_name}}
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
