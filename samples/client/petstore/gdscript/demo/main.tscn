@@ -27,31 +27,19 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
-offset_right = 100.0
-offset_bottom = 648.0
 
 [node name="RunTestsButton" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
-offset_right = 100.0
-offset_bottom = 322.0
 size_flags_vertical = 3
 text = "  Run Tests  "
 
 [node name="ExitButton" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
-offset_top = 326.0
-offset_right = 100.0
-offset_bottom = 648.0
 size_flags_vertical = 3
 text = "  Exit  "
 
 [node name="LogDump" type="TextEdit" parent="HBoxContainer"]
 layout_mode = 2
-offset_left = 104.0
-offset_right = 1152.0
-offset_bottom = 648.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_horizontal = 3
 editable = false
 virtual_keyboard_enabled = false

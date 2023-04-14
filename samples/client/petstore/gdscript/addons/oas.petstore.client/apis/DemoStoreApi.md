@@ -25,28 +25,32 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoStoreApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoStoreApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoStoreApi.new(config, client)
 
 
+# Invoke an endpoint
 api.delete_order(
-	# orderId: String   Eg: orderId_example
+	# orderId: String = ""   Eg: orderId_example
 	# ID of the order that needs to be deleted
 	orderId,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "delete_order", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -67,25 +71,29 @@ Returns a map of status codes to quantities
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoStoreApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoStoreApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoStoreApi.new(config, client)
 
 
+# Invoke an endpoint
 api.get_inventory(
 	# On Success
 	func(result):  # result is Demointeger
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "get_inventory", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -98,35 +106,39 @@ api.get_inventory(
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
 ### Example
 
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoStoreApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoStoreApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoStoreApi.new(config, client)
 
 
+# Invoke an endpoint
 api.get_order_by_id(
 	# orderId: float   Eg: 789
 	# ID of pet that needs to be fetched
 	orderId,
 	# On Success
 	func(result):  # result is DemoOrder
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "get_order_by_id", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -146,30 +158,34 @@ Place an order for a pet
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoStoreApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoStoreApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoStoreApi.new(config, client)
 
 var demoOrder = DemoOrder.new()
-# … fill model with data
+# … fill model demoOrder with data
 
+# Invoke an endpoint
 api.place_order(
 	# demoOrder: DemoOrder
 	# order placed for purchasing the pet
 	demoOrder,
 	# On Success
 	func(result):  # result is DemoOrder
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "place_order", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 

@@ -1,5 +1,15 @@
+# Run this configuration to update the sample project used in integration testing:
+#     bin/generate-samples.sh bin/configs/gdscript-petstore.yaml
+
 generatorName: gdscript
-outputDir: samples/client/petstore/gdscript
+outputDir: samples/client/petstore/gdscript/addons/oas.petstore.client
+# We have two test servers available.
+# See https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests
+# A: Newer, recommended echo server OAS, that we're failing for now:
+# Exception: Could not process model 'Bird'. Please make sure that your schema is correct!
+# Caused by: java.lang.RuntimeException: reserved word color not allowed
+#inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+# B: Older (legacy, deprecated) petstore server OAS
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/gdscript
 additionalProperties:

@@ -6,6 +6,7 @@ signal test_ended
 @onready var log_text_edit := $HBoxContainer/LogDump
 
 
+var cfg := DemoApiConfig.new()
 var failed := false
 
 
@@ -36,7 +37,7 @@ func is_headless() -> bool:
 	# I have no shame, and no other idea how to detect --headless
 	#print(OS.get_cmdline_args())  # empty
 	#print(OS.get_cmdline_user_args())  # empty
-	#print(OS.get_environment("HEADLESS"))  # works, but cumbersome
+	#print(OS.get_environment("HEADLESS"))  # would work, but cumbersome
 	return "" == RenderingServer.get_video_adapter_name()
 
 
@@ -47,12 +48,13 @@ func fail(msg: String):
 		gtfo(1)
 
 
-var cfg := DemoApiConfig.new()
+func configure():
+	cfg.port = 8081
+	cfg.headers_base['api_key'] = "special-key"
 
 
 func run_all_tests(on_done := Callable()):
-	cfg.port = 8081
-	cfg.headers_base['api_key'] = "special-key"
+	configure()
 	log_text_edit.text = ""
 	
 	var started_at := Time.get_ticks_msec()
@@ -73,13 +75,11 @@ func run_all_tests(on_done := Callable()):
 func run_test_01():
 	Logger.inform("Running test 01…")
 	
-	
 	var rick := DemoUser.new()
 	rick.username = "Rick"
 	rick.password = "ytrom&"
 	
-	var user_api := DemoUserApi.new()
-	user_api.bee_config = cfg
+	var user_api := DemoUserApi.new(cfg)
 	user_api.create_user(
 		rick,
 		func(result):
@@ -106,8 +106,7 @@ func run_test_01():
 
 
 func authenticate(username: String, password: String, on_done: Callable):
-	var user_api := DemoUserApi.new()
-	user_api.bee_config = cfg
+	var user_api := DemoUserApi.new(cfg)
 	user_api.login_user(
 		username, password,
 		func(result):
@@ -130,8 +129,7 @@ func add_monkey(on_done: Callable):
 	monkey.status = "shenaniganing"
 	#monkey.tags = ['tree', 'fur']
 
-	var pet_api := DemoPetApi.new()
-	pet_api.bee_config = cfg
+	var pet_api := DemoPetApi.new(cfg)
 	pet_api.add_pet(
 		monkey,
 		func(result):
@@ -154,8 +152,7 @@ func add_monkey(on_done: Callable):
 
 func update_monkey(monkey, new_name, on_done: Callable):
 
-	var pet_api := DemoPetApi.new()
-	pet_api.bee_config = cfg
+	var pet_api := DemoPetApi.new(cfg)
 	pet_api.update_pet_with_form(
 		monkey.id, new_name, "available",
 		func(result):
@@ -179,8 +176,7 @@ func update_monkey(monkey, new_name, on_done: Callable):
 func run_test_02():
 	Logger.inform("Running test 02…")
 
-	var pet_api := DemoPetApi.new()
-	pet_api.bee_config = cfg
+	var pet_api := DemoPetApi.new(cfg)
 	pet_api.find_pets_by_status(
 		['available'],
 		func(result):

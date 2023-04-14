@@ -30,30 +30,34 @@ Add a new pet to the store
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 var demoPet = DemoPet.new()
-# … fill model with data
+# … fill model demoPet with data
 
+# Invoke an endpoint
 api.add_pet(
 	# demoPet: DemoPet
 	# Pet object that needs to be added to the store
 	demoPet,
 	# On Success
 	func(result):  # result is DemoPet
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "add_pet", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -62,7 +66,7 @@ api.add_pet(
 # **delete_pet**   { #delete_pet }
 <a name="delete_pet"></a>
 
-> `delete_pet(petId: float,apiKey = null, on_success: Callable, on_failure: Callable)`
+> `delete_pet(petId: float,apiKey = "", on_success: Callable, on_failure: Callable)`
 
 Deletes a pet
 
@@ -74,31 +78,35 @@ Deletes a pet
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 
+# Invoke an endpoint
 api.delete_pet(
 	# petId: float   Eg: 789
 	# Pet id to delete
 	petId,
-	# apiKey: String   Eg: apiKey_example
+	# apiKey: String = ""   Eg: apiKey_example
 	# 
 	apiKey,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "delete_pet", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -119,28 +127,32 @@ Multiple status values can be provided with comma separated strings
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 
+# Invoke an endpoint
 api.find_pets_by_status(
 	# status: Array
 	# Status values that need to be considered for filter
 	status,
 	# On Success
 	func(result):  # result is DemoPet
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "find_pets_by_status", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -161,28 +173,32 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 
+# Invoke an endpoint
 api.find_pets_by_tags(
 	# tags: Array
 	# Tags to filter by
 	tags,
 	# On Success
 	func(result):  # result is DemoPet
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "find_pets_by_tags", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -203,28 +219,32 @@ Returns a single pet
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 
+# Invoke an endpoint
 api.get_pet_by_id(
 	# petId: float   Eg: 789
 	# ID of pet to return
 	petId,
 	# On Success
 	func(result):  # result is DemoPet
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "get_pet_by_id", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -245,30 +265,34 @@ Update an existing pet
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 var demoPet = DemoPet.new()
-# … fill model with data
+# … fill model demoPet with data
 
+# Invoke an endpoint
 api.update_pet(
 	# demoPet: DemoPet
 	# Pet object that needs to be added to the store
 	demoPet,
 	# On Success
 	func(result):  # result is DemoPet
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "update_pet", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -277,7 +301,7 @@ api.update_pet(
 # **update_pet_with_form**   { #update_pet_with_form }
 <a name="update_pet_with_form"></a>
 
-> `update_pet_with_form(petId: float,name = null,status = null, on_success: Callable, on_failure: Callable)`
+> `update_pet_with_form(petId: float,name = "",status = "", on_success: Callable, on_failure: Callable)`
 
 Updates a pet in the store with form data
 
@@ -289,34 +313,38 @@ Updates a pet in the store with form data
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 
+# Invoke an endpoint
 api.update_pet_with_form(
 	# petId: float   Eg: 789
 	# ID of pet that needs to be updated
 	petId,
-	# name: String   Eg: name_example
+	# name: String = ""   Eg: name_example
 	# Updated name of the pet
 	name,
-	# status: String   Eg: status_example
+	# status: String = ""   Eg: status_example
 	# Updated status of the pet
 	status,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "update_pet_with_form", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -325,7 +353,7 @@ api.update_pet_with_form(
 # **upload_file**   { #upload_file }
 <a name="upload_file"></a>
 
-> `upload_file(petId: float,additionalMetadata = null,file = null, on_success: Callable, on_failure: Callable)`
+> `upload_file(petId: float,additionalMetadata = "",file = null, on_success: Callable, on_failure: Callable)`
 
 uploads an image
 
@@ -337,20 +365,25 @@ uploads an image
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoPetApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoPetApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoPetApi.new(config, client)
 
 
+# Invoke an endpoint
 api.upload_file(
 	# petId: float   Eg: 789
 	# ID of pet to update
 	petId,
-	# additionalMetadata: String   Eg: additionalMetadata_example
+	# additionalMetadata: String = ""   Eg: additionalMetadata_example
 	# Additional data to pass to server
 	additionalMetadata,
 	# file: String   Eg: BINARY_DATA_HERE
@@ -358,13 +391,12 @@ api.upload_file(
 	file,
 	# On Success
 	func(result):  # result is DemoApiResponse
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "upload_file", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 

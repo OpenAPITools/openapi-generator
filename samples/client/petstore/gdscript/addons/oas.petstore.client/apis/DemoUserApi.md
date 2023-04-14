@@ -30,30 +30,34 @@ This can only be done by the logged in user.
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 var demoUser = DemoUser.new()
-# … fill model with data
+# … fill model demoUser with data
 
+# Invoke an endpoint
 api.create_user(
 	# demoUser: DemoUser
 	# Created user object
 	demoUser,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "create_user", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -74,28 +78,32 @@ Creates list of users with given input array
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 
+# Invoke an endpoint
 api.create_users_with_array_input(
 	# user: Array
 	# List of user object
 	user,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "create_users_with_array_input", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -116,28 +124,32 @@ Creates list of users with given input array
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 
+# Invoke an endpoint
 api.create_users_with_list_input(
 	# user: Array
 	# List of user object
 	user,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "create_users_with_list_input", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -158,28 +170,32 @@ This can only be done by the logged in user.
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 
+# Invoke an endpoint
 api.delete_user(
-	# username: String   Eg: username_example
+	# username: String = ""   Eg: username_example
 	# The name that needs to be deleted
 	username,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "delete_user", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -199,28 +215,32 @@ Get user by user name
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 
+# Invoke an endpoint
 api.get_user_by_name(
-	# username: String   Eg: username_example
+	# username: String = ""   Eg: username_example
 	# The name that needs to be fetched. Use user1 for testing.
 	username,
 	# On Success
 	func(result):  # result is DemoUser
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "get_user_by_name", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -240,31 +260,35 @@ Logs user into the system
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 
+# Invoke an endpoint
 api.login_user(
-	# username: String   Eg: username_example
+	# username: String = ""   Eg: username_example
 	# The user name for login
 	username,
-	# password: String   Eg: password_example
+	# password: String = ""   Eg: password_example
 	# The password for login in clear text
 	password,
 	# On Success
 	func(result):  # result is Demostring
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "login_user", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -285,25 +309,29 @@ Logs out current logged in user session
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 
+# Invoke an endpoint
 api.logout_user(
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "logout_user", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
@@ -324,19 +352,24 @@ This can only be done by the logged in user.
 
 ```gdscript
 
-# Customize configuration, if needed
+# Customize configuration
 var config := DemoApiConfig.new()
 config.host = "localhost"
 config.port = 8080
+#config.tls_enabled = true
+#config.trusted_chain = preload("res://my_cert_chain.crt")
 
-var api = DemoUserApi.new()
-api.config = config  # optionally
+# Instantiate the api
+var api = DemoUserApi.new(config)
+# You can also provide your own HTTPClient, to re-use it across apis.
+#var api = DemoUserApi.new(config, client)
 
 var demoUser = DemoUser.new()
-# … fill model with data
+# … fill model demoUser with data
 
+# Invoke an endpoint
 api.update_user(
-	# username: String   Eg: username_example
+	# username: String = ""   Eg: username_example
 	# name that need to be deleted
 	username,
 	# demoUser: DemoUser
@@ -344,13 +377,12 @@ api.update_user(
 	demoUser,
 	# On Success
 	func(result):
-		prints("Success!", result)
-		pass  # do things
+		prints("Success!", "update_user", result)
+		pass  # do things, make stuff
 		,
 	# On Error
 	func(error):  # error is DemoApiError
-		printerr(str(error))
-		pass  # do things
+		push_error(str(error))
 		,
 )
 
