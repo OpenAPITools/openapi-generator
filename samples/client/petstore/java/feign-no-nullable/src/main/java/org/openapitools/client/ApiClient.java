@@ -57,7 +57,7 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       log.log(Level.FINE, "Creating authentication {0}", authName);
-      RequestInterceptor auth;
+      RequestInterceptor auth = null;
       if ("petstore_auth".equals(authName)) {
         auth = buildOauthRequestInterceptor(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else if ("api_key".equals(authName)) {
@@ -69,7 +69,9 @@ public class ApiClient {
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-      addAuthorization(authName, auth);
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
     }
   }
 
