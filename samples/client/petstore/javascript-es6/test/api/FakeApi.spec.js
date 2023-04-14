@@ -58,16 +58,6 @@
         done();
       });
     });
-    describe('fakeHttpSignatureTest', function() {
-      it('should call fakeHttpSignatureTest successfully', function(done) {
-        //uncomment below and update the code to test fakeHttpSignatureTest
-        //instance.fakeHttpSignatureTest(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('fakeOuterBooleanSerialize', function() {
       it('should call fakeOuterBooleanSerialize successfully', function(done) {
         //uncomment below and update the code to test fakeOuterBooleanSerialize

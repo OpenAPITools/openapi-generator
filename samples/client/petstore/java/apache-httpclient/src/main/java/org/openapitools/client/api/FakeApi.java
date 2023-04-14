@@ -30,7 +30,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
-import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 
@@ -127,84 +126,6 @@ public class FakeApi {
         localVarContentType,
         localVarAuthNames,
         localVarReturnType
-    );
-  }
-
-  /**
-   * test http signature authentication
-   * 
-   * @param pet Pet object that needs to be added to the store (required)
-   * @param query1 query parameter (optional)
-   * @param header1 header parameter (optional)
-   * @throws ApiException if fails to make API call
-   */
-  public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws ApiException {
-    this.fakeHttpSignatureTest(pet, query1, header1, Collections.emptyMap());
-  }
-
-
-  /**
-   * test http signature authentication
-   * 
-   * @param pet Pet object that needs to be added to the store (required)
-   * @param query1 query parameter (optional)
-   * @param header1 header parameter (optional)
-   * @param additionalHeaders additionalHeaders for this call
-   * @throws ApiException if fails to make API call
-   */
-  public void fakeHttpSignatureTest(Pet pet, String query1, String header1, Map<String, String> additionalHeaders) throws ApiException {
-    Object localVarPostBody = pet;
-    
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling fakeHttpSignatureTest");
-    }
-    
-    // create path and map variables
-    String localVarPath = "/fake/http-signature-test";
-
-    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-    String localVarQueryParameterBaseName;
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    localVarQueryParams.addAll(apiClient.parameterToPair("query_1", query1));
-    if (header1 != null)
-      localVarHeaderParams.put("header_1", apiClient.parameterToString(header1));
-
-    localVarHeaderParams.putAll(additionalHeaders);
-
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json", "application/xml"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] { "http_signature_test" };
-
-    apiClient.invokeAPI(
-        localVarPath,
-        "GET",
-        localVarQueryParams,
-        localVarCollectionQueryParams,
-        localVarQueryStringJoiner.toString(),
-        localVarPostBody,
-        localVarHeaderParams,
-        localVarCookieParams,
-        localVarFormParams,
-        localVarAccept,
-        localVarContentType,
-        localVarAuthNames,
-        null
     );
   }
 

@@ -71,18 +71,6 @@ public class FakeApiTest {
     }
     
     /**
-     * test http signature authentication
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void fakeHttpSignatureTestTest() throws Exception {
-        //void response = client.fakeHttpSignatureTest(pet, query1, header1);
-        //assertNotNull(response);
-    }
-    
-    /**
      * @throws ApiException
      *          if the Api call fails
      */

@@ -80,27 +80,6 @@ public class FakeApiTest {
     }
 
    /**
-    * test http signature authentication
-    */
-    @Test
-    public void fakeHttpSignatureTestTest() {
-        // TODO - assign values to the input arguments.
-        Pet pet = null;
-        // TODO - assign values to the input arguments.
-        String query1 = null;
-        // TODO - assign values to the input arguments.
-        String header1 = null;
-
-        // TODO - uncomment the following two lines to invoke the service with valid parameters.
-        //ApiResponse<Void> response = api.fakeHttpSignatureTest(pet, query1, header1);
-        //response.webClientResponse().await();
-        // TODO - check for appropriate return status
-        // assertThat("Return status", response.get().status().code(), is(expectedStatus));
-
-        // TODO: test validations
-    }
-
-   /**
     * 
     * Test serialization of outer boolean types
     */

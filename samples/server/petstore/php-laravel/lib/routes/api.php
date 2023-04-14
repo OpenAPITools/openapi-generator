@@ -92,13 +92,6 @@ Route::put('/v2/fake/body-with-query-params', 'FakeController@testBodyWithQueryP
  */
 Route::get('/v2/fake/health', 'FakeController@fakeHealthGet');
 /**
- * get fakeHttpSignatureTest
- * Summary: test http signature authentication
- * Notes: 
-
- */
-Route::get('/v2/fake/http-signature-test', 'FakeController@fakeHttpSignatureTest');
-/**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 

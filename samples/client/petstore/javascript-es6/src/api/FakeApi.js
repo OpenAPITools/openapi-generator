@@ -19,7 +19,6 @@ import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
-import Pet from '../model/Pet';
 import User from '../model/User';
 
 /**
@@ -72,52 +71,6 @@ export default class FakeApi {
       let returnType = HealthCheckResult;
       return this.apiClient.callApi(
         '/fake/health', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the fakeHttpSignatureTest operation.
-     * @callback module:api/FakeApi~fakeHttpSignatureTestCallback
-     * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
-     * @param {Object} opts Optional parameters
-     * @param {String} [query1] query parameter
-     * @param {String} [header1] header parameter
-     * @param {module:api/FakeApi~fakeHttpSignatureTestCallback} callback The callback function, accepting three arguments: error, data, response
-     */
-    fakeHttpSignatureTest(pet, opts, callback) {
-      opts = opts || {};
-      let postBody = pet;
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling fakeHttpSignatureTest");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'query_1': opts['query1']
-      };
-      let headerParams = {
-        'header_1': opts['header1']
-      };
-      let formParams = {
-      };
-
-      let authNames = ['http_signature_test'];
-      let contentTypes = ['application/json', 'application/xml'];
-      let accepts = [];
-      let returnType = null;
-      return this.apiClient.callApi(
-        '/fake/http-signature-test', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

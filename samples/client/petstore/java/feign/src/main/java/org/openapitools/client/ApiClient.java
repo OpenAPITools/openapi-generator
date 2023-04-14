@@ -69,8 +69,6 @@ public class ApiClient {
         auth = new HttpBasicAuth();
       } else if ("bearer_test".equals(authName)) {
         auth = new HttpBearerAuth("bearer");
-      } else if ("http_signature_test".equals(authName)) {
-        auth = new HttpBearerAuth("signature");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }

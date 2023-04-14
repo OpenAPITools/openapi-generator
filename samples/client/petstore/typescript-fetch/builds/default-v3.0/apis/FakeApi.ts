@@ -21,7 +21,6 @@ import type {
   HealthCheckResult,
   OuterComposite,
   OuterObjectWithEnumProperty,
-  Pet,
   User,
 } from '../models';
 import {
@@ -37,17 +36,9 @@ import {
     OuterCompositeToJSON,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
-    PetFromJSON,
-    PetToJSON,
     UserFromJSON,
     UserToJSON,
 } from '../models';
-
-export interface FakeHttpSignatureTestRequest {
-    pet: Pet;
-    query1?: string;
-    header1?: string;
-}
 
 export interface FakeOuterBooleanSerializeRequest {
     body?: boolean;
@@ -172,46 +163,6 @@ export class FakeApi extends runtime.BaseAPI {
     async fakeHealthGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HealthCheckResult> {
         const response = await this.fakeHealthGetRaw(initOverrides);
         return await response.value();
-    }
-
-    /**
-     * test http signature authentication
-     */
-    async fakeHttpSignatureTestRaw(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.pet === null || requestParameters.pet === undefined) {
-            throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling fakeHttpSignatureTest.');
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters.query1 !== undefined) {
-            queryParameters['query_1'] = requestParameters.query1;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters.header1 !== undefined && requestParameters.header1 !== null) {
-            headerParameters['header_1'] = String(requestParameters.header1);
-        }
-
-        const response = await this.request({
-            path: `/fake/http-signature-test`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-            body: PetToJSON(requestParameters.pet),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * test http signature authentication
-     */
-    async fakeHttpSignatureTest(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.fakeHttpSignatureTestRaw(requestParameters, initOverrides);
     }
 
     /**

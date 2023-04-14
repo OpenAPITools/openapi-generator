@@ -84,18 +84,6 @@ class FakeApiTest extends TestCase
     }
 
     /**
-     * Test case for fakeHttpSignatureTest
-     *
-     * test http signature authentication.
-     *
-     */
-    public function testFakeHttpSignatureTest()
-    {
-        // TODO: implement
-        $this->markTestIncomplete('Not implemented');
-    }
-
-    /**
      * Test case for fakeOuterBooleanSerialize
      *
      * .

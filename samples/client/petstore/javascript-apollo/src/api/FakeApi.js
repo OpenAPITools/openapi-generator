@@ -20,7 +20,6 @@ import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
-import Pet from '../model/Pet';
 import User from '../model/User';
 
 /**
@@ -65,47 +64,6 @@ export default class FakeApi extends ApiClient {
 
       return this.callApi(
         '/fake/health', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, requestInit
-      );
-    }
-
-    /**
-     * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
-     * @param {Object} opts Optional parameters
-     * @param {String} [query1] query parameter
-     * @param {String} [header1] header parameter
-     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
-     * @return {Promise}
-     */
-    async fakeHttpSignatureTest(pet, opts, requestInit) {
-      opts = opts || {};
-      let postBody = pet;
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling fakeHttpSignatureTest");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'query_1': opts['query1']
-      };
-      let headerParams = {
-        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
-        'header_1': opts['header1']
-      };
-      let formParams = {
-      };
-
-      let authNames = ['http_signature_test'];
-      let contentTypes = ['application/json', 'application/xml'];
-      let accepts = [];
-      let returnType = null;
-
-      return this.callApi(
-        '/fake/http-signature-test', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, requestInit
       );

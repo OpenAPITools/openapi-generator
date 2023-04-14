@@ -54,22 +54,7 @@ public class FakeApiTest {
 
         // TODO: test validations
     }
-    
-    /**
-     * test http signature authentication
-     *
-     * 
-     */
-    @Test
-    public void fakeHttpSignatureTestTest()  {
-        Pet pet = null;
-        String query1 = null;
-        String header1 = null;
-        api.fakeHttpSignatureTest(pet, query1, header1).block();
 
-        // TODO: test validations
-    }
-    
     /**
      * 
      *

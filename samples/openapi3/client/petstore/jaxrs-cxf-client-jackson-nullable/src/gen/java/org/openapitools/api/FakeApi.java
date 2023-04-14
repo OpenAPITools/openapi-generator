@@ -48,18 +48,6 @@ public interface FakeApi  {
         @ApiResponse(code = 200, message = "The instance started successfully", response = HealthCheckResult.class) })
     public HealthCheckResult fakeHealthGet();
 
-    /**
-     * test http signature authentication
-     *
-     */
-    @GET
-    @Path("/http-signature-test")
-    @Consumes({ "application/json", "application/xml" })
-    @ApiOperation(value = "test http signature authentication", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The instance started successfully") })
-    public void fakeHttpSignatureTest(Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1);
-
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })

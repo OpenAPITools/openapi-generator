@@ -14,13 +14,6 @@ void main() {
       // TODO
     });
 
-    // test http signature authentication
-    //
-    //Future fakeHttpSignatureTest(Pet pet, { String query1, String header1 }) async
-    test('test fakeHttpSignatureTest', () async {
-      // TODO
-    });
-
     // Test serialization of outer boolean types
     //
     //Future<bool> fakeOuterBooleanSerialize({ bool body }) async

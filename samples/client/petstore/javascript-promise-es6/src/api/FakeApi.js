@@ -19,7 +19,6 @@ import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
-import Pet from '../model/Pet';
 import User from '../model/User';
 
 /**
@@ -75,60 +74,6 @@ export default class FakeApi {
      */
     fakeHealthGet() {
       return this.fakeHealthGetWithHttpInfo()
-        .then(function(response_and_data) {
-          return response_and_data.data;
-        });
-    }
-
-
-    /**
-     * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
-     * @param {Object} opts Optional parameters
-     * @param {String} [query1] query parameter
-     * @param {String} [header1] header parameter
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
-     */
-    fakeHttpSignatureTestWithHttpInfo(pet, opts) {
-      opts = opts || {};
-      let postBody = pet;
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling fakeHttpSignatureTest");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'query_1': opts['query1']
-      };
-      let headerParams = {
-        'header_1': opts['header1']
-      };
-      let formParams = {
-      };
-
-      let authNames = ['http_signature_test'];
-      let contentTypes = ['application/json', 'application/xml'];
-      let accepts = [];
-      let returnType = null;
-      return this.apiClient.callApi(
-        '/fake/http-signature-test', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null
-      );
-    }
-
-    /**
-     * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
-     * @param {Object} opts Optional parameters
-     * @param {String} opts.query1 query parameter
-     * @param {String} opts.header1 header parameter
-     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
-     */
-    fakeHttpSignatureTest(pet, opts) {
-      return this.fakeHttpSignatureTestWithHttpInfo(pet, opts)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

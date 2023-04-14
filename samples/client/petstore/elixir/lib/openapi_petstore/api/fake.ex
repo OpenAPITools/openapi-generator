@@ -38,44 +38,6 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
-  test http signature authentication
-
-  ### Parameters
-
-  - `connection` (OpenapiPetstore.Connection): Connection to server
-  - `pet` (Pet): Pet object that needs to be added to the store
-  - `opts` (keyword): Optional parameters
-    - `:query_1` (String.t): query parameter
-    - `:header_1` (String.t): header parameter
-
-  ### Returns
-
-  - `{:ok, nil}` on success
-  - `{:error, Tesla.Env.t}` on failure
-  """
-  @spec fake_http_signature_test(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def fake_http_signature_test(connection, pet, opts \\ []) do
-    optional_params = %{
-      :query_1 => :query,
-      :header_1 => :headers
-    }
-
-    request =
-      %{}
-      |> method(:get)
-      |> url("/fake/http-signature-test")
-      |> add_param(:body, :body, pet)
-      |> add_optional_params(optional_params, opts)
-      |> Enum.into([])
-
-    connection
-    |> Connection.request(request)
-    |> evaluate_response([
-      {200, false}
-    ])
-  end
-
-  @doc """
   Test serialization of outer boolean types
 
   ### Parameters

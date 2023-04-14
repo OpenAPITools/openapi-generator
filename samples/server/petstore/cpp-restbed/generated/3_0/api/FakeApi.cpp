@@ -225,123 +225,6 @@ std::string FakeHealthResource::extractFormParamsFromBody(const std::string& par
     }
     return "";
 }
-FakeHttp_signature_testResource::FakeHttp_signature_testResource(const std::string& context /* = "/v2" */)
-{
-	this->set_path(context + "/fake/http-signature-test");
-	this->set_method_handler("GET",
-		std::bind(&FakeHttp_signature_testResource::handler_GET_internal, this,
-			std::placeholders::_1));
-}
-
-std::pair<int, std::string> FakeHttp_signature_testResource::handleFakeApiException(const FakeApiException& e)
-{
-    return std::make_pair<int, std::string>(e.getStatus(), e.what());
-}
-
-std::pair<int, std::string> FakeHttp_signature_testResource::handleStdException(const std::exception& e)
-{
-    return std::make_pair<int, std::string>(500, e.what());
-}
-
-std::pair<int, std::string> FakeHttp_signature_testResource::handleUnspecifiedException()
-{
-    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
-}
-
-void FakeHttp_signature_testResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
-{
-    session->set_header(header, "");
-}
-
-void FakeHttp_signature_testResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
-{
-    responseHeaders.insert(std::make_pair("Connection", "close"));
-    session->close(status, result, responseHeaders);
-}
-
-void FakeHttp_signature_testResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
-{
-    session->close(status, result, { {"Connection", "close"} });
-}
-
-void FakeHttp_signature_testResource::handler_GET_internal(const std::shared_ptr<restbed::Session> session)
-{
-    const auto request = session->get_request();
-    // body params or form params here from the body content string
-    std::string bodyContent = extractBodyContent(session);
-    auto pet = extractJsonModelBodyParam<Pet>(bodyContent);
-    // Getting the query params
-    std::string query1 = request->get_query_parameter("query1", "");
-    // Getting the headers
-    std::string header1 = request->get_header("header_1", "");
-    
-    int status_code = 500;
-    std::string result = "";
-    
-    try {
-        status_code =
-            handler_GET(pet, query1, header1);
-    }
-    catch(const FakeApiException& e) {
-        std::tie(status_code, result) = handleFakeApiException(e);
-    }
-    catch(const std::exception& e) {
-        std::tie(status_code, result) = handleStdException(e);
-    }
-    catch(...) {
-        std::tie(status_code, result) = handleUnspecifiedException();
-    }
-    
-    std::multimap< std::string, std::string > responseHeaders {};
-    static const std::vector<std::string> contentTypes{
-        "application/json"
-    };
-    static const std::string acceptTypes{
-        "application/json, application/xml, "
-    };
-    
-    if (status_code == 200) {
-        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
-        if (!acceptTypes.empty()) {
-            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
-        }
-    
-        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
-        return;
-    }
-    defaultSessionClose(session, status_code, result);
-}
-
-
-int FakeHttp_signature_testResource::handler_GET(
-        Pet & pet, std::string & query1, std::string & header1)
-{
-    return handler_GET_func(pet, query1, header1);
-}
-
-
-std::string FakeHttp_signature_testResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
-  const auto request = session->get_request();
-  int content_length = request->get_header("Content-Length", 0);
-  std::string bodyContent;
-  session->fetch(content_length,
-                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
-                                const restbed::Bytes &body) {
-                   bodyContent = restbed::String::format(
-                       "%.*s\n", (int)body.size(), body.data());
-                 });
-  return bodyContent;
-}
-
-std::string FakeHttp_signature_testResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
-    const auto uri = restbed::Uri("urlencoded?" + body, true);
-    const auto params = uri.get_query_parameters();
-    const auto result = params.find(paramName);
-    if (result != params.cend()) {
-        return result->second;
-    }
-    return "";
-}
 FakeOuterBooleanResource::FakeOuterBooleanResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/fake/outer/boolean");
@@ -1951,12 +1834,6 @@ std::shared_ptr<FakeApiResources::FakeHealthResource> FakeApi::getFakeHealthReso
     }
     return m_spFakeHealthResource;
 }
-std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> FakeApi::getFakeHttp_signature_testResource() {
-    if (!m_spFakeHttp_signature_testResource) {
-        setResource(std::make_shared<FakeApiResources::FakeHttp_signature_testResource>());
-    }
-    return m_spFakeHttp_signature_testResource;
-}
 std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> FakeApi::getFakeOuterBooleanResource() {
     if (!m_spFakeOuterBooleanResource) {
         setResource(std::make_shared<FakeApiResources::FakeOuterBooleanResource>());
@@ -2033,10 +1910,6 @@ void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeHealthResource> 
     m_spFakeHealthResource = resource;
     m_service->publish(m_spFakeHealthResource);
 }
-void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> resource) {
-    m_spFakeHttp_signature_testResource = resource;
-    m_service->publish(m_spFakeHttp_signature_testResource);
-}
 void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> resource) {
     m_spFakeOuterBooleanResource = resource;
     m_service->publish(m_spFakeOuterBooleanResource);
@@ -2088,10 +1961,6 @@ void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeTest_query_param
 void FakeApi::setFakeApiFakeHealthResource(std::shared_ptr<FakeApiResources::FakeHealthResource> spFakeHealthResource) {
     m_spFakeHealthResource = spFakeHealthResource;
     m_service->publish(m_spFakeHealthResource);
-}
-void FakeApi::setFakeApiFakeHttp_signature_testResource(std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> spFakeHttp_signature_testResource) {
-    m_spFakeHttp_signature_testResource = spFakeHttp_signature_testResource;
-    m_service->publish(m_spFakeHttp_signature_testResource);
 }
 void FakeApi::setFakeApiFakeOuterBooleanResource(std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> spFakeOuterBooleanResource) {
     m_spFakeOuterBooleanResource = spFakeOuterBooleanResource;
@@ -2146,9 +2015,6 @@ void FakeApi::setFakeApiFakeTest_query_parametersResource(std::shared_ptr<FakeAp
 void FakeApi::publishDefaultResources() {
     if (!m_spFakeHealthResource) {
         setResource(std::make_shared<FakeApiResources::FakeHealthResource>());
-    }
-    if (!m_spFakeHttp_signature_testResource) {
-        setResource(std::make_shared<FakeApiResources::FakeHttp_signature_testResource>());
     }
     if (!m_spFakeOuterBooleanResource) {
         setResource(std::make_shared<FakeApiResources::FakeOuterBooleanResource>());

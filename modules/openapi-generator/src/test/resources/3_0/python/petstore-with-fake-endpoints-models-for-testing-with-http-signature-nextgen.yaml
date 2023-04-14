@@ -30,9 +30,6 @@ paths:
                   string:
                     $ref: '#/components/schemas/Foo'
   /pet:
-    servers:
-    - url: 'http://petstore.swagger.io/v2'
-    - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -45,6 +42,7 @@ paths:
         '405':
           description: Invalid input
       security:
+        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -67,6 +65,7 @@ paths:
         '405':
           description: Validation exception
       security:
+        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -114,6 +113,7 @@ paths:
         '400':
           description: Invalid status value
       security:
+        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -158,6 +158,7 @@ paths:
         '400':
           description: Invalid tag value
       security:
+        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -395,6 +396,24 @@ paths:
         '404':
           description: Order not found
   /user:
+    servers:
+      - url: 'http://petstore.swagger.io/v2'
+      - url: 'http://path-server-test.petstore.local/v2'
+      - url: 'http://{server}.swagger.io:{port}/v2'
+        description: test server with variables
+        variables:
+          server:
+            description: target server
+            enum:
+              - 'petstore'
+              - 'qa-petstore'
+              - 'dev-petstore'
+            default: 'petstore'
+          port:
+            enum:
+              - 80
+              - 8080
+            default: 80
     post:
       tags:
         - user
@@ -593,107 +612,107 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
-    get:
-      tags:
-        - fake
-      summary: To test enum parameters
-      description: To test enum parameters
-      operationId: testEnumParameters
-      parameters:
-        - name: enum_header_string_array
-          in: header
-          description: Header parameter enum test (string array)
-          schema:
-            type: array
-            items:
-              type: string
-              default: $
-              enum:
-                - '>'
-                - $
-        - name: enum_header_string
-          in: header
-          description: Header parameter enum test (string)
-          schema:
-            type: string
-            enum:
-              - _abc
-              - '-efg'
-              - (xyz)
-            default: '-efg'
-        - name: enum_query_string_array
-          in: query
-          description: Query parameter enum test (string array)
-          schema:
-            type: array
-            items:
-              type: string
-              default: $
-              enum:
-                - '>'
-                - $
-        - name: enum_query_string
-          in: query
-          description: Query parameter enum test (string)
-          schema:
-            type: string
-            enum:
-              - _abc
-              - '-efg'
-              - (xyz)
-            default: '-efg'
-        - name: enum_query_integer
-          in: query
-          description: Query parameter enum test (double)
-          schema:
-            type: integer
-            format: int32
-            enum:
-              - 1
-              - -2
-        - name: enum_query_double
-          in: query
-          description: Query parameter enum test (double)
-          schema:
-            type: number
-            format: double
-            enum:
-              - 1.1
-              - -1.2
-        - name: enum_query_model_array
-          in: query
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/EnumClass'
-      responses:
-        '400':
-          description: Invalid request
-        '404':
-          description: Not found
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  type: array
-                  items:
-                    type: string
-                    default: $
-                    enum:
-                      - '>'
-                      - $
-                enum_form_string:
-                  description: Form parameter enum test (string)
-                  type: string
-                  enum:
-                    - _abc
-                    - '-efg'
-                    - (xyz)
-                  default: '-efg'
+        #    get:
+        #      tags:
+        #        - fake
+        #      summary: To test enum parameters
+        #      description: To test enum parameters
+        #      operationId: testEnumParameters
+        #      parameters:
+        #        - name: enum_header_string_array
+        #          in: header
+        #          description: Header parameter enum test (string array)
+        #          schema:
+        #            type: array
+        #            items:
+        #              type: string
+        #              default: $
+        #              enum:
+        #                - '>'
+        #                - $
+        #        - name: enum_header_string
+        #          in: header
+        #          description: Header parameter enum test (string)
+        #          schema:
+        #            type: string
+        #            enum:
+        #              - _abc
+        #              - '-efg'
+        #              - (xyz)
+        #            default: '-efg'
+        #        - name: enum_query_string_array
+        #          in: query
+        #          description: Query parameter enum test (string array)
+        #          schema:
+        #            type: array
+        #            items:
+        #              type: string
+        #              default: $
+        #              enum:
+        #                - '>'
+        #                - $
+        #        - name: enum_query_string
+        #          in: query
+        #          description: Query parameter enum test (string)
+        #          schema:
+        #            type: string
+        #            enum:
+        #              - _abc
+        #              - '-efg'
+        #              - (xyz)
+        #            default: '-efg'
+        #        - name: enum_query_integer
+        #          in: query
+        #          description: Query parameter enum test (double)
+        #          schema:
+        #            type: integer
+        #            format: int32
+        #            enum:
+        #              - 1
+        #              - -2
+        #        - name: enum_query_double
+        #          in: query
+        #          description: Query parameter enum test (double)
+        #          schema:
+        #            type: number
+        #            format: double
+        #            enum:
+        #              - 1.1
+        #              - -1.2
+        #        #- name: enum_query_model_array
+        #        #  in: query
+        #        #  schema:
+        #        #    type: array
+        #        #    items:
+        #        #      $ref: '#/components/schemas/EnumClass'
+        #      responses:
+        #        '400':
+        #          description: Invalid request
+        #        '404':
+        #          description: Not found
+        #      requestBody:
+        #        content:
+        #          application/x-www-form-urlencoded:
+        #            schema:
+        #              type: object
+        #              properties:
+        #                enum_form_string_array:
+        #                  description: Form parameter enum test (string array)
+        #                  type: array
+        #                  items:
+        #                    type: string
+        #                    default: $
+        #                    enum:
+        #                      - '>'
+        #                      - $
+        #                enum_form_string:
+        #                  description: Form parameter enum test (string)
+        #                  type: string
+        #                  enum:
+        #                    - _abc
+        #                    - '-efg'
+        #                    - (xyz)
+        #                  default: '-efg'
     post:
       tags:
         - fake
@@ -768,6 +787,11 @@ paths:
                   description: None
                   type: string
                   format: binary
+                byte_with_max_length:
+                  description: None
+                  type: string
+                  format: byte
+                  maxLength: 64
                 date:
                   description: None
                   type: string
@@ -978,6 +1002,26 @@ paths:
                 type: string
         description: request body
         required: true
+  /fake/date-time-query-params:
+    put:
+      tags:
+        - fake
+      operationId: testDateTimeQueryParameter
+      parameters:
+        - name: date_time_query
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: str_query
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
   /fake/body-with-query-params:
     put:
       tags:
@@ -1169,6 +1213,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/http-signature-test:
+    get:
+      tags:
+        - fake
+      summary: test http signature authentication
+      operationId: fake-http-signature-test
+      parameters:
+        - name: query_1
+          in: query
+          description: query parameter
+          required: optional
+          schema:
+            type: string
+        - name: header_1
+          in: header
+          description: header parameter
+          required: optional
+          schema:
+            type: string
+      security:
+        - http_signature_test: []
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        200:
+          description: The instance started successfully
+  /fake/any_type_body:
+    post:
+      tags:
+        - fake
+      summary: test any type request body
+      operationId: fakeAnyTypeRequestBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: OK
+  /fake/enum_ref_query_parameter:
+    get:
+      tags:
+        - fake
+      summary: test enum reference query parameter
+      operationId: fakeEnumRefQueryParameter
+      parameters:
+        - name: enum_ref
+          in: query
+          description: enum reference
+          schema:
+            $ref: '#/components/schemas/EnumClass'
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1246,6 +1345,12 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    http_signature_test:
+      # Test the 'HTTP signature' security scheme.
+      # Each HTTP request is cryptographically signed as specified
+      # in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+      type: http
+      scheme: signature
   schemas:
     Foo:
       type: object
@@ -1346,6 +1451,7 @@ components:
           type: string
           example: doggie
         photoUrls:
+          minItems: 0
           type: array
           xml:
             name: photoUrl
@@ -1369,6 +1475,21 @@ components:
             - sold
       xml:
         name: Pet
+    special_name:
+      type: object
+      properties:
+        property:
+          type: integer
+          format: int64
+        async:
+          $ref: '#/components/schemas/Category'
+        schema:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
     ApiResponse:
       type: object
       properties:
@@ -1455,7 +1576,6 @@ components:
       type: object
       required:
         - number
-        - byte
         - date
         - password
       properties:
@@ -1491,6 +1611,9 @@ components:
         string:
           type: string
           pattern: '/[a-z]/i'
+        string_with_double_quote_pattern:
+          type: string
+          pattern: 'this is "something"'
         byte:
           type: string
           format: byte
@@ -1544,6 +1667,14 @@ components:
             - UPPER
             - lower
             - ''
+        enum_integer_default:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 5
+            - 14
+          default: 5
         enum_integer:
           type: integer
           format: int32
@@ -1724,24 +1855,38 @@ components:
     OuterEnumInteger:
       type: integer
       enum:
-      - 0
-      - 1
-      - 2
+        - 0
+        - 1
+        - 2
       example: 2
     OuterEnumDefaultValue:
       type: string
       enum:
-      - placed
-      - approved
-      - delivered
+        - placed
+        - approved
+        - delivered
       default: placed
     OuterEnumIntegerDefaultValue:
       type: integer
       enum:
+      - -1
       - 0
       - 1
       - 2
       default: 0
+    SpecialCharacterEnum:
+      type: string
+      enum:
+        - "456"
+        - "123abc"
+        - "_"
+        - " "
+        - "&"
+        - "$"
+        - ">="
+        - "this_is_!"
+        - "import" # reserved word
+        - " hello world "
     OuterComposite:
       type: object
       properties:
@@ -1793,7 +1938,11 @@ components:
       description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     NullableClass:
       type: object
+      required: [required_integer_prop]
       properties:
+        required_integer_prop:
+          type: integer
+          nullable: true
         integer_prop:
           type: integer
           nullable: true
@@ -1856,6 +2005,8 @@ components:
       required:
         - value
       properties:
+        str_value:
+          $ref: '#/components/schemas/OuterEnum'
         value:
           $ref: '#/components/schemas/OuterEnumInteger'
     DeprecatedObject:
@@ -1879,11 +2030,26 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    AllOfWithSingleRef:
+      type: object
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+            - $ref: '#/components/schemas/SingleRefType'
+    SingleRefType:
+      type: string
+      title: SingleRefType
+      enum:
+        - admin
+        - user
     Pig:
-      nullable: true
       oneOf:
         - $ref: '#/components/schemas/BasquePig'
         - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
     BasquePig:
       type: object
       properties:
@@ -1904,20 +2070,33 @@ components:
       required:
         - className
         - size
-    NestedOneOf:
+    AnyOfPig:
+      anyOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    WithNestedOneOf:
       type: object
       properties:
         size:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
-    NestedColor:
+        nested_oneof_enum_string:
+          $ref: '#/components/schemas/OneOfEnumString'
+    Self-Reference-Model:
       type: object
       properties:
         size:
           type: integer
         nested:
-          $ref: '#/components/schemas/Color'
+          $ref: '#/components/schemas/Dummy-Model'
+    Dummy-Model:
+      type: object
+      properties:
+        category:
+          type: string
+        self_ref:
+          $ref: '#/components/schemas/Self-Reference-Model'
     RgbColor:
       description: RGB three element array with values 0-255.
       type: array
@@ -1943,13 +2122,80 @@ components:
       minLength: 7
       maxLength: 7
     Color:
+      nullable: true
       description: RGB array, RGBA array, or hex string.
       oneOf:
+        - $ref: '#/components/schemas/RgbColor'
+        - $ref: '#/components/schemas/RgbaColor'
+        - $ref: '#/components/schemas/HexColor'
+      #- type: "null"
+    AnyOfColor:
+      description: Any of RGB array, RGBA array, or hex string.
+      anyOf:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
-    StringOrBoolean:
-      description: String or boolean
+    OneOfEnumString:
+      description: oneOf enum strings
       oneOf:
+      - $ref: '#/components/schemas/EnumString1'
+      - $ref: '#/components/schemas/EnumString2'
+    EnumString1:
+      type: string
+      enum:
+        - "a"
+        - "b"
+    EnumString2:
+      type: string
+      enum:
+        - "c"
+        - "d"
+    InnerDictWithProperty:
+      type: object
+      properties:
+        aProperty:
+          type: object
+    DictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    ParentWithOptionalDict:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"
+    Circular-Reference-Model:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/FirstRef'
+    FirstRef:
+      type: object
+      properties:
+        category:
+          type: string
+        self_ref:
+          $ref: '#/components/schemas/SecondRef'
+    SecondRef:
+      type: object
+      properties:
+        category:
+          type: string
+        circular_ref:
+          $ref: '#/components/schemas/Circular-Reference-Model'
+    InnerDictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    Parent:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"
+    IntOrString:
+      oneOf:
+      - type: integer
+        minimum: 10
       - type: string
-      - type: boolean

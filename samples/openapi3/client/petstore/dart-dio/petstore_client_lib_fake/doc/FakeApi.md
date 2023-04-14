@@ -10,7 +10,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
-[**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -62,53 +61,6 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **fakeHttpSignatureTest**
-> fakeHttpSignatureTest(pet, query1, header1)
-
-test http signature authentication
-
-### Example
-```dart
-import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: http_signature_test
-//defaultApiClient.getAuthentication<HttpBasicAuth>('http_signature_test').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('http_signature_test').password = 'YOUR_PASSWORD';
-
-final api = Openapi().getFakeApi();
-final Pet pet = ; // Pet | Pet object that needs to be added to the store
-final String query1 = query1_example; // String | query parameter
-final String header1 = header1_example; // String | header parameter
-
-try {
-    api.fakeHttpSignatureTest(pet, query1, header1);
-} catch on DioError (e) {
-    print('Exception when calling FakeApi->fakeHttpSignatureTest: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
- **query1** | **String**| query parameter | [optional] 
- **header1** | **String**| header parameter | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

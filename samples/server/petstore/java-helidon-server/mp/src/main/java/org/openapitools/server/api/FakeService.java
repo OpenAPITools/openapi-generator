@@ -23,7 +23,6 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
-import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
@@ -42,11 +41,6 @@ public interface FakeService {
     @Path("/health")
     @Produces({ "application/json" })
     HealthCheckResult fakeHealthGet();
-
-    @GET
-    @Path("/http-signature-test")
-    @Consumes({ "application/json", "application/xml" })
-    void fakeHttpSignatureTest(@Valid @NotNull Pet pet, @QueryParam("query_1") String query1, @HeaderParam("header_1")  String header1);
 
     @POST
     @Path("/outer/boolean")

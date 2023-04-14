@@ -342,7 +342,7 @@ class StoreApi(object):
     def get_order_by_id(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], async_req: Optional[bool]=None, **kwargs) -> Union[Order, Awaitable[Order]]:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
@@ -373,7 +373,7 @@ class StoreApi(object):
     def get_order_by_id_with_http_info(self, order_id : Annotated[conint(strict=True, le=5, ge=1), Field(..., description="ID of pet that needs to be fetched")], **kwargs) -> ApiResponse:  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
-        For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
+        For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 

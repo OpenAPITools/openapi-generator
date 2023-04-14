@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
-import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -51,95 +50,6 @@ public interface FakeApi extends ApiClient.Api {
   ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo();
 
 
-
-  /**
-   * test http signature authentication
-   * 
-   * @param pet Pet object that needs to be added to the store (required)
-   * @param query1 query parameter (optional)
-   * @param header1 header parameter (optional)
-   */
-  @RequestLine("GET /fake/http-signature-test?query_1={query1}")
-  @Headers({
-    "Content-Type: application/json",
-    "Accept: application/json",
-    "header_1: {header1}"
-  })
-  void fakeHttpSignatureTest(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
-
-  /**
-   * test http signature authentication
-   * Similar to <code>fakeHttpSignatureTest</code> but it also returns the http response headers .
-   * 
-   * @param pet Pet object that needs to be added to the store (required)
-   * @param query1 query parameter (optional)
-   * @param header1 header parameter (optional)
-   */
-  @RequestLine("GET /fake/http-signature-test?query_1={query1}")
-  @Headers({
-    "Content-Type: application/json",
-    "Accept: application/json",
-    "header_1: {header1}"
-  })
-  ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
-
-
-  /**
-   * test http signature authentication
-   * 
-   * Note, this is equivalent to the other <code>fakeHttpSignatureTest</code> method,
-   * but with the query parameters collected into a single Map parameter. This
-   * is convenient for services with optional query parameters, especially when
-   * used with the {@link FakeHttpSignatureTestQueryParams} class that allows for
-   * building up this map in a fluent style.
-   * @param pet Pet object that needs to be added to the store (required)
-   * @param header1 header parameter (optional)
-   * @param queryParams Map of query parameters as name-value pairs
-   *   <p>The following elements may be specified in the query map:</p>
-   *   <ul>
-   *   <li>query1 - query parameter (optional)</li>
-   *   </ul>
-   */
-  @RequestLine("GET /fake/http-signature-test?query_1={query1}")
-  @Headers({
-  "Content-Type: application/json",
-  "Accept: application/json",
-      "header_1: {header1}"
-  })
-  void fakeHttpSignatureTest(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) FakeHttpSignatureTestQueryParams queryParams);
-
-  /**
-  * test http signature authentication
-  * 
-  * Note, this is equivalent to the other <code>fakeHttpSignatureTest</code> that receives the query parameters as a map,
-  * but this one also exposes the Http response headers
-              * @param pet Pet object that needs to be added to the store (required)
-              * @param header1 header parameter (optional)
-      * @param queryParams Map of query parameters as name-value pairs
-      *   <p>The following elements may be specified in the query map:</p>
-      *   <ul>
-          *   <li>query1 - query parameter (optional)</li>
-      *   </ul>
-      */
-      @RequestLine("GET /fake/http-signature-test?query_1={query1}")
-      @Headers({
-    "Content-Type: application/json",
-    "Accept: application/json",
-          "header_1: {header1}"
-      })
-   ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) FakeHttpSignatureTestQueryParams queryParams);
-
-
-   /**
-   * A convenience class for generating query parameters for the
-   * <code>fakeHttpSignatureTest</code> method in a fluent style.
-   */
-  public static class FakeHttpSignatureTestQueryParams extends HashMap<String, Object> {
-    public FakeHttpSignatureTestQueryParams query1(final String value) {
-      put("query_1", EncodingUtils.encode(value));
-      return this;
-    }
-  }
 
   /**
    * 

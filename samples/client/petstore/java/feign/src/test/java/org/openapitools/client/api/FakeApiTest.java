@@ -44,41 +44,6 @@ class FakeApiTest {
 
         // TODO: test validations
     }
-
-    
-    /**
-     * test http signature authentication
-     *
-     * 
-     */
-    @Test
-    void fakeHttpSignatureTestTest() {
-        Pet pet = null;
-        String query1 = null;
-        String header1 = null;
-        // api.fakeHttpSignatureTest(pet, query1, header1);
-
-        // TODO: test validations
-    }
-
-    /**
-     * test http signature authentication
-     *
-     * 
-     *
-     * This tests the overload of the method that uses a Map for query parameters instead of
-     * listing them out individually.
-     */
-    @Test
-    void fakeHttpSignatureTestTestQueryMap() {
-        Pet pet = null;
-        String header1 = null;
-        FakeApi.FakeHttpSignatureTestQueryParams queryParams = new FakeApi.FakeHttpSignatureTestQueryParams()
-            .query1(null);
-        // api.fakeHttpSignatureTest(pet, header1, queryParams);
-
-    // TODO: test validations
-    }
     
     /**
      * 

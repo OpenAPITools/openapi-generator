@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
-import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.User;
 
 import io.helidon.webserver.Routing;
@@ -30,7 +29,6 @@ public interface FakeService extends Service {
     @Override
     default void update(Routing.Rules rules) {
         rules.get("/fake/health", this::fakeHealthGet);
-        rules.get("/fake/http-signature-test", Handler.create(Pet.class, this::fakeHttpSignatureTest));
         rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
         rules.post("/fake/outer/composite", Handler.create(OuterComposite.class, this::fakeOuterCompositeSerialize));
         rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
@@ -55,14 +53,6 @@ public interface FakeService extends Service {
      * @param response the server response
      */
     void fakeHealthGet(ServerRequest request, ServerResponse response);
-
-    /**
-     * GET /fake/http-signature-test : test http signature authentication.
-     * @param request the server request
-     * @param response the server response
-     * @param pet Pet object that needs to be added to the store 
-     */
-    void fakeHttpSignatureTest(ServerRequest request, ServerResponse response, Pet pet);
 
     /**
      * POST /fake/outer/boolean.

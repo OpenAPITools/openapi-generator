@@ -58,21 +58,6 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * test http signature authentication
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void fakeHttpSignatureTestTest() throws ApiException {
-        Pet pet = null;
-        String query1 = null;
-        String header1 = null;
-        api.fakeHttpSignatureTest(pet, query1, header1);
-
-        // TODO: test validations
-    }
-    /**
      * Test serialization of outer boolean types
      *
      * @throws ApiException

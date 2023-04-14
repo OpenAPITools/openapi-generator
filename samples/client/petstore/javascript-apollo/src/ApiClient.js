@@ -45,7 +45,7 @@ export default class ApiClient extends RESTDataSource {
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
             'http_basic_test': {type: 'basic'},
-            'bearer_test': {type: 'bearer'}, // JWT
+            'bearer_test': {type: 'bearer'} // JWT
         }
     }
 

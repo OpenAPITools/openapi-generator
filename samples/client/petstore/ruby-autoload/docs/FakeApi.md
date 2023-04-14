@@ -5,7 +5,6 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint |
-| [**fake_http_signature_test**](FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication |
 | [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean |  |
 | [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite |  |
 | [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
@@ -80,76 +79,6 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
-
-
-## fake_http_signature_test
-
-> fake_http_signature_test(pet, opts)
-
-test http signature authentication
-
-### Examples
-
-```ruby
-require 'time'
-require 'petstore'
-# setup authorization
-Petstore.configure do |config|
-end
-
-api_instance = Petstore::FakeApi.new
-pet = Petstore::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
-opts = {
-  query_1: 'query_1_example', # String | query parameter
-  header_1: 'header_1_example' # String | header parameter
-}
-
-begin
-  # test http signature authentication
-  api_instance.fake_http_signature_test(pet, opts)
-rescue Petstore::ApiError => e
-  puts "Error when calling FakeApi->fake_http_signature_test: #{e}"
-end
-```
-
-#### Using the fake_http_signature_test_with_http_info variant
-
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
-
-> <Array(nil, Integer, Hash)> fake_http_signature_test_with_http_info(pet, opts)
-
-```ruby
-begin
-  # test http signature authentication
-  data, status_code, headers = api_instance.fake_http_signature_test_with_http_info(pet, opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => nil
-rescue Petstore::ApiError => e
-  puts "Error when calling FakeApi->fake_http_signature_test_with_http_info: #{e}"
-end
-```
-
-### Parameters
-
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |  |
-| **query_1** | **String** | query parameter | [optional] |
-| **header_1** | **String** | header parameter | [optional] |
-
-### Return type
-
-nil (empty response body)
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
-- **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
 
 
 ## fake_outer_boolean_serialize
