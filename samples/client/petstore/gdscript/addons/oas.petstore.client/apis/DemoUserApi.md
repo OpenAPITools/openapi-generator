@@ -391,8 +391,8 @@ api.update_user(
 
 ### Authorization
 
-[api_key](../README.md#api_key), 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), 
+[api_key](../README.md#api_key)
 
 [[Back to top]](#__pageTop) \
 [[Back to API list]](../README.md#documentation-for-api-endpoints) \

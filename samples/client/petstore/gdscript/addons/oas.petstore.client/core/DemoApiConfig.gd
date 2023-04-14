@@ -130,13 +130,13 @@ func log_debug(message: String):
 		print(message)
 
 
+# Authentication method `petstore_auth`.
+# → Skipped: not implemented in the gdscript templates.  (contribs welcome)
+
+
 # Authentication method `api_key`.
 # Api Key Authentication `api_key`
 func set_security_api_key(value: String):
 	self.headers_base["api_key"] = value
-
-
-# Authentication method `petstore_auth`.
-# → Skipped: not implemented in the gdscript templates.  (contribs welcome)
 
 

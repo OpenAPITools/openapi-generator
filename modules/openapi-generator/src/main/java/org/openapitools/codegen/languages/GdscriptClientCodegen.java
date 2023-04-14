@@ -281,7 +281,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String escapeUnsafeCharacters(String input) {
         // There might be ways to inject code in Gdscript, but I don't see any for now.  (no /* */ comments)
-        // TODO: review this with someone knowledgeable
+        // TODO: review this can of worms with someone knowledgeable
         return input;
     }
 
@@ -377,14 +377,12 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
     protected List<String> getReservedWords() {
         return Arrays.asList(
-                // Local properties used in Model classes
-                "bee_class_name",
                 // Local method names used in base API class
-                "bee_connect_client_if_needed", "bee_request", "_bee_request_text", "_bee_do_request_text",
-                "_bee_convert_http_method", "_bee_urlize_path_param", "_bee_escape_path_param",
-                "_bee_next_loop_iteration", "_bee_get_content_type", "_bee_format_error_response",
+                "_bzz_connect_client_if_needed", "bzz_request", "_bzz_request_text", "_bzz_do_request_text",
+                "_bzz_convert_http_method", "_bzz_urlize_path_param", "_bzz_escape_path_param",
+                "_bzz_next_loop_iteration", "_bzz_get_content_type", "_bzz_format_error_response",
                 // Local properties used in base API class
-                "bee_config", "bee_client", "bee_name",
+                "_bzz_config", "_bzz_client", "_bzz_name",
                 // Local variable names used in API methods (endpoints)
                 "bzz_method", "bzz_path", "bzz_query",
                 "bzz_result", "bzz_code", "bzz_headers",
