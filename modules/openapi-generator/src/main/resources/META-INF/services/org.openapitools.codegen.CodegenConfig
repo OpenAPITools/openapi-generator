@@ -128,6 +128,7 @@ org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
 org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen
 org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
+org.openapitools.codegen.languages.TypeScriptFetchWebClientCodegen
 org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen

@@ -1,0 +1,57 @@
+{{#hasImports}}
+{{#oneOf}}
+import {
+    {{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}FromJSONTyped,
+    {{{.}}}ToJSON,
+} from './{{.}}';
+{{/oneOf}}
+
+{{/hasImports}}
+{{>modelOneOfInterfaces}}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {{classname}}FromJSONTyped(json, false);
+}
+
+export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+{{#discriminator}}
+    switch (json['{{discriminator.propertyName}}']) {
+{{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return {...{{modelName}}FromJSONTyped(json, true), {{discriminator.propertyName}}: '{{mappingName}}'};
+{{/discriminator.mappedModels}}
+        default:
+            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${json['{{discriminator.propertyName}}']}'`);
+    }
+{{/discriminator}}
+{{^discriminator}}
+    return { {{#oneOf}}...{{{.}}}FromJSONTyped(json, true){{^-last}}, {{/-last}}{{/oneOf}} };
+{{/discriminator}}
+}
+
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+{{#discriminator}}
+    switch (value['{{discriminator.propertyName}}']) {
+{{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return {{modelName}}ToJSON(value);
+{{/discriminator.mappedModels}}
+        default:
+            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
+    }
+{{/discriminator}}
+{{^discriminator}}
+    return { {{#oneOf}}...{{{.}}}ToJSON(value){{^-last}}, {{/-last}}{{/oneOf}} };
+{{/discriminator}}
+}
