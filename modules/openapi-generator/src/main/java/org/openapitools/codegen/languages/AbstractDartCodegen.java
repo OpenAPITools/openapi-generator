@@ -54,7 +54,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String pubAuthor = "Author";
     protected String pubAuthorEmail = "author@homepage";
     protected String pubHomepage = "homepage";
-    protected String pubRepository = "repository";
+    protected String pubRepository = null;
     protected boolean useEnumExtension = false;
     protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
