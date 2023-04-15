@@ -6,6 +6,9 @@ name: '{{{pubName}}}'
 version: '{{{pubVersion}}}'
 description: '{{{pubDescription}}}'
 homepage: '{{{pubHomepage}}}'
+{{#pubRepository}}
+repository: {{pubRepository}}
+{{/pubRepository}}
 environment:
   sdk: '>=2.12.0 <3.0.0'
 dependencies:
