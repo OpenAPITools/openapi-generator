@@ -28,9 +28,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubAuthorEmail|Email address of the author in generated pubspec| |author@homepage|
 |pubDescription|Description in generated pubspec| |OpenAPI API client|
 |pubHomepage|Homepage in generated pubspec| |homepage|
-|pubRepository|Repository in generated pubspec| |repository|
 |pubLibrary|Library name in generated code| |openapi.api|
 |pubName|Name in generated pubspec| |openapi|
+|pubRepository|Repository in generated pubspec| |repository|
 |pubVersion|Version in generated pubspec| |1.0.0|
 |serializationLibrary|Specify serialization library|<dl><dt>**native_serialization**</dt><dd>Use native serializer, backwards compatible</dd></dl>|native_serialization|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
