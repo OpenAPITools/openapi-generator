@@ -38,6 +38,7 @@ is
 late
 library
 mixin
+name
 native
 new
 null
