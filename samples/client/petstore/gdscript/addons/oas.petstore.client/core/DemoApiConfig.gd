@@ -7,20 +7,19 @@ class_name DemoApiConfig
 # https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/gdscript
 # The OpenAPI Generator Community, © Public Domain, 2022
 
-
 # Configuration options for Api endpoints
 # =======================================
 #
 # Helps share configuration customizations across Apis:
 # - host, port & scheme
-# - extra headers
-# - security layer options (TLS certificates)
+# - extra headers (low priority, high priority)
+# - transport layer security options (TLS certificates)
 # - log level
 #
 # You probably want to make an instance of this class with your own values,
-# and feed it to each Api's `bee_config` before calling the Api's methods.
+# and feed it to each Api's constructor, before calling the Api's methods.
 #
-# Since it is a Resource, you may use `ResourceSaver.save()` and `load()`
+# Since it is a Resource, you may use `ResourceSaver.save()` and `preload()`
 # to save it and load it from file, for convenience.
 #
 
