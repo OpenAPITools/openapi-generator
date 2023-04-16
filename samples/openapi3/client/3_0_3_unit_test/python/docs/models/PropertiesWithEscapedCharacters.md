@@ -8,7 +8,8 @@ dict, frozendict.frozendict, str, date, datetime, uuid.UUID, int, float, decimal
 ### Dictionary Keys
 Key | Input Type | Accessed Type | Description | Notes
 ------------ | ------------- | ------------- | ------------- | -------------
-**foo\nbar** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
+**foo
+bar** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
 **foo\&quot;bar** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
 **foo\\bar** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 
 **foo\rbar** | decimal.Decimal, int, float,  | decimal.Decimal,  |  | [optional] 

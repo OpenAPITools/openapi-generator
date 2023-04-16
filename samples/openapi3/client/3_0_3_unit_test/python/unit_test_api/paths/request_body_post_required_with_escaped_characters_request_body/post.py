@@ -38,8 +38,9 @@ class SchemaForRequestBodyApplicationJson(
     class MetaOapg:
         required = {
             "foo\"bar",
-            "foo\nbar",
             "foo\fbar",
+            "foo
+bar",
             "foo\tbar",
             "foo\rbar",
             "foo\\bar",

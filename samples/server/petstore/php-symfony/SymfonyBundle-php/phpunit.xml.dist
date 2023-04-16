@@ -9,9 +9,9 @@
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./Api</directory>
-            <directory suffix=".php">./Model</directory>
-            <directory suffix=".php">./Controller</directory>
+            <directory suffix=".php">.//Api</directory>
+            <directory suffix=".php">.//Model</directory>
+            <directory suffix=".php">.//Controller</directory>
         </include>
     </coverage>
     <testsuites>

@@ -63,14 +63,14 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-[*DefaultApi*](doc/DefaultApi.md) | [**rootGet**](doc/DefaultApi.md#rootget) | **GET** / | 
+[*DefaultApi*](doc\DefaultApi.md) | [**rootGet**](doc\DefaultApi.md#rootget) | **GET** / | 
 
 
 ## Documentation For Models
 
- - [Apple](doc/Apple.md)
- - [Banana](doc/Banana.md)
- - [Fruit](doc/Fruit.md)
+ - [Apple](doc\Apple.md)
+ - [Banana](doc\Banana.md)
+ - [Fruit](doc\Fruit.md)
 
 
 ## Documentation For Authorization

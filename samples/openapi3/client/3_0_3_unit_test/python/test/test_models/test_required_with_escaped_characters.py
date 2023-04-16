@@ -25,7 +25,8 @@ class TestRequiredWithEscapedCharacters(unittest.TestCase):
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             RequiredWithEscapedCharacters.from_openapi_data_oapg(
                 {
-                    "foo\nbar":
+                    "foo
+bar":
                         "1",
                     "foo\"bar":
                         "1",
@@ -37,7 +38,8 @@ class TestRequiredWithEscapedCharacters(unittest.TestCase):
         # object with all properties present is valid
         RequiredWithEscapedCharacters.from_openapi_data_oapg(
             {
-                "foo\nbar":
+                "foo
+bar":
                     1,
                 "foo\"bar":
                     1,

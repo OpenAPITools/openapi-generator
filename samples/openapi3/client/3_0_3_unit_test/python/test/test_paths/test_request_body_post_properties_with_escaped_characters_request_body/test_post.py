@@ -40,7 +40,8 @@ class TestRequestBodyPostPropertiesWithEscapedCharactersRequestBody(ApiTestMixin
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
-                    "foo\nbar":
+                    "foo
+bar":
                         1,
                     "foo\"bar":
                         1,
@@ -83,7 +84,8 @@ class TestRequestBodyPostPropertiesWithEscapedCharactersRequestBody(ApiTestMixin
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
-                    "foo\nbar":
+                    "foo
+bar":
                         "1",
                     "foo\"bar":
                         "1",

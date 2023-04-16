@@ -63,13 +63,13 @@ All URIs are relative to *http://api.example.xyz/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-[*DefaultApi*](doc/DefaultApi.md) | [**list**](doc/DefaultApi.md#list) | **GET** /example | 
+[*DefaultApi*](doc\DefaultApi.md) | [**list**](doc\DefaultApi.md#list) | **GET** /example | 
 
 
 ## Documentation For Models
 
- - [Child](doc/Child.md)
- - [Example](doc/Example.md)
+ - [Child](doc\Child.md)
+ - [Example](doc\Example.md)
 
 
 ## Documentation For Authorization

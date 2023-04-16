@@ -65,27 +65,27 @@ All URIs are relative to *http://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-[*BarApi*](doc/BarApi.md) | [**createBar**](doc/BarApi.md#createbar) | **POST** /bar | Create a Bar
-[*FooApi*](doc/FooApi.md) | [**createFoo**](doc/FooApi.md#createfoo) | **POST** /foo | Create a Foo
-[*FooApi*](doc/FooApi.md) | [**getAllFoos**](doc/FooApi.md#getallfoos) | **GET** /foo | GET all Foos
+[*BarApi*](doc\BarApi.md) | [**createBar**](doc\BarApi.md#createbar) | **POST** /bar | Create a Bar
+[*FooApi*](doc\FooApi.md) | [**createFoo**](doc\FooApi.md#createfoo) | **POST** /foo | Create a Foo
+[*FooApi*](doc\FooApi.md) | [**getAllFoos**](doc\FooApi.md#getallfoos) | **GET** /foo | GET all Foos
 
 
 ## Documentation For Models
 
- - [Addressable](doc/Addressable.md)
- - [Bar](doc/Bar.md)
- - [BarCreate](doc/BarCreate.md)
- - [BarRef](doc/BarRef.md)
- - [BarRefOrValue](doc/BarRefOrValue.md)
- - [Entity](doc/Entity.md)
- - [EntityRef](doc/EntityRef.md)
- - [Extensible](doc/Extensible.md)
- - [Foo](doc/Foo.md)
- - [FooRef](doc/FooRef.md)
- - [FooRefOrValue](doc/FooRefOrValue.md)
- - [Pasta](doc/Pasta.md)
- - [Pizza](doc/Pizza.md)
- - [PizzaSpeziale](doc/PizzaSpeziale.md)
+ - [Addressable](doc\Addressable.md)
+ - [Bar](doc\Bar.md)
+ - [BarCreate](doc\BarCreate.md)
+ - [BarRef](doc\BarRef.md)
+ - [BarRefOrValue](doc\BarRefOrValue.md)
+ - [Entity](doc\Entity.md)
+ - [EntityRef](doc\EntityRef.md)
+ - [Extensible](doc\Extensible.md)
+ - [Foo](doc\Foo.md)
+ - [FooRef](doc\FooRef.md)
+ - [FooRefOrValue](doc\FooRefOrValue.md)
+ - [Pasta](doc\Pasta.md)
+ - [Pizza](doc\Pizza.md)
+ - [PizzaSpeziale](doc\PizzaSpeziale.md)
 
 
 ## Documentation For Authorization

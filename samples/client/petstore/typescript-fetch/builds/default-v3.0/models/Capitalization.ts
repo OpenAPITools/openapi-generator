@@ -51,6 +51,7 @@ export interface Capitalization {
     sCAETHFlowPoints?: string;
     /**
      * Name of the pet
+
      * @type {string}
      * @memberof Capitalization
      */
