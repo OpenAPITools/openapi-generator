@@ -19,9 +19,9 @@ See https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests
 
 ## Run
 
-    godot --path samples/client/petstore/gdscript -d -s addons/gut/gut_cmdln.gd
+    godot --headless --debug --path samples/client/petstore/gdscript --script addons/gut/gut_cmdln.gd
 
-The command should return a zero exit code if all tests passed.
+The command should return a _zero_ exit code if all tests _passed_.
 You may want to add `--verbose` for more logs when debugging.
 
 

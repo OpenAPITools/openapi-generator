@@ -26,12 +26,13 @@ api.{{{operationIdSnakeCase}}}(
 {{#each allParams}}
 	# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
 	# {{{description}}}
-{{!-- `example` is not available here, not sure why --}}
+	{{! `example` is not available here, not sure why }}
 	{{paramName}},
 {{/each}}
 	# On Success
-	func(result):{{#with returnProperty}}  # result is {{>partials/complex_type}}{{/with}}
-		prints("Success!", "{{operationIdSnakeCase}}", result)
+	func(response):{{#with returnProperty}}  # response is {{>partials/api_response_class_name}}{{/with}}
+		prints("Success!", "{{operationIdSnakeCase}}", response)
+		{{#with returnProperty}}assert(response.data is {{>partials/complex_type}}){{/with}}
 		pass  # do things, make stuff
 		,
 	# On Error

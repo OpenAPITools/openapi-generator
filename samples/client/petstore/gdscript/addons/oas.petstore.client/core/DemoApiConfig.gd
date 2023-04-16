@@ -32,7 +32,6 @@ const BEE_DEFAULT_PORT_HTTPS := 443
 const BEE_DEFAULT_POLLING_INTERVAL_MS := 333  # milliseconds
 
 
-# Configuration also handles logging because it's convenient.
 enum LogLevel {
 	SILENT,
 	ERROR,

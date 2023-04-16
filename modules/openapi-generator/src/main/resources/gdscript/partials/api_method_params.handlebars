@@ -3,5 +3,5 @@
 	# {{{description}}}
 	{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#if defaultValue}}{{{defaultValue}}}{{/if}}{{#unless defaultValue}}null{{/unless}}{{/unless}},
 	{{/each}}
-	on_success: Callable = Callable(),  # func(result{{#if returnType}}: {{returnType}}{{/if}})
+	on_success: Callable = Callable(),  # func(response: {{>partials/api_response_class_name}})
 	on_failure: Callable = Callable(),  # func(error: {{>partials/api_error_class_name}})

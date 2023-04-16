@@ -253,6 +253,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("ApiBee.handlebars", "core", toCoreFilename("ApiBee") + ".gd"));
         supportingFiles.add(new SupportingFile("ApiError.handlebars", "core", toCoreFilename("ApiError") + ".gd"));
         supportingFiles.add(new SupportingFile("ApiConfig.handlebars", "core", toCoreFilename("ApiConfig") + ".gd"));
+        supportingFiles.add(new SupportingFile("core/ApiResponse.handlebars", "core", toCoreFilename("ApiResponse") + ".gd"));
         supportingFiles.add(new SupportingFile("README.handlebars", "", "README.md"));
 
         // Ensure we're using the appropriate template engine, and configure it while we're at it.

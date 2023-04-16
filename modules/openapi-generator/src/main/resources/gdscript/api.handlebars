@@ -127,7 +127,7 @@ func {{operationIdSnakeCase}}(
 	{{#if consumes}}
 	var bzz_mimes_consumable_by_server := [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
 	var bzz_found_producible_mime := false
-	for bzz_mime in BEE_PRODUCIBLE_CONTENT_TYPES:
+	for bzz_mime in BZZ_PRODUCIBLE_CONTENT_TYPES:
 		if bzz_mime in bzz_mimes_consumable_by_server:
 			bzz_headers["Content-Type"] = bzz_mime
 			bzz_found_producible_mime = true
@@ -141,7 +141,7 @@ func {{operationIdSnakeCase}}(
 	{{/if}}
 	{{#if produces}}
 	var bzz_mimes_produced_by_server := [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
-	for bzz_mime in BEE_CONSUMABLE_CONTENT_TYPES:
+	for bzz_mime in BZZ_CONSUMABLE_CONTENT_TYPES:
 		if bzz_mime in bzz_mimes_produced_by_server:
 			bzz_headers["Accept"] = bzz_mime
 			break
@@ -168,18 +168,18 @@ func {{operationIdSnakeCase}}(
 	{{/each}}
 	{{/if}}
 
-	self.bzz_request(
+	self._bzz_request(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
-		func(bzz_result, bzz_code, bzz_headers):
+		func(bzz_response):
 {{#with returnProperty}}
 	{{#if isArray}}
-			bzz_result = {{>partials/complex_type}}.bzz_denormalize_multiple(bzz_result)
+			bzz_response.data = {{>partials/complex_type}}.bzz_denormalize_multiple(bzz_response.data)
 	{{else if isModel}}
-			bzz_result = {{>partials/data_type}}.bzz_denormalize_single(bzz_result)
+			bzz_response.data = {{>partials/data_type}}.bzz_denormalize_single(bzz_response.data)
 	{{/if}}
 {{/with}}
-			on_success.call(bzz_result)
-			,  # ざわ‥
+			on_success.call(bzz_response)
+			,
 		func(bzz_error):
 			on_failure.call(bzz_error)
 			,  # ざわ‥
@@ -200,6 +200,7 @@ func {{operationIdSnakeCase}}_threaded(
 	)
 	bzz_thread.start(bzz_callable)
 	return bzz_thread
+
 {{/each}}
 
 {{/with}}

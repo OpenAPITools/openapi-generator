@@ -61,7 +61,7 @@ func add_pet(
 		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
 		func(bzz_result, bzz_code, bzz_headers):
 			bzz_result = DemoPet.bzz_denormalize_single(bzz_result)
-			on_success.call(bzz_result)
+			on_success.call(bzz_result, bzz_code, bzz_headers)
 			,  # ざわ‥
 		func(bzz_error):
 			on_failure.call(bzz_error)
