@@ -473,7 +473,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
-            writer.write(fragment.execute().replaceAll("\\s+", ""));
+            writer.write(fragment.execute().replaceAll("\\s+", " ").trim());
         }
     }
 
