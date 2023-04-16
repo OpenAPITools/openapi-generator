@@ -36,6 +36,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
     public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
     public static final String PUB_HOMEPAGE_VALUE = "Homepage";
     public static final String PUB_REPOSITORY_VALUE = "Repository";
+    public static final String PUB_PUBLISH_TO_VALUE = "Publish To";
     public static final String SOURCE_FOLDER_VALUE = "src";
     public static final String USE_ENUM_EXTENSION = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
@@ -61,6 +62,7 @@ public class DartClientOptionsProvider implements OptionsProvider {
                 .put(DartClientCodegen.PUB_AUTHOR_EMAIL, PUB_AUTHOR_EMAIL_VALUE)
                 .put(DartClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
                 .put(DartClientCodegen.PUB_REPOSITORY, PUB_REPOSITORY_VALUE)
+                .put(DartClientCodegen.PUB_PUBLISH_TO, PUB_PUBLISH_TO_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)

@@ -3,8 +3,11 @@ version: {{pubVersion}}
 description: {{pubDescription}}
 homepage: {{pubHomepage}}
 {{#pubRepository}}
-repository: {{pubRepository}}
+repository: {{.}}
 {{/pubRepository}}
+{{#pubPublishTo}}
+publish_to: {{.}}
+{{/pubPublishTo}}
 
 environment:
   sdk: '>=2.15.0 <3.0.0'
