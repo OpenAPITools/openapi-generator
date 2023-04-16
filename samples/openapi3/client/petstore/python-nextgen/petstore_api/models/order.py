@@ -39,6 +39,7 @@ class Order(BaseModel):
     def status_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in ('placed', 'approved', 'delivered'):
             raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
         return v
