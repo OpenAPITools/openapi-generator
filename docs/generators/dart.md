@@ -30,6 +30,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubHomepage|Homepage in generated pubspec| |homepage|
 |pubLibrary|Library name in generated code| |openapi.api|
 |pubName|Name in generated pubspec| |openapi|
+|pubPublishTo|Publish_to in generated pubspec| |null|
+|pubRepository|Repository in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |1.0.0|
 |serializationLibrary|Specify serialization library|<dl><dt>**native_serialization**</dt><dd>Use native serializer, backwards compatible</dd></dl>|native_serialization|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
