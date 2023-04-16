@@ -2281,4 +2281,165 @@ public class SpringCodegenTest {
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""));
     }
+
+    @Test
+    public void testReturnTypeVoidWithResponseEntity_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "true");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<ObjTest>")
+                .bodyContainsLines("return postToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<ObjTest>")
+                .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);");
+        javaFileAssert
+                .assertMethod("_putToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<Void>")
+                .bodyContainsLines("return putToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<Void>")
+                .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);");
+    }
+
+    @Test
+    public void testReturnTypeVoidWithoutResponseEntityWithDelegate_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest", "ObjTest")
+                .hasReturnType("ObjTest")
+                .bodyContainsLines("return postToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("ObjTest")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+        javaFileAssert
+                .assertMethod("_putToTest", "ObjTest")
+                .hasReturnType("void")
+                .bodyContainsLines("putToTest(objToTest);")
+                .bodyNotContainsLines("return putToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("void")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+    }
+
+    @Test
+    public void testReturnTypeVoidWithoutResponseEntityWithoutDelegateWithAsync_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "false");
+        codegen.additionalProperties().put(ASYNC, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("CompletableFuture<ObjTest>")
+                .bodyContainsLines("return CompletableFuture.supplyAsync(()-> {")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("CompletableFuture<Void>")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+    }
+
+    @Test
+    public void testReturnTypeVoidWithoutResponseEntityWithoutDelegateWithoutAsync_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "false");
+        codegen.additionalProperties().put(ASYNC, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("ObjTest")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("void")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+    }
+
 }
