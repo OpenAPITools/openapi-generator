@@ -1,4 +1,4 @@
-In here are the `handlebars` templates used to generate the GDScript client.
+In here are the `handlebars` templates used to generate the `GDScript` client.
 
 All files without the `.handlebars` extension (including this very `README.md` file) are ignored.
 
@@ -28,3 +28,8 @@ Godot does not have an `Exception` (`try / catch`) mechanism, by design.
 
 Therefore, whenever there's trouble in paradise, we pass around an `ApiError` object. (a `RefCounted`, don't worry about garbage collection)
 
+
+## AoiResponse
+
+A wrapper for an Api response, used in callbacks.
+Holds the HTTP components of a Response, as well as the deserialized data (if any).
