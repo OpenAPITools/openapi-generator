@@ -26,9 +26,9 @@ additionalProperties:
   # Timestamping the generated sample project would only add noise to git
   hideGenerationTimestamp: "true"
   # Since we're polluting the global namespace with class_name (it's really convenient),
-  # we can use these prefixes to namespace the generated classes.
+  # we can use these affixes to namespace the generated classes.
   # Best make sure the words you use here are not part of the domain of Godot.
-  # It's a bit cumbersome to have to add all three (idea: globalNamePrefix as sugar?)
   apiNamePrefix: Demo
   modelNamePrefix: Demo
+  modelNameSuffix: Model
   coreNamePrefix: Demo

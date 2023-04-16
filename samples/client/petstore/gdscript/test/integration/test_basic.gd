@@ -26,15 +26,15 @@ func fail_test(msg=""):
 func test_authenticated_user_uses_monkey_crud():
 	#gut.p("Running test 01…")
 	
-	var rick := DemoUser.new()
+	var rick := DemoUserModel.new()
 	rick.username = "Rick"
 	rick.password = "ytrom&"
 	
 	var user_api := DemoUserApi.new(cfg)
 	user_api.create_user(
 		rick,
-		func(result):
-			prints("Created user %s." % rick.username, result)
+		func(response):
+			prints("Created user %s:" % rick.username, response)
 			authenticate(
 				rick.username, rick.password,
 				func():
@@ -51,7 +51,6 @@ func test_authenticated_user_uses_monkey_crud():
 		func(error):
 			gut.p("ERROR!")
 			fail_test(str(error))
-			#emit_signal("test_ended")
 	)
 	
 	await wait_for_signal(test_ended, 120, "Waiting for test end…")
@@ -61,9 +60,9 @@ func authenticate(username: String, password: String, on_done: Callable):
 	var user_api := DemoUserApi.new(cfg)
 	user_api.login_user(
 		username, password,
-		func(result):
-			prints("Login Response:", result)
-#			assert_eq(result.code, 200)
+		func(response):
+			prints("Login Response:", response)
+			assert_eq(response.code, 200)
 			on_done.call()
 			,
 		func(error):
@@ -74,7 +73,7 @@ func authenticate(username: String, password: String, on_done: Callable):
 
 func add_monkey(on_done: Callable):
 	
-	var monkey := DemoPet.new()
+	var monkey := DemoPetModel.new()
 	monkey.name = "Gregoire"
 	monkey.photoUrls = ['urlA', 'urlB']
 	monkey.status = "available"
@@ -86,10 +85,10 @@ func add_monkey(on_done: Callable):
 	var pet_api := DemoPetApi.new(cfg)
 	pet_api.add_pet(
 		monkey,
-		func(result, code, headers):
-			print("Added monkey:", result)
-			assert_eq(code, 200)
-			on_done.call(result)
+		func(response):
+			print("Added monkey:", response)
+			assert_eq(response.code, 200)
+			on_done.call(response.data)
 			,
 		#func(error: ApiError):  #  ←  straight up crash, try again later
 		func(error):
@@ -111,7 +110,7 @@ func update_monkey(monkey, new_name, on_done: Callable):
 		func(result):
 			prints("Updated monkey:", result)
 #			assert_eq(result.code, 200)
-			on_done.call(result)
+			on_done.call(result.data)
 			,
 		#func(error: ApiError):  #  ←  straight up crash, try again later
 		func(error):

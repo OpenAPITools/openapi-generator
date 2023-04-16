@@ -44,8 +44,9 @@ api.delete_order(
 	# ID of the order that needs to be deleted
 	orderId,
 	# On Success
-	func(result):
-		prints("Success!", "delete_order", result)
+	func(response):
+		prints("Success!", "delete_order", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -87,8 +88,9 @@ var api = DemoStoreApi.new(config)
 # Invoke an endpoint
 api.get_inventory(
 	# On Success
-	func(result):  # result is Demointeger
-		prints("Success!", "get_inventory", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "get_inventory", response)
+		assert(response.data is DemointegerModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -132,8 +134,9 @@ api.get_order_by_id(
 	# ID of pet that needs to be fetched
 	orderId,
 	# On Success
-	func(result):  # result is DemoOrder
-		prints("Success!", "get_order_by_id", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "get_order_by_id", response)
+		assert(response.data is DemoOrderModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -147,7 +150,7 @@ api.get_order_by_id(
 # **place_order**   { #place_order }
 <a name="place_order"></a>
 
-> `place_order(demoOrder: DemoOrder, on_success: Callable, on_failure: Callable)`
+> `place_order(demoOrderModel: DemoOrderModel, on_success: Callable, on_failure: Callable)`
 
 Place an order for a pet
 
@@ -170,17 +173,18 @@ var api = DemoStoreApi.new(config)
 # You can also provide your own HTTPClient, to re-use it across apis.
 #var api = DemoStoreApi.new(config, client)
 
-var demoOrder = DemoOrder.new()
-# … fill model demoOrder with data
+var demoOrderModel = DemoOrderModel.new()
+# … fill model demoOrderModel with data
 
 # Invoke an endpoint
 api.place_order(
-	# demoOrder: DemoOrder
+	# demoOrderModel: DemoOrderModel
 	# order placed for purchasing the pet
-	demoOrder,
+	demoOrderModel,
 	# On Success
-	func(result):  # result is DemoOrder
-		prints("Success!", "place_order", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "place_order", response)
+		assert(response.data is DemoOrderModel)
 		pass  # do things, make stuff
 		,
 	# On Error

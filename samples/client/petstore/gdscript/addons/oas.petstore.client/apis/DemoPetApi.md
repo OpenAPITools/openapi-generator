@@ -18,7 +18,7 @@ Method | HTTP request | Description
 # **add_pet**   { #add_pet }
 <a name="add_pet"></a>
 
-> `add_pet(demoPet: DemoPet, on_success: Callable, on_failure: Callable)`
+> `add_pet(demoPetModel: DemoPetModel, on_success: Callable, on_failure: Callable)`
 
 Add a new pet to the store
 
@@ -42,17 +42,18 @@ var api = DemoPetApi.new(config)
 # You can also provide your own HTTPClient, to re-use it across apis.
 #var api = DemoPetApi.new(config, client)
 
-var demoPet = DemoPet.new()
-# … fill model demoPet with data
+var demoPetModel = DemoPetModel.new()
+# … fill model demoPetModel with data
 
 # Invoke an endpoint
 api.add_pet(
-	# demoPet: DemoPet
+	# demoPetModel: DemoPetModel
 	# Pet object that needs to be added to the store
-	demoPet,
+	demoPetModel,
 	# On Success
-	func(result):  # result is DemoPet
-		prints("Success!", "add_pet", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "add_pet", response)
+		assert(response.data is DemoPetModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -100,8 +101,9 @@ api.delete_pet(
 	# 
 	apiKey,
 	# On Success
-	func(result):
-		prints("Success!", "delete_pet", result)
+	func(response):
+		prints("Success!", "delete_pet", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -146,8 +148,9 @@ api.find_pets_by_status(
 	# Status values that need to be considered for filter
 	status,
 	# On Success
-	func(result):  # result is DemoPet
-		prints("Success!", "find_pets_by_status", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "find_pets_by_status", response)
+		assert(response.data is DemoPetModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -192,8 +195,9 @@ api.find_pets_by_tags(
 	# Tags to filter by
 	tags,
 	# On Success
-	func(result):  # result is DemoPet
-		prints("Success!", "find_pets_by_tags", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "find_pets_by_tags", response)
+		assert(response.data is DemoPetModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -238,8 +242,9 @@ api.get_pet_by_id(
 	# ID of pet to return
 	petId,
 	# On Success
-	func(result):  # result is DemoPet
-		prints("Success!", "get_pet_by_id", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "get_pet_by_id", response)
+		assert(response.data is DemoPetModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -253,7 +258,7 @@ api.get_pet_by_id(
 # **update_pet**   { #update_pet }
 <a name="update_pet"></a>
 
-> `update_pet(demoPet: DemoPet, on_success: Callable, on_failure: Callable)`
+> `update_pet(demoPetModel: DemoPetModel, on_success: Callable, on_failure: Callable)`
 
 Update an existing pet
 
@@ -277,17 +282,18 @@ var api = DemoPetApi.new(config)
 # You can also provide your own HTTPClient, to re-use it across apis.
 #var api = DemoPetApi.new(config, client)
 
-var demoPet = DemoPet.new()
-# … fill model demoPet with data
+var demoPetModel = DemoPetModel.new()
+# … fill model demoPetModel with data
 
 # Invoke an endpoint
 api.update_pet(
-	# demoPet: DemoPet
+	# demoPetModel: DemoPetModel
 	# Pet object that needs to be added to the store
-	demoPet,
+	demoPetModel,
 	# On Success
-	func(result):  # result is DemoPet
-		prints("Success!", "update_pet", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "update_pet", response)
+		assert(response.data is DemoPetModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -338,8 +344,9 @@ api.update_pet_with_form(
 	# Updated status of the pet
 	status,
 	# On Success
-	func(result):
-		prints("Success!", "update_pet_with_form", result)
+	func(response):
+		prints("Success!", "update_pet_with_form", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -390,8 +397,9 @@ api.upload_file(
 	# file to upload
 	file,
 	# On Success
-	func(result):  # result is DemoApiResponse
-		prints("Success!", "upload_file", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "upload_file", response)
+		assert(response.data is DemoApiResponseModel)
 		pass  # do things, make stuff
 		,
 	# On Error

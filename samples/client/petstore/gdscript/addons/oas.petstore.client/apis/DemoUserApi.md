@@ -18,7 +18,7 @@ Method | HTTP request | Description
 # **create_user**   { #create_user }
 <a name="create_user"></a>
 
-> `create_user(demoUser: DemoUser, on_success: Callable, on_failure: Callable)`
+> `create_user(demoUserModel: DemoUserModel, on_success: Callable, on_failure: Callable)`
 
 Create user
 
@@ -42,17 +42,18 @@ var api = DemoUserApi.new(config)
 # You can also provide your own HTTPClient, to re-use it across apis.
 #var api = DemoUserApi.new(config, client)
 
-var demoUser = DemoUser.new()
-# … fill model demoUser with data
+var demoUserModel = DemoUserModel.new()
+# … fill model demoUserModel with data
 
 # Invoke an endpoint
 api.create_user(
-	# demoUser: DemoUser
+	# demoUserModel: DemoUserModel
 	# Created user object
-	demoUser,
+	demoUserModel,
 	# On Success
-	func(result):
-		prints("Success!", "create_user", result)
+	func(response):
+		prints("Success!", "create_user", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -97,8 +98,9 @@ api.create_users_with_array_input(
 	# List of user object
 	user,
 	# On Success
-	func(result):
-		prints("Success!", "create_users_with_array_input", result)
+	func(response):
+		prints("Success!", "create_users_with_array_input", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -143,8 +145,9 @@ api.create_users_with_list_input(
 	# List of user object
 	user,
 	# On Success
-	func(result):
-		prints("Success!", "create_users_with_list_input", result)
+	func(response):
+		prints("Success!", "create_users_with_list_input", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -189,8 +192,9 @@ api.delete_user(
 	# The name that needs to be deleted
 	username,
 	# On Success
-	func(result):
-		prints("Success!", "delete_user", result)
+	func(response):
+		prints("Success!", "delete_user", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -234,8 +238,9 @@ api.get_user_by_name(
 	# The name that needs to be fetched. Use user1 for testing.
 	username,
 	# On Success
-	func(result):  # result is DemoUser
-		prints("Success!", "get_user_by_name", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "get_user_by_name", response)
+		assert(response.data is DemoUserModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -282,8 +287,9 @@ api.login_user(
 	# The password for login in clear text
 	password,
 	# On Success
-	func(result):  # result is Demostring
-		prints("Success!", "login_user", result)
+	func(response):  # response is DemoApiResponse
+		prints("Success!", "login_user", response)
+		assert(response.data is DemostringModel)
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -325,8 +331,9 @@ var api = DemoUserApi.new(config)
 # Invoke an endpoint
 api.logout_user(
 	# On Success
-	func(result):
-		prints("Success!", "logout_user", result)
+	func(response):
+		prints("Success!", "logout_user", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -340,7 +347,7 @@ api.logout_user(
 # **update_user**   { #update_user }
 <a name="update_user"></a>
 
-> `update_user(username: String,demoUser: DemoUser, on_success: Callable, on_failure: Callable)`
+> `update_user(username: String,demoUserModel: DemoUserModel, on_success: Callable, on_failure: Callable)`
 
 Updated user
 
@@ -364,20 +371,21 @@ var api = DemoUserApi.new(config)
 # You can also provide your own HTTPClient, to re-use it across apis.
 #var api = DemoUserApi.new(config, client)
 
-var demoUser = DemoUser.new()
-# … fill model demoUser with data
+var demoUserModel = DemoUserModel.new()
+# … fill model demoUserModel with data
 
 # Invoke an endpoint
 api.update_user(
 	# username: String = ""   Eg: username_example
 	# name that need to be deleted
 	username,
-	# demoUser: DemoUser
+	# demoUserModel: DemoUserModel
 	# Updated user object
-	demoUser,
+	demoUserModel,
 	# On Success
-	func(result):
-		prints("Success!", "update_user", result)
+	func(response):
+		prints("Success!", "update_user", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error

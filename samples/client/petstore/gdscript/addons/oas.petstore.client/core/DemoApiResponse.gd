@@ -1,5 +1,5 @@
-extends {{>partials/api_response_parent_class}}
-class_name {{>partials/api_response_class_name}}
+extends Resource
+class_name DemoApiResponse
 
 # Headers sent back by the server
 var headers := Dictionary()

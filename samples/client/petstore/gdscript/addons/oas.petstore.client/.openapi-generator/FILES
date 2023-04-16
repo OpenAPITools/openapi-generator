@@ -8,9 +8,10 @@ apis/DemoUserApi.md
 core/DemoApiBee.gd
 core/DemoApiConfig.gd
 core/DemoApiError.gd
-models/DemoApiResponse.gd
-models/DemoCategory.gd
-models/DemoOrder.gd
-models/DemoPet.gd
-models/DemoTag.gd
-models/DemoUser.gd
+core/DemoApiResponse.gd
+models/DemoApiResponseModel.gd
+models/DemoCategoryModel.gd
+models/DemoOrderModel.gd
+models/DemoPetModel.gd
+models/DemoTagModel.gd
+models/DemoUserModel.gd
