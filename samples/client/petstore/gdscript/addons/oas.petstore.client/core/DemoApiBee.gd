@@ -175,6 +175,8 @@ func _bzz_request(
 					var error := DemoApiError.new()
 					error.internal_code = parsing
 					error.identifier = "apibee.decode.cannot_parse_json"
+					error.response_code = response.code
+					error.response = response
 					error.message = "%s: failed to parse JSON response at line %d.\n%s" % [
 						_bzz_name, parser.get_error_line(), parser.get_error_message()
 					]
@@ -185,6 +187,8 @@ func _bzz_request(
 				var error := DemoApiError.new()
 				error.internal_code = ERR_INVALID_DATA
 				error.identifier = "apibee.decode.mime_type_unsupported"
+				error.response_code = response.code
+				error.response = response
 				error.message = "%s: mime type `%s' is not supported (yet -- MRs welcome)" % [
 					_bzz_name, mime
 				]
@@ -350,6 +354,7 @@ func _bzz_do_request_text(
 		var error := DemoApiError.new()
 		error.internal_code = ERR_PRINTER_ON_FIRE
 		error.response_code = response.code
+		error.response = response
 		error.identifier = "apibee.response.5xx"
 		error.message = "%s: request to `%s' made the server hiccup with a %d." % [
 			_bzz_name, path, response.code
@@ -363,6 +368,7 @@ func _bzz_do_request_text(
 		var error := DemoApiError.new()
 		error.identifier = "apibee.response.4xx"
 		error.response_code = response.code
+		error.response = response
 		error.message = "%s: request to `%s' was denied with a %d." % [
 			_bzz_name, path, response.code
 		]
@@ -375,6 +381,7 @@ func _bzz_do_request_text(
 		var error := DemoApiError.new()
 		error.identifier = "apibee.response.3xx"
 		error.response_code = response.code
+		error.response = response
 		error.message = "%s: request to `%s' was redirected with a %d.  We do not support redirects in that client yet." % [
 			_bzz_name, path, response.code
 		]

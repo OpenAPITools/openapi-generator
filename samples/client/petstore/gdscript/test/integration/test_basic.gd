@@ -18,13 +18,12 @@ func before_all():
 	configure()
 
 
-func fail_test(msg=""):
+func fail_test(msg:=""):
 	super.fail_test(msg)
 	emit_signal("test_ended")
 
 
 func test_authenticated_user_uses_monkey_crud():
-	#gut.p("Running test 01…")
 	
 	var rick := DemoUserModel.new()
 	rick.username = "Rick"
@@ -42,8 +41,12 @@ func test_authenticated_user_uses_monkey_crud():
 						func(monkey):
 							update_monkey(
 								monkey, "Summer",
-								func(_result):
-									emit_signal("test_ended")
+								func(_updated_monkey):
+									delete_monkey(
+										monkey.id,
+										func(_what):
+											emit_signal("test_ended")
+									)
 							)
 					)
 			)
@@ -112,13 +115,23 @@ func update_monkey(monkey, new_name, on_done: Callable):
 #			assert_eq(result.code, 200)
 			on_done.call(result.data)
 			,
-		#func(error: ApiError):  #  ←  straight up crash, try again later
 		func(error):
-			# OH GOSH THIS CRASHES AS WELL (works with RefCounted)
-			# (but error does have type ApiError)
-#			if not (error is ApiError):
-#				fail("Error in on_failure callback has the wrong type.")
-			printerr("ERROR!")
+			fail_test(str(error))
+			,
+	)
+
+
+func delete_monkey(monkey_id, on_done: Callable):
+
+	var pet_api := DemoPetApi.new(cfg)
+	pet_api.delete_pet(
+		monkey_id, "whyisapikeyhere",
+		func(response):
+			prints("Deleted monkey:", response)
+			assert_eq(response.code, 200)
+			on_done.call(response)
+			,
+		func(error):
 			fail_test(str(error))
 			,
 	)
