@@ -48,24 +48,36 @@ class FormatTest(BaseModel):
 
     @validator('string')
     def string_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"[a-z]", v ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return v
 
     @validator('string_with_double_quote_pattern')
     def string_with_double_quote_pattern_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"this is \"something\"", v):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return v
 
     @validator('pattern_with_digits')
     def pattern_with_digits_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"^\d{10}$", v):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return v
 
     @validator('pattern_with_digits_and_delimiter')
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"^image_\d{1,3}$", v ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return v

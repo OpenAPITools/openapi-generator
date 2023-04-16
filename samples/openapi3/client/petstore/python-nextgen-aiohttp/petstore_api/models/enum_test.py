@@ -45,6 +45,7 @@ class EnumTest(BaseModel):
     def enum_string_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in ('UPPER', 'lower', ''):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return v
@@ -59,6 +60,7 @@ class EnumTest(BaseModel):
     def enum_integer_default_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in (1, 5, 14):
             raise ValueError("must be one of enum values (1, 5, 14)")
         return v
@@ -67,6 +69,7 @@ class EnumTest(BaseModel):
     def enum_integer_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in (1, -1):
             raise ValueError("must be one of enum values (1, -1)")
         return v
@@ -75,6 +78,7 @@ class EnumTest(BaseModel):
     def enum_number_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in (1.1, -1.2):
             raise ValueError("must be one of enum values (1.1, -1.2)")
         return v
