@@ -98,3 +98,18 @@ DateTime? mapDateTime(dynamic map, String key, [String? pattern]) {
   }
   return null;
 }
+
+extension DateTimeHelper on DateTime {
+  static List<DateTime>? listFromJson(dynamic json, {bool growable = false}) {
+    final result = <DateTime>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = DateTime.tryParse(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}

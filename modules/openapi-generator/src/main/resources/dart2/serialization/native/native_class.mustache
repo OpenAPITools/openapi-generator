@@ -150,7 +150,12 @@ class {{{classname}}} {
           :  {{#isNullable}}null{{/isNullable}}{{^isNullable}}const []{{/isNullable}},
             {{/items.isArray}}
             {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+              {{#items.isDateTime}}
+                {{{name}}}: DateTimeHelper.listFromJson(json[r'{{{baseName}}}']){{^isNullable}}!{{/isNullable}},
+              {{/items.isDateTime}}
+              {{^items.isDateTime}}
+                {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+              {{/items.isDateTime}}
             {{/items.isArray}}
           {{/isArray}}
           {{^isArray}}
