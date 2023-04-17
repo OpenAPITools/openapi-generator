@@ -16,10 +16,6 @@ run/main_scene="res://demo/main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Logger="*res://demo/Logger.gd"
-
 [debug]
 
 file_logging/enable_file_logging=true

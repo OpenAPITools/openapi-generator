@@ -1,10 +1,13 @@
 extends Control
 
+# This is the main (and only) scene of this project.
+# It runs GUT, whose tests are defined in `test/`.
+# This project is meant to be run in headless mode:
+#   godot --debug --headless --path samples/client/petstore/gdscript --script addons/gut/gut_cmdln.gd
+
 signal test_ended
 
 @onready var run_tests_button := $HBoxContainer/VBoxContainer/RunTestsButton
-#@onready var log_text_edit := $HBoxContainer/LogDump
-
 
 var gut
 

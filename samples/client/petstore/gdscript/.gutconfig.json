@@ -23,7 +23,7 @@
  "pre_run_script": null,
  "prefix": null,
  "selected": null,
- "should_exit": null,
+ "should_exit": true,
  "should_exit_on_success": null,
  "should_maximize": null,
  "suffix": null,
