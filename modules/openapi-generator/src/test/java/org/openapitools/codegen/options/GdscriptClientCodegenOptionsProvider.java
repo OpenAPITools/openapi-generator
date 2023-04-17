@@ -9,10 +9,6 @@ import java.util.Map;
 
 public class GdscriptClientCodegenOptionsProvider implements OptionsProvider {
 
-    public static final String PROJECT_NAME_VALUE = "GDScript OAS Client";
-    public static final String CORE_NAME_PREFIX_VALUE = "";
-    public static final String CORE_NAME_SUFFIX_VALUE = "";
-
 //    public static final String MODEL_PACKAGE_VALUE = "package";
 //    public static final String API_PACKAGE_VALUE = "apiPackage";
 //    public static final String VARIABLE_NAMING_CONVENTION_VALUE = "snake_case";
@@ -40,9 +36,10 @@ public class GdscriptClientCodegenOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder
 
-                .put(GdscriptClientCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
-                .put(GdscriptClientCodegen.CORE_NAME_PREFIX, CORE_NAME_PREFIX_VALUE)
-                .put(GdscriptClientCodegen.CORE_NAME_SUFFIX, CORE_NAME_SUFFIX_VALUE)
+                .put(GdscriptClientCodegen.CORE_NAME_PREFIX, GdscriptClientCodegen.CORE_NAME_PREFIX_VALUE)
+                .put(GdscriptClientCodegen.CORE_NAME_SUFFIX, GdscriptClientCodegen.CORE_NAME_SUFFIX_VALUE)
+                .put(GdscriptClientCodegen.ANTICOLLISION_PREFIX, GdscriptClientCodegen.ANTICOLLISION_PREFIX_VALUE)
+                .put(GdscriptClientCodegen.ANTICOLLISION_SUFFIX, GdscriptClientCodegen.ANTICOLLISION_SUFFIX_VALUE)
 
                 // > "le remblai, c'était mieux avant"
 

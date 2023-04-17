@@ -25,17 +25,22 @@ func fail_test(msg:=""):
 
 func test_authenticated_user_uses_monkey_crud():
 	
-	var rick := DemoUserModel.new()
-	rick.username = "Rick"
-	rick.password = "ytrom&"
+	var someone := DemoUserModel.new()
+	someone.username = "Anon"
+	someone.password = "nonA"
 	
 	var user_api := DemoUserApi.new(cfg)
 	user_api.create_user(
-		rick,
+		someone,
 		func(response):
-			prints("Created user %s:" % rick.username, response)
+			prints("Created user %s:" % someone.username, response)
+			assert_is(response, DemoApiResponse)
+			# The response holds {"code":200,"type":"unknown","message":"<new user id>"}
+			# How can the client know how to deserialize a DemoUserModel from that ?
+			#assert_is(response.data, DemoUserModel)
+			#assert_eq(response.data.username, someone.username)
 			authenticate(
-				rick.username, rick.password,
+				someone.username, someone.password,
 				func():
 					add_monkey(
 						func(monkey):
@@ -44,7 +49,7 @@ func test_authenticated_user_uses_monkey_crud():
 								func(_updated_monkey):
 									delete_monkey(
 										monkey.id,
-										func(_what):
+										func(_done):
 											emit_signal("test_ended")
 									)
 							)
@@ -52,7 +57,6 @@ func test_authenticated_user_uses_monkey_crud():
 			)
 			,
 		func(error):
-			gut.p("ERROR!")
 			fail_test(str(error))
 	)
 	
@@ -65,6 +69,7 @@ func authenticate(username: String, password: String, on_done: Callable):
 		username, password,
 		func(response):
 			prints("Login Response:", response)
+			assert_is(response, DemoApiResponse)
 			assert_eq(response.code, 200)
 			on_done.call()
 			,
@@ -89,17 +94,16 @@ func add_monkey(on_done: Callable):
 	pet_api.add_pet(
 		monkey,
 		func(response):
-			print("Added monkey:", response)
+			prints("Added monkey:", response)
+			assert_is(response, DemoApiResponse)
 			assert_eq(response.code, 200)
+			assert_is(response.data, DemoPetModel)
+			assert_eq(response.data.name, monkey.name)
+			
 			on_done.call(response.data)
 			,
-		#func(error: ApiError):  #  ←  straight up crash, try again later
-		func(error):
-			# OH GOSH THIS CRASHES AS WELL (works with RefCounted)
-			# (but error does have type ApiError)
-#			if not (error is ApiError):
-#				fail("Error in on_failure callback has the wrong type.")
-			printerr("ERROR!")
+		func(error: DemoApiError):
+			assert_is(error, DemoApiError)
 			fail_test(str(error))
 			,
 	)
@@ -110,10 +114,10 @@ func update_monkey(monkey, new_name, on_done: Callable):
 	var pet_api := DemoPetApi.new(cfg)
 	pet_api.update_pet_with_form(
 		monkey.id, new_name, "available",
-		func(result):
-			prints("Updated monkey:", result)
-#			assert_eq(result.code, 200)
-			on_done.call(result.data)
+		func(response):
+			prints("Updated monkey:", response)
+			assert_eq(response.code, 200)
+			on_done.call(response.data)
 			,
 		func(error):
 			fail_test(str(error))

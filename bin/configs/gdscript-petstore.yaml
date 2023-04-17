@@ -15,10 +15,11 @@ outputDir: samples/client/petstore/gdscript/addons/oas.petstore.client
 # Exception: Could not process model 'Bird'. Please make sure that your schema is correct!
 # Caused by: java.lang.RuntimeException: reserved word color not allowed
 # Perhaps try this again later, using another config file like gdscript-echo.yaml
+# > Later: this has been solved, we should now be able to use echo as well
 #inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
 
 # B: Older (legacy, deprecated) petstore server OAS
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/gdscript/petstore.yaml
 
 templateDir: modules/openapi-generator/src/main/resources/gdscript
 

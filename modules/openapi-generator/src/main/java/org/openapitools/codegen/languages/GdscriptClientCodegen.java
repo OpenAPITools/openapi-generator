@@ -18,11 +18,16 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
 
-    // All generated GDScript classes (including core) will use this prefix both in class_name and file name.
+    // All generated core classes will use this affixes both in class_name and file name.
     public static final String CORE_NAME_PREFIX = "coreNamePrefix";
+    public static final String CORE_NAME_PREFIX_VALUE = "";
     public static final String CORE_NAME_SUFFIX = "coreNameSuffix";
-    // Perhaps for the README's title ?  Any chars allowed ?
-    public static final String PROJECT_NAME = "projectName";
+    public static final String CORE_NAME_SUFFIX_VALUE = "";
+    // Affixes added to reserved words ; do include the _ for snake_case.
+    public static final String ANTICOLLISION_PREFIX = "anticollisionPrefix";
+    public static final String ANTICOLLISION_PREFIX_VALUE = "some_";
+    public static final String ANTICOLLISION_SUFFIX = "anticollisionSuffix";
+    public static final String ANTICOLLISION_SUFFIX_VALUE = "";
 
     @SuppressWarnings("FieldCanBeLocal")
     private final Logger LOGGER = LoggerFactory.getLogger(GdscriptClientCodegen.class);
@@ -31,6 +36,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     //protected String coreNamePrefix = org.openapitools.codegen.options.GdscriptClientCodegenOptionsProvider.CORE_NAME_PREFIX_VALUE;
     protected String coreNamePrefix = "";
     protected String coreNameSuffix = "";
+
+    protected String anticollisionPrefix = ANTICOLLISION_PREFIX_VALUE;
+    protected String anticollisionSuffix = ANTICOLLISION_SUFFIX_VALUE;
 
     // We're putting the doc files right next their target code file
     protected String apiDocPath = "apis/";
@@ -44,12 +52,28 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return coreNamePrefix;
     }
 
+    public void setCoreNameSuffix(String coreNameSuffix) {
+        this.coreNameSuffix = coreNameSuffix;
+    }
+
     public String getCoreNameSuffix() {
         return coreNameSuffix;
     }
 
-    public void setCoreNameSuffix(String coreNameSuffix) {
-        this.coreNameSuffix = coreNameSuffix;
+    public void setAnticollisionPrefix(String anticollisionPrefix) {
+        this.anticollisionPrefix = anticollisionPrefix;
+    }
+
+    public String getAnticollisionPrefix() {
+        return anticollisionPrefix;
+    }
+
+    public void setAnticollisionSuffix(String anticollisionSuffix) {
+        this.anticollisionSuffix = anticollisionSuffix;
+    }
+
+    public String getAnticollisionSuffix() {
+        return anticollisionSuffix;
     }
 
     public CodegenType getTag() {
@@ -214,8 +238,14 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         //typeMapping.put("Error", "?");
         //typeMapping.put("AnyType", "Variant");
 
-        cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all core classes"));
-        cliOptions.add(new CliOption(CORE_NAME_SUFFIX, "PascalCase suffix added to all core classes"));
+        cliOptions.add(new CliOption(CORE_NAME_PREFIX, "PascalCase prefix added to all core classes")
+                .defaultValue(CORE_NAME_PREFIX_VALUE));
+        cliOptions.add(new CliOption(CORE_NAME_SUFFIX, "PascalCase suffix added to all core classes")
+                .defaultValue(CORE_NAME_SUFFIX_VALUE));
+        cliOptions.add(new CliOption(ANTICOLLISION_PREFIX, "Prefix added at the beginning of reserved words")
+                .defaultValue(ANTICOLLISION_PREFIX_VALUE));
+        cliOptions.add(new CliOption(ANTICOLLISION_SUFFIX, "Suffix added at the ending of reserved words")
+                .defaultValue(ANTICOLLISION_SUFFIX_VALUE));
 
         // Also, I have not taken care of escaping things properly in the templates.
         // I'm not sure how to handle the different escaping strategies required.
@@ -235,14 +265,23 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(CORE_NAME_PREFIX)) {
             setCoreNamePrefix((String) additionalProperties.get(CORE_NAME_PREFIX));
-        } else {
-            additionalProperties.put(CORE_NAME_PREFIX, "");
         }
+        writePropertyBack(CORE_NAME_PREFIX, getCoreNamePrefix());
+
         if (additionalProperties.containsKey(CORE_NAME_SUFFIX)) {
             setCoreNameSuffix((String) additionalProperties.get(CORE_NAME_SUFFIX));
-        } else {
-            additionalProperties.put(CORE_NAME_SUFFIX, "");
         }
+        writePropertyBack(CORE_NAME_SUFFIX, getCoreNameSuffix());
+
+        if (additionalProperties.containsKey(ANTICOLLISION_PREFIX)) {
+            setAnticollisionPrefix((String) additionalProperties.get(ANTICOLLISION_PREFIX));
+        }
+        writePropertyBack(ANTICOLLISION_PREFIX, getAnticollisionPrefix());
+
+        if (additionalProperties.containsKey(ANTICOLLISION_SUFFIX)) {
+            setAnticollisionSuffix((String) additionalProperties.get(ANTICOLLISION_SUFFIX));
+        }
+        writePropertyBack(ANTICOLLISION_SUFFIX, getAnticollisionSuffix());
     }
 
     @Override
@@ -297,10 +336,16 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 ;
     }
 
+    @Override
+    public String escapeReservedWord(String name) {
+        return getAnticollisionPrefix() + name + getAnticollisionSuffix();
+    }
+
     public String escapeStringLiteral(String input) {
         return input
-                .replace("\"", "\\\"")
-                .replaceAll("[\\\\]+$", "")
+                .replace("\"", "\\\"")  // escape double quotes
+                .replaceAll("[\\\\]+$", "")  // remove trailing backslash(es)
+                // issue: "foo\<control char>" will perhaps still wreak havoc
                 ;
     }
 
@@ -379,7 +424,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     protected List<String> getReservedWords() {
         return Arrays.asList(
                 // Local method names used in base API class
-                "_bzz_connect_client_if_needed", "bzz_request", "_bzz_request_text", "_bzz_do_request_text",
+                "_bzz_connect_client_if_needed", "_bzz_request", "_bzz_request_text", "_bzz_do_request_text",
                 "_bzz_convert_http_method", "_bzz_urlize_path_param", "_bzz_escape_path_param",
                 "_bzz_next_loop_iteration", "_bzz_get_content_type", "_bzz_format_error_response",
                 // Local properties used in base API class

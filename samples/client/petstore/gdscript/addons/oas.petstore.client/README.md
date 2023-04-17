@@ -33,22 +33,26 @@ config.port = 8080
 #config.trusted_chain = preload("res://my_cert_chain.crt")
 
 # Instantiate the api
-var api = DemoPetApi.new(config)
+var api = DemoFakeApi.new(config)
 # You can also provide your own HTTPClient, to re-use it across apis.
-#var api = DemoPetApi.new(config, client)
+#var api = DemoFakeApi.new(config, client)
 
-var demoPetModel = DemoPetModel.new()
-# … fill model demoPetModel with data
 
 # Invoke an endpoint
-api.add_pet(
-	# demoPetModel: DemoPetModel
-	# Pet object that needs to be added to the store
-	demoPetModel,
+api.test_nullable_required_param(
+	# username: String = ""   Eg: username_example
+	# The name that needs to be fetched. Use user1 for testing.
+	username,
+	# dummyRequiredNullableParam: String = ""   Eg: dummyRequiredNullableParam_example
+	# To test nullable required parameters
+	dummyRequiredNullableParam,
+	# uPPERCASE: String = ""   Eg: uPPERCASE_example
+	# To test parameter names in upper case
+	uPPERCASE,
 	# On Success
-	func(response):  # response is DemoApiResponse
-		prints("Success!", "add_pet", response)
-		assert(response.data is DemoPetModel)
+	func(response):
+		prints("Success!", "test_nullable_required_param", response)
+		
 		pass  # do things, make stuff
 		,
 	# On Error
@@ -75,6 +79,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DemoFakeApi* | [**test_nullable_required_param**](apis/DemoFakeApi.md#test_nullable_required_param) | **GET** /fake/user/{username} | To test nullable required parameters
 *DemoPetApi* | [**add_pet**](apis/DemoPetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *DemoPetApi* | [**delete_pet**](apis/DemoPetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
 *DemoPetApi* | [**find_pets_by_status**](apis/DemoPetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
@@ -87,6 +92,8 @@ Class | Method | HTTP request | Description
 *DemoStoreApi* | [**get_inventory**](apis/DemoStoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *DemoStoreApi* | [**get_order_by_id**](apis/DemoStoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
 *DemoStoreApi* | [**place_order**](apis/DemoStoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
+*DemoTestingApi* | [**tests_file_response_get**](apis/DemoTestingApi.md#tests_file_response_get) | **GET** /tests/fileResponse | Returns an image file
+*DemoTestingApi* | [**tests_type_testing_get**](apis/DemoTestingApi.md#tests_type_testing_get) | **GET** /tests/typeTesting | Route to test the TypeTesting schema
 *DemoUserApi* | [**create_user**](apis/DemoUserApi.md#create_user) | **POST** /user | Create user
 *DemoUserApi* | [**create_users_with_array_input**](apis/DemoUserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
 *DemoUserApi* | [**create_users_with_list_input**](apis/DemoUserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
@@ -99,11 +106,19 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+- [DemoActionContainerModel](models/DemoActionContainerModel.md)
 - [DemoApiResponseModel](models/DemoApiResponseModel.md)
+- [DemoArrayItemRefTestModel](models/DemoArrayItemRefTestModel.md)
+- [DemoBazModel](models/DemoBazModel.md)
 - [DemoCategoryModel](models/DemoCategoryModel.md)
+- [DemoEnumArrayTestingModel](models/DemoEnumArrayTestingModel.md)
+- [DemoOptionalTestingModel](models/DemoOptionalTestingModel.md)
 - [DemoOrderModel](models/DemoOrderModel.md)
 - [DemoPetModel](models/DemoPetModel.md)
+- [DemoPropertyTestModel](models/DemoPropertyTestModel.md)
+- [DemoReturnModel](models/DemoReturnModel.md)
 - [DemoTagModel](models/DemoTagModel.md)
+- [DemoTypeTestingModel](models/DemoTypeTestingModel.md)
 - [DemoUserModel](models/DemoUserModel.md)
 
 
