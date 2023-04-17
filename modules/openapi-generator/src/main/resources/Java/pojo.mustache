@@ -393,7 +393,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         try {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
@@ -426,7 +426,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
@@ -450,7 +450,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           try {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
