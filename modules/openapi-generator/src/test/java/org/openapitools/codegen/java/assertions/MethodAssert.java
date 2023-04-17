@@ -80,7 +80,7 @@ public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration
             .toString();
         Assertions.assertThat(actualBody)
             .withFailMessage(
-                "Method's %s body should contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                "Method's %s body shouldn't contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
                 methodSignature, Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
             )
             .doesNotContain(lines);
