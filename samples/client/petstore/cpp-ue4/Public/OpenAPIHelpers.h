@@ -104,56 +104,20 @@ FString Base64UrlEncode(const T& Value)
 }
 
 template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
-inline FStringFormatArg ToStringFormatArg(const T& Value)
+inline FString ToString(const T& Value)
 {
-	return FStringFormatArg(Value);
+	return FString::Format(TEXT("{0}"), { FStringFormatArg(Value) });
 }
 
 template<typename T, typename std::enable_if<std::is_base_of<Model, T>::value, int>::type = 0>
-inline FStringFormatArg ToStringFormatArg(const T& EnumModelValue)
+inline FString ToString(const T& EnumModelValue)
 {
-	return FStringFormatArg(T::EnumToString(EnumModelValue.Value));
-}
-
-inline FStringFormatArg ToStringFormatArg(const FDateTime& Value)
-{
-	return FStringFormatArg(Value.ToIso8601());
-}
-
-inline FStringFormatArg ToStringFormatArg(const FGuid& Value)
-{
-	return FStringFormatArg(Value.ToString(EGuidFormats::DigitsWithHyphens));
-}
-
-inline FStringFormatArg ToStringFormatArg(const TArray<uint8>& Value)
-{
-	return FStringFormatArg(Base64UrlEncode(Value));
-}
-
-template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
-inline FString ToString(const T& Value)
-{
-	return FString::Format(TEXT("{0}"), { ToStringFormatArg(Value) });
+	return T::EnumToString(EnumModelValue.Value);
 }
 
 inline FString ToString(const FString& Value)
 {
 	return Value;
-}
-
-inline FString ToString(bool Value)
-{
-	return Value ? TEXT("true") : TEXT("false");
-}
-
-inline FStringFormatArg ToStringFormatArg(bool Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
-inline FString ToString(const TArray<uint8>& Value)
-{
-	return Base64UrlEncode(Value);
 }
 
 inline FString ToString(const Model& Value)
@@ -165,10 +129,35 @@ inline FString ToString(const Model& Value)
 	return String;
 }
 
+inline FString ToString(const FDateTime& Value)
+{
+	return Value.ToIso8601();
+}
+
+inline FString ToString(const FGuid& Value)
+{
+	return Value.ToString(EGuidFormats::DigitsWithHyphens);
+}
+
+inline FString ToString(const TArray<uint8>& Value)
+{
+	return FBase64::Encode(Value);
+}
+
+inline FString ToString(bool Value)
+{
+	return Value ? TEXT("true") : TEXT("false");
+}
+
 template<typename T>
 inline FString ToUrlString(const T& Value)
 {
 	return FPlatformHttp::UrlEncode(ToString(Value));
+}
+
+inline FString ToUrlString(const TArray<uint8>& Value)
+{
+	return Base64UrlEncode(Value);
 }
 
 template<typename T>
@@ -255,7 +244,7 @@ inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Va
 
 inline void WriteJsonValue(JsonWriter& Writer, const TArray<uint8>& Value)
 {
-	Writer->WriteValue(ToString(Value));
+	Writer->WriteValue(FBase64::Encode(Value));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
@@ -374,7 +363,7 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TArray<uint
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		Base64UrlDecode(TmpValue, Value);
+		FBase64::Decode(TmpValue, Value);
 		return true;
 	}
 	else
