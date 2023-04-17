@@ -407,3 +407,9 @@ class ModelTests(unittest.TestCase):
         b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
         self.assertFalse(b is None)
         self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
+
+    def test_object_with_dict_of_dict_of_object(self):
+        # for https://github.com/OpenAPITools/openapi-generator/issues/15135
+        d = {"optionalDict": {"a": {"b": {"aProperty": "value"}}}}
+        a = petstore_api.Parent.from_dict(d)
+        self.assertEqual(a.to_dict(), d)
