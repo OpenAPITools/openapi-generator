@@ -49,3 +49,15 @@ components:
           enum:
             - A
             - B
+    Parent:
+      type: object
+      properties:
+        number:
+          anyOf:
+            - $ref: '#/components/schemas/Number'
+    Number:
+      enum:
+        - one
+        - two
+        - three
+      type: string

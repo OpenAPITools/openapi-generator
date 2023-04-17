@@ -35,6 +35,7 @@ class EnumArrays(BaseModel):
     def just_symbol_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in ('>=', '$'):
             raise ValueError("must be one of enum values ('>=', '$')")
         return v
@@ -43,6 +44,7 @@ class EnumArrays(BaseModel):
     def array_enum_validate_enum(cls, v):
         if v is None:
             return v
+
         for i in v:
             if i not in ('fish', 'crab'):
                 raise ValueError("each list item must be one of ('fish', 'crab')")
