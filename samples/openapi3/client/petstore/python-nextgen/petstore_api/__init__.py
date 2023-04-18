@@ -34,6 +34,8 @@ from petstore_api.exceptions import ApiValueError
 from petstore_api.exceptions import ApiKeyError
 from petstore_api.exceptions import ApiAttributeError
 from petstore_api.exceptions import ApiException
+from petstore_api.signing import HttpSigningConfiguration
+
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef

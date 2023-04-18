@@ -82,9 +82,12 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # the API server.
 #
 # See petstore_api.signing for a list of all supported parameters.
+from petstore_api import signing
+import datetime
+
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.signing.HttpSigningConfiguration(
+    signing_info = petstore_api.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
@@ -287,9 +290,12 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # the API server.
 #
 # See petstore_api.signing for a list of all supported parameters.
+from petstore_api import signing
+import datetime
+
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.signing.HttpSigningConfiguration(
+    signing_info = petstore_api.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
@@ -421,9 +427,12 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # the API server.
 #
 # See petstore_api.signing for a list of all supported parameters.
+from petstore_api import signing
+import datetime
+
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.signing.HttpSigningConfiguration(
+    signing_info = petstore_api.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
@@ -634,9 +643,12 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # the API server.
 #
 # See petstore_api.signing for a list of all supported parameters.
+from petstore_api import signing
+import datetime
+
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.signing.HttpSigningConfiguration(
+    signing_info = petstore_api.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
