@@ -58,6 +58,7 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
+docs/Parent.md
 docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
@@ -139,6 +140,7 @@ petstore_api/models/outer_enum_default_value.py
 petstore_api/models/outer_enum_integer.py
 petstore_api/models/outer_enum_integer_default_value.py
 petstore_api/models/outer_object_with_enum_property.py
+petstore_api/models/parent.py
 petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
