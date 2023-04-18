@@ -69,8 +69,7 @@ class TestResponseBodyPostEnumWithEscapedCharactersResponseBodyForContentTypes(A
 
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
-                "foo
-bar"
+                "foo\nbar"
             )
             mock_request.return_value = self.response(
                 self.json_bytes(payload),

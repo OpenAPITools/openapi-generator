@@ -69,8 +69,7 @@ class TestRequestBodyPostEnumWithEscapedCharactersRequestBody(ApiTestMixin, unit
         # member 1 is valid
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
-                "foo
-bar"
+                "foo\nbar"
             )
             body = post.SchemaForRequestBodyApplicationJson.from_openapi_data_oapg(
                 payload,

@@ -24,8 +24,7 @@ class TestPropertiesWithEscapedCharacters(unittest.TestCase):
         # object with all numbers is valid
         PropertiesWithEscapedCharacters.from_openapi_data_oapg(
             {
-                "foo
-bar":
+                "foo\nbar":
                     1,
                 "foo\"bar":
                     1,
@@ -46,8 +45,7 @@ bar":
         with self.assertRaises((unit_test_api.ApiValueError, unit_test_api.ApiTypeError)):
             PropertiesWithEscapedCharacters.from_openapi_data_oapg(
                 {
-                    "foo
-bar":
+                    "foo\nbar":
                         "1",
                     "foo\"bar":
                         "1",

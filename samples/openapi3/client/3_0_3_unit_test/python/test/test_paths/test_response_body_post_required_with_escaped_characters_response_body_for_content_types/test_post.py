@@ -40,8 +40,7 @@ class TestResponseBodyPostRequiredWithEscapedCharactersResponseBodyForContentTyp
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
-                    "foo
-bar":
+                    "foo\nbar":
                         "1",
                     "foo\"bar":
                         "1",
@@ -70,8 +69,7 @@ bar":
         with patch.object(urllib3.PoolManager, 'request') as mock_request:
             payload = (
                 {
-                    "foo
-bar":
+                    "foo\nbar":
                         1,
                     "foo\"bar":
                         1,

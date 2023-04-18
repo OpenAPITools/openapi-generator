@@ -35,8 +35,7 @@ class EnumWithEscapedCharacters(
     
     @schemas.classproperty
     def FOO_BAR(cls):
-        return cls("foo
-bar")
+        return cls("foo\nbar")
     
     @schemas.classproperty
     def FOO_BAR(cls):

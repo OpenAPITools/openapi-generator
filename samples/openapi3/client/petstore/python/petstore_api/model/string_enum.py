@@ -43,10 +43,8 @@ class StringEnum(
             "approved": "APPROVED",
             "delivered": "DELIVERED",
             "single quoted": "SINGLE_QUOTED",
-            "multiple
-lines": "MULTIPLE_LINES",
-            "double quote 
- with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
+            "multiple\nlines": "MULTIPLE_LINES",
+            "double quote \n with newline": "DOUBLE_QUOTE_WITH_NEWLINE",
             schemas.NoneClass.NONE: "NONE",
         }
     
@@ -68,13 +66,11 @@ lines": "MULTIPLE_LINES",
     
     @schemas.classproperty
     def MULTIPLE_LINES(cls):
-        return cls("multiple
-lines")
+        return cls("multiple\nlines")
     
     @schemas.classproperty
     def DOUBLE_QUOTE_WITH_NEWLINE(cls):
-        return cls("double quote 
- with newline")
+        return cls("double quote \n with newline")
     
     @schemas.classproperty
     def NONE(cls):

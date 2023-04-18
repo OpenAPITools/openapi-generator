@@ -36,15 +36,13 @@ class EnumWithEscapedCharacters(
 
     class MetaOapg:
         enum_value_to_name = {
-            "foo
-bar": "FOO_BAR",
+            "foo\nbar": "FOO_BAR",
             "foo\rbar": "FOO_BAR",
         }
     
     @schemas.classproperty
     def FOO_BAR(cls):
-        return cls("foo
-bar")
+        return cls("foo\nbar")
     
     @schemas.classproperty
     def FOO_BAR(cls):

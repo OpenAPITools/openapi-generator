@@ -86,48 +86,48 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**call_123_test_special_tags**](docs\AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
-*DefaultApi* | [**foo_get**](docs\DefaultApi.md#foo_get) | **GET** /foo | 
-*FakeApi* | [**fake_any_type_request_body**](docs\FakeApi.md#fake_any_type_request_body) | **POST** /fake/any_type_body | test any type request body
-*FakeApi* | [**fake_health_get**](docs\FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-*FakeApi* | [**fake_http_signature_test**](docs\FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
-*FakeApi* | [**fake_outer_boolean_serialize**](docs\FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-*FakeApi* | [**fake_outer_composite_serialize**](docs\FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-*FakeApi* | [**fake_outer_number_serialize**](docs\FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-*FakeApi* | [**fake_outer_string_serialize**](docs\FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
-*FakeApi* | [**fake_property_enum_integer_serialize**](docs\FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
-*FakeApi* | [**test_body_with_binary**](docs\FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
-*FakeApi* | [**test_body_with_file_schema**](docs\FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
-*FakeApi* | [**test_body_with_query_params**](docs\FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
-*FakeApi* | [**test_client_model**](docs\FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**test_date_time_query_parameter**](docs\FakeApi.md#test_date_time_query_parameter) | **PUT** /fake/date-time-query-params | 
-*FakeApi* | [**test_endpoint_parameters**](docs\FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-*FakeApi* | [**test_group_parameters**](docs\FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-*FakeApi* | [**test_inline_additional_properties**](docs\FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-*FakeApi* | [**test_json_form_data**](docs\FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**test_query_parameter_collection_format**](docs\FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
-*FakeClassnameTags123Api* | [**test_classname**](docs\FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
-*PetApi* | [**add_pet**](docs\PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
-*PetApi* | [**delete_pet**](docs\PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
-*PetApi* | [**find_pets_by_status**](docs\PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
-*PetApi* | [**find_pets_by_tags**](docs\PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
-*PetApi* | [**get_pet_by_id**](docs\PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
-*PetApi* | [**update_pet**](docs\PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
-*PetApi* | [**update_pet_with_form**](docs\PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | [**upload_file**](docs\PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
-*PetApi* | [**upload_file_with_required_file**](docs\PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-*StoreApi* | [**delete_order**](docs\StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-*StoreApi* | [**get_inventory**](docs\StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**get_order_by_id**](docs\StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID
-*StoreApi* | [**place_order**](docs\StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
-*UserApi* | [**create_user**](docs\UserApi.md#create_user) | **POST** /user | Create user
-*UserApi* | [**create_users_with_array_input**](docs\UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
-*UserApi* | [**create_users_with_list_input**](docs\UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
-*UserApi* | [**delete_user**](docs\UserApi.md#delete_user) | **DELETE** /user/{username} | Delete user
-*UserApi* | [**get_user_by_name**](docs\UserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name
-*UserApi* | [**login_user**](docs\UserApi.md#login_user) | **GET** /user/login | Logs user into the system
-*UserApi* | [**logout_user**](docs\UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
-*UserApi* | [**update_user**](docs\UserApi.md#update_user) | **PUT** /user/{username} | Updated user
+*AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_any_type_request_body**](docs/FakeApi.md#fake_any_type_request_body) | **POST** /fake/any_type_body | test any type request body
+*FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
+*FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
+*FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
+*FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
+*FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
+*FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
+*FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
+*FakeApi* | [**test_date_time_query_parameter**](docs/FakeApi.md#test_date_time_query_parameter) | **PUT** /fake/date-time-query-params | 
+*FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+*FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
+*FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
+*PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
+*PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**find_pets_by_tags**](docs/PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**get_pet_by_id**](docs/PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
+*PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**upload_file_with_required_file**](docs/PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
+*StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID
+*StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
+*UserApi* | [**create_user**](docs/UserApi.md#create_user) | **POST** /user | Create user
+*UserApi* | [**create_users_with_array_input**](docs/UserApi.md#create_users_with_array_input) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**create_users_with_list_input**](docs/UserApi.md#create_users_with_list_input) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**delete_user**](docs/UserApi.md#delete_user) | **DELETE** /user/{username} | Delete user
+*UserApi* | [**get_user_by_name**](docs/UserApi.md#get_user_by_name) | **GET** /user/{username} | Get user by user name
+*UserApi* | [**login_user**](docs/UserApi.md#login_user) | **GET** /user/login | Logs user into the system
+*UserApi* | [**logout_user**](docs/UserApi.md#logout_user) | **GET** /user/logout | Logs out current logged in user session
+*UserApi* | [**update_user**](docs/UserApi.md#update_user) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation For Models
