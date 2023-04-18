@@ -21,12 +21,12 @@ import openapitools.OpenAPIUtils;
 import openapitools.SecurityAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
     private final PetApiControllerImp imp;
     private final ObjectMapper mapper;

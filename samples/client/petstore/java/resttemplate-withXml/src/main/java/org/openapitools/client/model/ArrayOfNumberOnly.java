@@ -26,8 +26,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import .xml.bind.annotation.*;
+import .xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -36,7 +36,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
@@ -46,7 +46,7 @@ public class ArrayOfNumberOnly {
   // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "arrayNumber")
-  private List<BigDecimal> arrayNumber;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -69,7 +69,7 @@ public class ArrayOfNumberOnly {
    * Get arrayNumber
    * @return arrayNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelFile implements Parcelable {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
@@ -67,7 +67,7 @@ public class ModelFile implements Parcelable {
    * Test capitalization
    * @return sourceURI
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getSourceURI() {
     return sourceURI;

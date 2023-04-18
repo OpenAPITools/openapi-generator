@@ -1,6 +1,6 @@
 package controllers;
 
-import javax.inject.*;
+import .inject.*;
 import play.mvc.*;
 
 public class ApiDocController extends Controller {

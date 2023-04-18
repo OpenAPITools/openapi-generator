@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * SimpleQuadrilateral
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SimpleQuadrilateral {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -69,7 +69,7 @@ public class SimpleQuadrilateral {
    * Get shapeType
    * @return shapeType
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getShapeType() {
     return shapeType;
@@ -91,7 +91,7 @@ public class SimpleQuadrilateral {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getQuadrilateralType() {
     return quadrilateralType;

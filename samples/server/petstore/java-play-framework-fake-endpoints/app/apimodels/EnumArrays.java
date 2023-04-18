@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
-import javax.validation.*;
+import .validation.*;
 import java.util.Objects;
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class EnumArrays   {
   /**
@@ -36,7 +36,7 @@ public class EnumArrays   {
     @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -71,7 +71,7 @@ public class EnumArrays   {
     @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }

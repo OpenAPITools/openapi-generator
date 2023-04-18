@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -82,7 +82,7 @@ public class Query {
 
     public static OutcomesEnum fromValue(String value) {
       for (OutcomesEnum b : OutcomesEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -105,7 +105,7 @@ public class Query {
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
   @SerializedName(SERIALIZED_NAME_OUTCOMES)
-  private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+  private List<OutcomesEnum> outcomes = new ArrayList<>();
 
   public Query() {
   }
@@ -120,7 +120,7 @@ public class Query {
    * Query
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -140,7 +140,7 @@ public class Query {
 
   public Query addOutcomesItem(OutcomesEnum outcomesItem) {
     if (this.outcomes == null) {
-      this.outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+      this.outcomes = new ArrayList<>();
     }
     this.outcomes.add(outcomesItem);
     return this;
@@ -150,7 +150,7 @@ public class Query {
    * Get outcomes
    * @return outcomes
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
@@ -228,12 +228,48 @@ public class Query {
           throw new IllegalArgumentException(String.format("The required field(s) %s in Query is not found in the empty JSON string", Query.openapiRequiredFields.toString()));
         }
       }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!Query.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Query` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
       // ensure the optional json data is an array if present
       if (jsonObj.get("outcomes") != null && !jsonObj.get("outcomes").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `outcomes` to be an array in the JSON string but got `%s`", jsonObj.get("outcomes").toString()));
       }
   }
 
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Query.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Query' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Query> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Query.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Query>() {
+           @Override
+           public void write(JsonWriter out, Query value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Query read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
 
  /**
   * Create an instance of Query given an JSON string

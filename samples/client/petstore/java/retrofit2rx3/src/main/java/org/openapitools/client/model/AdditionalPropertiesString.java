@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * AdditionalPropertiesString
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesString extends HashMap<String, String> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -47,7 +47,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getName() {
     return name;

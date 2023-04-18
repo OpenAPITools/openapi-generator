@@ -4,11 +4,11 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
-import org.openapitools.client.model.DataQuery;
+import org.openapitools.client.model.Bird;
+import org.openapitools.client.model.DataQueryAllOf;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public interface QueryApi extends ApiClient.Api {
 
 

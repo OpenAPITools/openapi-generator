@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -37,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   private BigDecimal myNumber;
@@ -60,7 +57,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -85,7 +82,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -110,7 +107,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -168,56 +165,6 @@ public class OuterComposite {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `my_number` to the URL query string
-    if (getMyNumber() != null) {
-      joiner.add(String.format("%smy_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `my_string` to the URL query string
-    if (getMyString() != null) {
-      joiner.add(String.format("%smy_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `my_boolean` to the URL query string
-    if (getMyBoolean() != null) {
-      joiner.add(String.format("%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyBoolean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    return joiner.toString();
   }
 }
 

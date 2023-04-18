@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   File.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class File {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private String sourceURI;
@@ -47,7 +47,7 @@ public class File {
    * Test capitalization
    * @return sourceURI
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

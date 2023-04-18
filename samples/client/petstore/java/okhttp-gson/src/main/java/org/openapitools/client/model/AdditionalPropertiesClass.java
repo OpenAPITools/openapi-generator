@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
@@ -104,7 +104,7 @@ public class AdditionalPropertiesClass {
    * Get mapProperty
    * @return mapProperty
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, String> getMapProperty() {
     return mapProperty;
@@ -134,7 +134,7 @@ public class AdditionalPropertiesClass {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
@@ -156,7 +156,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Object getAnytype1() {
     return anytype1;
@@ -178,7 +178,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype1
    * @return mapWithUndeclaredPropertiesAnytype1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Object getMapWithUndeclaredPropertiesAnytype1() {
     return mapWithUndeclaredPropertiesAnytype1;
@@ -200,7 +200,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype2
    * @return mapWithUndeclaredPropertiesAnytype2
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Object getMapWithUndeclaredPropertiesAnytype2() {
     return mapWithUndeclaredPropertiesAnytype2;
@@ -230,7 +230,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype3
    * @return mapWithUndeclaredPropertiesAnytype3
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
@@ -252,7 +252,7 @@ public class AdditionalPropertiesClass {
    * an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
    * @return emptyMap
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Object getEmptyMap() {
     return emptyMap;
@@ -282,7 +282,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesString
    * @return mapWithUndeclaredPropertiesString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, String> getMapWithUndeclaredPropertiesString() {
     return mapWithUndeclaredPropertiesString;

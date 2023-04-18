@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -54,7 +54,7 @@ public class Category {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -81,7 +81,7 @@ public class Category {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

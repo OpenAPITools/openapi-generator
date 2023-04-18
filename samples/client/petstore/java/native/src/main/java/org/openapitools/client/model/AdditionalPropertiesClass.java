@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -47,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_EMPTY_MAP,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty = new HashMap<>();
@@ -93,7 +90,7 @@ public class AdditionalPropertiesClass {
    * Get mapProperty
    * @return mapProperty
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -126,7 +123,7 @@ public class AdditionalPropertiesClass {
    * Get mapOfMapProperty
    * @return mapOfMapProperty
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -151,7 +148,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getAnytype1() {
@@ -184,7 +181,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype1
    * @return mapWithUndeclaredPropertiesAnytype1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -209,7 +206,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype2
    * @return mapWithUndeclaredPropertiesAnytype2
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -242,7 +239,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesAnytype3
    * @return mapWithUndeclaredPropertiesAnytype3
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -267,7 +264,7 @@ public class AdditionalPropertiesClass {
    * an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
    * @return emptyMap
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -300,7 +297,7 @@ public class AdditionalPropertiesClass {
    * Get mapWithUndeclaredPropertiesString
    * @return mapWithUndeclaredPropertiesString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -379,97 +376,6 @@ public class AdditionalPropertiesClass {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `map_property` to the URL query string
-    if (getMapProperty() != null) {
-      for (String _key : getMapProperty().keySet()) {
-        joiner.add(String.format("%smap_property%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    // add `map_of_map_property` to the URL query string
-    if (getMapOfMapProperty() != null) {
-      for (String _key : getMapOfMapProperty().keySet()) {
-        joiner.add(String.format("%smap_of_map_property%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapOfMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapOfMapProperty().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    // add `anytype_1` to the URL query string
-    if (getAnytype1() != null) {
-      joiner.add(String.format("%sanytype_1%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `map_with_undeclared_properties_anytype_1` to the URL query string
-    if (getMapWithUndeclaredPropertiesAnytype1() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesAnytype1()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `map_with_undeclared_properties_anytype_2` to the URL query string
-    if (getMapWithUndeclaredPropertiesAnytype2() != null) {
-      joiner.add(String.format("%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesAnytype2()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `map_with_undeclared_properties_anytype_3` to the URL query string
-    if (getMapWithUndeclaredPropertiesAnytype3() != null) {
-      for (String _key : getMapWithUndeclaredPropertiesAnytype3().keySet()) {
-        joiner.add(String.format("%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapWithUndeclaredPropertiesAnytype3().get(_key), URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesAnytype3().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    // add `empty_map` to the URL query string
-    if (getEmptyMap() != null) {
-      joiner.add(String.format("%sempty_map%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmptyMap()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `map_with_undeclared_properties_string` to the URL query string
-    if (getMapWithUndeclaredPropertiesString() != null) {
-      for (String _key : getMapWithUndeclaredPropertiesString().keySet()) {
-        joiner.add(String.format("%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapWithUndeclaredPropertiesString().get(_key), URLEncoder.encode(String.valueOf(getMapWithUndeclaredPropertiesString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    return joiner.toString();
   }
 }
 

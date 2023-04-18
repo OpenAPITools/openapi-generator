@@ -27,11 +27,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import org.openapitools.client.model.DataQuery;
+import org.openapitools.client.model.Bird;
+import org.openapitools.client.model.DataQueryAllOf;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
 import java.lang.reflect.Type;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.GenericType;
+import .ws.rs.core.GenericType;
 
 public class QueryApi {
     private ApiClient localVarApiClient;

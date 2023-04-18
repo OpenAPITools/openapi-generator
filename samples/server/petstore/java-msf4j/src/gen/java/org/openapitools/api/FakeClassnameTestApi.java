@@ -17,16 +17,16 @@ import java.io.InputStream;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import .ws.rs.core.Context;
+import .ws.rs.core.Response;
+import .ws.rs.core.SecurityContext;
+import .ws.rs.*;
 
 @Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the fake_classname_test API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class FakeClassnameTestApi  {
    private final FakeClassnameTestApiService delegate = FakeClassnameTestApiServiceFactory.getFakeClassnameTestApi();
 

@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
-import javax.validation.*;
+import .validation.*;
 import java.util.Objects;
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")
@@ -67,7 +67,7 @@ public class Pet   {
     @JsonCreator
     public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }

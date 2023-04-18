@@ -23,14 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesString
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesString extends HashMap<String, String> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -50,7 +50,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getName() {

@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * TriangleInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TriangleInterface {
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
@@ -65,7 +65,7 @@ public class TriangleInterface {
    * Get triangleType
    * @return triangleType
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getTriangleType() {
     return triangleType;

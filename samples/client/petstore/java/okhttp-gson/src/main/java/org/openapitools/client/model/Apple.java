@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * Apple
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Apple {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
@@ -69,7 +69,7 @@ public class Apple {
    * Get cultivar
    * @return cultivar
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getCultivar() {
     return cultivar;
@@ -91,7 +91,7 @@ public class Apple {
    * Get origin
    * @return origin
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getOrigin() {
     return origin;

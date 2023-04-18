@@ -109,7 +109,7 @@ public class Pet {
      * @return id
      **/
     @Nullable
-    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "id", required = false)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Long getId() {
@@ -133,7 +133,7 @@ public class Pet {
      **/
     @Valid
     @Nullable
-    @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "category", required = false)
     @JsonProperty(JSON_PROPERTY_CATEGORY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public Category getCategory() {
@@ -156,7 +156,7 @@ public class Pet {
      * @return name
      **/
     @NotNull
-    @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "name", example = "doggie", required = true)
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public String getName() {
@@ -184,7 +184,7 @@ public class Pet {
      * @return photoUrls
      **/
     @NotNull
-    @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "photoUrls", required = true)
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
     public List<String> getPhotoUrls() {
@@ -215,7 +215,7 @@ public class Pet {
      * @return tags
      **/
     @Nullable
-    @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "tags", required = false)
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public List<Tag> getTags() {
@@ -238,7 +238,7 @@ public class Pet {
      * @return status
      **/
     @Nullable
-    @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(name = "status", description = "pet status in the store", required = false)
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
     public StatusEnum getStatus() {
@@ -299,4 +299,3 @@ public class Pet {
     }
 
 }
-

@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
-import javax.validation.*;
+import .validation.*;
 import java.util.Objects;
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MapTest   {
   @JsonProperty("map_map_of_string")
@@ -41,7 +41,7 @@ public class MapTest   {
     @JsonCreator
     public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }

@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesArray
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -51,7 +51,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getName() {

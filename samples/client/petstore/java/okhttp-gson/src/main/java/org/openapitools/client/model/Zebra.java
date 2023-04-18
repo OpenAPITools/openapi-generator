@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * Zebra
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Zebra {
   /**
    * Gets or Sets type
@@ -76,7 +76,7 @@ public class Zebra {
 
     public static TypeEnum fromValue(String value) {
       for (TypeEnum b : TypeEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -118,7 +118,7 @@ public class Zebra {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public TypeEnum getType() {
     return type;
@@ -140,7 +140,7 @@ public class Zebra {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getClassName() {
     return className;

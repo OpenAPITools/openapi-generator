@@ -26,8 +26,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import .xml.bind.annotation.*;
+import .xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -40,7 +40,7 @@ import io.github.threetenjaxb.core.*;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "TypeHolderDefault")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TypeHolderDefault")
@@ -81,7 +81,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "string_item")
@@ -109,7 +109,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "number_item")
@@ -137,7 +137,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "integer_item")
@@ -165,7 +165,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "bool_item")
@@ -201,7 +201,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

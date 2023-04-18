@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -76,7 +76,7 @@ public class EnumArrays {
 
     public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -127,7 +127,7 @@ public class EnumArrays {
 
     public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -150,7 +150,7 @@ public class EnumArrays {
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
   }
@@ -165,7 +165,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
@@ -195,7 +195,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;

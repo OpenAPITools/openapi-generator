@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
@@ -85,7 +85,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getSmallCamel() {
     return smallCamel;
@@ -107,7 +107,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getCapitalCamel() {
     return capitalCamel;
@@ -129,7 +129,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getSmallSnake() {
     return smallSnake;
@@ -151,7 +151,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getCapitalSnake() {
     return capitalSnake;
@@ -173,7 +173,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -195,7 +195,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getATTNAME() {
     return ATT_NAME;

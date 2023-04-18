@@ -10,7 +10,7 @@ import org.openapitools.model.Animal;
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed;

@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesNumber
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -51,7 +51,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getName() {

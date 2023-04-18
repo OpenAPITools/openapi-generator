@@ -15,18 +15,15 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.io.IOException;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Gets or Sets StringEnumRef
  */
-@JsonAdapter(StringEnumRef.Adapter.class)
 public enum StringEnumRef {
   
   SUCCESS("success"),
@@ -41,6 +38,7 @@ public enum StringEnumRef {
     this.value = value;
   }
 
+  @JsonValue
   public String getValue() {
     return value;
   }
@@ -50,26 +48,14 @@ public enum StringEnumRef {
     return String.valueOf(value);
   }
 
+  @JsonCreator
   public static StringEnumRef fromValue(String value) {
     for (StringEnumRef b : StringEnumRef.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
-  }
-
-  public static class Adapter extends TypeAdapter<StringEnumRef> {
-    @Override
-    public void write(final JsonWriter jsonWriter, final StringEnumRef enumeration) throws IOException {
-      jsonWriter.value(enumeration.getValue());
-    }
-
-    @Override
-    public StringEnumRef read(final JsonReader jsonReader) throws IOException {
-      String value = jsonReader.nextString();
-      return StringEnumRef.fromValue(value);
-    }
   }
 }
 

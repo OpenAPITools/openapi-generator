@@ -49,7 +49,7 @@ public enum SingleRefType {
   @JsonCreator
   public static SingleRefType fromValue(String value) {
     for (SingleRefType b : SingleRefType.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }

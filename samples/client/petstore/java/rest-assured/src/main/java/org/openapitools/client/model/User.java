@@ -21,14 +21,14 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -75,7 +75,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Long getId() {
@@ -98,7 +98,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getUsername() {
@@ -121,7 +121,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getFirstName() {
@@ -144,7 +144,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getLastName() {
@@ -167,7 +167,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getEmail() {
@@ -190,7 +190,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getPassword() {
@@ -213,7 +213,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getPhone() {
@@ -236,7 +236,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Integer getUserStatus() {

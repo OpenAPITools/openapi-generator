@@ -26,14 +26,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -106,7 +106,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
  @Min(10) @Max(100)
 
   public Integer getInteger() {
@@ -131,7 +131,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
  @Min(20) @Max(200)
 
   public Integer getInt32() {
@@ -154,7 +154,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Long getInt64() {
@@ -179,7 +179,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
@@ -206,7 +206,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
  @DecimalMin("54.3") @DecimalMax("987.6")
 
   public Float getFloat() {
@@ -231,7 +231,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
  @DecimalMin("67.8") @DecimalMax("123.4")
 
   public Double getDouble() {
@@ -254,7 +254,7 @@ public class FormatTest {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
  @Pattern(regexp="/[a-z]/i")
 
   public String getString() {
@@ -277,7 +277,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -301,7 +301,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -325,7 +325,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
   @Valid
 
@@ -350,7 +350,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -374,7 +374,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -398,7 +398,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)
 
@@ -422,7 +422,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 

@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Model for testing model name starting with number
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -48,7 +48,7 @@ public class Model200Response {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getName() {
     return name;
@@ -70,7 +70,7 @@ public class Model200Response {
    * Get propertyClass
    * @return propertyClass
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getPropertyClass() {
     return propertyClass;

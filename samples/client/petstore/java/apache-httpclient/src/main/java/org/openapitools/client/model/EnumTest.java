@@ -30,9 +30,6 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.StringJoiner;
 
 /**
  * EnumTest
@@ -48,7 +45,7 @@ import java.util.StringJoiner;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -79,7 +76,7 @@ public class EnumTest {
     @JsonCreator
     public static EnumStringEnum fromValue(String value) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -119,7 +116,7 @@ public class EnumTest {
     @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
       for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -231,7 +228,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -257,7 +254,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -283,7 +280,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -309,7 +306,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -335,7 +332,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public OuterEnum getOuterEnum() {
@@ -369,7 +366,7 @@ public class EnumTest {
    * Get outerEnumInteger
    * @return outerEnumInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -395,7 +392,7 @@ public class EnumTest {
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -421,7 +418,7 @@ public class EnumTest {
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -496,121 +493,6 @@ public class EnumTest {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `enum_string` to the URL query string
-    if (getEnumString() != null) {
-      try {
-        joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `enum_string_required` to the URL query string
-    if (getEnumStringRequired() != null) {
-      try {
-        joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `enum_integer` to the URL query string
-    if (getEnumInteger() != null) {
-      try {
-        joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `enum_number` to the URL query string
-    if (getEnumNumber() != null) {
-      try {
-        joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `outerEnum` to the URL query string
-    if (getOuterEnum() != null) {
-      try {
-        joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `outerEnumInteger` to the URL query string
-    if (getOuterEnumInteger() != null) {
-      try {
-        joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `outerEnumDefaultValue` to the URL query string
-    if (getOuterEnumDefaultValue() != null) {
-      try {
-        joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `outerEnumIntegerDefaultValue` to the URL query string
-    if (getOuterEnumIntegerDefaultValue() != null) {
-      try {
-        joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    return joiner.toString();
   }
 
 }

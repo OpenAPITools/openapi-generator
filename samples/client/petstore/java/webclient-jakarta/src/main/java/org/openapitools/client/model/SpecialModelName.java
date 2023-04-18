@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
 @JsonTypeName("_special_model.name_")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;
@@ -48,7 +48,7 @@ public class SpecialModelName {
    * Get $specialPropertyName
    * @return $specialPropertyName
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

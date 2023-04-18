@@ -26,8 +26,8 @@ import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import .xml.bind.annotation.*;
+import .xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -37,7 +37,7 @@ import io.github.threetenjaxb.core.*;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FileSchemaTestClass")
@@ -51,7 +51,7 @@ public class FileSchemaTestClass {
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=ModelFile
   @XmlElement(name = "files")
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -66,7 +66,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "file")
@@ -102,7 +102,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

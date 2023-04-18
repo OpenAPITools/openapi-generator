@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -87,7 +87,7 @@ public class Name {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public Integer getName() {
     return name;
@@ -103,7 +103,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getSnakeCase() {
     return snakeCase;
@@ -122,7 +122,7 @@ public class Name {
    * Get property
    * @return property
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getProperty() {
     return property;
@@ -138,7 +138,7 @@ public class Name {
    * Get _123number
    * @return _123number
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer get123number() {
     return _123number;

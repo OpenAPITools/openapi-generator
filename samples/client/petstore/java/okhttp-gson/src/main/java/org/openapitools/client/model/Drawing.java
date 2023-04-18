@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * Drawing
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
@@ -69,7 +69,7 @@ public class Drawing {
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  private List<Shape> shapes;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() {
   }
@@ -84,7 +84,7 @@ public class Drawing {
    * Get mainShape
    * @return mainShape
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Shape getMainShape() {
     return mainShape;
@@ -106,7 +106,7 @@ public class Drawing {
    * Get shapeOrNull
    * @return shapeOrNull
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
@@ -128,7 +128,7 @@ public class Drawing {
    * Get nullableShape
    * @return nullableShape
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public NullableShape getNullableShape() {
     return nullableShape;
@@ -158,7 +158,7 @@ public class Drawing {
    * Get shapes
    * @return shapes
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Shape> getShapes() {
     return shapes;

@@ -26,8 +26,8 @@ import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import .xml.bind.annotation.*;
+import .xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -38,7 +38,7 @@ import io.github.threetenjaxb.core.*;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ArrayTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayTest")
@@ -48,21 +48,21 @@ public class ArrayTest {
   // items.name=arrayOfString items.baseName=arrayOfString items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayOfString")
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   // Is a container wrapped=false
   // items.name=arrayArrayOfInteger items.baseName=arrayArrayOfInteger items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Long&gt;
   @XmlElement(name = "arrayArrayOfInteger")
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   // Is a container wrapped=false
   // items.name=arrayArrayOfModel items.baseName=arrayArrayOfModel items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;ReadOnlyFirst&gt;
   @XmlElement(name = "arrayArrayOfModel")
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -85,7 +85,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -119,7 +119,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -153,7 +153,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

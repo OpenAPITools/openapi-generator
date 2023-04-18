@@ -32,12 +32,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
 public class ModelApiResponse {
 
+  @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
   private Integer code;
 
+  @JsonProperty("type")
   @JacksonXmlProperty(localName = "type")
   private String type;
 
+  @JsonProperty("message")
   @JacksonXmlProperty(localName = "message")
   private String message;
 
@@ -51,8 +54,7 @@ public class ModelApiResponse {
    * @return code
   */
   
-  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("code")
+  @Schema(name = "code", required = false)
   public Integer getCode() {
     return code;
   }
@@ -71,8 +73,7 @@ public class ModelApiResponse {
    * @return type
   */
   
-  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("type")
+  @Schema(name = "type", required = false)
   public String getType() {
     return type;
   }
@@ -91,8 +92,7 @@ public class ModelApiResponse {
    * @return message
   */
   
-  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("message")
+  @Schema(name = "message", required = false)
   public String getMessage() {
     return message;
   }

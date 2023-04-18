@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -66,7 +66,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -90,7 +90,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
   @Valid
 
@@ -115,7 +115,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -139,7 +139,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -171,7 +171,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 

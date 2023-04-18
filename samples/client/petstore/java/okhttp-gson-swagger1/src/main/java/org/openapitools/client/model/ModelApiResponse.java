@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
  * Describes the result of uploading an image resource
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -76,7 +76,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public Integer getCode() {
@@ -99,7 +99,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getType() {
@@ -122,7 +122,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getMessage() {

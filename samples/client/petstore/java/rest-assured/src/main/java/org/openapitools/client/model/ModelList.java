@@ -21,14 +21,14 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * ModelList
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelList {
   public static final String SERIALIZED_NAME_123LIST = "123-list";
   @SerializedName(SERIALIZED_NAME_123LIST)
@@ -47,7 +47,7 @@ public class ModelList {
    * Get _123list
    * @return _123list
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String get123list() {

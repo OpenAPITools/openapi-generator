@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 
-import javax.ws.rs.core.GenericType;
+import .ws.rs.core.GenericType;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -57,7 +57,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NullableShape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(NullableShape.class.getName());
 

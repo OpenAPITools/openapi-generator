@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
 
-import javax.ws.rs.core.GenericType;
+import .ws.rs.core.GenericType;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -58,7 +58,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
 

@@ -2,7 +2,7 @@ package apimodels;
 
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
-import javax.validation.*;
+import .validation.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
@@ -31,7 +31,7 @@ public enum OuterEnum {
   @JsonCreator
   public static OuterEnum fromValue(String value) {
     for (OuterEnum b : OuterEnum.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }

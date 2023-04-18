@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -75,7 +75,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -101,7 +101,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -127,7 +127,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -153,7 +153,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -179,7 +179,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -205,7 +205,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -231,7 +231,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -257,7 +257,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

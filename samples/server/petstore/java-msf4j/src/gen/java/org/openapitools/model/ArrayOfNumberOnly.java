@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
   private List<BigDecimal> arrayNumber = null;
@@ -24,7 +24,7 @@ public class ArrayOfNumberOnly   {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = ;
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;

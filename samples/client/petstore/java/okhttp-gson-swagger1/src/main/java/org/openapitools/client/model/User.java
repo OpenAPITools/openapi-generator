@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
  * A User who is purchasing from the pet store
  */
 @ApiModel(description = "A User who is purchasing from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -96,7 +96,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public Long getId() {
@@ -119,7 +119,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getUsername() {
@@ -142,7 +142,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getFirstName() {
@@ -165,7 +165,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getLastName() {
@@ -188,7 +188,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getEmail() {
@@ -211,7 +211,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getPassword() {
@@ -234,7 +234,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getPhone() {
@@ -257,7 +257,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "User Status")
 
   public Integer getUserStatus() {

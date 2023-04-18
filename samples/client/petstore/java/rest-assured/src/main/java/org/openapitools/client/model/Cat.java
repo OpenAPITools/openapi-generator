@@ -22,14 +22,15 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import org.openapitools.client.model.BigCat;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
@@ -49,7 +50,7 @@ public class Cat extends Animal {
    * Get declawed
    * @return declawed
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Boolean isDeclawed() {
@@ -59,18 +60,6 @@ public class Cat extends Animal {
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
-  }
-
-  @Override
-  public Cat className(String className) {
-    this.setClassName(className);
-    return this;
-  }
-
-  @Override
-  public Cat color(String color) {
-    this.setColor(color);
-    return this;
   }
 
   @Override

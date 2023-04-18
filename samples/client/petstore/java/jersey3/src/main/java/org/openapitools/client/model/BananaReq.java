@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   BananaReq.JSON_PROPERTY_SWEET
 })
 @JsonTypeName("bananaReq")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -55,7 +55,7 @@ public class BananaReq {
    * Get lengthCm
    * @return lengthCm
   **/
-  @jakarta.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -80,7 +80,7 @@ public class BananaReq {
    * Get sweet
    * @return sweet
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

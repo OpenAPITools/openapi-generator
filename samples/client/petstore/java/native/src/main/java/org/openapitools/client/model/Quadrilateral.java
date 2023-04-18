@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -56,7 +53,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonDeserialize(using = Quadrilateral.QuadrilateralDeserializer.class)
 @JsonSerialize(using = Quadrilateral.QuadrilateralSerializer.class)
 public class Quadrilateral extends AbstractOpenApiSchema {
@@ -253,53 +250,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
 
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    if (getActualInstance() instanceof SimpleQuadrilateral) {
-        if (getActualInstance() != null) {
-          joiner.add(((SimpleQuadrilateral)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
-        }
-        return joiner.toString();
-    }
-    if (getActualInstance() instanceof ComplexQuadrilateral) {
-        if (getActualInstance() != null) {
-          joiner.add(((ComplexQuadrilateral)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
-        }
-        return joiner.toString();
-    }
-    return null;
-  }
 
 }
 

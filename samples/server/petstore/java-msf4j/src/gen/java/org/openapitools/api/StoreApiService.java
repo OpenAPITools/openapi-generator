@@ -14,10 +14,10 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import .ws.rs.core.Response;
+import .ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public abstract class StoreApiService {
     public abstract Response deleteOrder(String orderId
  ) throws NotFoundException;

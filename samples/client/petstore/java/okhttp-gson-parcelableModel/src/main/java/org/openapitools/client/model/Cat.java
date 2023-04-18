@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -49,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Cat extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
@@ -70,7 +71,7 @@ public class Cat extends Animal implements Parcelable {
    * Get declawed
    * @return declawed
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getDeclawed() {
     return declawed;

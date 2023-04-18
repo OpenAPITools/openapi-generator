@@ -19,7 +19,7 @@ import static play.mvc.Results.ok;
 import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public abstract class StoreApiControllerImpInterface {

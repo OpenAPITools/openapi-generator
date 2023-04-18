@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * A tag for a pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Tag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -69,7 +69,7 @@ public class Tag {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -91,7 +91,7 @@ public class Tag {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getName() {
     return name;

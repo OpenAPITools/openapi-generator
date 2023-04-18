@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
   ChildSchemaAllOf.JSON_PROPERTY_PROP1
 })
 @JsonTypeName("ChildSchema_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ChildSchemaAllOf {
   public static final String JSON_PROPERTY_PROP1 = "prop1";
   private String prop1;
@@ -50,7 +50,7 @@ public class ChildSchemaAllOf {
    * Get prop1
    * @return prop1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROP1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

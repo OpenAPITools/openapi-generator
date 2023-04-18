@@ -200,4 +200,3 @@ public class EnumArrays {
     }
 
 }
-

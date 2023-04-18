@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -39,16 +36,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() { 
   }
@@ -70,7 +67,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -103,7 +100,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -136,7 +133,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -194,70 +191,6 @@ public class ArrayTest {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `array_of_string` to the URL query string
-    if (getArrayOfString() != null) {
-      for (int i = 0; i < getArrayOfString().size(); i++) {
-        joiner.add(String.format("%sarray_of_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayOfString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    // add `array_array_of_integer` to the URL query string
-    if (getArrayArrayOfInteger() != null) {
-      for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
-        joiner.add(String.format("%sarray_array_of_integer%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayArrayOfInteger().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
-    }
-
-    // add `array_array_of_model` to the URL query string
-    if (getArrayArrayOfModel() != null) {
-      for (int i = 0; i < getArrayArrayOfModel().size(); i++) {
-        if (getArrayArrayOfModel().get(i) != null) {
-          joiner.add(String.format("%sarray_array_of_model%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(String.valueOf(getArrayArrayOfModel().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
-      }
-    }
-
-    return joiner.toString();
   }
 }
 

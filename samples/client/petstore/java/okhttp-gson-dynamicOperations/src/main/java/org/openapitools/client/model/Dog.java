@@ -47,7 +47,7 @@ import org.openapitools.client.JSON;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
@@ -67,7 +67,7 @@ public class Dog extends Animal {
    * Get breed
    * @return breed
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getBreed() {
     return breed;

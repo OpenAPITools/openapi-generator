@@ -27,8 +27,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import .xml.bind.annotation.*;
+import .xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -47,7 +47,7 @@ import io.github.threetenjaxb.core.*;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
@@ -141,7 +141,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -175,7 +175,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -209,7 +209,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -243,7 +243,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -277,7 +277,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -311,7 +311,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -345,7 +345,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -379,7 +379,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -405,7 +405,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "anytype_1")
@@ -433,7 +433,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "anytype_2")
@@ -461,7 +461,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "anytype_3")

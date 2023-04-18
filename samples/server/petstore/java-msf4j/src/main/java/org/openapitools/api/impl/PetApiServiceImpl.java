@@ -16,10 +16,10 @@ import java.io.InputStream;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import .ws.rs.core.Response;
+import .ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class PetApiServiceImpl extends PetApiService {
     @Override
     public Response addPet(Pet body

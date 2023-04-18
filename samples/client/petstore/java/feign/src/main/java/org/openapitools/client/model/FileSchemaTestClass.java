@@ -33,13 +33,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private File file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  private List<File> files;
+  private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -54,7 +54,7 @@ public class FileSchemaTestClass {
    * Get file
    * @return file
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -88,7 +88,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

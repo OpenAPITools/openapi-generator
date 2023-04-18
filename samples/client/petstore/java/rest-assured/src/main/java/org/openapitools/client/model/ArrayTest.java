@@ -24,26 +24,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -66,7 +66,7 @@ public class ArrayTest {
    * Get arrayOfString
    * @return arrayOfString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public List<String> getArrayOfString() {
@@ -97,7 +97,7 @@ public class ArrayTest {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -129,7 +129,7 @@ public class ArrayTest {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 

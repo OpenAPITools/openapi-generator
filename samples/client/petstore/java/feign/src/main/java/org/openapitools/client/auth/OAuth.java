@@ -7,7 +7,7 @@ import feign.RequestTemplate;
 
 import java.util.Collection;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public abstract class OAuth implements RequestInterceptor {
 
   //https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.4

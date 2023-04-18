@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * BigCatAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf implements Parcelable {
   /**
    * Gets or Sets kind
@@ -80,7 +80,7 @@ public class BigCatAllOf implements Parcelable {
 
     public static KindEnum fromValue(String value) {
       for (KindEnum b : KindEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -118,7 +118,7 @@ public class BigCatAllOf implements Parcelable {
    * Get kind
    * @return kind
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public KindEnum getKind() {
     return kind;

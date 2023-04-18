@@ -47,7 +47,7 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_ANY_TYPE_PROP,
   User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -97,7 +97,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -122,7 +122,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -147,7 +147,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -172,7 +172,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -197,7 +197,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -222,7 +222,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -247,7 +247,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -272,7 +272,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -297,7 +297,7 @@ public class User {
    * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
    * @return objectWithNoDeclaredProps
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -322,7 +322,7 @@ public class User {
    * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
    * @return objectWithNoDeclaredPropsNullable
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getObjectWithNoDeclaredPropsNullable() {
@@ -355,7 +355,7 @@ public class User {
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
    * @return anyTypeProp
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getAnyTypeProp() {
@@ -388,7 +388,7 @@ public class User {
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
    * @return anyTypePropNullable
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getAnyTypePropNullable() {

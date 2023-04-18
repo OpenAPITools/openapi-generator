@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass implements Parcelable {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
@@ -59,7 +59,7 @@ public class FileSchemaTestClass implements Parcelable {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -74,7 +74,7 @@ public class FileSchemaTestClass implements Parcelable {
    * Get _file
    * @return _file
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public ModelFile getFile() {
     return _file;
@@ -104,7 +104,7 @@ public class FileSchemaTestClass implements Parcelable {
    * Get files
    * @return files
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<ModelFile> getFiles() {
     return files;

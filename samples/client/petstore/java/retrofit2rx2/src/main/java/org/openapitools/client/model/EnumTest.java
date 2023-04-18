@@ -26,7 +26,7 @@ import org.openapitools.client.model.OuterEnum;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -56,7 +56,7 @@ public class EnumTest {
 
     public static EnumStringEnum fromValue(String value) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -109,7 +109,7 @@ public class EnumTest {
 
     public static EnumStringRequiredEnum fromValue(String value) {
       for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -253,7 +253,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -275,7 +275,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -297,7 +297,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -319,7 +319,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -341,7 +341,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public OuterEnum getOuterEnum() {
     return outerEnum;

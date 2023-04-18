@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   BigCatAllOf.JSON_PROPERTY_KIND
 })
 @JsonTypeName("BigCat_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf {
   /**
    * Gets or Sets kind
@@ -63,7 +63,7 @@ public class BigCatAllOf {
     @JsonCreator
     public static KindEnum fromValue(String value) {
       for (KindEnum b : KindEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -87,7 +87,7 @@ public class BigCatAllOf {
    * Get kind
    * @return kind
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_KIND)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

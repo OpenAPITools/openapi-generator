@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * BasquePig
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BasquePig {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
@@ -65,7 +65,7 @@ public class BasquePig {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getClassName() {
     return className;

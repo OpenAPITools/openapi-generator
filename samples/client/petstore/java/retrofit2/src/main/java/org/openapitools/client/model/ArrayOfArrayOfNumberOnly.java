@@ -28,11 +28,11 @@ import java.util.List;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnly() {
   }
@@ -55,7 +55,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;

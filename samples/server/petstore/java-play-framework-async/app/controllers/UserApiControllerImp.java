@@ -13,8 +13,8 @@ import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
-import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+import .validation.constraints.*;
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
     public void createUser(Http.Request request, User body) throws Exception {

@@ -25,8 +25,8 @@ import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 
 /**
  * FileSchemaTestClass
@@ -35,13 +35,13 @@ import javax.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -56,7 +56,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_FILE)
@@ -92,7 +92,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_FILES)

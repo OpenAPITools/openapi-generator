@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   AppleReq.JSON_PROPERTY_MEALY
 })
 @JsonTypeName("appleReq")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -54,7 +54,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -79,7 +79,7 @@ public class AppleReq {
    * Get mealy
    * @return mealy
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MEALY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

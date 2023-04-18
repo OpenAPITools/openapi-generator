@@ -17,8 +17,8 @@ import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -54,7 +54,7 @@ public enum EnumClass {
   @JsonCreator
   public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }

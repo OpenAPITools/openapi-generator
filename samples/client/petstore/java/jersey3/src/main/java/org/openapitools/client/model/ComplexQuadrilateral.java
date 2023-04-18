@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
   ComplexQuadrilateral.JSON_PROPERTY_SHAPE_TYPE,
   ComplexQuadrilateral.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -57,7 +57,7 @@ public class ComplexQuadrilateral {
    * Get shapeType
    * @return shapeType
   **/
-  @jakarta.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -82,7 +82,7 @@ public class ComplexQuadrilateral {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
-  @jakarta.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

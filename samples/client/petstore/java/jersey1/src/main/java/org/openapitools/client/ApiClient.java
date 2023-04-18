@@ -29,9 +29,9 @@ import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
+import .ws.rs.core.Cookie;
+import .ws.rs.core.Response.Status.Family;
+import .ws.rs.core.MediaType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -57,7 +57,7 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -102,10 +102,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 

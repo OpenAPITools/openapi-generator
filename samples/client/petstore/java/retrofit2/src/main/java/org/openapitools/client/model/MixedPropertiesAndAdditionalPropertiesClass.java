@@ -30,7 +30,7 @@ import org.openapitools.client.model.Animal;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -57,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public UUID getUuid() {
     return uuid;
@@ -79,7 +79,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -109,7 +109,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, Animal> getMap() {
     return map;

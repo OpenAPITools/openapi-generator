@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 
 /**
  * CatAllOf
@@ -32,7 +32,7 @@ import javax.validation.Valid;
   CatAllOf.JSON_PROPERTY_DECLAWED
 })
 @JsonTypeName("Cat_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
@@ -50,7 +50,7 @@ public class CatAllOf {
    * Get declawed
    * @return declawed
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_DECLAWED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

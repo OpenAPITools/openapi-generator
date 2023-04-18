@@ -16,8 +16,8 @@ package org.openapitools.client.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.annotations.SerializedName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 import java.io.IOException;
@@ -55,7 +55,7 @@ public enum EnumClass {
 
   public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }

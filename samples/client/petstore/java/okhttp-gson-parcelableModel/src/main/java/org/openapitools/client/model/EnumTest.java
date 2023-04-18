@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest implements Parcelable {
   /**
    * Gets or Sets enumString
@@ -79,7 +79,7 @@ public class EnumTest implements Parcelable {
 
     public static EnumStringEnum fromValue(String value) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -132,7 +132,7 @@ public class EnumTest implements Parcelable {
 
     public static EnumStringRequiredEnum fromValue(String value) {
       for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -276,7 +276,7 @@ public class EnumTest implements Parcelable {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -298,7 +298,7 @@ public class EnumTest implements Parcelable {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -320,7 +320,7 @@ public class EnumTest implements Parcelable {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -342,7 +342,7 @@ public class EnumTest implements Parcelable {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -364,7 +364,7 @@ public class EnumTest implements Parcelable {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public OuterEnum getOuterEnum() {
     return outerEnum;

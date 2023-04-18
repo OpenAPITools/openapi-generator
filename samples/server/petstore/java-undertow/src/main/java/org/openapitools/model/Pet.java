@@ -28,14 +28,14 @@ import org.openapitools.model.Tag;
  */
 
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
 public class Pet   {
   
   private Long id;
   private Category category;
   private String name;
   private List<String> photoUrls = new ArrayList<>();
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
 
   public enum StatusEnum {

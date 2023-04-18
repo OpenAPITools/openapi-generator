@@ -17,9 +17,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -52,25 +49,11 @@ public enum SingleRefType {
   @JsonCreator
   public static SingleRefType fromValue(String value) {
     for (SingleRefType b : SingleRefType.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    if (prefix == null) {
-      prefix = "";
-    }
-
-    return String.format("%s=%s", prefix, this.toString());
   }
 }
 

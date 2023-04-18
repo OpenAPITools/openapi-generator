@@ -25,14 +25,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -99,7 +99,7 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Map<String, String> getMapString() {
@@ -130,7 +130,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -162,7 +162,7 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Map<String, Integer> getMapInteger() {
@@ -193,7 +193,7 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Map<String, Boolean> getMapBoolean() {
@@ -224,7 +224,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -256,7 +256,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -288,7 +288,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -320,7 +320,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -344,7 +344,7 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Object getAnytype1() {
@@ -367,7 +367,7 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Object getAnytype2() {
@@ -390,7 +390,7 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Object getAnytype3() {

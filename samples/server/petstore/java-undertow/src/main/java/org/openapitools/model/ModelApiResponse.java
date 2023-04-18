@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 @ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
 public class ModelApiResponse   {
   
   private Integer code;

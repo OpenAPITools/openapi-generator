@@ -15,36 +15,82 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.Query;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class DataQuery extends Query {
-  public static final String SERIALIZED_NAME_SUFFIX = "suffix";
-  @SerializedName(SERIALIZED_NAME_SUFFIX)
+@JsonPropertyOrder({
+  DataQuery.JSON_PROPERTY_SUFFIX,
+  DataQuery.JSON_PROPERTY_TEXT,
+  DataQuery.JSON_PROPERTY_DATE,
+  DataQuery.JSON_PROPERTY_ID,
+  DataQuery.JSON_PROPERTY_OUTCOMES
+})
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class DataQuery {
+  public static final String JSON_PROPERTY_SUFFIX = "suffix";
   private String suffix;
 
-  public static final String SERIALIZED_NAME_TEXT = "text";
-  @SerializedName(SERIALIZED_NAME_TEXT)
+  public static final String JSON_PROPERTY_TEXT = "text";
   private String text;
 
-  public static final String SERIALIZED_NAME_DATE = "date";
-  @SerializedName(SERIALIZED_NAME_DATE)
+  public static final String JSON_PROPERTY_DATE = "date";
   private OffsetDateTime date;
 
-  public DataQuery() {
+  public static final String JSON_PROPERTY_ID = "id";
+  private Long id;
 
+  /**
+   * Gets or Sets outcomes
+   */
+  public enum OutcomesEnum {
+    SUCCESS("SUCCESS"),
+    
+    FAILURE("FAILURE"),
+    
+    SKIPPED("SKIPPED");
+
+    private String value;
+
+    OutcomesEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static OutcomesEnum fromValue(String value) {
+      for (OutcomesEnum b : OutcomesEnum.values()) {
+        if (b.value.equalsIgnoreCase(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
+  private List<OutcomesEnum> outcomes = new ArrayList<>();
+
+  public DataQuery() {
   }
 
   public DataQuery suffix(String suffix) {
@@ -57,13 +103,17 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSuffix() {
     return suffix;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSuffix(String suffix) {
     this.suffix = suffix;
   }
@@ -79,13 +129,17 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getText() {
     return text;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setText(String text) {
     this.text = text;
   }
@@ -101,27 +155,79 @@ public class DataQuery extends Query {
    * A date
    * @return date
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getDate() {
     return date;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDate(OffsetDateTime date) {
     this.date = date;
   }
 
-  @Override
+
   public DataQuery id(Long id) {
-    this.setId(id);
+    
+    this.id = id;
     return this;
   }
 
-  @Override
+   /**
+   * Query
+   * @return id
+  **/
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Long getId() {
+    return id;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+
   public DataQuery outcomes(List<OutcomesEnum> outcomes) {
-    this.setOutcomes(outcomes);
+    
+    this.outcomes = outcomes;
     return this;
+  }
+
+  public DataQuery addOutcomesItem(OutcomesEnum outcomesItem) {
+    if (this.outcomes == null) {
+      this.outcomes = new ArrayList<>();
+    }
+    this.outcomes.add(outcomesItem);
+    return this;
+  }
+
+   /**
+   * Get outcomes
+   * @return outcomes
+  **/
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public List<OutcomesEnum> getOutcomes() {
+    return outcomes;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOutcomes(List<OutcomesEnum> outcomes) {
+    this.outcomes = outcomes;
   }
 
   @Override
@@ -136,22 +242,24 @@ public class DataQuery extends Query {
     return Objects.equals(this.suffix, dataQuery.suffix) &&
         Objects.equals(this.text, dataQuery.text) &&
         Objects.equals(this.date, dataQuery.date) &&
-        super.equals(o);
+        Objects.equals(this.id, dataQuery.id) &&
+        Objects.equals(this.outcomes, dataQuery.outcomes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(suffix, text, date, super.hashCode());
+    return Objects.hash(suffix, text, date, id, outcomes);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DataQuery {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    suffix: ").append(toIndentedString(suffix)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    outcomes: ").append(toIndentedString(outcomes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

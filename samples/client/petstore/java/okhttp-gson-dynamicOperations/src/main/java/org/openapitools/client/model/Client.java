@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * Client
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
@@ -65,7 +65,7 @@ public class Client {
    * Get client
    * @return client
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getClient() {
     return client;

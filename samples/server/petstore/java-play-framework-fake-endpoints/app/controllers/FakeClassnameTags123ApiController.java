@@ -18,12 +18,12 @@ import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeClassnameTags123ApiController extends Controller {
     private final FakeClassnameTags123ApiControllerImpInterface imp;
     private final ObjectMapper mapper;

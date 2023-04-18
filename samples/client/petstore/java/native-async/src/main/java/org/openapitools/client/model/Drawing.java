@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -53,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Drawing extends HashMap<String, Fruit> {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   private Shape mainShape;
@@ -65,7 +62,7 @@ public class Drawing extends HashMap<String, Fruit> {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes;
+  private List<Shape> shapes = new ArrayList<>();
 
   public Drawing() { 
   }
@@ -79,7 +76,7 @@ public class Drawing extends HashMap<String, Fruit> {
    * Get mainShape
    * @return mainShape
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -104,7 +101,7 @@ public class Drawing extends HashMap<String, Fruit> {
    * Get shapeOrNull
    * @return shapeOrNull
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -129,7 +126,7 @@ public class Drawing extends HashMap<String, Fruit> {
    * Get nullableShape
    * @return nullableShape
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -170,7 +167,7 @@ public class Drawing extends HashMap<String, Fruit> {
    * Get shapes
    * @return shapes
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -288,66 +285,6 @@ public class Drawing extends HashMap<String, Fruit> {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `mainShape` to the URL query string
-    if (getMainShape() != null) {
-      joiner.add(getMainShape().toUrlQueryString(prefix + "mainShape" + suffix));
-    }
-
-    // add `shapeOrNull` to the URL query string
-    if (getShapeOrNull() != null) {
-      joiner.add(getShapeOrNull().toUrlQueryString(prefix + "shapeOrNull" + suffix));
-    }
-
-    // add `nullableShape` to the URL query string
-    if (getNullableShape() != null) {
-      joiner.add(getNullableShape().toUrlQueryString(prefix + "nullableShape" + suffix));
-    }
-
-    // add `shapes` to the URL query string
-    if (getShapes() != null) {
-      for (int i = 0; i < getShapes().size(); i++) {
-        if (getShapes().get(i) != null) {
-          joiner.add(getShapes().get(i).toUrlQueryString(String.format("%sshapes%s%s", prefix, suffix,
-          "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
-        }
-      }
-    }
-
-    return joiner.toString();
   }
 }
 

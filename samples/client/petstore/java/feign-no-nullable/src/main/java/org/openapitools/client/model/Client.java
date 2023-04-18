@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Client.JSON_PROPERTY_CLIENT
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
@@ -48,7 +48,7 @@ public class Client {
    * Get client
    * @return client
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

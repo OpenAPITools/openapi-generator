@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
@@ -53,7 +53,7 @@ public class ReadOnlyFirst {
    * Get bar
    * @return bar
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -74,7 +74,7 @@ public class ReadOnlyFirst {
    * Get baz
    * @return baz
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

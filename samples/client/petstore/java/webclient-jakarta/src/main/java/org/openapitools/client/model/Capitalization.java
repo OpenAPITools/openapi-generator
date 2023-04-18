@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   private String smallCamel;
@@ -67,7 +67,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -93,7 +93,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -119,7 +119,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -145,7 +145,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -171,7 +171,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -197,7 +197,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

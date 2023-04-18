@@ -25,16 +25,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.OffsetDateTime;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import .ws.rs.client.Client;
+import .ws.rs.client.ClientBuilder;
+import .ws.rs.client.Entity;
+import .ws.rs.client.Invocation;
+import .ws.rs.client.WebTarget;
+import .ws.rs.core.Form;
+import .ws.rs.core.GenericType;
+import .ws.rs.core.MediaType;
+import .ws.rs.core.Response;
+import .ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.client.jaxrs.internal.ClientConfiguration;
@@ -47,7 +47,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -81,10 +81,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }

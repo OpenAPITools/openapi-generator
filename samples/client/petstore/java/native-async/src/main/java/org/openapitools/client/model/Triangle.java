@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -57,7 +54,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -303,59 +300,6 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
 
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    if (getActualInstance() instanceof EquilateralTriangle) {
-        if (getActualInstance() != null) {
-          joiner.add(((EquilateralTriangle)getActualInstance()).toUrlQueryString(prefix + "one_of_0" + suffix));
-        }
-        return joiner.toString();
-    }
-    if (getActualInstance() instanceof IsoscelesTriangle) {
-        if (getActualInstance() != null) {
-          joiner.add(((IsoscelesTriangle)getActualInstance()).toUrlQueryString(prefix + "one_of_1" + suffix));
-        }
-        return joiner.toString();
-    }
-    if (getActualInstance() instanceof ScaleneTriangle) {
-        if (getActualInstance() != null) {
-          joiner.add(((ScaleneTriangle)getActualInstance()).toUrlQueryString(prefix + "one_of_2" + suffix));
-        }
-        return joiner.toString();
-    }
-    return null;
-  }
 
 }
 

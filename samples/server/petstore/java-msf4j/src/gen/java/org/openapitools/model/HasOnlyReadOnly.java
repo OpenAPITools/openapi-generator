@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
   private String bar;

@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
   IsoscelesTriangle.JSON_PROPERTY_SHAPE_TYPE,
   IsoscelesTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class IsoscelesTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -53,7 +53,7 @@ public class IsoscelesTriangle {
    * Get shapeType
    * @return shapeType
   **/
-  @jakarta.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -78,7 +78,7 @@ public class IsoscelesTriangle {
    * Get triangleType
    * @return triangleType
   **/
-  @jakarta.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

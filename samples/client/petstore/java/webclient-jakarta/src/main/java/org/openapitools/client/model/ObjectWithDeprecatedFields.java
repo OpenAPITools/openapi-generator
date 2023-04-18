@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -48,7 +48,7 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
@@ -63,7 +63,7 @@ public class ObjectWithDeprecatedFields {
    * Get uuid
    * @return uuid
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -91,7 +91,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -119,7 +119,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -155,7 +155,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

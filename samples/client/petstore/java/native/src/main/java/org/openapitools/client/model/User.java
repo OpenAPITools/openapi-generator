@@ -13,9 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -49,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_ANY_TYPE_PROP,
   User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -99,7 +96,7 @@ public class User {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -124,7 +121,7 @@ public class User {
    * Get username
    * @return username
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -149,7 +146,7 @@ public class User {
    * Get firstName
    * @return firstName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -174,7 +171,7 @@ public class User {
    * Get lastName
    * @return lastName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -199,7 +196,7 @@ public class User {
    * Get email
    * @return email
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -224,7 +221,7 @@ public class User {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -249,7 +246,7 @@ public class User {
    * Get phone
    * @return phone
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -274,7 +271,7 @@ public class User {
    * User Status
    * @return userStatus
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -299,7 +296,7 @@ public class User {
    * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
    * @return objectWithNoDeclaredProps
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -324,7 +321,7 @@ public class User {
    * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
    * @return objectWithNoDeclaredPropsNullable
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getObjectWithNoDeclaredPropsNullable() {
@@ -357,7 +354,7 @@ public class User {
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
    * @return anyTypeProp
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getAnyTypeProp() {
@@ -390,7 +387,7 @@ public class User {
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
    * @return anyTypePropNullable
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonIgnore
 
   public Object getAnyTypePropNullable() {
@@ -485,101 +482,6 @@ public class User {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `username` to the URL query string
-    if (getUsername() != null) {
-      joiner.add(String.format("%susername%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUsername()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `firstName` to the URL query string
-    if (getFirstName() != null) {
-      joiner.add(String.format("%sfirstName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFirstName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `lastName` to the URL query string
-    if (getLastName() != null) {
-      joiner.add(String.format("%slastName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLastName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `email` to the URL query string
-    if (getEmail() != null) {
-      joiner.add(String.format("%semail%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `password` to the URL query string
-    if (getPassword() != null) {
-      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `phone` to the URL query string
-    if (getPhone() != null) {
-      joiner.add(String.format("%sphone%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPhone()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `userStatus` to the URL query string
-    if (getUserStatus() != null) {
-      joiner.add(String.format("%suserStatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUserStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `objectWithNoDeclaredProps` to the URL query string
-    if (getObjectWithNoDeclaredProps() != null) {
-      joiner.add(String.format("%sobjectWithNoDeclaredProps%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getObjectWithNoDeclaredProps()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `objectWithNoDeclaredPropsNullable` to the URL query string
-    if (getObjectWithNoDeclaredPropsNullable() != null) {
-      joiner.add(String.format("%sobjectWithNoDeclaredPropsNullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getObjectWithNoDeclaredPropsNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `anyTypeProp` to the URL query string
-    if (getAnyTypeProp() != null) {
-      joiner.add(String.format("%sanyTypeProp%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAnyTypeProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `anyTypePropNullable` to the URL query string
-    if (getAnyTypePropNullable() != null) {
-      joiner.add(String.format("%sanyTypePropNullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAnyTypePropNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    return joiner.toString();
   }
 }
 

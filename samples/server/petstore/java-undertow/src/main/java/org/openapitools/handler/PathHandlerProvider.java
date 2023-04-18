@@ -42,7 +42,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
     /**
      * Returns the default base path to access this server.
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     public String getBasePath() {
         return "/v2";
     }
@@ -61,7 +61,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      *
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     @Override
     public HttpHandler getHandler() {
         return getHandler(false);
@@ -76,7 +76,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      * @param withBasePath if true, all endpoints would start with "/v2"
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     public HttpHandler getHandler(final boolean withBasePath) {
         return getHandler(withBasePath ? getBasePath() : "");
     }
@@ -91,7 +91,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
     @SuppressWarnings("Convert2Lambda")
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     public HttpHandler getHandler(final String basePath) {
         return Handlers.routing()
             .add(Methods.POST, basePath + "/pet", new HttpHandler() {
@@ -231,7 +231,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      *
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     public HttpHandler getStatefulHandler() {
         return getStatefulHandler(false);
     }
@@ -245,7 +245,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      * @param withBasePath if true, all endpoints would start with "/v2"
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     public HttpHandler getStatefulHandler(final boolean withBasePath) {
         return getStatefulHandler(withBasePath ? getBasePath() : "");
     }
@@ -259,7 +259,7 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
      * @param basePath base path to set for all endpoints
      * @return an {@link HttpHandler} of type {@link RoutingHandler}
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     public HttpHandler getStatefulHandler(final String basePath) {
         return Handlers.routing()
             .add(Methods.POST, basePath + "/pet", addPet())

@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
  * A category for a pet
  */
 @ApiModel(description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -72,7 +72,7 @@ public class Category {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public Long getId() {
@@ -95,7 +95,7 @@ public class Category {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @ApiModelProperty(value = "")
 
   public String getName() {

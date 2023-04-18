@@ -32,7 +32,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar = "bar";
@@ -49,7 +49,7 @@ public class Foo {
    * Get bar
    * @return bar
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

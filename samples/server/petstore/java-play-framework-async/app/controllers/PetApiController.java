@@ -23,12 +23,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
-import javax.validation.constraints.*;
+import .validation.constraints.*;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;

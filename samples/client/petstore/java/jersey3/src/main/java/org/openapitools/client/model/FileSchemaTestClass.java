@@ -36,13 +36,13 @@ import org.openapitools.client.JSON;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private ModelFile _file;
 
   public static final String JSON_PROPERTY_FILES = "files";
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() { 
   }
@@ -56,7 +56,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -89,7 +89,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

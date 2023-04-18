@@ -1,9 +1,9 @@
 package org.openapitools.api;
 
-import javax.xml.bind.annotation.XmlTransient;
+import .xml.bind.annotation.XmlTransient;
 
-@javax.xml.bind.annotation.XmlRootElement
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.xml.bind.annotation.XmlRootElement
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class ApiResponseMessage {
     public static final int ERROR = 1;
     public static final int WARNING = 2;

@@ -5,34 +5,44 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import feign.okhttp.OkHttpClient;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import org.openapitools.jackson.nullable.JsonNullableModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import feign.Feign;
 import feign.RequestInterceptor;
 import feign.form.FormEncoder;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.ApiResponseDecoder;
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   public interface Api {}
 
+  protected ObjectMapper objectMapper;
   private String basePath = "http://localhost:3000";
   private Map<String, RequestInterceptor> apiAuthorizations;
   private Feign.Builder feignBuilder;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
-        .encoder(new FormEncoder(new GsonEncoder()))
-        .decoder(new GsonDecoder())
-        .logger(new Slf4jLogger());
+                .client(new OkHttpClient())
+                .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
+                .decoder(new ApiResponseDecoder(objectMapper))
+                .logger(new Slf4jLogger());
   }
 
   public ApiClient(String[] authNames) {
@@ -87,8 +97,28 @@ public class ApiClient {
     return this;
   }
 
+  private ObjectMapper createObjectMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+    objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    objectMapper.disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE);
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.setDateFormat(new RFC3339DateFormat());
+    objectMapper.registerModule(new JavaTimeModule());
+    JsonNullableModule jnm = new JsonNullableModule();
+    objectMapper.registerModule(jnm);
+    return objectMapper;
+  }
 
 
+  public ObjectMapper getObjectMapper(){
+    return objectMapper;
+  }
+
+  public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+  }
 
   /**
    * Creates a feign client for given API interface.

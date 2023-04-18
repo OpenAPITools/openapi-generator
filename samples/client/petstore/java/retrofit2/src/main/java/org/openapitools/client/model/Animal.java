@@ -21,11 +21,14 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import org.openapitools.client.model.BigCat;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
@@ -48,7 +51,7 @@ public class Animal {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getClassName() {
     return className;
@@ -70,7 +73,7 @@ public class Animal {
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getColor() {
     return color;

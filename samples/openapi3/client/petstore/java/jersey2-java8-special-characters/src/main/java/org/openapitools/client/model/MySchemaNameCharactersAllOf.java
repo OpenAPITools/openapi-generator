@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
   MySchemaNameCharactersAllOf.JSON_PROPERTY_PROP2
 })
 @JsonTypeName("MySchemaName___Characters_allOf")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MySchemaNameCharactersAllOf {
   public static final String JSON_PROPERTY_PROP2 = "prop2";
   private String prop2;
@@ -50,7 +50,7 @@ public class MySchemaNameCharactersAllOf {
    * Get prop2
    * @return prop2
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROP2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

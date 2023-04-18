@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -136,7 +136,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getInteger() {
     return integer;
@@ -160,7 +160,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getInt32() {
     return int32;
@@ -182,7 +182,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getInt64() {
     return int64;
@@ -206,7 +206,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public BigDecimal getNumber() {
     return number;
@@ -230,7 +230,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Float getFloat() {
     return _float;
@@ -254,7 +254,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Double getDouble() {
     return _double;
@@ -276,7 +276,7 @@ public class FormatTest {
    * Get decimal
    * @return decimal
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getDecimal() {
     return decimal;
@@ -298,7 +298,7 @@ public class FormatTest {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getString() {
     return string;
@@ -320,7 +320,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public byte[] getByte() {
     return _byte;
@@ -342,7 +342,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public File getBinary() {
     return binary;
@@ -364,7 +364,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public LocalDate getDate() {
     return date;
@@ -386,7 +386,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -408,7 +408,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public UUID getUuid() {
     return uuid;
@@ -430,7 +430,7 @@ public class FormatTest {
    * Get uuidWithDefault
    * @return uuidWithDefault
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public UUID getUuidWithDefault() {
     return uuidWithDefault;
@@ -452,7 +452,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getPassword() {
     return password;
@@ -474,7 +474,7 @@ public class FormatTest {
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getPatternWithDigits() {
     return patternWithDigits;
@@ -496,7 +496,7 @@ public class FormatTest {
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;

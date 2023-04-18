@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * ModelList
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class ModelList   {
   @JsonProperty("123-list")
   private String _123list;

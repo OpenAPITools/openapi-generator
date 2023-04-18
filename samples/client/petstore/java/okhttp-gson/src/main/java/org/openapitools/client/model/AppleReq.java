@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * AppleReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
@@ -69,7 +69,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getCultivar() {
     return cultivar;
@@ -91,7 +91,7 @@ public class AppleReq {
    * Get mealy
    * @return mealy
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getMealy() {
     return mealy;

@@ -15,28 +15,31 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonPropertyOrder({
+  Query.JSON_PROPERTY_ID,
+  Query.JSON_PROPERTY_OUTCOMES
+})
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Query {
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
   /**
    * Gets or Sets outcomes
    */
-  @JsonAdapter(OutcomesEnum.Adapter.class)
   public enum OutcomesEnum {
     SUCCESS("SUCCESS"),
     
@@ -50,6 +53,7 @@ public class Query {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -59,32 +63,19 @@ public class Query {
       return String.valueOf(value);
     }
 
+    @JsonCreator
     public static OutcomesEnum fromValue(String value) {
       for (OutcomesEnum b : OutcomesEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-
-    public static class Adapter extends TypeAdapter<OutcomesEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final OutcomesEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public OutcomesEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return OutcomesEnum.fromValue(value);
-      }
-    }
   }
 
-  public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
-  @SerializedName(SERIALIZED_NAME_OUTCOMES)
-  private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+  public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
+  private List<OutcomesEnum> outcomes = new ArrayList<>();
 
   public Query() {
   }
@@ -99,13 +90,17 @@ public class Query {
    * Query
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
     return id;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
   }
@@ -119,7 +114,7 @@ public class Query {
 
   public Query addOutcomesItem(OutcomesEnum outcomesItem) {
     if (this.outcomes == null) {
-      this.outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+      this.outcomes = new ArrayList<>();
     }
     this.outcomes.add(outcomesItem);
     return this;
@@ -129,13 +124,17 @@ public class Query {
    * Get outcomes
    * @return outcomes
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_OUTCOMES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOutcomes(List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
   }

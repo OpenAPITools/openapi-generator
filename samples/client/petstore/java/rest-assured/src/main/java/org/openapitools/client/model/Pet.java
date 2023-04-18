@@ -27,14 +27,14 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -54,7 +54,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -84,7 +84,7 @@ public class Pet {
 
     public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -122,7 +122,7 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Long getId() {
@@ -145,7 +145,7 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -169,7 +169,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -201,7 +201,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -233,7 +233,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -257,7 +257,7 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public StatusEnum getStatus() {

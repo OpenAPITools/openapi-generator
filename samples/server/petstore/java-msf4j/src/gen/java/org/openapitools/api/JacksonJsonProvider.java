@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.ext.Provider;
+import .ws.rs.Produces;
+import .ws.rs.core.MediaType;
+import .ws.rs.ext.Provider;
 
 @Provider
 @Produces({MediaType.APPLICATION_JSON})

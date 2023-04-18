@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   Banana.JSON_PROPERTY_LENGTH_CM
 })
 @JsonTypeName("banana")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -51,7 +51,7 @@ public class Banana {
    * Get lengthCm
    * @return lengthCm
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ClassModel implements Parcelable {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
@@ -67,7 +67,7 @@ public class ClassModel implements Parcelable {
    * Get propertyClass
    * @return propertyClass
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getPropertyClass() {
     return propertyClass;

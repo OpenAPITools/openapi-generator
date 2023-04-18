@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Must be named &#x60;File&#x60; for test.
  */
 @ApiModel(description = "Must be named `File` for test.")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class ModelFile   {
   @JsonProperty("sourceURI")
   private String sourceURI;

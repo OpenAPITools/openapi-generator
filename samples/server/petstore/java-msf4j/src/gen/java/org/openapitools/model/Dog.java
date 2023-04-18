@@ -10,7 +10,7 @@ import org.openapitools.model.Animal;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Dog extends Animal  {
   @JsonProperty("breed")
   private String breed;

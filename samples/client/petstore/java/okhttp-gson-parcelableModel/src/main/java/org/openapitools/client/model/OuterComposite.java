@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OuterComposite implements Parcelable {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -76,7 +76,7 @@ public class OuterComposite implements Parcelable {
    * Get myNumber
    * @return myNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -98,7 +98,7 @@ public class OuterComposite implements Parcelable {
    * Get myString
    * @return myString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getMyString() {
     return myString;
@@ -120,7 +120,7 @@ public class OuterComposite implements Parcelable {
    * Get myBoolean
    * @return myBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getMyBoolean() {
     return myBoolean;

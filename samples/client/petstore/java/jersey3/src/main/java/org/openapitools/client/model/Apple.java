@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   Apple.JSON_PROPERTY_ORIGIN
 })
 @JsonTypeName("apple")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -54,7 +54,7 @@ public class Apple {
    * Get cultivar
    * @return cultivar
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -79,7 +79,7 @@ public class Apple {
    * Get origin
    * @return origin
   **/
-  @jakarta.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

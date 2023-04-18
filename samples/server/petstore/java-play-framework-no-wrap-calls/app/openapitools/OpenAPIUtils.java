@@ -9,10 +9,10 @@ import java.lang.annotation.Target;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import .validation.ConstraintViolation;
+import .validation.Validation;
+import .validation.Validator;
+import .validation.ValidatorFactory;
 
 public class OpenAPIUtils {
 

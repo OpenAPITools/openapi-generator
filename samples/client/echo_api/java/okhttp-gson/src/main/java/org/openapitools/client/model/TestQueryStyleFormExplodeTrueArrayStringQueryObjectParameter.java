@@ -48,11 +48,11 @@ import org.openapitools.client.JSON;
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String SERIALIZED_NAME_VALUES = "values";
   @SerializedName(SERIALIZED_NAME_VALUES)
-  private List<String> values;
+  private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -75,7 +75,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * Get values
    * @return values
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<String> getValues() {
     return values;

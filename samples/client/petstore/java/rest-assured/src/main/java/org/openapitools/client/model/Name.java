@@ -21,14 +21,14 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -69,7 +69,7 @@ public class Name {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @NotNull
 
 
@@ -87,7 +87,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Integer getSnakeCase() {
@@ -107,7 +107,7 @@ public class Name {
    * Get property
    * @return property
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getProperty() {
@@ -124,7 +124,7 @@ public class Name {
    * Get _123number
    * @return _123number
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public Integer get123number() {

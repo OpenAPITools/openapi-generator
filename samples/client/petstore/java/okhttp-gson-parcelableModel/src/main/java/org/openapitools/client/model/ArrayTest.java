@@ -51,19 +51,19 @@ import org.openapitools.client.JSON;
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
   }
@@ -86,7 +86,7 @@ public class ArrayTest implements Parcelable {
    * Get arrayOfString
    * @return arrayOfString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -116,7 +116,7 @@ public class ArrayTest implements Parcelable {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -146,7 +146,7 @@ public class ArrayTest implements Parcelable {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

@@ -139,4 +139,3 @@ public class BigCat extends Cat {
         return visitor.visitBigCat(this);
     }
 }
-

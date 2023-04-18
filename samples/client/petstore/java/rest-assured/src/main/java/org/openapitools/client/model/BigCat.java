@@ -22,14 +22,14 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Cat;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -61,7 +61,7 @@ public class BigCat extends Cat {
 
     public static KindEnum fromValue(String value) {
       for (KindEnum b : KindEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -100,7 +100,7 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public KindEnum getKind() {
@@ -110,18 +110,6 @@ public class BigCat extends Cat {
 
   public void setKind(KindEnum kind) {
     this.kind = kind;
-  }
-
-  @Override
-  public BigCat className(String className) {
-    this.setClassName(className);
-    return this;
-  }
-
-  @Override
-  public BigCat color(String color) {
-    this.setColor(color);
-    return this;
   }
 
   @Override

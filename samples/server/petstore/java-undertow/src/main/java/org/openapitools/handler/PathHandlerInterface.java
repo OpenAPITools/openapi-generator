@@ -36,7 +36,7 @@ public interface PathHandlerInterface {
      * <li><b>405 (client error)</b>: Invalid input</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler addPet();
 
     /**
@@ -71,7 +71,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid pet value</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler deletePet();
 
     /**
@@ -103,7 +103,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid status value</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler findPetsByStatus();
 
     /**
@@ -135,7 +135,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid tag value</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     @Deprecated
     HttpHandler findPetsByTags();
 
@@ -169,7 +169,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: Pet not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler getPetById();
 
     /**
@@ -192,7 +192,7 @@ public interface PathHandlerInterface {
      * <li><b>405 (client error)</b>: Validation exception</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler updatePet();
 
     /**
@@ -239,7 +239,7 @@ public interface PathHandlerInterface {
      * <li><b>405 (client error)</b>: Invalid input</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler updatePetWithForm();
 
     /**
@@ -288,7 +288,7 @@ public interface PathHandlerInterface {
      * <li><b>200 (success)</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler uploadFile();
 
     /**
@@ -318,7 +318,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: Order not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler deleteOrder();
 
     /**
@@ -336,7 +336,7 @@ public interface PathHandlerInterface {
      * <li><b>200 (success)</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler getInventory();
 
     /**
@@ -369,7 +369,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: Order not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler getOrderById();
 
     /**
@@ -390,7 +390,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid Order</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler placeOrder();
 
     /**
@@ -410,7 +410,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler createUser();
 
     /**
@@ -428,7 +428,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler createUsersWithArrayInput();
 
     /**
@@ -446,7 +446,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler createUsersWithListInput();
 
     /**
@@ -476,7 +476,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: User not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler deleteUser();
 
     /**
@@ -507,7 +507,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: User not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler getUserByName();
 
     /**
@@ -539,10 +539,10 @@ public interface PathHandlerInterface {
      * <p><b>Response headers</b>: [CodegenProperty{openApiType='integer', baseName='X-Rate-Limit', complexType='null', getter='getxRateLimit', setter='setxRateLimit', description='calls per hour allowed by the user', dataType='Integer', datatypeWithEnum='Integer', dataFormat='int32', name='xRateLimit', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Rate-Limit;', baseType='Integer', containerType='null', title='null', unescapedDescription='calls per hour allowed by the user', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
   "type" : "integer",
   "format" : "int32"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=false, isNumeric=true, isInteger=true, isShort=true, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XRateLimit', nameInSnakeCase='X_RATE_LIMIT', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=int32, dependentRequired=null, contains=null}, CodegenProperty{openApiType='string', baseName='X-Expires-After', complexType='Date', getter='getxExpiresAfter', setter='setxExpiresAfter', description='date in UTC when token expires', dataType='Date', datatypeWithEnum='Date', dataFormat='date-time', name='xExpiresAfter', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Expires-After;', baseType='Date', containerType='null', title='null', unescapedDescription='date in UTC when token expires', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
+}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=false, isNumeric=true, isInteger=true, isShort=true, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XRateLimit', nameInSnakeCase='X_RATE_LIMIT', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=int32, dependentRequired=null, contains=null}, CodegenProperty{openApiType='string', baseName='X-Expires-After', complexType='Date', getter='getxExpiresAfter', setter='setxExpiresAfter', description='date in UTC when token expires', dataType='Date', datatypeWithEnum='Date', dataFormat='date-time', name='xExpiresAfter', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Expires-After;', baseType='Date', containerType='null', title='null', unescapedDescription='date in UTC when token expires', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
   "type" : "string",
   "format" : "date-time"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=true, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XExpiresAfter', nameInSnakeCase='X_EXPIRES_AFTER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=date-time, dependentRequired=null, contains=null}]</p>
+}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=true, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XExpiresAfter', nameInSnakeCase='X_EXPIRES_AFTER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=date-time, dependentRequired=null, contains=null}]</p>
      *
      * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link String}</p>
@@ -553,7 +553,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid username/password supplied</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler loginUser();
 
     /**
@@ -567,7 +567,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler logoutUser();
 
     /**
@@ -597,6 +597,6 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: User not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @.annotation.Nonnull
     HttpHandler updateUser();
 }

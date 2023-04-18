@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -69,7 +69,7 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_WRAPPED_ARRAY = "wrapped_array";
   @SerializedName(SERIALIZED_NAME_WRAPPED_ARRAY)
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAME_STRING = "name_string";
   @SerializedName(SERIALIZED_NAME_NAME_STRING)
@@ -89,11 +89,11 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_NAME_ARRAY = "name_array";
   @SerializedName(SERIALIZED_NAME_NAME_ARRAY)
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAME_WRAPPED_ARRAY = "name_wrapped_array";
   @SerializedName(SERIALIZED_NAME_NAME_WRAPPED_ARRAY)
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_STRING = "prefix_string";
   @SerializedName(SERIALIZED_NAME_PREFIX_STRING)
@@ -113,11 +113,11 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_PREFIX_ARRAY = "prefix_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_ARRAY)
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY)
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAMESPACE_STRING = "namespace_string";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_STRING)
@@ -137,11 +137,11 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_NAMESPACE_ARRAY = "namespace_array";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_ARRAY)
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
   @SerializedName(SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY)
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_NS_STRING = "prefix_ns_string";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_STRING)
@@ -161,11 +161,11 @@ public class XmlItem {
 
   public static final String SERIALIZED_NAME_PREFIX_NS_ARRAY = "prefix_ns_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_ARRAY)
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem() {
   }
@@ -180,7 +180,7 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getAttributeString() {
     return attributeString;
@@ -202,7 +202,7 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -224,7 +224,7 @@ public class XmlItem {
    * Get attributeInteger
    * @return attributeInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getAttributeInteger() {
     return attributeInteger;
@@ -246,7 +246,7 @@ public class XmlItem {
    * Get attributeBoolean
    * @return attributeBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
@@ -276,7 +276,7 @@ public class XmlItem {
    * Get wrappedArray
    * @return wrappedArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -298,7 +298,7 @@ public class XmlItem {
    * Get nameString
    * @return nameString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getNameString() {
     return nameString;
@@ -320,7 +320,7 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getNameNumber() {
     return nameNumber;
@@ -342,7 +342,7 @@ public class XmlItem {
    * Get nameInteger
    * @return nameInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getNameInteger() {
     return nameInteger;
@@ -364,7 +364,7 @@ public class XmlItem {
    * Get nameBoolean
    * @return nameBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getNameBoolean() {
     return nameBoolean;
@@ -394,7 +394,7 @@ public class XmlItem {
    * Get nameArray
    * @return nameArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getNameArray() {
     return nameArray;
@@ -424,7 +424,7 @@ public class XmlItem {
    * Get nameWrappedArray
    * @return nameWrappedArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -446,7 +446,7 @@ public class XmlItem {
    * Get prefixString
    * @return prefixString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getPrefixString() {
     return prefixString;
@@ -468,7 +468,7 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -490,7 +490,7 @@ public class XmlItem {
    * Get prefixInteger
    * @return prefixInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getPrefixInteger() {
     return prefixInteger;
@@ -512,7 +512,7 @@ public class XmlItem {
    * Get prefixBoolean
    * @return prefixBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
@@ -542,7 +542,7 @@ public class XmlItem {
    * Get prefixArray
    * @return prefixArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -572,7 +572,7 @@ public class XmlItem {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -594,7 +594,7 @@ public class XmlItem {
    * Get namespaceString
    * @return namespaceString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getNamespaceString() {
     return namespaceString;
@@ -616,7 +616,7 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -638,7 +638,7 @@ public class XmlItem {
    * Get namespaceInteger
    * @return namespaceInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -660,7 +660,7 @@ public class XmlItem {
    * Get namespaceBoolean
    * @return namespaceBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
@@ -690,7 +690,7 @@ public class XmlItem {
    * Get namespaceArray
    * @return namespaceArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -720,7 +720,7 @@ public class XmlItem {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -742,7 +742,7 @@ public class XmlItem {
    * Get prefixNsString
    * @return prefixNsString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getPrefixNsString() {
     return prefixNsString;
@@ -764,7 +764,7 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -786,7 +786,7 @@ public class XmlItem {
    * Get prefixNsInteger
    * @return prefixNsInteger
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -808,7 +808,7 @@ public class XmlItem {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -838,7 +838,7 @@ public class XmlItem {
    * Get prefixNsArray
    * @return prefixNsArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -868,7 +868,7 @@ public class XmlItem {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;

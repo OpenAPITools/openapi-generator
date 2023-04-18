@@ -21,6 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import org.openapitools.client.model.ParentPet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,7 +47,7 @@ import org.openapitools.client.JSON;
 /**
  * GrandparentAnimal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
@@ -66,7 +67,7 @@ public class GrandparentAnimal {
    * Get petType
    * @return petType
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getPetType() {
     return petType;

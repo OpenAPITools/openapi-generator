@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOfArrayAllofDogPropertyInner
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
@@ -69,7 +69,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
    * Get breed
    * @return breed
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getBreed() {
     return breed;
@@ -91,7 +91,7 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getColor() {
     return color;

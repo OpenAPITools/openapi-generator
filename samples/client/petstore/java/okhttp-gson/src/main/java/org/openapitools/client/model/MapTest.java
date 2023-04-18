@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -80,7 +80,7 @@ public class MapTest {
 
     public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -134,7 +134,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -164,7 +164,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -194,7 +194,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -224,7 +224,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;

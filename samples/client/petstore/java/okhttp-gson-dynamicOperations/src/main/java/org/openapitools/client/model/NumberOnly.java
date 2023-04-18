@@ -47,7 +47,7 @@ import org.openapitools.client.JSON;
 /**
  * NumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NumberOnly {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
@@ -66,7 +66,7 @@ public class NumberOnly {
    * Get justNumber
    * @return justNumber
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public BigDecimal getJustNumber() {
     return justNumber;

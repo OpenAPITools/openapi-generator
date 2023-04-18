@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName implements Parcelable {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
@@ -67,7 +67,7 @@ public class SpecialModelName implements Parcelable {
    * Get $specialPropertyName
    * @return $specialPropertyName
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;

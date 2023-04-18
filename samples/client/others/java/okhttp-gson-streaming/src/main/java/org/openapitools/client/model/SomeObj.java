@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SomeObj {
   /**
    * Gets or Sets $type
@@ -72,7 +72,7 @@ public class SomeObj {
 
     public static TypeEnum fromValue(String value) {
       for (TypeEnum b : TypeEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -126,7 +126,7 @@ public class SomeObj {
    * Get $type
    * @return $type
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public TypeEnum get$Type() {
     return $type;
@@ -148,7 +148,7 @@ public class SomeObj {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -170,7 +170,7 @@ public class SomeObj {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getName() {
     return name;
@@ -192,7 +192,7 @@ public class SomeObj {
    * Get active
    * @return active
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Boolean getActive() {
     return active;
@@ -214,7 +214,7 @@ public class SomeObj {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getType() {
     return type;

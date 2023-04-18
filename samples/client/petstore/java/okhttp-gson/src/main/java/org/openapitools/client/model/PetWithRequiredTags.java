@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * PetWithRequiredTags
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetWithRequiredTags {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -100,7 +100,7 @@ public class PetWithRequiredTags {
 
     public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }
@@ -138,7 +138,7 @@ public class PetWithRequiredTags {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -160,7 +160,7 @@ public class PetWithRequiredTags {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Category getCategory() {
     return category;
@@ -182,7 +182,7 @@ public class PetWithRequiredTags {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getName() {
     return name;
@@ -212,7 +212,7 @@ public class PetWithRequiredTags {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -242,7 +242,7 @@ public class PetWithRequiredTags {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public List<Tag> getTags() {
     return tags;
@@ -264,7 +264,7 @@ public class PetWithRequiredTags {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public StatusEnum getStatus() {
     return status;

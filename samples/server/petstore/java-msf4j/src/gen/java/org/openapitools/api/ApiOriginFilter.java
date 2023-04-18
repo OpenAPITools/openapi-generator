@@ -2,11 +2,11 @@ package org.openapitools.api;
 
 import java.io.IOException;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
+import .servlet.*;
+import .servlet.http.HttpServletResponse;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
-public class ApiOriginFilter implements javax.servlet.Filter {
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+public class ApiOriginFilter implements .servlet.Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse) response;

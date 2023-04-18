@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;

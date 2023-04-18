@@ -5,7 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-import javax.ws.rs.core.GenericType;
+import .ws.rs.core.GenericType;
 
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private ApiClient apiClient;
 

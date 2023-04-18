@@ -15,23 +15,27 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonPropertyOrder({
+  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.JSON_PROPERTY_VALUES
+})
+@JsonTypeName("test_query_style_form_explode_true_array_string_query_object_parameter")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
-  public static final String SERIALIZED_NAME_VALUES = "values";
-  @SerializedName(SERIALIZED_NAME_VALUES)
-  private List<String> values;
+  public static final String JSON_PROPERTY_VALUES = "values";
+  private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -54,13 +58,17 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * Get values
    * @return values
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<String> getValues() {
     return values;
   }
 
 
+  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setValues(List<String> values) {
     this.values = values;
   }

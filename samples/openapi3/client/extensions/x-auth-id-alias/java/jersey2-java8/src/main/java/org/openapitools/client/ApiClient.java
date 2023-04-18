@@ -1,15 +1,15 @@
 package org.openapitools.client;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import .ws.rs.client.Client;
+import .ws.rs.client.ClientBuilder;
+import .ws.rs.client.Entity;
+import .ws.rs.client.Invocation;
+import .ws.rs.client.WebTarget;
+import .ws.rs.core.Form;
+import .ws.rs.core.GenericType;
+import .ws.rs.core.MediaType;
+import .ws.rs.core.Response;
+import .ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -70,7 +70,7 @@ import org.openapitools.client.auth.ApiKeyAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
   private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
@@ -198,7 +198,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * <p>Getter for the field <code>httpClient</code>.</p>
    *
-   * @return a {@link javax.ws.rs.client.Client} object.
+   * @return a {@link .ws.rs.client.Client} object.
    */
   public Client getHttpClient() {
     return httpClient;
@@ -207,7 +207,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * <p>Setter for the field <code>httpClient</code>.</p>
    *
-   * @param httpClient a {@link javax.ws.rs.client.Client} object.
+   * @param httpClient a {@link .ws.rs.client.Client} object.
    * @return a {@link org.openapitools.client.ApiClient} object.
    */
   public ApiClient setHttpClient(Client httpClient) {
@@ -927,7 +927,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * <p>Prepare the file for download from the response.</p>
    *
-   * @param response a {@link javax.ws.rs.core.Response} object.
+   * @param response a {@link .ws.rs.core.Response} object.
    * @return a {@link java.io.File} object.
    * @throws java.io.IOException if any.
    */
@@ -1194,7 +1194,7 @@ public class ApiClient extends JavaTimeFormatter {
    * To completely disable certificate validation (at your own risk), you can
    * override this method and invoke disableCertificateValidation(clientBuilder).
    *
-   * @param clientBuilder a {@link javax.ws.rs.client.ClientBuilder} object.
+   * @param clientBuilder a {@link .ws.rs.client.ClientBuilder} object.
    */
   protected void customizeClientBuilder(ClientBuilder clientBuilder) {
     // No-op extension point
@@ -1206,7 +1206,7 @@ public class ApiClient extends JavaTimeFormatter {
    * Please note that trusting all certificates is extremely risky.
    * This may be useful in a development environment with self-signed certificates.
    *
-   * @param clientBuilder a {@link javax.ws.rs.client.ClientBuilder} object.
+   * @param clientBuilder a {@link .ws.rs.client.ClientBuilder} object.
    * @throws java.security.KeyManagementException if any.
    * @throws java.security.NoSuchAlgorithmException if any.
    */
@@ -1233,7 +1233,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * <p>Build the response headers.</p>
    *
-   * @param response a {@link javax.ws.rs.core.Response} object.
+   * @param response a {@link .ws.rs.core.Response} object.
    * @return a {@link java.util.Map} of response headers.
    */
   protected Map<String, List<String>> buildResponseHeaders(Response response) {

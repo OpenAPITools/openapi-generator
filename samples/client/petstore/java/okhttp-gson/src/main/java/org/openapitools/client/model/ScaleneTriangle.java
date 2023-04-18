@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
 /**
  * ScaleneTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ScaleneTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -69,7 +69,7 @@ public class ScaleneTriangle {
    * Get shapeType
    * @return shapeType
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getShapeType() {
     return shapeType;
@@ -91,7 +91,7 @@ public class ScaleneTriangle {
    * Get triangleType
    * @return triangleType
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getTriangleType() {
     return triangleType;

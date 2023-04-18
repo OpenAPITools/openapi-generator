@@ -6,7 +6,7 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-import javax.ws.rs.core.GenericType;
+import .ws.rs.core.GenericType;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
   private ApiClient apiClient;
 

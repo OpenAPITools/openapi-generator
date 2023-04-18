@@ -13,7 +13,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.Json;
 
-import javax.ws.rs.core.UriBuilder;
+import .ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
     private ApiClient apiClient;
 

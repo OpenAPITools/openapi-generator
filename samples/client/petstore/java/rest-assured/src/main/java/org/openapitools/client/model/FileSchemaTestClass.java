@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
@@ -39,7 +39,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
@@ -54,7 +54,7 @@ public class FileSchemaTestClass {
    * Get _file
    * @return _file
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 
@@ -86,7 +86,7 @@ public class FileSchemaTestClass {
    * Get files
    * @return files
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @Valid
 
 

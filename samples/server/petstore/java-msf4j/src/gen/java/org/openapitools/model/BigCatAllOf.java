@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * BigCatAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class BigCatAllOf   {
   /**
    * Gets or Sets kind

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -63,7 +63,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public String getStringItem() {
     return stringItem;
@@ -85,7 +85,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -107,7 +107,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -129,7 +129,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -159,7 +159,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
 
   public List<Integer> getArrayItem() {
     return arrayItem;

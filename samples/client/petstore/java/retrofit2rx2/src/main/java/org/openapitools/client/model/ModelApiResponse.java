@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -52,7 +52,7 @@ public class ModelApiResponse {
    * Get code
    * @return code
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public Integer getCode() {
     return code;
@@ -74,7 +74,7 @@ public class ModelApiResponse {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getType() {
     return type;
@@ -96,7 +96,7 @@ public class ModelApiResponse {
    * Get message
    * @return message
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getMessage() {
     return message;

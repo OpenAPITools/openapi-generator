@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization implements Parcelable {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
@@ -87,7 +87,7 @@ public class Capitalization implements Parcelable {
    * Get smallCamel
    * @return smallCamel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getSmallCamel() {
     return smallCamel;
@@ -109,7 +109,7 @@ public class Capitalization implements Parcelable {
    * Get capitalCamel
    * @return capitalCamel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getCapitalCamel() {
     return capitalCamel;
@@ -131,7 +131,7 @@ public class Capitalization implements Parcelable {
    * Get smallSnake
    * @return smallSnake
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getSmallSnake() {
     return smallSnake;
@@ -153,7 +153,7 @@ public class Capitalization implements Parcelable {
    * Get capitalSnake
    * @return capitalSnake
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getCapitalSnake() {
     return capitalSnake;
@@ -175,7 +175,7 @@ public class Capitalization implements Parcelable {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -197,7 +197,7 @@ public class Capitalization implements Parcelable {
    * Name of the pet 
    * @return ATT_NAME
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
   public String getATTNAME() {
     return ATT_NAME;

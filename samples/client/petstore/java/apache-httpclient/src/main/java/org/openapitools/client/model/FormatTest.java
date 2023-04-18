@@ -27,9 +27,6 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.StringJoiner;
 
 /**
  * FormatTest
@@ -53,7 +50,7 @@ import java.util.StringJoiner;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -118,7 +115,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -146,7 +143,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -172,7 +169,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -200,7 +197,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -228,7 +225,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -256,7 +253,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -282,7 +279,7 @@ public class FormatTest {
    * Get decimal
    * @return decimal
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -308,7 +305,7 @@ public class FormatTest {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -334,7 +331,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -360,7 +357,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -386,7 +383,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -412,7 +409,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -438,7 +435,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -464,7 +461,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nonnull
+  @.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -490,7 +487,7 @@ public class FormatTest {
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -516,7 +513,7 @@ public class FormatTest {
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -596,201 +593,6 @@ public class FormatTest {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @return URL query string
-   */
-  public String toUrlQueryString() {
-    return toUrlQueryString(null);
-  }
-
-  /**
-   * Convert the instance into URL query string.
-   *
-   * @param prefix prefix of the query string
-   * @return URL query string
-   */
-  public String toUrlQueryString(String prefix) {
-    String suffix = "";
-    String containerSuffix = "";
-    String containerPrefix = "";
-    if (prefix == null) {
-      // style=form, explode=true, e.g. /pet?name=cat&type=manx
-      prefix = "";
-    } else {
-      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-      prefix = prefix + "[";
-      suffix = "]";
-      containerSuffix = "]";
-      containerPrefix = "[";
-    }
-
-    StringJoiner joiner = new StringJoiner("&");
-
-    // add `integer` to the URL query string
-    if (getInteger() != null) {
-      try {
-        joiner.add(String.format("%sinteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInteger()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `int32` to the URL query string
-    if (getInt32() != null) {
-      try {
-        joiner.add(String.format("%sint32%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt32()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `int64` to the URL query string
-    if (getInt64() != null) {
-      try {
-        joiner.add(String.format("%sint64%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt64()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `number` to the URL query string
-    if (getNumber() != null) {
-      try {
-        joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `float` to the URL query string
-    if (getFloat() != null) {
-      try {
-        joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `double` to the URL query string
-    if (getDouble() != null) {
-      try {
-        joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `decimal` to the URL query string
-    if (getDecimal() != null) {
-      try {
-        joiner.add(String.format("%sdecimal%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDecimal()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `string` to the URL query string
-    if (getString() != null) {
-      try {
-        joiner.add(String.format("%sstring%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getString()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `byte` to the URL query string
-    if (getByte() != null) {
-      try {
-        joiner.add(String.format("%sbyte%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getByte()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `binary` to the URL query string
-    if (getBinary() != null) {
-      try {
-        joiner.add(String.format("%sbinary%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBinary()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `date` to the URL query string
-    if (getDate() != null) {
-      try {
-        joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `dateTime` to the URL query string
-    if (getDateTime() != null) {
-      try {
-        joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `uuid` to the URL query string
-    if (getUuid() != null) {
-      try {
-        joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `password` to the URL query string
-    if (getPassword() != null) {
-      try {
-        joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `pattern_with_digits` to the URL query string
-    if (getPatternWithDigits() != null) {
-      try {
-        joiner.add(String.format("%spattern_with_digits%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigits()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    // add `pattern_with_digits_and_delimiter` to the URL query string
-    if (getPatternWithDigitsAndDelimiter() != null) {
-      try {
-        joiner.add(String.format("%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigitsAndDelimiter()), "UTF-8").replaceAll("\\+", "%20")));
-      } catch (UnsupportedEncodingException e) {
-        // Should never happen, UTF-8 is always supported
-        throw new RuntimeException(e);
-      }
-    }
-
-    return joiner.toString();
   }
 
 }

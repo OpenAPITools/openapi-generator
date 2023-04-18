@@ -21,14 +21,14 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import .validation.constraints.*;
+import .validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
@@ -67,7 +67,7 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getSmallCamel() {
@@ -90,7 +90,7 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getCapitalCamel() {
@@ -113,7 +113,7 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getSmallSnake() {
@@ -136,7 +136,7 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getCapitalSnake() {
@@ -159,7 +159,7 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getScAETHFlowPoints() {
@@ -182,7 +182,7 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
   **/
-  @javax.annotation.Nullable
+  @.annotation.Nullable
 
 
   public String getATTNAME() {
