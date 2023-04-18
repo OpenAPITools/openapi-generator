@@ -20,12 +20,12 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -38,6 +38,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
+
     try:
         # Delete purchase order by ID
         api_instance.delete_order(order_id)
@@ -84,12 +85,12 @@ Returns a map of status codes to quantities
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -111,6 +112,7 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
+
     try:
         # Returns pet inventories by status
         api_response = api_instance.get_inventory()
@@ -154,13 +156,13 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.order import Order
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -173,6 +175,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
+
     try:
         # Find purchase order by ID
         api_response = api_instance.get_order_by_id(order_id)
@@ -221,13 +224,13 @@ Place an order for a pet
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.order import Order
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -240,6 +243,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
     order = petstore_api.Order() # Order | order placed for purchasing the pet
+
     try:
         # Place an order for a pet
         api_response = api_instance.place_order(order)

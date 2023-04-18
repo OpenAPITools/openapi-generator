@@ -26,13 +26,13 @@ Add a new pet to the store
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -111,6 +111,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+
     try:
         # Add a new pet to the store
         api_instance.add_pet(pet)
@@ -157,12 +158,12 @@ Deletes a pet
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -182,6 +183,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | Pet id to delete
     api_key = 'api_key_example' # str |  (optional)
+
     try:
         # Deletes a pet
         api_instance.delete_pet(pet_id, api_key=api_key)
@@ -229,13 +231,13 @@ Multiple status values can be provided with comma separated strings
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -314,6 +316,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     status = ['status_example'] # List[str] | Status values that need to be considered for filter
+
     try:
         # Finds Pets by status
         api_response = api_instance.find_pets_by_status(status)
@@ -362,13 +365,13 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -447,6 +450,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     tags = ['tags_example'] # List[str] | Tags to filter by
+
     try:
         # Finds Pets by tags
         api_response = api_instance.find_pets_by_tags(tags)
@@ -495,13 +499,13 @@ Returns a single pet
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -524,6 +528,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet_id = 56 # int | ID of pet to return
+
     try:
         # Find pet by ID
         api_response = api_instance.get_pet_by_id(pet_id)
@@ -573,13 +578,13 @@ Update an existing pet
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -658,6 +663,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+
     try:
         # Update an existing pet
         api_instance.update_pet(pet)
@@ -706,12 +712,12 @@ Updates a pet in the store with form data
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -732,6 +738,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     pet_id = 56 # int | ID of pet that needs to be updated
     name = 'name_example' # str | Updated name of the pet (optional)
     status = 'status_example' # str | Updated status of the pet (optional)
+
     try:
         # Updates a pet in the store with form data
         api_instance.update_pet_with_form(pet_id, name=name, status=status)
@@ -780,13 +787,13 @@ uploads an image
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -807,6 +814,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     pet_id = 56 # int | ID of pet to update
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
     file = None # bytearray | file to upload (optional)
+
     try:
         # uploads an image
         api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
@@ -856,13 +864,13 @@ uploads an image (required)
 
 * OAuth Authentication (petstore_auth):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -883,6 +891,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     pet_id = 56 # int | ID of pet to update
     required_file = None # bytearray | file to upload
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+
     try:
         # uploads an image (required)
         api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)

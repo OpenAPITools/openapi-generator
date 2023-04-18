@@ -19,12 +19,12 @@ Test binary (gif) response body
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -36,6 +36,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
+
     try:
         # Test binary (gif) response body
         api_response = api_instance.test_binary_gif()
@@ -79,13 +80,13 @@ Test body parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -98,6 +99,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
     pet = openapi_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
+
     try:
         # Test body parameter(s)
         api_response = api_instance.test_echo_body_pet(pet=pet)
@@ -144,13 +146,13 @@ Test empty response body
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -163,6 +165,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
     pet = openapi_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
+
     try:
         # Test empty response body
         api_response = api_instance.test_echo_body_pet_response_string(pet=pet)

@@ -15,13 +15,13 @@ Method | HTTP request | Description
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -33,6 +33,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.DefaultApi(api_client)
+
     try:
         api_response = api_instance.foo_get()
         print("The response of DefaultApi->foo_get:\n")

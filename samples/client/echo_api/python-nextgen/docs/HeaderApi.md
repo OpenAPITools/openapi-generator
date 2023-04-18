@@ -17,12 +17,12 @@ Test header parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -37,6 +37,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     integer_header = 56 # int |  (optional)
     boolean_header = True # bool |  (optional)
     string_header = 'string_header_example' # str |  (optional)
+
     try:
         # Test header parameter(s)
         api_response = api_instance.test_header_integer_boolean_string(integer_header=integer_header, boolean_header=boolean_header, string_header=string_header)

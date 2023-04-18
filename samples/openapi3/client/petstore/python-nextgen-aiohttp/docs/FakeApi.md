@@ -32,12 +32,12 @@ test any type request body
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -50,6 +50,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = None # object |  (optional)
+
     try:
         # test any type request body
         await api_instance.fake_any_type_request_body(body=body)
@@ -92,13 +93,13 @@ Health check endpoint
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -110,6 +111,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
+
     try:
         # Health check endpoint
         api_response = await api_instance.fake_health_get()
@@ -151,13 +153,13 @@ test http signature authentication
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -236,6 +238,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
     query_1 = 'query_1_example' # str | query parameter (optional)
     header_1 = 'header_1_example' # str | header parameter (optional)
+
     try:
         # test http signature authentication
         await api_instance.fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
@@ -282,12 +285,12 @@ Test serialization of outer boolean types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -300,6 +303,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = True # bool | Input boolean as post body (optional)
+
     try:
         api_response = await api_instance.fake_outer_boolean_serialize(body=body)
         print("The response of FakeApi->fake_outer_boolean_serialize:\n")
@@ -345,13 +349,13 @@ Test serialization of object with outer number type
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -364,6 +368,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
+
     try:
         api_response = await api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
         print("The response of FakeApi->fake_outer_composite_serialize:\n")
@@ -409,12 +414,12 @@ Test serialization of outer number types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -427,6 +432,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 3.4 # float | Input number as post body (optional)
+
     try:
         api_response = await api_instance.fake_outer_number_serialize(body=body)
         print("The response of FakeApi->fake_outer_number_serialize:\n")
@@ -472,12 +478,12 @@ Test serialization of outer string types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -490,6 +496,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = 'body_example' # str | Input string as post body (optional)
+
     try:
         api_response = await api_instance.fake_outer_string_serialize(body=body)
         print("The response of FakeApi->fake_outer_string_serialize:\n")
@@ -535,13 +542,13 @@ Test serialization of enum (int) properties with examples
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -554,6 +561,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
+
     try:
         api_response = await api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
         print("The response of FakeApi->fake_property_enum_integer_serialize:\n")
@@ -599,12 +607,12 @@ For this test, the body has to be a binary file.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -617,6 +625,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     body = None # bytearray | image to upload
+
     try:
         await api_instance.test_body_with_binary(body)
     except Exception as e:
@@ -660,13 +669,13 @@ For this test, the body for this request must reference a schema named `File`.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -679,6 +688,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
+
     try:
         await api_instance.test_body_with_file_schema(file_schema_test_class)
     except Exception as e:
@@ -720,13 +730,13 @@ No authorization required
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -740,6 +750,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
     user = petstore_api.User() # User | 
+
     try:
         await api_instance.test_body_with_query_params(query, user)
     except Exception as e:
@@ -784,13 +795,13 @@ To test \"client\" model
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.models.client import Client
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -803,6 +814,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     client = petstore_api.Client() # Client | client model
+
     try:
         # To test \"client\" model
         api_response = await api_instance.test_client_model(client)
@@ -847,12 +859,12 @@ No authorization required
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -866,6 +878,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     api_instance = petstore_api.FakeApi(api_client)
     date_time_query = '2013-10-20T19:20:30+01:00' # datetime | 
     str_query = 'str_query_example' # str | 
+
     try:
         await api_instance.test_date_time_query_parameter(date_time_query, str_query)
     except Exception as e:
@@ -911,12 +924,12 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 * Basic Authentication (http_basic_test):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -952,6 +965,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
     param_callback = 'param_callback_example' # str | None (optional)
+
     try:
         # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         await api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
@@ -1011,12 +1025,12 @@ Fake endpoint to test group parameters (optional)
 
 * Bearer (JWT) Authentication (bearer_test):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -1043,6 +1057,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     string_group = 56 # int | String in group parameters (optional)
     boolean_group = True # bool | Boolean in group parameters (optional)
     int64_group = 56 # int | Integer in group parameters (optional)
+
     try:
         # Fake endpoint to test group parameters (optional)
         await api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
@@ -1092,12 +1107,12 @@ test inline additionalProperties
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -1110,6 +1125,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     request_body = {'key': 'request_body_example'} # Dict[str, str] | request body
+
     try:
         # test inline additionalProperties
         await api_instance.test_inline_additional_properties(request_body)
@@ -1154,12 +1170,12 @@ test json serialization of form data
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -1173,6 +1189,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     api_instance = petstore_api.FakeApi(api_client)
     param = 'param_example' # str | field1
     param2 = 'param2_example' # str | field2
+
     try:
         # test json serialization of form data
         await api_instance.test_json_form_data(param, param2)
@@ -1218,12 +1235,12 @@ To test the collection format in query parameters
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -1242,6 +1259,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     context = ['context_example'] # List[str] | 
     allow_empty = 'allow_empty_example' # str | 
     language = {'key': 'language_example'} # Dict[str, str] |  (optional)
+
     try:
         await api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
     except Exception as e:

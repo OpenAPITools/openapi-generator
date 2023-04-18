@@ -1,5 +1,4 @@
 ```python
-from __future__ import print_function
 import time
 import os
 import {{{packageName}}}
@@ -8,6 +7,7 @@ import {{{packageName}}}
 {{/vendorExtensions.x-py-example-import}}
 from {{{packageName}}}.rest import ApiException
 from pprint import pprint
+
 {{> python_doc_auth_partial}}
 # Enter a context with an instance of the API client
 {{#asyncio}}async {{/asyncio}}with {{{packageName}}}.ApiClient(configuration) as api_client:
@@ -16,6 +16,7 @@ from pprint import pprint
     {{#allParams}}
     {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
     {{/allParams}}
+
     try:
         {{#summary}}
         # {{{.}}}
