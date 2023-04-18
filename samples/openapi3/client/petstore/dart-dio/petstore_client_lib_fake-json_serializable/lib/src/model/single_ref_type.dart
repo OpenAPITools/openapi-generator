@@ -8,9 +8,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum SingleRefType {
   @JsonValue(r'admin')
-  admin,
+  admin(r'admin'),
   @JsonValue(r'user')
-  user,
+  user(r'user'),
   @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+  unknownDefaultOpenApi(r'unknown_default_open_api');
+
+  const SingleRefType(this.name);
+
+  final String name;
+
+  @override
+  String toString() => name;
 }
