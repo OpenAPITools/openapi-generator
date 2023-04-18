@@ -54,7 +54,7 @@ public interface StoreApi {
     default void deleteOrder(
         @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
     ) {
-            getDelegate().deleteOrder(orderId);
+        getDelegate().deleteOrder(orderId);
     }
 
 
@@ -87,7 +87,7 @@ public interface StoreApi {
     default Map<String, Integer> getInventory(
         
     ) {
-            return getDelegate().getInventory();
+        return getDelegate().getInventory();
     }
 
 
@@ -121,7 +121,7 @@ public interface StoreApi {
     default Order getOrderById(
         @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
     ) {
-            return getDelegate().getOrderById(orderId);
+        return getDelegate().getOrderById(orderId);
     }
 
 
@@ -154,7 +154,7 @@ public interface StoreApi {
     default Order placeOrder(
         @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {
-            return getDelegate().placeOrder(order);
+        return getDelegate().placeOrder(order);
     }
 
 }

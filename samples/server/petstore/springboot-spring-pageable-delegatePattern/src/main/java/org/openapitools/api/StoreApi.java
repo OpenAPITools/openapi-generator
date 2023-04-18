@@ -53,7 +53,7 @@ public interface StoreApi {
     default ResponseEntity<Void> deleteOrder(
         @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
     ) {
-            return getDelegate().deleteOrder(orderId);
+        return getDelegate().deleteOrder(orderId);
     }
 
 
@@ -85,7 +85,7 @@ public interface StoreApi {
     default ResponseEntity<Map<String, Integer>> getInventory(
         
     ) {
-            return getDelegate().getInventory();
+        return getDelegate().getInventory();
     }
 
 
@@ -118,7 +118,7 @@ public interface StoreApi {
     default ResponseEntity<Order> getOrderById(
         @Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
     ) {
-            return getDelegate().getOrderById(orderId);
+        return getDelegate().getOrderById(orderId);
     }
 
 
@@ -148,7 +148,7 @@ public interface StoreApi {
     default ResponseEntity<Order> placeOrder(
         @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
     ) {
-            return getDelegate().placeOrder(body);
+        return getDelegate().placeOrder(body);
     }
 
 }

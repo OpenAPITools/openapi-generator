@@ -56,7 +56,7 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @RequestHeader(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-            return getDelegate().versioningHeaders(versionWithDefaultValue, versionNoDefaultValue, petId);
+        return getDelegate().versioningHeaders(versionWithDefaultValue, versionNoDefaultValue, petId);
     }
 
 
@@ -94,7 +94,7 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @RequestHeader(value = "VersionNoDefaultValueHeader", required = true) String versionNoDefaultValueHeader,
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-            return getDelegate().versioningMix(versionWithDefaultValueQuery, versionNoDefaultValueQuery, versionWithDefaultValueHeader, versionNoDefaultValueHeader, petId);
+        return getDelegate().versioningMix(versionWithDefaultValueQuery, versionNoDefaultValueQuery, versionWithDefaultValueHeader, versionNoDefaultValueHeader, petId);
     }
 
 
@@ -127,7 +127,7 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-            return getDelegate().versioningQueryParams(versionWithDefaultValue, versionNoDefaultValue, petId);
+        return getDelegate().versioningQueryParams(versionWithDefaultValue, versionNoDefaultValue, petId);
     }
 
 }
