@@ -409,6 +409,11 @@
   infoLink: "https://www.plaid.com/"
   pinned: false
 -
+  caption: Pinterest 
+  image: "img/companies/pinterest.jpg"
+  infoLink: "https://www.pinterest.com/"
+  pinned: false
+-
   caption: Ponicode
   image: "img/companies/ponicode.png"
   infoLink: "https://ponicode.dev/"
