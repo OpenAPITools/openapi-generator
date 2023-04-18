@@ -36,7 +36,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     api_instance = openapi_client.PathApi(api_client)
     path_string = 'path_string_example' # str | 
     path_integer = 56 # int | 
-
     try:
         # Test path parameter(s)
         api_response = api_instance.tests_path_string_path_string_integer_path_integer(path_string, path_integer)
@@ -45,6 +44,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PathApi->tests_path_string_path_string_integer_path_integer: %s\n" % e)
 ```
+
 
 ### Parameters
 

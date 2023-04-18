@@ -43,7 +43,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     datetime_query = '2013-10-20T19:20:30+01:00' # datetime |  (optional)
     date_query = '2013-10-20' # date |  (optional)
     string_query = 'string_query_example' # str |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
@@ -52,6 +51,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_datetime_date_string: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -111,7 +111,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     integer_query = 56 # int |  (optional)
     boolean_query = True # bool |  (optional)
     string_query = 'string_query_example' # str |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_integer_boolean_string(integer_query=integer_query, boolean_query=boolean_query, string_query=string_query)
@@ -120,6 +119,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_integer_boolean_string: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -177,7 +177,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
     query_object = {'key': openapi_client.Pet()} # Pet |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_style_deep_object_explode_true_object(query_object=query_object)
@@ -186,6 +185,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_deep_object_explode_true_object: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -241,7 +241,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
     query_object = openapi_client.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() # TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_style_deep_object_explode_true_object_all_of(query_object=query_object)
@@ -250,6 +249,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_deep_object_explode_true_object_all_of: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -305,7 +305,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
     query_object = {'key': openapi_client.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()} # TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_style_form_explode_true_array_string(query_object=query_object)
@@ -314,6 +313,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_array_string: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -369,7 +369,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
     query_object = {'key': openapi_client.Pet()} # Pet |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_style_form_explode_true_object(query_object=query_object)
@@ -378,6 +377,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_object: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -433,7 +433,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
     query_object = openapi_client.DataQuery() # DataQuery |  (optional)
-
     try:
         # Test query parameter(s)
         api_response = api_instance.test_query_style_form_explode_true_object_all_of(query_object=query_object)
@@ -442,6 +441,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_object_all_of: %s\n" % e)
 ```
+
 
 ### Parameters
 

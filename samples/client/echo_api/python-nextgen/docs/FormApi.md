@@ -37,7 +37,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     integer_form = 56 # int |  (optional)
     boolean_form = True # bool |  (optional)
     string_form = 'string_form_example' # str |  (optional)
-
     try:
         # Test form parameter(s)
         api_response = api_instance.test_form_integer_boolean_string(integer_form=integer_form, boolean_form=boolean_form, string_form=string_form)
@@ -46,6 +45,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FormApi->test_form_integer_boolean_string: %s\n" % e)
 ```
+
 
 ### Parameters
 

@@ -3,6 +3,9 @@ from __future__ import print_function
 import time
 import os
 import {{{packageName}}}
+{{#vendorExtensions.x-py-example-import}}
+{{{.}}}
+{{/vendorExtensions.x-py-example-import}}
 from {{{packageName}}}.rest import ApiException
 from pprint import pprint
 {{> python_doc_auth_partial}}
@@ -13,7 +16,6 @@ from pprint import pprint
     {{#allParams}}
     {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
     {{/allParams}}
-
     try:
         {{#summary}}
         # {{{.}}}

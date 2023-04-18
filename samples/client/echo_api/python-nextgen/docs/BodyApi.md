@@ -36,7 +36,6 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-
     try:
         # Test binary (gif) response body
         api_response = api_instance.test_binary_gif()
@@ -45,6 +44,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling BodyApi->test_binary_gif: %s\n" % e)
 ```
+
 
 ### Parameters
 This endpoint does not need any parameter.
@@ -83,6 +83,7 @@ from __future__ import print_function
 import time
 import os
 import openapi_client
+from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
@@ -97,7 +98,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
     pet = openapi_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
-
     try:
         # Test body parameter(s)
         api_response = api_instance.test_echo_body_pet(pet=pet)
@@ -106,6 +106,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling BodyApi->test_echo_body_pet: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -147,6 +148,7 @@ from __future__ import print_function
 import time
 import os
 import openapi_client
+from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to http://localhost:3000
@@ -161,7 +163,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
     pet = openapi_client.Pet() # Pet | Pet object that needs to be added to the store (optional)
-
     try:
         # Test empty response body
         api_response = api_instance.test_echo_body_pet_response_string(pet=pet)
@@ -170,6 +171,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling BodyApi->test_echo_body_pet_response_string: %s\n" % e)
 ```
+
 
 ### Parameters
 

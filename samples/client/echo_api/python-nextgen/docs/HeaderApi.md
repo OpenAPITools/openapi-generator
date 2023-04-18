@@ -37,7 +37,6 @@ with openapi_client.ApiClient(configuration) as api_client:
     integer_header = 56 # int |  (optional)
     boolean_header = True # bool |  (optional)
     string_header = 'string_header_example' # str |  (optional)
-
     try:
         # Test header parameter(s)
         api_response = api_instance.test_header_integer_boolean_string(integer_header=integer_header, boolean_header=boolean_header, string_header=string_header)
@@ -46,6 +45,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling HeaderApi->test_header_integer_boolean_string: %s\n" % e)
 ```
+
 
 ### Parameters
 

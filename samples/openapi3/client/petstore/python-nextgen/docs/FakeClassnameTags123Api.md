@@ -22,6 +22,7 @@ from __future__ import print_function
 import time
 import os
 import petstore_api
+from petstore_api.models.client import Client
 from petstore_api.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
@@ -46,7 +47,6 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeClassnameTags123Api(api_client)
     client = petstore_api.Client() # Client | client model
-
     try:
         # To test class name in snake case
         api_response = api_instance.test_classname(client)
@@ -55,6 +55,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
+
 
 ### Parameters
 
