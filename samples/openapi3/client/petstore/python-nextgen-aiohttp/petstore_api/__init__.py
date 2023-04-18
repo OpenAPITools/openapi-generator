@@ -86,6 +86,7 @@ from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig

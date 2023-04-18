@@ -241,7 +241,42 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#isMap}}
             {{^items.isPrimitiveType}}
             {{^items.isEnumOrRef}}
-            "{{{name}}}": dict((_k, {{{items.dataType}}}.from_dict(_v)) for _k, _v in obj.get("{{{baseName}}}").items()) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            {{#items.isContainer}}
+            {{#items.isMap}}
+            "{{{name}}}": dict(
+                (_k, dict(
+                    (_ik, {{{items.items.dataType}}}.from_dict(_iv))
+                        for _ik, _iv in _v.items()
+                    )
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj.get("{{{baseName}}}").items()
+            )
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
+            {{/items.isMap}}
+            {{#items.isArray}}
+            "{{{name}}}": dict(
+                (_k, [(_ik, {{{items.items.dataType}}}.from_dict(_iv))]
+                    for _ik, _iv in _v.items()
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj.get("{{{baseName}}}").items()
+            )
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
+            {{/items.isArray}}
+            {{/items.isContainer}}
+            {{^items.isContainer}}
+            "{{{name}}}": dict(
+                (_k, {{{items.dataType}}}.from_dict(_v))
+                for _k, _v in obj.get("{{{baseName}}}").items()
+            )
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
+            {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
             "{{{name}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}

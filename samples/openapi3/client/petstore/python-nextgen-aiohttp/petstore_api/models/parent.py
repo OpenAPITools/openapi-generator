@@ -23,9 +23,9 @@ from typing import Dict, Optional
 from pydantic import BaseModel, Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 
-class ParentWithOptionalDict(BaseModel):
+class Parent(BaseModel):
     """
-    ParentWithOptionalDict
+    Parent
     """
     optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(None, alias="optionalDict")
     __properties = ["optionalDict"]
@@ -43,8 +43,8 @@ class ParentWithOptionalDict(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ParentWithOptionalDict:
-        """Create an instance of ParentWithOptionalDict from a JSON string"""
+    def from_json(cls, json_str: str) -> Parent:
+        """Create an instance of Parent from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -63,15 +63,15 @@ class ParentWithOptionalDict(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ParentWithOptionalDict:
-        """Create an instance of ParentWithOptionalDict from a dict"""
+    def from_dict(cls, obj: dict) -> Parent:
+        """Create an instance of Parent from a dict"""
         if obj is None:
             return None
 
         if type(obj) is not dict:
-            return ParentWithOptionalDict.parse_obj(obj)
+            return Parent.parse_obj(obj)
 
-        _obj = ParentWithOptionalDict.parse_obj({
+        _obj = Parent.parse_obj({
             "optional_dict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))
                 for _k, _v in obj.get("optionalDict").items()
