@@ -63,7 +63,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUser(
         @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().createUser(user);
+            return getDelegate().createUser(user);
     }
 
 
@@ -91,7 +91,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUsersWithArrayInput(
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<User> user
     ) {
-            getDelegate().createUsersWithArrayInput(user);
+            return getDelegate().createUsersWithArrayInput(user);
     }
 
 
@@ -119,7 +119,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUsersWithListInput(
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<User> user
     ) {
-            getDelegate().createUsersWithListInput(user);
+            return getDelegate().createUsersWithListInput(user);
     }
 
 
@@ -148,7 +148,7 @@ public interface UserApi {
     default ResponseEntity<Void> deleteUser(
         @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
-            getDelegate().deleteUser(username);
+            return getDelegate().deleteUser(username);
     }
 
 
@@ -244,7 +244,7 @@ public interface UserApi {
     default ResponseEntity<Void> logoutUser(
         
     ) {
-            getDelegate().logoutUser();
+            return getDelegate().logoutUser();
     }
 
 
@@ -276,7 +276,7 @@ public interface UserApi {
         @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().updateUser(username, user);
+            return getDelegate().updateUser(username, user);
     }
 
 }

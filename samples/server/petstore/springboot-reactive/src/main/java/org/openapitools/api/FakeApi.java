@@ -68,7 +68,7 @@ public interface FakeApi {
         @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody Mono<XmlItem> xmlItem,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().createXmlItem(xmlItem, exchange);
+            return getDelegate().createXmlItem(xmlItem, exchange);
     }
 
 
@@ -250,7 +250,7 @@ public interface FakeApi {
         @ApiParam(value = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testBodyWithFileSchema(fileSchemaTestClass, exchange);
+            return getDelegate().testBodyWithFileSchema(fileSchemaTestClass, exchange);
     }
 
 
@@ -280,7 +280,7 @@ public interface FakeApi {
         @ApiParam(value = "", required = true) @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testBodyWithQueryParams(query, user, exchange);
+            return getDelegate().testBodyWithQueryParams(query, user, exchange);
     }
 
 
@@ -371,7 +371,7 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
+            return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
     }
 
 
@@ -416,7 +416,7 @@ public interface FakeApi {
         @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);
+            return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);
     }
 
 
@@ -454,7 +454,7 @@ public interface FakeApi {
         @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, exchange);
+            return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, exchange);
     }
 
 
@@ -483,7 +483,7 @@ public interface FakeApi {
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<Map<String, String>> requestBody,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testInlineAdditionalProperties(requestBody, exchange);
+            return getDelegate().testInlineAdditionalProperties(requestBody, exchange);
     }
 
 
@@ -514,7 +514,7 @@ public interface FakeApi {
         @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testJsonFormData(param, param2, exchange);
+            return getDelegate().testJsonFormData(param, param2, exchange);
     }
 
 
@@ -548,7 +548,7 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context, exchange);
+            return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context, exchange);
     }
 
 

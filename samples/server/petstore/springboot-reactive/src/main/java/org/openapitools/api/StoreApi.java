@@ -59,7 +59,7 @@ public interface StoreApi {
         @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().deleteOrder(orderId, exchange);
+            return getDelegate().deleteOrder(orderId, exchange);
     }
 
 

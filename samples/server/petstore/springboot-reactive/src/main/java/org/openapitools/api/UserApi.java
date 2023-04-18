@@ -59,7 +59,7 @@ public interface UserApi {
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().createUser(user, exchange);
+            return getDelegate().createUser(user, exchange);
     }
 
 
@@ -88,7 +88,7 @@ public interface UserApi {
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().createUsersWithArrayInput(user, exchange);
+            return getDelegate().createUsersWithArrayInput(user, exchange);
     }
 
 
@@ -117,7 +117,7 @@ public interface UserApi {
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().createUsersWithListInput(user, exchange);
+            return getDelegate().createUsersWithListInput(user, exchange);
     }
 
 
@@ -147,7 +147,7 @@ public interface UserApi {
         @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().deleteUser(username, exchange);
+            return getDelegate().deleteUser(username, exchange);
     }
 
 
@@ -241,7 +241,7 @@ public interface UserApi {
     default Mono<ResponseEntity<Void>> logoutUser(
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().logoutUser(exchange);
+            return getDelegate().logoutUser(exchange);
     }
 
 
@@ -274,7 +274,7 @@ public interface UserApi {
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().updateUser(username, user, exchange);
+            return getDelegate().updateUser(username, user, exchange);
     }
 
 }

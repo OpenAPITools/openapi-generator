@@ -53,7 +53,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().createUser(user);
+            return getDelegate().createUser(user);
     }
 
 
@@ -81,7 +81,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user
     ) {
-            getDelegate().createUsersWithArrayInput(user);
+            return getDelegate().createUsersWithArrayInput(user);
     }
 
 
@@ -109,7 +109,7 @@ public interface UserApi {
     default ResponseEntity<Void> createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user
     ) {
-            getDelegate().createUsersWithListInput(user);
+            return getDelegate().createUsersWithListInput(user);
     }
 
 
@@ -138,7 +138,7 @@ public interface UserApi {
     default ResponseEntity<Void> deleteUser(
         @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
-            getDelegate().deleteUser(username);
+            return getDelegate().deleteUser(username);
     }
 
 
@@ -230,7 +230,7 @@ public interface UserApi {
     default ResponseEntity<Void> logoutUser(
         
     ) {
-            getDelegate().logoutUser();
+            return getDelegate().logoutUser();
     }
 
 
@@ -262,7 +262,7 @@ public interface UserApi {
         @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().updateUser(username, user);
+            return getDelegate().updateUser(username, user);
     }
 
 }

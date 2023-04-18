@@ -67,7 +67,7 @@ public interface PetApi {
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().addPet(pet, exchange);
+            return getDelegate().addPet(pet, exchange);
     }
 
 
@@ -105,7 +105,7 @@ public interface PetApi {
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().deletePet(petId, apiKey, exchange);
+            return getDelegate().deletePet(petId, apiKey, exchange);
     }
 
 
@@ -263,7 +263,7 @@ public interface PetApi {
         @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().updatePet(pet, exchange);
+            return getDelegate().updatePet(pet, exchange);
     }
 
 
@@ -302,7 +302,7 @@ public interface PetApi {
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
-            getDelegate().updatePetWithForm(petId, name, status, exchange);
+            return getDelegate().updatePetWithForm(petId, name, status, exchange);
     }
 
 

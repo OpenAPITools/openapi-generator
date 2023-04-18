@@ -68,7 +68,7 @@ public interface PetApi {
     default ResponseEntity<Void> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
-            getDelegate().addPet(pet);
+            return getDelegate().addPet(pet);
     }
 
 
@@ -102,7 +102,7 @@ public interface PetApi {
         @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
-            getDelegate().deletePet(petId, apiKey);
+            return getDelegate().deletePet(petId, apiKey);
     }
 
 
@@ -251,7 +251,7 @@ public interface PetApi {
     default ResponseEntity<Void> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
-            getDelegate().updatePet(pet);
+            return getDelegate().updatePet(pet);
     }
 
 
@@ -286,7 +286,7 @@ public interface PetApi {
         @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
-            getDelegate().updatePetWithForm(petId, name, status);
+            return getDelegate().updatePetWithForm(petId, name, status);
     }
 
 

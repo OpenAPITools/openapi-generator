@@ -63,7 +63,7 @@ public interface StoreApi {
     default ResponseEntity<Void> deleteOrder(
         @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
     ) {
-            getDelegate().deleteOrder(orderId);
+            return getDelegate().deleteOrder(orderId);
     }
 
 

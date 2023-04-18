@@ -72,7 +72,7 @@ public interface FakeApi {
     default ResponseEntity<Void> createXmlItem(
         @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
     ) {
-            getDelegate().createXmlItem(xmlItem);
+            return getDelegate().createXmlItem(xmlItem);
     }
 
 
@@ -246,7 +246,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testBodyWithFileSchema(
         @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
-            getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
+            return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
 
 
@@ -273,7 +273,7 @@ public interface FakeApi {
         @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
         @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
     ) {
-            getDelegate().testBodyWithQueryParams(query, user);
+            return getDelegate().testBodyWithQueryParams(query, user);
     }
 
 
@@ -363,7 +363,7 @@ public interface FakeApi {
         @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) String password,
         @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     ) {
-            getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+            return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
 
@@ -407,7 +407,7 @@ public interface FakeApi {
         @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
-            getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }
 
 
@@ -444,7 +444,7 @@ public interface FakeApi {
         @Parameter(name = "boolean_group", description = "Boolean in group parameters", in = ParameterIn.HEADER) @RequestHeader(value = "boolean_group", required = false) Boolean booleanGroup,
         @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
     ) {
-            getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
 
@@ -472,7 +472,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testInlineAdditionalProperties(
         @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
-            getDelegate().testInlineAdditionalProperties(requestBody);
+            return getDelegate().testInlineAdditionalProperties(requestBody);
     }
 
 
@@ -502,7 +502,7 @@ public interface FakeApi {
         @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     ) {
-            getDelegate().testJsonFormData(param, param2);
+            return getDelegate().testJsonFormData(param, param2);
     }
 
 
@@ -534,7 +534,7 @@ public interface FakeApi {
         @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
         @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
-            getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
+            return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
     }
 
 
