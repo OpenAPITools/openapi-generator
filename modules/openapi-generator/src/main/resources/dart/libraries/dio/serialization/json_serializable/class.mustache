@@ -54,6 +54,9 @@ class {{{classname}}} {
   {{#isDate}}
   @DateSerializer()
   {{/isDate}}
+  {{#isArray}}{{#items}}{{#isDate}}
+  @DateSerializer()
+  {{/isDate}}{{/items}}{{/isArray}}
 
   {{#required}}
   {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
