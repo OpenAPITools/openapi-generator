@@ -91,7 +91,11 @@ func NewNullable{{classname}}(val *{{classname}}) *Nullable{{classname}} {
 }
 
 func (v Nullable{{{classname}}}) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
+	buffer := &bytes.Buffer{}
+	encoder := json.NewEncoder(buffer)
+	encoder.SetEscapeHTML(false)
+	err := encoder.Encode(v.value)
+	return buffer.Bytes(), err
 }
 
 func (v *Nullable{{{classname}}}) UnmarshalJSON(src []byte) error {
