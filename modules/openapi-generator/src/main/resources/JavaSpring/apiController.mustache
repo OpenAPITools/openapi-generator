@@ -24,7 +24,7 @@ import org.springframework.http.MediaType;
 {{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -48,7 +48,7 @@ import java.util.Optional;
 import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
-@Controller
+@RestController
 {{#useRequestMappingOnController}}
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")

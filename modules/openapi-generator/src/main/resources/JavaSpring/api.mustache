@@ -41,7 +41,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 {{/useBeanValidation}}
 {{#useSpringController}}
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 {{/useSpringController}}
 import org.springframework.web.bind.annotation.*;
 {{#jdk8-no-delegate}}
@@ -81,7 +81,7 @@ import {{javaxPackage}}.annotation.Generated;
 @Validated
 {{/useBeanValidation}}
 {{#useSpringController}}
-@Controller
+@RestController
 {{/useSpringController}}
 {{#swagger2AnnotationLibrary}}
 @Tag(name = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
