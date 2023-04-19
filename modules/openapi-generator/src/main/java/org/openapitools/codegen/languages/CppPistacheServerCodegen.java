@@ -267,59 +267,65 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         operations.put("classnameSnakeLowerCase", underscore(classname).toLowerCase(Locale.ROOT));
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
-            boolean consumeJson = false;
-            boolean isParsingSupported = true;
-            if (op.bodyParam != null) {
-                if (op.bodyParam.vendorExtensions == null) {
-                    op.bodyParam.vendorExtensions = new HashMap<>();
-                }
-
-                boolean isStringOrDate = op.bodyParam.isString || op.bodyParam.isDate;
-                op.bodyParam.vendorExtensions.put("x-codegen-pistache-is-string-or-date", isStringOrDate);
-            }
-            if (op.consumes != null) {
-                for (Map<String, String> consume : op.consumes) {
-                    if (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json")) {
-                        consumeJson = true;
-                    }
-                }
-            }
-
-            op.httpMethod = op.httpMethod.substring(0, 1).toUpperCase(Locale.ROOT) + op.httpMethod.substring(1).toLowerCase(Locale.ROOT);
-
-            for (CodegenParameter param : op.allParams) {
-                if (param.isFormParam) isParsingSupported = false;
-                if (param.isFile) isParsingSupported = false;
-                if (param.isCookieParam) isParsingSupported = false;
-
-                //TODO: This changes the info about the real type but it is needed to parse the header params
-                if (param.isHeaderParam) {
-                    param.dataType = "std::optional<Pistache::Http::Header::Raw>";
-                    param.baseType = "std::optional<Pistache::Http::Header::Raw>";
-                } else if (param.isQueryParam) {
-                    param.dataType = "std::optional<" + param.dataType + ">";
-                    if (!param.isPrimitiveType) {
-                        param.baseType = "std::optional<" + param.baseType + ">";
-                    }
-                }
-            }
-
-            if (op.vendorExtensions == null) {
-                op.vendorExtensions = new HashMap<>();
-            }
-            op.vendorExtensions.put("x-codegen-pistache-consumes-json", consumeJson);
-            op.vendorExtensions.put("x-codegen-pistache-is-parsing-supported", isParsingSupported);
-
-            // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
-            for (String hdr : op.imports) {
-                if (importMapping.containsKey(hdr)) {
-                    continue;
-                }
-                operations.put("hasModelImport", true);
-            }
+            postProcessSingleOperation(operations, op);
         }
 
         return objs;
+    }
+
+    private void postProcessSingleOperation(OperationMap operations, CodegenOperation op) {
+        if (op.vendorExtensions == null) {
+            op.vendorExtensions = new HashMap<>();
+        }
+
+        if (op.bodyParam != null) {
+            if (op.bodyParam.vendorExtensions == null) {
+                op.bodyParam.vendorExtensions = new HashMap<>();
+            }
+
+            boolean isStringOrDate = op.bodyParam.isString || op.bodyParam.isDate;
+            op.bodyParam.vendorExtensions.put("x-codegen-pistache-is-string-or-date", isStringOrDate);
+        }
+
+        boolean consumeJson = false;
+        if (op.consumes != null) {
+            for (Map<String, String> consume : op.consumes) {
+                boolean isMediaTypeJson = (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json"));
+                consumeJson = consumeJson || isMediaTypeJson;
+            }
+        }
+        op.vendorExtensions.put("x-codegen-pistache-consumes-json", consumeJson);
+
+        op.httpMethod = op.httpMethod.substring(0, 1).toUpperCase(Locale.ROOT) + op.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+
+        boolean isParsingSupported = true;
+        for (CodegenParameter param : op.allParams) {
+            boolean paramSupportsParsing =  (!param.isFormParam && !param.isFile && !param.isCookieParam);
+            isParsingSupported = isParsingSupported && paramSupportsParsing;
+
+            postProcessSingleParam(param);
+        }
+        op.vendorExtensions.put("x-codegen-pistache-is-parsing-supported", isParsingSupported);
+
+        // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
+        for (String hdr : op.imports) {
+            if (!importMapping.containsKey(hdr)) {
+                operations.put("hasModelImport", true);
+            }
+        }
+    }
+
+    private static void postProcessSingleParam(CodegenParameter param) {
+        //TODO: This changes the info about the real type but it is needed to parse the header params
+        if (param.isHeaderParam) {
+            param.dataType = "std::optional<Pistache::Http::Header::Raw>";
+            param.baseType = "std::optional<Pistache::Http::Header::Raw>";
+        } else if (param.isQueryParam) {
+            param.dataType = "std::optional<" + param.dataType + ">";
+            if (!param.isPrimitiveType) {
+                param.baseType = "std::optional<" + param.baseType + ">";
+            }
+        }
     }
 
     @Override
