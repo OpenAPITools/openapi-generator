@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Predicate;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -289,10 +290,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         boolean consumeJson = false;
         if (op.consumes != null) {
-            for (Map<String, String> consume : op.consumes) {
-                boolean isMediaTypeJson = (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json"));
-                consumeJson = consumeJson || isMediaTypeJson;
-            }
+            Predicate<Map<String,String>> isMediaTypeJson =  consume -> (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json"));
+            consumeJson =  op.consumes.stream().anyMatch(isMediaTypeJson);
         }
         op.vendorExtensions.put("x-codegen-pistache-consumes-json", consumeJson);
 
@@ -308,10 +307,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         op.vendorExtensions.put("x-codegen-pistache-is-parsing-supported", isParsingSupported);
 
         // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
-        for (String hdr : op.imports) {
-            if (!importMapping.containsKey(hdr)) {
-                operations.put("hasModelImport", true);
-            }
+        Predicate<String> importNotInImportMapping = hdr -> !importMapping.containsKey(hdr);
+        if (op.imports.stream().anyMatch(importNotInImportMapping)) {
+            operations.put("hasModelImport", true);
         }
     }
 
