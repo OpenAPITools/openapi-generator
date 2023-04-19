@@ -18,12 +18,13 @@ To test class name in snake case
 
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import os
 import petstore_api
+from petstore_api.models.client import Client
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -55,6 +56,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
 ```
+
 
 ### Parameters
 
