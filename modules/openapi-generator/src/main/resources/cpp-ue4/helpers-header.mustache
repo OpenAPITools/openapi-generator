@@ -94,21 +94,18 @@ FString Base64UrlEncode(const T& Value)
 	return Base64String;
 }
 
-template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
-inline FString ToString(const T& Value)
+template<typename T>
+inline auto ToString(const T& Value)
+	-> typename std::enable_if<std::is_same<decltype(::LexToString(Value)), FString>::value, FString>::type
 {
-	return FString::Format(TEXT("{0}"), { FStringFormatArg(Value) });
+	return ::LexToString(Value);
 }
 
-template<typename T, typename std::enable_if<std::is_base_of<Model, T>::value, int>::type = 0>
-inline FString ToString(const T& EnumModelValue)
+template<typename T>
+inline auto ToString(const T& EnumModelValue)
+	-> typename std::enable_if<std::is_same<decltype(T::EnumToString(EnumModelValue.Value)), FString>::value, FString>::type
 {
 	return T::EnumToString(EnumModelValue.Value);
-}
-
-inline FString ToString(const FString& Value)
-{
-	return Value;
 }
 
 inline FString ToString(const Model& Value)
@@ -133,11 +130,6 @@ inline FString ToString(const FGuid& Value)
 inline FString ToString(const TArray<uint8>& Value)
 {
 	return FBase64::Encode(Value);
-}
-
-inline FString ToString(bool Value)
-{
-	return Value ? TEXT("true") : TEXT("false");
 }
 
 template<typename T>
