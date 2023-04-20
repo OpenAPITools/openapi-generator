@@ -378,7 +378,7 @@ public class KotlinClientCodegenModelTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 28);
+        Assert.assertEquals(files.size(), 29);
         TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/xyz/abcdef/api/DefaultApi.kt"),
             "fun getSomeValue(@Query(\"since\") since: kotlin.String? = null, @Query(\"sinceBuild\") sinceBuild: kotlin.String? = null, @Query(\"maxBuilds\") maxBuilds: kotlin.Int? = null, @Query(\"maxWaitSecs\") maxWaitSecs: kotlin.Int? = null)"
         );
