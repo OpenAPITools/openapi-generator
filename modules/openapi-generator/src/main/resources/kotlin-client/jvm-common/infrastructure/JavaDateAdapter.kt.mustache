@@ -1,0 +1,74 @@
+package {{packageName}}.infrastructure
+
+{{#moshi}}
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+{{/moshi}}
+{{#gson}}
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import com.google.gson.stream.JsonToken.NULL
+import java.io.IOException
+{{/gson}}
+{{#kotlinx_serialization}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
+{{/kotlinx_serialization}}
+import java.util.Date
+
+{{#moshi}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}class JavaDateAdapter {
+    @ToJson
+    fun toJson(value: Date): String = value.time.toString()
+
+    @FromJson
+    fun fromJson(value: String): Date = Date(value.toLong())
+}
+{{/moshi}}
+{{#gson}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}class JavaDateAdapter : TypeAdapter<Date>() {
+    @Throws(IOException::class)
+    override fun write(out: JsonWriter?, value: Date?) {
+        if (value == null) {
+            out?.nullValue()
+        } else {
+            out?.value(value.time)
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun read(out: JsonReader?): Date? {
+        out ?: return null
+
+        when (out.peek()) {
+            NULL -> {
+                out.nextNull()
+                return null
+            }
+            else -> {
+                return Date(out.nextLong())
+            }
+        }
+    }
+}
+{{/gson}}
+{{#kotlinx_serialization}}
+@Serializer(forClass = Date::class)
+{{#nonPublicApi}}internal {{/nonPublicApi}}object JavaDateAdapter : KSerializer<Date> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("JavaDate", PrimitiveKind.LONG)
+
+    override fun serialize(encoder: Encoder, value: Date) {
+        encoder.encodeLong(value.time)
+    }
+
+    override fun deserialize(decoder: Decoder): Date {
+        return Date(decoder.decodeLong())
+    }
+}
+{{/kotlinx_serialization}}
