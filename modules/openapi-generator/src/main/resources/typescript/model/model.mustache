@@ -19,11 +19,17 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     * {{{.}}}
     */
 {{/description}}
+    // HERE?
     '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 
     {{#discriminator}}
     static readonly discriminator: string | undefined = "{{discriminatorName}}";
+    static readonly discriminatorTypeMap = {
+    {{#mappedModels}}
+        "{{mappingName}}": "{{modelName}}"{{^-last}},{{/-last}}    
+    {{/mappedModels}}
+    }
     {{/discriminator}}
     {{^discriminator}}
     static readonly discriminator: string | undefined = undefined;
@@ -35,7 +41,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {
             "name": "{{name}}",
             "baseName": "{{baseName}}",
-            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}",
+            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}}  ",
             "format": "{{dataFormat}}"
         }{{^-last}},
         {{/-last}}
@@ -61,9 +67,14 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         this.{{name}} = "{{discriminatorValue}}";
         {{/discriminatorValue}}
         {{/allVars}}
-        {{#discriminatorName}}
+
+        {{#discriminator}}
+            {{^hasDiscriminatorWithNonEmptyMapping}}
+            {{#discriminatorName}}
         this.{{discriminatorName}} = "{{classname}}";
-        {{/discriminatorName}}
+            {{/discriminatorName}}
+            {{/hasDiscriminatorWithNonEmptyMapping}}
+        {{/discriminator}}
     }
 }
 

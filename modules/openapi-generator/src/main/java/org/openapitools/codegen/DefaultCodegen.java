@@ -1648,7 +1648,9 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toEnumName(CodegenProperty property) {
-        return StringUtils.capitalize(property.name) + "Enum";
+        String enumName = StringUtils.capitalize(property.name) + "Enum";
+        System.out.println("Default CodeGen: " + enumName);
+        return enumName;
     }
 
     /**
@@ -4140,6 +4142,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         if (baseItem != null) {
             // set both datatype and datetypeWithEnum as only the inner type is enum
+            System.out.println("Marker: 1");
+            System.out.println("Replace: " + property.datatypeWithEnum + " from " + baseItem.baseType + " to " + toEnumName(baseItem));
             property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType, toEnumName(baseItem));
 
             // naming the enum with respect to the language enum naming convention

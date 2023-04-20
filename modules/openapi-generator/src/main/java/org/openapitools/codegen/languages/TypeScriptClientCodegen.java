@@ -293,6 +293,52 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
     }
 
+    /**
+     * Update datatypeWithEnum for array container
+     *
+     * @param property Codegen property
+     */
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+        if (baseItem != null) {
+            // set both datatype and datetypeWithEnum as only the inner type is enum
+            System.out.println("Marker: 1");
+            System.out.println("Replace: " + property.datatypeWithEnum + " from " + baseItem.baseType + " to " + toEnumName(baseItem));
+            System.out.println("Property info: " + property.isArray + " // " + property.isContainer + " // " + property.isFreeFormObject + " // " + property.isMap);
+            System.out.println("Property: "+ property.dataType);
+            System.out.println("Base ITem: " + baseItem.isMap + " // " + baseItem.baseName + " // " + baseItem.containerType + " // " + baseItem.dataType);
+            System.out.println("Base Type: "+ baseItem.jsonSchema);
+            System.out.println("Property: "+ property.jsonSchema);
+
+            /* 
+             * Note: There are cases where we have datatypeWithEnum == Array<{ [key: string]: string}
+             * In these cases, we then have Array <{ [key: EnumName]: EnumName}> - which is invalid typescript
+             * To protect agains this we first replace [key: string] with a special/reserved placeholder (i.e. *[key]* )
+             */
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("[key: string]", "*key*")
+                                                                    .replace(baseItem.baseType, toEnumName(baseItem))
+                                                                    .replace("*key*", "[key: string]");
+
+            // naming the enum with respect to the language enum naming convention
+            // e.g. remove [], {} from array/map of enum
+            property.enumName = toEnumName(property);
+
+            // set default value for variable with inner enum
+            if (property.defaultValue != null) {
+                System.out.println("Default Vaule: " + property.defaultValue);
+                System.out.println("Base Type: " + baseItem.baseType);
+                System.out.println("Enum Name: "+ toEnumName(baseItem));
+                property.defaultValue = property.defaultValue.replace(baseItem.baseType, toEnumName(baseItem));
+            }
+
+            updateCodegenPropertyEnum(property);
+        }
+    }
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
@@ -303,14 +349,24 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
+                    System.out.println("Generating data type with enum");
+                    System.out.println("Enum name before processing (datatype):" + var.dataType);
+                    System.out.println("Enum name before processing (datatypeWenum): " + var.datatypeWithEnum);
+                    String replaceName = var.isInnerEnum ? "Inner" + super.enumSuffix : var.enumName;
+                    System.out.println("Enum data: " + replaceName + " / " + cm.classname + " " + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(replaceName, var.enumName);
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                    System.out.println("Final data type with enum: " + var.datatypeWithEnum);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
+                        System.out.println("Generating data type with enum");
+                        System.out.println("Enum data: " + var.enumName + " / " + cm.classname + " " + var.enumName);
+                            var.datatypeWithEnum = var.datatypeWithEnum
                                 .replace(var.enumName, cm.classname + var.enumName);
+                        System.out.println("Final data type with enum: " + var.datatypeWithEnum);
                     }
                 }
             }
@@ -422,12 +478,13 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = getSchemaAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(p)) { // it is an object schema
+            inner = getSchemaAdditionalProperties(p); // additional properties?
             String postfix = "";
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 postfix = " | null";
             }
+            System.out.println("[getTypeDeclaration] Inner: "+ inner.toString());
             return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + postfix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";

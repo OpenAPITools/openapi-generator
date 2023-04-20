@@ -604,12 +604,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
+            System.out.println("[getTypeDeclaration] Inner: "+ inner.toString());
             return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "File";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "ArrayBuffer";
         }
+
         return super.getTypeDeclaration(p);
     }
 
@@ -884,8 +886,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = property.name;
+        System.out.println("enumName: " + enumName);
         enumName = addSuffix(enumName, enumSuffix);
-        return toTypescriptTypeName(enumName, "_");
+        System.out.println("enumName with Suffix: " + enumName);
+        String tsName = toTypescriptTypeName(enumName, "_");
+        System.out.println("TS Name: " + tsName);
+        return tsName;
     }
 
     protected void setEnumPropertyNaming(String naming) {
@@ -971,6 +977,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 CodegenModel cm = mo.getModel();
                 if (cm.discriminator != null && cm.children != null) {
                     for (CodegenModel child : cm.children) {
+                        // TODO marker5
                         this.setDiscriminatorValue(child, cm.discriminator.getPropertyName(), this.getDiscriminatorValue(child));
                     }
                 }
