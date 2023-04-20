@@ -8,6 +8,7 @@ object Serializer {
         .add(OffsetDateTimeAdapter())
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
+        .add(JavaDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
         .add(URIAdapter())
