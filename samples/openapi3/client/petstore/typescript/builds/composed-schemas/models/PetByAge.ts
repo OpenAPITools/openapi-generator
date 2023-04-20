@@ -22,13 +22,13 @@ export class PetByAge {
         {
             "name": "age",
             "baseName": "age",
-            "type": "number  ",
+            "type": "number",
             "format": ""
         },
         {
             "name": "nickname",
             "baseName": "nickname",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         }    ];
 

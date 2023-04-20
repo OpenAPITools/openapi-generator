@@ -32,37 +32,37 @@ export class Order {
         {
             "name": "id",
             "baseName": "id",
-            "type": "number  ",
+            "type": "number",
             "format": "int64"
         },
         {
             "name": "petId",
             "baseName": "petId",
-            "type": "number  ",
+            "type": "number",
             "format": "int64"
         },
         {
             "name": "quantity",
             "baseName": "quantity",
-            "type": "number  ",
+            "type": "number",
             "format": "int32"
         },
         {
             "name": "shipDate",
             "baseName": "shipDate",
-            "type": "Date  ",
+            "type": "Date",
             "format": "date-time"
         },
         {
             "name": "status",
             "baseName": "status",
-            "type": "OrderStatusEnum  ",
+            "type": "OrderStatusEnum",
             "format": ""
         },
         {
             "name": "complete",
             "baseName": "complete",
-            "type": "boolean  ",
+            "type": "boolean",
             "format": ""
         }    ];
 

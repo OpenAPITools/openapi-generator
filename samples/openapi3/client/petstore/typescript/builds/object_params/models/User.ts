@@ -34,49 +34,49 @@ export class User {
         {
             "name": "id",
             "baseName": "id",
-            "type": "number  ",
+            "type": "number",
             "format": "int64"
         },
         {
             "name": "username",
             "baseName": "username",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "firstName",
             "baseName": "firstName",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "lastName",
             "baseName": "lastName",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "email",
             "baseName": "email",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "password",
             "baseName": "password",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "phone",
             "baseName": "phone",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "userStatus",
             "baseName": "userStatus",
-            "type": "number  ",
+            "type": "number",
             "format": "int32"
         }    ];
 

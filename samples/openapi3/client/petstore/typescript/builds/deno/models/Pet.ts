@@ -34,37 +34,37 @@ export class Pet {
         {
             "name": "id",
             "baseName": "id",
-            "type": "number  ",
+            "type": "number",
             "format": "int64"
         },
         {
             "name": "category",
             "baseName": "category",
-            "type": "Category  ",
+            "type": "Category",
             "format": ""
         },
         {
             "name": "name",
             "baseName": "name",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "photoUrls",
             "baseName": "photoUrls",
-            "type": "Array<string>  ",
+            "type": "Array<string>",
             "format": ""
         },
         {
             "name": "tags",
             "baseName": "tags",
-            "type": "Array<Tag>  ",
+            "type": "Array<Tag>",
             "format": ""
         },
         {
             "name": "status",
             "baseName": "status",
-            "type": "PetStatusEnum  ",
+            "type": "PetStatusEnum",
             "format": ""
         }    ];
 

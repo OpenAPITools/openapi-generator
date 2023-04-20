@@ -26,25 +26,25 @@ export class PetsFilteredPatchRequest {
         {
             "name": "age",
             "baseName": "age",
-            "type": "number  ",
+            "type": "number",
             "format": ""
         },
         {
             "name": "nickname",
             "baseName": "nickname",
-            "type": "string  ",
+            "type": "string",
             "format": ""
         },
         {
             "name": "petType",
             "baseName": "pet_type",
-            "type": "PetsFilteredPatchRequestPetTypeEnum  ",
+            "type": "PetsFilteredPatchRequestPetTypeEnum",
             "format": ""
         },
         {
             "name": "hunts",
             "baseName": "hunts",
-            "type": "boolean  ",
+            "type": "boolean",
             "format": ""
         }    ];
 
