@@ -32,6 +32,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubHomepage|Homepage in generated pubspec| |homepage|
 |pubLibrary|Library name in generated code| |openapi.api|
 |pubName|Name in generated pubspec| |openapi|
+|pubPublishTo|Publish_to in generated pubspec| |null|
+|pubRepository|Repository in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |1.0.0|
 |serializationLibrary|Specify serialization library|<dl><dt>**built_value**</dt><dd>[DEFAULT] built_value</dd><dt>**json_serializable**</dt><dd>[BETA] json_serializable</dd></dl>|built_value|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|

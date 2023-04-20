@@ -421,7 +421,8 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
-            normalizeSchema(property, visitedSchemas);
+            Schema newProperty = normalizeSchema(property, visitedSchemas);
+            propertiesEntry.setValue(newProperty);
         }
     }
 
@@ -511,6 +512,10 @@ public class OpenAPINormalizer {
      */
     private void processUseAllOfRefAsParent(Schema schema) {
         if (!enableRefAsParentInAllOf && !enableAll) {
+            return;
+        }
+
+        if (schema.getAllOf() == null) {
             return;
         }
 
@@ -665,7 +670,9 @@ public class OpenAPINormalizer {
         if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
             for (int i = 0; i < schema.getOneOf().size(); i++) {
                 // convert null sub-schema to `nullable: true`
-                if (schema.getOneOf().get(i) == null || ((Schema) schema.getOneOf().get(i)).getType() == null) {
+                if (schema.getOneOf().get(i) == null ||
+                        (((Schema) schema.getOneOf().get(i)).getType() == null &&
+                                ((Schema) schema.getOneOf().get(i)).get$ref() == null)) {
                     schema.getOneOf().remove(i);
                     schema.setNullable(true);
                     continue;
@@ -709,7 +716,9 @@ public class OpenAPINormalizer {
         if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
             for (int i = 0; i < schema.getAnyOf().size(); i++) {
                 // convert null sub-schema to `nullable: true`
-                if (schema.getAnyOf().get(i) == null || ((Schema) schema.getAnyOf().get(i)).getType() == null) {
+                if (schema.getAnyOf().get(i) == null ||
+                        (((Schema) schema.getAnyOf().get(i)).getType() == null &&
+                                ((Schema) schema.getAnyOf().get(i)).get$ref() == null)) {
                     schema.getAnyOf().remove(i);
                     schema.setNullable(true);
                     continue;

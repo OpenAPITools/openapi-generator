@@ -18,6 +18,10 @@ from {{packageName}}.exceptions import ApiValueError
 from {{packageName}}.exceptions import ApiKeyError
 from {{packageName}}.exceptions import ApiAttributeError
 from {{packageName}}.exceptions import ApiException
+{{#hasHttpSignatureMethods}}
+from {{packageName}}.signing import HttpSigningConfiguration
+{{/hasHttpSignatureMethods}}
+
 # import models into sdk package
 {{#models}}
 {{#model}}

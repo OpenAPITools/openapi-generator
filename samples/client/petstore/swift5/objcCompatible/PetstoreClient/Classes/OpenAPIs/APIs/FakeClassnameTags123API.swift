@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc open class FakeClassnameTags123API : NSObject {
+@objcMembers open class FakeClassnameTags123API : NSObject {
 
     /**
      To test class name in snake case

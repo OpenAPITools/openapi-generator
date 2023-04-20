@@ -199,7 +199,12 @@ class {{classname}}(object):
                 _query_params.append(('{{baseName}}', _params['{{paramName}}']))
             {{/isDate}}
             {{^isDate}}
+            {{#isEnum}}
+            _query_params.append(('{{baseName}}', _params['{{paramName}}'].value))
+            {{/isEnum}}
+            {{^isEnum}}
             _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isEnum}}
             {{/isDate}}
             {{/isDateTime}}
             {{#isArray}}

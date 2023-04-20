@@ -314,6 +314,10 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
+        # test None with optional string (with regualr expression)
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        a.string = None # shouldn't throw an exception
+
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
         a.pattern_with_digits_and_delimiter = "image_123"
@@ -403,3 +407,9 @@ class ModelTests(unittest.TestCase):
         b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
         self.assertFalse(b is None)
         self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
+
+    def test_object_with_dict_of_dict_of_object(self):
+        # for https://github.com/OpenAPITools/openapi-generator/issues/15135
+        d = {"optionalDict": {"a": {"b": {"aProperty": "value"}}}}
+        a = petstore_api.Parent.from_dict(d)
+        self.assertEqual(a.to_dict(), d)

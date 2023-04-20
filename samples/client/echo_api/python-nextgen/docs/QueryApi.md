@@ -23,12 +23,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -52,6 +52,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_datetime_date_string: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -91,12 +92,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -120,6 +121,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_integer_boolean_string: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -159,12 +161,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -186,6 +188,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_deep_object_explode_true_object: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -223,12 +226,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -250,6 +253,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_deep_object_explode_true_object_all_of: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -287,12 +291,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -314,6 +318,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_array_string: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -351,12 +356,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -378,6 +383,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_object: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -415,12 +421,12 @@ Test query parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -442,6 +448,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling QueryApi->test_query_style_form_explode_true_object_all_of: %s\n" % e)
 ```
+
 
 ### Parameters
 

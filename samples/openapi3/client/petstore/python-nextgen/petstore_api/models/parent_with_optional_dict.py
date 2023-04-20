@@ -79,7 +79,12 @@ class ParentWithOptionalDict(BaseModel):
             return ParentWithOptionalDict.parse_obj(obj)
 
         _obj = ParentWithOptionalDict.parse_obj({
-            "optional_dict": dict((_k, InnerDictWithProperty.from_dict(_v)) for _k, _v in obj.get("optionalDict").items()) if obj.get("optionalDict") is not None else None
+            "optional_dict": dict(
+                (_k, InnerDictWithProperty.from_dict(_v))
+                for _k, _v in obj.get("optionalDict").items()
+            )
+            if obj.get("optionalDict") is not None
+            else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

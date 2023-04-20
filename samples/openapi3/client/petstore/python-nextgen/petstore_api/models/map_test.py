@@ -37,6 +37,7 @@ class MapTest(BaseModel):
     def map_of_enum_string_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in ('UPPER', 'lower'):
             raise ValueError("must be one of enum values ('UPPER', 'lower')")
         return v

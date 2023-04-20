@@ -37,6 +37,7 @@ class SpecialName(BaseModel):
     def var_schema_validate_enum(cls, v):
         if v is None:
             return v
+
         if v not in ('available', 'pending', 'sold'):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return v

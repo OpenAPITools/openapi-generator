@@ -34,6 +34,8 @@ from petstore_api.exceptions import ApiValueError
 from petstore_api.exceptions import ApiKeyError
 from petstore_api.exceptions import ApiAttributeError
 from petstore_api.exceptions import ApiException
+from petstore_api.signing import HttpSigningConfiguration
+
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
@@ -86,6 +88,7 @@ from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
