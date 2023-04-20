@@ -22,13 +22,13 @@ export class CatAllOf {
         {
             "name": "hunts",
             "baseName": "hunts",
-            "type": "boolean",
+            "type": "boolean  ",
             "format": ""
         },
         {
             "name": "age",
             "baseName": "age",
-            "type": "number",
+            "type": "number  ",
             "format": ""
         }    ];
 
@@ -37,6 +37,7 @@ export class CatAllOf {
     }
 
     public constructor() {
+
     }
 }
 

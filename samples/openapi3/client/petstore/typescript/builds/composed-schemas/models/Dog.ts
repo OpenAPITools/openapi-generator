@@ -22,13 +22,13 @@ export class Dog {
         {
             "name": "bark",
             "baseName": "bark",
-            "type": "boolean",
+            "type": "boolean  ",
             "format": ""
         },
         {
             "name": "breed",
             "baseName": "breed",
-            "type": "DogBreedEnum",
+            "type": "DogBreedEnum  ",
             "format": ""
         }    ];
 
@@ -37,6 +37,7 @@ export class Dog {
     }
 
     public constructor() {
+
     }
 }
 

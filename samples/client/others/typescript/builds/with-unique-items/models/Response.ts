@@ -22,13 +22,13 @@ export class Response {
         {
             "name": "nonUniqueArray",
             "baseName": "non-unique-array",
-            "type": "Array<string>",
+            "type": "Array<string>  ",
             "format": ""
         },
         {
             "name": "uniqueArray",
             "baseName": "unique-array",
-            "type": "Set<string>",
+            "type": "Set<string>  ",
             "format": ""
         }    ];
 
@@ -37,6 +37,7 @@ export class Response {
     }
 
     public constructor() {
+
     }
 }
 

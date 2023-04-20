@@ -21,7 +21,7 @@ export class FilePostRequest {
         {
             "name": "file",
             "baseName": "file",
-            "type": "any",
+            "type": "any  ",
             "format": ""
         }    ];
 
@@ -30,6 +30,7 @@ export class FilePostRequest {
     }
 
     public constructor() {
+
     }
 }
 

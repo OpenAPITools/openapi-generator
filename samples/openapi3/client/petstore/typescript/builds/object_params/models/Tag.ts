@@ -25,13 +25,13 @@ export class Tag {
         {
             "name": "id",
             "baseName": "id",
-            "type": "number",
+            "type": "number  ",
             "format": "int64"
         },
         {
             "name": "name",
             "baseName": "name",
-            "type": "string",
+            "type": "string  ",
             "format": ""
         }    ];
 
@@ -40,6 +40,7 @@ export class Tag {
     }
 
     public constructor() {
+
     }
 }
 

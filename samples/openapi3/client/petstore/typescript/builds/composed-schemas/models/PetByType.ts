@@ -22,13 +22,13 @@ export class PetByType {
         {
             "name": "petType",
             "baseName": "pet_type",
-            "type": "PetByTypePetTypeEnum",
+            "type": "PetByTypePetTypeEnum  ",
             "format": ""
         },
         {
             "name": "hunts",
             "baseName": "hunts",
-            "type": "boolean",
+            "type": "boolean  ",
             "format": ""
         }    ];
 
@@ -37,6 +37,7 @@ export class PetByType {
     }
 
     public constructor() {
+
     }
 }
 
