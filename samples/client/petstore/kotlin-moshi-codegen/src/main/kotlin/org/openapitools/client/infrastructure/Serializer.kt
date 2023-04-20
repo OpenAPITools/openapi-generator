@@ -1,6 +1,7 @@
 package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.Moshi
+import java.util.Date
 
 object Serializer {
     @JvmStatic

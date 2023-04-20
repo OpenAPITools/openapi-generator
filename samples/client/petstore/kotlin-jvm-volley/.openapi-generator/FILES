@@ -23,6 +23,7 @@ src/main/java/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/CollectionFormats.kt
 src/main/java/org/openapitools/client/infrastructure/CollectionFormats.kt
 src/main/java/org/openapitools/client/infrastructure/ITransformForStorage.kt
+src/main/java/org/openapitools/client/infrastructure/JavaDateAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
