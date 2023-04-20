@@ -59,7 +59,7 @@ public class EnumTest  implements Serializable {
     @JsonCreator
     public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
-            if (b.value.equals(value)) {
+            if (b.value.equalsIgnoreCase(value)) {
                 return b;
             }
         }
@@ -107,7 +107,7 @@ public class EnumTest  implements Serializable {
     @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            if (b.value.equals(value)) {
+            if (b.value.equalsIgnoreCase(value)) {
                 return b;
             }
         }

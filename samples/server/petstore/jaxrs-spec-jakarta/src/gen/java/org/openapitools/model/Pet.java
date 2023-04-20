@@ -69,7 +69,7 @@ public class Pet  implements Serializable {
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (b.value.equals(value)) {
+            if (b.value.equalsIgnoreCase(value)) {
                 return b;
             }
         }

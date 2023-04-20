@@ -63,7 +63,7 @@ public class DefaultValue {
 
     public static ArrayStringEnumDefaultEnum fromValue(String value) {
       for (ArrayStringEnumDefaultEnum b : ArrayStringEnumDefaultEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }

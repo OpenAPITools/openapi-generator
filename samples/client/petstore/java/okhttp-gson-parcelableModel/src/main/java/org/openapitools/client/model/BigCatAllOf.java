@@ -80,7 +80,7 @@ public class BigCatAllOf implements Parcelable {
 
     public static KindEnum fromValue(String value) {
       for (KindEnum b : KindEnum.values()) {
-        if (b.value.equals(value)) {
+        if (b.value.equalsIgnoreCase(value)) {
           return b;
         }
       }

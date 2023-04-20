@@ -47,7 +47,7 @@ public enum OuterEnumDto {
   @JsonCreator
   public static OuterEnumDto fromValue(String value) {
     for (OuterEnumDto b : OuterEnumDto.values()) {
-      if (b.value.equals(value)) {
+      if (b.value.equalsIgnoreCase(value)) {
         return b;
       }
     }
