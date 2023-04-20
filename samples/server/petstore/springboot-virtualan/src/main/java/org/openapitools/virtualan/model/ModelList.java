@@ -35,6 +35,7 @@ public class ModelList {
    * @return _123list
   */
   
+
   @Schema(name = "123-list", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123-list")
   public String get123list() {

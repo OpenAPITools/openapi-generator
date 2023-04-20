@@ -37,6 +37,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * @return name
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {

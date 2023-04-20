@@ -36,6 +36,7 @@ public class ClientDto {
    * @return client
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {

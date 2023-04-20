@@ -74,7 +74,8 @@ public interface FakeApi {
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
     default ResponseEntity<Void> createXmlItem(
-        @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem
+        @Parameter(name = "XmlItem", description = "XmlItem Body", required = true) @Valid
+ @RequestBody XmlItem xmlItem
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -105,7 +106,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
-        @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body
+        @Parameter(name = "body", description = "Input boolean as post body") @Valid
+ @RequestBody(required = false) Boolean body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -136,7 +138,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
-        @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite outerComposite
+        @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid
+ @RequestBody(required = false) OuterComposite outerComposite
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -176,7 +179,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
-        @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body
+        @Parameter(name = "body", description = "Input number as post body") @Valid
+ @RequestBody(required = false) BigDecimal body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -207,7 +211,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<String> fakeOuterStringSerialize(
-        @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) String body
+        @Parameter(name = "body", description = "Input string as post body") @Valid
+ @RequestBody(required = false) String body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -235,7 +240,8 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+        
+@Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -272,7 +278,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithFileSchema(
-        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass
+        @Parameter(name = "FileSchemaTestClass", description = "", required = true) @Valid
+ @RequestBody FileSchemaTestClass fileSchemaTestClass
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -299,8 +306,10 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
-        @NotNull @Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
-        @Parameter(name = "User", description = "", required = true) @Valid @RequestBody User user
+        @NotNull 
+@Parameter(name = "query", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "query", required = true) String query,
+        @Parameter(name = "User", description = "", required = true) @Valid
+ @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -332,7 +341,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Client> testClientModel(
-        @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
+        @Parameter(name = "Client", description = "client model", required = true) @Valid
+ @RequestBody Client client
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -441,10 +451,14 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testEnumParameters(
-        @Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
-        @Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-        @Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
-        @Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
+        
+@Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,
+        
+@Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
+        
+@Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,
+        
+@Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,
         @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
     ) {
@@ -481,10 +495,14 @@ public interface FakeApi {
         value = "/fake"
     )
     default ResponseEntity<Void> testGroupParameters(
-        @NotNull @Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-        @NotNull @Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-        @Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
-        @Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
+        @NotNull 
+@Parameter(name = "required_string_group", description = "Required String in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+        @NotNull 
+@Parameter(name = "required_int64_group", description = "Required Integer in group parameters", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+        
+@Parameter(name = "string_group", description = "String in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,
+        
+@Parameter(name = "int64_group", description = "Integer in group parameters", in = ParameterIn.QUERY) @Valid @RequestParam(value = "int64_group", required = false) Long int64Group
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -513,7 +531,8 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @Parameter(name = "request_body", description = "request body", required = true) @Valid
+ @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -574,10 +593,14 @@ public interface FakeApi {
         value = "/fake/test-query-parameters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(
-        @NotNull @Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
-        @NotNull @Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
-        @NotNull @Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
+        @NotNull 
+@Parameter(name = "pipe", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull 
+@Parameter(name = "http", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull 
+@Parameter(name = "url", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull 
+@Parameter(name = "context", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -614,7 +637,8 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
-        @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        
+@Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {

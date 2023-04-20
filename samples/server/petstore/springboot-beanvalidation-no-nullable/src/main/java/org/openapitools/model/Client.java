@@ -33,6 +33,7 @@ public class Client {
    * @return client
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {

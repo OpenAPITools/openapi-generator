@@ -89,6 +89,7 @@ public class MapTest {
    * @return mapMapOfString
   */
   @Valid 
+
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -117,6 +118,7 @@ public class MapTest {
    * @return mapOfEnumString
   */
   
+
   @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -145,6 +147,7 @@ public class MapTest {
    * @return directMap
   */
   
+
   @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
@@ -173,6 +176,7 @@ public class MapTest {
    * @return indirectMap
   */
   
+
   @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {

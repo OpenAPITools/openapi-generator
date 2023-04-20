@@ -99,6 +99,7 @@ public class Order {
    * @return id
   */
   
+
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
@@ -119,6 +120,7 @@ public class Order {
    * @return petId
   */
   
+
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
   public Long getPetId() {
@@ -139,6 +141,7 @@ public class Order {
    * @return quantity
   */
   
+
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -159,6 +162,7 @@ public class Order {
    * @return shipDate
   */
   @Valid 
+
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
   public Date getShipDate() {
@@ -179,6 +183,7 @@ public class Order {
    * @return status
   */
   
+
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -199,6 +204,7 @@ public class Order {
    * @return complete
   */
   
+
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
   public Boolean getComplete() {

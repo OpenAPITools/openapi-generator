@@ -45,6 +45,7 @@ public class TypeHolderDefault {
    * @return stringItem
   */
   @NotNull 
+
   @Schema(name = "string_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
   public String getStringItem() {
@@ -65,6 +66,7 @@ public class TypeHolderDefault {
    * @return numberItem
   */
   @NotNull @Valid 
+
   @Schema(name = "number_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
@@ -85,6 +87,7 @@ public class TypeHolderDefault {
    * @return integerItem
   */
   @NotNull 
+
   @Schema(name = "integer_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
@@ -105,6 +108,7 @@ public class TypeHolderDefault {
    * @return boolItem
   */
   @NotNull 
+
   @Schema(name = "bool_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
@@ -133,6 +137,7 @@ public class TypeHolderDefault {
    * @return arrayItem
   */
   @NotNull 
+
   @Schema(name = "array_item", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {

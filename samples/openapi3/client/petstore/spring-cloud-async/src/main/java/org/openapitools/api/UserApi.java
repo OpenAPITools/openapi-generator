@@ -65,7 +65,8 @@ public interface UserApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Void>> createUser(
-        @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user
+        @Parameter(name = "User", description = "Created user object", required = true) @Valid
+ @RequestBody User user
     );
 
 
@@ -94,7 +95,8 @@ public interface UserApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @Valid
+ @RequestBody List<User> user
     );
 
 
@@ -123,7 +125,8 @@ public interface UserApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @Valid
+ @RequestBody List<User> user
     );
 
 
@@ -153,7 +156,8 @@ public interface UserApi {
         value = "/user/{username}"
     )
     CompletableFuture<ResponseEntity<Void>> deleteUser(
-        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        
+@Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     );
 
 
@@ -186,7 +190,8 @@ public interface UserApi {
         produces = "application/json"
     )
     CompletableFuture<ResponseEntity<User>> getUserByName(
-        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        
+@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     );
 
 
@@ -218,8 +223,10 @@ public interface UserApi {
         produces = "application/json"
     )
     CompletableFuture<ResponseEntity<String>> loginUser(
-        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+@Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull 
+@Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
     );
 
 
@@ -278,8 +285,10 @@ public interface UserApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Void>> updateUser(
-        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
+        
+@Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        @Parameter(name = "User", description = "Updated user object", required = true) @Valid
+ @RequestBody User user
     );
 
 }

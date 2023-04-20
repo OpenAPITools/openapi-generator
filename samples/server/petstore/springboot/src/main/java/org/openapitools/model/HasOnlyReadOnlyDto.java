@@ -38,6 +38,7 @@ public class HasOnlyReadOnlyDto {
    * @return bar
   */
   
+
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
   public String getBar() {
@@ -58,6 +59,7 @@ public class HasOnlyReadOnlyDto {
    * @return foo
   */
   
+
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")
   public String getFoo() {

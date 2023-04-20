@@ -51,6 +51,7 @@ public class ModelApiResponse {
    * @return code
   */
   
+
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
   public Integer getCode() {
@@ -71,6 +72,7 @@ public class ModelApiResponse {
    * @return type
   */
   
+
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
   public String getType() {
@@ -91,6 +93,7 @@ public class ModelApiResponse {
    * @return message
   */
   
+
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
   public String getMessage() {

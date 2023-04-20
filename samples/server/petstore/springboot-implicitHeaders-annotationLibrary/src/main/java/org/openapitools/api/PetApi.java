@@ -45,7 +45,8 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Pet> addPet(
-         @Valid @RequestBody Pet pet
+         @Valid
+ @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -78,7 +79,8 @@ public interface PetApi {
         value = "/pet/{petId}"
     )
     default ResponseEntity<Void> deletePet(
-         @PathVariable("petId") Long petId
+        
+ @PathVariable("petId") Long petId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -99,7 +101,8 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull 
+ @Valid @RequestParam(value = "status", required = true) List<String> status
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -136,7 +139,8 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<List<Pet>> findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
+        @NotNull 
+ @Valid @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -172,7 +176,8 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Pet> getPetById(
-         @PathVariable("petId") Long petId
+        
+ @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -212,7 +217,8 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Pet> updatePet(
-         @Valid @RequestBody Pet pet
+         @Valid
+ @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -248,7 +254,8 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> updatePetWithForm(
-         @PathVariable("petId") Long petId,
+        
+ @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) String name,
          @Valid @RequestParam(value = "status", required = false) String status
     ) {
@@ -273,7 +280,8 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
-         @PathVariable("petId") Long petId,
+        
+ @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     ) {

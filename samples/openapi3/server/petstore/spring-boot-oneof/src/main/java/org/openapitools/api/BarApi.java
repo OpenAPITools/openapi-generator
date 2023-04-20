@@ -65,7 +65,8 @@ public interface BarApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Bar> createBar(
-        @Parameter(name = "BarCreate", description = "", required = true) @Valid @RequestBody BarCreate barCreate
+        @Parameter(name = "BarCreate", description = "", required = true) @Valid
+ @RequestBody BarCreate barCreate
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

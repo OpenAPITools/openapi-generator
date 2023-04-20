@@ -37,6 +37,7 @@ public class NumberOnlyDto {
    * @return justNumber
   */
   @Valid 
+
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {

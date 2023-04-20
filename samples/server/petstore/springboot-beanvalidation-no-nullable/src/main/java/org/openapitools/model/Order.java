@@ -84,6 +84,7 @@ public class Order {
    * @return id
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -104,6 +105,7 @@ public class Order {
    * @return petId
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
@@ -124,6 +126,7 @@ public class Order {
    * @return quantity
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -144,6 +147,7 @@ public class Order {
    * @return shipDate
   */
   @Valid 
+
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
@@ -164,6 +168,7 @@ public class Order {
    * @return status
   */
   
+
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -184,6 +189,7 @@ public class Order {
    * @return complete
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {

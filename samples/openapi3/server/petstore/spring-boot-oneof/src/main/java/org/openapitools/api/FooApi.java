@@ -65,7 +65,8 @@ public interface FooApi {
         consumes = { "application/json;charset=utf-8" }
     )
     default ResponseEntity<FooRefOrValue> createFoo(
-        @Parameter(name = "Foo", description = "The Foo to be created") @Valid @RequestBody(required = false) Foo foo
+        @Parameter(name = "Foo", description = "The Foo to be created") @Valid
+ @RequestBody(required = false) Foo foo
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

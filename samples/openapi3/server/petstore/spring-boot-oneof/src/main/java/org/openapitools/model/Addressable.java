@@ -36,6 +36,7 @@ public class Addressable {
    * @return href
   */
   
+
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
   public String getHref() {
@@ -56,6 +57,7 @@ public class Addressable {
    * @return id
   */
   
+
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {

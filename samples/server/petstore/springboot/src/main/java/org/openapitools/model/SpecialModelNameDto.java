@@ -36,6 +36,7 @@ public class SpecialModelNameDto {
    * @return $SpecialPropertyName
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {

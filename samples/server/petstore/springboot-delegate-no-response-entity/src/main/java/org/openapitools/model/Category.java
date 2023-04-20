@@ -37,6 +37,7 @@ public class Category {
    * @return id
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -57,6 +58,7 @@ public class Category {
    * @return name
   */
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {

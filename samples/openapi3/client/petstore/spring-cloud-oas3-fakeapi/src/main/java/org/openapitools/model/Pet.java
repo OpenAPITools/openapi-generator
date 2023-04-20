@@ -90,6 +90,7 @@ public class Pet {
    * @return id
   */
   
+
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
@@ -110,6 +111,7 @@ public class Pet {
    * @return category
   */
   @Valid 
+
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
   public Category getCategory() {
@@ -130,6 +132,7 @@ public class Pet {
    * @return name
   */
   @NotNull 
+
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {
@@ -158,6 +161,7 @@ public class Pet {
    * @return photoUrls
   */
   @NotNull 
+
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
@@ -187,6 +191,7 @@ public class Pet {
    * @return tags
   */
   @Valid 
+
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
@@ -207,6 +212,7 @@ public class Pet {
    * @return status
   */
   
+
   @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
   public StatusEnum getStatus() {

@@ -65,6 +65,7 @@ public class Pet {
    * @return atType
   */
   @NotNull 
+
   @Schema(name = "@type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
   public String getAtType() {
@@ -85,6 +86,7 @@ public class Pet {
    * @return age
   */
   
+
   @Schema(name = "age", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")
   public Integer getAge() {
@@ -105,6 +107,7 @@ public class Pet {
    * @return happy
   */
   
+
   @Schema(name = "happy", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("happy")
   public Boolean getHappy() {
@@ -125,6 +128,7 @@ public class Pet {
    * @return price
   */
   @Valid 
+
   @Schema(name = "price", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("price")
   public BigDecimal getPrice() {
@@ -145,6 +149,7 @@ public class Pet {
    * @return lastFeed
   */
   @Valid 
+
   @Schema(name = "lastFeed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastFeed")
   public OffsetDateTime getLastFeed() {
@@ -165,6 +170,7 @@ public class Pet {
    * @return dateOfBirth
   */
   @Valid 
+
   @Schema(name = "dateOfBirth", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateOfBirth")
   public LocalDate getDateOfBirth() {

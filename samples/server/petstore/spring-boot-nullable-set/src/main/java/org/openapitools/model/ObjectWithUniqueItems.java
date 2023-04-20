@@ -67,6 +67,7 @@ public class ObjectWithUniqueItems {
    * @return nullSet
   */
   
+
   @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullSet")
   public JsonNullable<Set<String>> getNullSet() {
@@ -95,6 +96,7 @@ public class ObjectWithUniqueItems {
    * @return notNullSet
   */
   
+
   @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullSet")
   public Set<String> getNotNullSet() {
@@ -124,6 +126,7 @@ public class ObjectWithUniqueItems {
    * @return nullList
   */
   
+
   @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullList")
   public JsonNullable<List<String>> getNullList() {
@@ -152,6 +155,7 @@ public class ObjectWithUniqueItems {
    * @return notNullList
   */
   
+
   @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullList")
   public List<String> getNotNullList() {
@@ -172,6 +176,7 @@ public class ObjectWithUniqueItems {
    * @return notNullDateField
   */
   @Valid 
+
   @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
   public OffsetDateTime getNotNullDateField() {
@@ -192,6 +197,7 @@ public class ObjectWithUniqueItems {
    * @return nullDateField
   */
   @Valid 
+
   @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")
   public OffsetDateTime getNullDateField() {

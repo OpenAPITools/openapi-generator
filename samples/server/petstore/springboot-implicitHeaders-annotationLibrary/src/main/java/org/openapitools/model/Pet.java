@@ -103,6 +103,7 @@ public class Pet {
    * @return id
   */
   
+
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -122,6 +123,7 @@ public class Pet {
    * @return category
   */
   @Valid 
+
   @JsonProperty("category")
   public Category getCategory() {
     return category;
@@ -141,6 +143,7 @@ public class Pet {
    * @return name
   */
   @NotNull 
+
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -168,6 +171,7 @@ public class Pet {
    * @return photoUrls
   */
   @NotNull 
+
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -195,6 +199,7 @@ public class Pet {
    * @return tags
   */
   @Valid 
+
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
@@ -214,6 +219,7 @@ public class Pet {
    * @return status
   */
   
+
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;

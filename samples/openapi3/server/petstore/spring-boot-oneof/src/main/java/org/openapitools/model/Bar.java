@@ -62,6 +62,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return id
   */
   @NotNull 
+
   @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
   public String getId() {
@@ -82,6 +83,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return barPropA
   */
   
+
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
   public String getBarPropA() {
@@ -102,6 +104,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return fooPropB
   */
   
+
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
   public String getFooPropB() {
@@ -122,6 +125,7 @@ public class Bar extends Entity implements BarRefOrValue {
    * @return foo
   */
   @Valid 
+
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
   public FooRefOrValue getFoo() {

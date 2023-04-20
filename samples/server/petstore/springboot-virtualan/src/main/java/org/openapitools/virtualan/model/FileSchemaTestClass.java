@@ -39,6 +39,7 @@ public class FileSchemaTestClass {
    * @return file
   */
   @Valid 
+
   @Schema(name = "file", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("file")
   public File getFile() {
@@ -67,6 +68,7 @@ public class FileSchemaTestClass {
    * @return files
   */
   @Valid 
+
   @Schema(name = "files", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("files")
   public List<@Valid File> getFiles() {

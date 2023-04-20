@@ -34,6 +34,7 @@ public class Category {
    * @return id
   */
   
+
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -53,6 +54,7 @@ public class Category {
    * @return name
   */
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+
   @JsonProperty("name")
   public String getName() {
     return name;

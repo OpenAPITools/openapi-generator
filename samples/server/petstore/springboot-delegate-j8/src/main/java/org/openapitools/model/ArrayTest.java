@@ -52,6 +52,7 @@ public class ArrayTest {
    * @return arrayOfString
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
@@ -80,6 +81,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   */
   @Valid 
+
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -108,6 +110,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   */
   @Valid 
+
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {

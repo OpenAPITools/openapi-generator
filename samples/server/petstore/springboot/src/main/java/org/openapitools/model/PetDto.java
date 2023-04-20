@@ -110,6 +110,7 @@ public class PetDto {
    * @return id
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -130,6 +131,7 @@ public class PetDto {
    * @return category
   */
   @Valid 
+
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public CategoryDto getCategory() {
@@ -150,6 +152,7 @@ public class PetDto {
    * @return name
   */
   @NotNull 
+
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
   public String getName() {
@@ -178,6 +181,7 @@ public class PetDto {
    * @return photoUrls
   */
   @NotNull 
+
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
@@ -207,6 +211,7 @@ public class PetDto {
    * @return tags
   */
   @Valid 
+
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {
@@ -227,6 +232,7 @@ public class PetDto {
    * @return status
   */
   
+
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {

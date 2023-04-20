@@ -51,6 +51,7 @@ public class ArrayTest {
    * @return arrayOfString
   */
   
+
   @Schema(name = "array_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
@@ -79,6 +80,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   */
   @Valid 
+
   @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -107,6 +109,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   */
   @Valid 
+
   @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {

@@ -44,7 +44,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUser(
-         @Valid @RequestBody User user
+         @Valid
+ @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -64,7 +65,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-         @Valid @RequestBody List<User> user
+         @Valid
+ @RequestBody List<User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -84,7 +86,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-         @Valid @RequestBody List<User> user
+         @Valid
+ @RequestBody List<User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -104,7 +107,8 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default ResponseEntity<Void> deleteUser(
-         @PathVariable("username") String username
+        
+ @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -126,7 +130,8 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-         @PathVariable("username") String username
+        
+ @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -162,8 +167,10 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<String> loginUser(
-        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull  @Valid @RequestParam(value = "password", required = true) String password
+        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+ @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull 
+ @Valid @RequestParam(value = "password", required = true) String password
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -203,8 +210,10 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> updateUser(
-         @PathVariable("username") String username,
-         @Valid @RequestBody User user
+        
+ @PathVariable("username") String username,
+         @Valid
+ @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

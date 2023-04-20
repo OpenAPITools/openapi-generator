@@ -43,6 +43,7 @@ public class Capitalization {
    * @return smallCamel
   */
   
+
   @Schema(name = "smallCamel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -63,6 +64,7 @@ public class Capitalization {
    * @return capitalCamel
   */
   
+
   @Schema(name = "CapitalCamel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -83,6 +85,7 @@ public class Capitalization {
    * @return smallSnake
   */
   
+
   @Schema(name = "small_Snake", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -103,6 +106,7 @@ public class Capitalization {
    * @return capitalSnake
   */
   
+
   @Schema(name = "Capital_Snake", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -123,6 +127,7 @@ public class Capitalization {
    * @return scAETHFlowPoints
   */
   
+
   @Schema(name = "SCA_ETH_Flow_Points", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -143,6 +148,7 @@ public class Capitalization {
    * @return ATT_NAME
   */
   
+
   @Schema(name = "ATT_NAME", description = "Name of the pet ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {

@@ -83,6 +83,7 @@ public class Order {
    * @return id
   */
   
+
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -102,6 +103,7 @@ public class Order {
    * @return petId
   */
   
+
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
@@ -121,6 +123,7 @@ public class Order {
    * @return quantity
   */
   
+
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
@@ -140,6 +143,7 @@ public class Order {
    * @return shipDate
   */
   @Valid 
+
   @JsonProperty("shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -159,6 +163,7 @@ public class Order {
    * @return status
   */
   
+
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
@@ -178,6 +183,7 @@ public class Order {
    * @return complete
   */
   
+
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;

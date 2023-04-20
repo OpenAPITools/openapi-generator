@@ -36,6 +36,7 @@ public class DogAllOfDto {
    * @return breed
   */
   
+
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {

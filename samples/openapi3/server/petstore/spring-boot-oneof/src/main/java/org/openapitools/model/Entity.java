@@ -74,6 +74,7 @@ public class Entity {
    * @return href
   */
   
+
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("href")
   public String getHref() {
@@ -94,6 +95,7 @@ public class Entity {
    * @return id
   */
   
+
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {
@@ -114,6 +116,7 @@ public class Entity {
    * @return atSchemaLocation
   */
   
+
   @Schema(name = "@schemaLocation", description = "A URI to a JSON-Schema file that defines additional attributes and relationships", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@schemaLocation")
   public String getAtSchemaLocation() {
@@ -134,6 +137,7 @@ public class Entity {
    * @return atBaseType
   */
   
+
   @Schema(name = "@baseType", description = "When sub-classing, this defines the super-class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("@baseType")
   public String getAtBaseType() {
@@ -154,6 +158,7 @@ public class Entity {
    * @return atType
   */
   @NotNull 
+
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
   public String getAtType() {

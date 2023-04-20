@@ -63,7 +63,8 @@ public interface NullableApi {
         consumes = "application/json"
     )
     default ResponseEntity<Void> nullableTest(
-        @Parameter(name = "ObjectWithUniqueItems", description = "") @Valid @RequestBody(required = false) ObjectWithUniqueItems objectWithUniqueItems
+        @Parameter(name = "ObjectWithUniqueItems", description = "") @Valid
+ @RequestBody(required = false) ObjectWithUniqueItems objectWithUniqueItems
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

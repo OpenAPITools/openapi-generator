@@ -36,6 +36,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return name
   */
   
+
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
   public String getName() {
