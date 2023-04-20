@@ -45,7 +45,6 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   */
   @Valid 
-
   @Schema(name = "ArrayArrayNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ArrayArrayNumber")
   public List<List<BigDecimal>> getArrayArrayNumber() {

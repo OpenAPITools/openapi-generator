@@ -39,7 +39,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * @return normalPropertyName
   */
   
-
   @Schema(name = "normalPropertyName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("normalPropertyName")
   public String getNormalPropertyName() {
@@ -60,7 +59,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * @return UPPER_CASE_PROPERTY_SNAKE
   */
   
-
   @Schema(name = "UPPER_CASE_PROPERTY_SNAKE", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public String getUPPERCASEPROPERTYSNAKE() {
@@ -81,7 +79,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * @return lowerCasePropertyDashes
   */
   
-
   @Schema(name = "lower-case-property-dashes", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lower-case-property-dashes")
   public String getLowerCasePropertyDashes() {
@@ -102,7 +99,6 @@ public class ResponseObjectWithDifferentFieldNames {
    * @return propertyNameWithSpaces
   */
   
-
   @Schema(name = "property name with spaces", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property name with spaces")
   public String getPropertyNameWithSpaces() {

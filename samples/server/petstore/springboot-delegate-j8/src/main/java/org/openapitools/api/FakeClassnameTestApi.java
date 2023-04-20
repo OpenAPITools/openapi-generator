@@ -54,8 +54,7 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Client> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid
- @RequestBody Client client
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Client client
     ) {
         return getDelegate().testClassname(client);
     }

@@ -51,7 +51,6 @@ public class Category {
    * @return id
   */
   
-
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
@@ -72,7 +71,6 @@ public class Category {
    * @return name
   */
   @NotNull 
-
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
   public String getName() {

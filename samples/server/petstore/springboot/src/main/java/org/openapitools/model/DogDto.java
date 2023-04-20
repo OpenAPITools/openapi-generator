@@ -57,7 +57,6 @@ public class DogDto extends AnimalDto {
    * @return breed
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
   public String getBreed() {

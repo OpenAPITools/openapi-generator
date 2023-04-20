@@ -70,7 +70,6 @@ public class ContainerDefaultValue {
    * @return nullableArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
   public List<String> getNullableArray() {
@@ -99,7 +98,6 @@ public class ContainerDefaultValue {
    * @return nullableRequiredArray
   */
   @NotNull 
-
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
   public List<String> getNullableRequiredArray() {
@@ -128,7 +126,6 @@ public class ContainerDefaultValue {
    * @return requiredArray
   */
   @NotNull 
-
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
@@ -157,7 +154,6 @@ public class ContainerDefaultValue {
    * @return nullableArrayWithDefault
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")
   public List<String> getNullableArrayWithDefault() {

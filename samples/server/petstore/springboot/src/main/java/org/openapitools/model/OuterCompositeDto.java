@@ -41,7 +41,6 @@ public class OuterCompositeDto {
    * @return myNumber
   */
   @Valid 
-
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
@@ -62,7 +61,6 @@ public class OuterCompositeDto {
    * @return myString
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public String getMyString() {
@@ -83,7 +81,6 @@ public class OuterCompositeDto {
    * @return myBoolean
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {

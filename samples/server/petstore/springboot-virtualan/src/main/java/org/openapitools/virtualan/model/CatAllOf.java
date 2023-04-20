@@ -35,7 +35,6 @@ public class CatAllOf {
    * @return declawed
   */
   
-
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("declawed")
   public Boolean getDeclawed() {

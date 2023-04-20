@@ -34,7 +34,6 @@ public class ClassModel {
    * @return propertyClass
   */
   
-
   @Schema(name = "_class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("_class")
   public String getPropertyClass() {

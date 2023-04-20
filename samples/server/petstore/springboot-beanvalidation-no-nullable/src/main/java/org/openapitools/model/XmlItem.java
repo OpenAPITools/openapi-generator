@@ -101,7 +101,6 @@ public class XmlItem {
    * @return attributeString
   */
   
-
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
   public String getAttributeString() {
@@ -122,7 +121,6 @@ public class XmlItem {
    * @return attributeNumber
   */
   @Valid 
-
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("attribute_number")
   public BigDecimal getAttributeNumber() {
@@ -143,7 +141,6 @@ public class XmlItem {
    * @return attributeInteger
   */
   
-
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("attribute_integer")
   public Integer getAttributeInteger() {
@@ -164,7 +161,6 @@ public class XmlItem {
    * @return attributeBoolean
   */
   
-
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("attribute_boolean")
   public Boolean getAttributeBoolean() {
@@ -193,7 +189,6 @@ public class XmlItem {
    * @return wrappedArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
@@ -214,7 +209,6 @@ public class XmlItem {
    * @return nameString
   */
   
-
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("name_string")
   public String getNameString() {
@@ -235,7 +229,6 @@ public class XmlItem {
    * @return nameNumber
   */
   @Valid 
-
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("name_number")
   public BigDecimal getNameNumber() {
@@ -256,7 +249,6 @@ public class XmlItem {
    * @return nameInteger
   */
   
-
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("name_integer")
   public Integer getNameInteger() {
@@ -277,7 +269,6 @@ public class XmlItem {
    * @return nameBoolean
   */
   
-
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("name_boolean")
   public Boolean getNameBoolean() {
@@ -306,7 +297,6 @@ public class XmlItem {
    * @return nameArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("name_array")
   public List<Integer> getNameArray() {
@@ -335,7 +325,6 @@ public class XmlItem {
    * @return nameWrappedArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
@@ -356,7 +345,6 @@ public class XmlItem {
    * @return prefixString
   */
   
-
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_string")
   public String getPrefixString() {
@@ -377,7 +365,6 @@ public class XmlItem {
    * @return prefixNumber
   */
   @Valid 
-
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_number")
   public BigDecimal getPrefixNumber() {
@@ -398,7 +385,6 @@ public class XmlItem {
    * @return prefixInteger
   */
   
-
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_integer")
   public Integer getPrefixInteger() {
@@ -419,7 +405,6 @@ public class XmlItem {
    * @return prefixBoolean
   */
   
-
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_boolean")
   public Boolean getPrefixBoolean() {
@@ -448,7 +433,6 @@ public class XmlItem {
    * @return prefixArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
@@ -477,7 +461,6 @@ public class XmlItem {
    * @return prefixWrappedArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
@@ -498,7 +481,6 @@ public class XmlItem {
    * @return namespaceString
   */
   
-
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("namespace_string")
   public String getNamespaceString() {
@@ -519,7 +501,6 @@ public class XmlItem {
    * @return namespaceNumber
   */
   @Valid 
-
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("namespace_number")
   public BigDecimal getNamespaceNumber() {
@@ -540,7 +521,6 @@ public class XmlItem {
    * @return namespaceInteger
   */
   
-
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("namespace_integer")
   public Integer getNamespaceInteger() {
@@ -561,7 +541,6 @@ public class XmlItem {
    * @return namespaceBoolean
   */
   
-
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("namespace_boolean")
   public Boolean getNamespaceBoolean() {
@@ -590,7 +569,6 @@ public class XmlItem {
    * @return namespaceArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
@@ -619,7 +597,6 @@ public class XmlItem {
    * @return namespaceWrappedArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
@@ -640,7 +617,6 @@ public class XmlItem {
    * @return prefixNsString
   */
   
-
   @ApiModelProperty(example = "string", value = "")
   @JsonProperty("prefix_ns_string")
   public String getPrefixNsString() {
@@ -661,7 +637,6 @@ public class XmlItem {
    * @return prefixNsNumber
   */
   @Valid 
-
   @ApiModelProperty(example = "1.234", value = "")
   @JsonProperty("prefix_ns_number")
   public BigDecimal getPrefixNsNumber() {
@@ -682,7 +657,6 @@ public class XmlItem {
    * @return prefixNsInteger
   */
   
-
   @ApiModelProperty(example = "-2", value = "")
   @JsonProperty("prefix_ns_integer")
   public Integer getPrefixNsInteger() {
@@ -703,7 +677,6 @@ public class XmlItem {
    * @return prefixNsBoolean
   */
   
-
   @ApiModelProperty(example = "true", value = "")
   @JsonProperty("prefix_ns_boolean")
   public Boolean getPrefixNsBoolean() {
@@ -732,7 +705,6 @@ public class XmlItem {
    * @return prefixNsArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
@@ -761,7 +733,6 @@ public class XmlItem {
    * @return prefixNsWrappedArray
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {

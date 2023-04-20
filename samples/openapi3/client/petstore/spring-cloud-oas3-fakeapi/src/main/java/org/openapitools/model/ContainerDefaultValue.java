@@ -56,7 +56,6 @@ public class ContainerDefaultValue {
    * @return nullableArray
   */
   
-
   @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
@@ -85,7 +84,6 @@ public class ContainerDefaultValue {
    * @return nullableRequiredArray
   */
   @NotNull 
-
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
@@ -114,7 +112,6 @@ public class ContainerDefaultValue {
    * @return requiredArray
   */
   @NotNull 
-
   @Schema(name = "required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
@@ -143,7 +140,6 @@ public class ContainerDefaultValue {
    * @return nullableArrayWithDefault
   */
   
-
   @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {

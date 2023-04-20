@@ -95,7 +95,6 @@ public class BigCat extends Cat {
    * @return kind
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public KindEnum getKind() {

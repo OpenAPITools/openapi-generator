@@ -48,7 +48,6 @@ public class User {
    * @return id
   */
   
-
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public Long getId() {
@@ -69,7 +68,6 @@ public class User {
    * @return username
   */
   
-
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
   public String getUsername() {
@@ -90,7 +88,6 @@ public class User {
    * @return firstName
   */
   
-
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -111,7 +108,6 @@ public class User {
    * @return lastName
   */
   
-
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
   public String getLastName() {
@@ -132,7 +128,6 @@ public class User {
    * @return email
   */
   
-
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   public String getEmail() {
@@ -153,7 +148,6 @@ public class User {
    * @return password
   */
   
-
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   public String getPassword() {
@@ -174,7 +168,6 @@ public class User {
    * @return phone
   */
   
-
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
   public String getPhone() {
@@ -195,7 +188,6 @@ public class User {
    * @return userStatus
   */
   
-
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
   public Integer getUserStatus() {

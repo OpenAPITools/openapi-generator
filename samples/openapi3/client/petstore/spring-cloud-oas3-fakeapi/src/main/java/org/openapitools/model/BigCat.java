@@ -78,7 +78,6 @@ public class BigCat extends Cat {
    * @return kind
   */
   
-
   @Schema(name = "kind", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("kind")
   public KindEnum getKind() {

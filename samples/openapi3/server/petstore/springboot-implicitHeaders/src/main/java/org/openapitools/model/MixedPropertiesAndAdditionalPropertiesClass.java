@@ -45,7 +45,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
   */
   @Valid 
-
   @Schema(name = "uuid", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -66,7 +65,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
   */
   @Valid 
-
   @Schema(name = "dateTime", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -95,7 +93,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
   */
   @Valid 
-
   @Schema(name = "map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map")
   public Map<String, Animal> getMap() {

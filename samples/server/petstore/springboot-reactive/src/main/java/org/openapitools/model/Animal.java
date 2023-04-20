@@ -66,7 +66,6 @@ public class Animal {
    * @return className
   */
   @NotNull 
-
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   public String getClassName() {
@@ -87,7 +86,6 @@ public class Animal {
    * @return color
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("color")
   public String getColor() {

@@ -46,7 +46,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
   */
   @Valid 
-
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -67,7 +66,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
   */
   @Valid 
-
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -96,7 +94,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
   */
   @Valid 
-
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {

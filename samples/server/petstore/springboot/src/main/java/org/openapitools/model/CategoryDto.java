@@ -54,7 +54,6 @@ public class CategoryDto {
    * @return id
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -75,7 +74,6 @@ public class CategoryDto {
    * @return name
   */
   @NotNull 
-
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   public String getName() {

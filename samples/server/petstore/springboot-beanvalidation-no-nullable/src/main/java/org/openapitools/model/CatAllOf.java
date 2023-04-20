@@ -35,7 +35,6 @@ public class CatAllOf {
    * @return declawed
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
   public Boolean getDeclawed() {

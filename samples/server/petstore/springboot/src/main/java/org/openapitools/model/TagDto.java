@@ -38,7 +38,6 @@ public class TagDto {
    * @return id
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -59,7 +58,6 @@ public class TagDto {
    * @return name
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {

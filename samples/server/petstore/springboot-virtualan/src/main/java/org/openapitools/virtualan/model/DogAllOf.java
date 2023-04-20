@@ -35,7 +35,6 @@ public class DogAllOf {
    * @return breed
   */
   
-
   @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("breed")
   public String getBreed() {

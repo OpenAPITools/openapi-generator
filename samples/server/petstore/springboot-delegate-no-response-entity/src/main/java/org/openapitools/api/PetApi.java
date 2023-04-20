@@ -61,8 +61,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid
- @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         return getDelegate().addPet(pet);
     }
@@ -97,10 +96,8 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void deletePet(
-        
-@ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
-        
-@ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
         getDelegate().deletePet(petId, apiKey);
     }
@@ -138,8 +135,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default List<Pet> findPetsByStatus(
-        @NotNull 
-@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status
+        @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status
     ) {
         return getDelegate().findPetsByStatus(status);
     }
@@ -179,8 +175,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default List<Pet> findPetsByTags(
-        @NotNull 
-@ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags
+        @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         return getDelegate().findPetsByTags(tags);
     }
@@ -217,8 +212,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet getPetById(
-        
-@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().getPetById(petId);
     }
@@ -263,8 +257,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid
- @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         return getDelegate().updatePet(pet);
     }
@@ -301,8 +294,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     default void updatePetWithForm(
-        
-@ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
@@ -343,8 +335,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default ModelApiResponse uploadFile(
-        
-@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {

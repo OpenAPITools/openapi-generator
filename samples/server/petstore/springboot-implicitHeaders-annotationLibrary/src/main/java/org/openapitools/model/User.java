@@ -46,7 +46,6 @@ public class User {
    * @return id
   */
   
-
   @JsonProperty("id")
   public Long getId() {
     return id;
@@ -66,7 +65,6 @@ public class User {
    * @return username
   */
   
-
   @JsonProperty("username")
   public String getUsername() {
     return username;
@@ -86,7 +84,6 @@ public class User {
    * @return firstName
   */
   
-
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
@@ -106,7 +103,6 @@ public class User {
    * @return lastName
   */
   
-
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
@@ -126,7 +122,6 @@ public class User {
    * @return email
   */
   
-
   @JsonProperty("email")
   public String getEmail() {
     return email;
@@ -146,7 +141,6 @@ public class User {
    * @return password
   */
   
-
   @JsonProperty("password")
   public String getPassword() {
     return password;
@@ -166,7 +160,6 @@ public class User {
    * @return phone
   */
   
-
   @JsonProperty("phone")
   public String getPhone() {
     return phone;
@@ -186,7 +179,6 @@ public class User {
    * @return userStatus
   */
   
-
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;

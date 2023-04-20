@@ -50,7 +50,6 @@ public class UserDto {
    * @return id
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -71,7 +70,6 @@ public class UserDto {
    * @return username
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
@@ -92,7 +90,6 @@ public class UserDto {
    * @return firstName
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -113,7 +110,6 @@ public class UserDto {
    * @return lastName
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
@@ -134,7 +130,6 @@ public class UserDto {
    * @return email
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
@@ -155,7 +150,6 @@ public class UserDto {
    * @return password
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
@@ -176,7 +170,6 @@ public class UserDto {
    * @return phone
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
@@ -197,7 +190,6 @@ public class UserDto {
    * @return userStatus
   */
   
-
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {

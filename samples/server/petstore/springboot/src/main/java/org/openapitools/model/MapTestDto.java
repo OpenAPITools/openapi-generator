@@ -92,7 +92,6 @@ public class MapTestDto {
    * @return mapMapOfString
   */
   @Valid 
-
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -121,7 +120,6 @@ public class MapTestDto {
    * @return mapOfEnumString
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -150,7 +148,6 @@ public class MapTestDto {
    * @return directMap
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
@@ -179,7 +176,6 @@ public class MapTestDto {
    * @return indirectMap
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {

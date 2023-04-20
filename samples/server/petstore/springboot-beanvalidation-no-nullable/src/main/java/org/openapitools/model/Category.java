@@ -51,7 +51,6 @@ public class Category {
    * @return id
   */
   
-
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -72,7 +71,6 @@ public class Category {
    * @return name
   */
   @NotNull 
-
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   public String getName() {

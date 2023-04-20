@@ -48,7 +48,6 @@ public class ArrayOfNumberOnlyDto {
    * @return arrayNumber
   */
   @Valid 
-
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {
