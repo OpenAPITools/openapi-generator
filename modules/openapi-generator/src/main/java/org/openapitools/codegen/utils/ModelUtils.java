@@ -1362,14 +1362,6 @@ public class ModelUtils {
             }
         }
 
-        if (refedWithoutDiscriminator.size() == 1 && hasAmbiguousParents) {
-            // allOf with a single $ref (no discriminator)
-            // TODO to be removed in 5.x or 6.x release
-            LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
-                            " in the 5.x release. Composed schema name: {}. Title: {}",
-                    composedSchema.getName(), composedSchema.getTitle());
-        }
-
         return null;
     }
 

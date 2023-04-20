@@ -54,6 +54,7 @@ docs/models/HasOnlyReadOnly.md
 docs/models/HealthCheckResult.md
 docs/models/IsoscelesTriangle.md
 docs/models/List.md
+docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
 docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -173,6 +174,7 @@ src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
+src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs

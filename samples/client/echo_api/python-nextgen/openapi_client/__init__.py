@@ -33,12 +33,14 @@ from openapi_client.exceptions import ApiValueError
 from openapi_client.exceptions import ApiKeyError
 from openapi_client.exceptions import ApiAttributeError
 from openapi_client.exceptions import ApiException
+
 # import models into sdk package
 from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category
 from openapi_client.models.data_query import DataQuery
 from openapi_client.models.data_query_all_of import DataQueryAllOf
 from openapi_client.models.default_value import DefaultValue
+from openapi_client.models.number_properties_only import NumberPropertiesOnly
 from openapi_client.models.pet import Pet
 from openapi_client.models.query import Query
 from openapi_client.models.string_enum_ref import StringEnumRef

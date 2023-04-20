@@ -81,7 +81,6 @@ func (c *StoreApiController) Routes() Routes {
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	orderIdParam := params["orderId"]
-	
 	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -114,7 +113,6 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
 	result, err := c.service.GetOrderById(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

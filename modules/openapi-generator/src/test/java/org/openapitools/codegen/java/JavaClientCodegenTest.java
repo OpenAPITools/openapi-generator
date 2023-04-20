@@ -1954,4 +1954,32 @@ public class JavaClientCodegenTest {
                 "  public Pet petType(String petType) {\n");
 
     }
+
+    @Test
+    public void testForJavaNativeClientOverrideSetter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/allOf_composition_discriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setLibrary(JavaClientCodegen.NATIVE);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "  @Override\n" +
+                "  public Cat petType(String petType) {");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "  }\n" +
+                "\n" +
+                "  public Pet petType(String petType) {\n");
+
+    }
 }

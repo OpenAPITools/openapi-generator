@@ -2147,3 +2147,12 @@ components:
           type: string
         circular_ref:
           $ref: '#/components/schemas/Circular-Reference-Model'
+    InnerDictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    Parent:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"

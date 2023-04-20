@@ -13,6 +13,7 @@ docs/DataQueryAllOf.md
 docs/DefaultValue.md
 docs/FormApi.md
 docs/HeaderApi.md
+docs/NumberPropertiesOnly.md
 docs/PathApi.md
 docs/Pet.md
 docs/Query.md
@@ -53,6 +54,7 @@ src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/DataQuery.java
 src/main/java/org/openapitools/client/model/DataQueryAllOf.java
 src/main/java/org/openapitools/client/model/DefaultValue.java
+src/main/java/org/openapitools/client/model/NumberPropertiesOnly.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Query.java
 src/main/java/org/openapitools/client/model/StringEnumRef.java

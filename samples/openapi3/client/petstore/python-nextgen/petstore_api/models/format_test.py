@@ -48,24 +48,36 @@ class FormatTest(BaseModel):
 
     @validator('string')
     def string_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"[a-z]", v ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
         return v
 
     @validator('string_with_double_quote_pattern')
     def string_with_double_quote_pattern_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"this is \"something\"", v):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
         return v
 
     @validator('pattern_with_digits')
     def pattern_with_digits_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"^\d{10}$", v):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
         return v
 
     @validator('pattern_with_digits_and_delimiter')
     def pattern_with_digits_and_delimiter_validate_regular_expression(cls, v):
+        if v is None:
+            return v
+
         if not re.match(r"^image_\d{1,3}$", v ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
         return v
@@ -94,12 +106,6 @@ class FormatTest(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of byte
-        if self.byte:
-            _dict['byte'] = self.byte.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of binary
-        if self.binary:
-            _dict['binary'] = self.binary.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -126,8 +132,8 @@ class FormatTest(BaseModel):
             "decimal": obj.get("decimal"),
             "string": obj.get("string"),
             "string_with_double_quote_pattern": obj.get("string_with_double_quote_pattern"),
-            "byte": bytearray.from_dict(obj.get("byte")) if obj.get("byte") is not None else None,
-            "binary": bytearray.from_dict(obj.get("binary")) if obj.get("binary") is not None else None,
+            "byte": obj.get("byte"),
+            "binary": obj.get("binary"),
             "var_date": obj.get("date"),
             "date_time": obj.get("dateTime"),
             "uuid": obj.get("uuid"),

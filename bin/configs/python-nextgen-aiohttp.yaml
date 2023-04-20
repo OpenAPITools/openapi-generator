@@ -5,4 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/python-nextgen
 library: asyncio
 additionalProperties:
   packageName: petstore_api
-  floatStrictType: false
+  mapNumberTo: float

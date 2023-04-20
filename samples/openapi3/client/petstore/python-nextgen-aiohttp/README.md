@@ -183,6 +183,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [Parent](docs/Parent.md)
  - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
