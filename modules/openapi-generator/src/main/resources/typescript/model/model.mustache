@@ -19,7 +19,6 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     * {{{.}}}
     */
 {{/description}}
-    // HERE?
     '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 

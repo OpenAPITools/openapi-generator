@@ -305,15 +305,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             baseItem = baseItem.items;
         }
         if (baseItem != null) {
-            // set both datatype and datetypeWithEnum as only the inner type is enum
-            System.out.println("Marker: 1");
-            System.out.println("Replace: " + property.datatypeWithEnum + " from " + baseItem.baseType + " to " + toEnumName(baseItem));
-            System.out.println("Property info: " + property.isArray + " // " + property.isContainer + " // " + property.isFreeFormObject + " // " + property.isMap);
-            System.out.println("Property: "+ property.dataType);
-            System.out.println("Base ITem: " + baseItem.isMap + " // " + baseItem.baseName + " // " + baseItem.containerType + " // " + baseItem.dataType);
-            System.out.println("Base Type: "+ baseItem.jsonSchema);
-            System.out.println("Property: "+ property.jsonSchema);
-
             /* 
              * Note: There are cases where we have datatypeWithEnum == Array<{ [key: string]: string}
              * In these cases, we then have Array <{ [key: EnumName]: EnumName}> - which is invalid typescript
@@ -329,9 +320,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
             // set default value for variable with inner enum
             if (property.defaultValue != null) {
-                System.out.println("Default Vaule: " + property.defaultValue);
-                System.out.println("Base Type: " + baseItem.baseType);
-                System.out.println("Enum Name: "+ toEnumName(baseItem));
                 property.defaultValue = property.defaultValue.replace(baseItem.baseType, toEnumName(baseItem));
             }
 
@@ -349,24 +337,16 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    System.out.println("Generating data type with enum");
-                    System.out.println("Enum name before processing (datatype):" + var.dataType);
-                    System.out.println("Enum name before processing (datatypeWenum): " + var.datatypeWithEnum);
                     String replaceName = var.isInnerEnum ? "Inner" + super.enumSuffix : var.enumName;
-                    System.out.println("Enum data: " + replaceName + " / " + cm.classname + " " + var.enumName);
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(replaceName, var.enumName);
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
-                    System.out.println("Final data type with enum: " + var.datatypeWithEnum);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        System.out.println("Generating data type with enum");
-                        System.out.println("Enum data: " + var.enumName + " / " + cm.classname + " " + var.enumName);
                             var.datatypeWithEnum = var.datatypeWithEnum
                                 .replace(var.enumName, cm.classname + var.enumName);
-                        System.out.println("Final data type with enum: " + var.datatypeWithEnum);
                     }
                 }
             }
@@ -484,7 +464,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 postfix = " | null";
             }
-            System.out.println("[getTypeDeclaration] Inner: "+ inner.toString());
             return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + postfix + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
