@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as a demonstration for allOf4
+  version: 1.0.0
+  title: AllOf4
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    commonMetadata:
+      title: commonMetadata
+      type: object
+      description: Common metadata associated with any request or reply.
+      properties:
+        type:
+          type: string
+          description: The name of the model implementing the commonMetadata
+        meta:
+          type: string
+        links:
+          type: string
+    offerPayload:
+      title: Offer Payload
+      allOf:
+        - $ref: '#/components/schemas/commonMetadata'
+        - type: object
+          properties:
+            offerData:
+              type: object
+              properties:
+                offer:
+                  type: string
+                offerSet:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    no:
+                      type: string
+    travelOfferPayload:
+      title: Travel Offer Payload
+      description: Test for Travel Offer Payload
+      allOf:
+        - $ref: '#/components/schemas/offerPayload'
+        - type: object
+          properties:
+            offerData:
+              type: object
+              properties:
+                travelOffer:
+                  type: integer
+                offerSet:
+                  type: object
+                  properties:
+                    no:
+                      type: boolean
+                    price:
+                      type: integer

@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  description: This specification is used as a demonstration for allOf
+  version: 1.0.0
+  title: AllOf
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    BaseShape:
+      type: object
+      required:
+        - shapeType
+      properties:
+        shapeType:
+          type: string
+          enum:
+            - Triangle
+            - Rectangle
+            - Square
+      discriminator:
+        propertyName: shapeSpecialisation
+    Shape:
+      allOf:
+        - $ref: '#/components/schemas/BaseShape'
+        - type: object
+          properties:
+            shapeSpecialisation:
+              oneOf:
+                - $ref: '#/components/schemas/Triangle'
+                - $ref: '#/components/schemas/Rectangle'
+                - $ref: '#/components/schemas/Square'
+    Triangle:
+      type: object
+      properties:
+        angle:
+          type: integer
+        length:
+          type: integer
+        color:
+          type: string
+    Rectangle:
+      type: object
+      properties:
+        width:
+          type: integer
+        length:
+          type: integer
+        color:
+          type: integer
+    Square:
+      type: object
+      properties:
+        size:
+          type: integer
+        color:
+          type: boolean

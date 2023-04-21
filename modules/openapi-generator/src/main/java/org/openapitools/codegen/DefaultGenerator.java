@@ -18,12 +18,9 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.*;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -274,6 +271,8 @@ public class DefaultGenerator implements Generator {
 
         config.preprocessOpenAPI(openAPI);
 
+        mergeComponents(openAPI.getComponents().getSchemas());
+
         // set OpenAPI to make these available to all methods
         config.setOpenAPI(openAPI);
 
@@ -297,6 +296,56 @@ public class DefaultGenerator implements Generator {
         } else {
             basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
         }
+    }
+
+    private void mergeComponents(Map<String, Schema> schemas) {
+        for (Map.Entry<String, Schema> schema : schemas.entrySet()) {
+            Set<String> duplicateSchemas = findDuplicates(schema, schemas.keySet());
+            if (duplicateSchemas != null && !duplicateSchemas.isEmpty() && isConflictingProperties(duplicateSchemas, schemas)) {
+                LOGGER.error("At least components '" + StringUtils.join(duplicateSchemas, ", ") + "' are duplicated. Maybe not listed components are duplicated too.");
+                throw new RuntimeException("At least components '" + StringUtils.join(duplicateSchemas, ", ") + "' are duplicated. Maybe not listed components are duplicated too.");
+            }
+        }
+    }
+
+    private boolean isConflictingProperties(Set<String> duplicateSchemas, Map<String, Schema> schemas) {
+        Set<String> referenceProperties = new HashSet<>();
+        for (String schemaName : duplicateSchemas) {
+            Schema schema = schemas.get(schemaName);
+
+            if (referenceProperties.isEmpty()) {
+                referenceProperties.addAll(schema.getProperties().keySet());
+                continue;
+            }
+            if (referenceProperties.size() == schema.getProperties().keySet().size()) {
+                if (!referenceProperties.containsAll(schema.getProperties().keySet())) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Set findDuplicates(Map.Entry<String, Schema> schema, Set<String> schemasName) {
+        Set<String> duplicateSchemas = new HashSet<>();
+        String schemaKey = schema.getKey();
+        if (!schemaKey.endsWith("_allOf")) {
+            String shortSchemaName = schemaKey.substring(schemaKey.lastIndexOf("_") + 1);
+            for (String fullSchemaName : schemasName) {
+                String shortSuspeciousSchemaName = fullSchemaName.substring(fullSchemaName.lastIndexOf("_") + 1);
+                if (!fullSchemaName.equals(schemaKey)
+                        && !duplicateSchemas.contains(schemaKey)
+                        && !duplicateSchemas.contains(fullSchemaName)
+                        && shortSchemaName.equals(shortSuspeciousSchemaName)) {
+                    duplicateSchemas.add(schemaKey);
+                    duplicateSchemas.add(fullSchemaName);
+                }
+            }
+        }
+
+        return duplicateSchemas;
     }
 
     private void configureOpenAPIInfo() {
