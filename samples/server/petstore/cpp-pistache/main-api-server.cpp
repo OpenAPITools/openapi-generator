@@ -20,6 +20,8 @@
 #include <unistd.h>
 #endif
 
+#include "ApiBase.h"
+
 #include "PetApiImpl.h"
 #include "StoreApiImpl.h"
 #include "UserApiImpl.h"
@@ -78,17 +80,18 @@ int main() {
     opts.maxResponseSize(PISTACHE_SERVER_MAX_RESPONSE_SIZE);
     httpEndpoint->init(opts);
 
+    auto apiImpls = std::vector<std::shared_ptr<ApiBase>>();
     
-    PetApiImpl PetApiserver(router);
-    PetApiserver.init();
-    StoreApiImpl StoreApiserver(router);
-    StoreApiserver.init();
-    UserApiImpl UserApiserver(router);
-    UserApiserver.init();
+    apiImpls.push_back(std::make_shared<PetApiImpl>(router));
+    apiImpls.push_back(std::make_shared<StoreApiImpl>(router));
+    apiImpls.push_back(std::make_shared<UserApiImpl>(router));
+
+    for (auto api : apiImpls) {
+        api->init();
+    }
 
     httpEndpoint->setHandler(router->handler());
     httpEndpoint->serve();
 
     httpEndpoint->shutdown();
-
 }
