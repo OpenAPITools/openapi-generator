@@ -144,19 +144,19 @@ Class | Method | HTTP request | Description
  - [User](docs/User.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
 
 Authentication schemes defined for the API:
-<a name="api_key"></a>
+<a id="api_key"></a>
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-<a name="auth_cookie"></a>
+<a id="auth_cookie"></a>
 ### auth_cookie
 
 - **Type**: API key
