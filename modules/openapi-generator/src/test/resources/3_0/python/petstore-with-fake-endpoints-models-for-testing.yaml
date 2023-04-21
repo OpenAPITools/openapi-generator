@@ -1248,6 +1248,21 @@ paths:
       responses:
         200:
           description: OK
+  /fake/enum_ref_query_parameter:
+    get:
+      tags:
+        - fake
+      summary: test enum reference query parameter
+      operationId: fakeEnumRefQueryParameter
+      parameters:
+        - name: enum_ref
+          in: query
+          description: enum reference
+          schema:
+            $ref: '#/components/schemas/EnumClass'
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

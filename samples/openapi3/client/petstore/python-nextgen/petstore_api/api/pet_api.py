@@ -429,7 +429,7 @@ class PetApi(object):
         # process the query parameters
         _query_params = []
         if _params.get('status') is not None:  # noqa: E501
-            _query_params.append(('status', _params['status'].value))
+            _query_params.append(('status', _params['status']))
             _collection_formats['status'] = 'csv'
 
         # process the header parameters
