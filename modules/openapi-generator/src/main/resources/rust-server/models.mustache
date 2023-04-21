@@ -1,5 +1,8 @@
 #![allow(unused_qualifications)]
 
+use regex::Regex;
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
@@ -258,6 +261,21 @@ pub struct {{{classname}}} {
     #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
 {{/x-item-xml-name}}
 {{/vendorExtensions}}
+{{#hasValidation}}
+    #[validate(
+        {{#maxLength}}
+            {{#minLength}}
+            length(min = {{minLength}}, max = {{maxLength}}),
+            {{/minLength}}
+            {{^minLength}}
+            length(max = {{maxLength}}),
+            {{/minLength}}
+            {{#pattern}}
+            regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
+            {{/pattern}}
+        {{/maxLength}}
+        )]
+{{/hasValidation}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
 {{/required}}
@@ -272,6 +290,14 @@ pub struct {{{classname}}} {
 
 {{/vars}}
 }
+
+{{#vars}}
+{{#hasValidation}}
+{{#pattern}}
+static RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: Regex = Regex::new(r"{{ pattern }}").unwrap();
+{{/pattern}}
+{{/hasValidation}}
+{{/vars}}
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default)]
