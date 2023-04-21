@@ -27,8 +27,8 @@ import javax.annotation.Generated;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Bar.class, name = "Bar"),
   @JsonSubTypes.Type(value = BarCreate.class, name = "Bar_Create"),
+  @JsonSubTypes.Type(value = Bar.class, name = "Bar"),
   @JsonSubTypes.Type(value = Foo.class, name = "Foo"),
   @JsonSubTypes.Type(value = Pasta.class, name = "Pasta"),
   @JsonSubTypes.Type(value = Pizza.class, name = "Pizza"),

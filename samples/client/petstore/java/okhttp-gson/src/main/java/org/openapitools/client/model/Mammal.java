@@ -118,10 +118,6 @@ public class Mammal extends AbstractOpenApiSchema {
                     } else  {
                         // look up the discriminator value in the field `className`
                         switch (jsonObject.get("className").getAsString()) {
-                            case "Pig":
-                                deserialized = adapterPig.fromJsonTree(jsonObject);
-                                newMammal.setActualInstance(deserialized);
-                                return newMammal;
                             case "whale":
                                 deserialized = adapterWhale.fromJsonTree(jsonObject);
                                 newMammal.setActualInstance(deserialized);
@@ -130,8 +126,12 @@ public class Mammal extends AbstractOpenApiSchema {
                                 deserialized = adapterZebra.fromJsonTree(jsonObject);
                                 newMammal.setActualInstance(deserialized);
                                 return newMammal;
+                            case "Pig":
+                                deserialized = adapterPig.fromJsonTree(jsonObject);
+                                newMammal.setActualInstance(deserialized);
+                                return newMammal;
                             default:
-                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", jsonObject.get("className").getAsString()));
+                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: whale zebra Pig", jsonObject.get("className").getAsString()));
                         }
                     }
 

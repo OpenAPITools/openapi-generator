@@ -42,8 +42,8 @@ import org.openapitools.client.JSON;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = ChildSchema.class, name = "ChildSchema"),
   @JsonSubTypes.Type(value = MySchemaNameCharacters.class, name = "MySchemaName._-Characters"),
+  @JsonSubTypes.Type(value = ChildSchema.class, name = "ChildSchema"),
 })
 
 public class Parent {
@@ -121,8 +121,8 @@ public class Parent {
   static {
     // Initialize and register the discriminator mappings.
     Map<String, Class<?>> mappings = new HashMap<>();
-    mappings.put("ChildSchema", ChildSchema.class);
     mappings.put("MySchemaName._-Characters", MySchemaNameCharacters.class);
+    mappings.put("ChildSchema", ChildSchema.class);
     mappings.put("Parent", Parent.class);
     JSON.registerDiscriminator(Parent.class, "objectType", mappings);
   }

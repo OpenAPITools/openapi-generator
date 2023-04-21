@@ -218,9 +218,9 @@ public class Mammal extends AbstractOpenApiSchema {
         JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-        mappings.put("Pig", Pig.class);
         mappings.put("whale", Whale.class);
         mappings.put("zebra", Zebra.class);
+        mappings.put("Pig", Pig.class);
         mappings.put("mammal", Mammal.class);
         JSON.registerDiscriminator(Mammal.class, "className", mappings);
     }

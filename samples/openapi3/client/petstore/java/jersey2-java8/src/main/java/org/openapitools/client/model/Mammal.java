@@ -100,10 +100,6 @@ public class Mammal extends AbstractOpenApiSchema {
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("className");
             switch (discriminatorValue) {
-                case "Pig":
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
-                    newMammal.setActualInstance(deserialized);
-                    return newMammal;
                 case "whale":
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
                     newMammal.setActualInstance(deserialized);
@@ -112,8 +108,12 @@ public class Mammal extends AbstractOpenApiSchema {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
                     newMammal.setActualInstance(deserialized);
                     return newMammal;
+                case "Pig":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
+                    newMammal.setActualInstance(deserialized);
+                    return newMammal;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: whale zebra Pig", discriminatorValue));
             }
 
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
@@ -295,9 +295,9 @@ public class Mammal extends AbstractOpenApiSchema {
         JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<>();
-        mappings.put("Pig", Pig.class);
         mappings.put("whale", Whale.class);
         mappings.put("zebra", Zebra.class);
+        mappings.put("Pig", Pig.class);
         mappings.put("mammal", Mammal.class);
         JSON.registerDiscriminator(Mammal.class, "className", mappings);
     }

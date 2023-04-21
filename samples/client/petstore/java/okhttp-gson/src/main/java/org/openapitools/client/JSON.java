@@ -110,9 +110,9 @@ public class JSON {
                     @Override
                     public Class<? extends org.openapitools.client.model.Mammal> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
                         classByDiscriminatorValue.put("whale", org.openapitools.client.model.Whale.class);
                         classByDiscriminatorValue.put("zebra", org.openapitools.client.model.Zebra.class);
+                        classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
                         classByDiscriminatorValue.put("mammal", org.openapitools.client.model.Mammal.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));

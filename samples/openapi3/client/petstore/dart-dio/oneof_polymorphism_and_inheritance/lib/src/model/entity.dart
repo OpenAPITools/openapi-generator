@@ -29,8 +29,8 @@ abstract class Entity implements Addressable, Extensible {
   static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
-    r'Bar': Bar,
     r'Bar_Create': BarCreate,
+    r'Bar': Bar,
     r'Foo': Foo,
     r'Pasta': Pasta,
     r'Pizza': Pizza,
@@ -43,11 +43,11 @@ abstract class Entity implements Addressable, Extensible {
 
 extension EntityDiscriminatorExt on Entity {
     String? get discriminatorValue {
-        if (this is Bar) {
-            return r'Bar';
-        }
         if (this is BarCreate) {
             return r'Bar_Create';
+        }
+        if (this is Bar) {
+            return r'Bar';
         }
         if (this is Foo) {
             return r'Foo';
@@ -66,11 +66,11 @@ extension EntityDiscriminatorExt on Entity {
 }
 extension EntityBuilderDiscriminatorExt on EntityBuilder {
     String? get discriminatorValue {
-        if (this is BarBuilder) {
-            return r'Bar';
-        }
         if (this is BarCreateBuilder) {
             return r'Bar_Create';
+        }
+        if (this is BarBuilder) {
+            return r'Bar';
         }
         if (this is FooBuilder) {
             return r'Foo';
@@ -141,11 +141,11 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     Entity object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    if (object is Bar) {
-      return serializers.serialize(object, specifiedType: FullType(Bar))!;
-    }
     if (object is BarCreate) {
       return serializers.serialize(object, specifiedType: FullType(BarCreate))!;
+    }
+    if (object is Bar) {
+      return serializers.serialize(object, specifiedType: FullType(Bar))!;
     }
     if (object is Foo) {
       return serializers.serialize(object, specifiedType: FullType(Foo))!;
@@ -172,10 +172,10 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
     final discIndex = serializedList.indexOf(Entity.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case r'Bar':
-        return serializers.deserialize(serialized, specifiedType: FullType(Bar)) as Bar;
       case r'Bar_Create':
         return serializers.deserialize(serialized, specifiedType: FullType(BarCreate)) as BarCreate;
+      case r'Bar':
+        return serializers.deserialize(serialized, specifiedType: FullType(Bar)) as Bar;
       case r'Foo':
         return serializers.deserialize(serialized, specifiedType: FullType(Foo)) as Foo;
       case r'Pasta':
