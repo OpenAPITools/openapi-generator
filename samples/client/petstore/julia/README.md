@@ -52,11 +52,11 @@ Class | Method
  - [User](docs/User.md)
 
 
-<a name="authorization"></a>
+<a id="authorization"></a>
 ## Authorization
 
 Authentication schemes defined for the API:
-<a name="petstore_auth"></a>
+<a id="petstore_auth"></a>
 ### petstore_auth
 - **Type**: OAuth
 - **Flow**: implicit
@@ -75,7 +75,7 @@ Example
     api = MyApi(client)
     result = callApi(api, args...; api_key)
 ```
-<a name="api_key"></a>
+<a id="api_key"></a>
 ### api_key
 - **Type**: API key
 

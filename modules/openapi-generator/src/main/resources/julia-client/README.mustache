@@ -36,12 +36,12 @@ Class | Method
 {{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
 {{/model}}{{/models}}
 
-<a name="authorization"></a>
+<a id="authorization"></a>
 ## Authorization
 {{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
 {{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-<a name="{{name}}"></a>
+<a id="{{name}}"></a>
 ### {{{name}}}
 {{#isApiKey}}- **Type**: API key
 
