@@ -128,7 +128,13 @@ public class CodegenDiscriminator {
             } else if (other.getMappingName() == null) {
                 return -1;
             }
-            return getMappingName().compareTo(other.getMappingName());
+
+            final boolean mappedEqualsModelName = getMappingName().equals(getModelName());
+            if (mappedEqualsModelName != other.getMappingName().equals(other.getModelName())) {
+                return mappedEqualsModelName ? 1 : -1;
+            } else {
+                return getMappingName().compareTo(other.getMappingName());
+            }
         }
 
         public String getMappingName() {
