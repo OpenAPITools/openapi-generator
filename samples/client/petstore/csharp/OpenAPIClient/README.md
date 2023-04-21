@@ -205,7 +205,7 @@ Class | Method | HTTP request | Description
 
 
 Authentication schemes defined for the API:
-<a name="petstore_auth"></a>
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 - **Type**: OAuth
@@ -215,31 +215,31 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
-<a name="api_key"></a>
+<a id="api_key"></a>
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-<a name="api_key_query"></a>
+<a id="api_key_query"></a>
 ### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-<a name="http_basic_test"></a>
+<a id="http_basic_test"></a>
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
 
-<a name="bearer_test"></a>
+<a id="bearer_test"></a>
 ### bearer_test
 
 - **Type**: HTTP bearer authentication
 
-<a name="http_signature_test"></a>
+<a id="http_signature_test"></a>
 ### http_signature_test
 
 
