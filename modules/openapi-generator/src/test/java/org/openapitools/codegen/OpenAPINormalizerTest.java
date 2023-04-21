@@ -132,6 +132,7 @@ public class OpenAPINormalizerTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
+        assertTrue(schema3.getEnum().size() > 0);
     }
 
     @Test
@@ -151,6 +152,9 @@ public class OpenAPINormalizerTest {
         assertEquals(schema5.getOneOf().size(), 3);
         assertNull(schema5.getNullable());
 
+        Schema schema7 = openAPI.getComponents().getSchemas().get("Parent");
+        assertEquals(((Schema) schema7.getProperties().get("number")).getAnyOf().size(), 1);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -168,6 +172,9 @@ public class OpenAPINormalizerTest {
         Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
         assertEquals(schema6.getOneOf().size(), 2);
         assertTrue(schema6.getNullable());
+
+        Schema schema8 = openAPI.getComponents().getSchemas().get("Parent");
+        assertEquals(((Schema) schema8.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
     }
 
     @Test
@@ -277,5 +284,31 @@ public class OpenAPINormalizerTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertEquals(schema3.getAnyOf().size(), 2);
         assertTrue(schema3.getNullable());
+    }
+
+    @Test
+    public void testOpenAPINormalizerRefactorAllOfWithPropertiesOnly() {
+        // to test the rule REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_extension_parent.yaml");
+
+        ComposedSchema schema = (ComposedSchema) openAPI.getComponents().getSchemas().get("allOfWithProperties");
+        assertEquals(schema.getAllOf().size(), 1);
+        assertEquals(schema.getProperties().size(), 2);
+        assertEquals(((Schema) schema.getProperties().get("isParent")).getType(), "boolean");
+        assertEquals(((Schema) schema.getProperties().get("mum_or_dad")).getType(), "string");
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("allOfWithProperties");
+        assertEquals(schema2.getAllOf().size(), 2);
+        assertNull(schema2.getProperties());
+
+        Schema newSchema = (Schema) (schema2.getAllOf().get(1));
+        assertEquals(((Schema) newSchema.getProperties().get("isParent")).getType(), "boolean");
+        assertEquals(((Schema) newSchema.getProperties().get("mum_or_dad")).getType(), "string");
+        assertEquals(newSchema.getRequired().get(0), "isParent");
     }
 }

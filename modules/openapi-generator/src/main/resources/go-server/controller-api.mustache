@@ -89,6 +89,27 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/hasQueryParams}}
 	{{#allParams}}
 	{{#isPathParam}}
+	{{#isNumber}}
+	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+		if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isNumber}}
+	{{#isFloat}}
+	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isFloat}}
+	{{#isDouble}}
+	{{paramName}}Param, err := parseFloat64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isDouble}}
 	{{#isLong}}
 	{{paramName}}Param, err := parseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
 	if err != nil {
@@ -103,12 +124,40 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}
+	{{^isNumber}}
+	{{^isFloat}}
+	{{^isDouble}}
 	{{^isLong}}
 	{{^isInteger}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
-	{{/isInteger}}{{/isLong}}
+	{{/isInteger}}
+	{{/isLong}}
+	{{/isDouble}}
+	{{/isFloat}}
+	{{/isNumber}}
 	{{/isPathParam}}
 	{{#isQueryParam}}
+	{{#isNumber}}
+	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isNumber}}
+	{{#isFloat}}
+	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isFloat}}
+	{{#isDouble}}
+	{{paramName}}Param, err := parseFloat64Parameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isDouble}}
 	{{#isLong}}
 	{{paramName}}Param, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}})
 	if err != nil {
@@ -131,6 +180,27 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isBoolean}}
 	{{#isArray}}
+	{{#items.isNumber}}
+	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isNumber}}
+	{{#items.isFloat}}
+	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+	return
+	}
+	{{/items.isFloat}}
+	{{#items.isDouble}}
+	{{paramName}}Param, err := parseFloat64ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isDouble}}
 	{{#items.isLong}}
 	{{paramName}}Param, err := parseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
 	if err != nil {
@@ -145,12 +215,21 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/items.isInteger}}
+	{{^items.isNumber}}
+	{{^items.isFloat}}
+	{{^items.isDouble}}
 	{{^items.isLong}}
 	{{^items.isInteger}}
 	{{paramName}}Param := strings.Split(query.Get("{{baseName}}"), ",")
 	{{/items.isInteger}}
 	{{/items.isLong}}
+	{{/items.isDouble}}
+	{{/items.isFloat}}
+	{{/items.isNumber}}
 	{{/isArray}}
+	{{^isNumber}}
+	{{^isFloat}}
+	{{^isDouble}}
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isBoolean}}
@@ -160,6 +239,9 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isBoolean}}
 	{{/isInteger}}
 	{{/isLong}}
+	{{/isDouble}}
+	{{/isFloat}}
+	{{/isNumber}}
 	{{/isQueryParam}}
 	{{#isFormParam}}
 	{{#isFile}}{{#isArray}}

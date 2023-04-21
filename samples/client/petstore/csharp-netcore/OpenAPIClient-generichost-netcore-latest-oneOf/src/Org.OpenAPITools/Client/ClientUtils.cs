@@ -12,10 +12,13 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
+using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
 {
@@ -97,7 +100,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Filename</returns>
         public static string SanitizeFilename(string filename)
         {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
+            Match match = Regex.Match(filename, ".*[/\\](.*)$");
             return match.Success ? match.Groups[1].Value : filename;
         }
 
@@ -124,9 +127,16 @@ namespace Org.OpenAPITools.Client
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
             if (obj is bool boolean)
-                return boolean ? "true" : "false";
-            if (obj is System.Collections.ICollection collection)
-                return string.Join(",", collection.Cast<object>());
+                return boolean
+                    ? "true"
+                    : "false";
+            if (obj is ICollection collection)
+            {
+                List<string?> entries = new List<string?>();
+                foreach (var entry in collection)
+                    entries.Add(ParameterToString(entry));
+                return string.Join(",", entries);
+            }
 
             return Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture);
         }

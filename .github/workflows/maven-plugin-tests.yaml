@@ -34,6 +34,8 @@ jobs:
             ${{ runner.os }}-test-maven-plugin-${{ env.cache-name }}-
             ${{ runner.os }}-test-maven-plugin-
       - name: Run tests
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           mvn clean install -DskipTests -Dmaven.javadoc.skip=true
           mvn --no-snapshot-updates --quiet clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error

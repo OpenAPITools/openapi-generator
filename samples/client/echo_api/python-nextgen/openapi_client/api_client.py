@@ -1,4 +1,5 @@
 # coding: utf-8
+
 """
     Echo Server API
 
@@ -11,7 +12,6 @@
     Do not edit the class manually.
 """
 
-from __future__ import absolute_import
 
 import atexit
 import datetime
@@ -64,7 +64,7 @@ class ApiClient(object):
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
-        # use default configuraiton if none is provided
+        # use default configuration if none is provided
         if configuration is None:
             configuration = Configuration.get_default()
         self.configuration = configuration
@@ -229,7 +229,9 @@ class ApiClient(object):
 
         response_type = response_types_map.get(str(response_data.status), None)
 
-        if response_type not in ["file", "bytes"]:
+        if response_type == "bytearray":
+            response_data.data = response_data.data
+        else:
             match = None
             content_type = response_data.getheader('content-type')
             if content_type is not None:
@@ -238,8 +240,9 @@ class ApiClient(object):
             response_data.data = response_data.data.decode(encoding)
 
         # deserialize response data
-
-        if response_type:
+        if response_type == "bytearray":
+            return_data = response_data.data
+        elif response_type:
             return_data = self.deserialize(response_data, response_type)
         else:
             return_data = None

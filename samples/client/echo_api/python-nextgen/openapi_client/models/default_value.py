@@ -42,6 +42,7 @@ class DefaultValue(BaseModel):
     def array_string_enum_default_validate_enum(cls, v):
         if v is None:
             return v
+
         for i in v:
             if i not in ('success', 'failure', 'unclassified'):
                 raise ValueError("each list item must be one of ('success', 'failure', 'unclassified')")
@@ -71,15 +72,18 @@ class DefaultValue(BaseModel):
                           },
                           exclude_none=True)
         # set to None if array_string_nullable (nullable) is None
-        if self.array_string_nullable is None:
+        # and __fields_set__ contains the field
+        if self.array_string_nullable is None and "array_string_nullable" in self.__fields_set__:
             _dict['array_string_nullable'] = None
 
         # set to None if array_string_extension_nullable (nullable) is None
-        if self.array_string_extension_nullable is None:
+        # and __fields_set__ contains the field
+        if self.array_string_extension_nullable is None and "array_string_extension_nullable" in self.__fields_set__:
             _dict['array_string_extension_nullable'] = None
 
         # set to None if string_nullable (nullable) is None
-        if self.string_nullable is None:
+        # and __fields_set__ contains the field
+        if self.string_nullable is None and "string_nullable" in self.__fields_set__:
             _dict['string_nullable'] = None
 
         return _dict

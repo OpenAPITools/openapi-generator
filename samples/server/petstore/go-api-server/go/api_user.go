@@ -181,7 +181,6 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
-	
 	result, err := c.service.DeleteUser(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -197,7 +196,6 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
-	
 	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -242,7 +240,6 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
-	
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()

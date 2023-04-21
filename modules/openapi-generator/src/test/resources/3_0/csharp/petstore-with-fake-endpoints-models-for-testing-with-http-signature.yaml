@@ -2248,3 +2248,24 @@ components:
           type: string
           format: date
           example: "2017-07-21"
+    TestCollectionEndingWithWordListObject:
+      type: object
+      properties:
+        TestCollectionEndingWithWordList:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestCollectionEndingWithWordList'
+    TestCollectionEndingWithWordList:
+      type: object
+      properties:
+        value:
+          type: string
+    LiteralStringClass:
+      type: object
+      properties:
+        escapedLiteralString:
+          type: string
+          default: C:\\Users\\username
+        unescapedLiteralString:
+          type: string
+          default: C:\Users\username

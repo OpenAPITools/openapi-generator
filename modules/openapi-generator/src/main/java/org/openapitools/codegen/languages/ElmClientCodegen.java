@@ -373,18 +373,30 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     response.isModel = !response.primitiveType;
                 }
             });
+            // an empty string is truthy so we explicitly set empty notes to null
+            // So we don't print empty notes
+            if (op.notes != null && op.notes.isEmpty())
+                op.notes = null;
         });
 
-        final boolean includeTime =
-            anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
-            anyOperationParam(ops, param -> param.isDate || param.isDateTime);
-        final boolean includeUuid =
-            anyOperationResponse(ops, response -> response.isUuid) ||
-            anyOperationParam(ops, param -> param.isUuid);
+        final boolean includeTime = anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
+                anyOperationParam(ops, param -> (param.isDate || param.isDateTime) || itemsIncludesType(param.items, p -> p.isDate || p.isDateTime));
+        final boolean includeUuid = anyOperationResponse(ops, response -> response.isUuid) ||
+                anyOperationParam(ops, param -> param.isUuid || itemsIncludesType(param.items, p -> p.isUuid));
         operations.put("includeTime", includeTime);
         operations.put("includeUuid", includeUuid);
 
         return operations;
+    }
+
+    private static boolean itemsIncludesType(CodegenProperty p, Predicate<CodegenProperty> condition) {
+        if (p == null)
+            return false;
+
+        if (p.items != null)
+            return itemsIncludesType(p.items, condition);
+
+        return condition.test(p);
     }
 
     static class ParameterSorter implements Comparator<CodegenParameter> {

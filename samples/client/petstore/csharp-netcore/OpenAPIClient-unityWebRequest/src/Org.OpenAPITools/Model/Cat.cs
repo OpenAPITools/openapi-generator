@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = "Cat", string color = "red") : base(className, color)
+        public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
         {
             this.Declawed = declawed;
         }

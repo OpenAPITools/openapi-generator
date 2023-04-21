@@ -32,8 +32,20 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     @validator('{{{name}}}')
     def {{{name}}}_validate_regular_expression(cls, v):
+        {{^required}}
+        if v is None:
+            return v
+
+        {{/required}}
+        {{#required}}
+        {{#isNullable}}
+        if v is None:
+            return v
+
+        {{/isNullable}}
+        {{/required}}
         if not re.match(r"{{{.}}}", v{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
-            raise ValueError(r"must validate the regular expression {{{pattern}}}")
+            raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
         return v
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
@@ -43,6 +55,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{^required}}
         if v is None:
             return v
+
+        {{/required}}
+        {{#required}}
+        {{#isNullable}}
+        if v is None:
+            return v
+
+        {{/isNullable}}
         {{/required}}
         {{#isArray}}
         for i in v:
@@ -162,7 +182,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#allVars}}
         {{#isNullable}}
         # set to None if {{{name}}} (nullable) is None
-        if self.{{name}} is None:
+        # and __fields_set__ contains the field
+        if self.{{name}} is None and "{{{name}}}" in self.__fields_set__:
             _dict['{{{baseName}}}'] = None
 
         {{/isNullable}}
@@ -220,7 +241,42 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#isMap}}
             {{^items.isPrimitiveType}}
             {{^items.isEnumOrRef}}
-            "{{{name}}}": dict((_k, {{{dataType}}}.from_dict(_v)) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
+            {{#items.isContainer}}
+            {{#items.isMap}}
+            "{{{name}}}": dict(
+                (_k, dict(
+                    (_ik, {{{items.items.dataType}}}.from_dict(_iv))
+                        for _ik, _iv in _v.items()
+                    )
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj.get("{{{baseName}}}").items()
+            )
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
+            {{/items.isMap}}
+            {{#items.isArray}}
+            "{{{name}}}": dict(
+                (_k, [(_ik, {{{items.items.dataType}}}.from_dict(_iv))]
+                    for _ik, _iv in _v.items()
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj.get("{{{baseName}}}").items()
+            )
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
+            {{/items.isArray}}
+            {{/items.isContainer}}
+            {{^items.isContainer}}
+            "{{{name}}}": dict(
+                (_k, {{{items.dataType}}}.from_dict(_v))
+                for _k, _v in obj.get("{{{baseName}}}").items()
+            )
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
+            {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
             "{{{name}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}

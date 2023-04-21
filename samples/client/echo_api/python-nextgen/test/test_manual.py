@@ -14,6 +14,7 @@ from __future__ import absolute_import
 
 import unittest
 import datetime
+import base64
 
 import openapi_client
 from openapi_client.api.query_api import QueryApi # noqa: E501
@@ -30,6 +31,7 @@ class TestManual(unittest.TestCase):
 
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
+        datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format
         api_instance.api_client.configuration.datetime_format = "%Y-%m-%d %a %H:%M:%S%Z"
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
         date_query = '2013-10-20' # date |  (optional)
@@ -39,6 +41,9 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20%20Sun%2019%3A20%3A30UTC-05%3A00&date_query=2013-10-20&string_query=string_query_example")
+
+        # restore datetime format
+        api_instance.api_client.configuration.datetime_format = datetime_format_backup
 
     def testDateTimeQueryWithDateTime(self):
         api_instance = openapi_client.QueryApi()
@@ -51,16 +56,23 @@ class TestManual(unittest.TestCase):
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30.000000-0500&date_query=2013-10-20&string_query=string_query_example")
 
-    def testDateTimeQueryWithString(self):
-        api_instance = openapi_client.QueryApi()
-        datetime_query = '19:20:30 2013-10-20' # datetime |  (optional)
-        date_query = '2013-10-20' # date |  (optional)
-        string_query = 'string_query_example' # str |  (optional)
-    
-        # Test query parameter(s)
-        api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
-        e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=19%3A20%3A30%202013-10-20&date_query=2013-10-20&string_query=string_query_example")
+    def testBinaryGif(self):
+        api_instance = openapi_client.BodyApi()
+
+        # Test binary response
+        api_response = api_instance.test_binary_gif()
+        self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==")
+
+    def testNumberPropertiesOnly(self):
+        n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
+        self.assertEqual(n.number, 123)
+        self.assertEqual(n.float, 456)
+        self.assertEqual(n.double, 34)
+
+        n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123.1, "float": 456.2, "double": 34.3}')
+        self.assertEqual(n.number, 123.1)
+        self.assertEqual(n.float, 456.2)
+        self.assertEqual(n.double, 34.3)
 
 class EchoServerResponseParser():
     def __init__(self, http_response):

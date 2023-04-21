@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
-                return "&gt;&#x3D;";
+                return ">=";
 
             if (value == JustSymbolEnum.Dollar)
                 return "$";
@@ -174,12 +174,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

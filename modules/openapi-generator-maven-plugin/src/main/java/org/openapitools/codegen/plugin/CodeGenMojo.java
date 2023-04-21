@@ -41,6 +41,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
@@ -98,6 +99,9 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
+
+    @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
+    private boolean cleanupOutput;
 
     /**
      * Location of the OpenAPI spec, as URL or file.
@@ -494,6 +498,16 @@ public class CodeGenMojo extends AbstractMojo {
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
+
+        if (cleanupOutput) {
+            try {
+                FileUtils.deleteDirectory(output);
+                LOGGER.info("Previous run output is removed from {}", output);
+            } catch (IOException e) {
+                LOGGER.warn("Failed to clean-up output directory {}", output, e);
+            }
+        }
+
         addCompileSourceRootIfConfigured();
 
         try {

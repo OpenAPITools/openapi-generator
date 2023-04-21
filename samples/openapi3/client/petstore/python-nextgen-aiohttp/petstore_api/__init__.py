@@ -14,8 +14,6 @@
 """
 
 
-from __future__ import absolute_import
-
 __version__ = "1.0.0"
 
 # import apis into sdk package
@@ -36,6 +34,8 @@ from petstore_api.exceptions import ApiValueError
 from petstore_api.exceptions import ApiKeyError
 from petstore_api.exceptions import ApiAttributeError
 from petstore_api.exceptions import ApiException
+from petstore_api.signing import HttpSigningConfiguration
+
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
@@ -51,6 +51,7 @@ from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.cat_all_of import CatAllOf
 from petstore_api.models.category import Category
+from petstore_api.models.circular_reference_model import CircularReferenceModel
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
 from petstore_api.models.color import Color
@@ -64,11 +65,13 @@ from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_api.models.first_ref import FirstRef
 from petstore_api.models.foo import Foo
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
@@ -85,9 +88,12 @@ from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_api.models.parent import Parent
+from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.second_ref import SecondRef
 from petstore_api.models.self_reference_model import SelfReferenceModel
 from petstore_api.models.single_ref_type import SingleRefType
 from petstore_api.models.special_character_enum import SpecialCharacterEnum

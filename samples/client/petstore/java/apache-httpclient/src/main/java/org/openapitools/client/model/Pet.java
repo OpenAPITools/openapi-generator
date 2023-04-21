@@ -276,7 +276,6 @@ public class Pet {
     this.status = status;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

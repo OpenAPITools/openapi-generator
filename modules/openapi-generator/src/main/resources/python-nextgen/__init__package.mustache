@@ -4,8 +4,6 @@
 
 {{>partial_header}}
 
-from __future__ import absolute_import
-
 __version__ = "{{packageVersion}}"
 
 # import apis into sdk package
@@ -20,6 +18,10 @@ from {{packageName}}.exceptions import ApiValueError
 from {{packageName}}.exceptions import ApiKeyError
 from {{packageName}}.exceptions import ApiAttributeError
 from {{packageName}}.exceptions import ApiException
+{{#hasHttpSignatureMethods}}
+from {{packageName}}.signing import HttpSigningConfiguration
+{{/hasHttpSignatureMethods}}
+
 # import models into sdk package
 {{#models}}
 {{#model}}

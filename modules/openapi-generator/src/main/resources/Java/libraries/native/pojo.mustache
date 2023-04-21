@@ -267,6 +267,23 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   {{/vars}}
 {{>libraries/native/additional_properties}}
+  {{#parent}}
+  {{#allVars}}
+  {{#isOverridden}}
+  @Override
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{setter}}(JsonNullable.<{{{datatypeWithEnum}}}>of({{name}}));
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{setter}}({{name}});
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    return this;
+  }
+
+  {{/isOverridden}}
+  {{/allVars}}
+  {{/parent}}
   /**
    * Return true if this {{name}} object is equal to o.
    */
@@ -380,7 +397,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
             URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -403,7 +420,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
@@ -427,7 +444,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),

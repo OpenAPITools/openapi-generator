@@ -256,7 +256,7 @@ public class ApiClient {
       {{#jsonb}}
       defaultWebClientBuilder.addMediaSupport(jsonbConfig == null
                 ? JsonbSupport.create()
-                : JsonbSupport.create(jsonbConfig));
+                : JsonbSupport.create(JsonbBuilder.create(jsonbConfig)));
       {{/jsonb}}
       {{#jackson}}
       defaultWebClientBuilder.addMediaSupport(objectMapper == null

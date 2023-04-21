@@ -326,6 +326,22 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: text/plain
+  /binary/gif:
+    post:
+      description: Test binary (gif) response body
+      operationId: test/binary/gif
+      responses:
+        "200":
+          content:
+            image/gif:
+              schema:
+                format: binary
+                type: string
+          description: Successful operation
+      summary: Test binary (gif) response body
+      tags:
+      - body
+      x-accepts: image/gif
 components:
   requestBodies:
     Pet:
@@ -505,6 +521,19 @@ components:
       allOf:
       - $ref: '#/components/schemas/DataQuery_allOf'
       - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      properties:
+        number:
+          type: number
+        float:
+          format: float
+          type: number
+        double:
+          format: double
+          maximum: 50.2
+          minimum: 0.8
+          type: number
+      type: object
     test_form_integer_boolean_string_request:
       properties:
         integer_form:

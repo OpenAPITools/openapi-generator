@@ -57,10 +57,10 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         return json;
     }
     if (!ignoreDiscriminator) {
-        if (json['className'] === 'Cat') {
+        if (json['className'] === 'CAT') {
             return CatFromJSONTyped(json, true);
         }
-        if (json['className'] === 'Dog') {
+        if (json['className'] === 'DOG') {
             return DogFromJSONTyped(json, true);
         }
     }

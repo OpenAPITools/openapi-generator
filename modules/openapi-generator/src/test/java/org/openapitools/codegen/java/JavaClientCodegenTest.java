@@ -903,7 +903,7 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/4803
-     *
+     * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
      * how we can fix it accordingly.
@@ -951,7 +951,7 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/4803
-     *
+     * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
      * how we can fix it accordingly.
@@ -1007,23 +1007,23 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("java")
-            .setLibrary(JavaClientCodegen.WEBCLIENT)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("StoreApi.java"))
-            .assertMethod("getInventory").hasReturnType("Mono<Map<String, Integer>>") //explicit 'x-webclient-blocking: false' which overrides global config
-            .toFileAssert()
-            .assertMethod("placeOrder").hasReturnType("Order"); // use global config
+                .assertMethod("getInventory").hasReturnType("Mono<Map<String, Integer>>") //explicit 'x-webclient-blocking: false' which overrides global config
+                .toFileAssert()
+                .assertMethod("placeOrder").hasReturnType("Order"); // use global config
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-            .assertMethod("findPetsByStatus").hasReturnType("List<Pet>"); // explicit 'x-webclient-blocking: true' which overrides global config
+                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>"); // explicit 'x-webclient-blocking: true' which overrides global config
     }
 
     @Test
@@ -1057,7 +1057,7 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
-     *
+     * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
      * how we can fix it accordingly.
@@ -1151,7 +1151,7 @@ public class JavaClientCodegenTest {
                 .orElseThrow(() -> new IllegalStateException(String.format(Locale.ROOT, "Operation with id [%s] does not exist", operationId)));
     }
 
-    private Optional<CodegenOperation> getByCriteria(List<CodegenOperation> codegenOperations, Predicate<CodegenOperation> filter){
+    private Optional<CodegenOperation> getByCriteria(List<CodegenOperation> codegenOperations, Predicate<CodegenOperation> filter) {
         return codegenOperations.stream()
                 .filter(filter)
                 .findFirst();
@@ -1190,7 +1190,7 @@ public class JavaClientCodegenTest {
 
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
-     *
+     * <p>
      * UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
      * We will contact the contributor of the following test to see if the fix will break their use cases and
      * how we can fix it accordingly.
@@ -1554,24 +1554,24 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setAdditionalProperties(properties)
-            .setGeneratorName("java")
-            .setLibrary(JavaClientCodegen.MICROPROFILE)
-            .setInputSpec("src/test/resources/bugs/issue_12622.json")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/bugs/issue_12622.json")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Foo.java"))
-            .assertConstructor("String", "Integer")
-            .hasParameter("b")
+                .assertConstructor("String", "Integer")
+                .hasParameter("b")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"b\"", "nillable", "true"))
-            .toParameter().toConstructor()
-            .hasParameter("c")
+                .toParameter().toConstructor()
+                .hasParameter("c")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"c\""));
     }
@@ -1585,24 +1585,24 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setAdditionalProperties(properties)
-            .setGeneratorName("java")
-            .setLibrary(JavaClientCodegen.WEBCLIENT)
-            .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
-            .printFileContent()
-            .assertConstructor("String", "String")
-            .bodyContainsLines(
-                "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableProperty);",
-                "this.notNullableProperty = notNullableProperty;"
-            );
+                .printFileContent()
+                .assertConstructor("String", "String")
+                .bodyContainsLines(
+                        "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableProperty);",
+                        "this.notNullableProperty = notNullableProperty;"
+                );
     }
 
     @Test
@@ -1631,9 +1631,9 @@ public class JavaClientCodegenTest {
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/ResourceApi.java");
         TestUtils.assertFileContains(defaultApi,
-                                     "org.springframework.core.io.Resource resourceInResponse()",
-                                     "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
-                                     "ParameterizedTypeReference<org.springframework.core.io.Resource> localReturnType = new ParameterizedTypeReference<org.springframework.core.io.Resource>()"
+                "org.springframework.core.io.Resource resourceInResponse()",
+                "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
+                "ParameterizedTypeReference<org.springframework.core.io.Resource> localReturnType = new ParameterizedTypeReference<org.springframework.core.io.Resource>()"
         );
     }
 
@@ -1689,13 +1689,13 @@ public class JavaClientCodegenTest {
 
         JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                 .assertMethod("operationWithHttpInfo")
-                    .hasParameter("requestBody")
-                    .assertParameterAnnotations()
-                    .containsWithName("NotNull")
+                .hasParameter("requestBody")
+                .assertParameterAnnotations()
+                .containsWithName("NotNull")
                 .toParameter().toMethod()
-                    .hasParameter("xNonNullHeaderParameter")
-                    .assertParameterAnnotations()
-                    .containsWithName("NotNull");
+                .hasParameter("xNonNullHeaderParameter")
+                .assertParameterAnnotations()
+                .containsWithName("NotNull");
     }
 
     @Test
@@ -1707,18 +1707,18 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("java")
-            .setLibrary(JavaClientCodegen.NATIVE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput).generate();
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
-            "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()));"
+                "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()));"
         );
     }
 
@@ -1746,7 +1746,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 30);
+        Assert.assertEquals(files.size(), 33);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Child.java"),
@@ -1763,7 +1763,7 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
 
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -1801,7 +1801,7 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
 
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -1833,5 +1833,153 @@ public class JavaClientCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
+    }
+
+    @Test
+    public void testForJavaNativeJsonSubtype() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_14917.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setLibrary(JavaClientCodegen.NATIVE);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "mappings.put(\"Cat\", Cat.class)");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "@JsonSubTypes");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "mappings.put(\"cat\", Cat.class);");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "mappings.put(\"dog\", Dog.class);");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "mappings.put(\"lizard\", Lizard.class);");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "mappings.put(\"cat\", Cat.class)");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "mappings.put(\"dog\", Dog.class)");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "mappings.put(\"lizard\", Lizard.class)");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "mappings.put(\"Pet\", Pet.class)");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"Cat\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"Dog\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"Lizard\")");
+    }
+
+    @Test
+    public void testForJavaApacheHttpClientJsonSubtype() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_14917.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"petType\", visible = true)");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "mappings.put");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")");
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"petType\", visible = true)");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"Cat\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"Dog\")");
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"Lizard\")");
+    }
+
+    @Test
+    public void testIsOverriddenProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("Cat");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm1 = codegen.fromModel("Cat", test1);
+
+        CodegenProperty cp0 = cm1.getAllVars().get(0);
+        Assert.assertEquals(cp0.getName(), "petType");
+        Assert.assertEquals(cp0.isOverridden, true);
+
+        CodegenProperty cp1 = cm1.getAllVars().get(1);
+        Assert.assertEquals(cp1.getName(), "name");
+        Assert.assertEquals(cp1.isOverridden, false);
+    }
+
+    @Test
+    public void testForJavaApacheHttpClientOverrideSetter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/allOf_composition_discriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setLibrary(JavaClientCodegen.APACHE);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "  @Override\n" +
+                "  public Cat petType(String petType) {");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "  }\n" +
+                "\n" +
+                "  public Pet petType(String petType) {\n");
+
+    }
+
+    @Test
+    public void testForJavaNativeClientOverrideSetter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/allOf_composition_discriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setLibrary(JavaClientCodegen.NATIVE);
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"), "  @Override\n" +
+                "  public Cat petType(String petType) {");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "  }\n" +
+                "\n" +
+                "  public Pet petType(String petType) {\n");
+
     }
 }

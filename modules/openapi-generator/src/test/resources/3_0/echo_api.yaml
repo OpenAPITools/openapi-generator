@@ -330,6 +330,21 @@ paths:
             text/plain:
               schema:
                 type: string
+  /binary/gif:
+    post:
+      tags:
+        - body
+      summary: Test binary (gif) response body
+      description: Test binary (gif) response body
+      operationId: test/binary/gif
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            image/gif:
+              schema:
+                type: string
+                format: binary
 
 components:
   requestBodies:
@@ -501,3 +516,16 @@ components:
             format: date-time
             description: A date
       - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      type: object
+      properties:
+        number:
+          type: number
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double
+          minimum: 0.8
+          maximum: 50.2
