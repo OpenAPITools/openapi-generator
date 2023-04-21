@@ -1255,6 +1255,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         List<VendorExtension> extensions = super.getSupportedVendorExtensions();
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
         extensions.add(VendorExtension.X_VERSION_PARAM);
+        extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         return extensions;
     }
 
