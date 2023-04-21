@@ -148,13 +148,13 @@ servers:
 - url: https://localhost:8080/v1
 ```
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
 {{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
 {{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-<a name="{{name}}"></a>
+<a id="{{name}}"></a>
 ### {{name}}
 
 {{#isApiKey}}
