@@ -88,7 +88,7 @@ Class | Method | HTTP request | Description
  - [PizzaSpeziale](doc/PizzaSpeziale.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
 Endpoints do not require authorization.
