@@ -92,10 +92,13 @@ Class | Method | HTTP request | Description
  - [User](doc//User.md)
 
 
+<a name="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
 
-## petstore_auth
+Authentication schemes defined for the API:
+<a name="petstore_auth"></a>
+### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -104,7 +107,8 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
-## api_key
+<a name="api_key"></a>
+### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
