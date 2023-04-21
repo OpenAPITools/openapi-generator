@@ -151,14 +151,13 @@ namespace YourProject
 - [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later
 - [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-Authentication schemes defined for the API:
 
+Authentication schemes defined for the API:
 <a name="petstore_auth"></a>
 ### petstore_auth
-
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -184,12 +183,10 @@ Authentication schemes defined for the API:
 <a name="http_basic_test"></a>
 ### http_basic_test
 
-
 - **Type**: HTTP basic authentication
 
 <a name="bearer_test"></a>
 ### bearer_test
-
 
 - **Type**: Bearer Authentication
 

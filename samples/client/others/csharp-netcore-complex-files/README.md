@@ -116,7 +116,8 @@ Class | Method | HTTP request | Description
  - [Model.MultipartSingleRequest](docs/MultipartSingleRequest.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
+Endpoints do not require authorization.
+

@@ -109,10 +109,11 @@ namespace YourProject
 - [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later
 - [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
+Endpoints do not require authorization.
+
 
 ## Build
 - SDK version: 1.0.0

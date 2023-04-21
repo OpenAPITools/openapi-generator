@@ -236,9 +236,11 @@ Class | Method | HTTP request | Description
  - [Model.Zebra](docs/Zebra.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
+Authentication schemes defined for the API:
 <a name="petstore_auth"></a>
 ### petstore_auth
 

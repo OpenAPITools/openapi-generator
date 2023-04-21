@@ -139,9 +139,11 @@ Class | Method | HTTP request | Description
  - [Model.User](docs/User.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
+Authentication schemes defined for the API:
 <a name="petstore_auth"></a>
 ### petstore_auth
 
