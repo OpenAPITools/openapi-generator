@@ -99,7 +99,12 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	QueryParams.Add(FString(TEXT("{{baseName}}=")) + ToUrlString({{paramName}}));
 	{{/collectionFormat}}
 	{{#collectionFormat}}
+	{{#isCollectionFormatMulti}}
+	QueryParams.Add(CollectionToUrlString_{{collectionFormat}}({{paramName}}, TEXT("{{baseName}}")));
+	{{/isCollectionFormatMulti}}
+	{{^isCollectionFormatMulti}}
 	QueryParams.Add(FString(TEXT("{{baseName}}=")) + CollectionToUrlString_{{collectionFormat}}({{paramName}}, TEXT("{{baseName}}")));
+	{{/isCollectionFormatMulti}}
 	{{/collectionFormat}}
 	{{/required}}
 	{{^required}}
@@ -112,7 +117,12 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	{{#collectionFormat}}
 	if({{paramName}}.IsSet())
 	{
+		{{#isCollectionFormatMulti}}
+		QueryParams.Add(CollectionToUrlString_{{collectionFormat}}({{paramName}}.GetValue(), TEXT("{{baseName}}")));
+		{{/isCollectionFormatMulti}}
+		{{^isCollectionFormatMulti}}
 		QueryParams.Add(FString(TEXT("{{baseName}}=")) + CollectionToUrlString_{{collectionFormat}}({{paramName}}.GetValue(), TEXT("{{baseName}}")));
+		{{/isCollectionFormatMulti}}
 	}
 	{{/collectionFormat}}
 	{{/required}}
