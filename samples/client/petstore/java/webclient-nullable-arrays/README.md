@@ -120,7 +120,7 @@ Class | Method | HTTP request | Description
  - [ByteArrayObject](docs/ByteArrayObject.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
 Endpoints do not require authorization.

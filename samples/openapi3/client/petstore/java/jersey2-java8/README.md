@@ -259,12 +259,12 @@ Class | Method | HTTP request | Description
  - [Zebra](docs/Zebra.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
 
 Authentication schemes defined for the API:
-<a name="petstore_auth"></a>
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 
@@ -275,7 +275,7 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
-<a name="api_key"></a>
+<a id="api_key"></a>
 ### api_key
 
 
@@ -283,7 +283,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-<a name="api_key_query"></a>
+<a id="api_key_query"></a>
 ### api_key_query
 
 
@@ -291,19 +291,19 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-<a name="http_basic_test"></a>
+<a id="http_basic_test"></a>
 ### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
-<a name="bearer_test"></a>
+<a id="bearer_test"></a>
 ### bearer_test
 
 
 - **Type**: HTTP basic authentication
 
-<a name="http_signature_test"></a>
+<a id="http_signature_test"></a>
 ### http_signature_test
 
 
