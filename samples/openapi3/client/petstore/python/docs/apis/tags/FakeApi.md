@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # petstore_api.apis.tags.fake_api.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -40,7 +40,7 @@ Method | HTTP request | Description
 [**upload_files**](#upload_files) | **post** /fake/uploadFiles | uploads files using multipart/form-data
 
 # **additional_properties_with_array_of_enums**
-<a name="additional_properties_with_array_of_enums"></a>
+<a id="additional_properties_with_array_of_enums"></a>
 > AdditionalPropertiesWithArrayOfEnums additional_properties_with_array_of_enums()
 
 Additional Properties with Array of Enums
@@ -124,7 +124,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **array_model**
-<a name="array_model"></a>
+<a id="array_model"></a>
 > AnimalFarm array_model()
 
 
@@ -207,7 +207,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **array_of_enums**
-<a name="array_of_enums"></a>
+<a id="array_of_enums"></a>
 > ArrayOfEnums array_of_enums()
 
 Array of Enums
@@ -289,7 +289,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **body_with_file_schema**
-<a name="body_with_file_schema"></a>
+<a id="body_with_file_schema"></a>
 > body_with_file_schema(file_schema_test_class)
 
 
@@ -369,7 +369,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **body_with_query_params**
-<a name="body_with_query_params"></a>
+<a id="body_with_query_params"></a>
 > body_with_query_params(queryuser)
 
 
@@ -474,7 +474,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **boolean**
-<a name="boolean"></a>
+<a id="boolean"></a>
 > bool boolean()
 
 
@@ -556,7 +556,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **case_sensitive_params**
-<a name="case_sensitive_params"></a>
+<a id="case_sensitive_params"></a>
 > case_sensitive_params(some_varsome_var2some_var3)
 
 
@@ -654,7 +654,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **client_model**
-<a name="client_model"></a>
+<a id="client_model"></a>
 > Client client_model(client)
 
 To test \"client\" model
@@ -738,7 +738,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **composed_one_of_different_types**
-<a name="composed_one_of_different_types"></a>
+<a id="composed_one_of_different_types"></a>
 > ComposedOneOfDifferentTypes composed_one_of_different_types()
 
 
@@ -819,7 +819,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **delete_coffee**
-<a name="delete_coffee"></a>
+<a id="delete_coffee"></a>
 > delete_coffee(id)
 
 Delete coffee
@@ -930,7 +930,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **endpoint_parameters**
-<a name="endpoint_parameters"></a>
+<a id="endpoint_parameters"></a>
 > endpoint_parameters()
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1057,7 +1057,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **enum_parameters**
-<a name="enum_parameters"></a>
+<a id="enum_parameters"></a>
 > enum_parameters()
 
 To test enum parameters
@@ -1262,7 +1262,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **fake_health_get**
-<a name="fake_health_get"></a>
+<a id="fake_health_get"></a>
 > HealthCheckResult fake_health_get()
 
 Health check endpoint
@@ -1323,7 +1323,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **group_parameters**
-<a name="group_parameters"></a>
+<a id="group_parameters"></a>
 > group_parameters(required_string_grouprequired_boolean_grouprequired_int64_group)
 
 Fake endpoint to test group parameters (optional)
@@ -1486,7 +1486,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **inline_additional_properties**
-<a name="inline_additional_properties"></a>
+<a id="inline_additional_properties"></a>
 > inline_additional_properties(request_body)
 
 test inline additionalProperties
@@ -1565,7 +1565,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **inline_composition**
-<a name="inline_composition"></a>
+<a id="inline_composition"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type inline_composition()
 
 testing composed schemas at inline locations
@@ -1808,7 +1808,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **json_form_data**
-<a name="json_form_data"></a>
+<a id="json_form_data"></a>
 > json_form_data()
 
 test json serialization of form data
@@ -1890,7 +1890,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **json_patch**
-<a name="json_patch"></a>
+<a id="json_patch"></a>
 > json_patch()
 
 json patch
@@ -1966,7 +1966,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **json_with_charset**
-<a name="json_with_charset"></a>
+<a id="json_with_charset"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type json_with_charset()
 
 json with charset tx and rx
@@ -2047,7 +2047,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **mammal**
-<a name="mammal"></a>
+<a id="mammal"></a>
 > Mammal mammal(mammal)
 
 
@@ -2132,7 +2132,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **number_with_validations**
-<a name="number_with_validations"></a>
+<a id="number_with_validations"></a>
 > NumberWithValidations number_with_validations()
 
 
@@ -2213,7 +2213,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **object_in_query**
-<a name="object_in_query"></a>
+<a id="object_in_query"></a>
 > object_in_query()
 
 user list
@@ -2300,7 +2300,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **object_model_with_ref_props**
-<a name="object_model_with_ref_props"></a>
+<a id="object_model_with_ref_props"></a>
 > ObjectModelWithRefProps object_model_with_ref_props()
 
 
@@ -2385,7 +2385,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **parameter_collisions**
-<a name="parameter_collisions"></a>
+<a id="parameter_collisions"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type parameter_collisions(_3a_b5ab2_self3a_b6)
 
 parameter collision case
@@ -2704,7 +2704,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **query_param_with_json_content_type**
-<a name="query_param_with_json_content_type"></a>
+<a id="query_param_with_json_content_type"></a>
 > bool, date, datetime, dict, float, int, list, str, none_type query_param_with_json_content_type(some_param)
 
 query param with json content-type
@@ -2785,7 +2785,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **query_parameter_collection_format**
-<a name="query_parameter_collection_format"></a>
+<a id="query_parameter_collection_format"></a>
 > query_parameter_collection_format(pipeioutilhttpurlcontextref_param)
 
 
@@ -2945,7 +2945,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **ref_object_in_query**
-<a name="ref_object_in_query"></a>
+<a id="ref_object_in_query"></a>
 > ref_object_in_query()
 
 user list
@@ -3026,7 +3026,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **response_without_schema**
-<a name="response_without_schema"></a>
+<a id="response_without_schema"></a>
 > response_without_schema()
 
 receives a response without schema
@@ -3079,7 +3079,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **string**
-<a name="string"></a>
+<a id="string"></a>
 > str string()
 
 
@@ -3161,7 +3161,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **string_enum**
-<a name="string_enum"></a>
+<a id="string_enum"></a>
 > StringEnum string_enum()
 
 
@@ -3242,7 +3242,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **upload_download_file**
-<a name="upload_download_file"></a>
+<a id="upload_download_file"></a>
 > file_type upload_download_file(body)
 
 uploads a file and downloads a file using application/octet-stream
@@ -3327,7 +3327,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **upload_file**
-<a name="upload_file"></a>
+<a id="upload_file"></a>
 > ApiResponse upload_file()
 
 uploads a file using multipart/form-data
@@ -3418,7 +3418,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **upload_files**
-<a name="upload_files"></a>
+<a id="upload_files"></a>
 > ApiResponse upload_files()
 
 uploads files using multipart/form-data

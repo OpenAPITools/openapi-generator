@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # petstore_api.apis.tags.user_api.UserApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**update_user**](#update_user) | **put** /user/{username} | Updated user
 
 # **create_user**
-<a name="create_user"></a>
+<a id="create_user"></a>
 > create_user(user)
 
 Create user
@@ -103,7 +103,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **create_users_with_array_input**
-<a name="create_users_with_array_input"></a>
+<a id="create_users_with_array_input"></a>
 > create_users_with_array_input(user)
 
 Creates list of users with given input array
@@ -197,7 +197,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **create_users_with_list_input**
-<a name="create_users_with_list_input"></a>
+<a id="create_users_with_list_input"></a>
 > create_users_with_list_input(user)
 
 Creates list of users with given input array
@@ -291,7 +291,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **delete_user**
-<a name="delete_user"></a>
+<a id="delete_user"></a>
 > delete_user(username)
 
 Delete user
@@ -379,7 +379,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_user_by_name**
-<a name="get_user_by_name"></a>
+<a id="get_user_by_name"></a>
 > User get_user_by_name(username)
 
 Get user by user name
@@ -488,7 +488,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **login_user**
-<a name="login_user"></a>
+<a id="login_user"></a>
 > str login_user(usernamepassword)
 
 Logs user into the system
@@ -625,7 +625,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **logout_user**
-<a name="logout_user"></a>
+<a id="logout_user"></a>
 > logout_user()
 
 Logs out current logged in user session
@@ -678,7 +678,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **update_user**
-<a name="update_user"></a>
+<a id="update_user"></a>
 > update_user(usernameuser)
 
 Updated user

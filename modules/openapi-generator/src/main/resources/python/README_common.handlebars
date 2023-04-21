@@ -57,7 +57,7 @@ Class | Method | HTTP request | Description
 {{/unless}}
 {{#if hasAuthMethods}}Authentication schemes defined for the API:{{/if}}
 {{#each authMethods}}
-<a name="{{name}}"></a>
+<a id="{{name}}"></a>
 ### {{{name}}}
 
 {{#if isApiKey}}
