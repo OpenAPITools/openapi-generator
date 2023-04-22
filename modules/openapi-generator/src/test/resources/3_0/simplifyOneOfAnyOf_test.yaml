@@ -75,7 +75,7 @@ components:
         - three
       type: string
     Number2:
-       enum:
-         - one
-         - two
+      enum:
+        - one
+        - two
       type: string
