@@ -1,8 +1,5 @@
 #![allow(unused_qualifications)]
 
-use regex::Regex;
-use validator::Validate;
-
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
@@ -246,7 +243,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
@@ -262,7 +259,7 @@ pub struct {{{classname}}} {
 {{/x-item-xml-name}}
 {{/vendorExtensions}}
 {{#hasValidation}}
-    #[validate(
+    #[garde(
         {{#maxLength}}
             {{#minLength}}
             length(min = {{minLength}}, max = {{maxLength}}),
@@ -271,7 +268,7 @@ pub struct {{{classname}}} {
             length(max = {{maxLength}}),
             {{/minLength}}
             {{#pattern}}
-            regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
+            pattern(r"{{ pattern }}"),
             {{/pattern}}
         {{/maxLength}}
         {{#maximum}}
@@ -289,6 +286,9 @@ pub struct {{{classname}}} {
         {{/minimum}}
         )]
 {{/hasValidation}}
+{{^hasValidation}}
+    #[garde(skip)]
+{{/hasValidation}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
 {{/required}}
@@ -303,16 +303,6 @@ pub struct {{{classname}}} {
 
 {{/vars}}
 }
-
-{{#vars}}
-{{#hasValidation}}
-{{#pattern}}
-lazy_static::lazy_static! {
-    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: Regex = Regex::new(r"{{ pattern }}").unwrap();
-}
-{{/pattern}}
-{{/hasValidation}}
-{{/vars}}
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default)]
