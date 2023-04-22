@@ -413,3 +413,9 @@ class ModelTests(unittest.TestCase):
         d = {"optionalDict": {"a": {"b": {"aProperty": "value"}}}}
         a = petstore_api.Parent.from_dict(d)
         self.assertEqual(a.to_dict(), d)
+
+    def test_eum_class(self):
+        a = petstore_api.EnumClass("-efg")
+        self.assertEqual(a.value, "-efg")
+        self.assertEqual(a.name, "MINUS_EFG")
+        self.assertEqual(a, "-efg")
