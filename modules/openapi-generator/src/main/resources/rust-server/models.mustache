@@ -19,7 +19,7 @@ use crate::header;
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]{{#xmlName}}
 #[serde(rename = "{{{.}}}")]{{/xmlName}}
 pub enum {{{classname}}} {
@@ -246,7 +246,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
@@ -274,6 +274,19 @@ pub struct {{{classname}}} {
             regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
             {{/pattern}}
         {{/maxLength}}
+        {{#maximum}}
+            {{#minimum}}
+            range(min = {{minimum}}, max = {{maximum}}),
+            {{/minimum}}
+            {{^minimum}}
+            range(max = {{maximum}}),
+            {{/minimum}}
+        {{/maximum}}
+        {{#minimum}}
+            {{^maximum}}
+            range(min = {{minimum}}),
+            {{/maximum}}
+        {{/minimum}}
         )]
 {{/hasValidation}}
 {{#required}}
@@ -294,7 +307,9 @@ pub struct {{{classname}}} {
 {{#vars}}
 {{#hasValidation}}
 {{#pattern}}
-static RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: Regex = Regex::new(r"{{ pattern }}").unwrap();
+lazy_static::lazy_static! {
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: Regex = Regex::new(r"{{ pattern }}").unwrap();
+}
 {{/pattern}}
 {{/hasValidation}}
 {{/vars}}
