@@ -53,22 +53,27 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
+  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
+  
   @SerializedName(SERIALIZED_NAME_CATEGORY)
   private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
+  
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
+  
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
+  
   @SerializedName(SERIALIZED_NAME_TAGS)
   private List<Tag> tags;
 
@@ -122,6 +127,7 @@ public class Pet {
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
+  
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 

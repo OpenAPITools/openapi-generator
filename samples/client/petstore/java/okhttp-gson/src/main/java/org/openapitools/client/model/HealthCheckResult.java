@@ -50,6 +50,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HealthCheckResult {
   public static final String SERIALIZED_NAME_NULLABLE_MESSAGE = "NullableMessage";
+  
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
   private String nullableMessage;
 

@@ -52,118 +52,147 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
+  
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
   private String attributeString;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_NUMBER = "attribute_number";
+  
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_NUMBER)
   private BigDecimal attributeNumber;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_INTEGER = "attribute_integer";
+  
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_INTEGER)
   private Integer attributeInteger;
 
   public static final String SERIALIZED_NAME_ATTRIBUTE_BOOLEAN = "attribute_boolean";
+  
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_BOOLEAN)
   private Boolean attributeBoolean;
 
   public static final String SERIALIZED_NAME_WRAPPED_ARRAY = "wrapped_array";
+  
   @SerializedName(SERIALIZED_NAME_WRAPPED_ARRAY)
   private List<Integer> wrappedArray;
 
   public static final String SERIALIZED_NAME_NAME_STRING = "name_string";
+  
   @SerializedName(SERIALIZED_NAME_NAME_STRING)
   private String nameString;
 
   public static final String SERIALIZED_NAME_NAME_NUMBER = "name_number";
+  
   @SerializedName(SERIALIZED_NAME_NAME_NUMBER)
   private BigDecimal nameNumber;
 
   public static final String SERIALIZED_NAME_NAME_INTEGER = "name_integer";
+  
   @SerializedName(SERIALIZED_NAME_NAME_INTEGER)
   private Integer nameInteger;
 
   public static final String SERIALIZED_NAME_NAME_BOOLEAN = "name_boolean";
+  
   @SerializedName(SERIALIZED_NAME_NAME_BOOLEAN)
   private Boolean nameBoolean;
 
   public static final String SERIALIZED_NAME_NAME_ARRAY = "name_array";
+  
   @SerializedName(SERIALIZED_NAME_NAME_ARRAY)
   private List<Integer> nameArray;
 
   public static final String SERIALIZED_NAME_NAME_WRAPPED_ARRAY = "name_wrapped_array";
+  
   @SerializedName(SERIALIZED_NAME_NAME_WRAPPED_ARRAY)
   private List<Integer> nameWrappedArray;
 
   public static final String SERIALIZED_NAME_PREFIX_STRING = "prefix_string";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_STRING)
   private String prefixString;
 
   public static final String SERIALIZED_NAME_PREFIX_NUMBER = "prefix_number";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NUMBER)
   private BigDecimal prefixNumber;
 
   public static final String SERIALIZED_NAME_PREFIX_INTEGER = "prefix_integer";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_INTEGER)
   private Integer prefixInteger;
 
   public static final String SERIALIZED_NAME_PREFIX_BOOLEAN = "prefix_boolean";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_BOOLEAN)
   private Boolean prefixBoolean;
 
   public static final String SERIALIZED_NAME_PREFIX_ARRAY = "prefix_array";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_ARRAY)
   private List<Integer> prefixArray;
 
   public static final String SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_WRAPPED_ARRAY)
   private List<Integer> prefixWrappedArray;
 
   public static final String SERIALIZED_NAME_NAMESPACE_STRING = "namespace_string";
+  
   @SerializedName(SERIALIZED_NAME_NAMESPACE_STRING)
   private String namespaceString;
 
   public static final String SERIALIZED_NAME_NAMESPACE_NUMBER = "namespace_number";
+  
   @SerializedName(SERIALIZED_NAME_NAMESPACE_NUMBER)
   private BigDecimal namespaceNumber;
 
   public static final String SERIALIZED_NAME_NAMESPACE_INTEGER = "namespace_integer";
+  
   @SerializedName(SERIALIZED_NAME_NAMESPACE_INTEGER)
   private Integer namespaceInteger;
 
   public static final String SERIALIZED_NAME_NAMESPACE_BOOLEAN = "namespace_boolean";
+  
   @SerializedName(SERIALIZED_NAME_NAMESPACE_BOOLEAN)
   private Boolean namespaceBoolean;
 
   public static final String SERIALIZED_NAME_NAMESPACE_ARRAY = "namespace_array";
+  
   @SerializedName(SERIALIZED_NAME_NAMESPACE_ARRAY)
   private List<Integer> namespaceArray;
 
   public static final String SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
+  
   @SerializedName(SERIALIZED_NAME_NAMESPACE_WRAPPED_ARRAY)
   private List<Integer> namespaceWrappedArray;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_STRING = "prefix_ns_string";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_STRING)
   private String prefixNsString;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_NUMBER = "prefix_ns_number";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_NUMBER)
   private BigDecimal prefixNsNumber;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_INTEGER = "prefix_ns_integer";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_INTEGER)
   private Integer prefixNsInteger;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_BOOLEAN)
   private Boolean prefixNsBoolean;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_ARRAY = "prefix_ns_array";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_ARRAY)
   private List<Integer> prefixNsArray;
 
   public static final String SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
+  
   @SerializedName(SERIALIZED_NAME_PREFIX_NS_WRAPPED_ARRAY)
   private List<Integer> prefixNsWrappedArray;
 

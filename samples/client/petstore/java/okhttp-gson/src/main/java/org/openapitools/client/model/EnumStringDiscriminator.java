@@ -96,6 +96,7 @@ public class EnumStringDiscriminator {
   }
 
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
+  
   @SerializedName(SERIALIZED_NAME_ENUM_STR_TYPE)
   protected EnumStrTypeEnum enumStrType;
 

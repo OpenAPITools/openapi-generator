@@ -51,6 +51,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
+  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
@@ -104,6 +105,7 @@ public class Query {
   }
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
+  
   @SerializedName(SERIALIZED_NAME_OUTCOMES)
   private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 

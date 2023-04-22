@@ -49,6 +49,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
+  
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
   protected String petType;
 

@@ -52,22 +52,27 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
+  
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
   private String stringItem = "what";
 
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
+  
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
   private BigDecimal numberItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
+  
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
   private Integer integerItem;
 
   public static final String SERIALIZED_NAME_BOOL_ITEM = "bool_item";
+  
   @SerializedName(SERIALIZED_NAME_BOOL_ITEM)
   private Boolean boolItem = true;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEM = "array_item";
+  
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<>();
 

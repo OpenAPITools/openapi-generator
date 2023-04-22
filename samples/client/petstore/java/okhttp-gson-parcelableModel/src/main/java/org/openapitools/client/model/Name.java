@@ -51,18 +51,22 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
+  
   @SerializedName(SERIALIZED_NAME_NAME)
   private Integer name;
 
   public static final String SERIALIZED_NAME_SNAKE_CASE = "snake_case";
+  
   @SerializedName(SERIALIZED_NAME_SNAKE_CASE)
   private Integer snakeCase;
 
   public static final String SERIALIZED_NAME_PROPERTY = "property";
+  
   @SerializedName(SERIALIZED_NAME_PROPERTY)
   private String property;
 
   public static final String SERIALIZED_NAME_123NUMBER = "123Number";
+  
   @SerializedName(SERIALIZED_NAME_123NUMBER)
   private Integer _123number;
 

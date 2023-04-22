@@ -54,58 +54,72 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
+  
   @SerializedName(SERIALIZED_NAME_INTEGER)
   private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
+  
   @SerializedName(SERIALIZED_NAME_INT32)
   private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
+  
   @SerializedName(SERIALIZED_NAME_INT64)
   private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
+  
   @SerializedName(SERIALIZED_NAME_NUMBER)
   private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
+  
   @SerializedName(SERIALIZED_NAME_FLOAT)
   private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
+  
   @SerializedName(SERIALIZED_NAME_DOUBLE)
   private Double _double;
 
   public static final String SERIALIZED_NAME_STRING = "string";
+  
   @SerializedName(SERIALIZED_NAME_STRING)
   private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
+  
   @SerializedName(SERIALIZED_NAME_BYTE)
   private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
+  
   @SerializedName(SERIALIZED_NAME_BINARY)
   private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
+  
   @SerializedName(SERIALIZED_NAME_DATE)
   private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
+  
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
+  
   @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
+  
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
   public static final String SERIALIZED_NAME_BIG_DECIMAL = "BigDecimal";
+  
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 

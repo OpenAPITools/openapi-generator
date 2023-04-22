@@ -50,50 +50,62 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
+  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_USERNAME = "username";
+  
   @SerializedName(SERIALIZED_NAME_USERNAME)
   private String username;
 
   public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
+  
   @SerializedName(SERIALIZED_NAME_FIRST_NAME)
   private String firstName;
 
   public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
+  
   @SerializedName(SERIALIZED_NAME_LAST_NAME)
   private String lastName;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
+  
   @SerializedName(SERIALIZED_NAME_EMAIL)
   private String email;
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
+  
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
   public static final String SERIALIZED_NAME_PHONE = "phone";
+  
   @SerializedName(SERIALIZED_NAME_PHONE)
   private String phone;
 
   public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
+  
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
   public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
+  
   @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS)
   private Object objectWithNoDeclaredProps;
 
   public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
+  
   @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
   private Object objectWithNoDeclaredPropsNullable;
 
   public static final String SERIALIZED_NAME_ANY_TYPE_PROP = "anyTypeProp";
+  
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP)
   private Object anyTypeProp = null;
 
   public static final String SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
+  
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE)
   private Object anyTypePropNullable = null;
 

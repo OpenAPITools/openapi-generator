@@ -50,6 +50,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
+  
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 

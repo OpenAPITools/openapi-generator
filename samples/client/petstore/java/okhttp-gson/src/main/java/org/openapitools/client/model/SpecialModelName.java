@@ -49,10 +49,12 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
+  
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
   public static final String SERIALIZED_NAME_SPECIAL_MODEL_NAME = "_special_model.name_";
+  
   @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
   private String specialModelName;
 

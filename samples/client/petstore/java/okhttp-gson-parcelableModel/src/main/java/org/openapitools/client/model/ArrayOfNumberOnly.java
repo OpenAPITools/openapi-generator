@@ -54,6 +54,7 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfNumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
+  
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber;
 

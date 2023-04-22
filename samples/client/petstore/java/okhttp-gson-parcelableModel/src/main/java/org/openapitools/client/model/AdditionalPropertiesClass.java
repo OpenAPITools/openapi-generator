@@ -55,46 +55,57 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
+  
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
   private Map<String, String> mapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
+  
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
+  
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
   private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_BOOLEAN = "map_boolean";
+  
   @SerializedName(SERIALIZED_NAME_MAP_BOOLEAN)
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_INTEGER = "map_array_integer";
+  
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_INTEGER)
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_ANYTYPE = "map_array_anytype";
+  
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_ANYTYPE)
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_STRING = "map_map_string";
+  
   @SerializedName(SERIALIZED_NAME_MAP_MAP_STRING)
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_ANYTYPE = "map_map_anytype";
+  
   @SerializedName(SERIALIZED_NAME_MAP_MAP_ANYTYPE)
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
+  
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
   private Object anytype1;
 
   public static final String SERIALIZED_NAME_ANYTYPE2 = "anytype_2";
+  
   @SerializedName(SERIALIZED_NAME_ANYTYPE2)
   private Object anytype2;
 
   public static final String SERIALIZED_NAME_ANYTYPE3 = "anytype_3";
+  
   @SerializedName(SERIALIZED_NAME_ANYTYPE3)
   private Object anytype3;
 

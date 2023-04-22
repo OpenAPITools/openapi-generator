@@ -98,10 +98,12 @@ public class Zebra {
   }
 
   public static final String SERIALIZED_NAME_TYPE = "type";
+  
   @SerializedName(SERIALIZED_NAME_TYPE)
   private TypeEnum type;
 
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
+  
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
   private String className;
 

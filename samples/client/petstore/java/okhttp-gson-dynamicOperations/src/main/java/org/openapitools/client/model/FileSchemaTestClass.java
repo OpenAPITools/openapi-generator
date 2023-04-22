@@ -52,10 +52,12 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
+  
   @SerializedName(SERIALIZED_NAME_FILE)
   private ModelFile _file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
+  
   @SerializedName(SERIALIZED_NAME_FILES)
   private List<ModelFile> files;
 

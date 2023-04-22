@@ -54,70 +54,87 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
+  
   @SerializedName(SERIALIZED_NAME_INTEGER)
   private Integer integer;
 
   public static final String SERIALIZED_NAME_INT32 = "int32";
+  
   @SerializedName(SERIALIZED_NAME_INT32)
   private Integer int32;
 
   public static final String SERIALIZED_NAME_INT64 = "int64";
+  
   @SerializedName(SERIALIZED_NAME_INT64)
   private Long int64;
 
   public static final String SERIALIZED_NAME_NUMBER = "number";
+  
   @SerializedName(SERIALIZED_NAME_NUMBER)
   private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
+  
   @SerializedName(SERIALIZED_NAME_FLOAT)
   private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
+  
   @SerializedName(SERIALIZED_NAME_DOUBLE)
   private Double _double;
 
   public static final String SERIALIZED_NAME_DECIMAL = "decimal";
+  
   @SerializedName(SERIALIZED_NAME_DECIMAL)
   private BigDecimal decimal;
 
   public static final String SERIALIZED_NAME_STRING = "string";
+  
   @SerializedName(SERIALIZED_NAME_STRING)
   private String string;
 
   public static final String SERIALIZED_NAME_BYTE = "byte";
+  
   @SerializedName(SERIALIZED_NAME_BYTE)
   private byte[] _byte;
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
+  
   @SerializedName(SERIALIZED_NAME_BINARY)
   private File binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
+  
   @SerializedName(SERIALIZED_NAME_DATE)
   private LocalDate date;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
+  
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_UUID = "uuid";
+  
   @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid;
 
   public static final String SERIALIZED_NAME_UUID_WITH_DEFAULT = "uuid_with_default";
+  
   @SerializedName(SERIALIZED_NAME_UUID_WITH_DEFAULT)
   private UUID uuidWithDefault = UUID.fromString("11111111-206d-4f12-9f12-3d1e525a8e84");
 
   public static final String SERIALIZED_NAME_PASSWORD = "password";
+  
   @SerializedName(SERIALIZED_NAME_PASSWORD)
   private String password;
 
   public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS)
   private String patternWithDigits;
 
   public static final String SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  
   @SerializedName(SERIALIZED_NAME_PATTERN_WITH_DIGITS_AND_DELIMITER)
   private String patternWithDigitsAndDelimiter;
 

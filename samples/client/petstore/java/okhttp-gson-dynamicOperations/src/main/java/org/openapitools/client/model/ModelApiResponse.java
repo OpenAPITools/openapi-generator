@@ -49,14 +49,17 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
+  
   @SerializedName(SERIALIZED_NAME_CODE)
   private Integer code;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
+  
   @SerializedName(SERIALIZED_NAME_TYPE)
   private String type;
 
   public static final String SERIALIZED_NAME_MESSAGE = "message";
+  
   @SerializedName(SERIALIZED_NAME_MESSAGE)
   private String message;
 
