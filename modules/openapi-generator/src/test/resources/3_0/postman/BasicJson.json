@@ -4,7 +4,7 @@
     "description" : "Sample API",
     "license" : {
       "name" : "Apache 2.0",
-      "url" : "https://github.com/gcatanese"
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0"
     },
     "title" : "Basic",
     "version" : "1.0"

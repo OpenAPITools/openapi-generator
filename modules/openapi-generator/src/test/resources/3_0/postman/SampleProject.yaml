@@ -5,7 +5,7 @@ info:
   description: 'Sample API Check "API Key" '
   license:
     name: Apache 2.0
-    url: 'https://github.com/gcatanese'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
 servers:
   - url: 'http://localhost:{port}/{version}'
     description: dev server
