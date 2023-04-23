@@ -10,6 +10,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,7 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PostmanCodegen.class);
 
     protected String apiVersion = "1.0.0";
+
     // Select whether to create folders according to the spec’s paths or tags. Values: Paths | Tags
     public static final String FOLDER_STRATEGY = "folderStrategy";
     public static final String FOLDER_STRATEGY_DEFAULT_VALUE = "Tags";
@@ -82,8 +85,14 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
      * @see     org.openapitools.codegen.CodegenType
      */
     public CodegenType getTag() {
-        return CodegenType.OTHER;
+        return CodegenType.DOCUMENTATION;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
+
 
     /**
      * Configures a friendly name for the generator.  This will be used by the generator
@@ -98,6 +107,16 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
     public PostmanCodegen() {
         super();
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
+        embeddedTemplateDir = templateDir = "postman";
+        supportingFiles.add(
+                new SupportingFile("postman.mustache", "", postmanFile)
+        );
+
+        cliOptions.clear();
         cliOptions.add(CliOption.newString(FOLDER_STRATEGY, "whether to create folders according to the spec’s paths or tags"));
         cliOptions.add(CliOption.newBoolean(PATH_PARAMS_AS_VARIABLES, "whether to create Postman variables for path parameters"));
         cliOptions.add(CliOption.newString(POSTMAN_VARIABLES, "whether to convert placeholders (i.e. {{VAR_1}}) into Postman variables"));
@@ -106,28 +125,6 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(CliOption.newString(POSTMAN_ISO_TIMESTAMP, "whether to convert placeholders (i.e. {{ISO_TIMESTAMP}}) into Postman formula {{$isoTimestamp}}"));
         cliOptions.add(CliOption.newString(POSTMAN_ISO_TIMESTAMP_PLACEHOLDER_NAME, "name of the placeholder (i.e. {{ISO_TIMESTAMP}}) to replace with Postman formula {{$isoTimestamp}}"));
         cliOptions.add(CliOption.newString(REQUEST_PARAMETER_GENERATION, "whether to generate the request parameters based on the schema or the examples"));
-
-        /**
-         * Template Location.  This is the location which templates will be read from.  The generator
-         * will use the resource stream to attempt to read the templates.
-         */
-        templateDir = "postman";
-
-        /**
-         * Api Package.  Optional, if needed, this can be used in templates
-         */
-        apiPackage = "org.openapitools.api";
-
-        /**
-         * Model Package.  Optional, if needed, this can be used in templates
-         */
-        modelPackage = "org.openapitools.model";
-
-        /**
-         * Additional Properties.  These values can be passed to the templates and
-         * are available in models, apis, and supporting files
-         */
-        additionalProperties.put("apiVersion", apiVersion);
 
     }
 
@@ -195,10 +192,6 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
         if(additionalProperties().containsKey(POSTMAN_ISO_TIMESTAMP_PLACEHOLDER_NAME)) {
             postmanIsoTimestampPlaceholderName = additionalProperties.get(POSTMAN_ISO_TIMESTAMP_PLACEHOLDER_NAME).toString();
         }
-
-        supportingFiles.add(
-                new SupportingFile("postman.mustache", "", postmanFile)
-        );
 
         super.vendorExtensions().put("variables", variables);
 
