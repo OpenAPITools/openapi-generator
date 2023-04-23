@@ -558,8 +558,8 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Format text to include in JSON file
-     * @param description
-     * @return
+     * @param description Text to format
+     * @return Formatted text
      */
     public String formatDescription(String description) {
 
@@ -571,8 +571,8 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Extract all placeholders (string delimited by curly braces ie {{PLACEHOLDER}}) from the input string
-     * @param input
-     * @return
+     * @param input String containing the placeholders
+     * @return Set of placeholders found in the string
      */
     public Set<String> extractPlaceholders(String input) {
         Set<String> variables = new HashSet<>();
