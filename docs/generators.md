@@ -50,7 +50,6 @@ The following generators are available:
 * [perl](generators/perl.md)  
 * [php](generators/php.md)  
 * [php-dt (beta)](generators/php-dt.md)  
-* [postman](generators/postman.md)
 * [powershell (beta)](generators/powershell.md)  
 * [python](generators/python.md)  
 * [python-legacy](generators/python-legacy.md)  
@@ -148,6 +147,7 @@ The following generators are available:
 * [openapi](generators/openapi.md)  
 * [openapi-yaml](generators/openapi-yaml.md)  
 * [plantuml (beta)](generators/plantuml.md)  
+* [postman (beta)](generators/postman.md)  
 
 
 ## SCHEMA generators
