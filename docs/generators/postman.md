@@ -7,9 +7,8 @@ title: Documentation for the postman Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | postman | pass this to the generate command after -g |
-| generator stability | STABLE | |
-| generator type | OTHER | |
-| generator language | Java | |
+| generator stability | BETA | |
+| generator type | DOCUMENTATION | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a postman JSON file | |
 
