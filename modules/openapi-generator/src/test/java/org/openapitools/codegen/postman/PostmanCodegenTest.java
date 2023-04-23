@@ -14,12 +14,11 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PostmanCodegen;
 
 import java.io.File;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -121,7 +120,7 @@ public class PostmanCodegenTest {
         files.forEach(File::deleteOnExit);
 
         final ObjectMapper mapper = new ObjectMapper();
-        mapper.readTree(new FileReader(output + "/postman.json"));
+        mapper.readTree(new File(output + "/postman.json"));
 
     }
 
