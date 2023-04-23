@@ -27,7 +27,7 @@ class DanishPig(BaseModel):
     DanishPig
     """
     class_name: StrictStr = Field(..., alias="className")
-    size: StrictInt = ...
+    size: StrictInt = Field(...)
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "size"]
 

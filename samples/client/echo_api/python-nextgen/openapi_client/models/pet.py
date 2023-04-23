@@ -30,7 +30,7 @@ class Pet(BaseModel):
     Pet
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = ...
+    name: StrictStr = Field(...)
     category: Optional[Category] = None
     photo_urls: conlist(StrictStr) = Field(..., alias="photoUrls")
     tags: Optional[conlist(Tag)] = None
