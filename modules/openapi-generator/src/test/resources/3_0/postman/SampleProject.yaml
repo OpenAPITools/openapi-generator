@@ -2,10 +2,6 @@ openapi: 3.0.0
 info:
   title: Sample project
   version: '1.0'
-  contact:
-    name: Beppe Catanese
-    email: gcatanese@yahoo.com
-    url: 'https://github.com/gcatanese'
   description: 'Sample API Check "API Key" '
   license:
     name: Apache 2.0

@@ -1,10 +1,6 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "contact" : {
-      "name" : "Beppe Catanese",
-      "url" : "https://github.com/gcatanese"
-    },
     "description" : "Sample API",
     "license" : {
       "name" : "Apache 2.0",
