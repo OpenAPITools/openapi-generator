@@ -1,0 +1,74 @@
+openapi: 3.0.2
+info:
+  title: Polymorphism Java Example
+  version: 1.0.0
+  contact:
+    name: polydectes
+    email: 12345@sharklasers.com
+servers:
+  - url: 'https://localhost'
+tags:
+  - name: Example
+paths:
+  '/animal':
+    post:
+      tags:
+        - Example
+      operationId: createAnAnimal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Animal'
+      responses:
+        '200':
+          $ref: '#/components/responses/200-OK'
+        '400':
+          $ref: '#/components/responses/400-BadRequest'
+components:
+  responses:
+    200-OK:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Animal'
+    400-BadRequest:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    Animal:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: animalType
+    Cat:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        acceptableAsHousepet:
+          type: boolean
+    Dog:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        canBeTrained:
+          type: string
+    OkResponse:
+      type: object
+      properties:
+        id:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
