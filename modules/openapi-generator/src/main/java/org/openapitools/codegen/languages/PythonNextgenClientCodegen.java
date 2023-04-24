@@ -1518,7 +1518,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
 
     public String toEnumVariableName(String name, String datatype) {
         if ("int".equals(datatype)) {
-            return "NUMBER_" + name;
+            return "NUMBER_" + name.replace("-", "MINUS_");
         }
 
         // remove quote e.g. 'abc' => abc
