@@ -31,7 +31,7 @@ class EnumTest(BaseModel):
     EnumTest
     """
     enum_string: Optional[StrictStr] = None
-    enum_string_required: StrictStr = ...
+    enum_string_required: StrictStr = Field(...)
     enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[float] = None

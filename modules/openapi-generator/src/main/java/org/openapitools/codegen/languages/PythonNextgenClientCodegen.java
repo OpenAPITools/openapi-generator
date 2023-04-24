@@ -1289,6 +1289,12 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                     fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 }
 
+                if ("...".equals(fieldCustomization)) {
+                    // use Field() to avoid pylint warnings
+                    pydanticImports.add("Field");
+                    fieldCustomization = "Field(...)";
+                }
+
                 cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
 
                 // setup x-py-name for each oneOf/anyOf schema

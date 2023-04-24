@@ -30,7 +30,7 @@ class Pet(BaseModel):
     """
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
-    name: StrictStr = ...
+    name: StrictStr = Field(...)
     photo_urls: conlist(StrictStr, min_items=0, unique_items=True) = Field(..., alias="photoUrls")
     tags: Optional[conlist(Tag)] = None
     status: Optional[StrictStr] = Field(None, description="pet status in the store")

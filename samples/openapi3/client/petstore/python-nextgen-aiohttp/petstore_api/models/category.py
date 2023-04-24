@@ -20,14 +20,14 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Category(BaseModel):
     """
     Category
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = ...
+    name: StrictStr = Field(...)
     __properties = ["id", "name"]
 
     class Config:

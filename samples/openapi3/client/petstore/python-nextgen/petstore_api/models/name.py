@@ -26,7 +26,7 @@ class Name(BaseModel):
     """
     Model for testing model name same as property name
     """
-    name: StrictInt = ...
+    name: StrictInt = Field(...)
     snake_case: Optional[StrictInt] = None
     var_property: Optional[StrictStr] = Field(None, alias="property")
     var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
