@@ -46,7 +46,7 @@ type {{classname}} struct {
 }{{/isEnum}}
 
 // UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (o *{{classname}}) UnmarshalJSON(data []byte) error {
+func (m *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{#vars}}
 	{{#defaultValue}}
 	{{^isArray}}

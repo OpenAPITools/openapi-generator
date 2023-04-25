@@ -243,7 +243,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		{{paramName}}Param = query.Get("{{baseName}}")
 	}
 	{{/defaultValue}}
-	{{#defaultValue}}
+	{{^defaultValue}}
 	{{paramName}}Param := query.Get("{{baseName}}")
 	{{/defaultValue}}
 	{{/isArray}}

@@ -39,17 +39,12 @@ type Order struct {
 	Complete bool `json:"complete,omitempty"`
 }
 
-// UnmarshalJSON parse JSON while respecting the default values specified
-func (o *Order) UnmarshalJSON(data []byte) error {
-    type Alias Order // Avoid infinite recursion
-    aux := Alias{
-		Complete: false,
-	}
-    if err := json.Unmarshal(data, &aux); err != nil {
-        return err
-    }
-    *o = Order(aux)
-    return nil
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *Order) UnmarshalJSON(data []byte) error {
+	m.Complete = false
+
+	type Alias Order // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertOrderRequired checks if the required fields are not zero-ed
@@ -60,16 +55,4 @@ func AssertOrderRequired(obj Order) error {
 // AssertOrderConstraints checks if the values respects the defined constraints
 func AssertOrderConstraints(obj Order) error {
 	return nil
-}
-
-// AssertRecurseOrderRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Order (e.g. [][]Order), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseOrderRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aOrder, ok := obj.(Order)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertOrderRequired(aOrder)
-	})
 }
