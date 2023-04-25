@@ -20,13 +20,13 @@ import json
 
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, conlist
 
 class NullableClass(BaseModel):
     """
     NullableClass
     """
-    required_integer_prop: Optional[StrictInt] = ...
+    required_integer_prop: Optional[StrictInt] = Field(...)
     integer_prop: Optional[StrictInt] = None
     number_prop: Optional[float] = None
     boolean_prop: Optional[StrictBool] = None

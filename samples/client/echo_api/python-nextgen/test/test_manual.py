@@ -29,6 +29,16 @@ class TestManual(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def testEnumRefString(self):
+        api_instance = openapi_client.QueryApi()
+        q = openapi_client.StringEnumRef("unclassified")
+
+        # Test query parameter(s)
+        api_response = api_instance.test_enum_ref_string(enum_ref_string_query=q)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/enum_ref_string?enum_ref_string_query=unclassified")
+
+
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
         datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format

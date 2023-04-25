@@ -99,6 +99,29 @@ paths:
       tags:
       - header
       x-accepts: text/plain
+  /query/enum_ref_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/enum_ref_string
+      parameters:
+      - explode: true
+        in: query
+        name: enum_ref_string_query
+        required: false
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/datetime/date/string:
     get:
       description: Test query parameter(s)
