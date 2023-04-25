@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -43,48 +42,54 @@ class EnumTest(BaseModel):
     __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @validator('enum_string')
-    def enum_string_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_string_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in ('UPPER', 'lower', ''):
+        if value not in ('UPPER', 'lower', ''):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
-        return v
+        return value
 
     @validator('enum_string_required')
-    def enum_string_required_validate_enum(cls, v):
-        if v not in ('UPPER', 'lower', ''):
+    def enum_string_required_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('UPPER', 'lower', ''):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
-        return v
+        return value
 
     @validator('enum_integer_default')
-    def enum_integer_default_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_integer_default_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in (1, 5, 14):
+        if value not in (1, 5, 14):
             raise ValueError("must be one of enum values (1, 5, 14)")
-        return v
+        return value
 
     @validator('enum_integer')
-    def enum_integer_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_integer_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in (1, -1):
+        if value not in (1, -1):
             raise ValueError("must be one of enum values (1, -1)")
-        return v
+        return value
 
     @validator('enum_number')
-    def enum_number_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_number_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in (1.1, -1.2):
+        if value not in (1.1, -1.2):
             raise ValueError("must be one of enum values (1.1, -1.2)")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -126,7 +131,7 @@ class EnumTest(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return EnumTest.parse_obj(obj)
 
         _obj = EnumTest.parse_obj({

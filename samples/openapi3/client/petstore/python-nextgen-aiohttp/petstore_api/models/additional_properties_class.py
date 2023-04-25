@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -31,6 +30,7 @@ class AdditionalPropertiesClass(BaseModel):
     __properties = ["map_property", "map_of_map_property"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -61,7 +61,7 @@ class AdditionalPropertiesClass(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return AdditionalPropertiesClass.parse_obj(obj)
 
         _obj = AdditionalPropertiesClass.parse_obj({
