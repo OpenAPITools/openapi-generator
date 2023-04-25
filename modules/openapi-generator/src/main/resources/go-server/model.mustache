@@ -174,16 +174,4 @@ func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{/maximum}}
 {{/Vars}}
 	return nil
-}
-
-// AssertRecurse{{classname}}Required recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of {{classname}} (e.g. [][]{{classname}}), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurse{{classname}}Required(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		a{{classname}}, ok := obj.({{classname}})
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return Assert{{classname}}Required(a{{classname}})
-	})
 }{{/model}}{{/models}}
