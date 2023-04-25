@@ -86,8 +86,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isContainer}}
   {{/isXmlAttribute}}
   {{/withXml}}
-  {{#gson}}{{#deprecated}}
-  @Deprecated{{/deprecated}}
+  {{#gson}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#vendorExtensions.x-field-extra-annotation}}
@@ -139,8 +141,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#vars}}
 
   {{^isReadOnly}}
-  {{#deprecated}}@Deprecated
-  {{/deprecated}}public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = {{name}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
