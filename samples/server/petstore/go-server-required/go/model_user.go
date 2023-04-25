@@ -45,16 +45,11 @@ type User struct {
 	DeepSliceMap [][]AnObject `json:"deepSliceMap,omitempty"`
 }
 
-// UnmarshalJSON parse JSON while respecting the default values specified
-func (o *User) UnmarshalJSON(data []byte) error {
-    type Alias User // Avoid infinite recursion
-    aux := Alias{
-	}
-    if err := json.Unmarshal(data, &aux); err != nil {
-        return err
-    }
-    *o = User(aux)
-    return nil
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *User) UnmarshalJSON(data []byte) error {
+
+	type Alias User // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertUserRequired checks if the required fields are not zero-ed
@@ -82,16 +77,4 @@ func AssertUserRequired(obj User) error {
 // AssertUserConstraints checks if the values respects the defined constraints
 func AssertUserConstraints(obj User) error {
 	return nil
-}
-
-// AssertRecurseUserRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of User (e.g. [][]User), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseUserRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aUser, ok := obj.(User)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertUserRequired(aUser)
-	})
 }

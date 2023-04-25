@@ -26,16 +26,11 @@ type SpecialInfo struct {
 	Type string `json:"type,omitempty"`
 }
 
-// UnmarshalJSON parse JSON while respecting the default values specified
-func (o *SpecialInfo) UnmarshalJSON(data []byte) error {
-    type Alias SpecialInfo // Avoid infinite recursion
-    aux := Alias{
-	}
-    if err := json.Unmarshal(data, &aux); err != nil {
-        return err
-    }
-    *o = SpecialInfo(aux)
-    return nil
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *SpecialInfo) UnmarshalJSON(data []byte) error {
+
+	type Alias SpecialInfo // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertSpecialInfoRequired checks if the required fields are not zero-ed
@@ -46,16 +41,4 @@ func AssertSpecialInfoRequired(obj SpecialInfo) error {
 // AssertSpecialInfoConstraints checks if the values respects the defined constraints
 func AssertSpecialInfoConstraints(obj SpecialInfo) error {
 	return nil
-}
-
-// AssertRecurseSpecialInfoRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of SpecialInfo (e.g. [][]SpecialInfo), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseSpecialInfoRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aSpecialInfo, ok := obj.(SpecialInfo)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertSpecialInfoRequired(aSpecialInfo)
-	})
 }

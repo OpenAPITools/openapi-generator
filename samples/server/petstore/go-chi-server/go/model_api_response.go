@@ -28,16 +28,11 @@ type ApiResponse struct {
 	Message string `json:"message,omitempty"`
 }
 
-// UnmarshalJSON parse JSON while respecting the default values specified
-func (o *ApiResponse) UnmarshalJSON(data []byte) error {
-    type Alias ApiResponse // Avoid infinite recursion
-    aux := Alias{
-	}
-    if err := json.Unmarshal(data, &aux); err != nil {
-        return err
-    }
-    *o = ApiResponse(aux)
-    return nil
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *ApiResponse) UnmarshalJSON(data []byte) error {
+
+	type Alias ApiResponse // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertApiResponseRequired checks if the required fields are not zero-ed
@@ -48,16 +43,4 @@ func AssertApiResponseRequired(obj ApiResponse) error {
 // AssertApiResponseConstraints checks if the values respects the defined constraints
 func AssertApiResponseConstraints(obj ApiResponse) error {
 	return nil
-}
-
-// AssertRecurseApiResponseRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of ApiResponse (e.g. [][]ApiResponse), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseApiResponseRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aApiResponse, ok := obj.(ApiResponse)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertApiResponseRequired(aApiResponse)
-	})
 }

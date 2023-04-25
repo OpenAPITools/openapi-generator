@@ -123,7 +123,10 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := parseNumericParameter[int64](
+		params["petId"],
+		WithRequire[int64](parseInt64),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -171,7 +174,10 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := parseNumericParameter[int64](
+		params["petId"],
+		WithRequire[int64](parseInt64),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -220,13 +226,20 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := parseNumericParameter[int64](
+		params["petId"],
+		WithRequire[int64](parseInt64),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-				nameParam := r.FormValue("name")
-				statusParam := r.FormValue("status")
+		
+	
+	nameParam := r.FormValue("name")
+		
+	
+	statusParam := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -244,19 +257,26 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	params := mux.Vars(r)
-	petIdParam, err := parseInt64Parameter(params["petId"], true)
+	petIdParam, err := parseNumericParameter[int64](
+		params["petId"],
+		WithRequire[int64](parseInt64),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-				additionalMetadataParam := r.FormValue("additionalMetadata")
+		
+	
+	additionalMetadataParam := r.FormValue("additionalMetadata")
 	
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-			result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
+	
+	
+	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

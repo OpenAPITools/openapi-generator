@@ -134,229 +134,147 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 	return file, nil
 }
 
-type ParseOption[T int64 | float64 | string | bool] func(*parseOptions[T])
-
-type parseOptions[T int64 | float64 | string | bool] struct {
-	defaultValue *T
-	minValue     *T
-	maxValue     *T
+type Number interface {
+	//constraints.Integer | constraints.Float
+	~int32 | ~int64 | ~float32 | ~float64
 }
 
-func WithDefault[T int64 | float64 | string | bool](v T) ParseOption[T] {
-	return func(po *parseOptions[T]) {
-		po.defaultValue = &v
-	}
+type ParseString[T Number | string | bool] func(v string) (T, error)
+
+// parseFloat64 parses a string parameter to an float64.
+func parseFloat64(param string) (float64, error) {
+	return strconv.ParseFloat(param, 64)
 }
 
-func WithMinimum[T int64 | float64](v T) ParseOption[T] {
-	return func(po *parseOptions[T]) {
-		po.minValue = &v
-	}
+// parseFloat32 parses a string parameter to an float32.
+func parseFloat32(param string) (float32, error) {
+	v, err := strconv.ParseFloat(param, 32)
+	return float32(v), err
 }
 
-func WithMaximum[T int64 | float64](v T) ParseOption[T] {
-	return func(po *parseOptions[T]) {
-		po.maxValue = &v
-	}
+// parseInt64 parses a string parameter to an int64.
+func parseInt64(param string) (int64, error) {
+	return strconv.ParseInt(param, 10, 64)
 }
 
-// parseFloatParameter parses a string parameter to an int64.
-func parseFloatParameter(param string, bitSize int, required bool, opts ...ParseOption[float64]) (float64, error) {
-	po := parseOptions[float64]{}
-	for idx := range opts {
-		opts[idx](&po)
-	}
-
-	if param == "" && required {
-		return 0, errors.New(errMsgRequiredMissing)
-	}
-	
-	val := float64(0)
-	if param == "" && po.defaultValue != nil {
-		val = *po.defaultValue
-	} else if param != "" {
-		var err error
-		val, err = strconv.ParseFloat(param, bitSize)
-		if err != nil {
-			return 0, err
-		}
-	}
-
-	if po.minValue != nil && val < *po.minValue {
-		return 0, errors.New(errMsgMinValueConstraint)
-	} else if po.maxValue != nil && val > *po.maxValue {
-		return 0, errors.New(errMsgMaxValueConstraint)
-	}
-
-	return val, nil
-}
-
-// parseFloat64Parameter parses a string parameter to an float64.
-func parseFloat64Parameter(param string, required bool, opts ...ParseOption[float64]) (float64, error) {
-	return parseFloatParameter(param, 64, required, opts...)
-}
-
-// parseFloat32Parameter parses a string parameter to an float32.
-func parseFloat32Parameter(param string, required bool, opts ...ParseOption[float64]) (float32, error) {
-	val, err := parseFloatParameter(param, 32, required, opts...)
-	return float32(val), err
-}
-
-// parseIntParameter parses a string parameter to an int64.
-func parseIntParameter(param string, bitSize int, required bool, opts ...ParseOption[int64]) (int64, error) {
-	po := parseOptions[int64]{}
-	for idx := range opts {
-		opts[idx](&po)
-	}
-
-	if param == "" && required {
-		return 0, errors.New(errMsgRequiredMissing)
-	}
-
-	val := int64(0)
-	if param == "" && po.defaultValue != nil {
-		val = *po.defaultValue
-	} else if param != "" {
-		var err error
-		val, err = strconv.ParseInt(param, 10, bitSize)
-		if err != nil {
-			return 0, err
-		}
-	}
-
-	if po.minValue != nil && val < *po.minValue {
-		return 0, errors.New(errMsgMinValueConstraint)
-	} else if po.maxValue != nil && val > *po.maxValue {
-		return 0, errors.New(errMsgMaxValueConstraint)
-	}
-
-	return val, nil
-}
-
-// parseInt64Parameter parses a string parameter to an int64.
-func parseInt64Parameter(param string, required bool, opts ...ParseOption[int64]) (int64, error) {
-	return parseIntParameter(param, 64, required, opts...)
-}
-
-// parseInt32Parameter parses a string parameter to an int32.
-func parseInt32Parameter(param string, required bool, opts ...ParseOption[int64]) (int32, error) {
-	val, err := parseIntParameter(param, 32, required, opts...)
+// parseInt32 parses a string parameter to an int32.
+func parseInt32(param string) (int32, error) {
+	val, err := strconv.ParseInt(param, 10, 32)
 	return int32(val), err
 }
 
+// parseBool parses a string parameter to an bool.
+func parseBool(param string) (bool, error) {
+	return strconv.ParseBool(param)
+}
+
+type Operation[T Number | string | bool] func(actual string) (T, bool, error)
+
+func WithRequire[T Number | string | bool](parse ParseString[T]) Operation[T] {
+	var empty T
+	return func(actual string) (T, bool, error) {
+		if actual == "" {
+			return empty, false, errors.New(errMsgRequiredMissing)
+		}
+
+		v, err := parse(actual)
+		return v, false, err
+	}
+}
+
+func WithDefaultOrParse[T Number | string | bool](def T, parse ParseString[T]) Operation[T] {
+	return func(actual string) (T, bool, error) {
+		if actual == "" {
+			return def, true, nil
+		}
+
+		v, err := parse(actual)
+		return v, false, err
+	}
+}
+
+func WithParse[T Number | string | bool](parse ParseString[T]) Operation[T] {
+	return func(actual string) (T, bool, error) {
+		v, err := parse(actual)
+		return v, false, err
+	}
+}
+
+type Constraint[T Number | string | bool] func(actual T) error
+
+func WithMinimum[T Number](expected T) Constraint[T] {
+	return func(actual T) error {
+		if actual < expected {
+			return errors.New(errMsgMinValueConstraint)
+		}
+
+		return nil
+	}
+}
+
+func WithMaximum[T Number](expected T) Constraint[T] {
+	return func(actual T) error {
+		if actual > expected {
+			return errors.New(errMsgMaxValueConstraint)
+		}
+
+		return nil
+	}
+}
+
+// parseNumericParameter parses a numeric parameter to its respective type.
+func parseNumericParameter[T Number](param string, fn Operation[T], checks ...Constraint[T]) (T, error) {
+	v, ok, err := fn(param)
+	if err != nil {
+		return 0, err
+	}
+
+	if !ok {
+		for _, check := range checks {
+			if err := check(v); err != nil {
+				return 0, err
+			}
+		}
+	}
+
+	return v, nil
+}
+
 // parseBoolParameter parses a string parameter to a bool
-func parseBoolParameter(param string, required bool, opts ...ParseOption[bool]) (bool, error) {
-	po := parseOptions[bool]{}
-	for idx := range opts {
-		opts[idx](&po)
+func parseBoolParameter(param string, fn Operation[bool]) (bool, error) {
+	v, _, err := fn(param)
+	return v, err
+}
+
+// parseNumericArrayParameter parses a string parameter containing array of values to its respective type.
+func parseNumericArrayParameter[T Number](param, delim string, required bool, fn Operation[T], checks ...Constraint[T]) ([]T, error) {
+	if param == "" {
+		if required {
+			return nil, errors.New(errMsgRequiredMissing)
+		}
+
+		return nil, nil
 	}
 
-	if param == "" && required {
-		return false, errors.New(errMsgRequiredMissing)
-	}
+	str := strings.Split(param, delim)
+	values := make([]T, len(str))
 
-	val := false
-	if param == "" && po.defaultValue != nil {
-		val = *po.defaultValue
-	} else if param != "" {
-		var err error
-		val, err = strconv.ParseBool(param)
+	for i, s := range str {
+		v, ok, err := fn(s)
 		if err != nil {
-			return false, err
-		}
-	}
-
-	return val, nil
-}
-
-// parseFloat64ArrayParameter parses a string parameter containing array of values to []Float64.
-func parseFloat64ArrayParameter(param, delim string, required bool, opts ...ParseOption[float64]) ([]float64, error) {
-	if param == "" {
-		if required {
-			return nil, errors.New(errMsgRequiredMissing)
-		}
-
-		return nil, nil
-	}
-
-	str := strings.Split(param, delim)
-	floats := make([]float64, len(str))
-
-	var err error
-	for i, s := range str {
-		if floats[i], err = parseFloat64Parameter(s, true, opts...); err != nil {
 			return nil, err
 		}
-	}
 
-	return floats, nil
-}
-
-// parseFloat32ArrayParameter parses a string parameter containing array of values to []float32.
-func parseFloat32ArrayParameter(param, delim string, required bool, opts ...ParseOption[float64]) ([]float32, error) {
-	if param == "" {
-		if required {
-			return nil, errors.New(errMsgRequiredMissing)
+		if !ok {
+			for _, check := range checks {
+				if err := check(v); err != nil {
+					return nil, err
+				}
+			}
 		}
 
-		return nil, nil
+		values[i] = v
 	}
 
-	str := strings.Split(param, delim)
-	floats := make([]float32, len(str))
-
-	var err error
-	for i, s := range str {
-		if floats[i], err = parseFloat32Parameter(s, true, opts...); err != nil {
-			return nil, err
-		}
-	}
-
-	return floats, nil
-}
-
-// parseInt64ArrayParameter parses a string parameter containing array of values to []int64.
-func parseInt64ArrayParameter(param, delim string, required bool, opts ...ParseOption[int64]) ([]int64, error) {
-	if param == "" {
-		if required {
-			return nil, errors.New(errMsgRequiredMissing)
-		}
-
-		return nil, nil
-	}
-
-	str := strings.Split(param, delim)
-	ints := make([]int64, len(str))
-
-	var err error
-	for i, s := range str {
-		if ints[i], err = parseInt64Parameter(s, true, opts...); err != nil {
-			return nil, err
-		}
-	}
-
-	return ints, nil
-}
-
-// parseInt32ArrayParameter parses a string parameter containing array of values to []int32.
-func parseInt32ArrayParameter(param, delim string, required bool, opts ...ParseOption[int64]) ([]int32, error) {
-	if param == "" {
-		if required {
-			return nil, errors.New(errMsgRequiredMissing)
-		}
-
-		return nil, nil
-	}
-
-	str := strings.Split(param, delim)
-	ints := make([]int32, len(str))
-
-	var err error
-	for i, s := range str {
-		if ints[i], err = parseInt32Parameter(s, true, opts...); err != nil {
-			return nil, err
-		}
-	}
-
-	return ints, nil
+	return values, nil
 }

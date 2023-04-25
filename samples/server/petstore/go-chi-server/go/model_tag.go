@@ -26,16 +26,11 @@ type Tag struct {
 	Name string `json:"name,omitempty"`
 }
 
-// UnmarshalJSON parse JSON while respecting the default values specified
-func (o *Tag) UnmarshalJSON(data []byte) error {
-    type Alias Tag // Avoid infinite recursion
-    aux := Alias{
-	}
-    if err := json.Unmarshal(data, &aux); err != nil {
-        return err
-    }
-    *o = Tag(aux)
-    return nil
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *Tag) UnmarshalJSON(data []byte) error {
+
+	type Alias Tag // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertTagRequired checks if the required fields are not zero-ed
@@ -46,16 +41,4 @@ func AssertTagRequired(obj Tag) error {
 // AssertTagConstraints checks if the values respects the defined constraints
 func AssertTagConstraints(obj Tag) error {
 	return nil
-}
-
-// AssertRecurseTagRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Tag (e.g. [][]Tag), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseTagRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aTag, ok := obj.(Tag)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertTagRequired(aTag)
-	})
 }
