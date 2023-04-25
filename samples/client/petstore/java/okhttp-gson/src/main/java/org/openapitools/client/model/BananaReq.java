@@ -50,12 +50,10 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BananaReq {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
-  
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
   private BigDecimal lengthCm;
 
   public static final String SERIALIZED_NAME_SWEET = "sweet";
-  
   @SerializedName(SERIALIZED_NAME_SWEET)
   private Boolean sweet;
 

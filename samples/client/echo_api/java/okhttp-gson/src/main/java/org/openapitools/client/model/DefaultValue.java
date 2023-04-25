@@ -53,7 +53,6 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultValue {
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT)
   private List<StringEnumRef> arrayStringEnumRefDefault = new ArrayList<>(Arrays.asList(StringEnumRef.SUCCESS, StringEnumRef.FAILURE));
 
@@ -107,37 +106,30 @@ public class DefaultValue {
   }
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT)
   private List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = new ArrayList<>(Arrays.asList(ArrayStringEnumDefaultEnum.SUCCESS, ArrayStringEnumDefaultEnum.FAILURE));
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_DEFAULT = "array_string_default";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_DEFAULT)
   private List<String> arrayStringDefault = new ArrayList<>(Arrays.asList("failure", "skipped"));
 
   public static final String SERIALIZED_NAME_ARRAY_INTEGER_DEFAULT = "array_integer_default";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_INTEGER_DEFAULT)
   private List<Integer> arrayIntegerDefault = new ArrayList<>(Arrays.asList(1, 3));
 
   public static final String SERIALIZED_NAME_ARRAY_STRING = "array_string";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING)
   private List<String> arrayString;
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_NULLABLE = "array_string_nullable";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
   private List<String> arrayStringNullable;
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_EXTENSION_NULLABLE = "array_string_extension_nullable";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_EXTENSION_NULLABLE)
   private List<String> arrayStringExtensionNullable;
 
   public static final String SERIALIZED_NAME_STRING_NULLABLE = "string_nullable";
-  
   @SerializedName(SERIALIZED_NAME_STRING_NULLABLE)
   private String stringNullable;
 

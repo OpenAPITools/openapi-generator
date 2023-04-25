@@ -49,12 +49,10 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
-  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
-  
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 

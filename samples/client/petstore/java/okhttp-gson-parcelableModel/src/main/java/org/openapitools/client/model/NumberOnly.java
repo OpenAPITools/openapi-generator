@@ -52,7 +52,6 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
-  
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 

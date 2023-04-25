@@ -50,7 +50,6 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
-  
   @SerializedName(SERIALIZED_NAME_STRING)
   private Foo string;
 

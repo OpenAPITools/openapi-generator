@@ -54,17 +54,14 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
-  
   @SerializedName(SERIALIZED_NAME_UUID)
   private UUID uuid;
 
   public static final String SERIALIZED_NAME_DATE_TIME = "dateTime";
-  
   @SerializedName(SERIALIZED_NAME_DATE_TIME)
   private OffsetDateTime dateTime;
 
   public static final String SERIALIZED_NAME_MAP = "map";
-  
   @SerializedName(SERIALIZED_NAME_MAP)
   private Map<String, Animal> map = new HashMap<>();
 

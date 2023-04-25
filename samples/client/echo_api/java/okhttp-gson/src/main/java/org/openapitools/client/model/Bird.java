@@ -49,12 +49,10 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Bird {
   public static final String SERIALIZED_NAME_SIZE = "size";
-  
   @SerializedName(SERIALIZED_NAME_SIZE)
   private String size;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
-  
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color;
 

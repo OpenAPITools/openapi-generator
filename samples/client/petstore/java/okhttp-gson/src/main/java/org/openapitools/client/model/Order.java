@@ -50,22 +50,18 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
-  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_PET_ID = "petId";
-  
   @SerializedName(SERIALIZED_NAME_PET_ID)
   private Long petId;
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
-  
   @SerializedName(SERIALIZED_NAME_QUANTITY)
   private Integer quantity;
 
   public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
-  
   @SerializedName(SERIALIZED_NAME_SHIP_DATE)
   private OffsetDateTime shipDate;
 
@@ -119,12 +115,10 @@ public class Order {
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
-  
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
   public static final String SERIALIZED_NAME_COMPLETE = "complete";
-  
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 

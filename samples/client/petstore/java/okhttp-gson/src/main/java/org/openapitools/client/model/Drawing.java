@@ -56,22 +56,18 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
-  
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
   private Shape mainShape;
 
   public static final String SERIALIZED_NAME_SHAPE_OR_NULL = "shapeOrNull";
-  
   @SerializedName(SERIALIZED_NAME_SHAPE_OR_NULL)
   private ShapeOrNull shapeOrNull;
 
   public static final String SERIALIZED_NAME_NULLABLE_SHAPE = "nullableShape";
-  
   @SerializedName(SERIALIZED_NAME_NULLABLE_SHAPE)
   private NullableShape nullableShape;
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
-  
   @SerializedName(SERIALIZED_NAME_SHAPES)
   private List<Shape> shapes;
 

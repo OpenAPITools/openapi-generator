@@ -52,17 +52,14 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfInlineAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
-  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
-  
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
   private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty;
 

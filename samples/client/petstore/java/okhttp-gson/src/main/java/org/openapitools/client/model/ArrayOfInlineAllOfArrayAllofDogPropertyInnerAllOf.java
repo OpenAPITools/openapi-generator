@@ -49,7 +49,6 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf {
   public static final String SERIALIZED_NAME_BREED = "breed";
-  
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 

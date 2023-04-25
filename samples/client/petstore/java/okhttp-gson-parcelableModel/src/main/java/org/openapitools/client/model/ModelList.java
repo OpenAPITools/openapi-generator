@@ -51,7 +51,6 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelList implements Parcelable {
   public static final String SERIALIZED_NAME_123LIST = "123-list";
-  
   @SerializedName(SERIALIZED_NAME_123LIST)
   private String _123list;
 

@@ -103,7 +103,6 @@ public class EnumTest {
   }
 
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
-  
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
   private EnumStringEnum enumString;
 
@@ -157,7 +156,6 @@ public class EnumTest {
   }
 
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
-  
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired;
 
@@ -209,7 +207,6 @@ public class EnumTest {
   }
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
-  
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger;
 
@@ -261,7 +258,6 @@ public class EnumTest {
   }
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER_ONLY = "enum_integer_only";
-  
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER_ONLY)
   private EnumIntegerOnlyEnum enumIntegerOnly;
 
@@ -313,27 +309,22 @@ public class EnumTest {
   }
 
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
-  
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
   private EnumNumberEnum enumNumber;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
-  
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER = "outerEnumInteger";
-  
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER)
   private OuterEnumInteger outerEnumInteger;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_DEFAULT_VALUE = "outerEnumDefaultValue";
-  
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_DEFAULT_VALUE)
   private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE = "outerEnumIntegerDefaultValue";
-  
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 

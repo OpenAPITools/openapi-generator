@@ -94,27 +94,22 @@ public class SomeObj {
   }
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
-  
   @SerializedName(SERIALIZED_NAME_$_TYPE)
   private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
-  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
-  
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
   public static final String SERIALIZED_NAME_ACTIVE = "active";
-  
   @SerializedName(SERIALIZED_NAME_ACTIVE)
   private Boolean active;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
-  
   @SerializedName(SERIALIZED_NAME_TYPE)
   private String type;
 

@@ -49,22 +49,18 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String SERIALIZED_NAME_SIZE = "size";
-  
   @SerializedName(SERIALIZED_NAME_SIZE)
   private String size;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
-  
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color;
 
   public static final String SERIALIZED_NAME_ID = "id";
-  
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
-  
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 

@@ -49,12 +49,10 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
-  
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
   private String cultivar;
 
   public static final String SERIALIZED_NAME_MEALY = "mealy";
-  
   @SerializedName(SERIALIZED_NAME_MEALY)
   private Boolean mealy;
 

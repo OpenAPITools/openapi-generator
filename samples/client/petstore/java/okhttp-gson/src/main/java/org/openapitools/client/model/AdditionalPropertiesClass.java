@@ -52,42 +52,34 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
-  
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
   private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_OF_MAP_PROPERTY = "map_of_map_property";
-  
   @SerializedName(SERIALIZED_NAME_MAP_OF_MAP_PROPERTY)
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
-  
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
   private Object anytype1 = null;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1 = "map_with_undeclared_properties_anytype_1";
-  
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
   private Object mapWithUndeclaredPropertiesAnytype1;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2 = "map_with_undeclared_properties_anytype_2";
-  
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
   private Object mapWithUndeclaredPropertiesAnytype2;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3 = "map_with_undeclared_properties_anytype_3";
-  
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   private Map<String, Object> mapWithUndeclaredPropertiesAnytype3 = new HashMap<>();
 
   public static final String SERIALIZED_NAME_EMPTY_MAP = "empty_map";
-  
   @SerializedName(SERIALIZED_NAME_EMPTY_MAP)
   private Object emptyMap;
 
   public static final String SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
-  
   @SerializedName(SERIALIZED_NAME_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   private Map<String, String> mapWithUndeclaredPropertiesString = new HashMap<>();
 

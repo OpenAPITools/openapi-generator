@@ -49,7 +49,6 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ShapeInterface {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
-  
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
   private String shapeType;
 

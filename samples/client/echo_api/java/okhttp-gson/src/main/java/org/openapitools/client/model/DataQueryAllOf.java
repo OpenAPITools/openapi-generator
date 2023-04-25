@@ -50,17 +50,14 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DataQueryAllOf {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
-  
   @SerializedName(SERIALIZED_NAME_SUFFIX)
   private String suffix;
 
   public static final String SERIALIZED_NAME_TEXT = "text";
-  
   @SerializedName(SERIALIZED_NAME_TEXT)
   private String text;
 
   public static final String SERIALIZED_NAME_DATE = "date";
-  
   @SerializedName(SERIALIZED_NAME_DATE)
   private OffsetDateTime date;
 

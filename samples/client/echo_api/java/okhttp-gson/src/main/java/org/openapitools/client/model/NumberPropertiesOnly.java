@@ -50,17 +50,14 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
-  
   @SerializedName(SERIALIZED_NAME_NUMBER)
   private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
-  
   @SerializedName(SERIALIZED_NAME_FLOAT)
   private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
-  
   @SerializedName(SERIALIZED_NAME_DOUBLE)
   private Double _double;
 

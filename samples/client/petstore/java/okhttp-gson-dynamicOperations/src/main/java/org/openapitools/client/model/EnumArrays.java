@@ -98,7 +98,6 @@ public class EnumArrays {
   }
 
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
-  
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
 
@@ -150,7 +149,6 @@ public class EnumArrays {
   }
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum;
 

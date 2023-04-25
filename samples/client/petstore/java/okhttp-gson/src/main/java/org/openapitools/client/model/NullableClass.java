@@ -57,62 +57,50 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NullableClass {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
-  
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
   private Integer integerProp;
 
   public static final String SERIALIZED_NAME_NUMBER_PROP = "number_prop";
-  
   @SerializedName(SERIALIZED_NAME_NUMBER_PROP)
   private BigDecimal numberProp;
 
   public static final String SERIALIZED_NAME_BOOLEAN_PROP = "boolean_prop";
-  
   @SerializedName(SERIALIZED_NAME_BOOLEAN_PROP)
   private Boolean booleanProp;
 
   public static final String SERIALIZED_NAME_STRING_PROP = "string_prop";
-  
   @SerializedName(SERIALIZED_NAME_STRING_PROP)
   private String stringProp;
 
   public static final String SERIALIZED_NAME_DATE_PROP = "date_prop";
-  
   @SerializedName(SERIALIZED_NAME_DATE_PROP)
   private LocalDate dateProp;
 
   public static final String SERIALIZED_NAME_DATETIME_PROP = "datetime_prop";
-  
   @SerializedName(SERIALIZED_NAME_DATETIME_PROP)
   private OffsetDateTime datetimeProp;
 
   public static final String SERIALIZED_NAME_ARRAY_NULLABLE_PROP = "array_nullable_prop";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_NULLABLE_PROP)
   private List<Object> arrayNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP)
   private List<Object> arrayAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
   private List<Object> arrayItemsNullable;
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
-  
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)
   private Map<String, Object> objectNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
-  
   @SerializedName(SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP)
   private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
-  
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 

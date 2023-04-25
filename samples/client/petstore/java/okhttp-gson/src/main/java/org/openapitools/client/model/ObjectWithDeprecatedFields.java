@@ -53,24 +53,20 @@ import org.openapitools.client.JSON;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ObjectWithDeprecatedFields {
   public static final String SERIALIZED_NAME_UUID = "uuid";
-  
   @SerializedName(SERIALIZED_NAME_UUID)
   private String uuid;
 
   public static final String SERIALIZED_NAME_ID = "id";
-  
   @Deprecated
   @SerializedName(SERIALIZED_NAME_ID)
   private BigDecimal id;
 
   public static final String SERIALIZED_NAME_DEPRECATED_REF = "deprecatedRef";
-  
   @Deprecated
   @SerializedName(SERIALIZED_NAME_DEPRECATED_REF)
   private DeprecatedObject deprecatedRef;
 
   public static final String SERIALIZED_NAME_BARS = "bars";
-  
   @Deprecated
   @SerializedName(SERIALIZED_NAME_BARS)
   private List<String> bars;
