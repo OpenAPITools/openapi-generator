@@ -4,18 +4,21 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
+    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub object_field: Option<models::MultipartRequestObjectField>,
 
     #[serde(rename = "optional_binary_field")]
+    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_binary_field: Option<swagger::ByteArray>,
 
     #[serde(rename = "required_binary_field")]
+    #[garde(skip)]
     pub required_binary_field: swagger::ByteArray,
 
 }
@@ -142,13 +145,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipartRequestObjectField {
     #[serde(rename = "field_a")]
+    #[garde(skip)]
     pub field_a: String,
 
     #[serde(rename = "field_b")]
+    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub field_b: Option<Vec<String>>,
 
@@ -276,14 +281,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultipleIdenticalMimeTypesPostRequest {
     #[serde(rename = "binary1")]
+    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary1: Option<swagger::ByteArray>,
 
     #[serde(rename = "binary2")]
+    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary2: Option<swagger::ByteArray>,
 
