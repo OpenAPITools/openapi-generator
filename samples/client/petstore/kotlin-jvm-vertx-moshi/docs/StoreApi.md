@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 
 
-<a name="deleteOrder"></a>
+<a id="deleteOrder"></a>
 # **deleteOrder**
 > deleteOrder(orderId)
 
@@ -56,7 +56,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getInventory"></a>
+<a id="getInventory"></a>
 # **getInventory**
 > kotlin.collections.Map&lt;kotlin.String, kotlin.Int&gt; getInventory()
 
@@ -102,7 +102,7 @@ Configure api_key:
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="getOrderById"></a>
+<a id="getOrderById"></a>
 # **getOrderById**
 > Order getOrderById(orderId)
 
@@ -149,7 +149,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="placeOrder"></a>
+<a id="placeOrder"></a>
 # **placeOrder**
 > Order placeOrder(order)
 
