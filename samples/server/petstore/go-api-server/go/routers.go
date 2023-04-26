@@ -139,7 +139,6 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 }
 
 type Number interface {
-	//constraints.Integer | constraints.Float
 	~int32 | ~int64 | ~float32 | ~float64
 }
 

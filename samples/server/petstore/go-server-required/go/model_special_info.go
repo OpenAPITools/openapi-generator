@@ -10,12 +10,10 @@
 package petstoreserver
 
 
+import (
+	"encoding/json"
+)
 
-import "errors" // FIXME: why not in #imports
-import "encoding/json" // FIXME: why not in #imports
-
-var _ = errors.New("") // to enforce the use of errors
-var _ = json.NewDecoder(nil) // to enforce the use of encoding/json
 
 
 // SpecialInfo - An order info for a pets from the pet store
