@@ -314,6 +314,11 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         }
     }
 
+    /**
+     * postProcessSingleParam - Modifies a single parameter, adjusting generated
+     * data types for Header and Query parameters.
+     * @param param CodegenParameter to be modified.
+     */
     private static void postProcessSingleParam(CodegenParameter param) {
         //TODO: This changes the info about the real type but it is needed to parse the header params
         if (param.isHeaderParam) {
