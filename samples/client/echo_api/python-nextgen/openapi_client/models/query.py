@@ -14,7 +14,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -32,16 +31,18 @@ class Query(BaseModel):
     __properties = ["id", "outcomes"]
 
     @validator('outcomes')
-    def outcomes_validate_enum(cls, v):
-        if v is None:
-            return v
+    def outcomes_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        for i in v:
+        for i in value:
             if i not in ('SUCCESS', 'FAILURE', 'SKIPPED'):
                 raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 

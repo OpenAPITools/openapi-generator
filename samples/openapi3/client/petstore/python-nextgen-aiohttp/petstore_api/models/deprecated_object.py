@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -30,6 +29,7 @@ class DeprecatedObject(BaseModel):
     __properties = ["name"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -60,7 +60,7 @@ class DeprecatedObject(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return DeprecatedObject.parse_obj(obj)
 
         _obj = DeprecatedObject.parse_obj({
