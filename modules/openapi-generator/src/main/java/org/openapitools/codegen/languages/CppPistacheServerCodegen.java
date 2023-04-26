@@ -342,14 +342,22 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         String result = super.apiFilename(templateName, tag);
 
         if (templateName.endsWith("impl-header.mustache")) {
-            result = injectImplInFilename(result, ".h");
+            result = implFilenameFromApiFilename(result, ".h");
         } else if (templateName.endsWith("impl-source.mustache")) {
-            result = injectImplInFilename(result, ".cpp");
+            result = implFilenameFromApiFilename(result, ".cpp");
         }
         return result;
     }
 
-    private String injectImplInFilename(String filename, String suffix) {
+    /**
+     * implFilenameFromApiFilename - Inserts the string "Impl" in front of the
+     * suffix and replace "api" with "impl" directory prefix.
+     *
+     * @param filename Filename of the api-file to be modified
+     * @param suffix Suffix of the file (usually ".cpp" or ".h")
+     * @return a filename string of impl file.
+     */
+    private String implFilenameFromApiFilename(String filename, String suffix) {
         String result = filename.substring(0, filename.length() - suffix.length()) + "Impl" + suffix;
         result = result.replace(apiFileFolder(), implFileFolder());
         return result;
