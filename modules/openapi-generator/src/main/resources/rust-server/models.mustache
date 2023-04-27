@@ -267,10 +267,15 @@ pub struct {{{classname}}} {
             {{^minLength}}
             length(max = {{maxLength}}),
             {{/minLength}}
-            {{#pattern}}
-            pattern(r"{{ pattern }}"),
-            {{/pattern}}
         {{/maxLength}}
+        {{^maxLength}}
+            {{#minLength}}
+            length(min = {{minLength}}),
+            {{/minLength}}
+        {{/maxLength}}
+        {{#pattern}}
+        pattern(r"{{ pattern }}"),
+        {{/pattern}}
         {{#maximum}}
             {{#minimum}}
             range(min = {{minimum}}, max = {{maximum}}),

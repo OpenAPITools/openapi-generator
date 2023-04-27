@@ -2850,12 +2850,14 @@ pub struct FormatTest {
 
     #[serde(rename = "string")]
     #[garde(
+        pattern(r"/[a-z]/i"),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
     #[garde(
+        pattern(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$"),
         )]
     pub byte: swagger::ByteArray,
 
