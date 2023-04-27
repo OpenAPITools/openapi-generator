@@ -16,6 +16,7 @@ public enum VendorExtension {
     X_CLASS_EXTRA_ANNOTATION("x-class-extra-annotation", ExtensionLevel.MODEL, "List of custom annotations to be added to model", null),
     X_FIELD_EXTRA_ANNOTATION("x-field-extra-annotation", ExtensionLevel.FIELD, "List of custom annotations to be added to property", null),
     X_VERSION_PARAM("x-version-param", ExtensionLevel.OPERATION_PARAMETER, "Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false", null),
+    X_PATTERN_MESSAGE("x-pattern-message", ExtensionLevel.FIELD, "Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable", null),
     ;
 
     private final String name;

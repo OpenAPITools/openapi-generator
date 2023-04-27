@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -26,13 +25,14 @@ class Name(BaseModel):
     """
     Model for testing model name same as property name
     """
-    name: StrictInt = ...
+    name: StrictInt = Field(...)
     snake_case: Optional[StrictInt] = None
     var_property: Optional[StrictStr] = Field(None, alias="property")
     var_123_number: Optional[StrictInt] = Field(None, alias="123Number")
     __properties = ["name", "snake_case", "property", "123Number"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -65,7 +65,7 @@ class Name(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return Name.parse_obj(obj)
 
         _obj = Name.parse_obj({

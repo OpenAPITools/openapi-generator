@@ -118,6 +118,27 @@ paths:
               schema:
                 type: string
   # query parameter tests
+  /query/enum_ref_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/enum_ref_string
+      parameters:
+      - in: query
+        name: enum_ref_string_query
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/datetime/date/string:
     get:
       tags:
