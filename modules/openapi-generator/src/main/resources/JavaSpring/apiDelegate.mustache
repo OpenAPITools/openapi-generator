@@ -16,6 +16,9 @@ import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 {{/reactive}}
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
