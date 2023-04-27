@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -153,4 +154,11 @@ model_whale.go
 model_zebra.go
 response.go
 signing.go
+test/api_another_fake_test.go
+test/api_default_test.go
+test/api_fake_classname_tags123_test.go
+test/api_fake_test.go
+test/api_pet_test.go
+test/api_store_test.go
+test/api_user_test.go
 utils.go
