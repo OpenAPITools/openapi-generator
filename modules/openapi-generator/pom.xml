@@ -44,8 +44,8 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
