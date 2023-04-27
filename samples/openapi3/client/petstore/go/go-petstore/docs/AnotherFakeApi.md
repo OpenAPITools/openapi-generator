@@ -1,10 +1,10 @@
-# \AnotherFakeApi
+# \AnotherFakeAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Call123TestSpecialTags**](AnotherFakeApi.md#Call123TestSpecialTags) | **Patch** /another-fake/dummy | To test special tags
+[**Call123TestSpecialTags**](AnotherFakeAPI.md#Call123TestSpecialTags) | **Patch** /another-fake/dummy | To test special tags
 
 
 
@@ -33,13 +33,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AnotherFakeApi.Call123TestSpecialTags(context.Background()).Client(client).Execute()
+    resp, r, err := apiClient.AnotherFakeAPI.Call123TestSpecialTags(context.Background()).Client(client).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeApi.Call123TestSpecialTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeAPI.Call123TestSpecialTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `Call123TestSpecialTags`: Client
-    fmt.Fprintf(os.Stdout, "Response from `AnotherFakeApi.Call123TestSpecialTags`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `AnotherFakeAPI.Call123TestSpecialTags`: %v\n", resp)
 }
 ```
 

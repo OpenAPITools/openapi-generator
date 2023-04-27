@@ -1,17 +1,17 @@
-# \UserApi
+# \UserAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateUser**](UserApi.md#CreateUser) | **Post** /user | Create user
-[**CreateUsersWithArrayInput**](UserApi.md#CreateUsersWithArrayInput) | **Post** /user/createWithArray | Creates list of users with given input array
-[**CreateUsersWithListInput**](UserApi.md#CreateUsersWithListInput) | **Post** /user/createWithList | Creates list of users with given input array
-[**DeleteUser**](UserApi.md#DeleteUser) | **Delete** /user/{username} | Delete user
-[**GetUserByName**](UserApi.md#GetUserByName) | **Get** /user/{username} | Get user by user name
-[**LoginUser**](UserApi.md#LoginUser) | **Get** /user/login | Logs user into the system
-[**LogoutUser**](UserApi.md#LogoutUser) | **Get** /user/logout | Logs out current logged in user session
-[**UpdateUser**](UserApi.md#UpdateUser) | **Put** /user/{username} | Updated user
+[**CreateUser**](UserAPI.md#CreateUser) | **Post** /user | Create user
+[**CreateUsersWithArrayInput**](UserAPI.md#CreateUsersWithArrayInput) | **Post** /user/createWithArray | Creates list of users with given input array
+[**CreateUsersWithListInput**](UserAPI.md#CreateUsersWithListInput) | **Post** /user/createWithList | Creates list of users with given input array
+[**DeleteUser**](UserAPI.md#DeleteUser) | **Delete** /user/{username} | Delete user
+[**GetUserByName**](UserAPI.md#GetUserByName) | **Get** /user/{username} | Get user by user name
+[**LoginUser**](UserAPI.md#LoginUser) | **Get** /user/login | Logs user into the system
+[**LogoutUser**](UserAPI.md#LogoutUser) | **Get** /user/logout | Logs out current logged in user session
+[**UpdateUser**](UserAPI.md#UpdateUser) | **Put** /user/{username} | Updated user
 
 
 
@@ -40,9 +40,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.CreateUser(context.Background()).Body(body).Execute()
+    r, err := apiClient.UserAPI.CreateUser(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.CreateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -102,9 +102,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.CreateUsersWithArrayInput(context.Background()).Body(body).Execute()
+    r, err := apiClient.UserAPI.CreateUsersWithArrayInput(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithArrayInput``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.CreateUsersWithArrayInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -164,9 +164,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.CreateUsersWithListInput(context.Background()).Body(body).Execute()
+    r, err := apiClient.UserAPI.CreateUsersWithListInput(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithListInput``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.CreateUsersWithListInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -228,9 +228,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.DeleteUser(context.Background(), username).Execute()
+    r, err := apiClient.UserAPI.DeleteUser(context.Background(), username).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.DeleteUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.DeleteUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -294,13 +294,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserApi.GetUserByName(context.Background(), username).Execute()
+    resp, r, err := apiClient.UserAPI.GetUserByName(context.Background(), username).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.GetUserByName``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetUserByName``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetUserByName`: User
-    fmt.Fprintf(os.Stdout, "Response from `UserApi.GetUserByName`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetUserByName`: %v\n", resp)
 }
 ```
 
@@ -363,13 +363,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserApi.LoginUser(context.Background()).Username(username).Password(password).Execute()
+    resp, r, err := apiClient.UserAPI.LoginUser(context.Background()).Username(username).Password(password).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LoginUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.LoginUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `LoginUser`: string
-    fmt.Fprintf(os.Stdout, "Response from `UserApi.LoginUser`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserAPI.LoginUser`: %v\n", resp)
 }
 ```
 
@@ -427,9 +427,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.LogoutUser(context.Background()).Execute()
+    r, err := apiClient.UserAPI.LogoutUser(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LogoutUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.LogoutUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -488,9 +488,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.UpdateUser(context.Background(), username).Body(body).Execute()
+    r, err := apiClient.UserAPI.UpdateUser(context.Background(), username).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.UpdateUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.UpdateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }

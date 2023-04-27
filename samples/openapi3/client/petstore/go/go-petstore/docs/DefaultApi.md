@@ -1,10 +1,10 @@
-# \DefaultApi
+# \DefaultAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**FooGet**](DefaultApi.md#FooGet) | **Get** /foo | 
+[**FooGet**](DefaultAPI.md#FooGet) | **Get** /foo | 
 
 
 
@@ -30,13 +30,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.DefaultApi.FooGet(context.Background()).Execute()
+    resp, r, err := apiClient.DefaultAPI.FooGet(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.FooGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.FooGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FooGet`: FooGetDefaultResponse
-    fmt.Fprintf(os.Stdout, "Response from `DefaultApi.FooGet`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.FooGet`: %v\n", resp)
 }
 ```
 

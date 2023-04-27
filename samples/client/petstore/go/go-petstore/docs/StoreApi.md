@@ -1,13 +1,13 @@
-# \StoreApi
+# \StoreAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteOrder**](StoreApi.md#DeleteOrder) | **Delete** /store/order/{order_id} | Delete purchase order by ID
-[**GetInventory**](StoreApi.md#GetInventory) | **Get** /store/inventory | Returns pet inventories by status
-[**GetOrderById**](StoreApi.md#GetOrderById) | **Get** /store/order/{order_id} | Find purchase order by ID
-[**PlaceOrder**](StoreApi.md#PlaceOrder) | **Post** /store/order | Place an order for a pet
+[**DeleteOrder**](StoreAPI.md#DeleteOrder) | **Delete** /store/order/{order_id} | Delete purchase order by ID
+[**GetInventory**](StoreAPI.md#GetInventory) | **Get** /store/inventory | Returns pet inventories by status
+[**GetOrderById**](StoreAPI.md#GetOrderById) | **Get** /store/order/{order_id} | Find purchase order by ID
+[**PlaceOrder**](StoreAPI.md#PlaceOrder) | **Post** /store/order | Place an order for a pet
 
 
 
@@ -36,9 +36,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.StoreApi.DeleteOrder(context.Background(), orderId).Execute()
+    r, err := apiClient.StoreAPI.DeleteOrder(context.Background(), orderId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.DeleteOrder``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.DeleteOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -103,13 +103,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StoreApi.GetInventory(context.Background()).Execute()
+    resp, r, err := apiClient.StoreAPI.GetInventory(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetInventory``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.GetInventory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetInventory`: map[string]int32
-    fmt.Fprintf(os.Stdout, "Response from `StoreApi.GetInventory`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StoreAPI.GetInventory`: %v\n", resp)
 }
 ```
 
@@ -165,13 +165,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StoreApi.GetOrderById(context.Background(), orderId).Execute()
+    resp, r, err := apiClient.StoreAPI.GetOrderById(context.Background(), orderId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.GetOrderById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.GetOrderById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetOrderById`: Order
-    fmt.Fprintf(os.Stdout, "Response from `StoreApi.GetOrderById`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StoreAPI.GetOrderById`: %v\n", resp)
 }
 ```
 
@@ -233,13 +233,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StoreApi.PlaceOrder(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.StoreAPI.PlaceOrder(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreApi.PlaceOrder``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.PlaceOrder``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PlaceOrder`: Order
-    fmt.Fprintf(os.Stdout, "Response from `StoreApi.PlaceOrder`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StoreAPI.PlaceOrder`: %v\n", resp)
 }
 ```
 
