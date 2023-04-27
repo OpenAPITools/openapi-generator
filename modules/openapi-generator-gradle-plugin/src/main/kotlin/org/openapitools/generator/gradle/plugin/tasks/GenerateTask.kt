@@ -106,7 +106,7 @@ open class GenerateTask : DefaultTask() {
     val inputSpecRootDirectory = project.objects.property<String>();
 
     /**
-     * Name of the file that will contains all merged specs
+     * Name of the file that will contain all merged specs
      */
     @Input
     @Optional

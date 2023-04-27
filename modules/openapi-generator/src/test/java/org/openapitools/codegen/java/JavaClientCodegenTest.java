@@ -1982,4 +1982,41 @@ public class JavaClientCodegenTest {
                 "  public Pet petType(String petType) {\n");
 
     }
+
+    @Test
+    public void testDeprecatedProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        // deprecated builder method
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" +
+                        " public BigDog declawed(Boolean declawed) {");
+
+        // deprecated getter
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" +
+                        " @javax.annotation.Nullable\n" +
+                        "\n" +
+                        " public Boolean getDeclawed() {");
+        // deprecated setter
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" +
+                " public void setDeclawed(Boolean declawed) {");
+
+
+        output.deleteOnExit();
+    }
+
 }

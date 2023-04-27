@@ -50,13 +50,13 @@ class Pig(BaseModel):
         error_messages = []
         match = 0
         # validate data type: BasquePig
-        if type(v) is not BasquePig:
+        if not isinstance(v, BasquePig):
             error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
         else:
             match += 1
 
         # validate data type: DanishPig
-        if type(v) is not DanishPig:
+        if not isinstance(v, DanishPig):
             error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
         else:
             match += 1

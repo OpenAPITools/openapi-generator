@@ -125,6 +125,7 @@ public class Pet {
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
+  @Deprecated
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
@@ -262,6 +263,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   public Pet status(StatusEnum status) {
     
     this.status = status;
@@ -282,6 +284,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
