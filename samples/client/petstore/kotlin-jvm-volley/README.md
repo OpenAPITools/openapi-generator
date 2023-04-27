@@ -168,7 +168,7 @@ Then, run:
 
 This runs all tests and packages the library.
 
-<a name="documentation-for-api-endpoints"></a>
+<a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -197,7 +197,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**updateUser**](docs/UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
-<a name="documentation-for-models"></a>
+<a id="documentation-for-models"></a>
 ## Documentation for Models
 
  - [org.openapitools.client.models.Category](docs/Category.md)
@@ -208,10 +208,12 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.User](docs/User.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-<a name="petstore_auth"></a>
+
+Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 - **Type**: OAuth
@@ -221,7 +223,7 @@ Class | Method | HTTP request | Description
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
-<a name="api_key"></a>
+<a id="api_key"></a>
 ### api_key
 
 - **Type**: API key
