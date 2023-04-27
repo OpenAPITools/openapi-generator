@@ -124,6 +124,34 @@ paths:
         - write:pets
         - read:pets
       x-spring-paginated: true
+  /pet/all:
+    get:
+      tags:
+      - pet
+      summary: List all pets
+      operationId: listAllPets
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        400:
+          description: Invalid status value
+          content: { }
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      x-spring-paginated: true
   /pet/findByTags:
     get:
       tags:

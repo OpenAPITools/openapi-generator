@@ -868,8 +868,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("PersonWithEmail.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("PersonWithEmail.java"));
         if (useBeanValidation) javaFileAssert.hasImports((useJakarta? "jakarta" : "javax") + ".validation.constraints");
         if (performBeanValidation) javaFileAssert.hasImports("org.hibernate.validator.constraints");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), contains);
@@ -944,6 +943,71 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
             .assertMethod("readAgreements", "ServerWebExchange");
+    }
+
+    @Test
+    public void shouldGenerateValidCodeWithPaginated_reactive_issue15265() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_15265.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("paginated", "ServerWebExchange", "Pageable")
+            .toFileAssert()
+            .assertMethod("paginatedWithParams", "String", "ServerWebExchange", "Pageable");
+    }
+
+    @Test
+    public void shouldGenerateValidCodeWithPaginated_nonReactive_issue15265() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_15265.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("paginated", "Pageable")
+            .toFileAssert()
+            .assertMethod("paginatedWithParams", "String", "Pageable");
     }
 
     @Test
@@ -1483,7 +1547,6 @@ public class SpringCodegenTest {
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-            .printFileContent()
             .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
             .assertMethod("updatePet")
             .assertMethodAnnotations()
@@ -1831,7 +1894,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("SomeMethodApi.java"))
-                .printFileContent()
                 .assertMethod("methodWithValidation")
                 .hasParameter("headerOne")
                 .assertParameterAnnotations()
@@ -1872,8 +1934,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
@@ -1904,8 +1965,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
@@ -1933,8 +1993,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"));
         javaFileAssert.assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
         javaFileAssert.hasNoImports("javax.validation.constraints.NotNull");
@@ -1950,7 +2009,6 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_14252.yaml");
 
         JavaFileAssert.assertThat(files.get("MyResponse.java"))
-            .printFileContent()
             .hasImports("com.fasterxml.jackson.databind.annotation.JsonSerialize", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer")
             .assertMethod("getMyPropTypeNumber")
             .assertMethodAnnotations()
@@ -1977,8 +2035,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").containsWithName("Size").containsWithName("javax.validation.constraints.Email");
         javaFileAssert
@@ -2010,7 +2067,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
-                .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return equalsNullable(this.picture, testObject.picture);");
 
@@ -2041,7 +2097,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
-                .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
@@ -2071,7 +2126,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("AddApi.java"))
-                .printFileContent()
                 .assertMethod("addPost")
                 .hasParameter("body")
                 .assertParameterAnnotations()
