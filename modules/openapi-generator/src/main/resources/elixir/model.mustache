@@ -19,7 +19,10 @@ end
 defimpl Poison.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
 {{#hasComplexVars}}
   import {{&moduleName}}.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     {{#vars}}
     {{^isPrimitiveType}}
@@ -27,11 +30,12 @@ defimpl Poison.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
     {{/baseType}}
     {{/isPrimitiveType}}
     {{/vars}}
+  end
 {{/hasComplexVars}}
 {{^hasComplexVars}}
   def decode(value, _options) do
     value
-{{/hasComplexVars}}
   end
+{{/hasComplexVars}}
 end
 {{/model}}{{/models}}

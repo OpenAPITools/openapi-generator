@@ -20,7 +20,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.AllOfWithSingleRef do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType, options)
   end

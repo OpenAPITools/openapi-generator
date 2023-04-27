@@ -28,7 +28,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.Pet do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:category, :struct, OpenapiPetstore.Model.Category, options)
     |> deserialize(:tags, :list, OpenapiPetstore.Model.Tag, options)

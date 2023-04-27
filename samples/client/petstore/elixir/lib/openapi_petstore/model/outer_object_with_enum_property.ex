@@ -18,7 +18,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:value, :struct, OpenapiPetstore.Model.OuterEnumInteger, options)
   end

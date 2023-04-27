@@ -20,7 +20,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.FileSchemaTestClass do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:file, :struct, OpenapiPetstore.Model.File, options)
     |> deserialize(:files, :list, OpenapiPetstore.Model.File, options)

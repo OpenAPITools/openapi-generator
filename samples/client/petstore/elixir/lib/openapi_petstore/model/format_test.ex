@@ -48,7 +48,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.FormatTest do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:date, :date, nil, options)
   end

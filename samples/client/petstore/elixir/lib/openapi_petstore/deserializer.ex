@@ -9,15 +9,15 @@ defmodule OpenapiPetstore.Deserializer do
   @doc """
   Update the provided model with a deserialization of a nested value
   """
-  @spec deserialize(struct(), :atom, :atom, struct(), keyword()) :: struct()
+  @spec deserialize(struct(), atom(), :date | :list | :map | :struct, module(), keyword() | map()) :: struct()
   def deserialize(model, field, :list, mod, options) do
     model
-    |> Map.update!(field, &decode(&1, Keyword.merge(options, [as: [struct(mod)]])))
+    |> Map.update!(field, &decode(&1, merge_options(options, as: [struct(mod)])))
   end
 
   def deserialize(model, field, :struct, mod, options) do
     model
-    |> Map.update!(field, &decode(&1, Keyword.merge(options, [as: struct(mod)])))
+    |> Map.update!(field, &decode(&1, merge_options(options, as: struct(mod))))
   end
 
   def deserialize(model, field, :map, mod, options) do
@@ -28,7 +28,7 @@ defmodule OpenapiPetstore.Deserializer do
       existing_value ->
         Map.new(existing_value, fn
           {key, val} ->
-            {key, decode(val, Keyword.merge(options, as: struct(mod)))}
+            {key, decode(val, merge_options(options, as: struct(mod)))}
         end)
     end
 
@@ -36,9 +36,8 @@ defmodule OpenapiPetstore.Deserializer do
   end
 
   def deserialize(model, field, :date, _, _options) do
-    value = Map.get(model, field)
-    case is_binary(value) do
-      true ->
+    case Map.get(model, field) do
+      value when is_binary(value) ->
         case DateTime.from_iso8601(value) do
           {:ok, datetime, _offset} -> Map.put(model, field, datetime)
           _ -> model
@@ -49,13 +48,31 @@ defmodule OpenapiPetstore.Deserializer do
     end
   end
 
-  if function_exported?(Poison.Decode, :decode, 2) do
+  if function_exported?(Poison.Decode, :transform, 2) do
+    @doc false
+    # This is an internal function used within Poison.Decoder impls
+    def normalize_options(options) when is_list(options), do: Map.new(options)
+    def normalize_options(options) when is_map(options), do: options
+
     defp decode(value, options) do
-      Poison.Decode.decode(value, options)
+      Poison.Decode.transform(value, normalize_options(options))
+    end
+
+    defp merge_options(options, extra) do
+      Map.merge(normalize_options(options), normalize_options(extra))
     end
   else
+    @doc false
+    # This is an internal function used within Poison.Decoder impls
+    def normalize_options(options) when is_list(options), do: options
+    def normalize_options(options) when is_map(options), do: Keyword.new(options)
+
     defp decode(value, options) do
-      Poison.Decode.transform(value, options)
+      Poison.Decode.decode(value, normalize_options(options))
+    end
+
+    defp merge_options(options, extra) do
+      Keyword.merge(normalize_options(options), normalize_options(extra))
     end
   end
 end

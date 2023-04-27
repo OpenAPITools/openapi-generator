@@ -24,7 +24,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:deprecatedRef, :struct, OpenapiPetstore.Model.DeprecatedObject, options)
   end

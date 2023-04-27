@@ -22,7 +22,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:map, :map, OpenapiPetstore.Model.Animal, options)
   end

@@ -40,7 +40,10 @@ end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.NullableClass do
   import OpenapiPetstore.Deserializer
+
   def decode(value, options) do
+    options = normalize_options(options)
+
     value
     |> deserialize(:date_prop, :date, nil, options)
   end
