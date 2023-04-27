@@ -39,12 +39,6 @@ import {{#publicImports}}public {{/publicImports}}"{{{import}}}.proto";
   {{/isEnum}}
 
   {{/vars}}
-
-  {{#oneOf}}
-    oneof {
-      {{.}}
-    }
-  {{/oneOf}}
 }
 {{/isEnum}}
 {{/model}}

@@ -38,55 +38,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 public class ProtobufSchemaCodegenTest {
-
-    /*@Test
-    public void testCodeGenWithOneOf() throws IOException {
-        Map<String, Object> properties = new HashMap<>();
-        Map<String, String> globalProperties = new HashMap<>();
-        // set line break to \n across all platforms
-        System.setProperty("line.separator", "\n");
-
-        File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/oneOf.yaml");
-        TestUtils.ensureContainsFile(files, output, "models/shape.proto");
-        Path path = Paths.get(output + "/models/shape.proto");
-        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/shape.proto"));
-
-        output.delete();
-    }
-
-    @Test
-    public void testCodeGenWithOneOfSimple() throws IOException {
-        Map<String, Object> properties = new HashMap<>();
-        Map<String, String> globalProperties = new HashMap<>();
-        // set line break to \n across all platforms
-        System.setProperty("line.separator", "\n");
-
-        File output = Files.createTempDirectory("test").toFile();
-        List<File> files = generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/oneOfSimple.yaml");
-        TestUtils.ensureContainsFile(files, output, "models/shape.proto");
-        Path path = Paths.get(output + "/models/shape.proto");
-        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/shape.proto"));
-
-        output.delete();
-    }*/
-
-    @Test
-    public void testCodeGen() throws IOException {
-        Map<String, Object> properties = new HashMap<>();
-        Map<String, String> globalProperties = new HashMap<>();
-        // set line break to \n across all platforms
-        System.setProperty("line.separator", "\n");
-
-        File output = Files.createTempDirectory("test").toFile();
-        assertThatThrownBy(() ->
-                generate(output, properties, globalProperties, "src/test/resources/3_0/protobuf-schema/allOf.yaml"))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("At least components 'offerPayload_allOf_offerData_offerSet, travelOfferPayload_allOf_offerData_offerSet' are duplicated. Maybe not listed components are duplicated too.");
-    }
 
     @Test
     public void testFeatureSet() {
@@ -624,7 +576,7 @@ public class ProtobufSchemaCodegenTest {
         assertEquals(generatedFile, expectedFile);
     }
 
-    private List<File> generate(File output, Map<String, Object> properties, Map<String, String> globalProperties, String inputFile) {
+    private List<File> generate(File output, Map<String, Object> properties, Map<String, String> globalProperties, String inputFile) {        
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
                 .setAdditionalProperties(properties)
