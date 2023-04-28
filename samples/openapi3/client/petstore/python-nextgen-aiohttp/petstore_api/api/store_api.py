@@ -600,7 +600,7 @@ class StoreApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['order']:
+        if _params['order'] is not None:
             _body_params = _params['order']
 
         # set the HTTP header `Accept`

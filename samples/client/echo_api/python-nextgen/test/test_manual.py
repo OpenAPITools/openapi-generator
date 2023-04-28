@@ -84,6 +84,38 @@ class TestManual(unittest.TestCase):
         self.assertEqual(n.float, 456.2)
         self.assertEqual(n.double, 34.3)
 
+    def testBodyParameter(self):
+        n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
+        api_instance = openapi_client.BodyApi()
+        api_response = api_instance.test_echo_body_pet_response_string(n)
+        self.assertEqual(api_response, "{'name': 'testing', 'photoUrls': ['http://1', 'http://2']}")
+
+        t = openapi_client.Tag()
+        api_response = api_instance.test_echo_body_tag_response_string(t)
+        self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+
+        api_response = api_instance.test_echo_body_tag_response_string(None)
+        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
+
+        api_response = api_instance.test_echo_body_free_form_object_response_string({})
+        self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+
+    def echoServerResponseParaserTest(self):
+        s = """POST /echo/body/Pet/response_string HTTP/1.1
+Host: localhost:3000
+Accept-Encoding: identity
+Content-Length: 58
+Accept: text/plain
+Content-Type: application/json
+User-Agent: OpenAPI-Generator/1.0.0/python
+
+{"name": "testing", "photoUrls": ["http://1", "http://2"]}"""
+        e = EchoServerResponseParser(s)
+        self.assertEqual(e.body, '{"name": "testing", "photoUrls": ["http://1", "http://2"]}')
+        self.assertEqual(e.path, '/echo/body/Pet/response_string')
+        self.assertEqual(e.headers["Accept"], 'text/plain')
+        self.assertEqual(e.method, 'POST')
+
 class EchoServerResponseParser():
     def __init__(self, http_response):
         if http_response is None:
@@ -100,6 +132,7 @@ class EchoServerResponseParser():
                 self.protocol = items[2];
             elif lines[x] == "": # blank line
                 self.body = "\n".join(lines[x:])
+                break
             else:
                 key_value = lines[x].split(": ")
                 # store the header key-value pair in headers
