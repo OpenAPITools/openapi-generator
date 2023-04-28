@@ -110,6 +110,8 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**testEchoBodyPetResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetResponseStringWithHttpInfo) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
+*BodyApi* | [**testEchoBodyTagResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyTagResponseStringWithHttpInfo) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormIntegerBooleanStringWithHttpInfo**](docs/FormApi.md#testFormIntegerBooleanStringWithHttpInfo) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *HeaderApi* | [**testHeaderIntegerBooleanString**](docs/HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s)

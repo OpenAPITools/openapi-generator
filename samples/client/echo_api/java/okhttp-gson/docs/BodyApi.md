@@ -7,6 +7,7 @@ All URIs are relative to *http://localhost:3000*
 | [**testBinaryGif**](BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body |
 | [**testEchoBodyPet**](BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**testEchoBodyPetResponseString**](BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body |
+| [**testEchoBodyTagResponseString**](BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
 
 
 <a name="testBinaryGif"></a>
@@ -172,6 +173,68 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+<a name="testEchoBodyTagResponseString"></a>
+# **testEchoBodyTagResponseString**
+> String testEchoBodyTagResponseString(tag)
+
+Test empty json (request body)
+
+Test empty json (request body)
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.BodyApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://localhost:3000");
+
+    BodyApi apiInstance = new BodyApi(defaultClient);
+    Tag tag = new Tag(); // Tag | Tag object
+    try {
+      String result = apiInstance.testEchoBodyTagResponseString(tag);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling BodyApi#testEchoBodyTagResponseString");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tag** | [**Tag**](Tag.md)| Tag object | [optional] |
 
 ### Return type
 

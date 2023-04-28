@@ -19,6 +19,7 @@ import org.openapitools.client.Pair;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.Tag;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -289,6 +290,87 @@ public class BodyApi {
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Test empty json (request body)
+   * Test empty json (request body)
+   * @param tag Tag object (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testEchoBodyTagResponseString(Tag tag) throws ApiException {
+    ApiResponse<String> localVarResponse = testEchoBodyTagResponseStringWithHttpInfo(tag);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Test empty json (request body)
+   * Test empty json (request body)
+   * @param tag Tag object (optional)
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyTagResponseStringRequestBuilder(tag);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testEchoBodyTagResponseString", localVarResponse);
+        }
+        // for plain text response
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder testEchoBodyTagResponseStringRequestBuilder(Tag tag) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/echo/body/Tag/response_string";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "text/plain");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(tag);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
