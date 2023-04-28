@@ -16,7 +16,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <version.jackson.databind.nullable>0.2.3</version.jackson.databind.nullable>
     </properties>
 
     <dependencies>
@@ -35,11 +34,6 @@
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>${version.jackson.databind.nullable}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>

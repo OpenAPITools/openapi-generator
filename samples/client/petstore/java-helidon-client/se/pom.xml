@@ -15,6 +15,9 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+    <properties>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.helidon.webclient</groupId>
@@ -35,11 +38,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

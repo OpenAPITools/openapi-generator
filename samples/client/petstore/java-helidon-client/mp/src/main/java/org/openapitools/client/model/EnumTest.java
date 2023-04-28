@@ -21,10 +21,6 @@ import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.OuterEnumDefaultValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 
 
 
