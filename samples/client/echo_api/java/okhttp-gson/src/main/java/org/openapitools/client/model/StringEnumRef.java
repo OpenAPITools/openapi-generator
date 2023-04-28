@@ -52,7 +52,7 @@ public enum StringEnumRef {
 
   public static StringEnumRef fromValue(String value) {
     for (StringEnumRef b : StringEnumRef.values()) {
-      if (b.value.equalsIgnoreCase(value)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }

@@ -80,7 +80,7 @@ public class DefaultValue {
     @JsonCreator
     public static ArrayStringEnumDefaultEnum fromValue(String value) {
       for (ArrayStringEnumDefaultEnum b : ArrayStringEnumDefaultEnum.values()) {
-        if (b.value.equalsIgnoreCase(value)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }

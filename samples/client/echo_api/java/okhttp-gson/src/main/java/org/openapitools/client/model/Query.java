@@ -82,7 +82,7 @@ public class Query {
 
     public static OutcomesEnum fromValue(String value) {
       for (OutcomesEnum b : OutcomesEnum.values()) {
-        if (b.value.equalsIgnoreCase(value)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }

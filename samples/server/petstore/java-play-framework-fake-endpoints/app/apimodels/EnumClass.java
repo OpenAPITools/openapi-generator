@@ -31,7 +31,7 @@ public enum EnumClass {
   @JsonCreator
   public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
-      if (b.value.equalsIgnoreCase(value)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }

@@ -74,7 +74,7 @@ public class EnumStringDiscriminator {
 
     public static EnumStrTypeEnum fromValue(String value) {
       for (EnumStrTypeEnum b : EnumStrTypeEnum.values()) {
-        if (b.value.equalsIgnoreCase(value)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }

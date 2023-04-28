@@ -38,7 +38,7 @@ GREATER_THAN_OR_EQUAL_TO(String.valueOf(">=")), DOLLAR(String.valueOf("$"));
     @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
-            if (b.value.equalsIgnoreCase(value)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
@@ -73,7 +73,7 @@ FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
     @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-            if (b.value.equalsIgnoreCase(value)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }

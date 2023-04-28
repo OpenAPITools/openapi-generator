@@ -59,7 +59,7 @@ public class EnumArrays  implements Serializable {
     @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
-            if (b.value.equalsIgnoreCase(value)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
@@ -107,7 +107,7 @@ public class EnumArrays  implements Serializable {
     @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-            if (b.value.equalsIgnoreCase(value)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
