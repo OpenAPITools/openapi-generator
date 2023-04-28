@@ -1,5 +1,6 @@
 package org.openapitools.server.model;
 
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 /**

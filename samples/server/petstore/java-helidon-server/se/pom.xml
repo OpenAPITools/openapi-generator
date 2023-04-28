@@ -17,6 +17,7 @@
 
     <properties>
         <mainClass>org.openapitools.server.Main</mainClass>
+        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
     </properties>
 
     <dependencies>
@@ -55,6 +56,11 @@
         <dependency>
             <groupId>io.helidon.openapi</groupId>
             <artifactId>helidon-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${version.jackson.databind.nullable}</version>
         </dependency>
         <dependency>
             <groupId>io.helidon.media</groupId>

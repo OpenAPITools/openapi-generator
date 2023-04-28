@@ -13,6 +13,7 @@
 package org.openapitools.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import io.helidon.config.Config;
 import io.helidon.media.jackson.JacksonSupport;

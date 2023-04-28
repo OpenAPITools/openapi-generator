@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Function;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
@@ -235,6 +234,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder.toString(), "RFC3339DateFormat.java"));
                 break;
             case SERIALIZATION_LIBRARY_JSONB:
+                openApiNullable = false;
+                additionalProperties.put(OPENAPI_NULLABLE, false);
                 additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
                 break;
@@ -244,10 +245,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 LOGGER.error("Unknown serialization library option");
                 break;
         }
-
-        // JsonNullable is not implemented
-        openApiNullable = false;
-        additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
     }
 
     /**
@@ -413,13 +410,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 boolean addImports = false;
 
                 for (CodegenProperty var : cm.vars) {
-                    if (this.openApiNullable) {
-                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
-                        // only add JsonNullable and related imports to optional and nullable values
-                        addImports |= isOptionalNullable;
-                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
-                    }
-
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
                         // treat enum string as just string
                         var.datatypeWithEnum = var.dataType;

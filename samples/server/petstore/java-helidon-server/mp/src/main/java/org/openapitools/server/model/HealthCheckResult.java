@@ -12,6 +12,7 @@
 
 package org.openapitools.server.model;
 
+import org.openapitools.jackson.nullable.JsonNullable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
