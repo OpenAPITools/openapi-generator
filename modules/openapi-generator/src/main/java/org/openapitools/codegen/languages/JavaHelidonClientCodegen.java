@@ -410,6 +410,13 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 boolean addImports = false;
 
                 for (CodegenProperty var : cm.vars) {
+                    if (this.openApiNullable) {
+                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+                        // only add JsonNullable and related imports to optional and nullable values
+                        addImports |= isOptionalNullable;
+                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    }
+
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
                         // treat enum string as just string
                         var.datatypeWithEnum = var.dataType;
@@ -438,7 +445,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<>();
-                    imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
                     imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
