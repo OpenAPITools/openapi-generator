@@ -235,7 +235,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder.toString(), "RFC3339DateFormat.java"));
                 break;
             case SERIALIZATION_LIBRARY_JSONB:
-                openApiNullable = false;        // for Jackson only
                 additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
                 break;
@@ -245,6 +244,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 LOGGER.error("Unknown serialization library option");
                 break;
         }
+
+        // JsonNullable is not implemented
+        openApiNullable = false;
+        additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
     }
 
     /**

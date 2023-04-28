@@ -263,6 +263,10 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 LOGGER.error("Unknown serialization library option");
                 break;
         }
+
+        // JsonNullable is not implemented
+        openApiNullable = false;
+        additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
     }
 
     private void addApiTemplateFiles() {
