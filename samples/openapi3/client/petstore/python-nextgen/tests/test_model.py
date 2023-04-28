@@ -103,12 +103,18 @@ class ModelTests(unittest.TestCase):
         # test from_josn
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
-        self.assertEqual(p.actual_instance, [12, 34,56])
+        self.assertEqual(p.actual_instance, [12, 34, 56])
 
         try:
             p = petstore_api.Color.from_json('[2342112,0,0,0]')
         except ValueError as e:
             self.assertTrue("ensure this value is less than or equal to 255" in str(e))
+
+        # test to_json, to_dict method
+        json_str = '[12,34,56]'
+        p = petstore_api.Color.from_json(json_str)
+        self.assertEqual(p.to_json(), "[12, 34, 56]")
+        self.assertEqual(p.to_dict(), [12, 34, 56])
 
         # test nullable
         p = petstore_api.Color.from_json(None)
