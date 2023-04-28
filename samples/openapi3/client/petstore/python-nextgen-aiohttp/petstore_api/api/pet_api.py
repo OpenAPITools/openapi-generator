@@ -163,7 +163,7 @@ class PetApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['pet']:
+        if _params['pet'] is not None:
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`
@@ -922,7 +922,7 @@ class PetApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['pet']:
+        if _params['pet'] is not None:
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`

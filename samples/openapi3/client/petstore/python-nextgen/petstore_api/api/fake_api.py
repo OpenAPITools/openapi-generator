@@ -158,7 +158,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Content-Type`
@@ -575,7 +575,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['pet']:
+        if _params['pet'] is not None:
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`
@@ -716,7 +716,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -863,7 +863,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['outer_composite']:
+        if _params['outer_composite'] is not None:
             _body_params = _params['outer_composite']
 
         # set the HTTP header `Accept`
@@ -1010,7 +1010,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -1157,7 +1157,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -1304,7 +1304,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['outer_object_with_enum_property']:
+        if _params['outer_object_with_enum_property'] is not None:
             _body_params = _params['outer_object_with_enum_property']
 
         # set the HTTP header `Accept`
@@ -1451,7 +1451,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Content-Type`
@@ -1592,7 +1592,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['file_schema_test_class']:
+        if _params['file_schema_test_class'] is not None:
             _body_params = _params['file_schema_test_class']
 
         # set the HTTP header `Content-Type`
@@ -1739,7 +1739,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['user']:
+        if _params['user'] is not None:
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -1880,7 +1880,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['client']:
+        if _params['client'] is not None:
             _body_params = _params['client']
 
         # set the HTTP header `Accept`
@@ -2589,7 +2589,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['request_body']:
+        if _params['request_body'] is not None:
             _body_params = _params['request_body']
 
         # set the HTTP header `Content-Type`

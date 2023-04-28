@@ -236,7 +236,7 @@ class {{classname}}(object):
         # process the body parameter
         _body_params = None
 {{#bodyParam}}
-        if _params['{{paramName}}']:
+        if _params['{{paramName}}'] is not None:
             _body_params = _params['{{paramName}}']
 
 {{/bodyParam}}

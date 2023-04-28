@@ -97,6 +97,9 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_echo_body_tag_response_string(None)
         self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
 
+        api_response = api_instance.test_echo_body_free_form_object_response_string({})
+        self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
 Host: localhost:3000

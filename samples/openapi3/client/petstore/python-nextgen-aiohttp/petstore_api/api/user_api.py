@@ -174,7 +174,7 @@ class UserApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['user']:
+        if _params['user'] is not None:
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -326,7 +326,7 @@ class UserApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['user']:
+        if _params['user'] is not None:
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -477,7 +477,7 @@ class UserApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['user']:
+        if _params['user'] is not None:
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -1227,7 +1227,7 @@ class UserApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['user']:
+        if _params['user'] is not None:
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
