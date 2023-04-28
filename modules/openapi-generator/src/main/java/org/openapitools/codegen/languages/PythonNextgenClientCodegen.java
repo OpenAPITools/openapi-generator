@@ -102,7 +102,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         // clear import mapping (from default generator) as python does not use it
