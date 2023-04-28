@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **size** | **int** |  | [optional] 
 **nested_pig** | [**Pig**](Pig.md) |  | [optional] 
+**nested_oneof_enum_string** | [**OneOfEnumString**](OneOfEnumString.md) |  | [optional] 
 
 ## Example
 

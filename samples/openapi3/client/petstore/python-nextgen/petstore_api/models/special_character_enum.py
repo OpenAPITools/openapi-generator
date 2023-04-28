@@ -12,7 +12,7 @@
 """
 
 
-from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg
@@ -39,4 +39,10 @@ class SpecialCharacterEnum(str, Enum):
     THIS_IS_EXCLAMATION = 'this_is_!'
     IMPORT = 'import'
     HELLO_WORLD = ' hello world '
+
+    @classmethod
+    def from_json(cls, json_str: str) -> SpecialCharacterEnum:
+        """Create an instance of SpecialCharacterEnum from a JSON string"""
+        return SpecialCharacterEnum(json.loads(json_str))
+
 
