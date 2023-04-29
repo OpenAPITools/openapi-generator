@@ -12,7 +12,7 @@
 """
 
 
-from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg
@@ -32,4 +32,10 @@ class EnumClass(str, Enum):
     ABC = '_abc'
     MINUS_EFG = '-efg'
     LEFT_PARENTHESIS_XYZ_RIGHT_PARENTHESIS = '(xyz)'
+
+    @classmethod
+    def from_json(cls, json_str: str) -> EnumClass:
+        """Create an instance of EnumClass from a JSON string"""
+        return EnumClass(json.loads(json_str))
+
 

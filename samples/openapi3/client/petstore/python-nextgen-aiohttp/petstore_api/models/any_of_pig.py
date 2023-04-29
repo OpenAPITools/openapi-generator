@@ -77,13 +77,13 @@ class AnyOfPig(BaseModel):
         try:
             instance.actual_instance = BasquePig.from_json(json_str)
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
              error_messages.append(str(e))
         # anyof_schema_2_validator: Optional[DanishPig] = None
         try:
             instance.actual_instance = DanishPig.from_json(json_str)
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
              error_messages.append(str(e))
 
         if error_messages:

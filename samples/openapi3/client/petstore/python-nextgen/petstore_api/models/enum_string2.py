@@ -21,21 +21,20 @@ from aenum import Enum, no_arg
 
 
 
-class OuterEnumDefaultValue(str, Enum):
+class EnumString2(str, Enum):
     """
-    OuterEnumDefaultValue
+    EnumString2
     """
 
     """
     allowed enum values
     """
-    PLACED = 'placed'
-    APPROVED = 'approved'
-    DELIVERED = 'delivered'
+    C = 'c'
+    D = 'd'
 
     @classmethod
-    def from_json(cls, json_str: str) -> OuterEnumDefaultValue:
-        """Create an instance of OuterEnumDefaultValue from a JSON string"""
-        return OuterEnumDefaultValue(json.loads(json_str))
+    def from_json(cls, json_str: str) -> EnumString2:
+        """Create an instance of EnumString2 from a JSON string"""
+        return EnumString2(json.loads(json_str))
 
 

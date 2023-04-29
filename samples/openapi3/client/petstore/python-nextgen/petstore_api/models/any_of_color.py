@@ -50,19 +50,19 @@ class AnyOfColor(BaseModel):
         try:
             instance.anyof_schema_1_validator = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: List[int]
         try:
             instance.anyof_schema_2_validator = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: str
         try:
             instance.anyof_schema_3_validator = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         if error_messages:
             # no match
@@ -86,7 +86,7 @@ class AnyOfColor(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_1_validator
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into List[int]
         try:
@@ -95,7 +95,7 @@ class AnyOfColor(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_2_validator
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into str
         try:
@@ -104,7 +104,7 @@ class AnyOfColor(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_3_validator
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if error_messages:

@@ -85,13 +85,13 @@ class Pig(BaseModel):
         try:
             instance.actual_instance = BasquePig.from_json(json_str)
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into DanishPig
         try:
             instance.actual_instance = DanishPig.from_json(json_str)
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if match > 1:
