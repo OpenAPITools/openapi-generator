@@ -351,6 +351,7 @@ export class {{classname}} extends BaseAPI implements {{classname}}Interface {
 {{^withInterfaces}}
 export class {{classname}} extends BaseAPI {
 {{/withInterfaces}}
+    protected fp = {{classname}}Fp(this.configuration);
     {{#operation}}
     /**
      * {{&notes}}
@@ -374,12 +375,12 @@ export class {{classname}} extends BaseAPI {
      */
     {{#useSingleRequestParameter}}
     public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: AxiosRequestConfig) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
+        return this.fp.{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}
     {{^useSingleRequestParameter}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
+        return this.fp.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}
     {{^-last}}

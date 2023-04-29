@@ -278,6 +278,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class StoreApi extends BaseAPI {
+    protected fp = StoreApiFp(this.configuration);
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
@@ -287,7 +288,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -298,7 +299,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getInventory(options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -310,7 +311,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -322,6 +323,6 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public placeOrder(body: Order, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

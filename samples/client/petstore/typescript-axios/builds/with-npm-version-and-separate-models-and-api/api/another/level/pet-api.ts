@@ -588,6 +588,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
  * @extends {BaseAPI}
  */
 export class PetApi extends BaseAPI {
+    protected fp = PetApiFp(this.configuration);
     /**
      * 
      * @summary Add a new pet to the store
@@ -597,7 +598,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public addPet(body: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).addPet(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.addPet(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -610,7 +611,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -622,7 +623,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -635,7 +636,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -647,7 +648,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public getPetById(petId: number, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getPetById(petId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -659,7 +660,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public updatePet(body: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePet(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updatePet(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -673,7 +674,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -687,6 +688,6 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 }

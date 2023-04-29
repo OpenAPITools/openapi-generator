@@ -416,6 +416,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    protected fp = DefaultApiFp(this.configuration);
     /**
      * 
      * @param {FilePostRequest} [filePostRequest] 
@@ -424,7 +425,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public filePost(filePostRequest?: FilePostRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).filePost(filePostRequest, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.filePost(filePostRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -435,7 +436,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -446,7 +447,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

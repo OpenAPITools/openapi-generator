@@ -1826,6 +1826,7 @@ export const AnotherFakeApiFactory = function (configuration?: Configuration, ba
  * @extends {BaseAPI}
  */
 export class AnotherFakeApi extends BaseAPI {
+    protected fp = AnotherFakeApiFp(this.configuration);
     /**
      * To test special tags and operation ID starting with number
      * @summary To test special tags
@@ -1835,7 +1836,7 @@ export class AnotherFakeApi extends BaseAPI {
      * @memberof AnotherFakeApi
      */
     public _123testSpecialTags(client: Client, options?: AxiosRequestConfig) {
-        return AnotherFakeApiFp(this.configuration)._123testSpecialTags(client, options).then((request) => request(this.axios, this.basePath));
+        return this.fp._123testSpecialTags(client, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1922,6 +1923,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    protected fp = DefaultApiFp(this.configuration);
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -1929,7 +1931,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public fooGet(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).fooGet(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.fooGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3047,6 +3049,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class FakeApi extends BaseAPI {
+    protected fp = FakeApiFp(this.configuration);
     /**
      * 
      * @summary Health check endpoint
@@ -3055,7 +3058,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public fakeHealthGet(options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).fakeHealthGet(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.fakeHealthGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3066,7 +3069,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public fakeOuterBooleanSerialize(body?: boolean, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).fakeOuterBooleanSerialize(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.fakeOuterBooleanSerialize(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3077,7 +3080,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).fakeOuterCompositeSerialize(outerComposite, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.fakeOuterCompositeSerialize(outerComposite, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3088,7 +3091,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public fakeOuterNumberSerialize(body?: number, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).fakeOuterNumberSerialize(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.fakeOuterNumberSerialize(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3099,7 +3102,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public fakeOuterStringSerialize(body?: string, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).fakeOuterStringSerialize(body, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.fakeOuterStringSerialize(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3110,7 +3113,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public getArrayOfEnums(options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).getArrayOfEnums(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getArrayOfEnums(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3121,7 +3124,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testBodyWithFileSchema(fileSchemaTestClass, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testBodyWithFileSchema(fileSchemaTestClass, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3133,7 +3136,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testBodyWithQueryParams(query: string, user: User, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testBodyWithQueryParams(query, user, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testBodyWithQueryParams(query, user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3145,7 +3148,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testClientModel(client: Client, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testClientModel(client, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testClientModel(client, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3170,7 +3173,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3189,7 +3192,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3206,7 +3209,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3218,7 +3221,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testInlineAdditionalProperties(requestBody, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testInlineAdditionalProperties(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3231,7 +3234,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testJsonFormData(param: string, param2: string, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testJsonFormData(param, param2, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testJsonFormData(param, param2, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3246,7 +3249,7 @@ export class FakeApi extends BaseAPI {
      * @memberof FakeApi
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3347,6 +3350,7 @@ export const FakeClassnameTags123ApiFactory = function (configuration?: Configur
  * @extends {BaseAPI}
  */
 export class FakeClassnameTags123Api extends BaseAPI {
+    protected fp = FakeClassnameTags123ApiFp(this.configuration);
     /**
      * To test class name in snake case
      * @summary To test class name in snake case
@@ -3356,7 +3360,7 @@ export class FakeClassnameTags123Api extends BaseAPI {
      * @memberof FakeClassnameTags123Api
      */
     public testClassname(client: Client, options?: AxiosRequestConfig) {
-        return FakeClassnameTags123ApiFp(this.configuration).testClassname(client, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.testClassname(client, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4011,6 +4015,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
  * @extends {BaseAPI}
  */
 export class PetApi extends BaseAPI {
+    protected fp = PetApiFp(this.configuration);
     /**
      * 
      * @summary Add a new pet to the store
@@ -4020,7 +4025,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public addPet(pet: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).addPet(pet, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.addPet(pet, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4033,7 +4038,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4045,7 +4050,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4058,7 +4063,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4070,7 +4075,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public getPetById(petId: number, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getPetById(petId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4082,7 +4087,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public updatePet(pet: Pet, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePet(pet, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updatePet(pet, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4096,7 +4101,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4110,7 +4115,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4124,7 +4129,7 @@ export class PetApi extends BaseAPI {
      * @memberof PetApi
      */
     public uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: AxiosRequestConfig) {
-        return PetApiFp(this.configuration).uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4384,6 +4389,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class StoreApi extends BaseAPI {
+    protected fp = StoreApiFp(this.configuration);
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
@@ -4393,7 +4399,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public deleteOrder(orderId: string, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4404,7 +4410,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getInventory(options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4416,7 +4422,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public getOrderById(orderId: number, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4428,7 +4434,7 @@ export class StoreApi extends BaseAPI {
      * @memberof StoreApi
      */
     public placeOrder(order: Order, options?: AxiosRequestConfig) {
-        return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -4929,6 +4935,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI {
+    protected fp = UserApiFp(this.configuration);
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -4938,7 +4945,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public createUser(user: User, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUser(user, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.createUser(user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4950,7 +4957,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUsersWithArrayInput(user, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.createUsersWithArrayInput(user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4962,7 +4969,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).createUsersWithListInput(user, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.createUsersWithListInput(user, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4974,7 +4981,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public deleteUser(username: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.deleteUser(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4986,7 +4993,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public getUserByName(username: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.getUserByName(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -4999,7 +5006,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public loginUser(username: string, password: string, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5010,7 +5017,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public logoutUser(options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
+        return this.fp.logoutUser(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5023,7 +5030,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public updateUser(username: string, user: User, options?: AxiosRequestConfig) {
-        return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
+        return this.fp.updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
