@@ -5,6 +5,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -476,7 +477,13 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             return;
         }
 
-        super.addOperationToGroup(super.sanitizeTag(tag), resourcePath, operation, co, operations);
+        if (!generateOperationOnlyForFirstTag) {
+            for (Tag tmpTag : co.tags) {
+                super.addOperationToGroup(super.sanitizeTag(tmpTag.getName()), resourcePath, operation, co, operations);
+            }
+        } else {
+            super.addOperationToGroup(super.sanitizeTag(tag), resourcePath, operation, co, operations);
+        }
     }
 
     @Override

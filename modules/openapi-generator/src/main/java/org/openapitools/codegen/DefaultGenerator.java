@@ -1164,42 +1164,59 @@ public class DefaultGenerator implements Generator {
 
         final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
-        for (Tag tag : tags) {
-            try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
-                codegenOperation.tags = new ArrayList<>(tags);
-                config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
-                List<SecurityRequirement> securities = operation.getSecurity();
-                if (securities != null && securities.isEmpty()) {
-                    continue;
-                }
+        // Find the first possible tag
+        Tag tag = null;
+        for (Tag tmpTag : tags) {
+            List<SecurityRequirement> securities = operation.getSecurity();
+            if (securities != null && securities.isEmpty()) {
+                continue;
+            }
 
-                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+            tag = tmpTag;
+            break;
+        }
+
+        // Emit a warning for any ignored tag
+        for (Tag tmpTag : tags) {
+            if (tmpTag.equals(tag)) {
+                continue;
+            } else {
+                LOGGER.warn("Multiple tags detected for resource path '{}' ignoring '{}'", resourcePath, tmpTag.getName());
+            }
+        }
+
+        try {
+            CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
+            codegenOperation.tags = new ArrayList<>(tags);
+            config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
+
+            List<SecurityRequirement> securities = operation.getSecurity();
+
+            Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+
+            if (authMethods != null && !authMethods.isEmpty()) {
+                List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
+                codegenOperation.hasAuthMethods = true;
+            } else {
+                authMethods = getAuthMethods(globalSecurities, securitySchemes);
 
                 if (authMethods != null && !authMethods.isEmpty()) {
                     List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                    codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
+                    codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
                     codegenOperation.hasAuthMethods = true;
-                } else {
-                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
-
-                    if (authMethods != null && !authMethods.isEmpty()) {
-                        List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
-                        codegenOperation.hasAuthMethods = true;
-                    }
                 }
-
-            } catch (Exception ex) {
-                String msg = "Could not process operation:\n" //
-                        + "  Tag: " + tag + "\n"//
-                        + "  Operation: " + operation.getOperationId() + "\n" //
-                        + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
-                        + "  Schemas: " + openAPI.getComponents().getSchemas() + "\n"  //
-                        + "  Exception: " + ex.getMessage();
-                throw new RuntimeException(msg, ex);
             }
+
+        } catch (Exception ex) {
+            String msg = "Could not process operation:\n" //
+                    + "  Tag: " + tag + "\n"//
+                    + "  Operation: " + operation.getOperationId() + "\n" //
+                    + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
+                    + "  Schemas: " + openAPI.getComponents().getSchemas() + "\n"  //
+                    + "  Exception: " + ex.getMessage();
+            throw new RuntimeException(msg, ex);
         }
 
     }

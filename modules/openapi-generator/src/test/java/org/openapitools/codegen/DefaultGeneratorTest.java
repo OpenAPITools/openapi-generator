@@ -399,6 +399,27 @@ public class DefaultGeneratorTest {
     }
 
     @Test
+    public void testNoDuplicatesOnTags() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setPaths(new Paths());
+        List<String> tags = new ArrayList<>();
+        tags.add("foo");
+        tags.add("bar");
+        openAPI.getPaths().addPathItem("/path1", new PathItem().get(new Operation().tags(tags).operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        opts.config(new DefaultCodegen());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        Map<String, List<CodegenOperation>> result = generator.processPaths(openAPI.getPaths());
+        Assert.assertEquals(result.size(), 1);
+        List<CodegenOperation> fooList = result.get("Foo");
+        Assert.assertEquals(fooList.size(), 1);
+    }
+
+    @Test
     public void testRefModelValidationProperties() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/refAliasedPrimitiveWithValidation.yml");
         ClientOptInput opts = new ClientOptInput();
