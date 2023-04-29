@@ -452,7 +452,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]",
                     getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname));
-        } else if (cp.isString || cp.isBinary || cp.isByteArray) {
+        } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. constr(regex=r'/[a-z]/i', strict=True)
@@ -567,12 +567,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("conint");
                 return String.format(Locale.ROOT, "%s(%s)", "conint",
                         StringUtils.join(fieldCustomization, ", "));
-
             } else {
                 pydanticImports.add("StrictInt");
                 return "StrictInt";
             }
-        /* comment out the following as byte/binary is a string at the moment (path to the file, e.g. "/var/tmp/a.gif")
         } else if (cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -584,6 +582,11 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if (cp.getMaxLength() != null) {
                     fieldCustomization.add("max_length=" + cp.getMaxLength());
                 }
+                if (cp.getPattern() != null) {
+                    pydanticImports.add("validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                }
 
                 pydanticImports.add("conbytes");
                 return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
@@ -591,7 +594,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
                 return "StrictBytes";
-            }*/
+            }
         } else if (cp.isBoolean) {
             pydanticImports.add("StrictBool");
             return "StrictBool";

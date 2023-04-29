@@ -23,6 +23,8 @@ from openapi_client.rest import ApiException
 class TestManual(unittest.TestCase):
     """Manually written tests"""
 
+    gif_base64 = "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+
     def setUp(self):
         pass
 
@@ -71,7 +73,7 @@ class TestManual(unittest.TestCase):
 
         # Test binary response
         api_response = api_instance.test_binary_gif()
-        self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==")
+        self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), self.gif_base64)
 
     def testNumberPropertiesOnly(self):
         n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
@@ -83,6 +85,15 @@ class TestManual(unittest.TestCase):
         self.assertEqual(n.number, 123.1)
         self.assertEqual(n.float, 456.2)
         self.assertEqual(n.double, 34.3)
+
+    def testApplicatinOctetStreamBinaryBodyParameter(self):
+        api_instance = openapi_client.BodyApi()
+        binary_body = base64.b64decode(self.gif_base64)
+        api_response = api_instance.test_body_application_octetstream_binary(binary_body)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/body/application/octetstream/binary")
+        self.assertEqual(e.headers["Content-Type"], 'application/octet-stream')
+        self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
     def testBodyParameter(self):
         n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
@@ -121,7 +132,7 @@ class EchoServerResponseParser():
         if http_response is None:
             raise ValueError("http response must not be None.")
 
-        lines = http_response.split("\n")
+        lines = http_response.splitlines()
         self.headers = dict()
         x = 0
         while x < len(lines):
@@ -131,7 +142,7 @@ class EchoServerResponseParser():
                 self.path = items[1];
                 self.protocol = items[2];
             elif lines[x] == "": # blank line
-                self.body = "\n".join(lines[x:])
+                self.body = "\n".join(lines[x+1:])
                 break
             else:
                 key_value = lines[x].split(": ")
