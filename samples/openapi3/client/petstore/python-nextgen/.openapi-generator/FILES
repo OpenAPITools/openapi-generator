@@ -89,6 +89,7 @@ petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py
 petstore_api/api_client.py
+petstore_api/api_response.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py

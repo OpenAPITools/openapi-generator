@@ -22,6 +22,7 @@ from pydantic import StrictInt, StrictStr
 
 
 from openapi_client.api_client import ApiClient
+from openapi_client.api_response import ApiResponse
 from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -70,11 +71,10 @@ class PathApi(object):
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
-        return self.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs)  # noqa: E501
+        return self.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs):  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> ApiResponse:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
@@ -90,9 +90,6 @@ class PathApi(object):
         :type path_integer: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -121,7 +118,6 @@ class PathApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -182,7 +178,6 @@ class PathApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,

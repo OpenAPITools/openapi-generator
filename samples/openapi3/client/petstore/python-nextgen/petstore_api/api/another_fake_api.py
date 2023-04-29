@@ -22,6 +22,7 @@ from pydantic import Field
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient
+from petstore_api.api_response import ApiResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -68,11 +69,10 @@ class AnotherFakeApi(object):
                  returns the request thread.
         :rtype: Client
         """
-        kwargs['_return_http_data_only'] = True
-        return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
+        return self.call_123_test_special_tags_with_http_info(client, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def call_123_test_special_tags_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -86,9 +86,6 @@ class AnotherFakeApi(object):
         :type client: Client
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -116,7 +113,6 @@ class AnotherFakeApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -181,7 +177,6 @@ class AnotherFakeApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,

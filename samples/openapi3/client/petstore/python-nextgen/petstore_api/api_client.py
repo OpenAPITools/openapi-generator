@@ -25,6 +25,7 @@ import tempfile
 from urllib.parse import quote
 
 from petstore_api.configuration import Configuration
+from petstore_api.api_response import ApiResponse
 import petstore_api.models
 from petstore_api import rest
 from petstore_api.exceptions import ApiValueError, ApiException
@@ -145,7 +146,7 @@ class ApiClient(object):
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_types_map=None, auth_settings=None,
-            _return_http_data_only=None, collection_formats=None,
+            collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None,
             _request_auth=None):
 
@@ -246,11 +247,10 @@ class ApiClient(object):
         else:
             return_data = None
 
-        if _return_http_data_only:
-            return (return_data)
-        else:
-            return (return_data, response_data.status,
-                    response_data.getheaders())
+        return ApiResponse(status_code = response_data.status,
+                           data = return_data,
+                           headers = response_data.getheaders(),
+                           raw_data = response_data.data)
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
@@ -357,7 +357,7 @@ class ApiClient(object):
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
-                 async_req=None, _return_http_data_only=None,
+                 async_req=None,
                  collection_formats=None,_preload_content=True,
                   _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
@@ -378,8 +378,6 @@ class ApiClient(object):
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
         :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data without head status code
-                                       and headers
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -405,7 +403,7 @@ class ApiClient(object):
                                    path_params, query_params, header_params,
                                    body, post_params, files,
                                    response_types_map, auth_settings,
-                                   _return_http_data_only, collection_formats,
+                                   collection_formats,
                                    _preload_content, _request_timeout, _host,
                                    _request_auth)
 
@@ -416,7 +414,6 @@ class ApiClient(object):
                                                        post_params, files,
                                                        response_types_map,
                                                        auth_settings,
-                                                       _return_http_data_only,
                                                        collection_formats,
                                                        _preload_content,
                                                        _request_timeout,

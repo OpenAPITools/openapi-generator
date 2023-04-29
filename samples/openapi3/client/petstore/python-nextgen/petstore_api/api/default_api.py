@@ -20,6 +20,7 @@ from typing_extensions import Annotated
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
 from petstore_api.api_client import ApiClient
+from petstore_api.api_response import ApiResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -63,11 +64,10 @@ class DefaultApi(object):
                  returns the request thread.
         :rtype: FooGetDefaultResponse
         """
-        kwargs['_return_http_data_only'] = True
-        return self.foo_get_with_http_info(**kwargs)  # noqa: E501
+        return self.foo_get_with_http_info(**kwargs).data  # noqa: E501
 
     @validate_arguments
-    def foo_get_with_http_info(self, **kwargs):  # noqa: E501
+    def foo_get_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -78,9 +78,6 @@ class DefaultApi(object):
 
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -107,7 +104,6 @@ class DefaultApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -161,7 +157,6 @@ class DefaultApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,

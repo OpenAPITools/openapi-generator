@@ -23,6 +23,7 @@ from pydantic import Field, StrictStr, conlist
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
+from petstore_api.api_response import ApiResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -77,13 +78,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+        return self.create_user_with_http_info(user, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def create_user_with_http_info(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs):  # noqa: E501
+    def create_user_with_http_info(self, user : Annotated[User, Field(..., description="Created user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -97,9 +97,6 @@ class UserApi(object):
         :type user: User
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -141,7 +138,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -200,7 +196,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             _host=_host,
@@ -243,13 +238,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+        return self.create_users_with_array_input_with_http_info(user, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def create_users_with_array_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_array_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -263,9 +257,6 @@ class UserApi(object):
         :type user: List[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -293,7 +284,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -352,7 +342,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
@@ -394,13 +383,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+        return self.create_users_with_list_input_with_http_info(user, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def create_users_with_list_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs):  # noqa: E501
+    def create_users_with_list_input_with_http_info(self, user : Annotated[conlist(User), Field(..., description="List of user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
           # noqa: E501
@@ -414,9 +402,6 @@ class UserApi(object):
         :type user: List[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -444,7 +429,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -503,7 +487,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
@@ -545,13 +528,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
+        return self.delete_user_with_http_info(username, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def delete_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs):  # noqa: E501
+    def delete_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be deleted")], **kwargs) -> ApiResponse:  # noqa: E501
         """Delete user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -565,9 +547,6 @@ class UserApi(object):
         :type username: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -595,7 +574,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -647,7 +625,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
@@ -689,13 +666,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: User
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
+        return self.get_user_by_name_with_http_info(username, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def get_user_by_name_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs):  # noqa: E501
+    def get_user_by_name_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The name that needs to be fetched. Use user1 for testing.")], **kwargs) -> ApiResponse:  # noqa: E501
         """Get user by user name  # noqa: E501
 
           # noqa: E501
@@ -709,9 +685,6 @@ class UserApi(object):
         :type username: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -739,7 +712,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -799,7 +771,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
@@ -843,13 +814,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: str
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
+        return self.login_user_with_http_info(username, password, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def login_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs):  # noqa: E501
+    def login_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="The user name for login")], password : Annotated[StrictStr, Field(..., description="The password for login in clear text")], **kwargs) -> ApiResponse:  # noqa: E501
         """Logs user into the system  # noqa: E501
 
           # noqa: E501
@@ -865,9 +835,6 @@ class UserApi(object):
         :type password: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -896,7 +863,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -958,7 +924,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
@@ -998,13 +963,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.logout_user_with_http_info(**kwargs)  # noqa: E501
+        return self.logout_user_with_http_info(**kwargs).data  # noqa: E501
 
     @validate_arguments
-    def logout_user_with_http_info(self, **kwargs):  # noqa: E501
+    def logout_user_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
 
           # noqa: E501
@@ -1016,9 +980,6 @@ class UserApi(object):
 
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -1045,7 +1006,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1094,7 +1054,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
@@ -1138,13 +1097,12 @@ class UserApi(object):
                  returns the request thread.
         :rtype: None
         """
-        kwargs['_return_http_data_only'] = True
         if async_req is not None:
             kwargs['async_req'] = async_req
-        return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+        return self.update_user_with_http_info(username, user, **kwargs).data  # noqa: E501
 
     @validate_arguments
-    def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs):  # noqa: E501
+    def update_user_with_http_info(self, username : Annotated[StrictStr, Field(..., description="name that need to be deleted")], user : Annotated[User, Field(..., description="Updated user object")], **kwargs) -> ApiResponse:  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -1160,9 +1118,6 @@ class UserApi(object):
         :type user: User
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
@@ -1191,7 +1146,6 @@ class UserApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
                 '_request_auth',
@@ -1253,7 +1207,6 @@ class UserApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
