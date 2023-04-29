@@ -39,6 +39,12 @@ import com.google.gson.stream.JsonWriter;
     this.value = value;
   }
 
+  {{^isString}}
+  {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}(String value) {
+    this.value = {{{dataType}}}.valueOf(value);
+  }
+  {{/isString}}
+
 {{#jackson}}
   @JsonValue
 {{/jackson}}
