@@ -176,7 +176,7 @@ class {{{classname}}} {
                 {{/items.isMap}}
                 {{^items.isMap}}
                   {{#items.complexType}}
-        {{{name}}}: {{{items.complexType}}}.mapFromJson(json[r'{{{baseName}}}'{{#required}}{{^isNullable}}!{{/isNullable}}{{/required}},
+        {{{name}}}: {{{items.complexType}}}.mapFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}},
                   {{/items.complexType}}
                   {{^items.complexType}}
         {{{name}}}: mapCastOfType<String, {{items.dataType}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
@@ -265,12 +265,10 @@ class {{{classname}}} {
   static Map<String, List<{{{classname}}}>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<{{{classname}}}>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = {{{classname}}}.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = {{{classname}}}.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
