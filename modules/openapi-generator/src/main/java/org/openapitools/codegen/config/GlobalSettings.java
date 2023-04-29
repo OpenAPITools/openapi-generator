@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.config;
 
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -49,6 +50,10 @@ public class GlobalSettings {
         return properties.get().getProperty(key);
     }
 
+    public static Optional<String> getPropertyOpt(String key) {
+        return Optional.ofNullable(getProperty(key));
+    }
+
     public static void setProperty(String key, String value) {
         properties.get().setProperty(key, value);
     }
@@ -60,4 +65,5 @@ public class GlobalSettings {
     public static void reset() {
         properties.remove();
     }
+
 }

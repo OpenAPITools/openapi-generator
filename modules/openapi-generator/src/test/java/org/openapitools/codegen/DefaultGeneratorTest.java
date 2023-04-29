@@ -17,6 +17,8 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -26,6 +28,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DefaultGeneratorTest {
 
@@ -345,7 +349,7 @@ public class DefaultGeneratorTest {
     }
 
     @Test
-    public void testNonStrictProcessPaths() throws Exception {
+    public void testNonStrictProcessPaths() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setPaths(new Paths());
         openAPI.getPaths().addPathItem("path1/", new PathItem().get(new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
@@ -370,7 +374,7 @@ public class DefaultGeneratorTest {
     }
 
     @Test
-    public void testProcessPaths() throws Exception {
+    public void testProcessPaths() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setPaths(new Paths());
         openAPI.getPaths().addPathItem("/path1", new PathItem().get(new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
@@ -669,7 +673,7 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }
-    
+
     @Test
     public void testHandlesRelativeUrlsInServers() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10056.yaml");
@@ -770,5 +774,85 @@ public class DefaultGeneratorTest {
         // The bug causes a StackOverflowError when calling generateModels
         generator.generateModels(files, allModels, filteredSchemas);
         // all fine, we have passed
+    }
+
+    public class GenerationConfiguration {
+        @BeforeMethod
+        @AfterMethod
+        public void cleanup() {
+            System.clearProperty(CodegenConstants.APIS);
+            System.clearProperty(CodegenConstants.MODELS);
+            System.clearProperty(CodegenConstants.SUPPORTING_FILES);
+            System.clearProperty(CodegenConstants.GENERATE_APIS);
+            System.clearProperty(CodegenConstants.GENERATE_MODELS);
+            System.clearProperty(CodegenConstants.GENERATE_SUPPORTING_FILES);
+            GlobalSettings.reset();
+        }
+
+        @Test
+        public void nothingSetGenereateAll() {
+            testProperties(true, true, true);
+        }
+
+        @Test
+        public void specifyApiListGenerateOnlyApis() {
+            System.setProperty(CodegenConstants.APIS, "anApi,anotherApi");
+            testProperties(true, false, false);
+        }
+        @Test
+        public void specifyModelsListGenerateOnlyModels() {
+            System.setProperty(CodegenConstants.MODELS, "modelA");
+            testProperties(false, true, false);
+        }
+
+        @Test
+        public void specifySupportingFileListGenerateOnlySupportingFiles() {
+            System.setProperty(CodegenConstants.SUPPORTING_FILES, "pom");
+            testProperties(false, false, true);
+        }
+
+        @Test
+        public void specifyApiListWithForceModelsAndSupportingGenerateEverything() {
+            System.setProperty(CodegenConstants.APIS, "anApi,anotherApi");
+            System.setProperty(CodegenConstants.GENERATE_MODELS, "true");
+            System.setProperty(CodegenConstants.GENERATE_SUPPORTING_FILES, "true");
+            testProperties(true, true, true);
+        }
+
+        @Test
+        public void specifyModelsListWithForceApisGenerateApisAndModels() {
+            System.setProperty(CodegenConstants.GENERATE_APIS, "true");
+            System.setProperty(CodegenConstants.MODELS, "modelA");
+            testProperties(true, true, false);
+        }
+
+        @Test
+        public void generatePropertyBypassObjectList() {
+            System.setProperty(CodegenConstants.APIS, "anApi,anotherApi");
+            System.setProperty(CodegenConstants.MODELS, "modelA");
+            System.setProperty(CodegenConstants.SUPPORTING_FILES, "pom");
+            System.setProperty(CodegenConstants.GENERATE_APIS, "false");
+            System.setProperty(CodegenConstants.GENERATE_MODELS, "false");
+            System.setProperty(CodegenConstants.GENERATE_SUPPORTING_FILES, "false");
+            testProperties(false, false, false);
+        }
+
+        private void testProperties(boolean generateApis, boolean generateModels, boolean generateSupportingFiles) {
+            OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/recursion-bug-4650.yaml");
+            ClientOptInput opts = new ClientOptInput();
+            opts.openAPI(openAPI);
+            DefaultCodegen config = new DefaultCodegen();
+            config.setStrictSpecBehavior(false);
+            opts.config(config);
+            final DefaultGenerator generator = new DefaultGenerator();
+            generator.opts(opts);
+            // WHEN
+            generator.configureGeneratorProperties();
+            // THEN
+            assertThat(generator.config.additionalProperties())
+                    .containsEntry(CodegenConstants.GENERATE_APIS, generateApis)
+                    .containsEntry(CodegenConstants.GENERATE_MODELS, generateModels)
+                    .containsEntry(CodegenConstants.GENERATE_SUPPORTING_FILES, generateSupportingFiles);
+        }
     }
 }
