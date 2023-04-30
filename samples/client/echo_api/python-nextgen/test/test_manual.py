@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 import datetime
 import base64
+import os
 
 import openapi_client
 from openapi_client.api.query_api import QueryApi # noqa: E501
@@ -25,8 +26,13 @@ class TestManual(unittest.TestCase):
 
     gif_base64 = "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
 
+    def setUpFiles(self):
+        self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
+        self.test_file_dir = os.path.realpath(self.test_file_dir)
+        self.test_gif = os.path.join(self.test_file_dir, "test.gif")
+
     def setUp(self):
-        pass
+        self.setUpFiles()
 
     def tearDown(self):
         pass
@@ -90,6 +96,19 @@ class TestManual(unittest.TestCase):
         api_instance = openapi_client.BodyApi()
         binary_body = base64.b64decode(self.gif_base64)
         api_response = api_instance.test_body_application_octetstream_binary(binary_body)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/body/application/octetstream/binary")
+        self.assertEqual(e.headers["Content-Type"], 'application/octet-stream')
+        self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
+
+    def testApplicatinOctetStreamBinaryBodyParameterWithFile(self):
+        api_instance = openapi_client.BodyApi()
+        try:
+            api_response = api_instance.test_body_application_octetstream_binary("invalid_file_path")
+        except FileNotFoundError as err:
+            self.assertEqual("[Errno 2] No such file or directory: 'invalid_file_path'", str(err))
+
+        api_response = api_instance.test_body_application_octetstream_binary(self.test_gif)
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/body/application/octetstream/binary")
         self.assertEqual(e.headers["Content-Type"], 'application/octet-stream')

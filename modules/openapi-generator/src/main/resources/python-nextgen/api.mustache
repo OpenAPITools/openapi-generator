@@ -3,6 +3,7 @@
 {{>partial_header}}
 
 import re  # noqa: F401
+import io
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated{{#asyncio}}
@@ -223,13 +224,13 @@ class {{classname}}(object):
 {{#formParams}}
         if _params['{{paramName}}']:
             {{^isFile}}
-            _form_params.append(('{{baseName}}', _params['{{paramName}}']))
+            _form_params.append(('{{{baseName}}}', _params['{{paramName}}']))
             {{/isFile}}
             {{#isFile}}
-            _files['{{baseName}}'] = _params['{{paramName}}']
+            _files['{{{baseName}}}'] = _params['{{paramName}}']
             {{/isFile}}
             {{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            _collection_formats['{{{baseName}}}'] = '{{collectionFormat}}'
             {{/isArray}}
 
 {{/formParams}}
@@ -238,6 +239,13 @@ class {{classname}}(object):
 {{#bodyParam}}
         if _params['{{paramName}}'] is not None:
             _body_params = _params['{{paramName}}']
+            {{#isBinary}}
+            # convert to byte array if the input is a file name (str)
+            if isinstance(_body_params, str):
+                with io.open(_body_params, "rb") as _fp:
+                   _body_params_from_file = _fp.read()
+                _body_params = _body_params_from_file
+            {{/isBinary}}
 
 {{/bodyParam}}
         {{#hasProduces}}

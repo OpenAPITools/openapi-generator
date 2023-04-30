@@ -14,13 +14,14 @@
 
 
 import re  # noqa: F401
+import io
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBytes
+from pydantic import Field, StrictBytes, StrictStr
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 from openapi_client.models.pet import Pet
 from openapi_client.models.tag import Tag
@@ -177,7 +178,7 @@ class BodyApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_body_application_octetstream_binary(self, body : Optional[StrictBytes] = None, **kwargs) -> str:  # noqa: E501
+    def test_body_application_octetstream_binary(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> str:  # noqa: E501
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -208,7 +209,7 @@ class BodyApi(object):
         return self.test_body_application_octetstream_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_application_octetstream_binary_with_http_info(self, body : Optional[StrictBytes] = None, **kwargs):  # noqa: E501
+    def test_body_application_octetstream_binary_with_http_info(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs):  # noqa: E501
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -287,6 +288,11 @@ class BodyApi(object):
         _body_params = None
         if _params['body'] is not None:
             _body_params = _params['body']
+            # convert to byte array if the input is a file name (str)
+            if isinstance(_body_params, str):
+                with io.open(_body_params, "rb") as _fp:
+                   _body_params_from_file = _fp.read()
+                _body_params = _body_params_from_file
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

@@ -589,11 +589,15 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("conbytes");
-                return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+                pydanticImports.add("constr");
+                typingImports.add("Union");
+                return String.format(Locale.ROOT, "%s(%s)", "Union[conbytes, constr]", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
-                return "StrictBytes";
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+                return "Union[StrictBytes, StrictStr]";
             }
         } else if (cp.isBoolean) {
             pydanticImports.add("StrictBool");
@@ -865,11 +869,15 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("conbytes");
-                return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+                pydanticImports.add("constr");
+                typingImports.add("Union");
+                return String.format(Locale.ROOT, "%s(%s)", "Union[conbytes, constr]", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
-                return "StrictBytes";
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+                return "Union[StrictBytes, StrictStr]";
             }
         } else if (cp.isBoolean) {
             pydanticImports.add("StrictBool");
