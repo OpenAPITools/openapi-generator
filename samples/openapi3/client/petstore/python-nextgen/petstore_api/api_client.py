@@ -146,8 +146,9 @@ class ApiClient(object):
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_types_map=None, auth_settings=None,
-            collection_formats=None,
-            _preload_content=True, _request_timeout=None, _host=None,
+            _return_http_data_only=None, collection_formats=None,
+            _request_timeout=None,
+            _host=None,
             _request_auth=None):
 
         config = self.configuration
@@ -213,7 +214,6 @@ class ApiClient(object):
                 query_params=query_params,
                 headers=header_params,
                 post_params=post_params, body=body,
-                _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
             if e.body:
@@ -223,9 +223,6 @@ class ApiClient(object):
         self.last_response = response_data
 
         return_data = response_data
-
-        if not _preload_content:
-            return return_data
 
         response_type = response_types_map.get(str(response_data.status), None)
 
@@ -247,7 +244,10 @@ class ApiClient(object):
         else:
             return_data = None
 
-        return ApiResponse(status_code = response_data.status,
+        if _return_http_data_only:
+            return return_data
+        else:
+            return ApiResponse(status_code = response_data.status,
                            data = return_data,
                            headers = response_data.getheaders(),
                            raw_data = response_data.data)
@@ -357,9 +357,9 @@ class ApiClient(object):
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
-                 async_req=None,
-                 collection_formats=None,_preload_content=True,
-                  _request_timeout=None, _host=None, _request_auth=None):
+                 async_req=None, _return_http_data_only=None,
+                 collection_formats=None,
+                 _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -378,11 +378,10 @@ class ApiClient(object):
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
         :param async_req bool: execute request asynchronously
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -403,8 +402,8 @@ class ApiClient(object):
                                    path_params, query_params, header_params,
                                    body, post_params, files,
                                    response_types_map, auth_settings,
-                                   collection_formats,
-                                   _preload_content, _request_timeout, _host,
+                                   _return_http_data_only, collection_formats,
+                                   _request_timeout, _host,
                                    _request_auth)
 
         return self.pool.apply_async(self.__call_api, (resource_path,
@@ -414,39 +413,34 @@ class ApiClient(object):
                                                        post_params, files,
                                                        response_types_map,
                                                        auth_settings,
+                                                       _return_http_data_only,
                                                        collection_formats,
-                                                       _preload_content,
                                                        _request_timeout,
                                                        _host, _request_auth))
 
     def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None, _preload_content=True,
-                _request_timeout=None):
+                post_params=None, body=None, _request_timeout=None):
         """Makes the HTTP request using RESTClient."""
         if method == "GET":
             return self.rest_client.get_request(url,
                                         query_params=query_params,
-                                        _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
                                         headers=headers)
         elif method == "HEAD":
             return self.rest_client.head_request(url,
                                          query_params=query_params,
-                                         _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
                                          headers=headers)
         elif method == "OPTIONS":
             return self.rest_client.options_request(url,
                                             query_params=query_params,
                                             headers=headers,
-                                            _preload_content=_preload_content,
                                             _request_timeout=_request_timeout)
         elif method == "POST":
             return self.rest_client.post_request(url,
                                          query_params=query_params,
                                          headers=headers,
                                          post_params=post_params,
-                                         _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
                                          body=body)
         elif method == "PUT":
@@ -454,7 +448,6 @@ class ApiClient(object):
                                         query_params=query_params,
                                         headers=headers,
                                         post_params=post_params,
-                                        _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
                                         body=body)
         elif method == "PATCH":
@@ -462,14 +455,12 @@ class ApiClient(object):
                                           query_params=query_params,
                                           headers=headers,
                                           post_params=post_params,
-                                          _preload_content=_preload_content,
                                           _request_timeout=_request_timeout,
                                           body=body)
         elif method == "DELETE":
             return self.rest_client.delete_request(url,
                                            query_params=query_params,
                                            headers=headers,
-                                           _preload_content=_preload_content,
                                            _request_timeout=_request_timeout,
                                            body=body)
         else:

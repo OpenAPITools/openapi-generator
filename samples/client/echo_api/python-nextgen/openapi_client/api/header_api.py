@@ -62,10 +62,6 @@ class HeaderApi(object):
         :type string_header: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75,7 +71,8 @@ class HeaderApi(object):
                  returns the request thread.
         :rtype: str
         """
-        return self.test_header_integer_boolean_string_with_http_info(integer_header, boolean_header, string_header, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.test_header_integer_boolean_string_with_http_info(integer_header, boolean_header, string_header, **kwargs)  # noqa: E501
 
     @validate_arguments
     def test_header_integer_boolean_string_with_http_info(self, integer_header : Optional[StrictInt] = None, boolean_header : Optional[StrictBool] = None, string_header : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -96,10 +93,9 @@ class HeaderApi(object):
         :type string_header: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -125,7 +121,7 @@ class HeaderApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -188,7 +184,7 @@ class HeaderApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

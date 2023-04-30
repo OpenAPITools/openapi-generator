@@ -59,10 +59,6 @@ class PetApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72,7 +68,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: None
         """
-        return self.add_pet_with_http_info(pet, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
     def add_pet_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
@@ -89,10 +86,9 @@ class PetApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -116,7 +112,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -174,7 +170,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -196,10 +192,6 @@ class PetApi(object):
         :type api_key: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -209,7 +201,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: None
         """
-        return self.delete_pet_with_http_info(pet_id, api_key, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
     def delete_pet_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="Pet id to delete")], api_key : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -228,10 +221,9 @@ class PetApi(object):
         :type api_key: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -256,7 +248,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -310,7 +302,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -330,10 +322,6 @@ class PetApi(object):
         :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -343,7 +331,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: List[Pet]
         """
-        return self.find_pets_by_status_with_http_info(status, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     @validate_arguments
     def find_pets_by_status_with_http_info(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs) -> ApiResponse:  # noqa: E501
@@ -360,10 +349,9 @@ class PetApi(object):
         :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -387,7 +375,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -446,7 +434,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -466,10 +454,6 @@ class PetApi(object):
         :type tags: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -479,7 +463,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: List[Pet]
         """
-        return self.find_pets_by_tags_with_http_info(tags, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     @validate_arguments
     def find_pets_by_tags_with_http_info(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
@@ -496,10 +481,9 @@ class PetApi(object):
         :type tags: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -523,7 +507,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -582,7 +566,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -602,10 +586,6 @@ class PetApi(object):
         :type pet_id: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -615,7 +595,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: Pet
         """
-        return self.get_pet_by_id_with_http_info(pet_id, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     @validate_arguments
     def get_pet_by_id_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to return")], **kwargs) -> ApiResponse:  # noqa: E501
@@ -632,10 +613,9 @@ class PetApi(object):
         :type pet_id: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -659,7 +639,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -718,7 +698,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -738,10 +718,6 @@ class PetApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -751,7 +727,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: None
         """
-        return self.update_pet_with_http_info(pet, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
     def update_pet_with_http_info(self, pet : Annotated[Pet, Field(..., description="Pet object that needs to be added to the store")], **kwargs) -> ApiResponse:  # noqa: E501
@@ -768,10 +745,9 @@ class PetApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -795,7 +771,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -853,7 +829,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -877,10 +853,6 @@ class PetApi(object):
         :type status: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -890,7 +862,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: None
         """
-        return self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
 
     @validate_arguments
     def update_pet_with_form_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet that needs to be updated")], name : Annotated[Optional[StrictStr], Field(description="Updated name of the pet")] = None, status : Annotated[Optional[StrictStr], Field(description="Updated status of the pet")] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -911,10 +884,9 @@ class PetApi(object):
         :type status: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -940,7 +912,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1004,7 +976,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -1028,10 +1000,6 @@ class PetApi(object):
         :type file: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1041,7 +1009,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: ApiResponse
         """
-        return self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
     @validate_arguments
     def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictStr], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -1062,10 +1031,9 @@ class PetApi(object):
         :type file: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1091,7 +1059,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1161,7 +1129,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -1185,10 +1153,6 @@ class PetApi(object):
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1198,7 +1162,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: ApiResponse
         """
-        return self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs).data  # noqa: E501
+        kwargs['_return_http_data_only'] = True
+        return self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
     @validate_arguments
     def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictStr, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
@@ -1219,10 +1184,9 @@ class PetApi(object):
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1248,7 +1212,7 @@ class PetApi(object):
         _all_params.extend(
             [
                 'async_req',
-                '_preload_content',
+                '_return_http_data_only',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1318,7 +1282,7 @@ class PetApi(object):
             response_types_map=_response_types_map,
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
-            _preload_content=_params.get('_preload_content', True),
+            _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
