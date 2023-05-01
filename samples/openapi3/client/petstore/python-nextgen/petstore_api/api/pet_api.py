@@ -13,13 +13,14 @@
 
 
 import re  # noqa: F401
+import io
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr, conlist, validator
+from pydantic import Field, StrictBytes, StrictInt, StrictStr, conlist, validator
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
@@ -1051,7 +1052,7 @@ class PetApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictStr], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def upload_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -1086,7 +1087,7 @@ class PetApi(object):
         return self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[StrictStr], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
+    def upload_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, file : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="file to upload")] = None, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
           # noqa: E501
@@ -1214,7 +1215,7 @@ class PetApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictStr, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def upload_file_with_required_file(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501
@@ -1249,7 +1250,7 @@ class PetApi(object):
         return self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[StrictStr, Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
+    def upload_file_with_required_file_with_http_info(self, pet_id : Annotated[StrictInt, Field(..., description="ID of pet to update")], required_file : Annotated[Union[StrictBytes, StrictStr], Field(..., description="file to upload")], additional_metadata : Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
           # noqa: E501

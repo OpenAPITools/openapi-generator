@@ -113,6 +113,7 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
+*BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body

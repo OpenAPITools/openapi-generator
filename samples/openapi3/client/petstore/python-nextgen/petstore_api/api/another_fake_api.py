@@ -13,6 +13,7 @@
 
 
 import re  # noqa: F401
+import io
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated

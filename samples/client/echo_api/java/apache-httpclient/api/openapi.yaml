@@ -313,6 +313,28 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /body/application/octetstream/binary:
+    post:
+      description: Test body parameter(s)
+      operationId: test/body/application/octetstream/binary
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+      x-content-type: application/octet-stream
+      x-accepts: text/plain
   /echo/body/Pet:
     post:
       description: Test body parameter(s)
