@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
 
 class FormatTest(BaseModel):
@@ -34,8 +34,8 @@ class FormatTest(BaseModel):
     decimal: Optional[condecimal()] = None
     string: Optional[constr(strict=True)] = None
     string_with_double_quote_pattern: Optional[constr(strict=True)] = None
-    byte: Optional[StrictBytes] = None
-    binary: Optional[StrictBytes] = None
+    byte: Optional[Union[StrictBytes, StrictStr]] = None
+    binary: Optional[Union[StrictBytes, StrictStr]] = None
     var_date: date = Field(..., alias="date")
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     uuid: Optional[StrictStr] = None

@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**test_binary_gif**](BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body
+[**test_body_application_octetstream_binary**](BodyApi.md#test_body_application_octetstream_binary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 [**test_echo_body_free_form_object_response_string**](BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 [**test_echo_body_pet**](BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s)
 [**test_echo_body_pet_response_string**](BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body
@@ -64,6 +65,71 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: image/gif
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_body_application_octetstream_binary**
+> str test_body_application_octetstream_binary(body=body)
+
+Test body parameter(s)
+
+Test body parameter(s)
+
+### Example
+
+```python
+import time
+import os
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:3000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost:3000"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.BodyApi(api_client)
+    body = None # bytearray |  (optional)
+
+    try:
+        # Test body parameter(s)
+        api_response = api_instance.test_body_application_octetstream_binary(body=body)
+        print("The response of BodyApi->test_body_application_octetstream_binary:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling BodyApi->test_body_application_octetstream_binary: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **bytearray**|  | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/octet-stream
+ - **Accept**: text/plain
 
 ### HTTP response details
 | Status code | Description | Response headers |
