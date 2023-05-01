@@ -93,14 +93,12 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
 {{/model}}{{/models}}
 
-<a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
 {{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
 {{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-<a id="{{name}}"></a>
-### {{name}}
+### {{{name}}}
 
 {{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
