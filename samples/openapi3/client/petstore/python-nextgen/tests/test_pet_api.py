@@ -144,6 +144,7 @@ class PetApiTests(unittest.TestCase):
 
         self.assertIsInstance(api_response_object.data, petstore_api.Pet)
         self.assertEqual(api_response_object.status_code, 200)
+        self.assertEqual(api_response_object.headers['Content-Type'], "application/json")
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
