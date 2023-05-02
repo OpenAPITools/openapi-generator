@@ -2269,3 +2269,9 @@ components:
         unescapedLiteralString:
           type: string
           default: C:\Users\username
+    OneOfString:
+      oneOf:
+        - type: string
+          pattern: ^a
+        - type: string
+          pattern: ^b
