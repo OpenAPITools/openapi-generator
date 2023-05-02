@@ -608,6 +608,18 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .map(Tag::getName)
+                        .filter(tag::equalsIgnoreCase)
+                        .findFirst()
+                        .ifPresent(tagName -> operation.put("tagName", tagName));
+                operation.put("tagDescription", "");
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .filter(t -> tag.equalsIgnoreCase(t.getName()))
+                        .map(Tag::getDescription)
+                        .findFirst()
+                        .ifPresent(description -> operation.put("tagDescription", description));
+                Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());
                 operation.putAll(config.additionalProperties());

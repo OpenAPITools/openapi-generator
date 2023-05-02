@@ -13,6 +13,11 @@ import org.jboss.resteasy.annotations.GZIP;
 {{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
+
+{{#useMicroProfileOpenAPIAnnotations}}
+import org.eclipse.microprofile.openapi.annotations.*;
+{{/useMicroProfileOpenAPIAnnotations}}
+
 {{#supportAsync}}
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
@@ -24,8 +29,9 @@ import java.util.List;
 {{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 
-@Path("{{commonPath}}"){{#useSwaggerAnnotations}}
-@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
+{{#useMicroProfileOpenAPIAnnotations}}@OpenAPIDefinition(info = @Info(title = "{{{tagName}}}", version="{{{version}}}", description="{{{tagDescription}}}")){{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
+@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}
+@Path("{{commonPath}}"){{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}
