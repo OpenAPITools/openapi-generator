@@ -112,6 +112,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
@@ -160,6 +161,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     protected boolean useResponseEntity = true;
+    protected boolean useEnumCaseInsensitive = false;
     protected boolean useSpringBoot3 = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
@@ -254,6 +256,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use the `ResponseEntity` type to wrap return values of generated API methods. "
                     + "If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity));
+        cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE,
+                "Use `equalsIgnoreCase` when String for enum comparison",
+                useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
             "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
             useSpringBoot3));
@@ -500,6 +505,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
+
+        if (additionalProperties.containsKey(USE_ENUM_CASE_INSENSITIVE)) {
+            this.setUseEnumCaseInsensitive(Boolean.parseBoolean(additionalProperties.get(USE_ENUM_CASE_INSENSITIVE).toString()));
+        }
+        writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
 
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
@@ -1058,6 +1068,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseResponseEntity(boolean useResponseEntity) {
         this.useResponseEntity = useResponseEntity;
+    }
+
+    public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
+        this.useEnumCaseInsensitive = useEnumCaseInsensitive;
     }
 
     @Override

@@ -53,19 +53,19 @@ class Color(BaseModel):
         try:
             instance.oneof_schema_1_validator = v
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: List[int]
         try:
             instance.oneof_schema_2_validator = v
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: str
         try:
             instance.oneof_schema_3_validator = v
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
@@ -97,7 +97,7 @@ class Color(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_1_validator
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into List[int]
         try:
@@ -106,7 +106,7 @@ class Color(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_2_validator
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into str
         try:
@@ -115,7 +115,7 @@ class Color(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_3_validator
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if match > 1:
@@ -129,17 +129,26 @@ class Color(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
             return self.actual_instance.to_json()
         else:
-            return "null"
+            return json.dumps(self.actual_instance)
 
     def to_dict(self) -> dict:
         """Returns the dict representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return None
+
+        to_dict = getattr(self.actual_instance, "to_dict", None)
+        if callable(to_dict):
             return self.actual_instance.to_dict()
         else:
-            return dict()
+            # primitive type
+            return self.actual_instance
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

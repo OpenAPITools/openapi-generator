@@ -135,6 +135,37 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /pet/all:
+    get:
+      operationId: listAllPets
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+        "400":
+          content: {}
+          description: Invalid status value
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: List all pets
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByTags:
     get:
       deprecated: true

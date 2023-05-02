@@ -13,6 +13,7 @@
 
 
 import re  # noqa: F401
+import io
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
@@ -20,9 +21,9 @@ from typing import overload, Optional, Union, Awaitable
 
 from datetime import date, datetime
 
-from pydantic import Field, StrictBool, StrictInt, StrictStr, confloat, conint, conlist, constr, validator
+from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, confloat, conint, conlist, constr, validator
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 from petstore_api.models.client import Client
 from petstore_api.models.enum_class import EnumClass
@@ -169,7 +170,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Content-Type`
@@ -616,7 +617,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['pet']:
+        if _params['pet'] is not None:
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`
@@ -767,7 +768,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -924,7 +925,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['outer_composite']:
+        if _params['outer_composite'] is not None:
             _body_params = _params['outer_composite']
 
         # set the HTTP header `Accept`
@@ -1081,7 +1082,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -1238,7 +1239,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -1395,7 +1396,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['outer_object_with_enum_property']:
+        if _params['outer_object_with_enum_property'] is not None:
             _body_params = _params['outer_object_with_enum_property']
 
         # set the HTTP header `Accept`
@@ -1434,15 +1435,15 @@ class FakeApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @overload
-    async def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs) -> None:  # noqa: E501
+    async def test_body_with_binary(self, body : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(..., description="image to upload")], **kwargs) -> None:  # noqa: E501
         ...
 
     @overload
-    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+    def test_body_with_binary(self, body : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(..., description="image to upload")], async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
         ...
 
     @validate_arguments
-    def test_body_with_binary(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
+    def test_body_with_binary(self, body : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(..., description="image to upload")], async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1475,7 +1476,7 @@ class FakeApi(object):
         return self.test_body_with_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_with_binary_with_http_info(self, body : Annotated[Optional[StrictStr], Field(..., description="image to upload")], **kwargs):  # noqa: E501
+    def test_body_with_binary_with_http_info(self, body : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(..., description="image to upload")], **kwargs):  # noqa: E501
         """test_body_with_binary  # noqa: E501
 
         For this test, the body has to be a binary file.  # noqa: E501
@@ -1552,8 +1553,13 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body']:
+        if _params['body'] is not None:
             _body_params = _params['body']
+            # convert to byte array if the input is a file name (str)
+            if isinstance(_body_params, str):
+                with io.open(_body_params, "rb") as _fp:
+                   _body_params_from_file = _fp.read()
+                _body_params = _body_params_from_file
 
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
@@ -1703,7 +1709,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['file_schema_test_class']:
+        if _params['file_schema_test_class'] is not None:
             _body_params = _params['file_schema_test_class']
 
         # set the HTTP header `Content-Type`
@@ -1860,7 +1866,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['user']:
+        if _params['user'] is not None:
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -2011,7 +2017,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['client']:
+        if _params['client'] is not None:
             _body_params = _params['client']
 
         # set the HTTP header `Accept`
@@ -2203,15 +2209,15 @@ class FakeApi(object):
             _request_auth=_params.get('_request_auth'))
 
     @overload
-    async def test_endpoint_parameters(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
+    async def test_endpoint_parameters(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[Union[StrictBytes, StrictStr], Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs) -> None:  # noqa: E501
         ...
 
     @overload
-    def test_endpoint_parameters(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[Union[StrictBytes, StrictStr], Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, async_req: Optional[bool]=True, **kwargs) -> None:  # noqa: E501
         ...
 
     @validate_arguments
-    def test_endpoint_parameters(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
+    def test_endpoint_parameters(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[Union[StrictBytes, StrictStr], Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, async_req: Optional[bool]=None, **kwargs) -> Union[None, Awaitable[None]]:  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -2270,7 +2276,7 @@ class FakeApi(object):
         return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, var_date, date_time, password, param_callback, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[StrictStr, Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[StrictStr], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
+    def test_endpoint_parameters_with_http_info(self, number : Annotated[confloat(le=543.2, ge=32.1), Field(..., description="None")], double : Annotated[confloat(le=123.4, ge=67.8), Field(..., description="None")], pattern_without_delimiter : Annotated[constr(strict=True), Field(..., description="None")], byte : Annotated[Union[StrictBytes, StrictStr], Field(..., description="None")], integer : Annotated[Optional[conint(strict=True, le=100, ge=10)], Field(description="None")] = None, int32 : Annotated[Optional[conint(strict=True, le=200, ge=20)], Field(description="None")] = None, int64 : Annotated[Optional[StrictInt], Field(description="None")] = None, float : Annotated[Optional[confloat(le=987.6)], Field(description="None")] = None, string : Annotated[Optional[constr(strict=True)], Field(description="None")] = None, binary : Annotated[Optional[Union[StrictBytes, StrictStr]], Field(description="None")] = None, var_date : Annotated[Optional[date], Field(description="None")] = None, date_time : Annotated[Optional[datetime], Field(description="None")] = None, password : Annotated[Optional[constr(strict=True, max_length=64, min_length=10)], Field(description="None")] = None, param_callback : Annotated[Optional[StrictStr], Field(description="None")] = None, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -2760,7 +2766,7 @@ class FakeApi(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['request_body']:
+        if _params['request_body'] is not None:
             _body_params = _params['request_body']
 
         # set the HTTP header `Content-Type`

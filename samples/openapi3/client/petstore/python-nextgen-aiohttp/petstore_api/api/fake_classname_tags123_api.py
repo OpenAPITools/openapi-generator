@@ -13,6 +13,7 @@
 
 
 import re  # noqa: F401
+import io
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
@@ -160,7 +161,7 @@ class FakeClassnameTags123Api(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['client']:
+        if _params['client'] is not None:
             _body_params = _params['client']
 
         # set the HTTP header `Accept`

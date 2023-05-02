@@ -27,5 +27,17 @@
     <backgroundBuildScanUpload>#{isFalse(env['CI'])}</backgroundBuildScanUpload> <!-- adjust to your CI provider -->
     <publish>ALWAYS</publish>
     <publishIfAuthenticated>true</publishIfAuthenticated>
+    <obfuscation>
+      <!-- Use a redacted value.-->
+      <ipAddresses>#{{'0.0.0.0'}}</ipAddresses>
+    </obfuscation>
   </buildScan>
+  <buildCache>
+    <local>
+      <enabled>false</enabled>
+    </local>
+    <remote>
+      <enabled>false</enabled>
+    </remote>
+  </buildCache>
 </gradleEnterprise>

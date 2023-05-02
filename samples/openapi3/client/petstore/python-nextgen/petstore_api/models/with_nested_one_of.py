@@ -20,6 +20,7 @@ import json
 
 from typing import Optional
 from pydantic import BaseModel, StrictInt
+from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
 
 class WithNestedOneOf(BaseModel):
@@ -28,8 +29,9 @@ class WithNestedOneOf(BaseModel):
     """
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = None
+    nested_oneof_enum_string: Optional[OneOfEnumString] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["size", "nested_pig"]
+    __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     class Config:
         """Pydantic configuration"""
@@ -59,6 +61,9 @@ class WithNestedOneOf(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of nested_pig
         if self.nested_pig:
             _dict['nested_pig'] = self.nested_pig.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of nested_oneof_enum_string
+        if self.nested_oneof_enum_string:
+            _dict['nested_oneof_enum_string'] = self.nested_oneof_enum_string.to_dict()
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -77,7 +82,8 @@ class WithNestedOneOf(BaseModel):
 
         _obj = WithNestedOneOf.parse_obj({
             "size": obj.get("size"),
-            "nested_pig": Pig.from_dict(obj.get("nested_pig")) if obj.get("nested_pig") is not None else None
+            "nested_pig": Pig.from_dict(obj.get("nested_pig")) if obj.get("nested_pig") is not None else None,
+            "nested_oneof_enum_string": OneOfEnumString.from_dict(obj.get("nested_oneof_enum_string")) if obj.get("nested_oneof_enum_string") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

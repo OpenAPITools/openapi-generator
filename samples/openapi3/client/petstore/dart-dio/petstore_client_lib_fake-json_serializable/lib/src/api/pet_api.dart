@@ -158,7 +158,7 @@ _bodyData=jsonEncode(pet);
   /// Returns a [Future] containing a [Response] with a [List<Pet>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<List<Pet>>> findPetsByStatus({ 
-    required List<String> status,
+    @Deprecated('status is deprecated') required List<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,

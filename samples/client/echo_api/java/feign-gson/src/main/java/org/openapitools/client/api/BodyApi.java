@@ -6,6 +6,7 @@ import org.openapitools.client.model.ApiResponse;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,64 @@ public interface BodyApi extends ApiClient.Api {
     "Accept: image/gif",
   })
   ApiResponse<File> testBinaryGifWithHttpInfo();
+
+
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param body  (optional)
+   * @return String
+   */
+  @RequestLine("POST /body/application/octetstream/binary")
+  @Headers({
+    "Content-Type: application/octet-stream",
+    "Accept: text/plain",
+  })
+  String testBodyApplicationOctetstreamBinary(File body);
+
+  /**
+   * Test body parameter(s)
+   * Similar to <code>testBodyApplicationOctetstreamBinary</code> but it also returns the http response headers .
+   * Test body parameter(s)
+   * @param body  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /body/application/octetstream/binary")
+  @Headers({
+    "Content-Type: application/octet-stream",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body);
+
+
+
+  /**
+   * Test free form object
+   * Test free form object
+   * @param body Free form object (optional)
+   * @return String
+   */
+  @RequestLine("POST /echo/body/FreeFormObject/response_string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: text/plain",
+  })
+  String testEchoBodyFreeFormObjectResponseString(Object body);
+
+  /**
+   * Test free form object
+   * Similar to <code>testEchoBodyFreeFormObjectResponseString</code> but it also returns the http response headers .
+   * Test free form object
+   * @param body Free form object (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /echo/body/FreeFormObject/response_string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body);
 
 
 
@@ -97,6 +156,35 @@ public interface BodyApi extends ApiClient.Api {
     "Accept: text/plain",
   })
   ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet);
+
+
+
+  /**
+   * Test empty json (request body)
+   * Test empty json (request body)
+   * @param tag Tag object (optional)
+   * @return String
+   */
+  @RequestLine("POST /echo/body/Tag/response_string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: text/plain",
+  })
+  String testEchoBodyTagResponseString(Tag tag);
+
+  /**
+   * Test empty json (request body)
+   * Similar to <code>testEchoBodyTagResponseString</code> but it also returns the http response headers .
+   * Test empty json (request body)
+   * @param tag Tag object (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /echo/body/Tag/response_string")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag);
 
 
 }

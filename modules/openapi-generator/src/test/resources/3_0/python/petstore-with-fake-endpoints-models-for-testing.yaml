@@ -2076,6 +2076,8 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+        nested_oneof_enum_string:
+          $ref: '#/components/schemas/OneOfEnumString'
     Self-Reference-Model:
       type: object
       properties:
@@ -2128,6 +2130,21 @@ components:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+    OneOfEnumString:
+      description: oneOf enum strings
+      oneOf:
+      - $ref: '#/components/schemas/EnumString1'
+      - $ref: '#/components/schemas/EnumString2'
+    EnumString1:
+      type: string
+      enum:
+        - "a"
+        - "b"
+    EnumString2:
+      type: string
+      enum:
+        - "c"
+        - "d"
     InnerDictWithProperty:
       type: object
       properties:
