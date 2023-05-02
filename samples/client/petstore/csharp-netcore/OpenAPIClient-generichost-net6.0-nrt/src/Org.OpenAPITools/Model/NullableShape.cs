@@ -100,6 +100,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type NullableShape
     /// </summary>
@@ -174,4 +175,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteEndObject();
         }
     }
+
 }

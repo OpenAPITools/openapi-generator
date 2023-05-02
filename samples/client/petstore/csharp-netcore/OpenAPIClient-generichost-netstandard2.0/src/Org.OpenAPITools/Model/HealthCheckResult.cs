@@ -75,6 +75,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type HealthCheckResult
     /// </summary>
@@ -142,4 +143,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteEndObject();
         }
     }
+
 }

@@ -41,21 +41,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneOfString" /> class.
-        /// </summary>
-        /// <param name="_string"></param>
-        [JsonConstructor]
-        internal OneOfString(string _string)
-        {
-            String = _string;
-        }
-
-        /// <summary>
-        /// Gets or Sets String
-        /// </summary>
-        public string? String { get; set; }
-
-        /// <summary>
         /// Gets or Sets String
         /// </summary>
         public string? String { get; set; }
@@ -90,6 +75,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type OneOfString
     /// </summary>
@@ -111,9 +97,6 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            Utf8JsonReader _stringReader = utf8JsonReader;
-            bool _stringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string? _string);
 
             Utf8JsonReader _stringReader = utf8JsonReader;
             bool _stringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string? _string);
@@ -143,9 +126,6 @@ namespace Org.OpenAPITools.Model
             if (_stringDeserialized)
                 return new OneOfString(_string);
 
-            if (_stringDeserialized)
-                return new OneOfString(_string);
-
             throw new JsonException();
         }
 
@@ -164,4 +144,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteEndObject();
         }
     }
+
 }

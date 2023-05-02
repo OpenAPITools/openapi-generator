@@ -37,14 +37,18 @@
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             {{#composedSchemas.anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
             bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
 
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.anyOf}}
             {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
             bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
 
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.oneOf}}
             {{#composedSchemas.allOf}}
             {{^isInherited}}
@@ -186,9 +190,11 @@
             {{/-last}}
             {{/nonNullableVars}}
             {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             if ({{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized)
                 return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
 
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{#-last}}
             throw new JsonException();
             {{/-last}}
