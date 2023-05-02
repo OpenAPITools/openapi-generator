@@ -13,24 +13,24 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictInt, StrictStr
+from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class Category(BaseModel):
     """
     Category
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = ...
+    name: StrictStr = Field(...)
     __properties = ["id", "name"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -61,7 +61,7 @@ class Category(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return Category.parse_obj(obj)
 
         _obj = Category.parse_obj({

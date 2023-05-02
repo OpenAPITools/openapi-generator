@@ -16,7 +16,7 @@ python-dateutil = ">=2.8.2"
 aiohttp = ">= 3.8.4"
 pem = ">= 19.3.0"
 pycryptodome = ">= 3.9.0"
-pydantic = "^1.10.5"
+pydantic = "^1.10.5, <2"
 aenum = ">=3.1.11"
 
 [tool.poetry.dev-dependencies]
@@ -28,3 +28,5 @@ flake8 = ">=4.0.0"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.pylint.'MESSAGES CONTROL']
+extension-pkg-whitelist = "pydantic"

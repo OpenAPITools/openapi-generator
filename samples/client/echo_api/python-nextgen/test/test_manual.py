@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 import datetime
 import base64
+import os
 
 import openapi_client
 from openapi_client.api.query_api import QueryApi # noqa: E501
@@ -23,11 +24,28 @@ from openapi_client.rest import ApiException
 class TestManual(unittest.TestCase):
     """Manually written tests"""
 
+    gif_base64 = "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+
+    def setUpFiles(self):
+        self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
+        self.test_file_dir = os.path.realpath(self.test_file_dir)
+        self.test_gif = os.path.join(self.test_file_dir, "test.gif")
+
     def setUp(self):
-        pass
+        self.setUpFiles()
 
     def tearDown(self):
         pass
+
+    def testEnumRefString(self):
+        api_instance = openapi_client.QueryApi()
+        q = openapi_client.StringEnumRef("unclassified")
+
+        # Test query parameter(s)
+        api_response = api_instance.test_enum_ref_string(enum_ref_string_query=q)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/enum_ref_string?enum_ref_string_query=unclassified")
+
 
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
@@ -61,7 +79,7 @@ class TestManual(unittest.TestCase):
 
         # Test binary response
         api_response = api_instance.test_binary_gif()
-        self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), "R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==")
+        self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), self.gif_base64)
 
     def testNumberPropertiesOnly(self):
         n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
@@ -74,12 +92,66 @@ class TestManual(unittest.TestCase):
         self.assertEqual(n.float, 456.2)
         self.assertEqual(n.double, 34.3)
 
+    def testApplicatinOctetStreamBinaryBodyParameter(self):
+        api_instance = openapi_client.BodyApi()
+        binary_body = base64.b64decode(self.gif_base64)
+        api_response = api_instance.test_body_application_octetstream_binary(binary_body)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/body/application/octetstream/binary")
+        self.assertEqual(e.headers["Content-Type"], 'application/octet-stream')
+        self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
+
+    def testApplicatinOctetStreamBinaryBodyParameterWithFile(self):
+        api_instance = openapi_client.BodyApi()
+        try:
+            api_response = api_instance.test_body_application_octetstream_binary("invalid_file_path")
+        except FileNotFoundError as err:
+            self.assertEqual("[Errno 2] No such file or directory: 'invalid_file_path'", str(err))
+
+        api_response = api_instance.test_body_application_octetstream_binary(self.test_gif)
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/body/application/octetstream/binary")
+        self.assertEqual(e.headers["Content-Type"], 'application/octet-stream')
+        self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
+
+    def testBodyParameter(self):
+        n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
+        api_instance = openapi_client.BodyApi()
+        api_response = api_instance.test_echo_body_pet_response_string(n)
+        self.assertEqual(api_response, "{'name': 'testing', 'photoUrls': ['http://1', 'http://2']}")
+
+        t = openapi_client.Tag()
+        api_response = api_instance.test_echo_body_tag_response_string(t)
+        self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+
+        api_response = api_instance.test_echo_body_tag_response_string(None)
+        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
+
+        api_response = api_instance.test_echo_body_free_form_object_response_string({})
+        self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+
+    def echoServerResponseParaserTest(self):
+        s = """POST /echo/body/Pet/response_string HTTP/1.1
+Host: localhost:3000
+Accept-Encoding: identity
+Content-Length: 58
+Accept: text/plain
+Content-Type: application/json
+User-Agent: OpenAPI-Generator/1.0.0/python
+
+{"name": "testing", "photoUrls": ["http://1", "http://2"]}"""
+        e = EchoServerResponseParser(s)
+        self.assertEqual(e.body, '{"name": "testing", "photoUrls": ["http://1", "http://2"]}')
+        self.assertEqual(e.path, '/echo/body/Pet/response_string')
+        self.assertEqual(e.headers["Accept"], 'text/plain')
+        self.assertEqual(e.method, 'POST')
+
 class EchoServerResponseParser():
     def __init__(self, http_response):
         if http_response is None:
             raise ValueError("http response must not be None.")
 
-        lines = http_response.split("\n")
+        lines = http_response.splitlines()
         self.headers = dict()
         x = 0
         while x < len(lines):
@@ -89,7 +161,8 @@ class EchoServerResponseParser():
                 self.path = items[1];
                 self.protocol = items[2];
             elif lines[x] == "": # blank line
-                self.body = "\n".join(lines[x:])
+                self.body = "\n".join(lines[x+1:])
+                break
             else:
                 key_value = lines[x].split(": ")
                 # store the header key-value pair in headers

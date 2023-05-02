@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -33,6 +32,7 @@ class ArrayTest(BaseModel):
     __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -70,7 +70,7 @@ class ArrayTest(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return ArrayTest.parse_obj(obj)
 
         _obj = ArrayTest.parse_obj({

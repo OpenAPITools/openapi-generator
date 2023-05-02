@@ -116,7 +116,7 @@ public class CodeGenMojo extends AbstractMojo {
     private String inputSpecRootDirectory;
 
     /**
-     * Name of the file that will contains all merged specs
+     * Name of the file that will contain all merged specs
      */
     @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
     private String mergedFileName;

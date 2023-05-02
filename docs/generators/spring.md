@@ -87,6 +87,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
@@ -113,6 +114,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
 |x-spring-paginated|Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
+|x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD|null
 
 
 ## IMPORT MAPPING

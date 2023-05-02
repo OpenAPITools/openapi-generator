@@ -5167,6 +5167,7 @@ public class DefaultCodegen implements CodegenConfig {
         // enum
         updateCodegenPropertyEnum(codegenProperty);
         codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
 
@@ -6824,6 +6825,7 @@ public class DefaultCodegen implements CodegenConfig {
         // non-array/map
         updateCodegenPropertyEnum(codegenProperty);
         codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
 

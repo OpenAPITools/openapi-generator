@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -30,6 +29,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
     __properties = ["ArrayArrayNumber"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -60,7 +60,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return ArrayOfArrayOfNumberOnly.parse_obj(obj)
 
         _obj = ArrayOfArrayOfNumberOnly.parse_obj({
