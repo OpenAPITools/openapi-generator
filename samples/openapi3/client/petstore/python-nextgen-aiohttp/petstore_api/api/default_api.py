@@ -71,6 +71,8 @@ class DefaultApi(object):
         :rtype: FooGetDefaultResponse
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the foo_get_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         if async_req is not None:
             kwargs['async_req'] = async_req
         return self.foo_get_with_http_info(**kwargs)  # noqa: E501
@@ -87,6 +89,11 @@ class DefaultApi(object):
 
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -113,6 +120,7 @@ class DefaultApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -166,6 +174,7 @@ class DefaultApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

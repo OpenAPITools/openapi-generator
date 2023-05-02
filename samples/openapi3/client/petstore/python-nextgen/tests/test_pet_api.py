@@ -145,6 +145,8 @@ class PetApiTests(unittest.TestCase):
         self.assertIsInstance(api_response_object.data, petstore_api.Pet)
         self.assertEqual(api_response_object.status_code, 200)
         self.assertEqual(api_response_object.headers['Content-Type'], "application/json")
+        self.assertIsInstance(api_response_object.raw_data, str) # it's a str, not Pet
+        self.assertTrue(api_response_object.raw_data.startswith('{"id":'))
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
@@ -168,6 +170,19 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched.id)
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
+
+    def test_add_pet_and_get_pet_by_id_with_preload_content_flag(self):
+        try:
+            self.pet_api.add_pet(self.pet, _preload_content=False)
+        except ValueError as e:
+            self.assertEqual("Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data", str(e))
+
+        self.pet_api.add_pet(self.pet)
+        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id,
+                                                            _preload_content=False)
+        self.assertIsNone(fetched.data)
+        self.assertIsInstance(fetched.raw_data, bytes) # it's a str, not Pet
+        self.assertTrue(fetched.raw_data.decode("utf-8").startswith('{"id":'))
 
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)

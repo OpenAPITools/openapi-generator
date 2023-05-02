@@ -147,8 +147,7 @@ class ApiClient(object):
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_types_map=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _request_timeout=None,
-            _host=None,
+            _preload_content=True, _request_timeout=None, _host=None,
             _request_auth=None):
 
         config = self.configuration
@@ -214,6 +213,7 @@ class ApiClient(object):
                 query_params=query_params,
                 headers=header_params,
                 post_params=post_params, body=body,
+                _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
             if e.body:
@@ -222,27 +222,28 @@ class ApiClient(object):
 
         self.last_response = response_data
 
-        return_data = response_data
+        return_data = None # assuming derialization is not needed
+        # data needs deserialization or returns HTTP data (deserialized) only
+        if _preload_content or _return_http_data_only:
+          response_type = response_types_map.get(str(response_data.status), None)
 
-        response_type = response_types_map.get(str(response_data.status), None)
+          if response_type == "bytearray":
+              response_data.data = response_data.data
+          else:
+              match = None
+              content_type = response_data.getheader('content-type')
+              if content_type is not None:
+                  match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+              encoding = match.group(1) if match else "utf-8"
+              response_data.data = response_data.data.decode(encoding)
 
-        if response_type == "bytearray":
-            response_data.data = response_data.data
-        else:
-            match = None
-            content_type = response_data.getheader('content-type')
-            if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-            encoding = match.group(1) if match else "utf-8"
-            response_data.data = response_data.data.decode(encoding)
-
-        # deserialize response data
-        if response_type == "bytearray":
-            return_data = response_data.data
-        elif response_type:
-            return_data = self.deserialize(response_data, response_type)
-        else:
-            return_data = None
+          # deserialize response data
+          if response_type == "bytearray":
+              return_data = response_data.data
+          elif response_type:
+              return_data = self.deserialize(response_data, response_type)
+          else:
+              return_data = None
 
         if _return_http_data_only:
             return return_data
@@ -358,7 +359,7 @@ class ApiClient(object):
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
                  async_req=None, _return_http_data_only=None,
-                 collection_formats=None,
+                 collection_formats=None, _preload_content=True,
                  _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
@@ -380,6 +381,10 @@ class ApiClient(object):
         :param async_req bool: execute request asynchronously
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
         :param _request_timeout: timeout setting for this request. If one
@@ -403,7 +408,7 @@ class ApiClient(object):
                                    body, post_params, files,
                                    response_types_map, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _request_timeout, _host,
+                                   _preload_content, _request_timeout, _host,
                                    _request_auth)
 
         return self.pool.apply_async(self.__call_api, (resource_path,
@@ -415,32 +420,38 @@ class ApiClient(object):
                                                        auth_settings,
                                                        _return_http_data_only,
                                                        collection_formats,
+                                                       _preload_content,
                                                        _request_timeout,
                                                        _host, _request_auth))
 
     def request(self, method, url, query_params=None, headers=None,
-                post_params=None, body=None, _request_timeout=None):
+                post_params=None, body=None, _preload_content=True,
+                _request_timeout=None):
         """Makes the HTTP request using RESTClient."""
         if method == "GET":
             return self.rest_client.get_request(url,
                                         query_params=query_params,
+                                        _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
                                         headers=headers)
         elif method == "HEAD":
             return self.rest_client.head_request(url,
                                          query_params=query_params,
+                                         _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
                                          headers=headers)
         elif method == "OPTIONS":
             return self.rest_client.options_request(url,
                                             query_params=query_params,
                                             headers=headers,
+                                            _preload_content=_preload_content,
                                             _request_timeout=_request_timeout)
         elif method == "POST":
             return self.rest_client.post_request(url,
                                          query_params=query_params,
                                          headers=headers,
                                          post_params=post_params,
+                                         _preload_content=_preload_content,
                                          _request_timeout=_request_timeout,
                                          body=body)
         elif method == "PUT":
@@ -448,6 +459,7 @@ class ApiClient(object):
                                         query_params=query_params,
                                         headers=headers,
                                         post_params=post_params,
+                                        _preload_content=_preload_content,
                                         _request_timeout=_request_timeout,
                                         body=body)
         elif method == "PATCH":
@@ -455,12 +467,14 @@ class ApiClient(object):
                                           query_params=query_params,
                                           headers=headers,
                                           post_params=post_params,
+                                          _preload_content=_preload_content,
                                           _request_timeout=_request_timeout,
                                           body=body)
         elif method == "DELETE":
             return self.rest_client.delete_request(url,
                                            query_params=query_params,
                                            headers=headers,
+                                           _preload_content=_preload_content,
                                            _request_timeout=_request_timeout,
                                            body=body)
         else:

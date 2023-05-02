@@ -67,6 +67,8 @@ class UserApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the create_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -84,6 +86,11 @@ class UserApi(object):
         :type user: User
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -125,6 +132,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -183,6 +191,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             _host=_host,
             collection_formats=_collection_formats,
@@ -213,6 +222,8 @@ class UserApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the create_users_with_array_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -230,6 +241,11 @@ class UserApi(object):
         :type user: List[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -257,6 +273,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -315,6 +332,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -344,6 +362,8 @@ class UserApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the create_users_with_list_input_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -361,6 +381,11 @@ class UserApi(object):
         :type user: List[User]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -388,6 +413,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -446,6 +472,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -475,6 +502,8 @@ class UserApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the delete_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -492,6 +521,11 @@ class UserApi(object):
         :type username: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -519,6 +553,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -570,6 +605,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -599,6 +635,8 @@ class UserApi(object):
         :rtype: User
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the get_user_by_name_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -616,6 +654,11 @@ class UserApi(object):
         :type username: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -643,6 +686,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -702,6 +746,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -733,6 +778,8 @@ class UserApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the login_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -752,6 +799,11 @@ class UserApi(object):
         :type password: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -780,6 +832,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -841,6 +894,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -868,6 +922,8 @@ class UserApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the logout_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.logout_user_with_http_info(**kwargs)  # noqa: E501
 
     @validate_arguments
@@ -883,6 +939,11 @@ class UserApi(object):
 
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -909,6 +970,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -957,6 +1019,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -988,6 +1051,8 @@ class UserApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the update_user_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1007,6 +1072,11 @@ class UserApi(object):
         :type user: User
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -1035,6 +1105,7 @@ class UserApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1096,6 +1167,7 @@ class UserApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

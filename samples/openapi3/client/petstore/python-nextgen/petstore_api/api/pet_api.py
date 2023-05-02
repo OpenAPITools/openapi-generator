@@ -70,6 +70,8 @@ class PetApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -87,6 +89,11 @@ class PetApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -114,6 +121,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -172,6 +180,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -203,6 +212,8 @@ class PetApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the delete_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.delete_pet_with_http_info(pet_id, api_key, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -222,6 +233,11 @@ class PetApi(object):
         :type api_key: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -250,6 +266,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -304,6 +321,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -333,6 +351,8 @@ class PetApi(object):
         :rtype: List[Pet]
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the find_pets_by_status_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -350,6 +370,11 @@ class PetApi(object):
         :type status: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -377,6 +402,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -436,6 +462,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -465,6 +492,8 @@ class PetApi(object):
         :rtype: List[Pet]
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the find_pets_by_tags_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -482,6 +511,11 @@ class PetApi(object):
         :type tags: List[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -509,6 +543,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -568,6 +603,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -597,6 +633,8 @@ class PetApi(object):
         :rtype: Pet
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the get_pet_by_id_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -614,6 +652,11 @@ class PetApi(object):
         :type pet_id: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -641,6 +684,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -700,6 +744,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -729,6 +774,8 @@ class PetApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the update_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -746,6 +793,11 @@ class PetApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -773,6 +825,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -831,6 +884,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -864,6 +918,8 @@ class PetApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the update_pet_with_form_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.update_pet_with_form_with_http_info(pet_id, name, status, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -885,6 +941,11 @@ class PetApi(object):
         :type status: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -914,6 +975,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -978,6 +1040,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -1011,6 +1074,8 @@ class PetApi(object):
         :rtype: ApiResponse
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the upload_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.upload_file_with_http_info(pet_id, additional_metadata, file, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1032,6 +1097,11 @@ class PetApi(object):
         :type file: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -1061,6 +1131,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1131,6 +1202,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -1164,6 +1236,8 @@ class PetApi(object):
         :rtype: ApiResponse
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the upload_file_with_required_file_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.upload_file_with_required_file_with_http_info(pet_id, required_file, additional_metadata, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1185,6 +1259,11 @@ class PetApi(object):
         :type additional_metadata: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -1214,6 +1293,7 @@ class PetApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1284,6 +1364,7 @@ class PetApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))

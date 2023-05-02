@@ -72,6 +72,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_enum_ref_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_enum_ref_string_with_http_info(enum_ref_string_query, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -89,6 +91,11 @@ class QueryApi(object):
         :type enum_ref_string_query: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -116,6 +123,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -173,6 +181,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -206,6 +215,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_datetime_date_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_datetime_date_string_with_http_info(datetime_query, date_query, string_query, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -227,6 +238,11 @@ class QueryApi(object):
         :type string_query: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -256,6 +272,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -325,6 +342,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -358,6 +376,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_integer_boolean_string_with_http_info(integer_query, boolean_query, string_query, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -379,6 +399,11 @@ class QueryApi(object):
         :type string_query: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -408,6 +433,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -471,6 +497,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -500,6 +527,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_deep_object_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_deep_object_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -517,6 +546,11 @@ class QueryApi(object):
         :type query_object: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -544,6 +578,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -601,6 +636,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -630,6 +666,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_deep_object_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_deep_object_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -647,6 +685,11 @@ class QueryApi(object):
         :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -674,6 +717,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -731,6 +775,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -760,6 +805,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_form_explode_true_array_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_array_string_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -777,6 +824,11 @@ class QueryApi(object):
         :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -804,6 +856,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -861,6 +914,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -890,6 +944,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_form_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -907,6 +963,11 @@ class QueryApi(object):
         :type query_object: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -934,6 +995,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -991,6 +1053,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
@@ -1020,6 +1083,8 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_form_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
@@ -1037,6 +1102,11 @@ class QueryApi(object):
         :type query_object: DataQuery
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
+        :type _preload_content: bool, optional
         :param _return_http_data_only: response data instead of ApiResponse
                                        object with status code, headers, etc
         :type _return_http_data_only: bool, optional
@@ -1064,6 +1134,7 @@ class QueryApi(object):
             [
                 'async_req',
                 '_return_http_data_only',
+                '_preload_content',
                 '_request_timeout',
                 '_request_auth',
                 '_content_type',
@@ -1121,6 +1192,7 @@ class QueryApi(object):
             auth_settings=_auth_settings,
             async_req=_params.get('async_req'),
             _return_http_data_only=_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=_params.get('_preload_content', True),
             _request_timeout=_params.get('_request_timeout'),
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
