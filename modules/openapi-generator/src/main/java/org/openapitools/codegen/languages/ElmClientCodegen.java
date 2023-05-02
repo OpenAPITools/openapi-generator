@@ -147,7 +147,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "Posix");
         typeMapping.put("password", "String");
         typeMapping.put("ByteArray", "String");
-        typeMapping.put("file", "String");
+        typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("UUID", "Uuid");
         typeMapping.put("URI", "String");
@@ -383,8 +383,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 anyOperationParam(ops, param -> (param.isDate || param.isDateTime) || itemsIncludesType(param.items, p -> p.isDate || p.isDateTime));
         final boolean includeUuid = anyOperationResponse(ops, response -> response.isUuid) ||
                 anyOperationParam(ops, param -> param.isUuid || itemsIncludesType(param.items, p -> p.isUuid));
+        final boolean includeFile = anyOperationResponse(ops, response -> response.isFile) ||
+            anyOperationParam(ops, param -> param.isFile || itemsIncludesType(param.items, p -> p.isFile));
+
         operations.put("includeTime", includeTime);
         operations.put("includeUuid", includeUuid);
+        operations.put("includeFile", includeFile);
 
         return operations;
     }
@@ -473,7 +477,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
-            writer.write(fragment.execute().replaceAll("\\s+", ""));
+            writer.write(fragment.execute().replaceAll("\\s+", " ").trim());
         }
     }
 
