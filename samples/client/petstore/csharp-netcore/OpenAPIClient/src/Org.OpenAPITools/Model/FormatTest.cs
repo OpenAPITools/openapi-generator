@@ -430,7 +430,7 @@ namespace Org.OpenAPITools.Model
             }
 
             // String (string) pattern
-            Regex regexString = new Regex("[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
@@ -449,21 +449,21 @@ namespace Org.OpenAPITools.Model
             }
 
             // PatternWithDigits (string) pattern
-            Regex regexPatternWithDigits = new Regex("^\d{10}$", RegexOptions.CultureInvariant);
+            Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
             }
 
             // PatternWithDigitsAndDelimiter (string) pattern
-            Regex regexPatternWithDigitsAndDelimiter = new Regex("^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
             }
 
             // PatternWithBackslash (string) pattern
-            Regex regexPatternWithBackslash = new Regex("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
+            Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
