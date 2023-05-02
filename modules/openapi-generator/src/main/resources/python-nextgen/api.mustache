@@ -35,15 +35,24 @@ class {{classname}}(object):
 {{#operation}}
 
 {{#asyncio}}
+    {{#isDeprecated}}
+    @deprecated
+    {{/isDeprecated}}
     @overload
     async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
         ...
 
+    {{#isDeprecated}}
+    @deprecated
+    {{/isDeprecated}}
     @overload
     def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}async_req: Optional[bool]=True, **kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
         ...
 
 {{/asyncio}}
+    {{#isDeprecated}}
+    @deprecated
+    {{/isDeprecated}}
     @validate_arguments
     def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}{{#asyncio}}async_req: Optional[bool]=None, {{/asyncio}}**kwargs) -> {{#asyncio}}Union[{{{returnType}}}{{^returnType}}None{{/returnType}}, Awaitable[{{{returnType}}}{{^returnType}}None{{/returnType}}]]{{/asyncio}}{{^asyncio}}{{{returnType}}}{{^returnType}}None{{/returnType}}{{/asyncio}}:  # noqa: E501
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
@@ -84,6 +93,9 @@ class {{classname}}(object):
         return self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
 
     @validate_arguments
+    {{#isDeprecated}}
+    @deprecated
+    {{/isDeprecated}}
     def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs):  # noqa: E501
         """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 

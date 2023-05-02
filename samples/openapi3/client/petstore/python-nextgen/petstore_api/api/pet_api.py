@@ -469,6 +469,7 @@ class PetApi(object):
             collection_formats=_collection_formats,
             _request_auth=_params.get('_request_auth'))
 
+    @deprecated
     @validate_arguments
     def find_pets_by_tags(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
         """Finds Pets by tags  # noqa: E501
@@ -501,6 +502,7 @@ class PetApi(object):
         return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     @validate_arguments
+    @deprecated
     def find_pets_by_tags_with_http_info(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
