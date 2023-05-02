@@ -6,14 +6,6 @@ package {{package}};
 import {{javaxPackage}}.ws.rs.*;
 import {{javaxPackage}}.ws.rs.core.Response;
 
-{{#useGzipFeature}}
-import org.jboss.resteasy.annotations.GZIP;
-{{/useGzipFeature}}
-
-{{#useSwaggerAnnotations}}
-import io.swagger.annotations.*;
-{{/useSwaggerAnnotations}}
-
 {{#useMicroProfileOpenAPIAnnotations}}
 import org.eclipse.microprofile.openapi.annotations.*;
 import org.eclipse.microprofile.openapi.annotations.info.*;
@@ -22,7 +14,16 @@ import org.eclipse.microprofile.openapi.annotations.tags.*;
 import org.eclipse.microprofile.openapi.annotations.responses.*;
 import org.eclipse.microprofile.openapi.annotations.media.*;
 import org.eclipse.microprofile.openapi.annotations.enums.*;
+import org.eclipse.microprofile.openapi.annotations.headers.*;
 {{/useMicroProfileOpenAPIAnnotations}}
+
+{{#useGzipFeature}}
+import org.jboss.resteasy.annotations.GZIP;
+{{/useGzipFeature}}
+
+{{#useSwaggerAnnotations}}
+import io.swagger.annotations.*;
+{{/useSwaggerAnnotations}}
 
 {{#supportAsync}}
 import java.util.concurrent.CompletionStage;
