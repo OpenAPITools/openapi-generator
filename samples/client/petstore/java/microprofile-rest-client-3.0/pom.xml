@@ -91,11 +91,6 @@
     </dependency>
 
     <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>${cxf.rt.rs.extension.providers.version}</version>
-    </dependency>
-    <dependency>
       <groupId>jakarta.json.bind</groupId>
       <artifactId>jakarta.json.bind-api</artifactId>
       <version>${jakarta.json.bind.version}</version>
