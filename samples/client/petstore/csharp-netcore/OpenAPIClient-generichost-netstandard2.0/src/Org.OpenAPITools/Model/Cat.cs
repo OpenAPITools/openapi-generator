@@ -145,5 +145,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteEndObject();
         }
     }
-
 }
