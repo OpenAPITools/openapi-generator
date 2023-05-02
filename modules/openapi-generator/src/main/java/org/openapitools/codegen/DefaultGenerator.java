@@ -628,6 +628,8 @@ public class DefaultGenerator implements Generator {
                 operation.put("importPath", config.toApiImport(tag));
                 operation.put("classFilename", config.toApiFilename(tag));
                 operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getLicense).ifPresent(license -> operation.put("license", license));
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getContact).ifPresent(contact -> operation.put("contact", contact));
 
                 if (allModels == null || allModels.isEmpty()) {
                     operation.put("hasModel", false);

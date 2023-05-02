@@ -21,8 +21,8 @@
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
     {{#hasAuthMethods}}@SecurityRequirements(value={
-        {{#authMethods}}{{#isOAuth}}@SecurityRequirement(name = "{{name}}", scopes = { {{#scopes}} "{{scope}}"{{^-last}},{{/-last}} {{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}{{^isOAuth}}
-            @SecurityRequirement(name = "{{name}}"){{^-last}},{{/-last}}{{/isOAuth}}{{/authMethods}} }){{/hasAuthMethods}}
+        {{#authMethods}}{{#isOAuth}}@SecurityRequirement(name = "{{name}}", scopes = { {{#scopes}} "{{scope}}"{{^-last}},{{/-last}} {{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}{{^isOAuth}}     @SecurityRequirement(name = "{{name}}"){{^-last}},{{/-last}}{{/isOAuth}}
+   {{/authMethods}} }){{/hasAuthMethods}}
     @Operation(operationId = "{{{operationId}}}", summary = "{{{summary}}}", description = "{{{notes}}}")
     {{#vendorExtensions.x-tags}}@Tag(name="{{tag}}"){{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}}{{#hasProduces}}
     @APIResponses(value = { {{#responses}}

@@ -825,18 +825,21 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated interfaces contains CompletionStage
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
-                "@OpenAPIDefinition(info = @Info(title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\"))"
-        );
+                "@OpenAPIDefinition(\n" +
+                        "   info = @Info(\n" +
+                        "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
 
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
-                "@OpenAPIDefinition(info = @Info(title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\"))"
-        );
+                "@OpenAPIDefinition(\n" +
+                        "   info = @Info(\n" +
+                        "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
 
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
-                "@OpenAPIDefinition(info = @Info(title = \"user\", version=\"1.0.0\", description=\"Operations about user\"))"
-        );
+                "@OpenAPIDefinition(\n" +
+                        "   info = @Info(\n" +
+                        "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
     }
 
     @Test
@@ -868,17 +871,20 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated interfaces contains CompletionStage
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
-                "@OpenAPIDefinition(info = @Info(title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\"))"
-        );
+                "@OpenAPIDefinition(\n" +
+                        "   info = @Info(\n" +
+                        "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
 
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
-                "@OpenAPIDefinition(info = @Info(title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\"))"
-        );
+                "@OpenAPIDefinition(\n" +
+                        "   info = @Info(\n" +
+                        "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
 
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
         assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
-                "@OpenAPIDefinition(info = @Info(title = \"user\", version=\"1.0.0\", description=\"Operations about user\"))"
-        );
+                "@OpenAPIDefinition(\n" +
+                        "   info = @Info(\n" +
+                        "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
     }
 }

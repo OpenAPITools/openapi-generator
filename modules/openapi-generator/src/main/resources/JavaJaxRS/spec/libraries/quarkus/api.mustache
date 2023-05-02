@@ -36,7 +36,15 @@ import java.util.List;
 {{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 
-{{#useMicroProfileOpenAPIAnnotations}}@OpenAPIDefinition(info = @Info(title = "{{{tagName}}}", version="{{{version}}}", description="{{{tagDescription}}}")){{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
+{{#useMicroProfileOpenAPIAnnotations}}@OpenAPIDefinition(
+   info = @Info(
+        title = "{{{tagName}}}", version="{{{version}}}", description="{{{tagDescription}}}"{{#license}},
+        license = @License(name = "{{{name}}}", url = "{{{url}}}"){{/license}}{{#contact}},
+        contact = @Contact(name = "{{{name}}}", email = "{{{email}}}"){{/contact}}
+   ),
+   tags = {
+        @Tag(name="{{{tagName}}}", description="{{{tagDescription}}}")
+   }){{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
 @Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}
 @Path("{{commonPath}}"){{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
