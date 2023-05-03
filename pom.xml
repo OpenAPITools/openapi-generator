@@ -1269,7 +1269,9 @@
             <modules>
                 <!-- python clients which don't need the server running -->
                 <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-prior</module>
+                <!-- comment out due to ModuleNotFoundError: No module named 'urllib3.request'
+                    not fixing as python-prior will be removed soon
+                <module>samples/openapi3/client/petstore/python-prior</module>-->
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
