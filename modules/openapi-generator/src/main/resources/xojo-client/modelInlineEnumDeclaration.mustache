@@ -1,0 +1,5 @@
+	#tag Enum, Name = {{enumName}}, Type = Integer, Flags = &h{{^nonPublicApi}}0{{/nonPublicApi}}{{#nonPublicApi}}21{{/nonPublicApi}}
+		{{#allowableValues}}{{#enumVars}}
+        {{{name}}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{/enumVars}}{{/allowableValues}}
+		{{#enumUnknownDefaultCase}}Unknown{{#isInteger}} = {{{value}}}{{/isInteger}}{{/enumUnknownDefaultCase}}
+	#tag EndEnum

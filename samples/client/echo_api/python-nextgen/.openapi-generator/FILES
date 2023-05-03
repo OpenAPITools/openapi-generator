@@ -29,6 +29,7 @@ openapi_client/api/header_api.py
 openapi_client/api/path_api.py
 openapi_client/api/query_api.py
 openapi_client/api_client.py
+openapi_client/api_response.py
 openapi_client/configuration.py
 openapi_client/exceptions.py
 openapi_client/models/__init__.py

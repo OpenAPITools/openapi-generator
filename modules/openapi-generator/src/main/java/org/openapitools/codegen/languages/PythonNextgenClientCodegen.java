@@ -354,6 +354,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
+        supportingFiles.add(new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
 
         if ("asyncio".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));

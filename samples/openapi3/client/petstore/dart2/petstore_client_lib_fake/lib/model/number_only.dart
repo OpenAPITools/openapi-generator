@@ -73,7 +73,7 @@ class NumberOnly {
     return null;
   }
 
-  static List<NumberOnly>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<NumberOnly> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <NumberOnly>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -104,12 +104,10 @@ class NumberOnly {
   static Map<String, List<NumberOnly>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<NumberOnly>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = NumberOnly.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = NumberOnly.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
