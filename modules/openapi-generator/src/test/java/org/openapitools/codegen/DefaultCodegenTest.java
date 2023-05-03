@@ -4216,7 +4216,7 @@ public class DefaultCodegenTest {
         List<ILoggingEvent> logsList = listAppender.list;
 
         // JUnit assertions
-        assertEquals(9, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 9, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'object'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'object'. Ignoring!", logsList.get(1)
@@ -4367,7 +4367,7 @@ public class DefaultCodegenTest {
         List<ILoggingEvent> logsList = listAppender.list;
 
         // JUnit assertions
-        assertEquals(11, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 11, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(1)
@@ -4415,7 +4415,7 @@ public class DefaultCodegenTest {
         List<ILoggingEvent> logsList = listAppender.list;
 
         // JUnit assertions
-        assertEquals(0, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
     }
 
     public static class FromParameter {
