@@ -610,6 +610,7 @@ public class DefaultGenerator implements Generator {
                 operation.put("baseName", tag);
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
                         .map(Tag::getName)
+                        .filter(Objects::nonNull)
                         .filter(tag::equalsIgnoreCase)
                         .findFirst()
                         .ifPresent(tagName -> operation.put("tagName", tagName));
@@ -617,6 +618,7 @@ public class DefaultGenerator implements Generator {
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
                         .filter(t -> tag.equalsIgnoreCase(t.getName()))
                         .map(Tag::getDescription)
+                        .filter(Objects::nonNull)
                         .findFirst()
                         .ifPresent(description -> operation.put("tagDescription", description));
                 Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
