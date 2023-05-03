@@ -124,6 +124,10 @@ class {{classname}}(object):
         :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
         """
 
+        {{#isDeprecated}}
+        warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
+
+        {{/isDeprecated}}
         {{#servers.0}}
         _hosts = [
 {{#servers}}

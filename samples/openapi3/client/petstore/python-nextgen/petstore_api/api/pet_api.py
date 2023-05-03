@@ -534,6 +534,8 @@ class PetApi(object):
         :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
+
         _params = locals()
 
         _all_params = [
