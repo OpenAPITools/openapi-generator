@@ -76,10 +76,6 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     public N4jsClientCodegen() {
         super();
 
-        // disable since otherwise Modules/Class are not generated iff used as
-        // parameters only
-        GlobalSettings.setProperty("skipFormModel", "false");
-
         specialCharReplacements.clear();
 
         outputFolder = "generated-code" + File.separator + "n4js";
@@ -158,6 +154,10 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // disable since otherwise Modules/Classes are not generated iff used as
+        // parameters only
+        GlobalSettings.setProperty("skipFormModel", "false");
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
