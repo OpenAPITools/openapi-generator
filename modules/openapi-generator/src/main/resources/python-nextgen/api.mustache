@@ -195,7 +195,7 @@ class {{classname}}(object):
             {{^isDateTime}}
             {{#isDate}}
             if isinstance(_params['{{paramName}}'], datetime):
-                _query_parame.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
+                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
             else:
                 _query_params.append(('{{baseName}}', _params['{{paramName}}']))
             {{/isDate}}
