@@ -39,11 +39,11 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 
 {{#useMicroProfileOpenAPIAnnotations}}@OpenAPIDefinition(
    info = @Info(
-        title = "{{{tagName}}}", version="{{{version}}}", description="{{{tagDescription}}}"{{#license}},
+        title = "{{{operationTagName}}}", version="{{{version}}}", description="{{{operationTagDescription}}}"{{#license}},
         license = @License(name = "{{{name}}}", url = "{{{url}}}"){{/license}}{{#contact}},
         contact = @Contact(name = "{{{name}}}", email = "{{{email}}}"){{/contact}}
    ),
-   tags = @Tag(name="{{{tagName}}}", description="{{{tagDescription}}}")
+   tags = @Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")
 ){{#hasAuthMethods}}
 @SecuritySchemes(value = {
     {{#authMethods}}{{#isOAuth}}@SecurityScheme(securitySchemeName = "{{name}}", type = SecuritySchemeType.OAUTH2,
