@@ -494,8 +494,6 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema<?> items = getSchemaItems((ArraySchema) p);
             return getTypeDeclaration(unaliasSchema(items)) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-//			Schema<?> inner = getSchemaAdditionalProperties(p);
-//			return "~Object with { [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + "; }";
             return "~Object+";
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getEnum() != null) {
@@ -528,8 +526,6 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema<?> inner = mp1.getItems();
             return getParameterDataType(parameter, inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-//			Schema<?> inner = getAdditionalProperties(p);
-//			return "~Object with { [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
             return "~Object+";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums

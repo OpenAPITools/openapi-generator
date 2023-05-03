@@ -176,7 +176,7 @@ public class N4jsClientCodegenTest {
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
         @SuppressWarnings("unchecked")
-		final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
         Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse".replace("/", File.separator));
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
@@ -218,7 +218,7 @@ public class N4jsClientCodegenTest {
         }
     }
 
-	@Test
+    @Test
     public void arraysInRequestBody() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final JavaClientCodegen codegen = new JavaClientCodegen();
@@ -411,7 +411,7 @@ public class N4jsClientCodegenTest {
         codegen.updateCodegenPropertyEnum(array);
 
         @SuppressWarnings("unchecked")
-		List<Map<String, String>> enumVars = (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
+        List<Map<String, String>> enumVars = (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
         Assert.assertNotNull(enumVars);
         Map<String, String> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
