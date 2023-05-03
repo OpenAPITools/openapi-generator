@@ -27,6 +27,7 @@ from openapi_client.models.pet import Pet
 from openapi_client.models.tag import Tag
 
 from openapi_client.api_client import ApiClient
+from openapi_client.api_response import ApiResponse
 from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -58,10 +59,6 @@ class BodyApi(object):
 
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72,10 +69,12 @@ class BodyApi(object):
         :rtype: bytearray
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_binary_gif_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_binary_gif_with_http_info(**kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_binary_gif_with_http_info(self, **kwargs):  # noqa: E501
+    def test_binary_gif_with_http_info(self, **kwargs) -> ApiResponse:  # noqa: E501
         """Test binary (gif) response body  # noqa: E501
 
         Test binary (gif) response body  # noqa: E501
@@ -87,13 +86,14 @@ class BodyApi(object):
 
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -192,10 +192,6 @@ class BodyApi(object):
         :type body: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -206,10 +202,12 @@ class BodyApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_body_application_octetstream_binary_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_body_application_octetstream_binary_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_body_application_octetstream_binary_with_http_info(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs):  # noqa: E501
+    def test_body_application_octetstream_binary_with_http_info(self, body : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -223,13 +221,14 @@ class BodyApi(object):
         :type body: bytearray
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -344,10 +343,6 @@ class BodyApi(object):
         :type body: object
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -358,10 +353,12 @@ class BodyApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_echo_body_free_form_object_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_echo_body_free_form_object_response_string_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs):  # noqa: E501
+    def test_echo_body_free_form_object_response_string_with_http_info(self, body : Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test free form object  # noqa: E501
 
         Test free form object  # noqa: E501
@@ -375,13 +372,14 @@ class BodyApi(object):
         :type body: object
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -491,10 +489,6 @@ class BodyApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -505,10 +499,12 @@ class BodyApi(object):
         :rtype: Pet
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_echo_body_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_echo_body_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_pet_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs):  # noqa: E501
+    def test_echo_body_pet_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test body parameter(s)  # noqa: E501
 
         Test body parameter(s)  # noqa: E501
@@ -522,13 +518,14 @@ class BodyApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -638,10 +635,6 @@ class BodyApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -652,10 +645,12 @@ class BodyApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_echo_body_pet_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_echo_body_pet_response_string_with_http_info(pet, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_pet_response_string_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs):  # noqa: E501
+    def test_echo_body_pet_response_string_with_http_info(self, pet : Annotated[Optional[Pet], Field(description="Pet object that needs to be added to the store")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test empty response body  # noqa: E501
 
         Test empty response body  # noqa: E501
@@ -669,13 +664,14 @@ class BodyApi(object):
         :type pet: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -785,10 +781,6 @@ class BodyApi(object):
         :type tag: Tag
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -799,10 +791,12 @@ class BodyApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_echo_body_tag_response_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_echo_body_tag_response_string_with_http_info(tag, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_tag_response_string_with_http_info(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs):  # noqa: E501
+    def test_echo_body_tag_response_string_with_http_info(self, tag : Annotated[Optional[Tag], Field(description="Tag object")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test empty json (request body)  # noqa: E501
 
         Test empty json (request body)  # noqa: E501
@@ -816,13 +810,14 @@ class BodyApi(object):
         :type tag: Tag
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
