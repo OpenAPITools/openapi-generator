@@ -269,7 +269,7 @@ If you're a nix user, you can enter OpenAPI Generator shell, by typing:
 ```sh
 nix develop
 ```
-It will enter a shell with Java 8 and Maven installed. 
+It will enter a shell with Java 8 and Maven installed.
 
 Direnv supports automatically loading of the nix developer shell, so if you're using direnv too, type:
 ```sh
@@ -1154,6 +1154,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Julia                 | @tanmaykm (2023/01)                                                                                                                                                                                                                                   |
 | Kotlin                | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
 | Lua                   | @daurnimator (2017/08)                                                                                                                                                                                                                                |
+| N4JS                  | @mmews-n4 (2023/03)                                                                                                                                                                                      |
 | Nim                   |                                                                                                                                                                                                                                                       |
 | NodeJS/Javascript     | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07)                                                                                                                                                                                             |
 | ObjC                  |                                                                                                                                                                                                                                                       |
