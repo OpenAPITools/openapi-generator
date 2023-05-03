@@ -82,7 +82,7 @@ bool OpenAPIPetApi::AddPetResponse::FromJson(const TSharedPtr<FJsonValue>& JsonV
 FString OpenAPIPetApi::DeletePetRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}"), PathParams);
 
@@ -158,11 +158,6 @@ inline bool FromString(const FString& EnumAsString, OpenAPIPetApi::FindPetsBySta
 bool OpenAPIPetApi::FindPetsByStatusRequest::EnumFromString(const FString& EnumAsString, OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
-}
-
-inline FStringFormatArg ToStringFormatArg(const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
-{
-	return FStringFormatArg(ToString(Value));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIPetApi::FindPetsByStatusRequest::StatusEnum& Value)
@@ -262,7 +257,7 @@ bool OpenAPIPetApi::FindPetsByTagsResponse::FromJson(const TSharedPtr<FJsonValue
 FString OpenAPIPetApi::GetPetByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}"), PathParams);
 
@@ -365,7 +360,7 @@ bool OpenAPIPetApi::UpdatePetResponse::FromJson(const TSharedPtr<FJsonValue>& Js
 FString OpenAPIPetApi::UpdatePetWithFormRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}"), PathParams);
 
@@ -453,7 +448,7 @@ bool OpenAPIPetApi::UpdatePetWithFormResponse::FromJson(const TSharedPtr<FJsonVa
 FString OpenAPIPetApi::UploadFileRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("petId"), ToStringFormatArg(PetId) } };
+	{ TEXT("petId"), FStringFormatArg(ToUrlString(PetId)) } };
 
 	FString Path = FString::Format(TEXT("/pet/{petId}/uploadImage"), PathParams);
 

@@ -85,6 +85,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useLoggingFeature|Use Logging Feature| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|
 |useMultipartFeature|Use Multipart Feature| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |useSpringAnnotationConfig|Use Spring Annotation Config| |false|
 |useSwaggerFeature|Use Swagger Feature| |false|
 |useSwaggerUI|Use Swagger UI| |false|

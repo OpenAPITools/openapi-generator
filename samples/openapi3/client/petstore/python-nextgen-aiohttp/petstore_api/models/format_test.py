@@ -13,13 +13,12 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
 
 class FormatTest(BaseModel):
@@ -29,47 +28,64 @@ class FormatTest(BaseModel):
     integer: Optional[conint(strict=True, le=100, ge=10)] = None
     int32: Optional[conint(strict=True, le=200, ge=20)] = None
     int64: Optional[StrictInt] = None
-    number: confloat(le=543.2, ge=32.1) = ...
+    number: confloat(le=543.2, ge=32.1) = Field(...)
     float: Optional[confloat(le=987.6, ge=54.3)] = None
     double: Optional[confloat(le=123.4, ge=67.8)] = None
     decimal: Optional[condecimal()] = None
     string: Optional[constr(strict=True)] = None
     string_with_double_quote_pattern: Optional[constr(strict=True)] = None
-    byte: Optional[StrictBytes] = None
-    binary: Optional[StrictBytes] = None
+    byte: Optional[Union[StrictBytes, StrictStr]] = None
+    binary: Optional[Union[StrictBytes, StrictStr]] = None
     var_date: date = Field(..., alias="date")
     date_time: Optional[datetime] = Field(None, alias="dateTime")
     uuid: Optional[StrictStr] = None
-    password: constr(strict=True, max_length=64, min_length=10) = ...
+    password: constr(strict=True, max_length=64, min_length=10) = Field(...)
     pattern_with_digits: Optional[constr(strict=True)] = Field(None, description="A string that is a 10 digit number. Can have leading zeros.")
     pattern_with_digits_and_delimiter: Optional[constr(strict=True)] = Field(None, description="A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
     __properties = ["integer", "int32", "int64", "number", "float", "double", "decimal", "string", "string_with_double_quote_pattern", "byte", "binary", "date", "dateTime", "uuid", "password", "pattern_with_digits", "pattern_with_digits_and_delimiter"]
 
     @validator('string')
-    def string_validate_regular_expression(cls, v):
-        if not re.match(r"[a-z]", v ,re.IGNORECASE):
+    def string_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"[a-z]", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /[a-z]/i")
-        return v
+        return value
 
     @validator('string_with_double_quote_pattern')
-    def string_with_double_quote_pattern_validate_regular_expression(cls, v):
-        if not re.match(r"this is \"something\"", v):
+    def string_with_double_quote_pattern_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"this is \"something\"", value):
             raise ValueError(r"must validate the regular expression /this is \"something\"/")
-        return v
+        return value
 
     @validator('pattern_with_digits')
-    def pattern_with_digits_validate_regular_expression(cls, v):
-        if not re.match(r"^\d{10}$", v):
+    def pattern_with_digits_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^\d{10}$", value):
             raise ValueError(r"must validate the regular expression /^\d{10}$/")
-        return v
+        return value
 
     @validator('pattern_with_digits_and_delimiter')
-    def pattern_with_digits_and_delimiter_validate_regular_expression(cls, v):
-        if not re.match(r"^image_\d{1,3}$", v ,re.IGNORECASE):
+    def pattern_with_digits_and_delimiter_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^image_\d{1,3}$", value ,re.IGNORECASE):
             raise ValueError(r"must validate the regular expression /^image_\d{1,3}$/i")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -100,7 +116,7 @@ class FormatTest(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return FormatTest.parse_obj(obj)
 
         _obj = FormatTest.parse_obj({

@@ -49,3 +49,33 @@ components:
           enum:
             - A
             - B
+    Parent:
+      type: object
+      properties:
+        number:
+          anyOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithPluralOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+            - $ref: '#/components/schemas/Number2'
+    Number:
+      enum:
+        - one
+        - two
+        - three
+      type: string
+    Number2:
+      enum:
+        - one
+        - two
+      type: string

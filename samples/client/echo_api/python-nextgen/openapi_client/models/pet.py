@@ -14,7 +14,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -30,7 +29,7 @@ class Pet(BaseModel):
     Pet
     """
     id: Optional[StrictInt] = None
-    name: StrictStr = ...
+    name: StrictStr = Field(...)
     category: Optional[Category] = None
     photo_urls: conlist(StrictStr) = Field(..., alias="photoUrls")
     tags: Optional[conlist(Tag)] = None
@@ -38,14 +37,17 @@ class Pet(BaseModel):
     __properties = ["id", "name", "category", "photoUrls", "tags", "status"]
 
     @validator('status')
-    def status_validate_enum(cls, v):
-        if v is None:
-            return v
-        if v not in ('available', 'pending', 'sold'):
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('available', 'pending', 'sold'):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -86,7 +88,7 @@ class Pet(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return Pet.parse_obj(obj)
 
         _obj = Pet.parse_obj({

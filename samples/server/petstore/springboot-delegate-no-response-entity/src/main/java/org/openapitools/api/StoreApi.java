@@ -51,10 +51,10 @@ public interface StoreApi {
         value = "/store/order/{orderId}"
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    default Void deleteOrder(
+    default void deleteOrder(
         @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
     ) {
-        return getDelegate().deleteOrder(orderId);
+        getDelegate().deleteOrder(orderId);
     }
 
 

@@ -229,11 +229,11 @@ conf = {{{packageName}}}.Configuration(
         """
 {{/hasOAuthMethods}}
 {{^hasOAuthMethods}}
-{{#hasBearerMethods}}
+{{#hasHttpBearerMethods}}
         self.access_token = None
         """access token for OAuth/Bearer
         """
-{{/hasBearerMethods}}
+{{/hasHttpBearerMethods}}
 {{/hasOAuthMethods}}
         self.logger = {}
         """Logging Settings
