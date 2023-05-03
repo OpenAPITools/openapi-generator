@@ -47,4 +47,5 @@ setup(
     long_description="""\
     Echo Server API  # noqa: E501
     """
+    package_data={"openapi_client": ["py.typed"]},
 )
