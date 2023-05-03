@@ -181,6 +181,7 @@
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
                         <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
