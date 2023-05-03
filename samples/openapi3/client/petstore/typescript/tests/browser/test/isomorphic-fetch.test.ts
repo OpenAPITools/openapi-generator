@@ -1,3 +1,6 @@
+/*
+// commenting out below tests for the time being since the requests consistently timeout
+
 import { expect } from '@esm-bundle/chai';
 import * as petstore from "ts-petstore-client";
 
@@ -10,7 +13,6 @@ for (let libName in libs) {
 
     describe("Isomorphic Fetch", () => {
         it("GET-Request", (done) => {
-            /* commenting out below tests for the time being since the requests consistently timeout
             let requestContext = new petstore.RequestContext("http://httpbin.org/get", petstore.HttpMethod.GET);
             requestContext.setHeaderParam("X-Test-Token", "Test-Token");
             lib.send(requestContext).toPromise().then((resp: petstore.ResponseContext) => {
@@ -22,11 +24,9 @@ for (let libName in libs) {
                     expect(body["headers"]["X-Test-Token"]).to.equal("Test-Token");
                     done();
             }).catch(done)
-            */
         });
 
         it("POST-Request", (done) => {
-            /* commenting out below tests for the time being since the requests consistently timeout
             let requestContext = new petstore.RequestContext("http://httpbin.org/post", petstore.HttpMethod.POST);
             requestContext.setHeaderParam("X-Test-Token", "Test-Token");
             let formData: FormData = new FormData()
@@ -46,7 +46,7 @@ for (let libName in libs) {
                     expect(body["form"]["test"]).to.equal("test2");
                     done();
             }).catch(done)
-            */
         });
     })
 }
+*/
