@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -33,15 +32,17 @@ class MapTest(BaseModel):
     __properties = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
     @validator('map_of_enum_string')
-    def map_of_enum_string_validate_enum(cls, v):
-        if v is None:
-            return v
+    def map_of_enum_string_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in ('UPPER', 'lower'):
+        if value not in ('UPPER', 'lower'):
             raise ValueError("must be one of enum values ('UPPER', 'lower')")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -72,7 +73,7 @@ class MapTest(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return MapTest.parse_obj(obj)
 
         _obj = MapTest.parse_obj({

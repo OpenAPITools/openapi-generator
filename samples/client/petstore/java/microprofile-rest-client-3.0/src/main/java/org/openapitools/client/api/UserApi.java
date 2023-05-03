@@ -23,7 +23,6 @@ import java.util.Set;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
 
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;

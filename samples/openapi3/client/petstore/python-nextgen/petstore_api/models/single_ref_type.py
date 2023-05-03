@@ -12,7 +12,7 @@
 """
 
 
-from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg
@@ -31,4 +31,10 @@ class SingleRefType(str, Enum):
     """
     ADMIN = 'admin'
     USER = 'user'
+
+    @classmethod
+    def from_json(cls, json_str: str) -> SingleRefType:
+        """Create an instance of SingleRefType from a JSON string"""
+        return SingleRefType(json.loads(json_str))
+
 

@@ -7,7 +7,7 @@ title: Documentation for the python-nextgen Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-nextgen | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Python | |
 | generator language version | 3.7+ | |

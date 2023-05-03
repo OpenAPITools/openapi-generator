@@ -87,26 +87,6 @@ class PetApiTests(unittest.TestCase):
         self.test_file_dir = os.path.realpath(self.test_file_dir)
         self.foo = os.path.join(self.test_file_dir, "pix.gif")
 
-    def test_preload_content_flag(self):
-        self.pet_api.add_pet(self.pet)
-
-        resp = self.pet_api.find_pets_by_status(status=[self.pet.status], _preload_content=False)
-
-        # return response should at least have read and close methods.
-        self.assertTrue(hasattr(resp, 'read'))
-        self.assertTrue(hasattr(resp, 'close'))
-
-        # Also we need to make sure we can release the connection to a pool (if exists) when we are done with it.
-        self.assertTrue(hasattr(resp, 'release_conn'))
-
-        # Right now, the client returns urllib3.HTTPResponse. If that changed in future, it is probably a breaking
-        # change, however supporting above methods should be enough for most usecases. Remove this test case if
-        # we followed the breaking change procedure for python client (e.g. increasing major version).
-        self.assertTrue(resp.__class__, 'urllib3.response.HTTPResponse')
-
-        resp.close()
-        resp.release_conn()
-
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
@@ -160,10 +140,13 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet)
 
         thread = self.pet_api.get_pet_by_id_with_http_info(self.pet.id, async_req=True)
-        data, status, headers = thread.get()
+        api_response_object = thread.get()
 
-        self.assertIsInstance(data, petstore_api.Pet)
-        self.assertEqual(status, 200)
+        self.assertIsInstance(api_response_object.data, petstore_api.Pet)
+        self.assertEqual(api_response_object.status_code, 200)
+        self.assertEqual(api_response_object.headers['Content-Type'], "application/json")
+        self.assertIsInstance(api_response_object.raw_data, str) # it's a str, not Pet
+        self.assertTrue(api_response_object.raw_data.startswith('{"id":'))
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
@@ -188,14 +171,28 @@ class PetApiTests(unittest.TestCase):
         self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
+    def test_add_pet_and_get_pet_by_id_with_preload_content_flag(self):
+        try:
+            self.pet_api.add_pet(self.pet, _preload_content=False)
+        except ValueError as e:
+            self.assertEqual("Error! Please call the add_pet_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data", str(e))
+
+        self.pet_api.add_pet(self.pet)
+        fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id,
+                                                            _preload_content=False)
+        self.assertIsNone(fetched.data)
+        self.assertIsInstance(fetched.raw_data, bytes) # it's a str, not Pet
+        self.assertTrue(fetched.raw_data.decode("utf-8").startswith('{"id":'))
+
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)
 
+        # fetched is an ApiResponse object
         fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
-        self.assertIsNotNone(fetched)
-        self.assertEqual(self.pet.id, fetched[0].id)
-        self.assertIsNotNone(fetched[0].category)
-        self.assertEqual(self.pet.category.name, fetched[0].category.name)
+        self.assertIsNotNone(fetched.data)
+        self.assertEqual(self.pet.id, fetched.data.id)
+        self.assertIsNotNone(fetched.data.category)
+        self.assertEqual(self.pet.category.name, fetched.data.category.name)
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"

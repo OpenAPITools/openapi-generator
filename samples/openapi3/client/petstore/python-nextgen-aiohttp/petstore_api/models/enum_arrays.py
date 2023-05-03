@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -31,25 +30,28 @@ class EnumArrays(BaseModel):
     __properties = ["just_symbol", "array_enum"]
 
     @validator('just_symbol')
-    def just_symbol_validate_enum(cls, v):
-        if v is None:
-            return v
+    def just_symbol_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in ('>=', '$'):
+        if value not in ('>=', '$'):
             raise ValueError("must be one of enum values ('>=', '$')")
-        return v
+        return value
 
     @validator('array_enum')
-    def array_enum_validate_enum(cls, v):
-        if v is None:
-            return v
+    def array_enum_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        for i in v:
+        for i in value:
             if i not in ('fish', 'crab'):
                 raise ValueError("each list item must be one of ('fish', 'crab')")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -80,7 +82,7 @@ class EnumArrays(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return EnumArrays.parse_obj(obj)
 
         _obj = EnumArrays.parse_obj({
