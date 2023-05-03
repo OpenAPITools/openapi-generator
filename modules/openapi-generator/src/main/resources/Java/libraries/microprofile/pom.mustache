@@ -101,6 +101,13 @@
       <version>${smallrye.config.version}</version>
       <scope>test</scope>
     </dependency>
+    {{^disableMultipart}}
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-extension-providers</artifactId>
+        <version>${cxf.rt.rs.extension.providers.version}</version>
+    </dependency>
+    {{/disableMultipart}}
     <dependency>
       <groupId>jakarta.json.bind</groupId>
       <artifactId>jakarta.json.bind-api</artifactId>
