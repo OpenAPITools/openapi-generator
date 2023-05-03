@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 api/ApiHelper.n4js
 api/PetApi.n4js
