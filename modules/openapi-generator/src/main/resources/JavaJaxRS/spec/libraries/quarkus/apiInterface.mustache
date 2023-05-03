@@ -20,7 +20,7 @@
     {{/implicitHeadersParams.0}}
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
-    {{#hasAuthMethods}}@SecurityRequirements(value={
+    {{#hasAuthMethods}}@SecurityRequirements(value = {
         {{#authMethods}}{{#isOAuth}}@SecurityRequirement(name = "{{name}}", scopes = { {{#scopes}} "{{scope}}"{{^-last}},{{/-last}} {{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}{{^isOAuth}}     @SecurityRequirement(name = "{{name}}"){{^-last}},{{/-last}}{{/isOAuth}}
    {{/authMethods}} }){{/hasAuthMethods}}
     @Operation(operationId = "{{{operationId}}}", summary = "{{{summary}}}", description = "{{{notes}}}")
@@ -29,7 +29,7 @@
         @APIResponse(responseCode = "{{{code}}}", description = "{{{message}}}", {{#responseHeaders.0}}headers = { {{#responseHeaders}}
                 @Header(name = "{{{baseName}}}", schema = @Schema(type = {{{vendorExtensions.x-microprofile-open-api-schema-type}}}), description = "{{{description}}}"){{^-last}},{{/-last}}{{/responseHeaders}}
             },{{/responseHeaders.0}} content = { {{#produces}}
-               @Content(mediaType="{{{mediaType}}}", schema = @Schema(implementation = {{{baseType}}}.class{{#vendorExtensions.x-microprofile-open-api-return-schema-container}}, type = {{{.}}} {{/vendorExtensions.x-microprofile-open-api-return-schema-container}}{{#vendorExtensions.x-microprofile-open-api-return-unique-items}}, uniqueItems = true {{/vendorExtensions.x-microprofile-open-api-return-unique-items}})){{^-last}},{{/-last}}{{/produces}}
+               @Content(mediaType = "{{{mediaType}}}", schema = @Schema(implementation = {{{baseType}}}.class{{#vendorExtensions.x-microprofile-open-api-return-schema-container}}, type = {{{.}}} {{/vendorExtensions.x-microprofile-open-api-return-schema-container}}{{#vendorExtensions.x-microprofile-open-api-return-unique-items}}, uniqueItems = true {{/vendorExtensions.x-microprofile-open-api-return-unique-items}})){{^-last}},{{/-last}}{{/produces}}
         }){{^-last}},{{/-last}}{{/responses}}
     }){{/hasProduces}}{{^hasProduces}}
     @APIResponses(value = { {{#responses}}

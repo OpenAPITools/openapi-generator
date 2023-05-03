@@ -42,9 +42,34 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
         license = @License(name = "{{{name}}}", url = "{{{url}}}"){{/license}}{{#contact}},
         contact = @Contact(name = "{{{name}}}", email = "{{{email}}}"){{/contact}}
    ),
-   tags = {
-        @Tag(name="{{{tagName}}}", description="{{{tagDescription}}}")
-   }){{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
+   tags = @Tag(name="{{{tagName}}}", description="{{{tagDescription}}}")
+){{#hasAuthMethods}}
+@SecuritySchemes(value = {
+    {{#authMethods}}{{#isOAuth}}@SecurityScheme(securitySchemeName = "{{name}}", type = SecuritySchemeType.OAUTH2,
+         description = "{{description}}",{{#isImplicit}}
+         flows = @OAuthFlows(implicit = @OAuthFlow(authorizationUrl = "{{authorizationUrl}}", tokenUrl = "{{tokenUrl}}", refreshUrl = "{{refreshUrl}}", scopes = { {{#scopes}} @OAuthScope(name = "{{scope}}"){{^-last}},{{/-last}} {{/scopes}} })) {{/isImplicit}}{{#isCode}}
+         flows = @OAuthFlows(authorizationCode = @OAuthFlow(authorizationUrl = "{{authorizationUrl}}", tokenUrl = "{{tokenUrl}}", refreshUrl = "{{refreshUrl}}", scopes = { {{#scopes}} @OAuthScope(name = "{{scope}}"){{^-last}},{{/-last}} {{/scopes}} })) {{/isCode}}{{#isPassword}}
+         flows = @OAuthFlows(password = @OAuthFlow(authorizationUrl = "{{authorizationUrl}}", tokenUrl = "{{tokenUrl}}", refreshUrl = "{{refreshUrl}}", scopes = { {{#scopes}} @OAuthScope(name = "{{scope}}"){{^-last}},{{/-last}} {{/scopes}} })) {{/isPassword}}{{#isApplication}}
+         flows = @OAuthFlows(clientCredentials = @OAuthFlow(authorizationUrl = "{{authorizationUrl}}", tokenUrl = "{{tokenUrl}}", refreshUrl = "{{refreshUrl}}", scopes = { {{#scopes}} @OAuthScope(name = "{{scope}}"){{^-last}},{{/-last}} {{/scopes}} })){{/isApplication}}
+    ){{^-last}},{{/-last}}{{/isOAuth}}{{#isApiKey}}
+    @SecurityScheme(securitySchemeName = "{{name}}", type = SecuritySchemeType.APIKEY,
+         description = "{{description}}",
+         apiKeyName = "{{keyParamName}}",
+         {{#isKeyInHeader}}in = SecuritySchemeIn.HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}in = SecuritySchemeIn.QUERY{{/isKeyInQuery}}{{#isKeyInCookie}}in = SecuritySchemeIn.COOKIE{{/isKeyInCookie}}
+    ){{^-last}},{{/-last}}{{/isApiKey}}{{#isBasicBasic}}
+    @SecurityScheme(securitySchemeName = "{{name}}", type = SecuritySchemeType.HTTP,
+         description = "{{description}}",
+         scheme = "basic"
+    ){{^-last}},{{/-last}}{{/isBasicBasic}}{{#isBasicBearer}}
+    @SecurityScheme(securitySchemeName = "{{name}}", type = SecuritySchemeType.HTTP,
+        description = "{{description}}",
+        scheme = "bearer", bearerFormat = "{{bearerFormat}}"
+    ){{^-last}},{{/-last}}{{/isBasicBearer}}{{#isOpenId}}
+    @SecurityScheme(securitySchemeName = "{{name}}", type = SecuritySchemeType.OPENIDCONNECT,
+        description = "{{description}}",
+        openIdConnectUrl = "{{openIdConnectUrl}}"
+    ){{^-last}},{{/-last}}{{/isOpenId}}{{/authMethods}}
+}){{/hasAuthMethods}}{{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
 @Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}
 @Path("{{commonPath}}"){{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
