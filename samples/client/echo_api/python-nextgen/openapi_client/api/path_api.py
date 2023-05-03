@@ -23,6 +23,7 @@ from pydantic import StrictInt, StrictStr
 
 
 from openapi_client.api_client import ApiClient
+from openapi_client.api_response import ApiResponse
 from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -58,10 +59,6 @@ class PathApi(object):
         :type path_integer: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72,10 +69,12 @@ class PathApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the tests_path_string_path_string_integer_path_integer_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs):  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> ApiResponse:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
@@ -91,13 +90,14 @@ class PathApi(object):
         :type path_integer: int
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

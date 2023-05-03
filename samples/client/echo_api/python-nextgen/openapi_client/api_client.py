@@ -26,6 +26,7 @@ import tempfile
 from urllib.parse import quote
 
 from openapi_client.configuration import Configuration
+from openapi_client.api_response import ApiResponse
 import openapi_client.models
 from openapi_client import rest
 from openapi_client.exceptions import ApiValueError, ApiException
@@ -222,36 +223,36 @@ class ApiClient(object):
 
         self.last_response = response_data
 
-        return_data = response_data
+        return_data = None # assuming derialization is not needed
+        # data needs deserialization or returns HTTP data (deserialized) only
+        if _preload_content or _return_http_data_only:
+          response_type = response_types_map.get(str(response_data.status), None)
 
-        if not _preload_content:
-            return return_data
+          if response_type == "bytearray":
+              response_data.data = response_data.data
+          else:
+              match = None
+              content_type = response_data.getheader('content-type')
+              if content_type is not None:
+                  match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+              encoding = match.group(1) if match else "utf-8"
+              response_data.data = response_data.data.decode(encoding)
 
-        response_type = response_types_map.get(str(response_data.status), None)
-
-        if response_type == "bytearray":
-            response_data.data = response_data.data
-        else:
-            match = None
-            content_type = response_data.getheader('content-type')
-            if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-            encoding = match.group(1) if match else "utf-8"
-            response_data.data = response_data.data.decode(encoding)
-
-        # deserialize response data
-        if response_type == "bytearray":
-            return_data = response_data.data
-        elif response_type:
-            return_data = self.deserialize(response_data, response_type)
-        else:
-            return_data = None
+          # deserialize response data
+          if response_type == "bytearray":
+              return_data = response_data.data
+          elif response_type:
+              return_data = self.deserialize(response_data, response_type)
+          else:
+              return_data = None
 
         if _return_http_data_only:
-            return (return_data)
+            return return_data
         else:
-            return (return_data, response_data.status,
-                    response_data.getheaders())
+            return ApiResponse(status_code = response_data.status,
+                           data = return_data,
+                           headers = response_data.getheaders(),
+                           raw_data = response_data.data)
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
@@ -359,8 +360,8 @@ class ApiClient(object):
                  body=None, post_params=None, files=None,
                  response_types_map=None, auth_settings=None,
                  async_req=None, _return_http_data_only=None,
-                 collection_formats=None,_preload_content=True,
-                  _request_timeout=None, _host=None, _request_auth=None):
+                 collection_formats=None, _preload_content=True,
+                 _request_timeout=None, _host=None, _request_auth=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -379,13 +380,14 @@ class ApiClient(object):
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
         :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data without head status code
-                                       and headers
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

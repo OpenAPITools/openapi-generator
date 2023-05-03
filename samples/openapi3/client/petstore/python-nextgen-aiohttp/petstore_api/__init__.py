@@ -26,6 +26,7 @@ from petstore_api.api.store_api import StoreApi
 from petstore_api.api.user_api import UserApi
 
 # import ApiClient
+from petstore_api.api_response import ApiResponse
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
 from petstore_api.exceptions import OpenApiException
