@@ -305,7 +305,7 @@ class QueryApi(object):
 
         if _params.get('date_query') is not None:  # noqa: E501
             if isinstance(_params['date_query'], datetime):
-                _query_parame.append(('date_query', _params['date_query'].strftime(self.api_client.configuration.date_format)))
+                _query_params.append(('date_query', _params['date_query'].strftime(self.api_client.configuration.date_format)))
             else:
                 _query_params.append(('date_query', _params['date_query']))
 
