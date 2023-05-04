@@ -165,6 +165,7 @@
             {{#vendorExtensions.x-csharp-value-type}}
             this._{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/vendorExtensions.x-csharp-value-type}}
+            this._flag{{name}} = true;
             {{/conditionalSerialization}}
             {{/required}}
             {{/isReadOnly}}
@@ -175,7 +176,6 @@
             {{^isReadOnly}}
             {{^required}}
             {{#defaultValue}}
-            {{^conditionalSerialization}}
             {{^vendorExtensions.x-csharp-value-type}}
             // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} ?? {{#isString}}@{{/isString}}{{{defaultValue}}};
@@ -183,6 +183,8 @@
             {{#vendorExtensions.x-csharp-value-type}}
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/vendorExtensions.x-csharp-value-type}}
+            {{#conditionalSerialization}}
+			this._flag{{name}} = true;
             {{/conditionalSerialization}}
             {{/defaultValue}}
             {{^defaultValue}}
@@ -191,7 +193,7 @@
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
             this._{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
-            if (this.{{name}} != null)
+            if (this.{{name}} != default)
             {
                 this._flag{{name}} = true;
             }
