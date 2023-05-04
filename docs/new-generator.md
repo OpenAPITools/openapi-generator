@@ -214,14 +214,8 @@ No model defined in this package
 <a name="documentation-for-authorization"></a>{{! TODO: optional documentation for authorization? }}
 ## Documentation for Authorization
 
-{{^authMethods}}
-All endpoints do not require authorization.
-{{/authMethods}}
-{{#authMethods}}
-{{#last}}
-Authentication schemes defined for the API:
-{{/last}}
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
 <a name="{{name}}"></a>
 ### {{name}}
