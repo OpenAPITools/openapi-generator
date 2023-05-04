@@ -7,7 +7,7 @@ title: Documentation for the n4js Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | n4js | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
