@@ -77,6 +77,9 @@ public class FileSchemaTestClass {
   }
 
   public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
+    if (this.files == null) {
+      this.files = new ArrayList<>();
+    }
     this.files.add(filesItem);
     return this;
   }
@@ -99,7 +102,6 @@ public class FileSchemaTestClass {
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {

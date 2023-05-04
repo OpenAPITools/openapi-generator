@@ -38,18 +38,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (justSymbol == null)
-                throw new ArgumentNullException("justSymbol is a required property for EnumArrays and cannot be null.");
-
-            if (arrayEnum == null)
-                throw new ArgumentNullException("arrayEnum is a required property for EnumArrays and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ArrayEnum = arrayEnum;
             JustSymbol = justSymbol;
         }
@@ -146,7 +134,7 @@ namespace Org.OpenAPITools.Model
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
-                return "&gt;&#x3D;";
+                return ">=";
 
             if (value == JustSymbolEnum.Dollar)
                 return "$";
@@ -186,12 +174,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -238,7 +227,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "array_enum":
-                            arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "just_symbol":
                             string justSymbolRawValue = utf8JsonReader.GetString();
@@ -249,6 +239,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (justSymbol == null)
+                throw new ArgumentNullException(nameof(justSymbol), "Property is required for class EnumArrays.");
+
+            if (arrayEnum == null)
+                throw new ArgumentNullException(nameof(arrayEnum), "Property is required for class EnumArrays.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new EnumArrays(arrayEnum, justSymbol);
         }

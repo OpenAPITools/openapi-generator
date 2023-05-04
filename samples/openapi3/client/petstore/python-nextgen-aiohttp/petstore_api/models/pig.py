@@ -50,13 +50,13 @@ class Pig(BaseModel):
         error_messages = []
         match = 0
         # validate data type: BasquePig
-        if type(v) is not BasquePig:
+        if not isinstance(v, BasquePig):
             error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
         else:
             match += 1
 
         # validate data type: DanishPig
-        if type(v) is not DanishPig:
+        if not isinstance(v, DanishPig):
             error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
         else:
             match += 1
@@ -85,13 +85,13 @@ class Pig(BaseModel):
         try:
             instance.actual_instance = BasquePig.from_json(json_str)
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into DanishPig
         try:
             instance.actual_instance = DanishPig.from_json(json_str)
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if match > 1:
@@ -105,17 +105,26 @@ class Pig(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
             return self.actual_instance.to_json()
         else:
-            return "null"
+            return json.dumps(self.actual_instance)
 
     def to_dict(self) -> dict:
         """Returns the dict representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return None
+
+        to_dict = getattr(self.actual_instance, "to_dict", None)
+        if callable(to_dict):
             return self.actual_instance.to_dict()
         else:
-            return dict()
+            # primitive type
+            return self.actual_instance
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

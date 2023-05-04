@@ -14,6 +14,7 @@ import {{javaxPackage}}.ws.rs.core.GenericType;
 {{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -116,58 +117,84 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
-    Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
-    {{#allParams}}{{#required}}
-    // verify the required parameter '{{paramName}}' is set
+    {{#hasRequiredParams}}
+    // Check required parameters
+    {{#allParams}}
+    {{#required}}
     if ({{paramName}} == null) {
       throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
     }
-    {{/required}}{{/allParams}}
-    // create path and map variables
+    {{/required}}
+    {{/allParams}}
+
+    {{/hasRequiredParams}}
+    {{#hasPathParams}}
+    // Path parameters
     String localVarPath = "{{{path}}}"{{#pathParams}}
-      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, apiClient.escapeString({{{paramName}}}{{#isUuid}}.toString(){{/isUuid}}{{^isString}}.toString(){{/isString}})){{/pathParams}};
 
-    // query params
-    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
-
+    {{/hasPathParams}}
     {{#queryParams}}
+    {{#-first}}
+    // Query parameters
+    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>(
+            apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}})
+    );
+    {{/-first}}
+    {{^-first}}
     localVarQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+    {{/-first}}
+    {{#-last}}
+
+    {{/-last}}
     {{/queryParams}}
+    {{#headerParams}}
+    {{#-first}}
+    // Header parameters
+    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}LinkedHashMap<>();
+    {{/-first}}
+    {{^required}}if ({{paramName}} != null) {
+      {{/required}}localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^required}}
+    }{{/required}}
+    {{#-last}}
 
-    {{#headerParams}}if ({{paramName}} != null)
-      localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{/-last}}
     {{/headerParams}}
+    {{#cookieParams}}
+    {{#-first}}
+    // Cookie parameters
+    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}LinkedHashMap<>();
+    {{/-first}}
+    {{^required}}if ({{paramName}} != null) {
+      {{/required}}localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^required}}
+    }{{/required}}
+    {{#-last}}
 
-    {{#cookieParams}}if ({{paramName}} != null)
-      localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{/-last}}
     {{/cookieParams}}
+    {{#formParams}}
+    {{#-first}}
+    // Form parameters
+    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}LinkedHashMap<>();
+    {{/-first}}
+    {{^required}}if ({{paramName}} != null) {
+      {{/required}}localVarFormParams.put("{{baseName}}", {{paramName}});{{^required}}
+    }{{/required}}
+    {{#-last}}
 
-    {{#formParams}}if ({{paramName}} != null)
-      localVarFormParams.put("{{baseName}}", {{paramName}});
+    {{/-last}}
     {{/formParams}}
-
-    final String[] localVarAccepts = {
-      {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
-
+    String localVarAccept = apiClient.selectHeaderAccept({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}});
+    String localVarContentType = apiClient.selectHeaderContentType({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}});
+    {{#hasAuthMethods}}
+    String[] localVarAuthNames = {{=% %=}}new String[] {%#authMethods%"%name%"%^-last%, %/-last%%/authMethods%};%={{ }}=%
+    {{/hasAuthMethods}}
     {{#returnType}}
     GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
-
     {{/returnType}}
-    return apiClient.invokeAPI("{{classname}}.{{operationId}}", localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
+    return apiClient.invokeAPI("{{classname}}.{{operationId}}", {{#hasPathParams}}localVarPath{{/hasPathParams}}{{^hasPathParams}}"{{path}}"{{/hasPathParams}}, "{{httpMethod}}", {{#queryParams}}{{#-first}}localVarQueryParams{{/-first}}{{/queryParams}}{{^queryParams}}new ArrayList<>(){{/queryParams}}, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}},
+                               {{#headerParams}}{{#-first}}localVarHeaderParams{{/-first}}{{/headerParams}}{{^headerParams}}new LinkedHashMap<>(){{/headerParams}}, {{#cookieParams}}{{#-first}}localVarCookieParams{{/-first}}{{/cookieParams}}{{^cookieParams}}new LinkedHashMap<>(){{/cookieParams}}, {{#formParams}}{{#-first}}localVarFormParams{{/-first}}{{/formParams}}{{^formParams}}new LinkedHashMap<>(){{/formParams}}, localVarAccept, localVarContentType,
+                               {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
   }
   {{#vendorExtensions.x-group-parameters}}
 

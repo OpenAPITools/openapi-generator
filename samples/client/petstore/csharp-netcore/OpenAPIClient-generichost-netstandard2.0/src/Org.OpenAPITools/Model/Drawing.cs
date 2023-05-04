@@ -38,21 +38,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Drawing(Shape mainShape, ShapeOrNull shapeOrNull, List<Shape> shapes, NullableShape nullableShape = default) : base()
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (mainShape == null)
-                throw new ArgumentNullException("mainShape is a required property for Drawing and cannot be null.");
-
-            if (shapeOrNull == null)
-                throw new ArgumentNullException("shapeOrNull is a required property for Drawing and cannot be null.");
-
-            if (shapes == null)
-                throw new ArgumentNullException("shapes is a required property for Drawing and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             MainShape = mainShape;
             ShapeOrNull = shapeOrNull;
             Shapes = shapes;
@@ -99,12 +84,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -153,22 +139,41 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "mainShape":
-                            mainShape = JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mainShape = JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "shapeOrNull":
-                            shapeOrNull = JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shapeOrNull = JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "shapes":
-                            shapes = JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shapes = JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "nullableShape":
-                            nullableShape = JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                nullableShape = JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (mainShape == null)
+                throw new ArgumentNullException(nameof(mainShape), "Property is required for class Drawing.");
+
+            if (shapeOrNull == null)
+                throw new ArgumentNullException(nameof(shapeOrNull), "Property is required for class Drawing.");
+
+            if (shapes == null)
+                throw new ArgumentNullException(nameof(shapes), "Property is required for class Drawing.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Drawing(mainShape, shapeOrNull, shapes, nullableShape);
         }

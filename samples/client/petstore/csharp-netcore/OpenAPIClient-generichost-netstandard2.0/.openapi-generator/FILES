@@ -1,6 +1,7 @@
 .gitignore
 Org.OpenAPITools.sln
 README.md
+api/openapi.yaml
 appveyor.yml
 docs/apis/AnotherFakeApi.md
 docs/apis/DefaultApi.md
@@ -53,6 +54,7 @@ docs/models/HasOnlyReadOnly.md
 docs/models/HealthCheckResult.md
 docs/models/IsoscelesTriangle.md
 docs/models/List.md
+docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
 docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -85,6 +87,8 @@ docs/models/ShapeOrNull.md
 docs/models/SimpleQuadrilateral.md
 docs/models/SpecialModelName.md
 docs/models/Tag.md
+docs/models/TestCollectionEndingWithWordList.md
+docs/models/TestCollectionEndingWithWordListObject.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
 docs/models/User.md
@@ -170,6 +174,7 @@ src/Org.OpenAPITools/Model/HasOnlyReadOnly.cs
 src/Org.OpenAPITools/Model/HealthCheckResult.cs
 src/Org.OpenAPITools/Model/IsoscelesTriangle.cs
 src/Org.OpenAPITools/Model/List.cs
+src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
@@ -202,6 +207,8 @@ src/Org.OpenAPITools/Model/ShapeOrNull.cs
 src/Org.OpenAPITools/Model/SimpleQuadrilateral.cs
 src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
+src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs

@@ -14,7 +14,7 @@ Method | HTTP request | Description
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 > addPet(body)
 
@@ -60,7 +60,7 @@ Configure petstore_auth:
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 > deletePet(apiKey, petId)
 
@@ -108,7 +108,7 @@ Configure petstore_auth:
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
+<a id="findPetsByStatus"></a>
 # **findPetsByStatus**
 > kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
 
@@ -157,7 +157,7 @@ Configure petstore_auth:
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
 > kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
@@ -206,7 +206,7 @@ Configure petstore_auth:
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -256,7 +256,7 @@ Configure api_key:
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 > updatePet(body)
 
@@ -302,7 +302,7 @@ Configure petstore_auth:
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
@@ -352,7 +352,7 @@ Configure petstore_auth:
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 

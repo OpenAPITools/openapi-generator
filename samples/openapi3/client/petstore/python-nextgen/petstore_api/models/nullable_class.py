@@ -13,20 +13,19 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
 
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictFloat, StrictInt, StrictStr, conlist
+from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist
 
 class NullableClass(BaseModel):
     """
     NullableClass
     """
-    required_integer_prop: Optional[StrictInt] = ...
+    required_integer_prop: Optional[StrictInt] = Field(...)
     integer_prop: Optional[StrictInt] = None
     number_prop: Optional[StrictFloat] = None
     boolean_prop: Optional[StrictBool] = None
@@ -42,6 +41,7 @@ class NullableClass(BaseModel):
     __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -65,47 +65,58 @@ class NullableClass(BaseModel):
                           },
                           exclude_none=True)
         # set to None if required_integer_prop (nullable) is None
-        if self.required_integer_prop is None:
+        # and __fields_set__ contains the field
+        if self.required_integer_prop is None and "required_integer_prop" in self.__fields_set__:
             _dict['required_integer_prop'] = None
 
         # set to None if integer_prop (nullable) is None
-        if self.integer_prop is None:
+        # and __fields_set__ contains the field
+        if self.integer_prop is None and "integer_prop" in self.__fields_set__:
             _dict['integer_prop'] = None
 
         # set to None if number_prop (nullable) is None
-        if self.number_prop is None:
+        # and __fields_set__ contains the field
+        if self.number_prop is None and "number_prop" in self.__fields_set__:
             _dict['number_prop'] = None
 
         # set to None if boolean_prop (nullable) is None
-        if self.boolean_prop is None:
+        # and __fields_set__ contains the field
+        if self.boolean_prop is None and "boolean_prop" in self.__fields_set__:
             _dict['boolean_prop'] = None
 
         # set to None if string_prop (nullable) is None
-        if self.string_prop is None:
+        # and __fields_set__ contains the field
+        if self.string_prop is None and "string_prop" in self.__fields_set__:
             _dict['string_prop'] = None
 
         # set to None if date_prop (nullable) is None
-        if self.date_prop is None:
+        # and __fields_set__ contains the field
+        if self.date_prop is None and "date_prop" in self.__fields_set__:
             _dict['date_prop'] = None
 
         # set to None if datetime_prop (nullable) is None
-        if self.datetime_prop is None:
+        # and __fields_set__ contains the field
+        if self.datetime_prop is None and "datetime_prop" in self.__fields_set__:
             _dict['datetime_prop'] = None
 
         # set to None if array_nullable_prop (nullable) is None
-        if self.array_nullable_prop is None:
+        # and __fields_set__ contains the field
+        if self.array_nullable_prop is None and "array_nullable_prop" in self.__fields_set__:
             _dict['array_nullable_prop'] = None
 
         # set to None if array_and_items_nullable_prop (nullable) is None
-        if self.array_and_items_nullable_prop is None:
+        # and __fields_set__ contains the field
+        if self.array_and_items_nullable_prop is None and "array_and_items_nullable_prop" in self.__fields_set__:
             _dict['array_and_items_nullable_prop'] = None
 
         # set to None if object_nullable_prop (nullable) is None
-        if self.object_nullable_prop is None:
+        # and __fields_set__ contains the field
+        if self.object_nullable_prop is None and "object_nullable_prop" in self.__fields_set__:
             _dict['object_nullable_prop'] = None
 
         # set to None if object_and_items_nullable_prop (nullable) is None
-        if self.object_and_items_nullable_prop is None:
+        # and __fields_set__ contains the field
+        if self.object_and_items_nullable_prop is None and "object_and_items_nullable_prop" in self.__fields_set__:
             _dict['object_and_items_nullable_prop'] = None
 
         return _dict
@@ -116,7 +127,7 @@ class NullableClass(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return NullableClass.parse_obj(obj)
 
         _obj = NullableClass.parse_obj({

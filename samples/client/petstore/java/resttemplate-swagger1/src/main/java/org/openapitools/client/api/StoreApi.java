@@ -26,7 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.StoreApi")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -34,7 +33,6 @@ public class StoreApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public StoreApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }

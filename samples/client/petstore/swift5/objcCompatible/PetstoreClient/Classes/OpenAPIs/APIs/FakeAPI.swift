@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc open class FakeAPI : NSObject {
+@objcMembers open class FakeAPI : NSObject {
 
     /**
 

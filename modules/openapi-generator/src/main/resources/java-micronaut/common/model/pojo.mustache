@@ -123,7 +123,7 @@ Declare the class with extends and implements
     public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
         }
         try {
             this.{{name}}.get().add({{name}}Item);
@@ -135,7 +135,7 @@ Declare the class with extends and implements
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
                     {{^required}}
         if (this.{{name}} == null) {
-            this.{{name}} = {{{defaultValue}}};
+            this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
         }
                     {{/required}}
         this.{{name}}.add({{name}}Item);
@@ -148,7 +148,7 @@ Declare the class with extends and implements
     public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
         }
         try {
             this.{{name}}.get().put(key, {{name}}Item);
@@ -160,7 +160,7 @@ Declare the class with extends and implements
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
                     {{^required}}
         if (this.{{name}} == null) {
-            this.{{name}} = {{{defaultValue}}};
+            this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
         }
                     {{/required}}
         this.{{name}}.put(key, {{name}}Item);

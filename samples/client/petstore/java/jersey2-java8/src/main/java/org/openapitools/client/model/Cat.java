@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -121,12 +120,12 @@ public class Cat extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("BigCat", BigCat.class);
-  mappings.put("Cat", Cat.class);
-  JSON.registerDiscriminator(Cat.class, "className", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("BigCat", BigCat.class);
+    mappings.put("Cat", Cat.class);
+    JSON.registerDiscriminator(Cat.class, "className", mappings);
+  }
 }
 

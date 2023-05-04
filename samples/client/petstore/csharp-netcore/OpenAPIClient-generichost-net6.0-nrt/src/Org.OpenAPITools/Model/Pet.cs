@@ -42,30 +42,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (id == null)
-                throw new ArgumentNullException("id is a required property for Pet and cannot be null.");
-
-            if (category == null)
-                throw new ArgumentNullException("category is a required property for Pet and cannot be null.");
-
-            if (name == null)
-                throw new ArgumentNullException("name is a required property for Pet and cannot be null.");
-
-            if (photoUrls == null)
-                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null.");
-
-            if (tags == null)
-                throw new ArgumentNullException("tags is a required property for Pet and cannot be null.");
-
-            if (status == null)
-                throw new ArgumentNullException("status is a required property for Pet and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Category = category;
             Id = id;
             Name = name;
@@ -158,6 +134,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
+        /// <example>&quot;doggie&quot;</example>
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -197,12 +174,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -253,29 +231,57 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "category":
-                            category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
-                            id = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "name":
                             name = utf8JsonReader.GetString();
                             break;
                         case "photoUrls":
-                            photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
                             status = Pet.StatusEnumFromString(statusRawValue);
                             break;
                         case "tags":
-                            tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
+
+            if (category == null)
+                throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
+
+            if (photoUrls == null)
+                throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Pet(category, id, name, photoUrls, status, tags);
         }

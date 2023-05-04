@@ -38,6 +38,7 @@ src/main/java/org/openapitools/virtualan/model/CatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Category.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
+src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
 src/main/java/org/openapitools/virtualan/model/Dog.java
 src/main/java/org/openapitools/virtualan/model/DogAllOf.java
 src/main/java/org/openapitools/virtualan/model/EnumArrays.java
@@ -60,6 +61,7 @@ src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java
 src/main/java/org/openapitools/virtualan/model/Pet.java
 src/main/java/org/openapitools/virtualan/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/virtualan/model/ResponseObjectWithDifferentFieldNames.java
 src/main/java/org/openapitools/virtualan/model/SpecialModelName.java
 src/main/java/org/openapitools/virtualan/model/Tag.java
 src/main/java/org/openapitools/virtualan/model/TypeHolderDefault.java

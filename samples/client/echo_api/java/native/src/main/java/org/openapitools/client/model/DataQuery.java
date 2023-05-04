@@ -129,6 +129,18 @@ public class DataQuery extends Query {
   }
 
 
+  @Override
+  public DataQuery id(Long id) {
+    this.setId(id);
+    return this;
+  }
+
+  @Override
+  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
+    this.setOutcomes(outcomes);
+    return this;
+  }
+
   /**
    * Return true if this DataQuery object is equal to o.
    */

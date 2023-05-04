@@ -41,6 +41,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
+        /// <example>&quot;doggie&quot;</example>
         [Required]
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }

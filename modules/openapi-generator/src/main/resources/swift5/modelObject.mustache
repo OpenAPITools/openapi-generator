@@ -1,5 +1,5 @@
 {{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#useClasses}}final class{{/useClasses}}{{^useClasses}}struct{{/useClasses}} {{{classname}}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#useJsonEncodable}}, JSONEncodable{{/useJsonEncodable}}{{/useVapor}}{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
-{{/objcCompatible}}{{#objcCompatible}}@objc {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable{{#useJsonEncodable}}, JSONEncodable{{/useJsonEncodable}} {
+{{/objcCompatible}}{{#objcCompatible}}@objcMembers {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable{{#useJsonEncodable}}, JSONEncodable{{/useJsonEncodable}} {
 {{/objcCompatible}}
 
 {{#allVars}}

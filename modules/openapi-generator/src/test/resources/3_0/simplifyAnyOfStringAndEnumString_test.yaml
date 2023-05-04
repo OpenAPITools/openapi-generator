@@ -36,4 +36,11 @@ components:
       enum:
         - A
         - B
+    SingleAnyOfTest:
+      description: to test anyOf (enum string only)
+      anyOf:
+        - type: string
+          enum:
+            - A
+            - B
 

@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -31,7 +30,7 @@ class EnumTest(BaseModel):
     EnumTest
     """
     enum_string: Optional[StrictStr] = None
-    enum_string_required: StrictStr = ...
+    enum_string_required: StrictStr = Field(...)
     enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[float] = None
@@ -42,48 +41,54 @@ class EnumTest(BaseModel):
     __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @validator('enum_string')
-    def enum_string_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_string_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in ('UPPER', 'lower', ''):
-            raise ValueError("must validate the enum values ('UPPER', 'lower', '')")
-        return v
+        if value not in ('UPPER', 'lower', ''):
+            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
+        return value
 
     @validator('enum_string_required')
-    def enum_string_required_validate_enum(cls, v):
-        if v not in ('UPPER', 'lower', ''):
-            raise ValueError("must validate the enum values ('UPPER', 'lower', '')")
-        return v
+    def enum_string_required_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in ('UPPER', 'lower', ''):
+            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
+        return value
 
     @validator('enum_integer_default')
-    def enum_integer_default_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_integer_default_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in (1, 5, 14):
-            raise ValueError("must validate the enum values (1, 5, 14)")
-        return v
+        if value not in (1, 5, 14):
+            raise ValueError("must be one of enum values (1, 5, 14)")
+        return value
 
     @validator('enum_integer')
-    def enum_integer_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_integer_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in (1, -1):
-            raise ValueError("must validate the enum values (1, -1)")
-        return v
+        if value not in (1, -1):
+            raise ValueError("must be one of enum values (1, -1)")
+        return value
 
     @validator('enum_number')
-    def enum_number_validate_enum(cls, v):
-        if v is None:
-            return v
+    def enum_number_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in (1.1, -1.2):
-            raise ValueError("must validate the enum values (1.1, -1.2)")
-        return v
+        if value not in (1.1, -1.2):
+            raise ValueError("must be one of enum values (1.1, -1.2)")
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -107,7 +112,8 @@ class EnumTest(BaseModel):
                           },
                           exclude_none=True)
         # set to None if outer_enum (nullable) is None
-        if self.outer_enum is None:
+        # and __fields_set__ contains the field
+        if self.outer_enum is None and "outer_enum" in self.__fields_set__:
             _dict['outerEnum'] = None
 
         return _dict
@@ -118,7 +124,7 @@ class EnumTest(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return EnumTest.parse_obj(obj)
 
         _obj = EnumTest.parse_obj({

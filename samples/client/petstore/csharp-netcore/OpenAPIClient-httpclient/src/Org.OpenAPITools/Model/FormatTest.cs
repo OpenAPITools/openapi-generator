@@ -46,7 +46,9 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
+        /// <param name="unsignedLong">unsignedLong.</param>
         /// <param name="number">number (required).</param>
         /// <param name="_float">_float.</param>
         /// <param name="_double">_double.</param>
@@ -60,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
@@ -78,7 +80,9 @@ namespace Org.OpenAPITools.Model
             this.Password = password;
             this.Integer = integer;
             this.Int32 = int32;
+            this.UnsignedInteger = unsignedInteger;
             this.Int64 = int64;
+            this.UnsignedLong = unsignedLong;
             this.Float = _float;
             this.Double = _double;
             this.Decimal = _decimal;
@@ -104,10 +108,22 @@ namespace Org.OpenAPITools.Model
         public int Int32 { get; set; }
 
         /// <summary>
+        /// Gets or Sets UnsignedInteger
+        /// </summary>
+        [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
+        public uint UnsignedInteger { get; set; }
+
+        /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
         public long Int64 { get; set; }
+
+        /// <summary>
+        /// Gets or Sets UnsignedLong
+        /// </summary>
+        [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
+        public ulong UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -154,6 +170,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
+        /// <example>&quot;Sun Feb 02 00:00:00 UTC 2020&quot;</example>
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
@@ -161,12 +178,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
+        /// <example>&quot;2007-12-03T10:15:30+01:00&quot;</example>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
+        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid { get; set; }
 
@@ -206,7 +225,9 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Float: ").Append(Float).Append("\n");
             sb.Append("  Double: ").Append(Double).Append("\n");
@@ -265,7 +286,9 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
                 hashCode = (hashCode * 59) + this.Float.GetHashCode();
                 hashCode = (hashCode * 59) + this.Double.GetHashCode();
@@ -319,7 +342,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
             if (this.Integer > (int)100)
@@ -343,6 +366,18 @@ namespace Org.OpenAPITools.Model
             if (this.Int32 < (int)20)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+            }
+
+            // UnsignedInteger (uint) maximum
+            if (this.UnsignedInteger > (uint)200)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+            }
+
+            // UnsignedInteger (uint) minimum
+            if (this.UnsignedInteger < (uint)20)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
 
             // Number (decimal) maximum
@@ -382,7 +417,7 @@ namespace Org.OpenAPITools.Model
             }
 
             // String (string) pattern
-            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexString = new Regex("[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
@@ -401,14 +436,14 @@ namespace Org.OpenAPITools.Model
             }
 
             // PatternWithDigits (string) pattern
-            Regex regexPatternWithDigits = new Regex(@"^\\d{10}$", RegexOptions.CultureInvariant);
+            Regex regexPatternWithDigits = new Regex("^\\d{10}$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
             }
 
             // PatternWithDigitsAndDelimiter (string) pattern
-            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexPatternWithDigitsAndDelimiter = new Regex("^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });

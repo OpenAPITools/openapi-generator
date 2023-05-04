@@ -49,6 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
+        /// <example>&quot;Fri Jul 21 00:00:00 UTC 2017&quot;</example>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
         public DateTime DateOnlyProperty
@@ -146,7 +147,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

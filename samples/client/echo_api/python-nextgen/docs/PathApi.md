@@ -17,12 +17,12 @@ Test path parameter(s)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
@@ -45,6 +45,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PathApi->tests_path_string_path_string_integer_path_integer: %s\n" % e)
 ```
+
 
 ### Parameters
 

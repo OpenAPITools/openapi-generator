@@ -36,6 +36,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -57,16 +61,19 @@ public class ObjectWithDeprecatedFields {
   private String uuid;
 
   public static final String SERIALIZED_NAME_ID = "id";
+  @Deprecated
   @SerializedName(SERIALIZED_NAME_ID)
   private BigDecimal id;
 
   public static final String SERIALIZED_NAME_DEPRECATED_REF = "deprecatedRef";
+  @Deprecated
   @SerializedName(SERIALIZED_NAME_DEPRECATED_REF)
   private DeprecatedObject deprecatedRef;
 
   public static final String SERIALIZED_NAME_BARS = "bars";
+  @Deprecated
   @SerializedName(SERIALIZED_NAME_BARS)
-  private List<String> bars = new ArrayList<>();
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }
@@ -93,6 +100,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     
     this.id = id;
@@ -112,11 +120,13 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public void setId(BigDecimal id) {
     this.id = id;
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
@@ -136,11 +146,13 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     
     this.bars = bars;
@@ -168,6 +180,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public void setBars(List<String> bars) {
     this.bars = bars;
   }

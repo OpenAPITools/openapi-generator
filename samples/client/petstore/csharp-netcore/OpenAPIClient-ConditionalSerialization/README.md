@@ -106,6 +106,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
+*DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -192,6 +193,7 @@ Class | Method | HTTP request | Description
  - [Model.HealthCheckResult](docs/HealthCheckResult.md)
  - [Model.IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Model.List](docs/List.md)
+ - [Model.LiteralStringClass](docs/LiteralStringClass.md)
  - [Model.Mammal](docs/Mammal.md)
  - [Model.MapTest](docs/MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -224,6 +226,8 @@ Class | Method | HTTP request | Description
  - [Model.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
+ - [Model.TestCollectionEndingWithWordList](docs/TestCollectionEndingWithWordList.md)
+ - [Model.TestCollectionEndingWithWordListObject](docs/TestCollectionEndingWithWordListObject.md)
  - [Model.Triangle](docs/Triangle.md)
  - [Model.TriangleInterface](docs/TriangleInterface.md)
  - [Model.User](docs/User.md)

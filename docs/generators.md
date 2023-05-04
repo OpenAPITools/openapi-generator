@@ -19,7 +19,6 @@ The following generators are available:
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
 * [crystal (beta)](generators/crystal.md)  
 * [csharp](generators/csharp.md)  
-* [csharp-dotnet2 (deprecated)](generators/csharp-dotnet2.md)  
 * [csharp-netcore](generators/csharp-netcore.md)  
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
@@ -45,6 +44,7 @@ The following generators are available:
 * [k6 (beta)](generators/k6.md)  
 * [kotlin](generators/kotlin.md)  
 * [lua (beta)](generators/lua.md)  
+* [n4js (beta)](generators/n4js.md)  
 * [nim (beta)](generators/nim.md)  
 * [objc](generators/objc.md)  
 * [ocaml](generators/ocaml.md)  
@@ -54,7 +54,7 @@ The following generators are available:
 * [powershell (beta)](generators/powershell.md)  
 * [python](generators/python.md)  
 * [python-legacy](generators/python-legacy.md)  
-* [python-nextgen (beta)](generators/python-nextgen.md)  
+* [python-nextgen](generators/python-nextgen.md)  
 * [python-prior](generators/python-prior.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
@@ -76,6 +76,7 @@ The following generators are available:
 * [typescript-node](generators/typescript-node.md)  
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
+* [xojo-client](generators/xojo-client.md)  
 
 
 ## SERVER generators

@@ -1048,6 +1048,40 @@
         "title" : "An uploaded response",
         "type" : "object"
       },
+      "Dog" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Animal"
+        }, {
+          "$ref" : "#/components/schemas/Dog_allOf"
+        } ]
+      },
+      "Cat" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Animal"
+        }, {
+          "$ref" : "#/components/schemas/Cat_allOf"
+        } ]
+      },
+      "Animal" : {
+        "discriminator" : {
+          "mapping" : {
+            "DOG" : "#/components/schemas/Dog",
+            "CAT" : "#/components/schemas/Cat"
+          },
+          "propertyName" : "className"
+        },
+        "properties" : {
+          "className" : {
+            "type" : "string"
+          },
+          "color" : {
+            "default" : "red",
+            "type" : "string"
+          }
+        },
+        "required" : [ "className" ],
+        "type" : "object"
+      },
       "updatePetWithForm_request" : {
         "properties" : {
           "name" : {
@@ -1074,6 +1108,24 @@
           }
         },
         "type" : "object"
+      },
+      "Dog_allOf" : {
+        "properties" : {
+          "breed" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object",
+        "example" : null
+      },
+      "Cat_allOf" : {
+        "properties" : {
+          "declawed" : {
+            "type" : "boolean"
+          }
+        },
+        "type" : "object",
+        "example" : null
       }
     },
     "securitySchemes" : {

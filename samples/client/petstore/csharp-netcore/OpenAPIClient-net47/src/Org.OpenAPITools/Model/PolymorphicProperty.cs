@@ -120,46 +120,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `bool`. If the actual instance is not `bool`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of bool</returns>
-        public bool GetBool()
-        {
-            return (bool)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `string`. If the actual instance is not `string`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of string</returns>
-        public string GetString()
-        {
-            return (string)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Object`. If the actual instance is not `Object`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Object</returns>
-        public Object GetObject()
-        {
-            return (Object)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `List&lt;string&gt;`. If the actual instance is not `List&lt;string&gt;`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of List&lt;string&gt;</returns>
-        public List<string> GetListString()
-        {
-            return (List<string>)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

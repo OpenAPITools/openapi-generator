@@ -1,6 +1,7 @@
 .gitignore
 Org.OpenAPITools.sln
 README.md
+api/openapi.yaml
 appveyor.yml
 docs/apis/DefaultApi.md
 docs/models/Adult.md

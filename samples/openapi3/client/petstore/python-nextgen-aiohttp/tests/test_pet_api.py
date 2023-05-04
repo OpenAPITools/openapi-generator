@@ -106,9 +106,9 @@ class TestPetApiTests(unittest.TestCase):
 
         fetched = await self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
         self.assertIsNotNone(fetched)
-        self.assertEqual(self.pet.id, fetched[0].id)
-        self.assertIsNotNone(fetched[0].category)
-        self.assertEqual(self.pet.category.name, fetched[0].category.name)
+        self.assertEqual(self.pet.id, fetched.data.id)
+        self.assertIsNotNone(fetched.data.category)
+        self.assertEqual(self.pet.category.name, fetched.data.category.name)
 
     @async_test
     async def test_update_pet(self):

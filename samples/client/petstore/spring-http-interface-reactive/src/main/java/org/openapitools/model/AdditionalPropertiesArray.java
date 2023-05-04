@@ -22,7 +22,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
 
-  @JsonProperty("name")
   private String name;
 
   public AdditionalPropertiesArray name(String name) {
@@ -35,6 +34,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return name
   */
   
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

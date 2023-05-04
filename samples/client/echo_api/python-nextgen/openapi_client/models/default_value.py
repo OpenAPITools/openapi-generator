@@ -14,7 +14,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -39,15 +38,18 @@ class DefaultValue(BaseModel):
     __properties = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 
     @validator('array_string_enum_default')
-    def array_string_enum_default_validate_enum(cls, v):
-        if v is None:
-            return v
+    def array_string_enum_default_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
 
-        if v not in ('success', 'failure', 'unclassified'):
-            raise ValueError("must validate the enum values ('success', 'failure', 'unclassified')")
-        return v
+        for i in value:
+            if i not in ('success', 'failure', 'unclassified'):
+                raise ValueError("each list item must be one of ('success', 'failure', 'unclassified')")
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -71,15 +73,18 @@ class DefaultValue(BaseModel):
                           },
                           exclude_none=True)
         # set to None if array_string_nullable (nullable) is None
-        if self.array_string_nullable is None:
+        # and __fields_set__ contains the field
+        if self.array_string_nullable is None and "array_string_nullable" in self.__fields_set__:
             _dict['array_string_nullable'] = None
 
         # set to None if array_string_extension_nullable (nullable) is None
-        if self.array_string_extension_nullable is None:
+        # and __fields_set__ contains the field
+        if self.array_string_extension_nullable is None and "array_string_extension_nullable" in self.__fields_set__:
             _dict['array_string_extension_nullable'] = None
 
         # set to None if string_nullable (nullable) is None
-        if self.string_nullable is None:
+        # and __fields_set__ contains the field
+        if self.string_nullable is None and "string_nullable" in self.__fields_set__:
             _dict['string_nullable'] = None
 
         return _dict
@@ -90,7 +95,7 @@ class DefaultValue(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return DefaultValue.parse_obj(obj)
 
         _obj = DefaultValue.parse_obj({

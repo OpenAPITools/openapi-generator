@@ -1484,6 +1484,9 @@ components:
       type: object
       discriminator:
         propertyName: className
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
       required:
         - className
       properties:

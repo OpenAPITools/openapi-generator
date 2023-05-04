@@ -92,6 +92,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new HealthCheckResultJsonConverter());
             _jsonOptions.Converters.Add(new IsoscelesTriangleJsonConverter());
             _jsonOptions.Converters.Add(new ListJsonConverter());
+            _jsonOptions.Converters.Add(new LiteralStringClassJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
             _jsonOptions.Converters.Add(new MixedPropertiesAndAdditionalPropertiesClassJsonConverter());
@@ -128,6 +129,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new SimpleQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new SpecialModelNameJsonConverter());
             _jsonOptions.Converters.Add(new TagJsonConverter());
+            _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
+            _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());

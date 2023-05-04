@@ -38,18 +38,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ReadOnlyFirst(string bar, string baz)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (bar == null)
-                throw new ArgumentNullException("bar is a required property for ReadOnlyFirst and cannot be null.");
-
-            if (baz == null)
-                throw new ArgumentNullException("baz is a required property for ReadOnlyFirst and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Bar = bar;
             Baz = baz;
         }
@@ -122,12 +110,13 @@ namespace Org.OpenAPITools.Model
                 return hashCode;
             }
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -184,6 +173,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class ReadOnlyFirst.");
+
+            if (baz == null)
+                throw new ArgumentNullException(nameof(baz), "Property is required for class ReadOnlyFirst.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ReadOnlyFirst(bar, baz);
         }

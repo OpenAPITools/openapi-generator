@@ -41,6 +41,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
+        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
         [JsonPropertyName("uuid")]
         public Guid? Uuid { get; set; }
 
@@ -63,12 +64,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -114,7 +116,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "uuid":
-                            uuid = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;

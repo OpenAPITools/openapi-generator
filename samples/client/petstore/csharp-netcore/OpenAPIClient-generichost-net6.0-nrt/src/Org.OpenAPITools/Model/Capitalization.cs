@@ -42,30 +42,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (smallCamel == null)
-                throw new ArgumentNullException("smallCamel is a required property for Capitalization and cannot be null.");
-
-            if (capitalCamel == null)
-                throw new ArgumentNullException("capitalCamel is a required property for Capitalization and cannot be null.");
-
-            if (smallSnake == null)
-                throw new ArgumentNullException("smallSnake is a required property for Capitalization and cannot be null.");
-
-            if (capitalSnake == null)
-                throw new ArgumentNullException("capitalSnake is a required property for Capitalization and cannot be null.");
-
-            if (sCAETHFlowPoints == null)
-                throw new ArgumentNullException("sCAETHFlowPoints is a required property for Capitalization and cannot be null.");
-
-            if (aTTNAME == null)
-                throw new ArgumentNullException("aTTNAME is a required property for Capitalization and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ATT_NAME = aTTNAME;
             CapitalCamel = capitalCamel;
             CapitalSnake = capitalSnake;
@@ -135,12 +111,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -213,6 +190,30 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (smallCamel == null)
+                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
+
+            if (capitalCamel == null)
+                throw new ArgumentNullException(nameof(capitalCamel), "Property is required for class Capitalization.");
+
+            if (smallSnake == null)
+                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
+
+            if (capitalSnake == null)
+                throw new ArgumentNullException(nameof(capitalSnake), "Property is required for class Capitalization.");
+
+            if (sCAETHFlowPoints == null)
+                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is required for class Capitalization.");
+
+            if (aTTNAME == null)
+                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }

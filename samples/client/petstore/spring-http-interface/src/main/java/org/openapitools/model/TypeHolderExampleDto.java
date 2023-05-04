@@ -24,45 +24,18 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExampleDto {
 
-  @JsonProperty("string_item")
   private String stringItem;
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("float_item")
   private Float floatItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
   
   private List<Integer> arrayItem = new ArrayList<>();
-
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderExampleDto#TypeHolderExampleDto(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
-  public TypeHolderExampleDto() {
-    super();
-  }
-
-  /**
-   * Constructor with only required parameters
-   */
-  public TypeHolderExampleDto(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
-    this.stringItem = stringItem;
-    this.numberItem = numberItem;
-    this.floatItem = floatItem;
-    this.integerItem = integerItem;
-    this.boolItem = boolItem;
-    this.arrayItem = arrayItem;
-  }
 
   public TypeHolderExampleDto stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -74,6 +47,7 @@ public class TypeHolderExampleDto {
    * @return stringItem
   */
   @NotNull
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -92,6 +66,7 @@ public class TypeHolderExampleDto {
    * @return numberItem
   */
   @NotNull
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -110,6 +85,7 @@ public class TypeHolderExampleDto {
    * @return floatItem
   */
   @NotNull
+  @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
   }
@@ -128,6 +104,7 @@ public class TypeHolderExampleDto {
    * @return integerItem
   */
   @NotNull
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -146,6 +123,7 @@ public class TypeHolderExampleDto {
    * @return boolItem
   */
   @NotNull
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -160,6 +138,9 @@ public class TypeHolderExampleDto {
   }
 
   public TypeHolderExampleDto addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -169,6 +150,7 @@ public class TypeHolderExampleDto {
    * @return arrayItem
   */
   @NotNull
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

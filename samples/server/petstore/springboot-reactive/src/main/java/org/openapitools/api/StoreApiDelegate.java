@@ -92,13 +92,14 @@ public interface StoreApiDelegate {
 
     /**
      * POST /store/order : Place an order for a pet
+     * 
      *
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> body,
+    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -114,7 +115,7 @@ public interface StoreApiDelegate {
                 break;
             }
         }
-        return result.then(body).then(Mono.empty());
+        return result.then(order).then(Mono.empty());
 
     }
 

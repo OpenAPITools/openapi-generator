@@ -64,7 +64,6 @@ public class BigCat extends Cat {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
   /**
@@ -93,6 +92,7 @@ public class BigCat extends Cat {
    * @return kind
   */
   
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }

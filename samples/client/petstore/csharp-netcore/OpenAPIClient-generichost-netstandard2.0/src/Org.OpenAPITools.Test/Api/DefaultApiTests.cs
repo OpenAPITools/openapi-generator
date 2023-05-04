@@ -60,5 +60,25 @@ namespace Org.OpenAPITools.Test.Api
             var response = await _instance.FooGetAsync();
             Assert.IsType<FooGetDefaultResponse>(response);
         }
+
+        /// <summary>
+        /// Test GetCountry
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetCountryAsyncTest()
+        {
+            string country = default;
+            await _instance.GetCountryAsync(country);
+        }
+
+        /// <summary>
+        /// Test Hello
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task HelloAsyncTest()
+        {
+            var response = await _instance.HelloAsync();
+            Assert.IsType<List<Guid>>(response);
+        }
     }
 }

@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -30,6 +29,7 @@ class HealthCheckResult(BaseModel):
     __properties = ["NullableMessage"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -53,7 +53,8 @@ class HealthCheckResult(BaseModel):
                           },
                           exclude_none=True)
         # set to None if nullable_message (nullable) is None
-        if self.nullable_message is None:
+        # and __fields_set__ contains the field
+        if self.nullable_message is None and "nullable_message" in self.__fields_set__:
             _dict['NullableMessage'] = None
 
         return _dict
@@ -64,7 +65,7 @@ class HealthCheckResult(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return HealthCheckResult.parse_obj(obj)
 
         _obj = HealthCheckResult.parse_obj({

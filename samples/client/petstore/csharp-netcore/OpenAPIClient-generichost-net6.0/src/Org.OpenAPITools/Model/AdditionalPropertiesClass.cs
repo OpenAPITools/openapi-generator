@@ -42,33 +42,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public AdditionalPropertiesClass(Object emptyMap, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Dictionary<string, string> mapProperty, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Dictionary<string, string> mapWithUndeclaredPropertiesString, Object anytype1 = default)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (mapProperty == null)
-                throw new ArgumentNullException("mapProperty is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapOfMapProperty == null)
-                throw new ArgumentNullException("mapOfMapProperty is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesAnytype1 == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype1 is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesAnytype2 == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype2 is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesAnytype3 == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype3 is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (emptyMap == null)
-                throw new ArgumentNullException("emptyMap is a required property for AdditionalPropertiesClass and cannot be null.");
-
-            if (mapWithUndeclaredPropertiesString == null)
-                throw new ArgumentNullException("mapWithUndeclaredPropertiesString is a required property for AdditionalPropertiesClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             EmptyMap = emptyMap;
             MapOfMapProperty = mapOfMapProperty;
             MapProperty = mapProperty;
@@ -154,12 +127,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -212,34 +186,69 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "empty_map":
-                            emptyMap = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                emptyMap = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_of_map_property":
-                            mapOfMapProperty = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mapOfMapProperty = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_property":
-                            mapProperty = JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mapProperty = JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_with_undeclared_properties_anytype_1":
-                            mapWithUndeclaredPropertiesAnytype1 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mapWithUndeclaredPropertiesAnytype1 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_with_undeclared_properties_anytype_2":
-                            mapWithUndeclaredPropertiesAnytype2 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mapWithUndeclaredPropertiesAnytype2 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_with_undeclared_properties_anytype_3":
-                            mapWithUndeclaredPropertiesAnytype3 = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mapWithUndeclaredPropertiesAnytype3 = JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map_with_undeclared_properties_string":
-                            mapWithUndeclaredPropertiesString = JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mapWithUndeclaredPropertiesString = JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "anytype_1":
-                            anytype1 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                anytype1 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (mapProperty == null)
+                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapOfMapProperty == null)
+                throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesAnytype1 == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesAnytype2 == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype2), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesAnytype3 == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
+
+            if (emptyMap == null)
+                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapWithUndeclaredPropertiesString == null)
+                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1);
         }

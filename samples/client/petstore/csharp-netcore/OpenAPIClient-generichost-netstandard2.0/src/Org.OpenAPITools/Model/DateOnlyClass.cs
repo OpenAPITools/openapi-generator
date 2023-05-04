@@ -35,21 +35,13 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public DateOnlyClass(DateTime dateOnlyProperty)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (dateOnlyProperty == null)
-                throw new ArgumentNullException("dateOnlyProperty is a required property for DateOnlyClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             DateOnlyProperty = dateOnlyProperty;
         }
 
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
+        /// <example>&quot;Fri Jul 21 00:00:00 UTC 2017&quot;</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 
@@ -72,12 +64,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -91,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// A Json reader.
@@ -128,13 +121,23 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateOnlyProperty":
-                            dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (dateOnlyProperty == null)
+                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new DateOnlyClass(dateOnlyProperty);
         }

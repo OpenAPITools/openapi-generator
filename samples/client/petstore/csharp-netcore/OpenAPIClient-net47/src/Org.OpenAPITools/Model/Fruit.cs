@@ -88,26 +88,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Apple`. If the actual instance is not `Apple`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Apple</returns>
-        public Apple GetApple()
-        {
-            return (Apple)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Banana`. If the actual instance is not `Banana`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Banana</returns>
-        public Banana GetBanana()
-        {
-            return (Banana)this.ActualInstance;
-        }
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

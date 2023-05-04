@@ -166,6 +166,42 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
     }
 
+    @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
+    public void prefixExceptionTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNamePrefix("API");
+
+        final String result = codegen.toModelName("AnyCodable");
+        Assert.assertEquals(result, "AnyCodable");
+    }
+
+    @Test(description = "type from languageSpecificPrimitives should not be suffixed", enabled = true)
+    public void suffixExceptionTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNameSuffix("API");
+
+        final String result = codegen.toModelName("AnyCodable");
+        Assert.assertEquals(result, "AnyCodable");
+    }
+
+    @Test(description = "Other types should be prefixed", enabled = true)
+    public void prefixTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNamePrefix("API");
+
+        final String result = codegen.toModelName("MyType");
+        Assert.assertEquals(result, "APIMyType");
+    }
+
+    @Test(description = "Other types should be suffixed", enabled = true)
+    public void suffixTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNameSuffix("API");
+
+        final String result = codegen.toModelName("MyType");
+        Assert.assertEquals(result, "MyTypeAPI");
+    }
+
     @Test(enabled = true)
     public void testDefaultPodAuthors() throws Exception {
         // Given

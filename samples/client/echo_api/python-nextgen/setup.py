@@ -27,7 +27,7 @@ PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
     "urllib3 >= 1.25.3",
     "python-dateutil",
-    "pydantic",
+    "pydantic >= 1.10.5, < 2",
     "aenum"
 ]
 

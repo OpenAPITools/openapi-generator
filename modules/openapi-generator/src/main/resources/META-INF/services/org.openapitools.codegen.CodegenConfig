@@ -22,7 +22,6 @@ org.openapitools.codegen.languages.CppTizenClientCodegen
 org.openapitools.codegen.languages.CppUE4ClientCodegen
 org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
-org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.DartDioClientCodegen
@@ -82,6 +81,7 @@ org.openapitools.codegen.languages.K6ClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
+org.openapitools.codegen.languages.N4jsClientCodegen
 org.openapitools.codegen.languages.NimClientCodegen
 org.openapitools.codegen.languages.NodeJSExpressServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
@@ -141,3 +141,4 @@ org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
+org.openapitools.codegen.languages.XojoClientCodegen

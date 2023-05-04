@@ -494,7 +494,6 @@ public class FormatTest {
     this.bigDecimal = bigDecimal;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

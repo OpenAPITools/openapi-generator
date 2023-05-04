@@ -12,8 +12,9 @@ Name | Type | Description | Notes
 **double** | **float** |  | [optional] 
 **decimal** | **decimal.Decimal** |  | [optional] 
 **string** | **str** |  | [optional] 
-**byte** | **str** |  | [optional] 
-**binary** | **str** |  | [optional] 
+**string_with_double_quote_pattern** | **str** |  | [optional] 
+**byte** | **bytearray** |  | [optional] 
+**binary** | **bytearray** |  | [optional] 
 **var_date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
