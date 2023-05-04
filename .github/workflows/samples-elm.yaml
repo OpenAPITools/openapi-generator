@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/client/petstore/elm/**
+      - samples/openapi3/client/elm/**
   pull_request:
     paths:
       - samples/client/petstore/elm/**
+      - samples/openapi3/client/elm/**
 jobs:
   build:
     name: Build Elm clients
@@ -17,6 +19,7 @@ jobs:
         sample:
           # clients
           - samples/client/petstore/elm
+          - samples/openapi3/client/elm
     steps:
       - uses: actions/checkout@v3
       - uses: jorelali/setup-elm@v5
