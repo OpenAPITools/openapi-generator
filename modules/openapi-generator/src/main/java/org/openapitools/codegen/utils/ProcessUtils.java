@@ -242,6 +242,61 @@ public class ProcessUtils {
     }
 
     /**
+     * Returns true if the specified OAS model has at least one operation with OIDC authentication.
+     *
+     * @param openAPI An instance of OpenAPI
+     * @return True if at least one operation has OIDC security scheme defined
+     */
+    public static boolean hasOIDCMethods(OpenAPI openAPI) {
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.OPENIDCONNECT.equals(scheme.getValue().getType())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a list of OIDC Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OIDC Codegen security objects
+     */
+    public static List<CodegenSecurity> getOIDCMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> oauthMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isOIDC)) {
+                oauthMethods.add(cs);
+            }
+        }
+
+        return oauthMethods;
+    }
+
+    /**
+     * Returns a list of OIDC Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OIDC Codegen security objects
+     */
+    public static boolean hasOIDCMethods(List<CodegenSecurity> authMethods) {
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isOIDC)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.
      *
      * @param openAPI An instance of OpenAPI

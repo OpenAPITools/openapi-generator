@@ -882,6 +882,10 @@ public class DefaultGenerator implements Generator {
                 bundle.put("hasOAuthMethods", true);
                 bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
             }
+            if (ProcessUtils.hasOIDCMethods(authMethods)) {
+                bundle.put("hasOIDCMethods", true);
+                bundle.put("oidcMethods", ProcessUtils.getOIDCMethods(authMethods));
+            }
             if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
                 bundle.put("hasHttpBearerMethods", true);
                 bundle.put("httpBearerMethods", ProcessUtils.getHttpBearerMethods(authMethods));
@@ -1409,6 +1413,32 @@ public class DefaultGenerator implements Generator {
                         }
 
                         authMethods.put(key, oauthUpdatedScheme);
+                    } else if (securityScheme.getType().equals(SecurityScheme.Type.OPENIDCONNECT)) {
+                        // Security scheme only allows to add scope in Flows, so randomly using authorization code flow
+                        OAuthFlows oidcUpdatedFlows = new OAuthFlows();
+                        OAuthFlow flow = new OAuthFlow();
+                        Scopes flowScopes = new Scopes();
+                        securities.stream()
+                                .map(secReq -> secReq.get(key))
+                                .filter(Objects::nonNull)
+                                .flatMap(List::stream)
+                                .forEach(value -> flowScopes.put(value, value));
+                        flow.scopes(flowScopes);
+                        oidcUpdatedFlows.authorizationCode(flow);
+
+                        SecurityScheme oidcUpdatedScheme = new SecurityScheme()
+                                .type(securityScheme.getType())
+                                .description(securityScheme.getDescription())
+                                .name(securityScheme.getName())
+                                .$ref(securityScheme.get$ref())
+                                .in(securityScheme.getIn())
+                                .scheme(securityScheme.getScheme())
+                                .bearerFormat(securityScheme.getBearerFormat())
+                                .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
+                                .extensions(securityScheme.getExtensions())
+                                .flows(oidcUpdatedFlows);
+
+                        authMethods.put(key, oidcUpdatedScheme);
                     } else {
                         authMethods.put(key, securityScheme);
                     }
@@ -1435,6 +1465,8 @@ public class DefaultGenerator implements Generator {
     }
 
     private List<CodegenSecurity> filterAuthMethods(List<CodegenSecurity> authMethods, List<SecurityRequirement> securities) {
+
+        System.err.println("Operation " + 1);
         if (securities == null || securities.isEmpty() || authMethods == null) {
             return authMethods;
         }
@@ -1442,19 +1474,25 @@ public class DefaultGenerator implements Generator {
         List<CodegenSecurity> result = new ArrayList<>();
 
         for (CodegenSecurity security : authMethods) {
+            System.err.println("Operation " + security.name);
             boolean filtered = false;
-            if (security != null && security.scopes != null) {
-                for (SecurityRequirement requirement : securities) {
-                    List<String> opScopes = requirement.get(security.name);
-                    if (opScopes != null) {
-                        // We have operation-level scopes for this method, so filter the auth method to
-                        // describe the operation auth method with only the scopes that it requires.
-                        // We have to create a new auth method instance because the original object must
-                        // not be modified.
-                        CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
-                        result.add(opSecurity);
-                        filtered = true;
-                        break;
+            if (security != null) {
+                if (security.scopes != null || security.type.equals(SecurityScheme.Type.OPENIDCONNECT.toString())) {
+                    for (SecurityRequirement requirement : securities) {
+                        List<String> opScopes = requirement.get(security.name);
+
+                        System.err.println("Operation " + String.join(",", opScopes));
+                        if (opScopes != null) {
+                            // We have operation-level scopes for this method, so filter the auth method to
+                            // describe the operation auth method with only the scopes that it requires.
+                            // We have to create a new auth method instance because the original object must
+                            // not be modified.
+                            System.err.println(String.join(",", opScopes));
+                            CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
+                            result.add(opSecurity);
+                            filtered = true;
+                            break;
+                        }
                     }
                 }
             }

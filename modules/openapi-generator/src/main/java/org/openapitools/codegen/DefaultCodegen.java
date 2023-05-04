@@ -148,8 +148,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .includeSecurityFeatures(
                         SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIDConnect not yet supported
+                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode,
+                        SecurityFeature.OpenIDConnect
                 )
                 .includeWireFormatFeatures(
                         WireFormatFeature.JSON, WireFormatFeature.XML
@@ -5293,7 +5293,7 @@ public class DefaultCodegen implements CodegenConfig {
             final SecurityScheme securityScheme = securitySchemeMap.get(key);
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
                 final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
-                cs.isBasic = cs.isOAuth = false;
+                cs.isBasic = cs.isOAuth = cs.isOIDC = false;
                 cs.isApiKey = true;
                 cs.keyParamName = securityScheme.getName();
                 cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
@@ -5302,7 +5302,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
                 final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = cs.isOIDC = false;
                 cs.isBasic = true;
                 if ("basic".equalsIgnoreCase(securityScheme.getScheme())) {
                     cs.isBasicBasic = true;
@@ -5368,6 +5368,15 @@ public class DefaultCodegen implements CodegenConfig {
                 if (isFlowEmpty) {
                     once(LOGGER).error("Invalid flow definition defined in the security scheme: {}", flows);
                 }
+            } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
+                final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
+                cs.isOIDC = true;
+                cs.openIdConnectUrl = securityScheme.getOpenIdConnectUrl();
+                if (securityScheme.getFlows() != null) {
+                    setOIDCInfo(cs, securityScheme.getFlows().getAuthorizationCode());
+                }
+                codegenSecurities.add(cs);
             } else {
                 once(LOGGER).error("Unknown type `{}` found in the security definition `{}`.", securityScheme.getType(), securityScheme.getName());
             }
@@ -5393,7 +5402,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private CodegenSecurity defaultOauthCodegenSecurity(String key, SecurityScheme securityScheme) {
         final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
-        cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
+        cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = cs.isOIDC = false;
         cs.isOAuth = true;
         return cs;
     }
@@ -6612,6 +6621,18 @@ public class DefaultCodegen implements CodegenConfig {
                 Map<String, Object> scope = new HashMap<>();
                 scope.put("scope", scopeEntry.getKey());
                 scope.put("description", escapeText(scopeEntry.getValue()));
+                scopes.add(scope);
+            }
+            codegenSecurity.scopes = scopes;
+        }
+    }
+
+    private void setOIDCInfo(CodegenSecurity codegenSecurity, OAuthFlow flow) {
+        if (flow.getScopes() != null && !flow.getScopes().isEmpty()) {
+            List<Map<String, Object>> scopes = new ArrayList<>();
+            for (Map.Entry<String, String> scopeEntry : flow.getScopes().entrySet()) {
+                Map<String, Object> scope = new HashMap<>();
+                scope.put("scope", scopeEntry.getKey());
                 scopes.add(scope);
             }
             codegenSecurity.scopes = scopes;
