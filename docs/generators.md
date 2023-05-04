@@ -44,7 +44,7 @@ The following generators are available:
 * [k6 (beta)](generators/k6.md)  
 * [kotlin](generators/kotlin.md)  
 * [lua (beta)](generators/lua.md)  
-* [n4js](generators/n4js.md)  
+* [n4js (beta)](generators/n4js.md)  
 * [nim (beta)](generators/nim.md)  
 * [objc](generators/objc.md)  
 * [ocaml](generators/ocaml.md)  

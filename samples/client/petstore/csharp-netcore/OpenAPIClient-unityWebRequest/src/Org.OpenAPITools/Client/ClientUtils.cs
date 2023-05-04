@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>Filename</returns>
         public static string SanitizeFilename(string filename)
         {
-            Match match = Regex.Match(filename, ".*[/\\](.*)$");
+            Match match = Regex.Match(filename, @".*[/\\](.*)$");
             return match.Success ? match.Groups[1].Value : filename;
         }
 
