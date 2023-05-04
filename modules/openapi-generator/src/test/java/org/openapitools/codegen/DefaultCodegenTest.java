@@ -4170,8 +4170,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
@@ -4216,7 +4218,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
@@ -4262,7 +4267,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
@@ -4306,7 +4314,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
@@ -4350,7 +4361,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
@@ -4375,7 +4389,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
@@ -4425,7 +4442,10 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list.stream()
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
