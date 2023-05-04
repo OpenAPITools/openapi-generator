@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
         {
             this._ArrayArrayNumber = arrayArrayNumber;
-            if (this.ArrayArrayNumber != null)
+            if (this.ArrayArrayNumber != default)
             {
                 this._flagArrayArrayNumber = true;
             }

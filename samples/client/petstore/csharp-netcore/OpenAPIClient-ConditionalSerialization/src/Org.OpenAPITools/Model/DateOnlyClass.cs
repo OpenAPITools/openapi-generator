@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public DateOnlyClass(DateTime dateOnlyProperty = default(DateTime))
         {
             this._DateOnlyProperty = dateOnlyProperty;
-            if (this.DateOnlyProperty != null)
+            if (this.DateOnlyProperty != default)
             {
                 this._flagDateOnlyProperty = true;
             }

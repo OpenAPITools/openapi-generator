@@ -42,22 +42,22 @@ namespace Org.OpenAPITools.Model
         public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default(Guid), Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
             this._UuidWithPattern = uuidWithPattern;
-            if (this.UuidWithPattern != null)
+            if (this.UuidWithPattern != default)
             {
                 this._flagUuidWithPattern = true;
             }
             this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (this.Uuid != default)
             {
                 this._flagUuid = true;
             }
             this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (this.DateTime != default)
             {
                 this._flagDateTime = true;
             }
             this._Map = map;
-            if (this.Map != null)
+            if (this.Map != default)
             {
                 this._flagMap = true;
             }

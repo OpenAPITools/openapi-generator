@@ -395,43 +395,44 @@ namespace Org.OpenAPITools.Model
         public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
         {
             this._EnumStringRequired = enumStringRequired;
+            this._flagEnumStringRequired = true;
             this._EnumString = enumString;
-            if (this.EnumString != null)
+            if (this.EnumString != default)
             {
                 this._flagEnumString = true;
             }
             this._EnumInteger = enumInteger;
-            if (this.EnumInteger != null)
+            if (this.EnumInteger != default)
             {
                 this._flagEnumInteger = true;
             }
             this._EnumIntegerOnly = enumIntegerOnly;
-            if (this.EnumIntegerOnly != null)
+            if (this.EnumIntegerOnly != default)
             {
                 this._flagEnumIntegerOnly = true;
             }
             this._EnumNumber = enumNumber;
-            if (this.EnumNumber != null)
+            if (this.EnumNumber != default)
             {
                 this._flagEnumNumber = true;
             }
             this._OuterEnum = outerEnum;
-            if (this.OuterEnum != null)
+            if (this.OuterEnum != default)
             {
                 this._flagOuterEnum = true;
             }
             this._OuterEnumInteger = outerEnumInteger;
-            if (this.OuterEnumInteger != null)
+            if (this.OuterEnumInteger != default)
             {
                 this._flagOuterEnumInteger = true;
             }
             this._OuterEnumDefaultValue = outerEnumDefaultValue;
-            if (this.OuterEnumDefaultValue != null)
+            if (this.OuterEnumDefaultValue != default)
             {
                 this._flagOuterEnumDefaultValue = true;
             }
             this._OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            if (this.OuterEnumIntegerDefaultValue != null)
+            if (this.OuterEnumIntegerDefaultValue != default)
             {
                 this._flagOuterEnumIntegerDefaultValue = true;
             }

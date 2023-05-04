@@ -40,12 +40,12 @@ namespace Org.OpenAPITools.Model
         public Model200Response(int name = default(int), string _class = default(string))
         {
             this._Name = name;
-            if (this.Name != null)
+            if (this.Name != default)
             {
                 this._flagName = true;
             }
             this._Class = _class;
-            if (this.Class != null)
+            if (this.Class != default)
             {
                 this._flagClass = true;
             }

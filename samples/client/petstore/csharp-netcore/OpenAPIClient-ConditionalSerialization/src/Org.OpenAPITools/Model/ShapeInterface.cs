@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
             }
             this._ShapeType = shapeType;
+            this._flagShapeType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

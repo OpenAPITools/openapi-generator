@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public ModelClient(string _client = default(string))
         {
             this.__Client = _client;
-            if (this._Client != null)
+            if (this._Client != default)
             {
                 this._flag_Client = true;
             }

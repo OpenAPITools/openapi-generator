@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public List(string _123list = default(string))
         {
             this.__123List = _123list;
-            if (this._123List != null)
+            if (this._123List != default)
             {
                 this._flag_123List = true;
             }

@@ -53,12 +53,14 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("shapeType is a required property for EquilateralTriangle and cannot be null");
             }
             this._ShapeType = shapeType;
+            this._flagShapeType = true;
             // to ensure "triangleType" is required (not null)
             if (triangleType == null)
             {
                 throw new ArgumentNullException("triangleType is a required property for EquilateralTriangle and cannot be null");
             }
             this._TriangleType = triangleType;
+            this._flagTriangleType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

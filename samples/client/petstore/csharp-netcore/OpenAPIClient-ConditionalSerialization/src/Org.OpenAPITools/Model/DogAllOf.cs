@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public DogAllOf(string breed = default(string))
         {
             this._Breed = breed;
-            if (this.Breed != null)
+            if (this.Breed != default)
             {
                 this._flagBreed = true;
             }

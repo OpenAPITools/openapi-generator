@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public CatAllOf(bool declawed = default(bool))
         {
             this._Declawed = declawed;
-            if (this.Declawed != null)
+            if (this.Declawed != default)
             {
                 this._flagDeclawed = true;
             }

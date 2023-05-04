@@ -40,12 +40,12 @@ namespace Org.OpenAPITools.Model
         public ActivityOutputElementRepresentation(string prop1 = default(string), Object prop2 = default(Object))
         {
             this._Prop1 = prop1;
-            if (this.Prop1 != null)
+            if (this.Prop1 != default)
             {
                 this._flagProp1 = true;
             }
             this._Prop2 = prop2;
-            if (this.Prop2 != null)
+            if (this.Prop2 != default)
             {
                 this._flagProp2 = true;
             }

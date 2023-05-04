@@ -40,12 +40,12 @@ namespace Org.OpenAPITools.Model
         public Apple(string cultivar = default(string), string origin = default(string))
         {
             this._Cultivar = cultivar;
-            if (this.Cultivar != null)
+            if (this.Cultivar != default)
             {
                 this._flagCultivar = true;
             }
             this._Origin = origin;
-            if (this.Origin != null)
+            if (this.Origin != default)
             {
                 this._flagOrigin = true;
             }

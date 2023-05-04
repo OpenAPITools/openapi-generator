@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public DeprecatedObject(string name = default(string))
         {
             this._Name = name;
-            if (this.Name != null)
+            if (this.Name != default)
             {
                 this._flagName = true;
             }

@@ -106,12 +106,12 @@ namespace Org.OpenAPITools.Model
         public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
             this._JustSymbol = justSymbol;
-            if (this.JustSymbol != null)
+            if (this.JustSymbol != default)
             {
                 this._flagJustSymbol = true;
             }
             this._ArrayEnum = arrayEnum;
-            if (this.ArrayEnum != null)
+            if (this.ArrayEnum != default)
             {
                 this._flagArrayEnum = true;
             }

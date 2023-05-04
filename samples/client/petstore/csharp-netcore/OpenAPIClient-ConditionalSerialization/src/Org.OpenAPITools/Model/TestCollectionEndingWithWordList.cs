@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public TestCollectionEndingWithWordList(string value = default(string))
         {
             this._Value = value;
-            if (this.Value != null)
+            if (this.Value != default)
             {
                 this._flagValue = true;
             }

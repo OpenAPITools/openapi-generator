@@ -105,8 +105,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
             }
             this._ClassName = className;
+            this._flagClassName = true;
             this._Type = type;
-            if (this.Type != null)
+            if (this.Type != default)
             {
                 this._flagType = true;
             }

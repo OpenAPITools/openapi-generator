@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public NullableGuidClass(Guid? uuid = default(Guid?))
         {
             this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (this.Uuid != default)
             {
                 this._flagUuid = true;
             }

@@ -111,29 +111,31 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
             this._Name = name;
+            this._flagName = true;
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
             this._PhotoUrls = photoUrls;
+            this._flagPhotoUrls = true;
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id != default)
             {
                 this._flagId = true;
             }
             this._Category = category;
-            if (this.Category != null)
+            if (this.Category != default)
             {
                 this._flagCategory = true;
             }
             this._Tags = tags;
-            if (this.Tags != null)
+            if (this.Tags != default)
             {
                 this._flagTags = true;
             }
             this._Status = status;
-            if (this.Status != null)
+            if (this.Status != default)
             {
                 this._flagStatus = true;
             }

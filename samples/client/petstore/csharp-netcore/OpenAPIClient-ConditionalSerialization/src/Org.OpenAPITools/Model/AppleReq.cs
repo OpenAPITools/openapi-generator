@@ -50,8 +50,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
             }
             this._Cultivar = cultivar;
+            this._flagCultivar = true;
             this._Mealy = mealy;
-            if (this.Mealy != null)
+            if (this.Mealy != default)
             {
                 this._flagMealy = true;
             }

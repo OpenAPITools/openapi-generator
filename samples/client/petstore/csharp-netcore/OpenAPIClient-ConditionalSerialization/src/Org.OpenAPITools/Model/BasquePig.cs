@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for BasquePig and cannot be null");
             }
             this._ClassName = className;
+            this._flagClassName = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

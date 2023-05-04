@@ -64,86 +64,90 @@ namespace Org.OpenAPITools.Model
         public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             this._Number = number;
+            this._flagNumber = true;
             // to ensure "_byte" is required (not null)
             if (_byte == null)
             {
                 throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             }
             this._Byte = _byte;
+            this._flagByte = true;
             this._Date = date;
+            this._flagDate = true;
             // to ensure "password" is required (not null)
             if (password == null)
             {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this._Password = password;
+            this._flagPassword = true;
             this._Integer = integer;
-            if (this.Integer != null)
+            if (this.Integer != default)
             {
                 this._flagInteger = true;
             }
             this._Int32 = int32;
-            if (this.Int32 != null)
+            if (this.Int32 != default)
             {
                 this._flagInt32 = true;
             }
             this._UnsignedInteger = unsignedInteger;
-            if (this.UnsignedInteger != null)
+            if (this.UnsignedInteger != default)
             {
                 this._flagUnsignedInteger = true;
             }
             this._Int64 = int64;
-            if (this.Int64 != null)
+            if (this.Int64 != default)
             {
                 this._flagInt64 = true;
             }
             this._UnsignedLong = unsignedLong;
-            if (this.UnsignedLong != null)
+            if (this.UnsignedLong != default)
             {
                 this._flagUnsignedLong = true;
             }
             this._Float = _float;
-            if (this.Float != null)
+            if (this.Float != default)
             {
                 this._flagFloat = true;
             }
             this._Double = _double;
-            if (this.Double != null)
+            if (this.Double != default)
             {
                 this._flagDouble = true;
             }
             this._Decimal = _decimal;
-            if (this.Decimal != null)
+            if (this.Decimal != default)
             {
                 this._flagDecimal = true;
             }
             this._String = _string;
-            if (this.String != null)
+            if (this.String != default)
             {
                 this._flagString = true;
             }
             this._Binary = binary;
-            if (this.Binary != null)
+            if (this.Binary != default)
             {
                 this._flagBinary = true;
             }
             this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (this.DateTime != default)
             {
                 this._flagDateTime = true;
             }
             this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (this.Uuid != default)
             {
                 this._flagUuid = true;
             }
             this._PatternWithDigits = patternWithDigits;
-            if (this.PatternWithDigits != null)
+            if (this.PatternWithDigits != default)
             {
                 this._flagPatternWithDigits = true;
             }
             this._PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-            if (this.PatternWithDigitsAndDelimiter != null)
+            if (this.PatternWithDigitsAndDelimiter != default)
             {
                 this._flagPatternWithDigitsAndDelimiter = true;
             }

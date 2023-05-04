@@ -41,17 +41,17 @@ namespace Org.OpenAPITools.Model
         public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
         {
             this._MyNumber = myNumber;
-            if (this.MyNumber != null)
+            if (this.MyNumber != default)
             {
                 this._flagMyNumber = true;
             }
             this._MyString = myString;
-            if (this.MyString != null)
+            if (this.MyString != default)
             {
                 this._flagMyString = true;
             }
             this._MyBoolean = myBoolean;
-            if (this.MyBoolean != null)
+            if (this.MyBoolean != default)
             {
                 this._flagMyBoolean = true;
             }

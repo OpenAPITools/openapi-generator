@@ -41,17 +41,17 @@ namespace Org.OpenAPITools.Model
         public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
         {
             this._Code = code;
-            if (this.Code != null)
+            if (this.Code != default)
             {
                 this._flagCode = true;
             }
             this._Type = type;
-            if (this.Type != null)
+            if (this.Type != default)
             {
                 this._flagType = true;
             }
             this._Message = message;
-            if (this.Message != null)
+            if (this.Message != default)
             {
                 this._flagMessage = true;
             }

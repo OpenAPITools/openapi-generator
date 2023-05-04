@@ -80,10 +80,12 @@ namespace Org.OpenAPITools.Model
         public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             this._Name = name;
-            if (this.Name != null)
+            if (this.Name != default)
             {
                 this._flagName = true;
             }
+            this.PetType = petType;
+            this._flagPetType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

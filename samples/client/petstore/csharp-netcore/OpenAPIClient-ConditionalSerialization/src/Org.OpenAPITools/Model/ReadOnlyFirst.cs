@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public ReadOnlyFirst(string baz = default(string))
         {
             this._Baz = baz;
-            if (this.Baz != null)
+            if (this.Baz != default)
             {
                 this._flagBaz = true;
             }

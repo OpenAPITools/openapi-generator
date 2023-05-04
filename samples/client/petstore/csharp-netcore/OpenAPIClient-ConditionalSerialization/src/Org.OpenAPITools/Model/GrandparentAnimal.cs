@@ -56,6 +56,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
             }
             this._PetType = petType;
+            this._flagPetType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

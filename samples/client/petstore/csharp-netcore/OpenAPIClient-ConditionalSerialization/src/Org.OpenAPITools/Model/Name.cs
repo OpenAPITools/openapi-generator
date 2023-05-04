@@ -48,8 +48,9 @@ namespace Org.OpenAPITools.Model
         public Name(int name = default(int), string property = default(string))
         {
             this.__Name = name;
+            this._flag_Name = true;
             this._Property = property;
-            if (this.Property != null)
+            if (this.Property != default)
             {
                 this._flagProperty = true;
             }

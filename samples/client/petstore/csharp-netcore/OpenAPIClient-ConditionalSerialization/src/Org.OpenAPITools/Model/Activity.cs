@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default(Dictionary<string, List<ActivityOutputElementRepresentation>>))
         {
             this._ActivityOutputs = activityOutputs;
-            if (this.ActivityOutputs != null)
+            if (this.ActivityOutputs != default)
             {
                 this._flagActivityOutputs = true;
             }

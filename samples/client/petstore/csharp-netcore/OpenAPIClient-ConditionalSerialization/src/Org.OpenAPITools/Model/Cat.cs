@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
         {
             this._Declawed = declawed;
-            if (this.Declawed != null)
+            if (this.Declawed != default)
             {
                 this._flagDeclawed = true;
             }

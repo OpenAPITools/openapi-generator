@@ -41,17 +41,17 @@ namespace Org.OpenAPITools.Model
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this._ArrayOfString = arrayOfString;
-            if (this.ArrayOfString != null)
+            if (this.ArrayOfString != default)
             {
                 this._flagArrayOfString = true;
             }
             this._ArrayArrayOfInteger = arrayArrayOfInteger;
-            if (this.ArrayArrayOfInteger != null)
+            if (this.ArrayArrayOfInteger != default)
             {
                 this._flagArrayArrayOfInteger = true;
             }
             this._ArrayArrayOfModel = arrayArrayOfModel;
-            if (this.ArrayArrayOfModel != null)
+            if (this.ArrayArrayOfModel != default)
             {
                 this._flagArrayArrayOfModel = true;
             }

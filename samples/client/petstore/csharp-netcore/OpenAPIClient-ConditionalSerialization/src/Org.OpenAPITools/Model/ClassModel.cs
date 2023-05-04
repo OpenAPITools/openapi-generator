@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public ClassModel(string _class = default(string))
         {
             this._Class = _class;
-            if (this.Class != null)
+            if (this.Class != default)
             {
                 this._flagClass = true;
             }

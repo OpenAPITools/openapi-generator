@@ -53,8 +53,9 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("name is a required property for Category and cannot be null");
             }
             this._Name = name;
+            this._flagName = true;
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id != default)
             {
                 this._flagId = true;
             }

@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public Return(int _return = default(int))
         {
             this.__Return = _return;
-            if (this._Return != null)
+            if (this._Return != default)
             {
                 this._flag_Return = true;
             }

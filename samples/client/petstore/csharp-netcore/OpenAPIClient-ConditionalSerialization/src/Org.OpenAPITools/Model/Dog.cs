@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         public Dog(string breed = default(string), string className = @"Dog", string color = @"red") : base(className, color)
         {
             this._Breed = breed;
-            if (this.Breed != null)
+            if (this.Breed != default)
             {
                 this._flagBreed = true;
             }

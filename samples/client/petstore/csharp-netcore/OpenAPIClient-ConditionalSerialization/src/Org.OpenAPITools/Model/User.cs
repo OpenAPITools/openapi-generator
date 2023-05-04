@@ -50,62 +50,62 @@ namespace Org.OpenAPITools.Model
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id != default)
             {
                 this._flagId = true;
             }
             this._Username = username;
-            if (this.Username != null)
+            if (this.Username != default)
             {
                 this._flagUsername = true;
             }
             this._FirstName = firstName;
-            if (this.FirstName != null)
+            if (this.FirstName != default)
             {
                 this._flagFirstName = true;
             }
             this._LastName = lastName;
-            if (this.LastName != null)
+            if (this.LastName != default)
             {
                 this._flagLastName = true;
             }
             this._Email = email;
-            if (this.Email != null)
+            if (this.Email != default)
             {
                 this._flagEmail = true;
             }
             this._Password = password;
-            if (this.Password != null)
+            if (this.Password != default)
             {
                 this._flagPassword = true;
             }
             this._Phone = phone;
-            if (this.Phone != null)
+            if (this.Phone != default)
             {
                 this._flagPhone = true;
             }
             this._UserStatus = userStatus;
-            if (this.UserStatus != null)
+            if (this.UserStatus != default)
             {
                 this._flagUserStatus = true;
             }
             this._ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            if (this.ObjectWithNoDeclaredProps != null)
+            if (this.ObjectWithNoDeclaredProps != default)
             {
                 this._flagObjectWithNoDeclaredProps = true;
             }
             this._ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            if (this.ObjectWithNoDeclaredPropsNullable != null)
+            if (this.ObjectWithNoDeclaredPropsNullable != default)
             {
                 this._flagObjectWithNoDeclaredPropsNullable = true;
             }
             this._AnyTypeProp = anyTypeProp;
-            if (this.AnyTypeProp != null)
+            if (this.AnyTypeProp != default)
             {
                 this._flagAnyTypeProp = true;
             }
             this._AnyTypePropNullable = anyTypePropNullable;
-            if (this.AnyTypePropNullable != null)
+            if (this.AnyTypePropNullable != default)
             {
                 this._flagAnyTypePropNullable = true;
             }

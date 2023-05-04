@@ -52,6 +52,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
             }
             this._TriangleType = triangleType;
+            this._flagTriangleType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

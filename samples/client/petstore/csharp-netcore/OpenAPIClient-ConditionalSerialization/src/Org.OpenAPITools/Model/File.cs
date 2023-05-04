@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI = default(string))
         {
             this._SourceURI = sourceURI;
-            if (this.SourceURI != null)
+            if (this.SourceURI != default)
             {
                 this._flagSourceURI = true;
             }

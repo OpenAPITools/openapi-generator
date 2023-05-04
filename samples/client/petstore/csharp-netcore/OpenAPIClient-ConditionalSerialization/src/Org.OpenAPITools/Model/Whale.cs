@@ -54,13 +54,14 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null");
             }
             this._ClassName = className;
+            this._flagClassName = true;
             this._HasBaleen = hasBaleen;
-            if (this.HasBaleen != null)
+            if (this.HasBaleen != default)
             {
                 this._flagHasBaleen = true;
             }
             this._HasTeeth = hasTeeth;
-            if (this.HasTeeth != null)
+            if (this.HasTeeth != default)
             {
                 this._flagHasTeeth = true;
             }

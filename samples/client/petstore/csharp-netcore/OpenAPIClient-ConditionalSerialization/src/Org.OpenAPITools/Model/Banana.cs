@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public Banana(decimal lengthCm = default(decimal))
         {
             this._LengthCm = lengthCm;
-            if (this.LengthCm != null)
+            if (this.LengthCm != default)
             {
                 this._flagLengthCm = true;
             }

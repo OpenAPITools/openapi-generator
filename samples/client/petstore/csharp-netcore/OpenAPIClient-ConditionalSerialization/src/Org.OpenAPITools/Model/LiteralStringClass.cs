@@ -39,6 +39,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;).</param>
         public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
         {
+            // use default value if no "escapedLiteralString" provided
+            this.EscapedLiteralString = escapedLiteralString ?? @"C:\\Users\\username";
+            this._flagEscapedLiteralString = true;
+            // use default value if no "unescapedLiteralString" provided
+            this.UnescapedLiteralString = unescapedLiteralString ?? @"C:\Users\username";
+            this._flagUnescapedLiteralString = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

@@ -46,42 +46,42 @@ namespace Org.OpenAPITools.Model
         public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
         {
             this._MapProperty = mapProperty;
-            if (this.MapProperty != null)
+            if (this.MapProperty != default)
             {
                 this._flagMapProperty = true;
             }
             this._MapOfMapProperty = mapOfMapProperty;
-            if (this.MapOfMapProperty != null)
+            if (this.MapOfMapProperty != default)
             {
                 this._flagMapOfMapProperty = true;
             }
             this._Anytype1 = anytype1;
-            if (this.Anytype1 != null)
+            if (this.Anytype1 != default)
             {
                 this._flagAnytype1 = true;
             }
             this._MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
-            if (this.MapWithUndeclaredPropertiesAnytype1 != null)
+            if (this.MapWithUndeclaredPropertiesAnytype1 != default)
             {
                 this._flagMapWithUndeclaredPropertiesAnytype1 = true;
             }
             this._MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
-            if (this.MapWithUndeclaredPropertiesAnytype2 != null)
+            if (this.MapWithUndeclaredPropertiesAnytype2 != default)
             {
                 this._flagMapWithUndeclaredPropertiesAnytype2 = true;
             }
             this._MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
-            if (this.MapWithUndeclaredPropertiesAnytype3 != null)
+            if (this.MapWithUndeclaredPropertiesAnytype3 != default)
             {
                 this._flagMapWithUndeclaredPropertiesAnytype3 = true;
             }
             this._EmptyMap = emptyMap;
-            if (this.EmptyMap != null)
+            if (this.EmptyMap != default)
             {
                 this._flagEmptyMap = true;
             }
             this._MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
-            if (this.MapWithUndeclaredPropertiesString != null)
+            if (this.MapWithUndeclaredPropertiesString != default)
             {
                 this._flagMapWithUndeclaredPropertiesString = true;
             }

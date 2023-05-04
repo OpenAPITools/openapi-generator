@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default(List<TestCollectionEndingWithWordList>))
         {
             this._TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
-            if (this.TestCollectionEndingWithWordList != null)
+            if (this.TestCollectionEndingWithWordList != default)
             {
                 this._flagTestCollectionEndingWithWordList = true;
             }

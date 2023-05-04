@@ -50,62 +50,62 @@ namespace Org.OpenAPITools.Model
         public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>)) : base()
         {
             this._IntegerProp = integerProp;
-            if (this.IntegerProp != null)
+            if (this.IntegerProp != default)
             {
                 this._flagIntegerProp = true;
             }
             this._NumberProp = numberProp;
-            if (this.NumberProp != null)
+            if (this.NumberProp != default)
             {
                 this._flagNumberProp = true;
             }
             this._BooleanProp = booleanProp;
-            if (this.BooleanProp != null)
+            if (this.BooleanProp != default)
             {
                 this._flagBooleanProp = true;
             }
             this._StringProp = stringProp;
-            if (this.StringProp != null)
+            if (this.StringProp != default)
             {
                 this._flagStringProp = true;
             }
             this._DateProp = dateProp;
-            if (this.DateProp != null)
+            if (this.DateProp != default)
             {
                 this._flagDateProp = true;
             }
             this._DatetimeProp = datetimeProp;
-            if (this.DatetimeProp != null)
+            if (this.DatetimeProp != default)
             {
                 this._flagDatetimeProp = true;
             }
             this._ArrayNullableProp = arrayNullableProp;
-            if (this.ArrayNullableProp != null)
+            if (this.ArrayNullableProp != default)
             {
                 this._flagArrayNullableProp = true;
             }
             this._ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
-            if (this.ArrayAndItemsNullableProp != null)
+            if (this.ArrayAndItemsNullableProp != default)
             {
                 this._flagArrayAndItemsNullableProp = true;
             }
             this._ArrayItemsNullable = arrayItemsNullable;
-            if (this.ArrayItemsNullable != null)
+            if (this.ArrayItemsNullable != default)
             {
                 this._flagArrayItemsNullable = true;
             }
             this._ObjectNullableProp = objectNullableProp;
-            if (this.ObjectNullableProp != null)
+            if (this.ObjectNullableProp != default)
             {
                 this._flagObjectNullableProp = true;
             }
             this._ObjectAndItemsNullableProp = objectAndItemsNullableProp;
-            if (this.ObjectAndItemsNullableProp != null)
+            if (this.ObjectAndItemsNullableProp != default)
             {
                 this._flagObjectAndItemsNullableProp = true;
             }
             this._ObjectItemsNullable = objectItemsNullable;
-            if (this.ObjectItemsNullable != null)
+            if (this.ObjectItemsNullable != default)
             {
                 this._flagObjectItemsNullable = true;
             }

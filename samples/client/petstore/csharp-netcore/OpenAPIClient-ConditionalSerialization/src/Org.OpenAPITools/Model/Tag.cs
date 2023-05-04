@@ -40,12 +40,12 @@ namespace Org.OpenAPITools.Model
         public Tag(long id = default(long), string name = default(string))
         {
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id != default)
             {
                 this._flagId = true;
             }
             this._Name = name;
-            if (this.Name != null)
+            if (this.Name != default)
             {
                 this._flagName = true;
             }

@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         public NumberOnly(decimal justNumber = default(decimal))
         {
             this._JustNumber = justNumber;
-            if (this.JustNumber != null)
+            if (this.JustNumber != default)
             {
                 this._flagJustNumber = true;
             }

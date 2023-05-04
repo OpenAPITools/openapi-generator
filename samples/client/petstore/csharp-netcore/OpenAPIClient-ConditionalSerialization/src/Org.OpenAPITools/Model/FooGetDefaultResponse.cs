@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public FooGetDefaultResponse(Foo _string = default(Foo))
         {
             this._String = _string;
-            if (this.String != null)
+            if (this.String != default)
             {
                 this._flagString = true;
             }
