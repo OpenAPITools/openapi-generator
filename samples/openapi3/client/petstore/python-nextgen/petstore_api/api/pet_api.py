@@ -14,6 +14,7 @@
 
 import re  # noqa: F401
 import io
+import warnings
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
@@ -469,7 +470,7 @@ class PetApi(object):
 
     @validate_arguments
     def find_pets_by_tags(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
-        """Finds Pets by tags  # noqa: E501
+        """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
@@ -498,7 +499,7 @@ class PetApi(object):
 
     @validate_arguments
     def find_pets_by_tags_with_http_info(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> ApiResponse:  # noqa: E501
-        """Finds Pets by tags  # noqa: E501
+        """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
@@ -533,6 +534,8 @@ class PetApi(object):
                  returns the request thread.
         :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
         """
+
+        warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
 
         _params = locals()
 
