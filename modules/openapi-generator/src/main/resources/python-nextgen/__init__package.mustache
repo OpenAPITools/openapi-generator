@@ -10,6 +10,7 @@ __version__ = "{{packageVersion}}"
 {{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}}
 {{/apis}}{{/apiInfo}}
 # import ApiClient
+from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.api_client import ApiClient
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.exceptions import OpenApiException
