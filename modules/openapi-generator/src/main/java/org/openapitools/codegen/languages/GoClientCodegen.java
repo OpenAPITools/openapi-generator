@@ -74,7 +74,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.SignatureAuth
+                        SecurityFeature.SignatureAuth,
+                        SecurityFeature.AWSV4Signature
                 ))
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer
