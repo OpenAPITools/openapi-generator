@@ -317,7 +317,7 @@ class UserApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(User),
+        specifiedType: const FullType(User),
       ) as User;
 
     } catch (error, stackTrace) {

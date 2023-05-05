@@ -120,7 +120,7 @@ class StoreApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(BuiltMap, [FullType(String), FullType(int)]),
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(int)]),
       ) as BuiltMap<String, int>;
 
     } catch (error, stackTrace) {
@@ -195,7 +195,7 @@ class StoreApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(Order),
+        specifiedType: const FullType(Order),
       ) as Order;
 
     } catch (error, stackTrace) {
@@ -290,7 +290,7 @@ class StoreApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(Order),
+        specifiedType: const FullType(Order),
       ) as Order;
 
     } catch (error, stackTrace) {

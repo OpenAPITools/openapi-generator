@@ -89,7 +89,7 @@ class FooApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(FooRefOrValue),
+        specifiedType: const FullType(FooRefOrValue),
       ) as FooRefOrValue;
 
     } catch (error, stackTrace) {
@@ -162,7 +162,7 @@ class FooApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(BuiltList, [FullType(FooRefOrValue)]),
+        specifiedType: const FullType(BuiltList, [FullType(FooRefOrValue)]),
       ) as BuiltList<FooRefOrValue>;
 
     } catch (error, stackTrace) {

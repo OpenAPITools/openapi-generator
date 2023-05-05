@@ -65,7 +65,7 @@ class DefaultApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(FooGetDefaultResponse),
+        specifiedType: const FullType(FooGetDefaultResponse),
       ) as FooGetDefaultResponse;
 
     } catch (error, stackTrace) {

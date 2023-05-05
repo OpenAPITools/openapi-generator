@@ -76,7 +76,7 @@ class FakeApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(HealthCheckResult),
+        specifiedType: const FullType(HealthCheckResult),
       ) as HealthCheckResult;
 
     } catch (error, stackTrace) {
@@ -346,7 +346,7 @@ class FakeApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(OuterComposite),
+        specifiedType: const FullType(OuterComposite),
       ) as OuterComposite;
 
     } catch (error, stackTrace) {
@@ -623,7 +623,7 @@ class FakeApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(OuterObjectWithEnumProperty),
+        specifiedType: const FullType(OuterObjectWithEnumProperty),
       ) as OuterObjectWithEnumProperty;
 
     } catch (error, stackTrace) {
@@ -926,7 +926,7 @@ class FakeApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(ModelClient),
+        specifiedType: const FullType(ModelClient),
       ) as ModelClient;
 
     } catch (error, stackTrace) {

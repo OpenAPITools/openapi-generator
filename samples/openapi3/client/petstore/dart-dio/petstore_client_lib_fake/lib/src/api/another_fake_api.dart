@@ -87,7 +87,7 @@ class AnotherFakeApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(ModelClient),
+        specifiedType: const FullType(ModelClient),
       ) as ModelClient;
 
     } catch (error, stackTrace) {

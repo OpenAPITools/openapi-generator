@@ -207,7 +207,7 @@ class PetApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(BuiltList, [FullType(Pet)]),
+        specifiedType: const FullType(BuiltList, [FullType(Pet)]),
       ) as BuiltList<Pet>;
 
     } catch (error, stackTrace) {
@@ -293,7 +293,7 @@ class PetApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(BuiltSet, [FullType(Pet)]),
+        specifiedType: const FullType(BuiltSet, [FullType(Pet)]),
       ) as BuiltSet<Pet>;
 
     } catch (error, stackTrace) {
@@ -375,7 +375,7 @@ class PetApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(Pet),
+        specifiedType: const FullType(Pet),
       ) as Pet;
 
     } catch (error, stackTrace) {
@@ -631,7 +631,7 @@ class PetApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(ApiResponse),
+        specifiedType: const FullType(ApiResponse),
       ) as ApiResponse;
 
     } catch (error, stackTrace) {
@@ -737,7 +737,7 @@ class PetApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(ApiResponse),
+        specifiedType: const FullType(ApiResponse),
       ) as ApiResponse;
 
     } catch (error, stackTrace) {

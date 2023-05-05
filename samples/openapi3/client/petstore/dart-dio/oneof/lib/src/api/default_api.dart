@@ -65,7 +65,7 @@ class DefaultApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(Fruit),
+        specifiedType: const FullType(Fruit),
       ) as Fruit;
 
     } catch (error, stackTrace) {

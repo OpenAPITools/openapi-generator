@@ -10,14 +10,14 @@
       {{^returnTypeIsPrimitive}}      
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType({{{returnType}}}),
+        specifiedType: const FullType({{{returnType}}}),
       ) as {{{returnType}}};
       {{/returnTypeIsPrimitive}}
       {{/returnSimpleType}}
       {{^returnSimpleType}}      
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]),
+        specifiedType: const FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]),
       ) as {{{returnType}}};
       {{/returnSimpleType}}
       {{/isResponseFile}}

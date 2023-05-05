@@ -88,7 +88,7 @@ class BarApi {
       final rawResponse = _response.data;
       _responseData = rawResponse == null ? null : _serializers.deserialize(
         rawResponse,
-        specifiedType: FullType(Bar),
+        specifiedType: const FullType(Bar),
       ) as Bar;
 
     } catch (error, stackTrace) {
