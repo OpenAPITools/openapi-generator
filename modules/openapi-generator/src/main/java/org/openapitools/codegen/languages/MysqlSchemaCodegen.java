@@ -72,7 +72,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,

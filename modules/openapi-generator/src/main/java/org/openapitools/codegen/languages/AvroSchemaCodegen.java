@@ -44,7 +44,7 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         // TODO: Avro maintainer review.
         modifyFeatureSet(features -> features
                 .parameterFeatures(EnumSet.noneOf(ParameterFeature.class))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
                 .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
                 .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))

@@ -205,7 +205,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         // TODO: Asciidoc maintainer review.
         modifyFeatureSet(features -> features
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
                 .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
                 .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))

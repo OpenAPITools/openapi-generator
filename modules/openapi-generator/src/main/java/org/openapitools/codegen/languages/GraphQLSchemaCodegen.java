@@ -46,9 +46,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
         modifyFeatureSet(features -> features
 //                .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
+                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
