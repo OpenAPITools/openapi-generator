@@ -2019,4 +2019,66 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
+    @Test
+    public void testRestTemplateWithGeneratedClientAsBeanDisabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path apiClient = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileNotContains(apiClient, "@Component");
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PetApi.java");
+        TestUtils.assertFileNotContains(petApi, "@Component");
+    }
+
+    @Test
+    public void testRestTemplateWithGeneratedClientAsBeanEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path apiClient = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(apiClient, "@Component");
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PetApi.java");
+        TestUtils.assertFileContains(petApi, "@Component");
+    }
+
 }
