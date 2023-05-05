@@ -208,6 +208,10 @@ conf = petstore_api.Configuration(
         self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
         """
+        self.tls_server_name = None
+        """SSL/TLS Server Name Indication (SNI)
+           Set this to the SNI value expected by the server.
+        """
 
         self.connection_pool_maxsize = 100
         """This value is passed to the aiohttp to limit simultaneous connections.
