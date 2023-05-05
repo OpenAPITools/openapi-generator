@@ -230,6 +230,7 @@ Class | Method | HTTP request | Description
  - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
+ - [Model.OneOfString](docs/OneOfString.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)

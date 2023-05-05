@@ -117,10 +117,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
 
-    // skip generation of getter for oneOf/anyOf sub-schemas to avoid duplicate getter
-    // when the subschemas are of the same type but with different constraints (e.g. array of string)
-    protected boolean skipOneOfAnyOfGetter = false;
-
     public CSharpNetCoreClientCodegen() {
         super();
 
@@ -330,10 +326,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
-
-        addSwitch(CodegenConstants.SKIP_ONEOF_ANYOF_GETTER,
-                CodegenConstants.SKIP_ONEOF_ANYOF_GETTER_DESC,
-                this.skipOneOfAnyOfGetter);
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -806,7 +798,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
-        syncBooleanProperty(additionalProperties, CodegenConstants.SKIP_ONEOF_ANYOF_GETTER, this::setSkipOneOfAnyOfGetter, this.skipOneOfAnyOfGetter);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
 
         final String testPackageName = testPackageName();
@@ -1185,14 +1176,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
-    }
-
-    public void setSkipOneOfAnyOfGetter(boolean skipOneOfAnyOfGetter) {
-        this.skipOneOfAnyOfGetter = skipOneOfAnyOfGetter;
-    }
-
-    public boolean getSkipOneOfAnyOfGetter() {
-        return this.skipOneOfAnyOfGetter;
     }
 
     @Override

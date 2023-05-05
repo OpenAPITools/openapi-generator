@@ -82,6 +82,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type EquilateralTriangle
     /// </summary>

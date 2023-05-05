@@ -81,6 +81,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type FruitReq
     /// </summary>
