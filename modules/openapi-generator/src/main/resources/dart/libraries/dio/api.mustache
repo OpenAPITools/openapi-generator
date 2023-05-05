@@ -116,7 +116,7 @@ class {{classname}} {
     );
     {{#returnType}}
 
-    {{{returnType}}} _responseData;
+    {{{.}}}? _responseData;
 
     try {
 {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
