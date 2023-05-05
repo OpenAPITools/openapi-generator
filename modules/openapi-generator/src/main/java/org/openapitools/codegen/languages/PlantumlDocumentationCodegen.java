@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,8 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
     public PlantumlDocumentationCodegen() {
         super();
 
+        modifyFeatureSet(features -> features.securityFeatures(EnumSet.allOf(SecurityFeature.class)));
+        
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
