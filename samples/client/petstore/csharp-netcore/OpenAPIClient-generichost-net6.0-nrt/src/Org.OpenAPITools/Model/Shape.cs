@@ -111,7 +111,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type Shape
     /// </summary>
@@ -193,11 +192,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, shape.Triangle, jsonSerializerOptions);
 
-            writer.WriteString("quadrilateralType", shape.QuadrilateralType);
+            System.Text.Json.JsonSerializer.Serialize(writer, shape.Quadrilateral, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
+
 }

@@ -80,7 +80,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type SimpleQuadrilateral
     /// </summary>
@@ -143,10 +142,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, simpleQuadrilateral.ShapeInterface, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, simpleQuadrilateral.QuadrilateralInterface, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
+
 }

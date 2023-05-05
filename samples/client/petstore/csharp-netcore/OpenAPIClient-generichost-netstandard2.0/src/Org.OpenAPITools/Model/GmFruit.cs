@@ -82,7 +82,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type GmFruit
     /// </summary>
@@ -158,11 +157,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, gmFruit.Apple, jsonSerializerOptions);
 
-            writer.WriteString("color", gmFruit.Color);
+            System.Text.Json.JsonSerializer.Serialize(writer, gmFruit.Banana, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
+
 }

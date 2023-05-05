@@ -51,7 +51,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type ParentPet
     /// </summary>
@@ -112,11 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
-
-            writer.WriteString("pet_type", parentPet.PetType);
-
-            writer.WriteEndObject();
         }
     }
+
 }

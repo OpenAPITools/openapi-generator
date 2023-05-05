@@ -75,7 +75,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type List
     /// </summary>
@@ -152,4 +151,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteEndObject();
         }
     }
+
 }

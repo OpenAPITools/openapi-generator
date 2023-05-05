@@ -73,7 +73,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type OneOfString
     /// </summary>
@@ -136,10 +135,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, oneOfString.String, jsonSerializerOptions);
 
-
-            writer.WriteEndObject();
         }
     }
+
 }

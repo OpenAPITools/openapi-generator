@@ -141,7 +141,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type Triangle
     /// </summary>
@@ -236,12 +235,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
 
-            writer.WriteString("shapeType", triangle.ShapeType);
-            writer.WriteString("triangleType", triangle.TriangleType);
+            System.Text.Json.JsonSerializer.Serialize(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
 
-            writer.WriteEndObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
+
         }
     }
+
 }
