@@ -118,7 +118,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type PolymorphicProperty
     /// </summary>
@@ -199,10 +198,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Bool, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.String, jsonSerializerOptions);
 
-            writer.WriteEndObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Object, jsonSerializerOptions);
+
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Liststring, jsonSerializerOptions);
+
         }
     }
+
 }

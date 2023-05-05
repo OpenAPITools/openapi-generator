@@ -95,7 +95,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type ApiResponse
     /// </summary>
@@ -189,4 +188,5 @@ namespace Org.OpenAPITools.Model
             writer.WriteEndObject();
         }
     }
+
 }

@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type Dog
     /// </summary>
@@ -129,12 +128,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, dog.DogAllOf, jsonSerializerOptions);
 
-            writer.WriteString("className", dog.ClassName);
-            writer.WriteString("color", dog.Color);
-
-            writer.WriteEndObject();
         }
     }
+
 }

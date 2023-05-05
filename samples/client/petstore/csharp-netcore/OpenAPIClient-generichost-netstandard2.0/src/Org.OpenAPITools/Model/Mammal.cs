@@ -113,7 +113,6 @@ namespace Org.OpenAPITools.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type Mammal
     /// </summary>
@@ -188,10 +187,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, mammal.Whale, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, mammal.Zebra, jsonSerializerOptions);
 
-            writer.WriteEndObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, mammal.Pig, jsonSerializerOptions);
+
         }
     }
+
 }

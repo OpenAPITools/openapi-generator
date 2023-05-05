@@ -229,11 +229,11 @@
             {{^isInherited}}
             System.Text.Json.JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}, jsonSerializerOptions);
 
+            {{/isInherited}}
+            {{/composedSchemas.allOf}}
             {{^composedSchemas}}
             writer.WriteStartObject();
 
-            {{/isInherited}}
-            {{/composedSchemas.allOf}}
             {{#allVars}}
             {{#isString}}
             {{^isMap}}
