@@ -33,6 +33,7 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
    ),
    tags = @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")
 ){{#hasAuthMethods}}
+@org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")
 @org.eclipse.microprofile.openapi.annotations.security.SecuritySchemes(value = {
     {{#authMethods}}{{#isOAuth}}@org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
          securitySchemeName = "{{name}}",

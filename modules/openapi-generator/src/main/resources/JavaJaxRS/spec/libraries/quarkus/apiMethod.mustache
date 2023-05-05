@@ -26,14 +26,14 @@
    {{/authMethods}} }){{/hasAuthMethods}}
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "{{{operationId}}}", summary = "{{{summary}}}", description = "{{{notes}}}")
     {{#vendorExtensions.x-tags}}@org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{tag}}"){{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}}{{#hasProduces}}
-        @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { {{#responses}}
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { {{#responses}}
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "{{{code}}}", description = "{{{message}}}", {{#responseHeaders.0}}headers = { {{#responseHeaders}}
                 @org.eclipse.microprofile.openapi.annotations.headers.Header(name = "{{{baseName}}}", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(type = {{{vendorExtensions.x-microprofile-open-api-schema-type}}}), description = "{{{description}}}"){{^-last}},{{/-last}}{{/responseHeaders}}
             },{{/responseHeaders.0}} content = { {{#produces}}
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="{{{mediaType}}}"{{^vendorExtensions.x-java-is-response-void}}, schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = {{{baseType}}}.class{{#vendorExtensions.x-microprofile-open-api-return-schema-container}}, type = {{{.}}} {{/vendorExtensions.x-microprofile-open-api-return-schema-container}}{{#vendorExtensions.x-microprofile-open-api-return-unique-items}}, uniqueItems = true {{/vendorExtensions.x-microprofile-open-api-return-unique-items}}){{/vendorExtensions.x-java-is-response-void}}){{^-last}},{{/-last}}{{/produces}}
             }){{^-last}},{{/-last}}{{/responses}}
         }){{/hasProduces}}{{^hasProduces}}
-        @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { {{#responses}}
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { {{#responses}}
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "{{{code}}}", description = "{{{message}}}", {{#responseHeaders.0}}headers = { {{#responseHeaders}}
                 @org.eclipse.microprofile.openapi.annotations.headers.Header(name = "{{{baseName}}}", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(type = {{{vendorExtensions.x-microprofile-open-api-schema-type}}}), description = "{{{description}}}"){{^-last}},{{/-last}}{{/responseHeaders}}
             },{{/responseHeaders.0}} content = {
