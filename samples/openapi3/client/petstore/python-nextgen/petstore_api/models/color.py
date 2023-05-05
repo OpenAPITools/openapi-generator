@@ -53,19 +53,19 @@ class Color(BaseModel):
         try:
             instance.oneof_schema_1_validator = v
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: List[int]
         try:
             instance.oneof_schema_2_validator = v
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: str
         try:
             instance.oneof_schema_3_validator = v
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
@@ -97,7 +97,7 @@ class Color(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_1_validator
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into List[int]
         try:
@@ -106,7 +106,7 @@ class Color(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_2_validator
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into str
         try:
@@ -115,7 +115,7 @@ class Color(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.oneof_schema_3_validator
             match += 1
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if match > 1:

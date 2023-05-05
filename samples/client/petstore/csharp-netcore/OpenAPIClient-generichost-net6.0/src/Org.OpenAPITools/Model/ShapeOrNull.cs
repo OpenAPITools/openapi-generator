@@ -190,11 +190,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, shapeOrNull.Triangle, jsonSerializerOptions);
 
-            writer.WriteString("quadrilateralType", shapeOrNull.QuadrilateralType);
+            System.Text.Json.JsonSerializer.Serialize(writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
+
 }

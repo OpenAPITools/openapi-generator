@@ -319,6 +319,27 @@ paths:
             text/plain:
               schema:
                 type: string
+  # body parameter tests
+  /body/application/octetstream/binary:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/body/application/octetstream/binary
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /echo/body/Pet:
     post:
       tags:

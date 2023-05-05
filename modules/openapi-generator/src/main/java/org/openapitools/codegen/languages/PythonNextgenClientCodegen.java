@@ -102,7 +102,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         // clear import mapping (from default generator) as python does not use it
@@ -354,6 +354,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
         }
 
         supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
+        supportingFiles.add(new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
 
         if ("asyncio".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
@@ -452,7 +453,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]",
                     getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname));
-        } else if (cp.isString || cp.isBinary || cp.isByteArray) {
+        } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
                 // e.g. constr(regex=r'/[a-z]/i', strict=True)
@@ -567,12 +568,10 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("conint");
                 return String.format(Locale.ROOT, "%s(%s)", "conint",
                         StringUtils.join(fieldCustomization, ", "));
-
             } else {
                 pydanticImports.add("StrictInt");
                 return "StrictInt";
             }
-        /* comment out the following as byte/binary is a string at the moment (path to the file, e.g. "/var/tmp/a.gif")
         } else if (cp.isBinary || cp.isByteArray) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -584,14 +583,23 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 if (cp.getMaxLength() != null) {
                     fieldCustomization.add("max_length=" + cp.getMaxLength());
                 }
+                if (cp.getPattern() != null) {
+                    pydanticImports.add("validator");
+                    // use validator instead as regex doesn't support flags, e.g. IGNORECASE
+                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                }
 
                 pydanticImports.add("conbytes");
-                return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+                pydanticImports.add("constr");
+                typingImports.add("Union");
+                return String.format(Locale.ROOT, "%s(%s)", "Union[conbytes, constr]", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
-                return "StrictBytes";
-            }*/
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+                return "Union[StrictBytes, StrictStr]";
+            }
         } else if (cp.isBoolean) {
             pydanticImports.add("StrictBool");
             return "StrictBool";
@@ -862,11 +870,15 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 }
 
                 pydanticImports.add("conbytes");
-                return String.format(Locale.ROOT, "%s(%s)", "conbytes", StringUtils.join(fieldCustomization, ", "));
+                pydanticImports.add("constr");
+                typingImports.add("Union");
+                return String.format(Locale.ROOT, "%s(%s)", "Union[conbytes, constr]", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
-                return "StrictBytes";
+                pydanticImports.add("StrictStr");
+                typingImports.add("Union");
+                return "Union[StrictBytes, StrictStr]";
             }
         } else if (cp.isBoolean) {
             pydanticImports.add("StrictBool");

@@ -44,6 +44,35 @@ public interface BodyApi extends ApiClient.Api {
 
 
   /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param body  (optional)
+   * @return String
+   */
+  @RequestLine("POST /body/application/octetstream/binary")
+  @Headers({
+    "Content-Type: application/octet-stream",
+    "Accept: text/plain",
+  })
+  String testBodyApplicationOctetstreamBinary(File body);
+
+  /**
+   * Test body parameter(s)
+   * Similar to <code>testBodyApplicationOctetstreamBinary</code> but it also returns the http response headers .
+   * Test body parameter(s)
+   * @param body  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /body/application/octetstream/binary")
+  @Headers({
+    "Content-Type: application/octet-stream",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body);
+
+
+
+  /**
    * Test free form object
    * Test free form object
    * @param body Free form object (optional)

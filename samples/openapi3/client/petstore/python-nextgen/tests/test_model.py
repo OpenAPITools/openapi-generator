@@ -120,6 +120,28 @@ class ModelTests(unittest.TestCase):
         p = petstore_api.Color.from_json(None)
         self.assertEqual(p.actual_instance, None)
 
+    def test_oneof_enum_string(self):
+        enum_string1 = petstore_api.EnumString1('a')
+        # test from_json
+        oneof_enum = petstore_api.OneOfEnumString.from_json('"a"')
+        # test from_dict
+        oneof_enum = petstore_api.OneOfEnumString.from_dict("a")
+        nested = petstore_api.WithNestedOneOf(size = 1, nested_oneof_enum_string = oneof_enum)
+        # test to_json
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "a"}')
+        # test from_json
+        nested = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "c"}')
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "c"}')
+        # test from_dict
+        nested = petstore_api.WithNestedOneOf.from_dict({"size": 1, "nested_oneof_enum_string": "c"})
+        # test to_dict
+        self.assertEqual(nested.to_dict(), {"size": 1, "nested_oneof_enum_string": "c"})
+        # invalid enum value
+        try:
+            nested2 = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "e"}')
+        except ValueError as e:
+            self.assertTrue("'e' is not a valid EnumString1, 'e' is not a valid EnumString" in str(e))
+
     def test_anyOf_array_of_integers(self):
         # test new Color 
         new_color = petstore_api.AnyOfColor()

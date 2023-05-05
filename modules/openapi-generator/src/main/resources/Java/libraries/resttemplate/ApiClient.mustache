@@ -81,6 +81,9 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
+{{#generateClientAsBean}}
+@Component("{{invokerPackage}}.ApiClient")
+{{/generateClientAsBean}}
 public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -114,6 +117,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         init();
     }
 
+   {{#generateClientAsBean}}
+    @Autowired
+    {{/generateClientAsBean}}
     public ApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         init();

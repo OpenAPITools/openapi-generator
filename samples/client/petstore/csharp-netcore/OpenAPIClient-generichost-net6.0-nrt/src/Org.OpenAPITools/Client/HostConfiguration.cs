@@ -104,6 +104,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
             _jsonOptions.Converters.Add(new NumberOnlyJsonConverter());
             _jsonOptions.Converters.Add(new ObjectWithDeprecatedFieldsJsonConverter());
+            _jsonOptions.Converters.Add(new OneOfStringJsonConverter());
             _jsonOptions.Converters.Add(new OrderJsonConverter());
             _jsonOptions.Converters.Add(new OuterCompositeJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumConverter());
