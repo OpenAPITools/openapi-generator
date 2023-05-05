@@ -131,7 +131,6 @@ public class SomeObj {
    * @return $type
   **/
   @javax.annotation.Nullable
-
   public TypeEnum get$Type() {
     return $type;
   }
@@ -153,7 +152,6 @@ public class SomeObj {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -175,7 +173,6 @@ public class SomeObj {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }
@@ -197,7 +194,6 @@ public class SomeObj {
    * @return active
   **/
   @javax.annotation.Nullable
-
   public Boolean getActive() {
     return active;
   }
@@ -219,7 +215,6 @@ public class SomeObj {
    * @return type
   **/
   @javax.annotation.Nullable
-
   public String getType() {
     return type;
   }

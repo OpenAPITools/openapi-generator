@@ -94,7 +94,6 @@ public class Name implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public Integer getName() {
     return name;
   }
@@ -110,7 +109,6 @@ public class Name implements Parcelable {
    * @return snakeCase
   **/
   @javax.annotation.Nullable
-
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -129,7 +127,6 @@ public class Name implements Parcelable {
    * @return property
   **/
   @javax.annotation.Nullable
-
   public String getProperty() {
     return property;
   }
@@ -145,7 +142,6 @@ public class Name implements Parcelable {
    * @return _123number
   **/
   @javax.annotation.Nullable
-
   public Integer get123number() {
     return _123number;
   }

@@ -81,7 +81,6 @@ public class ArrayOfInlineAllOf {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -103,7 +102,6 @@ public class ArrayOfInlineAllOf {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
@@ -133,7 +131,6 @@ public class ArrayOfInlineAllOf {
    * @return arrayAllofDogProperty
   **/
   @javax.annotation.Nullable
-
   public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }

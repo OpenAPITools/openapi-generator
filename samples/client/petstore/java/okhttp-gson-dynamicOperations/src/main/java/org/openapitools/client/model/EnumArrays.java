@@ -170,7 +170,6 @@ public class EnumArrays {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
-
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -200,7 +199,6 @@ public class EnumArrays {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
-
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

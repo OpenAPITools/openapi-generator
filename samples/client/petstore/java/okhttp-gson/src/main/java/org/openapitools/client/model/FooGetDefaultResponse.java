@@ -71,7 +71,6 @@ public class FooGetDefaultResponse {
    * @return string
   **/
   @javax.annotation.Nullable
-
   public Foo getString() {
     return string;
   }

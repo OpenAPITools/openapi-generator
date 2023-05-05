@@ -76,7 +76,6 @@ public class ReadOnlyFirst {
    * @return bar
   **/
   @javax.annotation.Nullable
-
   public String getBar() {
     return bar;
   }
@@ -95,7 +94,6 @@ public class ReadOnlyFirst {
    * @return baz
   **/
   @javax.annotation.Nullable
-
   public String getBaz() {
     return baz;
   }

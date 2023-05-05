@@ -89,7 +89,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-
   public Shape getMainShape() {
     return mainShape;
   }
@@ -111,7 +110,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
@@ -133,7 +131,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-
   public NullableShape getNullableShape() {
     return nullableShape;
   }
@@ -163,7 +160,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-
   public List<Shape> getShapes() {
     return shapes;
   }

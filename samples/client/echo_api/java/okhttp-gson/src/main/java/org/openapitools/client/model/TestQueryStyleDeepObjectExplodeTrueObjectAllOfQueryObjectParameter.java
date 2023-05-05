@@ -82,7 +82,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return size
   **/
   @javax.annotation.Nullable
-
   public String getSize() {
     return size;
   }
@@ -104,7 +103,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }
@@ -126,7 +124,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -148,7 +145,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * @return name
   **/
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }

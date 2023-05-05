@@ -71,7 +71,6 @@ public class GrandparentAnimal {
    * @return petType
   **/
   @javax.annotation.Nonnull
-
   public String getPetType() {
     return petType;
   }

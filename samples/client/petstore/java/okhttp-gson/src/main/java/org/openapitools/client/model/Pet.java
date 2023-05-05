@@ -143,7 +143,6 @@ public class Pet {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -165,7 +164,6 @@ public class Pet {
    * @return category
   **/
   @javax.annotation.Nullable
-
   public Category getCategory() {
     return category;
   }
@@ -187,7 +185,6 @@ public class Pet {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
@@ -217,7 +214,6 @@ public class Pet {
    * @return photoUrls
   **/
   @javax.annotation.Nonnull
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -247,7 +243,6 @@ public class Pet {
    * @return tags
   **/
   @javax.annotation.Nullable
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -269,7 +264,6 @@ public class Pet {
    * @return status
   **/
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }

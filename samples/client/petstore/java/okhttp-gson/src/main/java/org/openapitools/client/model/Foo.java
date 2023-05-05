@@ -70,7 +70,6 @@ public class Foo {
    * @return bar
   **/
   @javax.annotation.Nullable
-
   public String getBar() {
     return bar;
   }

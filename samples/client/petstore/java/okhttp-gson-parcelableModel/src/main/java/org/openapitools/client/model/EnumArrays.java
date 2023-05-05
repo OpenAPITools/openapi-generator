@@ -172,7 +172,6 @@ public class EnumArrays implements Parcelable {
    * @return justSymbol
   **/
   @javax.annotation.Nullable
-
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -202,7 +201,6 @@ public class EnumArrays implements Parcelable {
    * @return arrayEnum
   **/
   @javax.annotation.Nullable
-
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

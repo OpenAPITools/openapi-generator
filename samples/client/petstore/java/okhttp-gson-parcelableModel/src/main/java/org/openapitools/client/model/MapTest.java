@@ -141,7 +141,6 @@ public class MapTest implements Parcelable {
    * @return mapMapOfString
   **/
   @javax.annotation.Nullable
-
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -171,7 +170,6 @@ public class MapTest implements Parcelable {
    * @return mapOfEnumString
   **/
   @javax.annotation.Nullable
-
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -201,7 +199,6 @@ public class MapTest implements Parcelable {
    * @return directMap
   **/
   @javax.annotation.Nullable
-
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -231,7 +228,6 @@ public class MapTest implements Parcelable {
    * @return indirectMap
   **/
   @javax.annotation.Nullable
-
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

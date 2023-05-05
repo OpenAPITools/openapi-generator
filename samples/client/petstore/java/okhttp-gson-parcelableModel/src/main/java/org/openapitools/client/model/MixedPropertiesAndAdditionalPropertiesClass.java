@@ -85,7 +85,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public UUID getUuid() {
     return uuid;
   }
@@ -107,7 +106,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -137,7 +135,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return map
   **/
   @javax.annotation.Nullable
-
   public Map<String, Animal> getMap() {
     return map;
   }

@@ -76,7 +76,6 @@ public class Tag implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -98,7 +97,6 @@ public class Tag implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }
