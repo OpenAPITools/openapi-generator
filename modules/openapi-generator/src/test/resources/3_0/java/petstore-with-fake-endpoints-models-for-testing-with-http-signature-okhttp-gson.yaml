@@ -2223,9 +2223,3 @@ components:
           enum:
             - type_a
             - type_b
-    AdditionalProperties:
-      properties:
-        additional_properties:
-          type: array
-          items:
-            type: string
