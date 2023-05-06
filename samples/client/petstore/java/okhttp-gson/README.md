@@ -156,6 +156,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AdditionalProperties](docs/AdditionalProperties.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)

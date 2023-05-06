@@ -2189,3 +2189,8 @@ components:
       properties:
         optionalDict:
           $ref: "#/components/schemas/DictWithAdditionalProperties"
+    IntOrString:
+      oneOf:
+      - type: integer
+        minimum: 10
+      - type: string

@@ -2204,6 +2204,12 @@ components:
       required:
       - enum_str_type
       type: object
+    AdditionalProperties:
+      properties:
+        additional_properties:
+          items:
+            type: string
+          type: array
     _foo_get_default_response:
       example:
         string:
