@@ -81,7 +81,7 @@ class Pet {
       json[r'category'] = null;
     }
       json[r'name'] = this.name;
-      json[r'photoUrls'] = this.photoUrls;
+      json[r'photoUrls'] = this.photoUrls.toList(growable: false);
       json[r'tags'] = this.tags;
     if (this.status != null) {
       json[r'status'] = this.status;

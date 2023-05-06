@@ -86,7 +86,7 @@ class {{{classname}}} {
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json[r'{{{baseName}}}'] = this.{{{name}}};
+      json[r'{{{baseName}}}'] = this.{{{name}}}{{#isArray}}{{#uniqueItems}}.toList(growable: false){{/uniqueItems}}{{/isArray}};
       {{/isDate}}
     {{/isDateTime}}
     {{#isNullable}}
