@@ -32,7 +32,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    default Void createUser(User user) {
+    default void createUser(User user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -45,7 +45,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default Void createUsersWithArrayInput(List<User> user) {
+    default void createUsersWithArrayInput(List<User> user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -58,7 +58,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default Void createUsersWithListInput(List<User> user) {
+    default void createUsersWithListInput(List<User> user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -72,7 +72,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    default Void deleteUser(String username) {
+    default void deleteUser(String username) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -129,7 +129,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
-    default Void logoutUser() {
+    default void logoutUser() {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -144,7 +144,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    default Void updateUser(String username,
+    default void updateUser(String username,
         User user) {
         throw new IllegalArgumentException("Not implemented");
 

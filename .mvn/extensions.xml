@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+    <extension>
+        <groupId>com.gradle</groupId>
+        <artifactId>gradle-enterprise-maven-extension</artifactId>
+        <version>1.17</version>
+    </extension>
+    <extension>
+        <groupId>com.gradle</groupId>
+        <artifactId>common-custom-user-data-maven-extension</artifactId>
+        <version>1.11.1</version>
+    </extension>
+</extensions>

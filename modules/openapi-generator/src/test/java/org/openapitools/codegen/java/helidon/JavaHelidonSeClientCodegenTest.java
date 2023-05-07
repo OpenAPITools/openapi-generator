@@ -1,6 +1,6 @@
 /*
- * Copyright 2022 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright (c) 2022 Oracle and/or its affiliates
+ * Copyright 2022, 2023 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright (c) 2022, 2023 Oracle and/or its affiliates
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -28,16 +28,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.java.assertions.JavaFileAssert.assertThat;
 
 public class JavaHelidonSeClientCodegenTest {
 
     private String outputPath;
     private List<File> generatedFiles;
+    private DefaultGenerator generator;
 
-    @BeforeClass
+    @BeforeMethod
     public void setup() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -45,16 +49,19 @@ public class JavaHelidonSeClientCodegenTest {
 
         System.out.println("Generating java-helidon-client SE project in " + outputPath);
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
+        final CodegenConfigurator configurator = codegenConfigurator(new HashMap<>());
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        generator = new DefaultGenerator();
+        generator.opts(clientOptInput);
+    }
+
+    private CodegenConfigurator codegenConfigurator(Map<String, Object> additionalProperties) {
+        return new CodegenConfigurator()
                 .setGeneratorName("java-helidon-client")
                 .setLibrary("se")
+                .setAdditionalProperties(additionalProperties)
                 .setInputSpec("src/test/resources/3_0/helidon/petstore-no-multipart-for-testing.yaml")
                 .setOutputDir(outputPath);
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(clientOptInput);
-        generatedFiles = generator.generate();
     }
 
     @DataProvider(name = "fileSuffix")
@@ -67,11 +74,13 @@ public class JavaHelidonSeClientCodegenTest {
 
     @Test
     public void testPom() {
+        generatedFiles = generator.generate();
         TestUtils.ensureContainsFile(generatedFiles, new File(outputPath), "pom.xml");
     }
 
     @Test(dataProvider = "fileSuffix")
     public void testPetApi(String fileSuffix) {
+        generatedFiles = generator.generate();
         assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/PetApi" + fileSuffix + ".java"))
                 .assertMethod("addPet", "Pet")
                 .toFileAssert()
@@ -92,6 +101,7 @@ public class JavaHelidonSeClientCodegenTest {
 
     @Test(dataProvider = "fileSuffix")
     public void testStoreApi(String fileSuffix) {
+        generatedFiles = generator.generate();
         assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/StoreApi" + fileSuffix + ".java"))
                 .assertMethod("deleteOrder", "String")
                 .toFileAssert()
@@ -105,6 +115,7 @@ public class JavaHelidonSeClientCodegenTest {
 
     @Test(dataProvider = "fileSuffix")
     public void testUserApi(String fileSuffix) {
+        generatedFiles = generator.generate();
         assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/UserApi" + fileSuffix + ".java"))
                 .assertMethod("createUser", "User")
                 .toFileAssert()
@@ -118,5 +129,16 @@ public class JavaHelidonSeClientCodegenTest {
                 .toFileAssert()
                 .assertMethod("updateUser", "String", "User")
                 .toFileAssert();
+    }
+
+    @Test
+    public void testJsonbSupport() {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("serializationLibrary", "jsonb");
+        final CodegenConfigurator configurator = codegenConfigurator(additionalProperties);
+        generator.opts(configurator.toClientOptInput()).generate();
+        assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/ApiClient.java"))
+                .fileContains("JsonbSupport.create(JsonbBuilder.create(jsonbConfig))");
+        assertFileContains(Paths.get(outputPath ,"pom.xml"), "<artifactId>helidon-media-jsonb</artifactId>");
     }
 }

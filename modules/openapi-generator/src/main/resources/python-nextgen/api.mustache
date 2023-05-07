@@ -3,6 +3,8 @@
 {{>partial_header}}
 
 import re  # noqa: F401
+import io
+import warnings
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated{{#asyncio}}
@@ -13,6 +15,7 @@ from typing import overload, Optional, Union, Awaitable{{/asyncio}}
 {{/imports}}
 
 from {{packageName}}.api_client import ApiClient
+from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -45,7 +48,7 @@ class {{classname}}(object):
 {{/asyncio}}
     @validate_arguments
     def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}{{#asyncio}}async_req: Optional[bool]=None, {{/asyncio}}**kwargs) -> {{#asyncio}}Union[{{{returnType}}}{{^returnType}}None{{/returnType}}, Awaitable[{{{returnType}}}{{^returnType}}None{{/returnType}}]]{{/asyncio}}{{^asyncio}}{{{returnType}}}{{^returnType}}None{{/returnType}}{{/asyncio}}:  # noqa: E501
-        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
         {{{.}}}  # noqa: E501
@@ -62,10 +65,6 @@ class {{classname}}(object):
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76,6 +75,8 @@ class {{classname}}(object):
         :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the {{operationId}}_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
 {{#asyncio}}
         if async_req is not None:
             kwargs['async_req'] = async_req
@@ -83,8 +84,8 @@ class {{classname}}(object):
         return self.{{operationId}}_with_http_info({{#allParams}}{{paramName}}, {{/allParams}}**kwargs)  # noqa: E501
 
     @validate_arguments
-    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs):  # noqa: E501
-        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
         {{{.}}}  # noqa: E501
@@ -101,13 +102,14 @@ class {{classname}}(object):
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -123,6 +125,10 @@ class {{classname}}(object):
         :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
         """
 
+        {{#isDeprecated}}
+        warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
+
+        {{/isDeprecated}}
         {{#servers.0}}
         _hosts = [
 {{#servers}}
@@ -194,12 +200,12 @@ class {{classname}}(object):
             {{^isDateTime}}
             {{#isDate}}
             if isinstance(_params['{{paramName}}'], datetime):
-                _query_parame.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
+                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
             else:
                 _query_params.append(('{{baseName}}', _params['{{paramName}}']))
             {{/isDate}}
             {{^isDate}}
-            _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+            _query_params.append(('{{baseName}}', _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}))
             {{/isDate}}
             {{/isDateTime}}
             {{#isArray}}
@@ -223,21 +229,28 @@ class {{classname}}(object):
 {{#formParams}}
         if _params['{{paramName}}']:
             {{^isFile}}
-            _form_params.append(('{{baseName}}', _params['{{paramName}}']))
+            _form_params.append(('{{{baseName}}}', _params['{{paramName}}']))
             {{/isFile}}
             {{#isFile}}
-            _files['{{baseName}}'] = _params['{{paramName}}']
+            _files['{{{baseName}}}'] = _params['{{paramName}}']
             {{/isFile}}
             {{#isArray}}
-            _collection_formats['{{baseName}}'] = '{{collectionFormat}}'
+            _collection_formats['{{{baseName}}}'] = '{{collectionFormat}}'
             {{/isArray}}
 
 {{/formParams}}
         # process the body parameter
         _body_params = None
 {{#bodyParam}}
-        if _params['{{paramName}}']:
+        if _params['{{paramName}}'] is not None:
             _body_params = _params['{{paramName}}']
+            {{#isBinary}}
+            # convert to byte array if the input is a file name (str)
+            if isinstance(_body_params, str):
+                with io.open(_body_params, "rb") as _fp:
+                   _body_params_from_file = _fp.read()
+                _body_params = _body_params_from_file
+            {{/isBinary}}
 
 {{/bodyParam}}
         {{#hasProduces}}

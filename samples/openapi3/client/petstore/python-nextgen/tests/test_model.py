@@ -103,16 +103,44 @@ class ModelTests(unittest.TestCase):
         # test from_josn
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
-        self.assertEqual(p.actual_instance, [12, 34,56])
+        self.assertEqual(p.actual_instance, [12, 34, 56])
 
         try:
             p = petstore_api.Color.from_json('[2342112,0,0,0]')
         except ValueError as e:
             self.assertTrue("ensure this value is less than or equal to 255" in str(e))
 
+        # test to_json, to_dict method
+        json_str = '[12,34,56]'
+        p = petstore_api.Color.from_json(json_str)
+        self.assertEqual(p.to_json(), "[12, 34, 56]")
+        self.assertEqual(p.to_dict(), [12, 34, 56])
+
         # test nullable
         p = petstore_api.Color.from_json(None)
         self.assertEqual(p.actual_instance, None)
+
+    def test_oneof_enum_string(self):
+        enum_string1 = petstore_api.EnumString1('a')
+        # test from_json
+        oneof_enum = petstore_api.OneOfEnumString.from_json('"a"')
+        # test from_dict
+        oneof_enum = petstore_api.OneOfEnumString.from_dict("a")
+        nested = petstore_api.WithNestedOneOf(size = 1, nested_oneof_enum_string = oneof_enum)
+        # test to_json
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "a"}')
+        # test from_json
+        nested = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "c"}')
+        self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "c"}')
+        # test from_dict
+        nested = petstore_api.WithNestedOneOf.from_dict({"size": 1, "nested_oneof_enum_string": "c"})
+        # test to_dict
+        self.assertEqual(nested.to_dict(), {"size": 1, "nested_oneof_enum_string": "c"})
+        # invalid enum value
+        try:
+            nested2 = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "e"}')
+        except ValueError as e:
+            self.assertTrue("'e' is not a valid EnumString1, 'e' is not a valid EnumString" in str(e))
 
     def test_anyOf_array_of_integers(self):
         # test new Color 
@@ -314,6 +342,10 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
+        # test None with optional string (with regualr expression)
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        a.string = None # shouldn't throw an exception
+
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
         a.pattern_with_digits_and_delimiter = "image_123"
@@ -403,3 +435,15 @@ class ModelTests(unittest.TestCase):
         b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
         self.assertFalse(b is None)
         self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
+
+    def test_object_with_dict_of_dict_of_object(self):
+        # for https://github.com/OpenAPITools/openapi-generator/issues/15135
+        d = {"optionalDict": {"a": {"b": {"aProperty": "value"}}}}
+        a = petstore_api.Parent.from_dict(d)
+        self.assertEqual(a.to_dict(), d)
+
+    def test_eum_class(self):
+        a = petstore_api.EnumClass("-efg")
+        self.assertEqual(a.value, "-efg")
+        self.assertEqual(a.name, "MINUS_EFG")
+        self.assertEqual(a, "-efg")

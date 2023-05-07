@@ -7,7 +7,7 @@ title: Documentation for the python-nextgen Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | python-nextgen | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Python | |
 | generator language version | 3.7+ | |
@@ -50,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Dict</li>
 <li>List</li>
 <li>bool</li>
+<li>bytearray</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>
@@ -58,6 +59,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>float</li>
 <li>int</li>
 <li>list</li>
+<li>none_type</li>
 <li>object</li>
 <li>str</li>
 </ul>

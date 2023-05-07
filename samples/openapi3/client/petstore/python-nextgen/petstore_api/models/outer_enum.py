@@ -12,7 +12,7 @@
 """
 
 
-from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg
@@ -32,4 +32,10 @@ class OuterEnum(str, Enum):
     PLACED = 'placed'
     APPROVED = 'approved'
     DELIVERED = 'delivered'
+
+    @classmethod
+    def from_json(cls, json_str: str) -> OuterEnum:
+        """Create an instance of OuterEnum from a JSON string"""
+        return OuterEnum(json.loads(json_str))
+
 

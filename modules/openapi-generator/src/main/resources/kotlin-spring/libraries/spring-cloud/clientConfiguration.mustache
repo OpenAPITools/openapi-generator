@@ -1,0 +1,132 @@
+package {{configPackage}}
+
+{{#authMethods}}
+{{#isBasic}}
+import feign.auth.BasicAuthRequestInterceptor
+{{/isBasic}}
+{{#-first}}
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+{{/-first}}
+{{#isOAuth}}
+import org.springframework.boot.context.properties.ConfigurationProperties
+{{/isOAuth}}
+{{/authMethods}}
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+{{#authMethods}}
+{{#-first}}
+import org.springframework.context.annotation.Bean
+{{/-first}}
+{{/authMethods}}
+import org.springframework.context.annotation.Configuration
+{{#authMethods}}
+{{#isOAuth}}
+import org.springframework.cloud.openfeign.security.OAuth2FeignRequestInterceptor
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext
+import org.springframework.security.oauth2.client.OAuth2ClientContext
+{{#isApplication}}
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails
+{{/isApplication}}
+{{#isCode}}
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails
+{{/isCode}}
+{{#isImplicit}}
+import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails
+{{/isImplicit}}
+{{#isPassword}}
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails
+{{/isPassword}}
+{{/isOAuth}}
+{{/authMethods}}
+
+@Configuration
+@EnableConfigurationProperties
+class ClientConfiguration {
+
+    {{#authMethods}}
+    {{#isBasic}}
+    @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username:{{closebrace}}")
+    private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Username: String
+
+    @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.password:{{closebrace}}")
+    private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Password: String
+
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username")
+    fun {{{name}}}RequestInterceptor(): BasicAuthRequestInterceptor {
+      return BasicAuthRequestInterceptor(this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Username, this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Password)
+    }
+
+    {{/isBasic}}
+    {{#isApiKey}}
+    @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key:{{closebrace}}")
+    private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Key: String
+
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key")
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}RequestInterceptor(): ApiKeyRequestInterceptor {
+        return ApiKeyRequestInterceptor({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{{keyParamName}}}", this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Key)
+    }
+
+    {{/isApiKey}}
+    {{#isOAuth}}
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}RequestInterceptor(oAuth2ClientContext: OAuth2ClientContext): OAuth2FeignRequestInterceptor {
+        return OAuth2FeignRequestInterceptor(oAuth2ClientContext, {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails())
+    }
+
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    fun oAuth2ClientContext(): OAuth2ClientContext {
+        return DefaultOAuth2ClientContext()
+    }
+
+    {{#isCode}}
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): AuthorizationCodeResourceDetails {
+        val details = AuthorizationCodeResourceDetails()
+        details.accessTokenUri = "{{{tokenUrl}}}"
+        details.userAuthorizationUri = "{{{authorizationUrl}}}"
+        return details
+    }
+
+    {{/isCode}}
+    {{#isPassword}}
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): ResourceOwnerPasswordResourceDetails {
+        val details = ResourceOwnerPasswordResourceDetails()
+        details.accessTokenUri = "{{{tokenUrl}}}"
+        return details
+    }
+
+    {{/isPassword}}
+    {{#isApplication}}
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): ClientCredentialsResourceDetails {
+        val details = ClientCredentialsResourceDetails()
+        details.accessTokenUri = "{{{tokenUrl}}}"
+        return details
+    }
+
+    {{/isApplication}}
+    {{#isImplicit}}
+    @Bean
+    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): ImplicitResourceDetails {
+        val details = ImplicitResourceDetails()
+        details.userAuthorizationUri= "{{{authorizationUrl}}}"
+        return details
+    }
+
+    {{/isImplicit}}
+    {{/isOAuth}}
+    {{/authMethods}}
+}

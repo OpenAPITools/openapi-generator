@@ -38,6 +38,8 @@ jobs:
             ${{ runner.os }}-build-
       - name: Run unit tests
         run: cd modules/openapi-generator && mvn --no-snapshot-updates --batch-mode -Dtest="**/functional/*Test" test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Publish unit test reports
         if: ${{ always() }}
         uses: actions/upload-artifact@v3

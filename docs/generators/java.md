@@ -49,6 +49,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |errorObjectType|Error Object type. (This option is for okhttp-gson-next-gen only)| |null|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|generateClientAsBean|For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
@@ -87,6 +88,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useGzipFeature|Send gzip-encoded requests| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson support this option.| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
 |useReflectionEqualsHashCode|Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact.| |false|
 |useRuntimeException|Use RuntimeException instead of Exception. Only jersey, jersey2, jersey3, okhttp-gson, vertx, microprofile support this option.| |false|

@@ -71,7 +71,7 @@ class ModelClient {
     return null;
   }
 
-  static List<ModelClient>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ModelClient> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ModelClient>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -102,12 +102,10 @@ class ModelClient {
   static Map<String, List<ModelClient>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ModelClient>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ModelClient.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ModelClient.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

@@ -162,7 +162,7 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
-    required BuiltList<String> status,
+    @Deprecated('status is deprecated') required BuiltList<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,

@@ -35,12 +35,10 @@ Method | HTTP request | Description
 {{#isOAuth}}
 * OAuth Authentication ({{name}}):
 {{/isOAuth }}
-{{> api_doc_example }}
 {{/authMethods}}
 {{/hasAuthMethods}}
-{{^hasAuthMethods}}
 {{> api_doc_example }}
-{{/hasAuthMethods}}
+
 ### Parameters
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
