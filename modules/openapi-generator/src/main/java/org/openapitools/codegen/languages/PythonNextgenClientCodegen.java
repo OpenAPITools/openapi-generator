@@ -592,7 +592,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("conbytes");
                 pydanticImports.add("constr");
                 typingImports.add("Union");
-                return String.format(Locale.ROOT, "%s(%s)", "Union[conbytes, constr]", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "Union[conbytes(%s), constr(%<s)]", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
@@ -872,7 +872,7 @@ public class PythonNextgenClientCodegen extends AbstractPythonCodegen implements
                 pydanticImports.add("conbytes");
                 pydanticImports.add("constr");
                 typingImports.add("Union");
-                return String.format(Locale.ROOT, "%s(%s)", "Union[conbytes, constr]", StringUtils.join(fieldCustomization, ", "));
+                return String.format(Locale.ROOT, "Union[conbytes(%s), constr(%<s)]", StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
