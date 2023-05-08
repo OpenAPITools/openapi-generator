@@ -787,6 +787,11 @@ paths:
                   description: None
                   type: string
                   format: binary
+                byte_with_max_length:
+                  description: None
+                  type: string
+                  format: byte
+                  maxLength: 64
                 date:
                   description: None
                   type: string
