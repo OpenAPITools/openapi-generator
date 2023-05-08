@@ -59,10 +59,11 @@ class DefaultApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    FooGetDefaultResponse _responseData;
+    FooGetDefaultResponse? _responseData;
 
     try {
-_responseData = deserialize<FooGetDefaultResponse, FooGetDefaultResponse>(_response.data!, 'FooGetDefaultResponse', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<FooGetDefaultResponse, FooGetDefaultResponse>(rawData, 'FooGetDefaultResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
