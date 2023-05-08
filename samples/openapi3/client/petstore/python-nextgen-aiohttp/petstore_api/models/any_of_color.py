@@ -42,31 +42,41 @@ class AnyOfColor(BaseModel):
     class Config:
         validate_assignment = True
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = cls()
+        instance = AnyOfColor.construct()
         error_messages = []
         # validate data type: List[int]
         try:
             instance.anyof_schema_1_validator = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: List[int]
         try:
             instance.anyof_schema_2_validator = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # validate data type: str
         try:
             instance.anyof_schema_3_validator = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into AnyOfColor with anyOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting the actual_instance in AnyOfColor with anyOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -77,7 +87,7 @@ class AnyOfColor(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> AnyOfColor:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = AnyOfColor.construct()
         error_messages = []
         # deserialize data into List[int]
         try:
@@ -86,7 +96,7 @@ class AnyOfColor(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_1_validator
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into List[int]
         try:
@@ -95,7 +105,7 @@ class AnyOfColor(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_2_validator
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         # deserialize data into str
         try:
@@ -104,7 +114,7 @@ class AnyOfColor(BaseModel):
             # assign value to actual_instance
             instance.actual_instance = instance.anyof_schema_3_validator
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if error_messages:
@@ -115,17 +125,25 @@ class AnyOfColor(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
             return self.actual_instance.to_json()
         else:
-            return "null"
+            return json.dumps(self.actual_instance)
 
     def to_dict(self) -> dict:
         """Returns the dict representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
             return self.actual_instance.to_dict()
         else:
-            return dict()
+            return json.dumps(self.actual_instance)
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

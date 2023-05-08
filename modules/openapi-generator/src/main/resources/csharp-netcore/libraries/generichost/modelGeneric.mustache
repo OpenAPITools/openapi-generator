@@ -4,6 +4,7 @@
     {{>visibility}} partial class {{classname}}{{#parent}} : {{{.}}}{{/parent}}{{>ImplementsIEquatable}}{{>ImplementsValidatable}}
     {
         {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -36,6 +37,7 @@
             {{/allVars}}
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
         {{^composedSchemas.oneOf}}
         /// <summary>
@@ -103,6 +105,7 @@
         {{/isEnum}}
         {{/vars}}
         {{#composedSchemas.anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
@@ -115,8 +118,10 @@
         {{/deprecated}}
         public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.anyOf}}
         {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
@@ -129,6 +134,7 @@
         {{/deprecated}}
         public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
         {{#composedSchemas.allOf}}
         {{^isInherited}}

@@ -121,11 +121,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, childCat.ChildCatAllOf, jsonSerializerOptions);
 
-            writer.WriteString("pet_type", childCat.PetType);
-
-            writer.WriteEndObject();
         }
     }
 }

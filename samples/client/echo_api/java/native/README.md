@@ -106,10 +106,16 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBinaryGifWithHttpInfo**](docs/BodyApi.md#testBinaryGifWithHttpInfo) | **POST** /binary/gif | Test binary (gif) response body
+*BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
+*BodyApi* | [**testBodyApplicationOctetstreamBinaryWithHttpInfo**](docs/BodyApi.md#testBodyApplicationOctetstreamBinaryWithHttpInfo) | **POST** /body/application/octetstream/binary | Test body parameter(s)
+*BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
+*BodyApi* | [**testEchoBodyFreeFormObjectResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseStringWithHttpInfo) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**testEchoBodyPetResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetResponseStringWithHttpInfo) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
+*BodyApi* | [**testEchoBodyTagResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyTagResponseStringWithHttpInfo) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormIntegerBooleanStringWithHttpInfo**](docs/FormApi.md#testFormIntegerBooleanStringWithHttpInfo) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *HeaderApi* | [**testHeaderIntegerBooleanString**](docs/HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s)

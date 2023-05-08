@@ -37,6 +37,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -87,7 +91,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayOfString
   **/
   @javax.annotation.Nullable
-
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -117,7 +120,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -147,7 +149,6 @@ public class ArrayTest implements Parcelable {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

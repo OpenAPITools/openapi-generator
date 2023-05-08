@@ -40,6 +40,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -118,7 +122,6 @@ public class NullableClass {
    * @return integerProp
   **/
   @javax.annotation.Nullable
-
   public Integer getIntegerProp() {
     return integerProp;
   }
@@ -140,7 +143,6 @@ public class NullableClass {
    * @return numberProp
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getNumberProp() {
     return numberProp;
   }
@@ -162,7 +164,6 @@ public class NullableClass {
    * @return booleanProp
   **/
   @javax.annotation.Nullable
-
   public Boolean getBooleanProp() {
     return booleanProp;
   }
@@ -184,7 +185,6 @@ public class NullableClass {
    * @return stringProp
   **/
   @javax.annotation.Nullable
-
   public String getStringProp() {
     return stringProp;
   }
@@ -206,7 +206,6 @@ public class NullableClass {
    * @return dateProp
   **/
   @javax.annotation.Nullable
-
   public LocalDate getDateProp() {
     return dateProp;
   }
@@ -228,7 +227,6 @@ public class NullableClass {
    * @return datetimeProp
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDatetimeProp() {
     return datetimeProp;
   }
@@ -258,7 +256,6 @@ public class NullableClass {
    * @return arrayNullableProp
   **/
   @javax.annotation.Nullable
-
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
@@ -288,7 +285,6 @@ public class NullableClass {
    * @return arrayAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
@@ -318,7 +314,6 @@ public class NullableClass {
    * @return arrayItemsNullable
   **/
   @javax.annotation.Nullable
-
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
@@ -348,7 +343,6 @@ public class NullableClass {
    * @return objectNullableProp
   **/
   @javax.annotation.Nullable
-
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
   }
@@ -378,7 +372,6 @@ public class NullableClass {
    * @return objectAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
   }
@@ -408,7 +401,6 @@ public class NullableClass {
    * @return objectItemsNullable
   **/
   @javax.annotation.Nullable
-
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }

@@ -49,7 +49,6 @@ Execute `pytest` to run the tests.
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-from __future__ import print_function
 import datetime
 import time
 import petstore_api
@@ -158,6 +157,8 @@ Class | Method | HTTP request | Description
  - [DummyModel](docs/DummyModel.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
+ - [EnumString1](docs/EnumString1.md)
+ - [EnumString2](docs/EnumString2.md)
  - [EnumTest](docs/EnumTest.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
@@ -168,6 +169,7 @@ Class | Method | HTTP request | Description
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
+ - [IntOrString](docs/IntOrString.md)
  - [List](docs/List.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -177,6 +179,7 @@ Class | Method | HTTP request | Description
  - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
+ - [OneOfEnumString](docs/OneOfEnumString.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)

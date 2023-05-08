@@ -66,13 +66,13 @@ class EnumArrays {
 
       return EnumArrays(
         justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
-        arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']) ?? const [],
+        arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
       );
     }
     return null;
   }
 
-  static List<EnumArrays>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumArrays> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumArrays>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -103,12 +103,10 @@ class EnumArrays {
   static Map<String, List<EnumArrays>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<EnumArrays>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = EnumArrays.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = EnumArrays.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -143,7 +141,7 @@ class EnumArraysJustSymbolEnum {
 
   static EnumArraysJustSymbolEnum? fromJson(dynamic value) => EnumArraysJustSymbolEnumTypeTransformer().decode(value);
 
-  static List<EnumArraysJustSymbolEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumArraysJustSymbolEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumArraysJustSymbolEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -217,7 +215,7 @@ class EnumArraysArrayEnumEnum {
 
   static EnumArraysArrayEnumEnum? fromJson(dynamic value) => EnumArraysArrayEnumEnumTypeTransformer().decode(value);
 
-  static List<EnumArraysArrayEnumEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumArraysArrayEnumEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumArraysArrayEnumEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

@@ -39,6 +39,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -81,7 +85,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public UUID getUuid() {
     return uuid;
   }
@@ -103,7 +106,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -133,7 +135,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * @return map
   **/
   @javax.annotation.Nullable
-
   public Map<String, Animal> getMap() {
     return map;
   }

@@ -156,7 +156,7 @@ class EnumTest {
     return null;
   }
 
-  static List<EnumTest>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumTest> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTest>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -187,12 +187,10 @@ class EnumTest {
   static Map<String, List<EnumTest>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<EnumTest>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = EnumTest.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = EnumTest.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -230,7 +228,7 @@ class EnumTestEnumStringEnum {
 
   static EnumTestEnumStringEnum? fromJson(dynamic value) => EnumTestEnumStringEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumStringEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumTestEnumStringEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumStringEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -307,7 +305,7 @@ class EnumTestEnumStringRequiredEnum {
 
   static EnumTestEnumStringRequiredEnum? fromJson(dynamic value) => EnumTestEnumStringRequiredEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumStringRequiredEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumTestEnumStringRequiredEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumStringRequiredEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -382,7 +380,7 @@ class EnumTestEnumIntegerEnum {
 
   static EnumTestEnumIntegerEnum? fromJson(dynamic value) => EnumTestEnumIntegerEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumIntegerEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumTestEnumIntegerEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumIntegerEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -456,7 +454,7 @@ class EnumTestEnumNumberEnum {
 
   static EnumTestEnumNumberEnum? fromJson(dynamic value) => EnumTestEnumNumberEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumNumberEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumTestEnumNumberEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumTestEnumNumberEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

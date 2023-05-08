@@ -37,6 +37,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -183,7 +187,6 @@ public class XmlItem implements Parcelable {
    * @return attributeString
   **/
   @javax.annotation.Nullable
-
   public String getAttributeString() {
     return attributeString;
   }
@@ -205,7 +208,6 @@ public class XmlItem implements Parcelable {
    * @return attributeNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -227,7 +229,6 @@ public class XmlItem implements Parcelable {
    * @return attributeInteger
   **/
   @javax.annotation.Nullable
-
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -249,7 +250,6 @@ public class XmlItem implements Parcelable {
    * @return attributeBoolean
   **/
   @javax.annotation.Nullable
-
   public Boolean getAttributeBoolean() {
     return attributeBoolean;
   }
@@ -279,7 +279,6 @@ public class XmlItem implements Parcelable {
    * @return wrappedArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getWrappedArray() {
     return wrappedArray;
   }
@@ -301,7 +300,6 @@ public class XmlItem implements Parcelable {
    * @return nameString
   **/
   @javax.annotation.Nullable
-
   public String getNameString() {
     return nameString;
   }
@@ -323,7 +321,6 @@ public class XmlItem implements Parcelable {
    * @return nameNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -345,7 +342,6 @@ public class XmlItem implements Parcelable {
    * @return nameInteger
   **/
   @javax.annotation.Nullable
-
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -367,7 +363,6 @@ public class XmlItem implements Parcelable {
    * @return nameBoolean
   **/
   @javax.annotation.Nullable
-
   public Boolean getNameBoolean() {
     return nameBoolean;
   }
@@ -397,7 +392,6 @@ public class XmlItem implements Parcelable {
    * @return nameArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getNameArray() {
     return nameArray;
   }
@@ -427,7 +421,6 @@ public class XmlItem implements Parcelable {
    * @return nameWrappedArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
   }
@@ -449,7 +442,6 @@ public class XmlItem implements Parcelable {
    * @return prefixString
   **/
   @javax.annotation.Nullable
-
   public String getPrefixString() {
     return prefixString;
   }
@@ -471,7 +463,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -493,7 +484,6 @@ public class XmlItem implements Parcelable {
    * @return prefixInteger
   **/
   @javax.annotation.Nullable
-
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -515,7 +505,6 @@ public class XmlItem implements Parcelable {
    * @return prefixBoolean
   **/
   @javax.annotation.Nullable
-
   public Boolean getPrefixBoolean() {
     return prefixBoolean;
   }
@@ -545,7 +534,6 @@ public class XmlItem implements Parcelable {
    * @return prefixArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixArray() {
     return prefixArray;
   }
@@ -575,7 +563,6 @@ public class XmlItem implements Parcelable {
    * @return prefixWrappedArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
   }
@@ -597,7 +584,6 @@ public class XmlItem implements Parcelable {
    * @return namespaceString
   **/
   @javax.annotation.Nullable
-
   public String getNamespaceString() {
     return namespaceString;
   }
@@ -619,7 +605,6 @@ public class XmlItem implements Parcelable {
    * @return namespaceNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -641,7 +626,6 @@ public class XmlItem implements Parcelable {
    * @return namespaceInteger
   **/
   @javax.annotation.Nullable
-
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -663,7 +647,6 @@ public class XmlItem implements Parcelable {
    * @return namespaceBoolean
   **/
   @javax.annotation.Nullable
-
   public Boolean getNamespaceBoolean() {
     return namespaceBoolean;
   }
@@ -693,7 +676,6 @@ public class XmlItem implements Parcelable {
    * @return namespaceArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
   }
@@ -723,7 +705,6 @@ public class XmlItem implements Parcelable {
    * @return namespaceWrappedArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
   }
@@ -745,7 +726,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNsString
   **/
   @javax.annotation.Nullable
-
   public String getPrefixNsString() {
     return prefixNsString;
   }
@@ -767,7 +747,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNsNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }
@@ -789,7 +768,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNsInteger
   **/
   @javax.annotation.Nullable
-
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }
@@ -811,7 +789,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNsBoolean
   **/
   @javax.annotation.Nullable
-
   public Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
   }
@@ -841,7 +818,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNsArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
   }
@@ -871,7 +847,6 @@ public class XmlItem implements Parcelable {
    * @return prefixNsWrappedArray
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;
   }

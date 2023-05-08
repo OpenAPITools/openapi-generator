@@ -33,6 +33,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -75,7 +79,6 @@ public class NumberPropertiesOnly {
    * @return number
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -97,7 +100,6 @@ public class NumberPropertiesOnly {
    * @return _float
   **/
   @javax.annotation.Nullable
-
   public Float getFloat() {
     return _float;
   }
@@ -121,7 +123,6 @@ public class NumberPropertiesOnly {
    * @return _double
   **/
   @javax.annotation.Nullable
-
   public Double getDouble() {
     return _double;
   }

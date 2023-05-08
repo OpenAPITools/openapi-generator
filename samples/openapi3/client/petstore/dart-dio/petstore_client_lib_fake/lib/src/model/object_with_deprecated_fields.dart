@@ -22,12 +22,15 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
   @BuiltValueField(wireName: r'uuid')
   String? get uuid;
 
+  @Deprecated('id has been deprecated')
   @BuiltValueField(wireName: r'id')
   num? get id;
 
+  @Deprecated('deprecatedRef has been deprecated')
   @BuiltValueField(wireName: r'deprecatedRef')
   DeprecatedObject? get deprecatedRef;
 
+  @Deprecated('bars has been deprecated')
   @BuiltValueField(wireName: r'bars')
   BuiltList<String>? get bars;
 

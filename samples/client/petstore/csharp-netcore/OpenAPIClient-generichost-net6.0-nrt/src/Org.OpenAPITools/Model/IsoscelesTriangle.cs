@@ -137,10 +137,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, isoscelesTriangle.ShapeInterface, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, isoscelesTriangle.TriangleInterface, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

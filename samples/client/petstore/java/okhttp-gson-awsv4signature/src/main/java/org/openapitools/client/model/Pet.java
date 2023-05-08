@@ -36,6 +36,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -140,7 +144,6 @@ public class Pet {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -162,7 +165,6 @@ public class Pet {
    * @return category
   **/
   @javax.annotation.Nullable
-
   public Category getCategory() {
     return category;
   }
@@ -184,7 +186,6 @@ public class Pet {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
@@ -214,7 +215,6 @@ public class Pet {
    * @return photoUrls
   **/
   @javax.annotation.Nonnull
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -244,7 +244,6 @@ public class Pet {
    * @return tags
   **/
   @javax.annotation.Nullable
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -269,7 +268,6 @@ public class Pet {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }

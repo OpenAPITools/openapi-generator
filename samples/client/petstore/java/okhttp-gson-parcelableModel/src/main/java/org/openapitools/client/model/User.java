@@ -34,6 +34,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -96,7 +100,6 @@ public class User implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -118,7 +121,6 @@ public class User implements Parcelable {
    * @return username
   **/
   @javax.annotation.Nullable
-
   public String getUsername() {
     return username;
   }
@@ -140,7 +142,6 @@ public class User implements Parcelable {
    * @return firstName
   **/
   @javax.annotation.Nullable
-
   public String getFirstName() {
     return firstName;
   }
@@ -162,7 +163,6 @@ public class User implements Parcelable {
    * @return lastName
   **/
   @javax.annotation.Nullable
-
   public String getLastName() {
     return lastName;
   }
@@ -184,7 +184,6 @@ public class User implements Parcelable {
    * @return email
   **/
   @javax.annotation.Nullable
-
   public String getEmail() {
     return email;
   }
@@ -206,7 +205,6 @@ public class User implements Parcelable {
    * @return password
   **/
   @javax.annotation.Nullable
-
   public String getPassword() {
     return password;
   }
@@ -228,7 +226,6 @@ public class User implements Parcelable {
    * @return phone
   **/
   @javax.annotation.Nullable
-
   public String getPhone() {
     return phone;
   }
@@ -250,7 +247,6 @@ public class User implements Parcelable {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-
   public Integer getUserStatus() {
     return userStatus;
   }

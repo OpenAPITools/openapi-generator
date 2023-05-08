@@ -36,6 +36,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -85,7 +89,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public String getUuid() {
     return uuid;
   }
@@ -110,7 +113,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public BigDecimal getId() {
     return id;
   }
@@ -136,7 +138,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -170,7 +171,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public List<String> getBars() {
     return bars;
   }
