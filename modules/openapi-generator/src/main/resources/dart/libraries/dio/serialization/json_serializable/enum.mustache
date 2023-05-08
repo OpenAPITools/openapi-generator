@@ -11,7 +11,7 @@ enum {{{classname}}} {
   /// {{{.}}}
   {{/description}}
   @JsonValue({{#isString}}r{{/isString}}{{{value}}})
-  {{{name}}}({{#isString}}r{{/isString}}{{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
 
