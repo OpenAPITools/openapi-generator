@@ -19,30 +19,25 @@ import pprint
 import re  # noqa: F401
 
 from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
-from petstore_api.models.basque_pig import BasquePig
-from petstore_api.models.danish_pig import DanishPig
+from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, validator
 from typing import Any, List
 from pydantic import StrictStr, Field
 
-PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
+INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
 
-class Pig(BaseModel):
+class IntOrString(BaseModel):
     """
-    Pig
+    IntOrString
     """
-    # data type: BasquePig
-    oneof_schema_1_validator: Optional[BasquePig] = None
-    # data type: DanishPig
-    oneof_schema_2_validator: Optional[DanishPig] = None
+    # data type: int
+    oneof_schema_1_validator: Optional[conint(strict=True, ge=10)] = None
+    # data type: str
+    oneof_schema_2_validator: Optional[StrictStr] = None
     actual_instance: Any
-    one_of_schemas: List[str] = Field(PIG_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: List[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
 
     class Config:
         validate_assignment = True
-
-    discriminator_value_class_map = {
-    }
 
     def __init__(self, *args, **kwargs):
         if args:
@@ -56,58 +51,66 @@ class Pig(BaseModel):
 
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = Pig.construct()
+        instance = IntOrString.construct()
         error_messages = []
         match = 0
-        # validate data type: BasquePig
-        if not isinstance(v, BasquePig):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
-        else:
+        # validate data type: int
+        try:
+            instance.oneof_schema_1_validator = v
             match += 1
-        # validate data type: DanishPig
-        if not isinstance(v, DanishPig):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
-        else:
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # validate data type: str
+        try:
+            instance.oneof_schema_2_validator = v
             match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in IntOrString with oneOf schemas: int, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in IntOrString with oneOf schemas: int, str. Details: " + ", ".join(error_messages))
         else:
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Pig:
+    def from_dict(cls, obj: dict) -> IntOrString:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> Pig:
+    def from_json(cls, json_str: str) -> IntOrString:
         """Returns the object represented by the json string"""
-        instance = Pig.construct()
+        instance = IntOrString.construct()
         error_messages = []
         match = 0
 
-        # deserialize data into BasquePig
+        # deserialize data into int
         try:
-            instance.actual_instance = BasquePig.from_json(json_str)
+            # validation
+            instance.oneof_schema_1_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_1_validator
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into DanishPig
+        # deserialize data into str
         try:
-            instance.actual_instance = DanishPig.from_json(json_str)
+            # validation
+            instance.oneof_schema_2_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.oneof_schema_2_validator
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into IntOrString with oneOf schemas: int, str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into IntOrString with oneOf schemas: int, str. Details: " + ", ".join(error_messages))
         else:
             return instance
 

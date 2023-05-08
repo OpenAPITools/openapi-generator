@@ -42,9 +42,19 @@ class AnyOfColor(BaseModel):
     class Config:
         validate_assignment = True
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = cls()
+        instance = AnyOfColor.construct()
         error_messages = []
         # validate data type: List[int]
         try:
@@ -66,7 +76,7 @@ class AnyOfColor(BaseModel):
             error_messages.append(str(e))
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into AnyOfColor with anyOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting the actual_instance in AnyOfColor with anyOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -77,7 +87,7 @@ class AnyOfColor(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> AnyOfColor:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = AnyOfColor.construct()
         error_messages = []
         # deserialize data into List[int]
         try:
