@@ -89,7 +89,6 @@ public class ArrayTest {
    * @return arrayOfString
   **/
   @javax.annotation.Nullable
-
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -119,7 +118,6 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -149,7 +147,6 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

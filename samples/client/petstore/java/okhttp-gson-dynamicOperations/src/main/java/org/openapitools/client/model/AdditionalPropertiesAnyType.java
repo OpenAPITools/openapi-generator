@@ -70,7 +70,6 @@ public class AdditionalPropertiesAnyType {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }

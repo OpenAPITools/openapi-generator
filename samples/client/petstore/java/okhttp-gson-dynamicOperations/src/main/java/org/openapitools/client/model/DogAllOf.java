@@ -70,7 +70,6 @@ public class DogAllOf {
    * @return breed
   **/
   @javax.annotation.Nullable
-
   public String getBreed() {
     return breed;
   }

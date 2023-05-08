@@ -131,7 +131,6 @@ public class FormatTest implements Parcelable {
    * @return integer
   **/
   @javax.annotation.Nullable
-
   public Integer getInteger() {
     return integer;
   }
@@ -155,7 +154,6 @@ public class FormatTest implements Parcelable {
    * @return int32
   **/
   @javax.annotation.Nullable
-
   public Integer getInt32() {
     return int32;
   }
@@ -177,7 +175,6 @@ public class FormatTest implements Parcelable {
    * @return int64
   **/
   @javax.annotation.Nullable
-
   public Long getInt64() {
     return int64;
   }
@@ -201,7 +198,6 @@ public class FormatTest implements Parcelable {
    * @return number
   **/
   @javax.annotation.Nonnull
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -225,7 +221,6 @@ public class FormatTest implements Parcelable {
    * @return _float
   **/
   @javax.annotation.Nullable
-
   public Float getFloat() {
     return _float;
   }
@@ -249,7 +244,6 @@ public class FormatTest implements Parcelable {
    * @return _double
   **/
   @javax.annotation.Nullable
-
   public Double getDouble() {
     return _double;
   }
@@ -271,7 +265,6 @@ public class FormatTest implements Parcelable {
    * @return string
   **/
   @javax.annotation.Nullable
-
   public String getString() {
     return string;
   }
@@ -293,7 +286,6 @@ public class FormatTest implements Parcelable {
    * @return _byte
   **/
   @javax.annotation.Nonnull
-
   public byte[] getByte() {
     return _byte;
   }
@@ -315,7 +307,6 @@ public class FormatTest implements Parcelable {
    * @return binary
   **/
   @javax.annotation.Nullable
-
   public File getBinary() {
     return binary;
   }
@@ -337,7 +328,6 @@ public class FormatTest implements Parcelable {
    * @return date
   **/
   @javax.annotation.Nonnull
-
   public LocalDate getDate() {
     return date;
   }
@@ -359,7 +349,6 @@ public class FormatTest implements Parcelable {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -381,7 +370,6 @@ public class FormatTest implements Parcelable {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public UUID getUuid() {
     return uuid;
   }
@@ -403,7 +391,6 @@ public class FormatTest implements Parcelable {
    * @return password
   **/
   @javax.annotation.Nonnull
-
   public String getPassword() {
     return password;
   }
@@ -425,7 +412,6 @@ public class FormatTest implements Parcelable {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

@@ -70,7 +70,6 @@ public class DanishPig {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }

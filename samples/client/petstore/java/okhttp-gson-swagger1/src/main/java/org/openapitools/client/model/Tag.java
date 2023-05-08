@@ -78,7 +78,6 @@ public class Tag {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public Long getId() {
     return id;
   }
@@ -101,7 +100,6 @@ public class Tag {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public String getName() {
     return name;
   }

@@ -79,7 +79,6 @@ public class NumberPropertiesOnly {
    * @return number
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -101,7 +100,6 @@ public class NumberPropertiesOnly {
    * @return _float
   **/
   @javax.annotation.Nullable
-
   public Float getFloat() {
     return _float;
   }
@@ -125,7 +123,6 @@ public class NumberPropertiesOnly {
    * @return _double
   **/
   @javax.annotation.Nullable
-
   public Double getDouble() {
     return _double;
   }

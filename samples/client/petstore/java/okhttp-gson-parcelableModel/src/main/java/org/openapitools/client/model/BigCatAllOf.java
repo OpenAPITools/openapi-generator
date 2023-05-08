@@ -123,7 +123,6 @@ public class BigCatAllOf implements Parcelable {
    * @return kind
   **/
   @javax.annotation.Nullable
-
   public KindEnum getKind() {
     return kind;
   }

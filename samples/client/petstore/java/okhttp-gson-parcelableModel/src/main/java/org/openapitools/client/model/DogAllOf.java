@@ -72,7 +72,6 @@ public class DogAllOf implements Parcelable {
    * @return breed
   **/
   @javax.annotation.Nullable
-
   public String getBreed() {
     return breed;
   }

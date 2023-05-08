@@ -75,7 +75,6 @@ public class Animal {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }
@@ -97,7 +96,6 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }

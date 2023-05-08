@@ -126,7 +126,6 @@ public class BigCat extends Cat implements Parcelable {
    * @return kind
   **/
   @javax.annotation.Nullable
-
   public KindEnum getKind() {
     return kind;
   }

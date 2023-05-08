@@ -74,7 +74,6 @@ public class Bird {
    * @return size
   **/
   @javax.annotation.Nullable
-
   public String getSize() {
     return size;
   }
@@ -96,7 +95,6 @@ public class Bird {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }

@@ -80,7 +80,6 @@ public class ModelApiResponse implements Parcelable {
    * @return code
   **/
   @javax.annotation.Nullable
-
   public Integer getCode() {
     return code;
   }
@@ -102,7 +101,6 @@ public class ModelApiResponse implements Parcelable {
    * @return type
   **/
   @javax.annotation.Nullable
-
   public String getType() {
     return type;
   }
@@ -124,7 +122,6 @@ public class ModelApiResponse implements Parcelable {
    * @return message
   **/
   @javax.annotation.Nullable
-
   public String getMessage() {
     return message;
   }

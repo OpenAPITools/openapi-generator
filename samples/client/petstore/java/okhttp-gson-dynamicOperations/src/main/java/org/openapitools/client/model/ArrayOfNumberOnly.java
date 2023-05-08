@@ -81,7 +81,6 @@ public class ArrayOfNumberOnly {
    * @return arrayNumber
   **/
   @javax.annotation.Nullable
-
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

@@ -74,7 +74,6 @@ public class ComplexQuadrilateral {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-
   public String getShapeType() {
     return shapeType;
   }
@@ -96,7 +95,6 @@ public class ComplexQuadrilateral {
    * @return quadrilateralType
   **/
   @javax.annotation.Nonnull
-
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
