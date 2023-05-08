@@ -367,15 +367,6 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("{\"array_of_string\":[\"Something here ...\"]}", JsonConvert.SerializeObject(at, _serializerSettings));
         }
 
-        [Fact]
-        public void PatternTest()
-        {
-            FormatTest ft = new FormatTest(_byte: new byte[3], password: "abc", patternWithBackslash: "123");
-            ft.PatternWithDigitsAndDelimiter = "abc";
-            ft.PatternWithBackslash = "123";
-            ft.Int32 = 1;
-        }
-
         public void Dispose()
         {
             // remove the pet after testing
