@@ -29,7 +29,7 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(
         title = "{{{operationTagName}}}", version="{{{version}}}", description="{{{operationTagDescription}}}"{{#license}},
         license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{licenseInfo}}}", url = "{{{licenseUrl}}}"){{/license}}{{#contact}},
-        contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{name}}}", email = "{{{email}}}"){{/contact}}
+        contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{infoName}}}", email = "{{{infoEmail}}}"){{/contact}}
    ),
    tags = @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")
 ){{#hasAuthMethods}}
