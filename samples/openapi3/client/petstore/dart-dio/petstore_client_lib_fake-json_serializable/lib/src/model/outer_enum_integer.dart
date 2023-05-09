@@ -16,10 +16,10 @@ enum OuterEnumInteger {
   @JsonValue(11184809)
   unknownDefaultOpenApi('11184809');
 
-  const OuterEnumInteger(this.name);
+  const OuterEnumInteger(this.value);
 
-  final String name;
+  final String value;
 
   @override
-  String toString() => name;
+  String toString() => value;
 }

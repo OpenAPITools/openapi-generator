@@ -16,10 +16,10 @@ enum OuterEnumDefaultValue {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi(r'unknown_default_open_api');
 
-  const OuterEnumDefaultValue(this.name);
+  const OuterEnumDefaultValue(this.value);
 
-  final String name;
+  final String value;
 
   @override
-  String toString() => name;
+  String toString() => value;
 }

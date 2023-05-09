@@ -14,10 +14,10 @@ enum SingleRefType {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi(r'unknown_default_open_api');
 
-  const SingleRefType(this.name);
+  const SingleRefType(this.value);
 
-  final String name;
+  final String value;
 
   @override
-  String toString() => name;
+  String toString() => value;
 }

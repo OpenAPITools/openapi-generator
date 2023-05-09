@@ -16,10 +16,10 @@ enum ModelEnumClass {
   @JsonValue(r'unknown_default_open_api')
   unknownDefaultOpenApi(r'unknown_default_open_api');
 
-  const ModelEnumClass(this.name);
+  const ModelEnumClass(this.value);
 
-  final String name;
+  final String value;
 
   @override
-  String toString() => name;
+  String toString() => value;
 }
