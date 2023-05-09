@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             Dictionary = dictionary;
             CatAllOf = catAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Dictionary

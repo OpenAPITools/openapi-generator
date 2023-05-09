@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         internal Dog(DogAllOf dogAllOf, string className, string color = @"red") : base(className, color)
         {
             DogAllOf = dogAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets DogAllOf

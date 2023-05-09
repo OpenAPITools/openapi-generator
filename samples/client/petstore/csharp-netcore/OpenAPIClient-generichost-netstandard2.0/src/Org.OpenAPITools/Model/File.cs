@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI)
         {
             SourceURI = sourceURI;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Test capitalization

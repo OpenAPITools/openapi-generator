@@ -37,7 +37,10 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal ParentPet(string petType) : base(petType)
         {
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Returns the string presentation of the object

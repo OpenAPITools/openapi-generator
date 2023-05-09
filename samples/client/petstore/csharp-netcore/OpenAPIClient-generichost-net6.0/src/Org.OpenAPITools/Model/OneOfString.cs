@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         internal OneOfString(string _string)
         {
             String = _string;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets String

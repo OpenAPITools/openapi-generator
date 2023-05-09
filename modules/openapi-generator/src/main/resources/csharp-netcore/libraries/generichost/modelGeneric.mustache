@@ -35,6 +35,7 @@
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/allVars}}
+            OnCreated();
         }
 
         {{/vendorExtensions.x-duplicated-data-type}}
@@ -70,9 +71,12 @@
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/allVars}}
+            OnCreated();
         }
 
         {{/composedSchemas.oneOf}}
+        partial void OnCreated();
+
         {{#vars}}
         {{#items.isEnum}}
         {{#items}}

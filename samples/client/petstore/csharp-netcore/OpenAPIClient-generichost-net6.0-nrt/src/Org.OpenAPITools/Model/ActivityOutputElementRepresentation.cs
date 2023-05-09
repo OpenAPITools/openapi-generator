@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             Prop1 = prop1;
             Prop2 = prop2;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Prop1

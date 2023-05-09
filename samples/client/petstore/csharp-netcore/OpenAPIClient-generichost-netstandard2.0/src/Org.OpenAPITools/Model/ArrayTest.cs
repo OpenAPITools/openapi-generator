@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
             ArrayOfString = arrayOfString;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger

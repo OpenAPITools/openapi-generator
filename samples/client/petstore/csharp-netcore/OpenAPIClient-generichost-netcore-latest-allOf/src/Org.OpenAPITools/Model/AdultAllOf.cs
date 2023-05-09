@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public AdultAllOf(List<Child> children)
         {
             Children = children;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Children

@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public CatAllOf(bool declawed)
         {
             Declawed = declawed;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Declawed

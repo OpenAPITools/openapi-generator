@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             File = file;
             Files = files;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets File

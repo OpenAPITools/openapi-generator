@@ -48,7 +48,10 @@ namespace Org.OpenAPITools.Model
             SCAETHFlowPoints = sCAETHFlowPoints;
             SmallCamel = smallCamel;
             SmallSnake = smallSnake;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Name of the pet 

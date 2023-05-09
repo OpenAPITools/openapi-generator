@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public ModelClient(string clientProperty)
         {
             _ClientProperty = clientProperty;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets _ClientProperty

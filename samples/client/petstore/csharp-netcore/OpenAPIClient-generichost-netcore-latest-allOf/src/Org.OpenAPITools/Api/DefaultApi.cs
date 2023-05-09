@@ -39,30 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Person?&gt;&gt;</returns>
-        Task<ApiResponse<Person?>> ListWithHttpInfoAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Person&gt;</returns>
-        Task<Person> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Person?&gt;</returns>
-        Task<Person?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -106,46 +83,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Person"/>&gt;</returns>
-        public async Task<Person> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Person?> apiResponseLocalVar = await ListWithHttpInfoAsync(personId, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Person"/>&gt;</returns>
-        public async Task<Person?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Person?>? apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await ListWithHttpInfoAsync(personId, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
-
-        /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="personId"></param>
@@ -169,7 +106,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        protected virtual void AfterList(ApiResponse<Person?> apiResponseLocalVar, string personId)
+        protected virtual void AfterList(ApiResponse<Person> apiResponseLocalVar, string personId)
         {
         }
 
@@ -192,7 +129,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person?>> ListWithHttpInfoAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -230,13 +167,9 @@ namespace Org.OpenAPITools.Api
 
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<Person?> apiResponseLocalVar = new ApiResponse<Person?>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<Person> apiResponseLocalVar = new ApiResponse<Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<Person>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterList(apiResponseLocalVar, personId);
-                        }
+                        AfterList(apiResponseLocalVar, personId);
 
                         return apiResponseLocalVar;
                     }

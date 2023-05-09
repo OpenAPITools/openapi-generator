@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         internal FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
+            OnCreated();
         }
 
         /// <summary>
@@ -46,7 +47,10 @@ namespace Org.OpenAPITools.Model
         internal FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets AppleReq

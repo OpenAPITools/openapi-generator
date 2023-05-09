@@ -50,7 +50,10 @@ namespace Org.OpenAPITools.Model
             MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
             MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
             Anytype1 = anytype1;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.

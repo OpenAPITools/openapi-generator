@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         {
             Cultivar = cultivar;
             Origin = origin;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Cultivar

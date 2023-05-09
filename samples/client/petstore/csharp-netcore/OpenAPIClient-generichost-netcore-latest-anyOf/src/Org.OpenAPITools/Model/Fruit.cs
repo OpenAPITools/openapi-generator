@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             Apple = Apple;
             Banana = Banana;
             Color = color;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Apple

@@ -37,8 +37,14 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {{#allParams}}
             {{{dataType}}} {{paramName}} = default;
             {{/allParams}}
-            {{#returnType}}var response = {{/returnType}}await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
-            Assert.IsType<{{{.}}}>(response);{{/returnType}}
+            {{#returnType}}
+            var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+            var model = response.ToModel();
+            Assert.IsType<{{{.}}}>(model);
+            {{/returnType}}
+            {{^returnType}}
+            await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+            {{/returnType}}
         }
         {{/operation}}
         {{/operations}}

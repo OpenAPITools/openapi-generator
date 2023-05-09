@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public Banana(decimal lengthCm)
         {
             LengthCm = lengthCm;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets LengthCm

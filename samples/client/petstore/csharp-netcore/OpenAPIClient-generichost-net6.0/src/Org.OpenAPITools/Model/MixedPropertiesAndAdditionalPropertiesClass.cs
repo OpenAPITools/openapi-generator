@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             Map = map;
             Uuid = uuid;
             UuidWithPattern = uuidWithPattern;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets DateTime

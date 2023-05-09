@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             LengthCm = lengthCm;
             Sweet = sweet;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets LengthCm

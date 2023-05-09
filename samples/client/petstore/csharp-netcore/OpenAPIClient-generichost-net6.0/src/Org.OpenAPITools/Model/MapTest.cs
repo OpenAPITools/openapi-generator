@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             IndirectMap = indirectMap;
             MapMapOfString = mapMapOfString;
             MapOfEnumString = mapOfEnumString;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines Inner

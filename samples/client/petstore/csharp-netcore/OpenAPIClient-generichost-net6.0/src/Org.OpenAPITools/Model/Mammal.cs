@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         internal Mammal(Whale whale)
         {
             Whale = whale;
+            OnCreated();
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace Org.OpenAPITools.Model
         internal Mammal(Zebra zebra)
         {
             Zebra = zebra;
+            OnCreated();
         }
 
         /// <summary>
@@ -56,7 +58,10 @@ namespace Org.OpenAPITools.Model
         internal Mammal(Pig pig)
         {
             Pig = pig;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Whale

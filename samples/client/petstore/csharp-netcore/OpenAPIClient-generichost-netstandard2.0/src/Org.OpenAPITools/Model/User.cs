@@ -58,7 +58,10 @@ namespace Org.OpenAPITools.Model
             AnyTypeProp = anyTypeProp;
             AnyTypePropNullable = anyTypePropNullable;
             ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Email

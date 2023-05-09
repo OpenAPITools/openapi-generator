@@ -40,6 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             Triangle = triangle;
             QuadrilateralType = quadrilateralType;
+            OnCreated();
         }
 
         /// <summary>
@@ -52,7 +53,10 @@ namespace Org.OpenAPITools.Model
         {
             Quadrilateral = quadrilateral;
             QuadrilateralType = quadrilateralType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Triangle

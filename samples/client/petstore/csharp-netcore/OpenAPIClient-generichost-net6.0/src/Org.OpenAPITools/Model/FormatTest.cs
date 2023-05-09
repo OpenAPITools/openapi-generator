@@ -72,7 +72,10 @@ namespace Org.OpenAPITools.Model
             UnsignedInteger = unsignedInteger;
             UnsignedLong = unsignedLong;
             Uuid = uuid;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Binary

@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public ArrayOfNumberOnly(List<decimal> arrayNumber)
         {
             ArrayNumber = arrayNumber;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ArrayNumber
