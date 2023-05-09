@@ -80,7 +80,6 @@ public class HasOnlyReadOnly implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-
   public String getBar() {
     return bar;
   }
@@ -93,7 +92,6 @@ public class HasOnlyReadOnly implements Parcelable {
    * @return foo
   **/
   @javax.annotation.Nullable
-
   public String getFoo() {
     return foo;
   }

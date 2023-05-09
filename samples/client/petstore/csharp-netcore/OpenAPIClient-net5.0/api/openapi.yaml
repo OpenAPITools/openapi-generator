@@ -2200,6 +2200,12 @@ components:
           default: C:\Users\username
           type: string
       type: object
+    OneOfString:
+      oneOf:
+      - pattern: ^a
+        type: string
+      - pattern: ^b
+        type: string
     _foo_get_default_response:
       example:
         string:

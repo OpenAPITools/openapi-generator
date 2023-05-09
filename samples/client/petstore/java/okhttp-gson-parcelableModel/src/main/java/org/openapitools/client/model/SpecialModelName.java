@@ -72,7 +72,6 @@ public class SpecialModelName implements Parcelable {
    * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

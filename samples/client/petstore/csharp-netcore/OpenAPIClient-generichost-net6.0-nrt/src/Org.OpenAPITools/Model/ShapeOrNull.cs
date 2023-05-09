@@ -40,6 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             Triangle = triangle;
             QuadrilateralType = quadrilateralType;
+            OnCreated();
         }
 
         /// <summary>
@@ -52,7 +53,10 @@ namespace Org.OpenAPITools.Model
         {
             Quadrilateral = quadrilateral;
             QuadrilateralType = quadrilateralType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Triangle
@@ -192,11 +196,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, shapeOrNull.Triangle, jsonSerializerOptions);
 
-            writer.WriteString("quadrilateralType", shapeOrNull.QuadrilateralType);
+            System.Text.Json.JsonSerializer.Serialize(writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

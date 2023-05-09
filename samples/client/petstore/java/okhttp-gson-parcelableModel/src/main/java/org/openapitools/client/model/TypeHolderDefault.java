@@ -91,7 +91,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-
   public String getStringItem() {
     return stringItem;
   }
@@ -113,7 +112,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -135,7 +133,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -157,7 +154,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -187,7 +183,6 @@ public class TypeHolderDefault implements Parcelable {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

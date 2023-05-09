@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         internal FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
+            OnCreated();
         }
 
         /// <summary>
@@ -46,7 +47,10 @@ namespace Org.OpenAPITools.Model
         internal FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets AppleReq
@@ -149,10 +153,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, FruitReq fruitReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, fruitReq.AppleReq, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, fruitReq.BananaReq, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

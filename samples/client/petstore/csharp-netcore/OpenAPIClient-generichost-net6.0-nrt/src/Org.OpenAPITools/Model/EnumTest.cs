@@ -54,7 +54,10 @@ namespace Org.OpenAPITools.Model
             OuterEnumInteger = outerEnumInteger;
             OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
             OuterEnum = outerEnum;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines EnumInteger

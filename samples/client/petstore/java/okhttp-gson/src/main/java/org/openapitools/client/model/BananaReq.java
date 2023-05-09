@@ -75,7 +75,6 @@ public class BananaReq {
    * @return lengthCm
   **/
   @javax.annotation.Nonnull
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
@@ -97,7 +96,6 @@ public class BananaReq {
    * @return sweet
   **/
   @javax.annotation.Nullable
-
   public Boolean getSweet() {
     return sweet;
   }

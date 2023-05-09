@@ -83,7 +83,6 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

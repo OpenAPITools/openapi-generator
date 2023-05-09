@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         {
             ClassName = className;
             Color = color;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName

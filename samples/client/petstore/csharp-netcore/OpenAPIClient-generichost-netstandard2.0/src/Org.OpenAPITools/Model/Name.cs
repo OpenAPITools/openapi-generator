@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             Property = property;
             SnakeCase = snakeCase;
             _123Number = _123number;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets NameProperty

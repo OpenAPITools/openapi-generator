@@ -78,7 +78,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-
   public String getBar() {
     return bar;
   }
@@ -97,7 +96,6 @@ public class ReadOnlyFirst implements Parcelable {
    * @return baz
   **/
   @javax.annotation.Nullable
-
   public String getBaz() {
     return baz;
   }

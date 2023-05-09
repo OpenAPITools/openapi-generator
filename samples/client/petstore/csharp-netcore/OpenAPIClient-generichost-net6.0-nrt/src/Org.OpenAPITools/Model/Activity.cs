@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs)
         {
             ActivityOutputs = activityOutputs;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ActivityOutputs

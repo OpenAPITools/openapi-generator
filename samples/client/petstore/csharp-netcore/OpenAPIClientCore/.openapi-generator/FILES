@@ -63,6 +63,7 @@ docs/NullableGuidClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
+docs/OneOfString.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -179,6 +180,7 @@ src/Org.OpenAPITools/Model/NullableGuidClass.cs
 src/Org.OpenAPITools/Model/NullableShape.cs
 src/Org.OpenAPITools/Model/NumberOnly.cs
 src/Org.OpenAPITools/Model/ObjectWithDeprecatedFields.cs
+src/Org.OpenAPITools/Model/OneOfString.cs
 src/Org.OpenAPITools/Model/Order.cs
 src/Org.OpenAPITools/Model/OuterComposite.cs
 src/Org.OpenAPITools/Model/OuterEnum.cs

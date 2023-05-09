@@ -191,6 +191,7 @@ Class | Method | HTTP request | Description
  - [Model.NullableShape](NullableShape.md)
  - [Model.NumberOnly](NumberOnly.md)
  - [Model.ObjectWithDeprecatedFields](ObjectWithDeprecatedFields.md)
+ - [Model.OneOfString](OneOfString.md)
  - [Model.Order](Order.md)
  - [Model.OuterComposite](OuterComposite.md)
  - [Model.OuterEnum](OuterEnum.md)

@@ -142,6 +142,15 @@ class ModelTests(unittest.TestCase):
         except ValueError as e:
             self.assertTrue("'e' is not a valid EnumString1, 'e' is not a valid EnumString" in str(e))
 
+        # test the constructor
+        enum_string1 = petstore_api.EnumString1('a')
+        constructor1 = petstore_api.OneOfEnumString(actual_instance=enum_string1)
+        self.assertEqual(constructor1.actual_instance, enum_string1)
+        constructor2 = petstore_api.OneOfEnumString(enum_string1)
+        self.assertEqual(constructor2.actual_instance, enum_string1)
+        constructor3 = petstore_api.OneOfEnumString()
+        self.assertEqual(constructor3.actual_instance, None)
+
     def test_anyOf_array_of_integers(self):
         # test new Color 
         new_color = petstore_api.AnyOfColor()
@@ -180,9 +189,22 @@ class ModelTests(unittest.TestCase):
 
     def test_oneOf(self):
         # test new Pig
+        bp = petstore_api.BasquePig.from_dict({"className": "BasquePig", "color": "red"})
         new_pig = petstore_api.Pig()
         self.assertEqual("null", new_pig.to_json())
         self.assertEqual(None, new_pig.actual_instance)
+        new_pig2 = petstore_api.Pig(actual_instance=bp)
+        self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig2.to_json())
+        new_pig3 = petstore_api.Pig(bp)
+        self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig3.to_json())
+        try:
+            new_pig4 = petstore_api.Pig(bp, actual_instance=bp)
+        except ValueError as e:
+            self.assertTrue("If position argument is used, keyword argument cannot be used.", str(e))
+        try:
+            new_pig5 = petstore_api.Pig(bp, bp)
+        except ValueError as e:
+            self.assertTrue("If position argument is used, only 1 is allowed to set `actual_instance`", str(e))
 
         # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
@@ -204,9 +226,7 @@ class ModelTests(unittest.TestCase):
             pig3 = petstore_api.Pig(actual_instance="123")
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
-            self.assertTrue(
-                "No match found when deserializing the JSON string into Pig with oneOf schemas: "
-                "BasquePig, DanishPig" in str(e))
+            self.assertTrue("No match found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig" in str(e))
 
         # failure
         try:
@@ -254,7 +274,7 @@ class ModelTests(unittest.TestCase):
 
         # test init
         basque_pig = p.actual_instance
-        pig2 = petstore_api.Pig(actual_instance=basque_pig)
+        pig2 = petstore_api.AnyOfPig(actual_instance=basque_pig)
         self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
 
         # test failed init
@@ -263,7 +283,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             self.assertTrue(
-                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
+                "No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, "
                 "DanishPig" in str(e))
 
         # failure
@@ -447,3 +467,14 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.value, "-efg")
         self.assertEqual(a.name, "MINUS_EFG")
         self.assertEqual(a, "-efg")
+
+    def test_int_or_string_oneof(self):
+        a = petstore_api.IntOrString("-efg")
+        self.assertEqual(a.actual_instance, "-efg")
+        a = petstore_api.IntOrString(100)
+        self.assertEqual(a.actual_instance, 100)
+
+        try:
+            a = petstore_api.IntOrString(1)
+        except ValueError as e:
+            self.assertTrue("ensure this value is greater than or equal to 10" in str(e))

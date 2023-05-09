@@ -58,7 +58,8 @@ namespace Org.OpenAPITools.Test.Api
         public async Task RootGetAsyncTest()
         {
             var response = await _instance.RootGetAsync();
-            Assert.IsType<Fruit>(response);
+            var model = response.ToModel();
+            Assert.IsType<Fruit>(model);
         }
     }
 }

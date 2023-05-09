@@ -44,6 +44,7 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InnerDictWithProperty.md
+docs/IntOrString.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -130,6 +131,7 @@ petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
 petstore_api/models/inner_dict_with_property.py
+petstore_api/models/int_or_string.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py

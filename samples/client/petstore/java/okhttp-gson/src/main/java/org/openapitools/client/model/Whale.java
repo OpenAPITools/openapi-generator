@@ -78,7 +78,6 @@ public class Whale {
    * @return hasBaleen
   **/
   @javax.annotation.Nullable
-
   public Boolean getHasBaleen() {
     return hasBaleen;
   }
@@ -100,7 +99,6 @@ public class Whale {
    * @return hasTeeth
   **/
   @javax.annotation.Nullable
-
   public Boolean getHasTeeth() {
     return hasTeeth;
   }
@@ -122,7 +120,6 @@ public class Whale {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }

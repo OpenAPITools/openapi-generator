@@ -184,7 +184,8 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-## authScheme
+Authentication schemes defined for the API:
+### authScheme
 - **Type**: OAuth
 - **Flow**: accessCode
 - **Authorization URL**: http://example.org

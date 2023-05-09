@@ -787,6 +787,11 @@ paths:
                   description: None
                   type: string
                   format: binary
+                byte_with_max_length:
+                  description: None
+                  type: string
+                  format: byte
+                  maxLength: 64
                 date:
                   description: None
                   type: string
@@ -2189,3 +2194,8 @@ components:
       properties:
         optionalDict:
           $ref: "#/components/schemas/DictWithAdditionalProperties"
+    IntOrString:
+      oneOf:
+      - type: integer
+        minimum: 10
+      - type: string

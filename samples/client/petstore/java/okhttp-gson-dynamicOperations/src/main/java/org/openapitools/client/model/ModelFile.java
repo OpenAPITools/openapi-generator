@@ -70,7 +70,6 @@ public class ModelFile {
    * @return sourceURI
   **/
   @javax.annotation.Nullable
-
   public String getSourceURI() {
     return sourceURI;
   }

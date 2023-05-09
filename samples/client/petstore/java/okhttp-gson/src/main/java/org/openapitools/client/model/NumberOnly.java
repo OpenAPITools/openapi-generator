@@ -71,7 +71,6 @@ public class NumberOnly {
    * @return justNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getJustNumber() {
     return justNumber;
   }

@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public HealthCheckResult(string? nullableMessage = default)
         {
             NullableMessage = nullableMessage;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets NullableMessage

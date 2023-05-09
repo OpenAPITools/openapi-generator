@@ -72,7 +72,6 @@ public class AdditionalPropertiesString implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }

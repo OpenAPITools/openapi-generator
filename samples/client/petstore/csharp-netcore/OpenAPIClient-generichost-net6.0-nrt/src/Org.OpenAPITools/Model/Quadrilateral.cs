@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
+            OnCreated();
         }
 
         /// <summary>
@@ -48,7 +49,10 @@ namespace Org.OpenAPITools.Model
         internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets SimpleQuadrilateral
@@ -168,10 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public TriangleInterface(string triangleType)
         {
             TriangleType = triangleType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets TriangleType

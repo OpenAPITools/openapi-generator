@@ -70,7 +70,6 @@ public class Client {
    * @return client
   **/
   @javax.annotation.Nullable
-
   public String getClient() {
     return client;
   }

@@ -70,7 +70,6 @@ public class CatAllOf {
    * @return declawed
   **/
   @javax.annotation.Nullable
-
   public Boolean getDeclawed() {
     return declawed;
   }

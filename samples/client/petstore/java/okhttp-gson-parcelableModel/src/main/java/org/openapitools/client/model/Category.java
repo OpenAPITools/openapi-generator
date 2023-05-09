@@ -76,7 +76,6 @@ public class Category implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -98,7 +97,6 @@ public class Category implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
