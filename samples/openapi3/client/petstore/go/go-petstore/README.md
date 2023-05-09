@@ -192,7 +192,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -222,7 +222,6 @@ auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
 r, err := client.Service.Operation(auth, args)
 ```
 
-
 ### api_key
 
 - **Type**: API key
@@ -231,7 +230,6 @@ r, err := client.Service.Operation(auth, args)
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
 
-
 ### api_key_query
 
 - **Type**: API key
@@ -239,7 +237,6 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: URL query string
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
-
 
 ### http_basic_test
 
@@ -255,7 +252,6 @@ auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAut
 r, err := client.Service.Operation(auth, args)
 ```
 
-
 ### bearer_test
 
 - **Type**: HTTP Bearer token authentication
@@ -266,7 +262,6 @@ Example
 auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARER_TOKEN_STRING")
 r, err := client.Service.Operation(auth, args)
 ```
-
 
 ### http_signature_test
 
