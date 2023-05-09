@@ -1498,7 +1498,7 @@
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
         <openrewrite.version>7.22.0</openrewrite.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.1.6</swagger-parser.version>

@@ -4170,8 +4170,13 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
 
         // JUnit assertions
         assertEquals(16, logsList.size());
@@ -4213,10 +4218,15 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals(9, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 9, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'object'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'object'. Ignoring!", logsList.get(1)
@@ -4257,10 +4267,15 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals(8, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()),8, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'string'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'string'. Ignoring!", logsList.get(1)
@@ -4299,10 +4314,15 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals(8, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()),8, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'integer'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'integer'. Ignoring!", logsList.get(1)
@@ -4341,10 +4361,15 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals(0, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()),0, logsList.size());
     }
 
     @Test
@@ -4364,10 +4389,15 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals(11, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 11, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(1)
@@ -4412,10 +4442,15 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        List<ILoggingEvent> logsList = listAppender.list;
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals(0, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
     }
 
     public static class FromParameter {

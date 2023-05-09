@@ -608,6 +608,20 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .map(Tag::getName)
+                        .filter(Objects::nonNull)
+                        .filter(tag::equalsIgnoreCase)
+                        .findFirst()
+                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
+                operation.put("operationTagDescription", "");
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .filter(t -> tag.equalsIgnoreCase(t.getName()))
+                        .map(Tag::getDescription)
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
+                Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());
                 operation.putAll(config.additionalProperties());
@@ -616,6 +630,8 @@ public class DefaultGenerator implements Generator {
                 operation.put("importPath", config.toApiImport(tag));
                 operation.put("classFilename", config.toApiFilename(tag));
                 operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getLicense).ifPresent(license -> operation.put("license", license));
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getContact).ifPresent(contact -> operation.put("contact", contact));
 
                 if (allModels == null || allModels.isEmpty()) {
                     operation.put("hasModel", false);

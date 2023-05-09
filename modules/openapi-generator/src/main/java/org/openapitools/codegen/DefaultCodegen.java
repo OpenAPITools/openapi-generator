@@ -5321,6 +5321,11 @@ public class DefaultCodegen implements CodegenConfig {
                     once(LOGGER).warn("Unknown scheme `{}` found in the HTTP security definition.", securityScheme.getScheme());
                 }
                 codegenSecurities.add(cs);
+            } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
+                final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isOpenId = true;
+                cs.openIdConnectUrl = securityScheme.getOpenIdConnectUrl();
+                codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 final OAuthFlows flows = securityScheme.getFlows();
                 boolean isFlowEmpty = true;
@@ -5374,8 +5379,9 @@ public class DefaultCodegen implements CodegenConfig {
     private CodegenSecurity defaultCodegenSecurity(String key, SecurityScheme securityScheme) {
         final CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
         cs.name = key;
+        cs.description = securityScheme.getDescription();
         cs.type = securityScheme.getType().toString();
-        cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
+        cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = cs.isOpenId = false;
         cs.isHttpSignature = false;
         cs.isBasicBasic = cs.isBasicBearer = false;
         cs.scheme = securityScheme.getScheme();
