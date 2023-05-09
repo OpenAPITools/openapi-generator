@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # dynamic_servers.apis.tags.usage_api.UsageApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -9,7 +9,7 @@ Method | HTTP request | Description
 [**default_server**](#default_server) | **get** /default | Use default server
 
 # **custom_server**
-<a name="custom_server"></a>
+<a id="custom_server"></a>
 > {str: (bool, date, datetime, dict, float, int, list, str, none_type)} custom_server()
 
 Use custom server
@@ -72,7 +72,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **default_server**
-<a name="default_server"></a>
+<a id="default_server"></a>
 > {str: (bool, date, datetime, dict, float, int, list, str, none_type)} default_server()
 
 Use default server

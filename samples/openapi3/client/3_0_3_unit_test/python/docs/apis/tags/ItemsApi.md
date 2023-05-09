@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.items_api.ItemsApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -9,7 +9,7 @@ Method | HTTP request | Description
 [**post_nested_items_response_body_for_content_types**](#post_nested_items_response_body_for_content_types) | **post** /responseBody/postNestedItemsResponseBodyForContentTypes | 
 
 # **post_nested_items_request_body**
-<a name="post_nested_items_request_body"></a>
+<a id="post_nested_items_request_body"></a>
 > post_nested_items_request_body(nested_items)
 
 
@@ -88,7 +88,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_nested_items_response_body_for_content_types**
-<a name="post_nested_items_response_body_for_content_types"></a>
+<a id="post_nested_items_response_body_for_content_types"></a>
 > NestedItems post_nested_items_response_body_for_content_types()
 
 

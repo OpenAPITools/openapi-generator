@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.min_length_api.MinLengthApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -9,7 +9,7 @@ Method | HTTP request | Description
 [**post_minlength_validation_response_body_for_content_types**](#post_minlength_validation_response_body_for_content_types) | **post** /responseBody/postMinlengthValidationResponseBodyForContentTypes | 
 
 # **post_minlength_validation_request_body**
-<a name="post_minlength_validation_request_body"></a>
+<a id="post_minlength_validation_request_body"></a>
 > post_minlength_validation_request_body(body)
 
 
@@ -80,7 +80,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_minlength_validation_response_body_for_content_types**
-<a name="post_minlength_validation_response_body_for_content_types"></a>
+<a id="post_minlength_validation_response_body_for_content_types"></a>
 > MinlengthValidation post_minlength_validation_response_body_for_content_types()
 
 

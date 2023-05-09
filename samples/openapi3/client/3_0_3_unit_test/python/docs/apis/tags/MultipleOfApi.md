@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.multiple_of_api.MultipleOfApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**](#post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types) | **post** /responseBody/postInvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInfResponseBodyForContentTypes | 
 
 # **post_by_int_request_body**
-<a name="post_by_int_request_body"></a>
+<a id="post_by_int_request_body"></a>
 > post_by_int_request_body(body)
 
 
@@ -86,7 +86,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_by_int_response_body_for_content_types**
-<a name="post_by_int_response_body_for_content_types"></a>
+<a id="post_by_int_response_body_for_content_types"></a>
 > ByInt post_by_int_response_body_for_content_types()
 
 
@@ -146,7 +146,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_by_number_request_body**
-<a name="post_by_number_request_body"></a>
+<a id="post_by_number_request_body"></a>
 > post_by_number_request_body(body)
 
 
@@ -217,7 +217,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_by_number_response_body_for_content_types**
-<a name="post_by_number_response_body_for_content_types"></a>
+<a id="post_by_number_response_body_for_content_types"></a>
 > ByNumber post_by_number_response_body_for_content_types()
 
 
@@ -277,7 +277,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_by_small_number_request_body**
-<a name="post_by_small_number_request_body"></a>
+<a id="post_by_small_number_request_body"></a>
 > post_by_small_number_request_body(body)
 
 
@@ -348,7 +348,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_by_small_number_response_body_for_content_types**
-<a name="post_by_small_number_response_body_for_content_types"></a>
+<a id="post_by_small_number_response_body_for_content_types"></a>
 > BySmallNumber post_by_small_number_response_body_for_content_types()
 
 
@@ -408,7 +408,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body**
-<a name="post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body"></a>
+<a id="post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body"></a>
 > post_invalid_instance_should_not_raise_error_when_float_division_inf_request_body(body)
 
 
@@ -479,7 +479,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types**
-<a name="post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types"></a>
+<a id="post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types"></a>
 > InvalidInstanceShouldNotRaiseErrorWhenFloatDivisionInf post_invalid_instance_should_not_raise_error_when_float_division_inf_response_body_for_content_types()
 
 

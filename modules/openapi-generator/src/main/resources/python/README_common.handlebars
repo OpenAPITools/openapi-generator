@@ -53,11 +53,12 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 {{#unless authMethods}}
- All endpoints do not require authorization.
+ Endpoints do not require authorization.
 {{/unless}}
+{{#if hasAuthMethods}}Authentication schemes defined for the API:{{/if}}
 {{#each authMethods}}
-{{#if @last}} Authentication schemes defined for the API:{{/if}}
-## {{{name}}}
+<a id="{{name}}"></a>
+### {{{name}}}
 
 {{#if isApiKey}}
 - **Type**: API key
