@@ -223,7 +223,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -234,16 +234,12 @@ Class | Method | HTTP request | Description
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
-
-
 ### api_key
 
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
-
 
 ### api_key_query
 
@@ -252,19 +248,13 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-
-
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
 
-
-
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
-
-
 
 ### http_signature_test
 
