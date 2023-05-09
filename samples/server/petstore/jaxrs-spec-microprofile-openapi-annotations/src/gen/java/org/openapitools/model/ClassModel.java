@@ -3,8 +3,8 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ClassModel  implements Serializable {
   private @Valid String propertyClass;
 

@@ -12,8 +12,8 @@ import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 
 import io.swagger.annotations.*;
@@ -22,8 +22,8 @@ import io.swagger.annotations.*;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(
@@ -67,7 +67,7 @@ import jakarta.validation.Valid;
 })
 @Api(description = "the fake API")
 @Path("/fake")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FakeApi {
 
     @POST
