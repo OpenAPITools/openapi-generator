@@ -613,14 +613,14 @@ public class DefaultGenerator implements Generator {
                         .filter(Objects::nonNull)
                         .filter(tag::equalsIgnoreCase)
                         .findFirst()
-                        .ifPresent(tagName -> operation.put("operationTagName", tagName));
+                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
                 operation.put("operationTagDescription", "");
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
                         .filter(t -> tag.equalsIgnoreCase(t.getName()))
                         .map(Tag::getDescription)
                         .filter(Objects::nonNull)
                         .findFirst()
-                        .ifPresent(description -> operation.put("operationTagDescription", description));
+                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
                 Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());

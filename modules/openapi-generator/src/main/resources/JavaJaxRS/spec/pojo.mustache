@@ -10,7 +10,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
  **/{{/description}}
-{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}@org.eclipse.microprofile.openapi.annotations.media.Schema(title="{{title}}", description="{{description}}"){{/useMicroProfileOpenAPIAnnotations}}
+{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+@org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useMicroProfileOpenAPIAnnotations}}
 @JsonTypeName("{{name}}")
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}

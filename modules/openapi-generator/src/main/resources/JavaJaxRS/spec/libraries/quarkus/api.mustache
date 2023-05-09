@@ -28,7 +28,7 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 {{#useMicroProfileOpenAPIAnnotations}}@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(
         title = "{{{operationTagName}}}", version="{{{version}}}", description="{{{operationTagDescription}}}"{{#license}},
-        license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{name}}}", url = "{{{url}}}"){{/license}}{{#contact}},
+        license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{licenseInfo}}}", url = "{{{licenseUrl}}}"){{/license}}{{#contact}},
         contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{name}}}", email = "{{{email}}}"){{/contact}}
    ),
    tags = @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")

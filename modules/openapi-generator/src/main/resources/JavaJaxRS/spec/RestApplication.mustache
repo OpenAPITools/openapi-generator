@@ -2,12 +2,14 @@ package {{invokerPackage}};
 
 import {{javaxPackage}}.ws.rs.ApplicationPath;
 import {{javaxPackage}}.ws.rs.core.Application;
-
-{{#useMicroProfileOpenAPIAnnotations}}{{#openAPI}}{{#info}}@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
+{{#useMicroProfileOpenAPIAnnotations}}{{#openAPI}}{{#info}}
+@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
     info = @org.eclipse.microprofile.openapi.annotations.info.Info(
-        title = "{{{title}}}", version="{{{version}}}", description="{{{description}}}"
-        {{#license}},license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{name}}}", url = "{{{url}}}"){{/license}}
-        {{#contact}},contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{name}}}", email = "{{{email}}}"){{/contact}}
+        version="{{{appVersion}}}"
+        {{#appName}},title = "{{{.}}}"{{/appName}}
+        {{#appDescription}},description = "{{{.}}}"{{/appDescription}}
+        {{#license}},license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{licenseInfo}}}", url = "{{{licenseUrl}}}"){{/license}}
+        {{#contact}},contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{infoName}}}", email = "{{{infoEmail}}}"){{/contact}}
 )){{/info}}{{/openAPI}}{{/useMicroProfileOpenAPIAnnotations}}
 @ApplicationPath(RestResourceRoot.APPLICATION_PATH)
 public class RestApplication extends Application {
