@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             ShapeOrNull = shapeOrNull;
             Shapes = shapes;
             NullableShape = nullableShape;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets MainShape

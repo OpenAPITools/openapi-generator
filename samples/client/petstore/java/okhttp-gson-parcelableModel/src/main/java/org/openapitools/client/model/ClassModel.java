@@ -72,7 +72,6 @@ public class ClassModel implements Parcelable {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-
   public String getPropertyClass() {
     return propertyClass;
   }

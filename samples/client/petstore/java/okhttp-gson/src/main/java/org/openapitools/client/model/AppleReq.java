@@ -74,7 +74,6 @@ public class AppleReq {
    * @return cultivar
   **/
   @javax.annotation.Nonnull
-
   public String getCultivar() {
     return cultivar;
   }
@@ -96,7 +95,6 @@ public class AppleReq {
    * @return mealy
   **/
   @javax.annotation.Nullable
-
   public Boolean getMealy() {
     return mealy;
   }

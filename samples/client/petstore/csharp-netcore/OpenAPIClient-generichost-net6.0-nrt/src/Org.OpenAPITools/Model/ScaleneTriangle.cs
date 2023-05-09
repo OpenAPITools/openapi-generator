@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             ShapeInterface = shapeInterface;
             TriangleInterface = triangleInterface;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeInterface
@@ -144,10 +147,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, scaleneTriangle.ShapeInterface, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, scaleneTriangle.TriangleInterface, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

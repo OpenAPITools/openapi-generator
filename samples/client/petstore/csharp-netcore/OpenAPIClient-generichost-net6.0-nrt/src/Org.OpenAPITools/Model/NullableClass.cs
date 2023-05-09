@@ -60,7 +60,10 @@ namespace Org.OpenAPITools.Model
             ObjectAndItemsNullableProp = objectAndItemsNullableProp;
             ObjectNullableProp = objectNullableProp;
             StringProp = stringProp;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable

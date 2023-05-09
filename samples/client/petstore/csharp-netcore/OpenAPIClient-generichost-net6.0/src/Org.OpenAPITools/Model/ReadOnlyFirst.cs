@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         {
             Bar = bar;
             Baz = baz;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bar

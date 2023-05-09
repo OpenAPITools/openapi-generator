@@ -4,6 +4,7 @@
 
 import re  # noqa: F401
 import io
+import warnings
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated{{#asyncio}}
@@ -47,7 +48,7 @@ class {{classname}}(object):
 {{/asyncio}}
     @validate_arguments
     def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}{{#asyncio}}async_req: Optional[bool]=None, {{/asyncio}}**kwargs) -> {{#asyncio}}Union[{{{returnType}}}{{^returnType}}None{{/returnType}}, Awaitable[{{{returnType}}}{{^returnType}}None{{/returnType}}]]{{/asyncio}}{{^asyncio}}{{{returnType}}}{{^returnType}}None{{/returnType}}{{/asyncio}}:  # noqa: E501
-        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
         {{{.}}}  # noqa: E501
@@ -84,7 +85,7 @@ class {{classname}}(object):
 
     @validate_arguments
     def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
-        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
         {{{.}}}  # noqa: E501
@@ -124,6 +125,10 @@ class {{classname}}(object):
         :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
         """
 
+        {{#isDeprecated}}
+        warnings.warn("{{{httpMethod}}} {{{path}}} is deprecated.", DeprecationWarning)
+
+        {{/isDeprecated}}
         {{#servers.0}}
         _hosts = [
 {{#servers}}

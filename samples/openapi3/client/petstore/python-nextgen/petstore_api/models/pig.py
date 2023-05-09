@@ -44,9 +44,19 @@ class Pig(BaseModel):
     discriminator_value_class_map = {
     }
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = cls()
+        instance = Pig.construct()
         error_messages = []
         match = 0
         # validate data type: BasquePig
@@ -54,19 +64,17 @@ class Pig(BaseModel):
             error_messages.append(f"Error! Input type `{type(v)}` is not `BasquePig`")
         else:
             match += 1
-
         # validate data type: DanishPig
         if not isinstance(v, DanishPig):
             error_messages.append(f"Error! Input type `{type(v)}` is not `DanishPig`")
         else:
             match += 1
-
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -77,7 +85,7 @@ class Pig(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> Pig:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = Pig.construct()
         error_messages = []
         match = 0
 

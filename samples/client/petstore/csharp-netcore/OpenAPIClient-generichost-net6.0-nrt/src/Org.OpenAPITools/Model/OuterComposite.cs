@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             MyBoolean = myBoolean;
             MyNumber = myNumber;
             MyString = myString;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets MyBoolean

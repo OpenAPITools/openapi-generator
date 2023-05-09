@@ -43,7 +43,10 @@ namespace Org.OpenAPITools.Model
         {
             ChildAllOf = childAllOf;
             BoosterSeat = boosterSeat;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ChildAllOf
@@ -156,14 +159,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, child.ChildAllOf, jsonSerializerOptions);
 
-            writer.WriteBoolean("boosterSeat", child.BoosterSeat);
-            writer.WriteString("firstName", child.FirstName);
-            writer.WriteString("lastName", child.LastName);
-            writer.WriteString("$_type", child.Type);
-
-            writer.WriteEndObject();
         }
     }
 }

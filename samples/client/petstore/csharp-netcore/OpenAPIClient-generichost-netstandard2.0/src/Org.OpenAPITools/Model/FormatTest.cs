@@ -43,6 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="integer">integer</param>
         /// <param name="number">number</param>
         /// <param name="password">password</param>
+        /// <param name="patternWithBackslash">None</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
         /// <param name="stringProperty">stringProperty</param>
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] byteProperty, DateTime date, DateTime dateTime, decimal decimalProperty, double doubleProperty, float floatProperty, int int32, long int64, int integer, decimal number, string password, string patternWithDigits, string patternWithDigitsAndDelimiter, string stringProperty, uint unsignedInteger, ulong unsignedLong, Guid uuid)
+        public FormatTest(System.IO.Stream binary, byte[] byteProperty, DateTime date, DateTime dateTime, decimal decimalProperty, double doubleProperty, float floatProperty, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string stringProperty, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
             Binary = binary;
             ByteProperty = byteProperty;
@@ -64,13 +65,17 @@ namespace Org.OpenAPITools.Model
             Integer = integer;
             Number = number;
             Password = password;
+            PatternWithBackslash = patternWithBackslash;
             PatternWithDigits = patternWithDigits;
             PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             StringProperty = stringProperty;
             UnsignedInteger = unsignedInteger;
             UnsignedLong = unsignedLong;
             Uuid = uuid;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Binary
@@ -147,6 +152,13 @@ namespace Org.OpenAPITools.Model
         public string Password { get; set; }
 
         /// <summary>
+        /// None
+        /// </summary>
+        /// <value>None</value>
+        [JsonPropertyName("pattern_with_backslash")]
+        public string PatternWithBackslash { get; set; }
+
+        /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
@@ -211,6 +223,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
@@ -301,22 +314,29 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
 
+            // PatternWithBackslash (string) pattern
+            Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
+            if (false == regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
+            }
+
             // PatternWithDigits (string) pattern
-            Regex regexPatternWithDigits = new Regex("^\\d{10}$", RegexOptions.CultureInvariant);
+            Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
             }
 
             // PatternWithDigitsAndDelimiter (string) pattern
-            Regex regexPatternWithDigitsAndDelimiter = new Regex("^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
             }
 
             // StringProperty (string) pattern
-            Regex regexStringProperty = new Regex("[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexStringProperty = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexStringProperty.Match(this.StringProperty).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StringProperty, must match a pattern of " + regexStringProperty, new [] { "StringProperty" });
@@ -382,6 +402,7 @@ namespace Org.OpenAPITools.Model
             int integer = default;
             decimal number = default;
             string password = default;
+            string patternWithBackslash = default;
             string patternWithDigits = default;
             string patternWithDigitsAndDelimiter = default;
             string stringProperty = default;
@@ -450,6 +471,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "password":
                             password = utf8JsonReader.GetString();
+                            break;
+                        case "pattern_with_backslash":
+                            patternWithBackslash = utf8JsonReader.GetString();
                             break;
                         case "pattern_with_digits":
                             patternWithDigits = utf8JsonReader.GetString();
@@ -535,10 +559,13 @@ namespace Org.OpenAPITools.Model
             if (patternWithDigitsAndDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
 
+            if (patternWithBackslash == null)
+                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
+
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -567,6 +594,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("integer", formatTest.Integer);
             writer.WriteNumber("number", formatTest.Number);
             writer.WriteString("password", formatTest.Password);
+            writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash);
             writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
             writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);
             writer.WriteString("string", formatTest.StringProperty);

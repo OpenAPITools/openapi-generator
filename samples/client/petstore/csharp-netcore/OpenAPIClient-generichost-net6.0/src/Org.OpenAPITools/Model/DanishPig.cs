@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public DanishPig(string className)
         {
             ClassName = className;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName

@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public BasquePig(string className)
         {
             ClassName = className;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName

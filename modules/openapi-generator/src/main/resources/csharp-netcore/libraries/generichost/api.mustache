@@ -39,34 +39,7 @@ namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}&gt;&gt;</returns>
-        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{>OperationSignature}});
-
-        /// <summary>
-        /// {{summary}}
-        /// </summary>
-        /// <remarks>
-        /// {{notes}}
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;</returns>
-        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{>OperationSignature}});{{#nrt}}
-
-        /// <summary>
-        /// {{summary}}
-        /// </summary>
-        /// <remarks>
-        /// {{notes}}
-        /// </remarks>
-        {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}?&gt;</returns>
-        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});{{/nrt}}
+        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}});
         {{^-last}}
 
         {{/-last}}
@@ -122,11 +95,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider{{#hasApiKeyMethods}}, 
-            TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}, 
-            TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}, 
-            TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}, 
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}, 
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider{{#hasApiKeyMethods}},
+            TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
+            TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
+            TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
+            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}},
             TokenProvider<OAuthToken> oauthTokenProvider{{/hasOAuthMethods}})
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
@@ -149,37 +122,6 @@ namespace {{packageName}}.{{apiPackage}}
         }
         {{#operation}}
 
-        /// <summary>
-        /// {{summary}} {{notes}}
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{.}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
-        public async Task<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{>OperationSignature}})
-        {
-            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponseLocalVar = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
-
-            {{^nrt}}{{#returnTypeIsPrimitive}}#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            {{/returnTypeIsPrimitive}}{{/nrt}}if (apiResponseLocalVar.Content == null){{^nrt}}{{#returnTypeIsPrimitive}}
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/returnTypeIsPrimitive}}{{/nrt}}
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content{{#nrt}}{{#returnProperty}}{{#isPrimitiveType}}{{^isMap}}{{^isString}}{{^isContainer}}.Value{{/isContainer}}{{/isString}}{{/isMap}}{{/isPrimitiveType}}{{/returnProperty}}{{/nrt}};
-        }
-
-        {{#nrt}}
-{{>OperationOrDefault}}
-
-        {{/nrt}}
-        {{^nrt}}
-        {{^returnTypeIsPrimitive}}
-{{>OperationOrDefault}}
-
-        {{/returnTypeIsPrimitive}}
-        {{/nrt}}
         /// <summary>
         /// Validates the request parameters
         /// </summary>
@@ -223,7 +165,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        protected virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponseLocalVar  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
+        protected virtual void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
         {
         }
 
@@ -250,7 +192,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
-        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>> {{operationId}}WithHttpInfoAsync({{>OperationSignature}})
+        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}})
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -438,19 +380,16 @@ namespace {{packageName}}.{{apiPackage}}
 
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
 
-                        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            After{{operationId}}({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
-                        }
+                        After{{operationId}}({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+
                         {{#authMethods}}
-                        else if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
                                 tokenBaseLocalVar.BeginRateLimit();
-                        {{/authMethods}}
 
+                        {{/authMethods}}
                         return apiResponseLocalVar;
                     }
                 }

@@ -42,9 +42,19 @@ class AnyOfPig(BaseModel):
     class Config:
         validate_assignment = True
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
-        instance = cls()
+        instance = AnyOfPig.construct()
         error_messages = []
         # validate data type: BasquePig
         if not isinstance(v, BasquePig):
@@ -60,7 +70,7 @@ class AnyOfPig(BaseModel):
 
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -71,7 +81,7 @@ class AnyOfPig(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> AnyOfPig:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = AnyOfPig.construct()
         error_messages = []
         # anyof_schema_1_validator: Optional[BasquePig] = None
         try:

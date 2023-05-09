@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public ClassModel(string classProperty)
         {
             ClassProperty = classProperty;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassProperty

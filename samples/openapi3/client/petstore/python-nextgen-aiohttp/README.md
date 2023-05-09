@@ -49,7 +49,6 @@ Execute `pytest` to run the tests.
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-from __future__ import print_function
 import datetime
 import time
 import petstore_api
@@ -170,6 +169,7 @@ Class | Method | HTTP request | Description
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
+ - [IntOrString](docs/IntOrString.md)
  - [List](docs/List.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)

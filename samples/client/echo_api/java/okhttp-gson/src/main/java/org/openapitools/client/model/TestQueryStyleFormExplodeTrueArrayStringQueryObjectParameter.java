@@ -80,7 +80,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * @return values
   **/
   @javax.annotation.Nullable
-
   public List<String> getValues() {
     return values;
   }

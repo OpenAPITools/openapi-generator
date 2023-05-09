@@ -41,12 +41,22 @@ class Color(BaseModel):
     class Config:
         validate_assignment = True
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
         if v is None:
             return v
 
-        instance = cls()
+        instance = Color.construct()
         error_messages = []
         match = 0
         # validate data type: List[int]
@@ -69,10 +79,10 @@ class Color(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -83,7 +93,7 @@ class Color(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> Color:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = Color.construct()
         if json_str is None:
             return instance
 

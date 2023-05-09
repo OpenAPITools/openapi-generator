@@ -125,7 +125,6 @@ public class Query {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -155,7 +154,6 @@ public class Query {
    * @return outcomes
   **/
   @javax.annotation.Nullable
-
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
   }

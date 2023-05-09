@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public NullableGuidClass(Guid? uuid = default)
         {
             Uuid = uuid;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Uuid

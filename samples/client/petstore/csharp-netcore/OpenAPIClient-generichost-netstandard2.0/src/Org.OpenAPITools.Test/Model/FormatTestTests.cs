@@ -151,6 +151,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Password'
         }
         /// <summary>
+        /// Test the property 'PatternWithBackslash'
+        /// </summary>
+        [Fact]
+        public void PatternWithBackslashTest()
+        {
+            // TODO unit test for the property 'PatternWithBackslash'
+        }
+        /// <summary>
         /// Test the property 'PatternWithDigits'
         /// </summary>
         [Fact]

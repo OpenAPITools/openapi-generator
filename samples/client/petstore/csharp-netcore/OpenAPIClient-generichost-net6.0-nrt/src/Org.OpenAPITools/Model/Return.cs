@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public Return(int returnProperty)
         {
             ReturnProperty = returnProperty;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ReturnProperty

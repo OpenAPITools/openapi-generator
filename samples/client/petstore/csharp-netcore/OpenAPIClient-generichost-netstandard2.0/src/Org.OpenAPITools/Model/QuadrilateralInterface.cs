@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public QuadrilateralInterface(string quadrilateralType)
         {
             QuadrilateralType = quadrilateralType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets QuadrilateralType

@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             EscapedLiteralString = escapedLiteralString;
             UnescapedLiteralString = unescapedLiteralString;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets EscapedLiteralString

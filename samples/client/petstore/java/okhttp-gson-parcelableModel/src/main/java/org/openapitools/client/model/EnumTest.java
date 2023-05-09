@@ -281,7 +281,6 @@ public class EnumTest implements Parcelable {
    * @return enumString
   **/
   @javax.annotation.Nullable
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -303,7 +302,6 @@ public class EnumTest implements Parcelable {
    * @return enumStringRequired
   **/
   @javax.annotation.Nonnull
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -325,7 +323,6 @@ public class EnumTest implements Parcelable {
    * @return enumInteger
   **/
   @javax.annotation.Nullable
-
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -347,7 +344,6 @@ public class EnumTest implements Parcelable {
    * @return enumNumber
   **/
   @javax.annotation.Nullable
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -369,7 +365,6 @@ public class EnumTest implements Parcelable {
    * @return outerEnum
   **/
   @javax.annotation.Nullable
-
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

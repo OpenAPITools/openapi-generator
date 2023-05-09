@@ -70,7 +70,6 @@ public class TriangleInterface {
    * @return triangleType
   **/
   @javax.annotation.Nonnull
-
   public String getTriangleType() {
     return triangleType;
   }

@@ -79,7 +79,6 @@ public class DataQueryAllOf {
    * @return suffix
   **/
   @javax.annotation.Nullable
-
   public String getSuffix() {
     return suffix;
   }
@@ -101,7 +100,6 @@ public class DataQueryAllOf {
    * @return text
   **/
   @javax.annotation.Nullable
-
   public String getText() {
     return text;
   }
@@ -123,7 +121,6 @@ public class DataQueryAllOf {
    * @return date
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDate() {
     return date;
   }

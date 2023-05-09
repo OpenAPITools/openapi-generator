@@ -74,7 +74,6 @@ public class Apple {
    * @return cultivar
   **/
   @javax.annotation.Nullable
-
   public String getCultivar() {
     return cultivar;
   }
@@ -96,7 +95,6 @@ public class Apple {
    * @return origin
   **/
   @javax.annotation.Nullable
-
   public String getOrigin() {
     return origin;
   }

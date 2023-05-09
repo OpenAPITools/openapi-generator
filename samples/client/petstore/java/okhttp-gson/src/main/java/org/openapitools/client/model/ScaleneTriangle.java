@@ -74,7 +74,6 @@ public class ScaleneTriangle {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-
   public String getShapeType() {
     return shapeType;
   }
@@ -96,7 +95,6 @@ public class ScaleneTriangle {
    * @return triangleType
   **/
   @javax.annotation.Nonnull
-
   public String getTriangleType() {
     return triangleType;
   }

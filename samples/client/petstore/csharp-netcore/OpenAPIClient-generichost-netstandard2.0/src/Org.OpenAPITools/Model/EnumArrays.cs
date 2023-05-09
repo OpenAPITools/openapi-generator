@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         {
             ArrayEnum = arrayEnum;
             JustSymbol = justSymbol;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines ArrayEnum
