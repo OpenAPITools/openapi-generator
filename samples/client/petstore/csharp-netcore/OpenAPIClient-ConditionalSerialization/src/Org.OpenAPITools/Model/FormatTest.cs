@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
                 this._flagPatternWithDigitsAndDelimiter = true;
             }
             this._PatternWithBackslash = patternWithBackslash;
-            if (this.PatternWithBackslash != null)
+            if (this.PatternWithBackslash != default)
             {
                 this._flagPatternWithBackslash = true;
             }
