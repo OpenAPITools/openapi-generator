@@ -28,7 +28,7 @@ public class CodegenSecurity {
     public String description;
     public String type;
     public String scheme;
-    public Boolean isBasic, isOAuth, isApiKey, isOpenId;
+    public Boolean isBasic, isOAuth, isApiKey, isOpenIdConnect;
     // is Basic is true for all http authentication type.
     // Those are to differentiate basic and bearer authentication
     // isHttpSignature is to support HTTP signature authorization scheme.
@@ -40,7 +40,7 @@ public class CodegenSecurity {
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader, isKeyInCookie;
     // Oauth specific
-    public String flow, authorizationUrl, tokenUrl, refreshUrl;
+    public String flow, authorizationUrl, tokenUrl, refreshUrl, openIdConnectUrl;
     public List<Map<String, Object>> scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
     // OpenId specific
@@ -59,6 +59,7 @@ public class CodegenSecurity {
         filteredSecurity.isBasicBearer = isBasicBearer;
         filteredSecurity.isApiKey = isApiKey;
         filteredSecurity.isOAuth = isOAuth;
+        filteredSecurity.isOpenIdConnect = isOpenIdConnect;
         filteredSecurity.keyParamName = keyParamName;
         filteredSecurity.isCode = isCode;
         filteredSecurity.isImplicit = isImplicit;
@@ -103,6 +104,7 @@ public class CodegenSecurity {
                 Objects.equals(scheme, that.scheme) &&
                 Objects.equals(isBasic, that.isBasic) &&
                 Objects.equals(isOAuth, that.isOAuth) &&
+                Objects.equals(isOpenIdConnect, that.isOpenIdConnect) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
                 Objects.equals(isBasicBasic, that.isBasicBasic) &&
                 Objects.equals(isHttpSignature, that.isHttpSignature) &&
@@ -128,7 +130,7 @@ public class CodegenSecurity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, description, type, scheme, isBasic, isOAuth, isApiKey,
+        return Objects.hash(name, description, type, scheme, isBasic, isOAuth, isOpenIdConnect, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
                 authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit,
@@ -144,6 +146,7 @@ public class CodegenSecurity {
         sb.append(", scheme='").append(scheme).append('\'');
         sb.append(", isBasic=").append(isBasic);
         sb.append(", isOAuth=").append(isOAuth);
+        sb.append(", isOpenIdConnect=").append(isOpenIdConnect);
         sb.append(", isApiKey=").append(isApiKey);
         sb.append(", isBasicBasic=").append(isBasicBasic);
         sb.append(", isHttpSignature=").append(isHttpSignature);

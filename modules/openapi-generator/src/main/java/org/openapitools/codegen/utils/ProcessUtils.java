@@ -242,12 +242,12 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with OIDC authentication.
+     * Returns true if the specified OAS model has at least one operation with OpenIdConnect authentication.
      *
      * @param openAPI An instance of OpenAPI
-     * @return True if at least one operation has OIDC security scheme defined
+     * @return True if at least one operation has OpenIdConnect security scheme defined
      */
-    public static boolean hasOIDCMethods(OpenAPI openAPI) {
+    public static boolean hasOpenIdConnectMethods(OpenAPI openAPI) {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
@@ -261,16 +261,16 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns a list of OIDC Codegen security objects
+     * Returns a list of OpenIdConnect Codegen security objects
      *
      * @param authMethods List of auth methods.
-     * @return A list of OIDC Codegen security objects
+     * @return A list of OpenIdConnect Codegen security objects
      */
-    public static List<CodegenSecurity> getOIDCMethods(List<CodegenSecurity> authMethods) {
+    public static List<CodegenSecurity> getOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
         List<CodegenSecurity> oauthMethods = new ArrayList<>();
 
         for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOIDC)) {
+            if (Boolean.TRUE.equals(cs.isOpenIdConnect)) {
                 oauthMethods.add(cs);
             }
         }
@@ -279,15 +279,15 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns a list of OIDC Codegen security objects
+     * Returns a list of OpenIdConnect Codegen security objects
      *
      * @param authMethods List of auth methods.
-     * @return A list of OIDC Codegen security objects
+     * @return A list of OpenIdConnect Codegen security objects
      */
-    public static boolean hasOIDCMethods(List<CodegenSecurity> authMethods) {
+    public static boolean hasOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
 
         for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOIDC)) {
+            if (Boolean.TRUE.equals(cs.isOpenIdConnect)) {
                 return true;
             }
         }
