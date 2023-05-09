@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             ClassProperty = classProperty;
             Name = name;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassProperty

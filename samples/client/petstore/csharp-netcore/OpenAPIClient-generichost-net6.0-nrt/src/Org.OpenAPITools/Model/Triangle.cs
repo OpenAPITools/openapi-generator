@@ -42,6 +42,7 @@ namespace Org.OpenAPITools.Model
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
+            OnCreated();
         }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace Org.OpenAPITools.Model
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
+            OnCreated();
         }
 
         /// <summary>
@@ -70,7 +72,10 @@ namespace Org.OpenAPITools.Model
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets EquilateralTriangle

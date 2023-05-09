@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         {
             ShapeInterface = shapeInterface;
             QuadrilateralInterface = quadrilateralInterface;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeInterface

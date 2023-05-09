@@ -39,7 +39,10 @@ namespace Org.OpenAPITools.Model
         internal ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ChildCatAllOf

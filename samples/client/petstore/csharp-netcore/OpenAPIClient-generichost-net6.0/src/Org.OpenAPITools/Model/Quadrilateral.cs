@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
+            OnCreated();
         }
 
         /// <summary>
@@ -46,7 +47,10 @@ namespace Org.OpenAPITools.Model
         internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets SimpleQuadrilateral

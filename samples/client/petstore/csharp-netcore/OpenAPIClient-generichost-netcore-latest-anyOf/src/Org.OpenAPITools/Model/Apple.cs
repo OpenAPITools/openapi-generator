@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public Apple(string kind)
         {
             Kind = kind;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Kind

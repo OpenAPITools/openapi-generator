@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public ShapeInterface(string shapeType)
         {
             ShapeType = shapeType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeType

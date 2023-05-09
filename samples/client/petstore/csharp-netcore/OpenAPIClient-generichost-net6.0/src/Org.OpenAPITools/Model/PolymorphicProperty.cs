@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(bool _bool)
         {
             Bool = _bool;
+            OnCreated();
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(string _string)
         {
             String = _string;
+            OnCreated();
         }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(Object _object)
         {
             Object = _object;
+            OnCreated();
         }
 
         /// <summary>
@@ -66,7 +69,10 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(List<string> liststring)
         {
             Liststring = liststring;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bool

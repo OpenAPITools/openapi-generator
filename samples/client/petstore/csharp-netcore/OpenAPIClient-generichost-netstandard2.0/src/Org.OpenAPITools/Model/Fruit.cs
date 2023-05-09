@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         {
             Apple = apple;
             Color = color;
+            OnCreated();
         }
 
         /// <summary>
@@ -50,7 +51,10 @@ namespace Org.OpenAPITools.Model
         {
             Banana = banana;
             Color = color;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Apple

@@ -46,7 +46,10 @@ namespace Org.OpenAPITools.Model
             ShipDate = shipDate;
             Status = status;
             Complete = complete;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Order Status

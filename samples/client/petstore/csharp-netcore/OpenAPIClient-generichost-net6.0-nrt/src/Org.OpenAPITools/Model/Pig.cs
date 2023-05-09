@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         internal Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
+            OnCreated();
         }
 
         /// <summary>
@@ -48,7 +49,10 @@ namespace Org.OpenAPITools.Model
         internal Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets BasquePig

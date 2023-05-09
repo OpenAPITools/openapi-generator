@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public List(string _123list)
         {
             _123List = _123list;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets _123List

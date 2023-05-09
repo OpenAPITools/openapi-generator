@@ -44,7 +44,10 @@ namespace Org.OpenAPITools.Model
             DeprecatedRef = deprecatedRef;
             Id = id;
             Uuid = uuid;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bars

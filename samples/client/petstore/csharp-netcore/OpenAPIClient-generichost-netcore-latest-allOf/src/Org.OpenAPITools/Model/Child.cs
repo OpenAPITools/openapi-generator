@@ -43,7 +43,10 @@ namespace Org.OpenAPITools.Model
         {
             ChildAllOf = childAllOf;
             BoosterSeat = boosterSeat;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ChildAllOf

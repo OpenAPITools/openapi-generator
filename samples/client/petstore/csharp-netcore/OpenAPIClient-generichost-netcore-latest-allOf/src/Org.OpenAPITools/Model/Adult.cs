@@ -41,7 +41,10 @@ namespace Org.OpenAPITools.Model
         internal Adult(AdultAllOf adultAllOf, string firstName, string lastName, string type) : base(firstName, lastName, type)
         {
             AdultAllOf = adultAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets AdultAllOf

@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         internal NullableShape(Triangle triangle)
         {
             Triangle = triangle;
+            OnCreated();
         }
 
         /// <summary>
@@ -48,7 +49,10 @@ namespace Org.OpenAPITools.Model
         internal NullableShape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Triangle
