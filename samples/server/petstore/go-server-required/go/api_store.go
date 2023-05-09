@@ -52,25 +52,25 @@ func (c *StoreApiController) Routes() Routes {
 	return Routes{ 
 		{
 			"DeleteOrder",
-			strings.ToUpper("Delete"),
+			http.MethodDelete,
 			"/v2/store/order/{orderId}",
 			c.DeleteOrder,
 		},
 		{
 			"GetInventory",
-			strings.ToUpper("Get"),
+			http.MethodGet,
 			"/v2/store/inventory",
 			c.GetInventory,
 		},
 		{
 			"GetOrderById",
-			strings.ToUpper("Get"),
+			http.MethodGet,
 			"/v2/store/order/{orderId}",
 			c.GetOrderById,
 		},
 		{
 			"PlaceOrder",
-			strings.ToUpper("Post"),
+			http.MethodPost,
 			"/v2/store/order",
 			c.PlaceOrder,
 		},
