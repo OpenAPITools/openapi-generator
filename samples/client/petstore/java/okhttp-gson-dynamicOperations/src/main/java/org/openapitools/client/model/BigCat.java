@@ -123,7 +123,6 @@ public class BigCat extends Cat {
    * @return kind
   **/
   @javax.annotation.Nullable
-
   public KindEnum getKind() {
     return kind;
   }

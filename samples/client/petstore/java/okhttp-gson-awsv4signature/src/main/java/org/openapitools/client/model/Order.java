@@ -140,7 +140,6 @@ public class Order {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -162,7 +161,6 @@ public class Order {
    * @return petId
   **/
   @javax.annotation.Nullable
-
   public Long getPetId() {
     return petId;
   }
@@ -184,7 +182,6 @@ public class Order {
    * @return quantity
   **/
   @javax.annotation.Nullable
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -206,7 +203,6 @@ public class Order {
    * @return shipDate
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -228,7 +224,6 @@ public class Order {
    * @return status
   **/
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -250,7 +245,6 @@ public class Order {
    * @return complete
   **/
   @javax.annotation.Nullable
-
   public Boolean getComplete() {
     return complete;
   }

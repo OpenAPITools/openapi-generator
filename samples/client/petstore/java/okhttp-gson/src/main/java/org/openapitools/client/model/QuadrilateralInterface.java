@@ -70,7 +70,6 @@ public class QuadrilateralInterface {
    * @return quadrilateralType
   **/
   @javax.annotation.Nonnull
-
   public String getQuadrilateralType() {
     return quadrilateralType;
   }

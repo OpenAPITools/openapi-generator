@@ -82,7 +82,6 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public Integer getCode() {
     return code;
   }
@@ -105,7 +104,6 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public String getType() {
     return type;
   }
@@ -128,7 +126,6 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public String getMessage() {
     return message;
   }

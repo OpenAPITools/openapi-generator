@@ -71,7 +71,6 @@ public class HealthCheckResult {
    * @return nullableMessage
   **/
   @javax.annotation.Nullable
-
   public String getNullableMessage() {
     return nullableMessage;
   }

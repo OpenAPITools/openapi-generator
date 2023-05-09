@@ -123,7 +123,6 @@ public class Zebra {
    * @return type
   **/
   @javax.annotation.Nullable
-
   public TypeEnum getType() {
     return type;
   }
@@ -145,7 +144,6 @@ public class Zebra {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }

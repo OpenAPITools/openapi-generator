@@ -70,7 +70,6 @@ public class ModelReturn {
    * @return _return
   **/
   @javax.annotation.Nullable
-
   public Integer getReturn() {
     return _return;
   }

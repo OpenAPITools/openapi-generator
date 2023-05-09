@@ -71,7 +71,6 @@ public class Banana {
    * @return lengthCm
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }

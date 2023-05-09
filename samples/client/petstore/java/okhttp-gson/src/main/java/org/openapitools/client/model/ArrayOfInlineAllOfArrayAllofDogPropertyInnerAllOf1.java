@@ -70,7 +70,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1 {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }

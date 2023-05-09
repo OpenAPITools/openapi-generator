@@ -77,7 +77,6 @@ public class FileSchemaTestClass {
    * @return _file
   **/
   @javax.annotation.Nullable
-
   public ModelFile getFile() {
     return _file;
   }
@@ -107,7 +106,6 @@ public class FileSchemaTestClass {
    * @return files
   **/
   @javax.annotation.Nullable
-
   public List<ModelFile> getFiles() {
     return files;
   }

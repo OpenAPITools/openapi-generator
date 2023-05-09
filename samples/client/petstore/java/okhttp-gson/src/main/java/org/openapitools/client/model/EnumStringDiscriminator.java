@@ -117,7 +117,6 @@ public class EnumStringDiscriminator {
    * @return enumStrType
   **/
   @javax.annotation.Nonnull
-
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }

@@ -980,7 +980,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
-> test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
+> test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, byte_with_max_length=byte_with_max_length, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1027,6 +1027,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
     binary = None # bytearray | None (optional)
+    byte_with_max_length = None # bytearray | None (optional)
     var_date = '2013-10-20' # date | None (optional)
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
@@ -1034,7 +1035,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
     try:
         # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
+        api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, byte_with_max_length=byte_with_max_length, var_date=var_date, date_time=date_time, password=password, param_callback=param_callback)
     except Exception as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
@@ -1054,6 +1055,7 @@ Name | Type | Description  | Notes
  **float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
  **binary** | **bytearray**| None | [optional] 
+ **byte_with_max_length** | **bytearray**| None | [optional] 
  **var_date** | **date**| None | [optional] 
  **date_time** | **datetime**| None | [optional] 
  **password** | **str**| None | [optional] 

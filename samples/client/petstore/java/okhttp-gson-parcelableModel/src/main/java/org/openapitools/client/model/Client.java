@@ -72,7 +72,6 @@ public class Client implements Parcelable {
    * @return client
   **/
   @javax.annotation.Nullable
-
   public String getClient() {
     return client;
   }

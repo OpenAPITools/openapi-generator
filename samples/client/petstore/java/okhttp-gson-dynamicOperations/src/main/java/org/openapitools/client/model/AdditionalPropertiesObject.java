@@ -71,7 +71,6 @@ public class AdditionalPropertiesObject {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public String getName() {
     return name;
   }

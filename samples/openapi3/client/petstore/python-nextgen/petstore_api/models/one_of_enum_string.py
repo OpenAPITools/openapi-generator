@@ -41,9 +41,19 @@ class OneOfEnumString(BaseModel):
     class Config:
         validate_assignment = True
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_oneof(cls, v):
-        instance = cls()
+        instance = OneOfEnumString.construct()
         error_messages = []
         match = 0
         # validate data type: EnumString1
@@ -51,19 +61,17 @@ class OneOfEnumString(BaseModel):
             error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString1`")
         else:
             match += 1
-
         # validate data type: EnumString2
         if not isinstance(v, EnumString2):
             error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString2`")
         else:
             match += 1
-
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -74,7 +82,7 @@ class OneOfEnumString(BaseModel):
     @classmethod
     def from_json(cls, json_str: str) -> OneOfEnumString:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = OneOfEnumString.construct()
         error_messages = []
         match = 0
 

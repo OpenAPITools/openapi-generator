@@ -72,7 +72,6 @@ public class ModelReturn implements Parcelable {
    * @return _return
   **/
   @javax.annotation.Nullable
-
   public Integer getReturn() {
     return _return;
   }

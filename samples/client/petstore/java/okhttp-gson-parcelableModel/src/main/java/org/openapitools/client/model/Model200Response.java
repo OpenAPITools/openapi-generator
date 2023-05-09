@@ -76,7 +76,6 @@ public class Model200Response implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public Integer getName() {
     return name;
   }
@@ -98,7 +97,6 @@ public class Model200Response implements Parcelable {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-
   public String getPropertyClass() {
     return propertyClass;
   }

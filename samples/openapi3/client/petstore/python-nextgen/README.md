@@ -169,6 +169,7 @@ Class | Method | HTTP request | Description
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
+ - [IntOrString](docs/IntOrString.md)
  - [List](docs/List.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)

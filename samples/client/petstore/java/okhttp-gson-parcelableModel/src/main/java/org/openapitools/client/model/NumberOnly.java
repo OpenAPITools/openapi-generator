@@ -73,7 +73,6 @@ public class NumberOnly implements Parcelable {
    * @return justNumber
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getJustNumber() {
     return justNumber;
   }

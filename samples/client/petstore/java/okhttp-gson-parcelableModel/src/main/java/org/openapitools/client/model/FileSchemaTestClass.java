@@ -79,7 +79,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return _file
   **/
   @javax.annotation.Nullable
-
   public ModelFile getFile() {
     return _file;
   }
@@ -109,7 +108,6 @@ public class FileSchemaTestClass implements Parcelable {
    * @return files
   **/
   @javax.annotation.Nullable
-
   public List<ModelFile> getFiles() {
     return files;
   }

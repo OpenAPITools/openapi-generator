@@ -74,7 +74,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
    * @return breed
   **/
   @javax.annotation.Nullable
-
   public String getBreed() {
     return breed;
   }
@@ -96,7 +95,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }

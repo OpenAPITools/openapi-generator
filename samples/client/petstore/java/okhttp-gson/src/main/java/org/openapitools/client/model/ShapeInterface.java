@@ -70,7 +70,6 @@ public class ShapeInterface {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-
   public String getShapeType() {
     return shapeType;
   }

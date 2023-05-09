@@ -70,7 +70,6 @@ public class SpecialModelName {
    * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

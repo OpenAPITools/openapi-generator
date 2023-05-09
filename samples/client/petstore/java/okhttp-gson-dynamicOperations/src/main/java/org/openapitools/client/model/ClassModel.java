@@ -70,7 +70,6 @@ public class ClassModel {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-
   public String getPropertyClass() {
     return propertyClass;
   }

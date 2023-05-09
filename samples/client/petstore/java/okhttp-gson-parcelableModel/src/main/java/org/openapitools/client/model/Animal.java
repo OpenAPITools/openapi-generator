@@ -77,7 +77,6 @@ public class Animal implements Parcelable {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }
@@ -99,7 +98,6 @@ public class Animal implements Parcelable {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }

@@ -91,8 +91,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             self.assertTrue(
-                "No match found when deserializing the JSON string into Pig with oneOf schemas: "
-                "BasquePig, DanishPig" in str(e))
+                "No match found when setting `actual_instance` in Pig with oneOf schemas: BasquePig, DanishPig" in str(e))
 
         # failure
         try:
@@ -141,7 +140,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             self.assertTrue(
-                "No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, "
+                "No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, "
                 "DanishPig" in str(e))
 
         # failure

@@ -89,7 +89,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public String getUuid() {
     return uuid;
   }
@@ -114,7 +113,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public BigDecimal getId() {
     return id;
   }
@@ -140,7 +138,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -174,7 +171,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-
   public List<String> getBars() {
     return bars;
   }

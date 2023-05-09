@@ -109,7 +109,6 @@ public class AdditionalPropertiesClass {
    * @return mapProperty
   **/
   @javax.annotation.Nullable
-
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -139,7 +138,6 @@ public class AdditionalPropertiesClass {
    * @return mapOfMapProperty
   **/
   @javax.annotation.Nullable
-
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
@@ -161,7 +159,6 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-
   public Object getAnytype1() {
     return anytype1;
   }
@@ -183,7 +180,6 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesAnytype1
   **/
   @javax.annotation.Nullable
-
   public Object getMapWithUndeclaredPropertiesAnytype1() {
     return mapWithUndeclaredPropertiesAnytype1;
   }
@@ -205,7 +201,6 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesAnytype2
   **/
   @javax.annotation.Nullable
-
   public Object getMapWithUndeclaredPropertiesAnytype2() {
     return mapWithUndeclaredPropertiesAnytype2;
   }
@@ -235,7 +230,6 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesAnytype3
   **/
   @javax.annotation.Nullable
-
   public Map<String, Object> getMapWithUndeclaredPropertiesAnytype3() {
     return mapWithUndeclaredPropertiesAnytype3;
   }
@@ -257,7 +251,6 @@ public class AdditionalPropertiesClass {
    * @return emptyMap
   **/
   @javax.annotation.Nullable
-
   public Object getEmptyMap() {
     return emptyMap;
   }
@@ -287,7 +280,6 @@ public class AdditionalPropertiesClass {
    * @return mapWithUndeclaredPropertiesString
   **/
   @javax.annotation.Nullable
-
   public Map<String, String> getMapWithUndeclaredPropertiesString() {
     return mapWithUndeclaredPropertiesString;
   }
