@@ -10,5 +10,4 @@ additionalProperties:
   generateBuilders: "true"
   useMicroProfileOpenAPIAnnotations: "true"
   library: "quarkus"
-  useJakartaEe: "true"
   dateLibrary: "java8-localdatetime"
