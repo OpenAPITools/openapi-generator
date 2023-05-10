@@ -4778,4 +4778,82 @@ public class DefaultCodegenTest {
         Assert.assertTrue(codegen.isXmlMimeType("application/xml"));
         Assert.assertTrue(codegen.isXmlMimeType("application/rss+xml"));
     }
+
+    @Test
+    public void testEnumsDefaultValueWithInlineEnum() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-1981-enum-default-values.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String modelName = "EnumDefaultValueTest";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel model = codegen.fromModel(modelName, schema);
+        CodegenProperty inlineEnumSchemaProperty = model.vars
+                .stream().filter(var -> var.name.equals("inlineWithDefault")).findAny().get();
+
+        Assert.assertNotNull(schema);
+        Assert.assertTrue(model.hasEnums);
+
+        Assert.assertTrue(inlineEnumSchemaProperty.isEnum);
+        Assert.assertTrue(inlineEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(inlineEnumSchemaProperty.isEnumRef);
+        Assert.assertTrue(inlineEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(inlineEnumSchemaProperty.isString);
+        Assert.assertFalse(inlineEnumSchemaProperty.isContainer);
+        Assert.assertFalse(inlineEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(inlineEnumSchemaProperty.defaultValue, "INLINE_FIRSTVALUE");
+    }
+
+    @Test
+    public void testEnumsDefaultValueWithReferencedEnum() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-1981-enum-default-values.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String modelName = "EnumDefaultValueTest";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel model = codegen.fromModel(modelName, schema);
+        CodegenProperty refEnumSchemaProperty = model.vars
+                .stream().filter(var -> var.name.equals("refWithSchemaDefault")).findAny().get();
+
+        Assert.assertNotNull(schema);
+        Assert.assertTrue(model.hasEnums);
+
+        Assert.assertFalse(refEnumSchemaProperty.isEnum);
+        Assert.assertFalse(refEnumSchemaProperty.isInnerEnum);
+        Assert.assertTrue(refEnumSchemaProperty.isEnumRef);
+        Assert.assertTrue(refEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertFalse(refEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(refEnumSchemaProperty.isString);
+        Assert.assertFalse(refEnumSchemaProperty.isContainer);
+        Assert.assertFalse(refEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(refEnumSchemaProperty.defaultValue, "SCHEMA_FIRSTVALUE");
+    }
+
+    @Test
+    public void testEnumsDefaultValueReferencedEnumAndDefaultOverride() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-1981-enum-default-values.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String modelName = "EnumDefaultValueTest";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel model = codegen.fromModel(modelName, schema);
+        CodegenProperty refEnumSchemaProperty = model.vars
+                .stream().filter(var -> var.name.equals("refWithOverrideDefault")).findAny().get();
+
+        Assert.assertNotNull(schema);
+        Assert.assertTrue(model.hasEnums);
+
+        Assert.assertFalse(refEnumSchemaProperty.isEnum);
+        Assert.assertFalse(refEnumSchemaProperty.isInnerEnum);
+        Assert.assertTrue(refEnumSchemaProperty.isEnumRef);
+        Assert.assertTrue(refEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertFalse(refEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(refEnumSchemaProperty.isString);
+        Assert.assertFalse(refEnumSchemaProperty.isContainer);
+        Assert.assertFalse(refEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(refEnumSchemaProperty.defaultValue, "SCHEMA_SECONDVALUE");
+    }
+
 }

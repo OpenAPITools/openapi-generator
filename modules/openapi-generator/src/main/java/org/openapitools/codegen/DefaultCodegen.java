@@ -2183,6 +2183,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         }
+        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (refSchema != null && refSchema.getDefault() != null) {
+            return refSchema.getDefault().toString();
+        }
 
         return "null";
     }

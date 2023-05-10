@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Enum Default Value Test
+servers:
+  - url: http://localhost:3000
+paths:
+  /fake-request:
+    post:
+      operationId: fakeRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnumDefaultValueTest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+components:
+  schemas:
+    EnumDefaultValueTest:
+      type: object
+      properties:
+        refWithSchemaDefault:
+          $ref: '#/components/schemas/EnumWithDefaultValue'
+        refWithOverrideDefault:
+          default: SCHEMA_SECONDVALUE
+          allOf:
+            - $ref: '#/components/schemas/EnumWithDefaultValue'
+        inlineWithDefault:
+          type: string
+          default: INLINE_FIRSTVALUE
+          enum:
+            - INLINE_FIRSTVALUE
+            - INLINE_SECONDVALUE
+    EnumWithDefaultValue:
+      type: string
+      default: SCHEMA_FIRSTVALUE
+      enum:
+        - SCHEMA_FIRSTVALUE
+        - SCHEMA_SECONDVALUE

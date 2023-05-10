@@ -194,4 +194,40 @@ public class JavaModelEnumTest {
         CodegenProperty cp7 = cm.getVars().get(7);
         Assert.assertEquals(cp7.dataType, "OuterEnumIntegerDefaultValue");
     }
+
+    @Test
+    public void testEnumDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-1981-enum-default-values.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String modelName = "EnumDefaultValueTest";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel model = codegen.fromModel(modelName, schema);
+        CodegenProperty refEnumSchemaProperty = model.vars
+                .stream().filter(var -> var.name.equals("refWithSchemaDefault")).findAny().get();
+
+        Assert.assertNotNull(refEnumSchemaProperty);
+        Assert.assertTrue(refEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertEquals(refEnumSchemaProperty.getDataType(), "EnumWithDefaultValue");
+        Assert.assertEquals(refEnumSchemaProperty.defaultValue, "SCHEMA_FIRSTVALUE");
+    }
+
+    @Test
+    public void testEnumDefaultValueWithOverride() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-1981-enum-default-values.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String modelName = "EnumDefaultValueTest";
+        Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel model = codegen.fromModel(modelName, schema);
+        CodegenProperty refEnumSchemaProperty = model.vars
+                .stream().filter(var -> var.name.equals("refWithOverrideDefault")).findAny().get();
+
+        Assert.assertNotNull(refEnumSchemaProperty);
+        Assert.assertTrue(refEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertEquals(refEnumSchemaProperty.getDataType(), "EnumWithDefaultValue");
+        Assert.assertEquals(refEnumSchemaProperty.defaultValue, "SCHEMA_SECONDVALUE");
+    }
 }
