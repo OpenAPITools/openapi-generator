@@ -883,8 +883,8 @@ public class DefaultGenerator implements Generator {
                 bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
             }
             if (ProcessUtils.hasOpenIdConnectMethods(authMethods)) {
-                bundle.put("hasOIDCMethods", true);
-                bundle.put("oidcMethods", ProcessUtils.getOpenIdConnectMethods(authMethods));
+                bundle.put("hasOpenIdConnectMethods", true);
+                bundle.put("openIdConnectMethods", ProcessUtils.getOpenIdConnectMethods(authMethods));
             }
             if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
                 bundle.put("hasHttpBearerMethods", true);
@@ -1300,7 +1300,7 @@ public class DefaultGenerator implements Generator {
      */
     private Set<Map<String, String>> toImportsObjects(Map<String, String> mappedImports) {
         Set<Map<String, String>> result = new TreeSet<>(
-            Comparator.comparing(o -> o.get("classname"))
+                Comparator.comparing(o -> o.get("classname"))
         );
 
         mappedImports.forEach((key, value) -> {
@@ -1426,7 +1426,7 @@ public class DefaultGenerator implements Generator {
                         flow.scopes(flowScopes);
                         openIdConnectUpdatedFlows.authorizationCode(flow);
 
-                        SecurityScheme oidcUpdatedScheme = new SecurityScheme()
+                        SecurityScheme openIdConnectUpdatedScheme = new SecurityScheme()
                                 .type(securityScheme.getType())
                                 .description(securityScheme.getDescription())
                                 .name(securityScheme.getName())
@@ -1438,7 +1438,7 @@ public class DefaultGenerator implements Generator {
                                 .extensions(securityScheme.getExtensions())
                                 .flows(openIdConnectUpdatedFlows);
 
-                        authMethods.put(key, oidcUpdatedScheme);
+                        authMethods.put(key, openIdConnectUpdatedScheme);
                     } else {
                         authMethods.put(key, securityScheme);
                     }
@@ -1473,20 +1473,18 @@ public class DefaultGenerator implements Generator {
 
         for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
-            if (security != null) {
-                if (security.scopes != null || security.type.equals(SecurityScheme.Type.OPENIDCONNECT.toString())) {
-                    for (SecurityRequirement requirement : securities) {
-                        List<String> opScopes = requirement.get(security.name);
-                        if (opScopes != null) {
-                            // We have operation-level scopes for this method, so filter the auth method to
-                            // describe the operation auth method with only the scopes that it requires.
-                            // We have to create a new auth method instance because the original object must
-                            // not be modified.
-                            CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
-                            result.add(opSecurity);
-                            filtered = true;
-                            break;
-                        }
+            if (security != null && security.scopes != null) {
+                for (SecurityRequirement requirement : securities) {
+                    List<String> opScopes = requirement.get(security.name);
+                    if (opScopes != null) {
+                        // We have operation-level scopes for this method, so filter the auth method to
+                        // describe the operation auth method with only the scopes that it requires.
+                        // We have to create a new auth method instance because the original object must
+                        // not be modified.
+                        CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
+                        result.add(opSecurity);
+                        filtered = true;
+                        break;
                     }
                 }
             }

@@ -270,7 +270,7 @@ public class ProcessUtils {
         List<CodegenSecurity> oauthMethods = new ArrayList<>();
 
         for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOpenIdConnect)) {
+            if (Boolean.TRUE.equals(cs.isOpenId)) {
                 oauthMethods.add(cs);
             }
         }
@@ -287,7 +287,7 @@ public class ProcessUtils {
     public static boolean hasOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
 
         for (CodegenSecurity cs : authMethods) {
-            if (Boolean.TRUE.equals(cs.isOpenIdConnect)) {
+            if (Boolean.TRUE.equals(cs.isOpenId)) {
                 return true;
             }
         }
