@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 | [**MultipartMixed**](MultipartApi.md#multipartmixed) | **POST** /multipart-mixed |  |
 | [**MultipartSingle**](MultipartApi.md#multipartsingle) | **POST** /multipart-single |  |
 
-<a name="multipartarray"></a>
+<a id="multipartarray"></a>
 # **MultipartArray**
 > void MultipartArray (List<System.IO.Stream> files = null)
 
@@ -93,7 +93,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="multipartmixed"></a>
+<a id="multipartmixed"></a>
 # **MultipartMixed**
 > void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedStatus> statusArray = null)
 
@@ -184,7 +184,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="multipartsingle"></a>
+<a id="multipartsingle"></a>
 # **MultipartSingle**
 > void MultipartSingle (System.IO.Stream file = null)
 
