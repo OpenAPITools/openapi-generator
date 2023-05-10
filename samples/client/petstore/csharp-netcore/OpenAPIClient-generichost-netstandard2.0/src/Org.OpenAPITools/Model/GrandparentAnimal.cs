@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType)
         {
             PetType = petType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets PetType

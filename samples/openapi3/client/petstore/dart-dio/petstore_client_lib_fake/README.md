@@ -162,7 +162,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## petstore_auth
+Authentication schemes defined for the API:
+### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -171,27 +172,27 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
-## api_key
+### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-## api_key_query
+### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-## http_basic_test
+### http_basic_test
 
 - **Type**: HTTP basic authentication
 
-## bearer_test
+### bearer_test
 
 - **Type**: HTTP basic authentication
 
-## http_signature_test
+### http_signature_test
 
 - **Type**: HTTP basic authentication
 

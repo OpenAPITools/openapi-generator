@@ -54,10 +54,10 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Void createUser(
+    default void createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
     ) {
-        return getDelegate().createUser(user);
+        getDelegate().createUser(user);
     }
 
 
@@ -86,10 +86,10 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Void createUsersWithArrayInput(
+    default void createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user
     ) {
-        return getDelegate().createUsersWithArrayInput(user);
+        getDelegate().createUsersWithArrayInput(user);
     }
 
 
@@ -118,10 +118,10 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Void createUsersWithListInput(
+    default void createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user
     ) {
-        return getDelegate().createUsersWithListInput(user);
+        getDelegate().createUsersWithListInput(user);
     }
 
 
@@ -151,10 +151,10 @@ public interface UserApi {
         value = "/user/{username}"
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    default Void deleteUser(
+    default void deleteUser(
         @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
-        return getDelegate().deleteUser(username);
+        getDelegate().deleteUser(username);
     }
 
 
@@ -249,10 +249,10 @@ public interface UserApi {
         value = "/user/logout"
     )
     @ResponseStatus(HttpStatus.OK)
-    default Void logoutUser(
+    default void logoutUser(
         
     ) {
-        return getDelegate().logoutUser();
+        getDelegate().logoutUser();
     }
 
 
@@ -284,11 +284,11 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    default Void updateUser(
+    default void updateUser(
         @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
     ) {
-        return getDelegate().updateUser(username, user);
+        getDelegate().updateUser(username, user);
     }
 
 }

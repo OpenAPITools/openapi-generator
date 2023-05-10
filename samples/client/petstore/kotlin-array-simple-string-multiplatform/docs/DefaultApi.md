@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**idsGet**](DefaultApi.md#idsGet) | **GET** /{ids} | 
 
 
-<a name="idsGet"></a>
+<a id="idsGet"></a>
 # **idsGet**
 > idsGet(ids)
 

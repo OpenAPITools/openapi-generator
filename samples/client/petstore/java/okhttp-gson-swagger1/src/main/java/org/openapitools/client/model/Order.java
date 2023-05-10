@@ -35,6 +35,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -140,7 +144,6 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public Long getId() {
     return id;
   }
@@ -163,7 +166,6 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public Long getPetId() {
     return petId;
   }
@@ -186,7 +188,6 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -209,7 +210,6 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -232,7 +232,6 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -255,7 +254,6 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-
   public Boolean getComplete() {
     return complete;
   }

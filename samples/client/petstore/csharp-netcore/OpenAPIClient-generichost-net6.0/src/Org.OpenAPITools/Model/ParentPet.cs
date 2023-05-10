@@ -35,7 +35,10 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal ParentPet(string petType) : base(petType)
         {
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,11 +114,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
-
-            writer.WriteString("pet_type", parentPet.PetType);
-
-            writer.WriteEndObject();
         }
     }
 }

@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             FirstName = firstName;
             LastName = lastName;
             Type = type;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets FirstName

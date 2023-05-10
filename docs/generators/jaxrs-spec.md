@@ -78,6 +78,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useMicroProfileOpenAPIAnnotations|Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

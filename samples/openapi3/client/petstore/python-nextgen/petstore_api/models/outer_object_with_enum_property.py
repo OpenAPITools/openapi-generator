@@ -13,14 +13,13 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
 
 
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 
@@ -29,11 +28,12 @@ class OuterObjectWithEnumProperty(BaseModel):
     OuterObjectWithEnumProperty
     """
     str_value: Optional[OuterEnum] = None
-    value: OuterEnumInteger = ...
+    value: OuterEnumInteger = Field(...)
     additional_properties: Dict[str, Any] = {}
     __properties = ["str_value", "value"]
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -75,7 +75,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return OuterObjectWithEnumProperty.parse_obj(obj)
 
         _obj = OuterObjectWithEnumProperty.parse_obj({

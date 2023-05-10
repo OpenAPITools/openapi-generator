@@ -21,6 +21,7 @@ import org.openapitools.client.model.DataQuery;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
@@ -92,6 +93,96 @@ public class QueryApi {
     return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param enumRefStringQuery  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
+    ApiResponse<String> localVarResponse = testEnumRefStringWithHttpInfo(enumRefStringQuery);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param enumRefStringQuery  (optional)
+   * @return ApiResponse&lt;String&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<String> testEnumRefStringWithHttpInfo(StringEnumRef enumRefStringQuery) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEnumRefStringRequestBuilder(enumRefStringQuery);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testEnumRefString", localVarResponse);
+        }
+        // for plain text response
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0))) {
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder testEnumRefStringRequestBuilder(StringEnumRef enumRefStringQuery) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/query/enum_ref_string";
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "enum_ref_string_query";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_ref_string_query", enumRefStringQuery));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
+
+    localVarRequestBuilder.header("Accept", "text/plain");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
   /**
    * Test query parameter(s)
    * Test query parameter(s)

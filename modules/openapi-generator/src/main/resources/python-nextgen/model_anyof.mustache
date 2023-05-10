@@ -37,6 +37,16 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     }
 {{/discriminator}}
 
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
     @validator('actual_instance')
     def actual_instance_must_validate_anyof(cls, v):
         {{#isNullable}}
@@ -44,7 +54,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return v
 
         {{/isNullable}}
-        instance = cls()
+        instance = {{{classname}}}.construct()
         error_messages = []
         {{#composedSchemas.anyOf}}
         # validate data type: {{{dataType}}}
@@ -52,7 +62,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         try:
             instance.{{vendorExtensions.x-py-name}} = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         {{/isContainer}}
         {{^isContainer}}
@@ -60,11 +70,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         try:
             instance.{{vendorExtensions.x-py-name}} = v
             return v
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        if type(v) is not {{{dataType}}}:
+        if not isinstance(v, {{{dataType}}}):
             error_messages.append(f"Error! Input type `{type(v)}` is not `{{{dataType}}}`")
         else:
             return v
@@ -74,7 +84,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/composedSchemas.anyOf}}
         if error_messages:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into {{{classname}}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting the actual_instance in {{{classname}}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -85,7 +95,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @classmethod
     def from_json(cls, json_str: str) -> {{{classname}}}:
         """Returns the object represented by the json string"""
-        instance = cls()
+        instance = {{{classname}}}.construct()
         {{#isNullable}}
         if json_str is None:
             return instance
@@ -101,7 +111,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             # assign value to actual_instance
             instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         {{/isContainer}}
         {{^isContainer}}
@@ -113,7 +123,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             # assign value to actual_instance
             instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
@@ -121,7 +131,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         try:
             instance.actual_instance = {{{dataType}}}.from_json(json_str)
             return instance
-        except ValidationError as e:
+        except (ValidationError, ValueError) as e:
              error_messages.append(str(e))
         {{/isPrimitiveType}}
         {{/isContainer}}
@@ -135,17 +145,25 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
             return self.actual_instance.to_json()
         else:
-            return "null"
+            return json.dumps(self.actual_instance)
 
     def to_dict(self) -> dict:
         """Returns the dict representation of the actual instance"""
-        if self.actual_instance is not None:
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
             return self.actual_instance.to_dict()
         else:
-            return dict()
+            return json.dumps(self.actual_instance)
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

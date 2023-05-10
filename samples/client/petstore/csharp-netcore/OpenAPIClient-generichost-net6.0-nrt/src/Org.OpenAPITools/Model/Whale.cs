@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             ClassName = className;
             HasBaleen = hasBaleen;
             HasTeeth = hasTeeth;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName

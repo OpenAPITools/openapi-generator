@@ -37,6 +37,8 @@ jobs:
             ${{ runner.os }}-build-
       - name: Run maven
         run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
         uses: actions/upload-artifact@v3
@@ -73,6 +75,8 @@ jobs:
             ${{ runner.os }}-build-
       - name: Run unit tests
         run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Publish unit test reports
         if: ${{ always() }}
         uses: actions/upload-artifact@v3

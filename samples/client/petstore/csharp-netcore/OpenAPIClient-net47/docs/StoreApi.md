@@ -9,7 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**GetOrderById**](StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID |
 | [**PlaceOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet |
 
-<a name="deleteorder"></a>
+<a id="deleteorder"></a>
 # **DeleteOrder**
 > void DeleteOrder (string orderId)
 
@@ -97,7 +97,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getinventory"></a>
+<a id="getinventory"></a>
 # **GetInventory**
 > Dictionary&lt;string, int&gt; GetInventory ()
 
@@ -188,7 +188,7 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getorderbyid"></a>
+<a id="getorderbyid"></a>
 # **GetOrderById**
 > Order GetOrderById (long orderId)
 
@@ -281,7 +281,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="placeorder"></a>
+<a id="placeorder"></a>
 # **PlaceOrder**
 > Order PlaceOrder (Order order)
 

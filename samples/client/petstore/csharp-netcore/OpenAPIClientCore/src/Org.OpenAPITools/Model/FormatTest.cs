@@ -58,7 +58,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        /// <param name="patternWithBackslash">None.</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
@@ -88,6 +89,7 @@ namespace Org.OpenAPITools.Model
             this.Uuid = uuid;
             this.PatternWithDigits = patternWithDigits;
             this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            this.PatternWithBackslash = patternWithBackslash;
         }
 
         /// <summary>
@@ -205,6 +207,13 @@ namespace Org.OpenAPITools.Model
         public string PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
+        /// None
+        /// </summary>
+        /// <value>None</value>
+        [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = false)]
+        public string PatternWithBackslash { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -230,6 +239,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
+            sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -317,6 +327,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
                 }
+                if (this.PatternWithBackslash != null)
+                {
+                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -401,7 +415,7 @@ namespace Org.OpenAPITools.Model
             }
 
             // String (string) pattern
-            Regex regexString = new Regex("[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
@@ -420,17 +434,24 @@ namespace Org.OpenAPITools.Model
             }
 
             // PatternWithDigits (string) pattern
-            Regex regexPatternWithDigits = new Regex("^\\d{10}$", RegexOptions.CultureInvariant);
+            Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
             }
 
             // PatternWithDigitsAndDelimiter (string) pattern
-            Regex regexPatternWithDigitsAndDelimiter = new Regex("^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
+            }
+
+            // PatternWithBackslash (string) pattern
+            Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
+            if (false == regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
             }
 
             yield break;

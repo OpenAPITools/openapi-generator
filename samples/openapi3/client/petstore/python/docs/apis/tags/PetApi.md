@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # petstore_api.apis.tags.pet_api.PetApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 [**upload_image**](#upload_image) | **post** /pet/{petId}/uploadImage | uploads an image
 
 # **add_pet**
-<a name="add_pet"></a>
+<a id="add_pet"></a>
 > add_pet(pet)
 
 Add a new pet to the store
@@ -193,7 +193,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **delete_pet**
-<a name="delete_pet"></a>
+<a id="delete_pet"></a>
 > delete_pet(pet_id)
 
 Deletes a pet
@@ -316,7 +316,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **find_pets_by_status**
-<a name="find_pets_by_status"></a>
+<a id="find_pets_by_status"></a>
 > [Pet] find_pets_by_status(status)
 
 Finds Pets by status
@@ -510,7 +510,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **find_pets_by_tags**
-<a name="find_pets_by_tags"></a>
+<a id="find_pets_by_tags"></a>
 > [Pet] find_pets_by_tags(tags)
 
 Finds Pets by tags
@@ -704,7 +704,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_pet_by_id**
-<a name="get_pet_by_id"></a>
+<a id="get_pet_by_id"></a>
 > Pet get_pet_by_id(pet_id)
 
 Find pet by ID
@@ -826,7 +826,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **update_pet**
-<a name="update_pet"></a>
+<a id="update_pet"></a>
 > update_pet(pet)
 
 Update an existing pet
@@ -1009,7 +1009,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **update_pet_with_form**
-<a name="update_pet_with_form"></a>
+<a id="update_pet_with_form"></a>
 > update_pet_with_form(pet_id)
 
 Updates a pet in the store with form data
@@ -1133,7 +1133,7 @@ headers | Unset | headers were not defined |
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **upload_file_with_required_file**
-<a name="upload_file_with_required_file"></a>
+<a id="upload_file_with_required_file"></a>
 > ApiResponse upload_file_with_required_file(pet_id)
 
 uploads an image (required)
@@ -1267,7 +1267,7 @@ Type | Description  | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **upload_image**
-<a name="upload_image"></a>
+<a id="upload_image"></a>
 > ApiResponse upload_image(pet_id)
 
 uploads an image

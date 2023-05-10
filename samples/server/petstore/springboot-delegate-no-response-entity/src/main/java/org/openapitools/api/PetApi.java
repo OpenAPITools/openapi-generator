@@ -95,11 +95,11 @@ public interface PetApi {
         value = "/pet/{petId}"
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    default Void deletePet(
+    default void deletePet(
         @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey
     ) {
-        return getDelegate().deletePet(petId, apiKey);
+        getDelegate().deletePet(petId, apiKey);
     }
 
 
@@ -293,12 +293,12 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    default Void updatePetWithForm(
+    default void updatePetWithForm(
         @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
-        return getDelegate().updatePetWithForm(petId, name, status);
+        getDelegate().updatePetWithForm(petId, name, status);
     }
 
 

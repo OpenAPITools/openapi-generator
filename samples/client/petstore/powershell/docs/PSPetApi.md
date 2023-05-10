@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**Invoke-PSUploadFileWithRequiredFile**](PSPetApi.md#Invoke-PSUploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-<a name="Add-PSPet"></a>
+<a id="Add-PSPet"></a>
 # **Add-PSPet**
 > void Add-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
@@ -77,7 +77,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="remove-pet"></a>
+<a id="remove-pet"></a>
 # **Remove-Pet**
 > void Remove-Pet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
@@ -128,7 +128,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Find-PSPetsByStatus"></a>
+<a id="Find-PSPetsByStatus"></a>
 # **Find-PSPetsByStatus**
 > Pet[] Find-PSPetsByStatus<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Status] <String[]><br>
@@ -188,7 +188,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Find-PSPetsByTags"></a>
+<a id="Find-PSPetsByTags"></a>
 # **Find-PSPetsByTags**
 > Pet[] Find-PSPetsByTags<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Tags] <String[]><br>
@@ -248,7 +248,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Get-PSPetById"></a>
+<a id="Get-PSPetById"></a>
 # **Get-PSPetById**
 > Pet Get-PSPetById<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
@@ -298,7 +298,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Update-PSPet"></a>
+<a id="Update-PSPet"></a>
 # **Update-PSPet**
 > void Update-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
@@ -360,7 +360,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Update-PSPetWithForm"></a>
+<a id="Update-PSPetWithForm"></a>
 # **Update-PSPetWithForm**
 > void Update-PSPetWithForm<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
@@ -414,7 +414,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSUploadFile"></a>
+<a id="Invoke-PSUploadFile"></a>
 # **Invoke-PSUploadFile**
 > ApiResponse Invoke-PSUploadFile<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
@@ -468,7 +468,7 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSUploadFileWithRequiredFile"></a>
+<a id="Invoke-PSUploadFileWithRequiredFile"></a>
 # **Invoke-PSUploadFileWithRequiredFile**
 > ApiResponse Invoke-PSUploadFileWithRequiredFile<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>

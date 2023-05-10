@@ -32,7 +32,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    default Void deleteOrder(String orderId) {
+    default void deleteOrder(String orderId) {
         throw new IllegalArgumentException("Not implemented");
 
     }

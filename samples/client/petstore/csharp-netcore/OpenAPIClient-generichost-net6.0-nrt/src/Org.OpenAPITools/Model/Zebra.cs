@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             ClassName = className;
             Type = type;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines Type

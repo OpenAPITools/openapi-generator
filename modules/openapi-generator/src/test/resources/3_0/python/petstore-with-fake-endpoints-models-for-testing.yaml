@@ -787,6 +787,11 @@ paths:
                   description: None
                   type: string
                   format: binary
+                byte_with_max_length:
+                  description: None
+                  type: string
+                  format: byte
+                  maxLength: 64
                 date:
                   description: None
                   type: string
@@ -1245,6 +1250,21 @@ paths:
           application/json:
             schema:
               type: object
+      responses:
+        200:
+          description: OK
+  /fake/enum_ref_query_parameter:
+    get:
+      tags:
+        - fake
+      summary: test enum reference query parameter
+      operationId: fakeEnumRefQueryParameter
+      parameters:
+        - name: enum_ref
+          in: query
+          description: enum reference
+          schema:
+            $ref: '#/components/schemas/EnumClass'
       responses:
         200:
           description: OK
@@ -1849,6 +1869,7 @@ components:
     OuterEnumIntegerDefaultValue:
       type: integer
       enum:
+      - -1
       - 0
       - 1
       - 2
@@ -2060,6 +2081,8 @@ components:
           type: integer
         nested_pig:
           $ref: '#/components/schemas/Pig'
+        nested_oneof_enum_string:
+          $ref: '#/components/schemas/OneOfEnumString'
     Self-Reference-Model:
       type: object
       properties:
@@ -2112,6 +2135,21 @@ components:
       - $ref: '#/components/schemas/RgbColor'
       - $ref: '#/components/schemas/RgbaColor'
       - $ref: '#/components/schemas/HexColor'
+    OneOfEnumString:
+      description: oneOf enum strings
+      oneOf:
+      - $ref: '#/components/schemas/EnumString1'
+      - $ref: '#/components/schemas/EnumString2'
+    EnumString1:
+      type: string
+      enum:
+        - "a"
+        - "b"
+    EnumString2:
+      type: string
+      enum:
+        - "c"
+        - "d"
     InnerDictWithProperty:
       type: object
       properties:
@@ -2147,3 +2185,17 @@ components:
           type: string
         circular_ref:
           $ref: '#/components/schemas/Circular-Reference-Model'
+    InnerDictWithAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/InnerDictWithProperty"
+    Parent:
+      type: object
+      properties:
+        optionalDict:
+          $ref: "#/components/schemas/DictWithAdditionalProperties"
+    IntOrString:
+      oneOf:
+      - type: integer
+        minimum: 10
+      - type: string

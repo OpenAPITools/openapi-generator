@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         {
             SpecialModelNameProperty = specialModelNameProperty;
             SpecialPropertyName = specialPropertyName;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets SpecialModelNameProperty

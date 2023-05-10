@@ -13,6 +13,8 @@
 
 
 import re  # noqa: F401
+import io
+import warnings
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
@@ -23,6 +25,7 @@ from pydantic import Field
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient
+from petstore_api.api_response import ApiResponse
 from petstore_api.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -64,10 +67,6 @@ class FakeClassnameTags123Api(object):
         :type client: Client
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -78,12 +77,14 @@ class FakeClassnameTags123Api(object):
         :rtype: Client
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_classname_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         if async_req is not None:
             kwargs['async_req'] = async_req
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_classname_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs):  # noqa: E501
+    def test_classname_with_http_info(self, client : Annotated[Client, Field(..., description="client model")], **kwargs) -> ApiResponse:  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -97,13 +98,14 @@ class FakeClassnameTags123Api(object):
         :type client: Client
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -160,7 +162,7 @@ class FakeClassnameTags123Api(object):
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['client']:
+        if _params['client'] is not None:
             _body_params = _params['client']
 
         # set the HTTP header `Accept`

@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public NumberOnly(decimal justNumber)
         {
             JustNumber = justNumber;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets JustNumber

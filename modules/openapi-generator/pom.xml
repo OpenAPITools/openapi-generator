@@ -60,7 +60,7 @@
                     <generateGitPropertiesFilename>${project.build.outputDirectory}/openapi-generator-git.properties</generateGitPropertiesFilename>
                     <!-- REVIEWER NOTE: Never allow external contributors to change these without full clarification. -->
                     <includeOnlyProperties>
-                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.version$</includeOnlyProperty>
                         <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
                     </includeOnlyProperties>
                     <commitIdGenerationMode>full</commitIdGenerationMode>

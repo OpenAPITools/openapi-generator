@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(bool _bool)
         {
             Bool = _bool;
+            OnCreated();
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(string _string)
         {
             String = _string;
+            OnCreated();
         }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(Object _object)
         {
             Object = _object;
+            OnCreated();
         }
 
         /// <summary>
@@ -66,7 +69,10 @@ namespace Org.OpenAPITools.Model
         internal PolymorphicProperty(List<string> liststring)
         {
             Liststring = liststring;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bool
@@ -198,10 +204,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Bool, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.String, jsonSerializerOptions);
 
-            writer.WriteEndObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Object, jsonSerializerOptions);
+
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Liststring, jsonSerializerOptions);
+
         }
     }
 }

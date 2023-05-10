@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public TestCollectionEndingWithWordList(string value)
         {
             Value = value;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Value

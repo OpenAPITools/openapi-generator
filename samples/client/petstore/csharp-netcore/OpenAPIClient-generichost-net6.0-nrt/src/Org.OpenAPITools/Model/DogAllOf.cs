@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public DogAllOf(string breed)
         {
             Breed = breed;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Breed

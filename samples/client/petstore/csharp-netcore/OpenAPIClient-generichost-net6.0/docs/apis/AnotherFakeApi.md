@@ -6,7 +6,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 |--------|--------------|-------------|
 | [**Call123TestSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags |
 
-<a name="call123testspecialtags"></a>
+<a id="call123testspecialtags"></a>
 # **Call123TestSpecialTags**
 > ModelClient Call123TestSpecialTags (ModelClient modelClient)
 

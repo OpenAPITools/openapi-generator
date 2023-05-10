@@ -34,6 +34,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -88,7 +92,6 @@ public class Capitalization implements Parcelable {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -110,7 +113,6 @@ public class Capitalization implements Parcelable {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -132,7 +134,6 @@ public class Capitalization implements Parcelable {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -154,7 +155,6 @@ public class Capitalization implements Parcelable {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -176,7 +176,6 @@ public class Capitalization implements Parcelable {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -198,7 +197,6 @@ public class Capitalization implements Parcelable {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-
   public String getATTNAME() {
     return ATT_NAME;
   }

@@ -34,6 +34,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -72,7 +76,6 @@ public class Model200Response implements Parcelable {
    * @return name
   **/
   @javax.annotation.Nullable
-
   public Integer getName() {
     return name;
   }
@@ -94,7 +97,6 @@ public class Model200Response implements Parcelable {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-
   public String getPropertyClass() {
     return propertyClass;
   }

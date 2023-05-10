@@ -26,6 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
+|configPackage|configuration package for generated code| |org.openapitools.configuration|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd><dt>**springfox**</dt><dd>Generate an OpenAPI 2 (fka Swagger RESTful API Documentation Specification) specification using SpringFox 2.x. Deprecated (for removal); use springdoc instead.</dd><dt>**springdoc**</dt><dd>Generate an OpenAPI 3 specification using SpringDoc.</dd></dl>|springdoc|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
@@ -33,7 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
-|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd></dl>|spring-boot|
+|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|
 |modelPackage|model package for generated code| |org.openapitools.model|
 |packageName|Generated artifact package name.| |org.openapitools|
@@ -50,6 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
+|useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|

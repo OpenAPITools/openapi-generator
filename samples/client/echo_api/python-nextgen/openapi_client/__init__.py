@@ -25,6 +25,7 @@ from openapi_client.api.path_api import PathApi
 from openapi_client.api.query_api import QueryApi
 
 # import ApiClient
+from openapi_client.api_response import ApiResponse
 from openapi_client.api_client import ApiClient
 from openapi_client.configuration import Configuration
 from openapi_client.exceptions import OpenApiException
@@ -33,6 +34,7 @@ from openapi_client.exceptions import ApiValueError
 from openapi_client.exceptions import ApiKeyError
 from openapi_client.exceptions import ApiAttributeError
 from openapi_client.exceptions import ApiException
+
 # import models into sdk package
 from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category

@@ -1,4 +1,4 @@
-from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg
@@ -19,6 +19,12 @@ class {{classname}}({{vendorExtensions.x-py-enum-type}}, Enum):
     {{#enumVars}}
     {{{name}}} = {{{value}}}
     {{/enumVars}}
+
+    @classmethod
+    def from_json(cls, json_str: str) -> {{{classname}}}:
+        """Create an instance of {{classname}} from a JSON string"""
+        return {{classname}}(json.loads(json_str))
+
     {{#defaultValue}}
 
     #

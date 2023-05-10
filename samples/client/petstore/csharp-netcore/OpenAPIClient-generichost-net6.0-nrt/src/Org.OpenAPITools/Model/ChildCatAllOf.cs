@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             Name = name;
             PetType = petType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines PetType

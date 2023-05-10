@@ -12,7 +12,7 @@
 """
 
 
-from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
 from aenum import Enum, no_arg
@@ -29,7 +29,14 @@ class OuterEnumIntegerDefaultValue(int, Enum):
     """
     allowed enum values
     """
+    NUMBER_MINUS_1 = -1
     NUMBER_0 = 0
     NUMBER_1 = 1
     NUMBER_2 = 2
+
+    @classmethod
+    def from_json(cls, json_str: str) -> OuterEnumIntegerDefaultValue:
+        """Create an instance of OuterEnumIntegerDefaultValue from a JSON string"""
+        return OuterEnumIntegerDefaultValue(json.loads(json_str))
+
 

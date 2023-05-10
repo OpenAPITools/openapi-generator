@@ -30,6 +30,8 @@ docs/DogAllOf.md
 docs/DummyModel.md
 docs/EnumArrays.md
 docs/EnumClass.md
+docs/EnumString1.md
+docs/EnumString2.md
 docs/EnumTest.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
@@ -42,6 +44,7 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InnerDictWithProperty.md
+docs/IntOrString.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -51,6 +54,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
+docs/OneOfEnumString.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -58,6 +62,7 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
+docs/Parent.md
 docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
@@ -85,6 +90,7 @@ petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py
 petstore_api/api_client.py
+petstore_api/api_response.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py
@@ -113,6 +119,8 @@ petstore_api/models/dog_all_of.py
 petstore_api/models/dummy_model.py
 petstore_api/models/enum_arrays.py
 petstore_api/models/enum_class.py
+petstore_api/models/enum_string1.py
+petstore_api/models/enum_string2.py
 petstore_api/models/enum_test.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
@@ -123,6 +131,7 @@ petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
 petstore_api/models/inner_dict_with_property.py
+petstore_api/models/int_or_string.py
 petstore_api/models/list.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
@@ -132,6 +141,7 @@ petstore_api/models/name.py
 petstore_api/models/nullable_class.py
 petstore_api/models/number_only.py
 petstore_api/models/object_with_deprecated_fields.py
+petstore_api/models/one_of_enum_string.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py
 petstore_api/models/outer_enum.py
@@ -139,6 +149,7 @@ petstore_api/models/outer_enum_default_value.py
 petstore_api/models/outer_enum_integer.py
 petstore_api/models/outer_enum_integer_default_value.py
 petstore_api/models/outer_object_with_enum_property.py
+petstore_api/models/parent.py
 petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py

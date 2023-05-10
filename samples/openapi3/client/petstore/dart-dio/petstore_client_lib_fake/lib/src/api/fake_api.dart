@@ -70,13 +70,13 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    HealthCheckResult _responseData;
+    HealthCheckResult? _responseData;
 
     try {
-      const _responseType = FullType(HealthCheckResult);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(HealthCheckResult),
       ) as HealthCheckResult;
 
     } catch (error, stackTrace) {
@@ -248,10 +248,11 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    bool _responseData;
+    bool? _responseData;
 
     try {
-      _responseData = _response.data as bool;
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : rawResponse as bool;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -339,13 +340,13 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    OuterComposite _responseData;
+    OuterComposite? _responseData;
 
     try {
-      const _responseType = FullType(OuterComposite);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(OuterComposite),
       ) as OuterComposite;
 
     } catch (error, stackTrace) {
@@ -433,10 +434,11 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    num _responseData;
+    num? _responseData;
 
     try {
-      _responseData = _response.data as num;
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : rawResponse as num;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -523,10 +525,11 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    String _responseData;
+    String? _responseData;
 
     try {
-      _responseData = _response.data as String;
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : rawResponse as String;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -614,13 +617,13 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    OuterObjectWithEnumProperty _responseData;
+    OuterObjectWithEnumProperty? _responseData;
 
     try {
-      const _responseType = FullType(OuterObjectWithEnumProperty);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(OuterObjectWithEnumProperty),
       ) as OuterObjectWithEnumProperty;
 
     } catch (error, stackTrace) {
@@ -917,13 +920,13 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ModelClient _responseData;
+    ModelClient? _responseData;
 
     try {
-      const _responseType = FullType(ModelClient);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ModelClient),
       ) as ModelClient;
 
     } catch (error, stackTrace) {

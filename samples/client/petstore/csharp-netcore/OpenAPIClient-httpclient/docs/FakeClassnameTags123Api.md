@@ -6,7 +6,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 |--------|--------------|-------------|
 | [**TestClassname**](FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case |
 
-<a name="testclassname"></a>
+<a id="testclassname"></a>
 # **TestClassname**
 > ModelClient TestClassname (ModelClient modelClient)
 

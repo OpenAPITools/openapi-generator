@@ -5167,6 +5167,7 @@ public class DefaultCodegen implements CodegenConfig {
         // enum
         updateCodegenPropertyEnum(codegenProperty);
         codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
 
@@ -5320,6 +5321,11 @@ public class DefaultCodegen implements CodegenConfig {
                     once(LOGGER).warn("Unknown scheme `{}` found in the HTTP security definition.", securityScheme.getScheme());
                 }
                 codegenSecurities.add(cs);
+            } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
+                final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isOpenId = true;
+                cs.openIdConnectUrl = securityScheme.getOpenIdConnectUrl();
+                codegenSecurities.add(cs);
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 final OAuthFlows flows = securityScheme.getFlows();
                 boolean isFlowEmpty = true;
@@ -5373,8 +5379,9 @@ public class DefaultCodegen implements CodegenConfig {
     private CodegenSecurity defaultCodegenSecurity(String key, SecurityScheme securityScheme) {
         final CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
         cs.name = key;
+        cs.description = securityScheme.getDescription();
         cs.type = securityScheme.getType().toString();
-        cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
+        cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = cs.isOpenId = false;
         cs.isHttpSignature = false;
         cs.isBasicBasic = cs.isBasicBearer = false;
         cs.scheme = securityScheme.getScheme();
@@ -6824,6 +6831,7 @@ public class DefaultCodegen implements CodegenConfig {
         // non-array/map
         updateCodegenPropertyEnum(codegenProperty);
         codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
 
@@ -8033,11 +8041,20 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         List<CodegenProperty> xOf = new ArrayList<>();
+        Set<String> dataTypeSet = new HashSet<>(); // to keep track of dataType
         int i = 0;
         for (Schema xOfSchema : xOfCollection) {
             CodegenProperty cp = fromProperty(collectionName + "_" + i, xOfSchema, false);
             xOf.add(cp);
             i += 1;
+
+            if (dataTypeSet.contains(cp.dataType)) {
+                // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                // in other sub-schemas of allOf/anyOf/oneOf
+                cp.vendorExtensions.putIfAbsent("x-duplicated-data-type", true);
+            } else {
+                dataTypeSet.add(cp.dataType);
+            }
         }
         return xOf;
     }

@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # petstore_api.apis.tags.another_fake_api.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**call_123_test_special_tags**](#call_123_test_special_tags) | **patch** /another-fake/dummy | To test special tags
 
 # **call_123_test_special_tags**
-<a name="call_123_test_special_tags"></a>
+<a id="call_123_test_special_tags"></a>
 > Client call_123_test_special_tags(client)
 
 To test special tags

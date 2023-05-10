@@ -49,7 +49,6 @@ Execute `pytest` to run the tests.
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-from __future__ import print_function
 
 import time
 import openapi_client
@@ -86,11 +85,15 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *BodyApi* | [**test_binary_gif**](docs/BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body
+*BodyApi* | [**test_body_application_octetstream_binary**](docs/BodyApi.md#test_body_application_octetstream_binary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
+*BodyApi* | [**test_echo_body_free_form_object_response_string**](docs/BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**test_echo_body_pet**](docs/BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**test_echo_body_pet_response_string**](docs/BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**test_echo_body_tag_response_string**](docs/BodyApi.md#test_echo_body_tag_response_string) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**test_form_integer_boolean_string**](docs/FormApi.md#test_form_integer_boolean_string) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *HeaderApi* | [**test_header_integer_boolean_string**](docs/HeaderApi.md#test_header_integer_boolean_string) | **GET** /header/integer/boolean/string | Test header parameter(s)
 *PathApi* | [**tests_path_string_path_string_integer_path_integer**](docs/PathApi.md#tests_path_string_path_string_integer_path_integer) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*QueryApi* | [**test_enum_ref_string**](docs/QueryApi.md#test_enum_ref_string) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**test_query_datetime_date_string**](docs/QueryApi.md#test_query_datetime_date_string) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**test_query_integer_boolean_string**](docs/QueryApi.md#test_query_integer_boolean_string) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**test_query_style_deep_object_explode_true_object**](docs/QueryApi.md#test_query_style_deep_object_explode_true_object) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
@@ -116,9 +119,11 @@ Class | Method | HTTP request | Description
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
- All endpoints do not require authorization.
+Endpoints do not require authorization.
+
 
 ## Author
 

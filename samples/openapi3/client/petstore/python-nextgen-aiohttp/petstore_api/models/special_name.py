@@ -13,7 +13,6 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -33,14 +32,17 @@ class SpecialName(BaseModel):
     __properties = ["property", "async", "schema"]
 
     @validator('var_schema')
-    def var_schema_validate_enum(cls, v):
-        if v is None:
-            return v
-        if v not in ('available', 'pending', 'sold'):
+    def var_schema_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('available', 'pending', 'sold'):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
-        return v
+        return value
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -74,7 +76,7 @@ class SpecialName(BaseModel):
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return SpecialName.parse_obj(obj)
 
         _obj = SpecialName.parse_obj({

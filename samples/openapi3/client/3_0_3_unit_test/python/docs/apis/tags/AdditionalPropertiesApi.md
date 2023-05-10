@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.additional_properties_api.AdditionalPropertiesApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**](#post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types) | **post** /responseBody/postAdditionalpropertiesShouldNotLookInApplicatorsResponseBodyForContentTypes | 
 
 # **post_additionalproperties_allows_a_schema_which_should_validate_request_body**
-<a name="post_additionalproperties_allows_a_schema_which_should_validate_request_body"></a>
+<a id="post_additionalproperties_allows_a_schema_which_should_validate_request_body"></a>
 > post_additionalproperties_allows_a_schema_which_should_validate_request_body(additionalproperties_allows_a_schema_which_should_validate)
 
 
@@ -89,7 +89,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types**
-<a name="post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types"></a>
+<a id="post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types"></a>
 > AdditionalpropertiesAllowsASchemaWhichShouldValidate post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types()
 
 
@@ -149,7 +149,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_are_allowed_by_default_request_body**
-<a name="post_additionalproperties_are_allowed_by_default_request_body"></a>
+<a id="post_additionalproperties_are_allowed_by_default_request_body"></a>
 > post_additionalproperties_are_allowed_by_default_request_body(additionalproperties_are_allowed_by_default)
 
 
@@ -220,7 +220,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_are_allowed_by_default_response_body_for_content_types**
-<a name="post_additionalproperties_are_allowed_by_default_response_body_for_content_types"></a>
+<a id="post_additionalproperties_are_allowed_by_default_response_body_for_content_types"></a>
 > AdditionalpropertiesAreAllowedByDefault post_additionalproperties_are_allowed_by_default_response_body_for_content_types()
 
 
@@ -280,7 +280,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_can_exist_by_itself_request_body**
-<a name="post_additionalproperties_can_exist_by_itself_request_body"></a>
+<a id="post_additionalproperties_can_exist_by_itself_request_body"></a>
 > post_additionalproperties_can_exist_by_itself_request_body(additionalproperties_can_exist_by_itself)
 
 
@@ -353,7 +353,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_can_exist_by_itself_response_body_for_content_types**
-<a name="post_additionalproperties_can_exist_by_itself_response_body_for_content_types"></a>
+<a id="post_additionalproperties_can_exist_by_itself_response_body_for_content_types"></a>
 > AdditionalpropertiesCanExistByItself post_additionalproperties_can_exist_by_itself_response_body_for_content_types()
 
 
@@ -413,7 +413,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_should_not_look_in_applicators_request_body**
-<a name="post_additionalproperties_should_not_look_in_applicators_request_body"></a>
+<a id="post_additionalproperties_should_not_look_in_applicators_request_body"></a>
 > post_additionalproperties_should_not_look_in_applicators_request_body(additionalproperties_should_not_look_in_applicators)
 
 
@@ -484,7 +484,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types**
-<a name="post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types"></a>
+<a id="post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types"></a>
 > AdditionalpropertiesShouldNotLookInApplicators post_additionalproperties_should_not_look_in_applicators_response_body_for_content_types()
 
 
