@@ -116,6 +116,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public T ToModel(System.Text.Json.JsonSerializerOptions options = null)
         {
+            // This logic may be modified with the ToModel.mustache template
             return IsSuccessStatusCode
                 ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
                 : default(T);
