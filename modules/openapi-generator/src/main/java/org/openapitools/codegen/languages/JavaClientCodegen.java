@@ -855,7 +855,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 // add extension to indicate content type is `text/plain` and the response type is `String`
                 if (op.produces != null) {
                     for (Map<String, String> produce : op.produces) {
-                        if ("text/plain".equalsIgnoreCase(produce.get("mediaType"))
+                        if ("text/plain".equalsIgnoreCase(produce.get("mediaType").split(";")[0].trim())
                                 && "String".equals(op.returnType)) {
                             op.vendorExtensions.put("x-java-text-plain-string", true);
                             continue;
