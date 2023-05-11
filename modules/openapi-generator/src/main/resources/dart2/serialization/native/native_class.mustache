@@ -86,7 +86,12 @@ class {{{classname}}} {
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json[r'{{{baseName}}}'] = this.{{{name}}};
+        {{#isArray}}
+            json[r'{{{baseName}}}'] = this.{{{name}}}.toList();
+        {{/isArray}}
+        {{^isArray}}
+            json[r'{{{baseName}}}'] = this.{{{name}}};
+        {{/isArray}}
       {{/isDate}}
     {{/isDateTime}}
     {{#isNullable}}
@@ -200,9 +205,9 @@ class {{{classname}}} {
         {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}},
             {{/isEnum}}
             {{^isEnum}}
-        {{{name}}}: json[r'{{{baseName}}}'] is {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}
-            ? (json[r'{{{baseName}}}'] as {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}).cast<{{{items.datatype}}}>()
-            : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}},
+        {{{name}}}: json[r'{{{baseName}}}'] is {{#uniqueItems}}Iterable{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}
+            ? Set.from(json[r'{{{baseName}}}'])
+            : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}, // The Instance is not a Set, it is a GrowableList, After checking Iterable, convert from GrowableList to Set
             {{/isEnum}}
           {{/isArray}}
           {{^isArray}}
