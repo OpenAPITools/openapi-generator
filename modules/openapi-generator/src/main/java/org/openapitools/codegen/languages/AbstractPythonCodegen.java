@@ -157,7 +157,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replace("'", "\'") + "'";
+                    return "'" + ((String) p.getDefault()).replace("'", "\\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
