@@ -31,11 +31,11 @@ func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (Impl
 	// TODO - update DeleteOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
-	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	// TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
+	// return Response(404, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("DeleteOrder method not implemented")
 }
@@ -45,8 +45,8 @@ func (s *StoreApiService) GetInventory(ctx context.Context) (ImplResponse, error
 	// TODO - update GetInventory with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, map[string]int32{}) or use other options such as http.Ok ...
-	//return Response(200, map[string]int32{}), nil
+	// TODO: Uncomment the next line to return response Response(200, map[string]int32{}) or use other options such as http.Ok ...
+	// return Response(200, map[string]int32{}), nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("GetInventory method not implemented")
 }
@@ -56,14 +56,14 @@ func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Impl
 	// TODO - update GetOrderById with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, Order{}) or use other options such as http.Ok ...
-	//return Response(200, Order{}), nil
+	// TODO: Uncomment the next line to return response Response(200, Order{}) or use other options such as http.Ok ...
+	// return Response(200, Order{}), nil
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
-	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
+	// TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
+	// return Response(404, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("GetOrderById method not implemented")
 }
@@ -73,11 +73,11 @@ func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (ImplResp
 	// TODO - update PlaceOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, Order{}) or use other options such as http.Ok ...
-	//return Response(200, Order{}), nil
+	// TODO: Uncomment the next line to return response Response(200, Order{}) or use other options such as http.Ok ...
+	// return Response(200, Order{}), nil
 
-	//TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
-	//return Response(400, nil),nil
+	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
+	// return Response(400, nil),nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("PlaceOrder method not implemented")
 }

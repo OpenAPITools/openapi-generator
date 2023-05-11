@@ -170,7 +170,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     /**
      * enum for parameter status
      */
-     enum class Status_findPetsByStatus(val value: kotlin.String) {
+     enum class StatusFindPetsByStatus(val value: kotlin.String) {
      @JsonProperty(value = "available") available("available"),
      @JsonProperty(value = "pending") pending("pending"),
      @JsonProperty(value = "sold") sold("sold")
@@ -189,7 +189,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : Future<kotlin.collections.List<Pet>> {
+    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<kotlin.collections.List<Pet>> {
         return findPetsByStatusWithHttpInfo(status = status).map { localVarResponse ->
             when (localVarResponse.responseType) {
                 ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Pet>
@@ -217,7 +217,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByStatus"))
 

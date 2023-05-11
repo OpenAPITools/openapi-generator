@@ -52,7 +52,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      - intercept and handle errors like authorization
      - retry the request.
      */
-    @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
+    @available(*, unavailable, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
     public var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
     required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
@@ -91,10 +91,6 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         var originalRequest = URLRequest(url: url)
 
         originalRequest.httpMethod = method.rawValue
-
-        headers.forEach { key, value in
-            originalRequest.setValue(value, forHTTPHeaderField: key)
-        }
 
         buildHeaders().forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
@@ -145,32 +141,13 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
              }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
-
-                if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
-
-                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
-
-                        if shouldRetry {
-                            cleanupRequest()
-                            self.execute(apiResponseQueue, completion)
-                        } else {
-                            apiResponseQueue.async {
-                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                                cleanupRequest()
-                            }
-                        }
-                    }
-                } else {
-                    apiResponseQueue.async {
-                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                        cleanupRequest()
-                    }
+                apiResponseQueue.async {
+                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    cleanupRequest()
                 }
             }
 
-            if #available(iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0, *) {
-                onProgressReady?(dataTask.progress)
-            }
+            onProgressReady?(dataTask.progress)
 
             taskIdentifier = dataTask.taskIdentifier
             challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
@@ -218,10 +195,10 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     open func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in headers {
+        for (key, value) in PetstoreClientAPI.customHeaders {
             httpHeaders[key] = value
         }
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         return httpHeaders
