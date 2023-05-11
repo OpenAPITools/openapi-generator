@@ -192,18 +192,22 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
+        supportingFiles.add(new SupportingFile("lib_api_exports.mustache", libPath, "api.dart"));
+        supportingFiles.add(new SupportingFile("lib_model_exports.mustache", libPath, "models.dart"));
         supportingFiles.add(new SupportingFile("lib.mustache", libPath, pubName + ".dart"));
 
         final String srcFolder = libPath + sourceFolder;
-        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api.dart"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api_client.dart"));
+        supportingFiles.add(new SupportingFile("serialization/repository_base.mustache", srcFolder, "repository_base.dart"));
 
         final String authFolder = srcFolder + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/auth_exports.mustache", authFolder, "_exports.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
-
+        
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
     }
@@ -245,9 +249,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
+        supportingFiles.add(new SupportingFile("serialization/built_value/repository_impl.mustache", srcFolder, "repository_impl.dart"));
         supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
-        supportingFiles.add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
-
+        
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
         typeMapping.put("List", "BuiltList");
@@ -267,6 +271,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/repository_impl.mustache", srcFolder, "repository_impl.dart"));
         supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
         supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
                 "deserialize.dart"));
@@ -672,10 +677,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                         ));
                     }
                 }
-            }
-
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
-                resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
 
             if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {

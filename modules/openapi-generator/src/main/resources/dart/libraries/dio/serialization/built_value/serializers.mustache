@@ -7,13 +7,10 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
-{{#useDateLibCore}}import 'package:built_value/iso_8601_date_time_serializer.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/date_serializer.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/date.dart';{{/useDateLibCore}}
+{{#useDateLibCore}}import 'package:built_value/iso_8601_date_time_serializer.dart';{{/useDateLibCore}}
 {{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
 import 'package:{{pubName}}/{{sourceFolder}}/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
-{{#models}}{{#model}}import 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
-{{/model}}{{/models}}{{#builtValueSerializerImports}}import '{{{.}}}';
+import 'package:{{pubName}}/models.dart';{{#builtValueSerializerImports}}import '{{{.}}}';
 {{/builtValueSerializerImports}}
 
 part 'serializers.g.dart';

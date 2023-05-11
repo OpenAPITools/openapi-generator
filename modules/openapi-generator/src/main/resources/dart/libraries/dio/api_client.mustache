@@ -1,33 +1,29 @@
 {{>header}}
-import 'package:dio/dio.dart';{{#useBuiltValue}}
-import 'package:built_value/serializer.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/serializers.dart';{{/useBuiltValue}}
-import 'package:{{pubName}}/{{sourceFolder}}/auth/api_key_auth.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/auth/basic_auth.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/auth/bearer_auth.dart';
-import 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
-{{#apiInfo}}{{#apis}}import 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
-{{/apis}}{{/apiInfo}}
+import 'package:dio/dio.dart';
+import 'repository_base.dart';
+import 'repository_impl.dart';
+import 'package:{{pubName}}/api.dart';
+import 'package:{{pubName}}/models.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/_exports.dart';
+
 class {{clientName}} {
   static const String basePath = r'{{{basePath}}}';
 
   final Dio dio;
-{{#useBuiltValue}}
-  final Serializers serializers;
+  final SerializationRepositoryBase serializationRepository;
 
-{{/useBuiltValue}}
+
   {{clientName}}({
-    Dio? dio,{{#useBuiltValue}}
-    Serializers? serializers,{{/useBuiltValue}}
+    Dio? dio,
+    SerializationRepositoryBase? serializationRepositoryOverride,
     String? basePathOverride,
     List<Interceptor>? interceptors,
-  })  : {{#useBuiltValue}}this.serializers = serializers ?? standardSerializers,{{/useBuiltValue}}
-        this.dio = dio ??
+  })  : this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
               connectTimeout: const Duration(milliseconds: 5000),
               receiveTimeout: const Duration(milliseconds: 3000),
-            )) {
+            )), this.serializationRepository = serializationRepositoryOverride ?? {{#includeLibraryTemplate}}repository_construction{{/includeLibraryTemplate}} {
     if (interceptors == null) {
       this.dio.interceptors.addAll([
         OAuthInterceptor(),
@@ -67,6 +63,6 @@ class {{clientName}} {
   /// Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   {{classname}} get{{classname}}() {
-    return {{classname}}(dio{{#useBuiltValue}}, serializers{{/useBuiltValue}});
+    return {{classname}}({{classname}}Raw(dio), serializationRepository);
   }{{/apis}}{{/apiInfo}}
 }
