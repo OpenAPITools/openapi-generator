@@ -3,10 +3,9 @@
 //
 
 import 'dart:async';
-
-import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
-
+import 'package:openapi/src/repository_base.dart';
+import 'package:openapi/models.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/api_response.dart';
@@ -14,11 +13,10 @@ import 'package:openapi/src/model/pet.dart';
 
 class PetApi {
 
-  final Dio _dio;
+  final PetApiRaw _rawApi;
+  final SerializationRepositoryBase _repository;
 
-  final Serializers _serializers;
-
-  const PetApi(this._dio, this._serializers);
+  const PetApi(this._rawApi, this._repository);
 
   /// Add a new pet to the store
   /// 
@@ -42,52 +40,22 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet';
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'application/json',
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    dynamic _bodyData;
+    Object? _bodyData;
+    _bodyData = _repository.serialize(pet, const TypeInfo(Pet));
 
-    try {
-      const _type = FullType(Pet);
-      _bodyData = _serializers.serialize(pet, specifiedType: _type);
-
-    } catch(error, stackTrace) {
-      throw DioError(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioErrorType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
+    final _response = await _rawApi.addPet(
+      
+      body: _bodyData,
+      requestContentType: 'application/json',
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -116,33 +84,20 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
-    final _options = Options(
-      method: r'DELETE',
-      headers: <String, dynamic>{
-        if (apiKey != null) r'api_key': apiKey,
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
+    final _response = await _rawApi.deletePet(
+      
+      petId: _repository.encodeStringParameter(petId, const TypeInfo(int)),
+      apiKey: apiKey == null ? null : _repository.encodeStringParameter(apiKey, const TypeInfo(String)) ,
+
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -169,47 +124,28 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet/findByStatus';
-    final _options = Options(
-      method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    final _queryParameters = <String, dynamic>{
-      r'status': encodeCollectionQueryParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
-    };
+    final _response = await _rawApi.findPetsByStatus(
+      
+      status: _repository.encodeQueryParameter(status, const TypeInfo(String, [const TypeInfo(String)]), context: ListFormat.csv) ,
 
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     BuiltList<Pet>? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
+       _responseData = rawResponse == null ? null : _repository.deserialize(
         rawResponse,
-        specifiedType: const FullType(BuiltList, [FullType(Pet)]),
-      ) as BuiltList<Pet>;
-
+        const TypeInfo(BuiltList, [const TypeInfo(Pet)]),
+      );     
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -255,47 +191,28 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet/findByTags';
-    final _options = Options(
-      method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    final _queryParameters = <String, dynamic>{
-      r'tags': encodeCollectionQueryParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv,),
-    };
+    final _response = await _rawApi.findPetsByTags(
+      
+      tags: _repository.encodeQueryParameter(tags, const TypeInfo(String, [const TypeInfo(String)]), context: ListFormat.csv) ,
 
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     BuiltSet<Pet>? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
+       _responseData = rawResponse == null ? null : _repository.deserialize(
         rawResponse,
-        specifiedType: const FullType(BuiltSet, [FullType(Pet)]),
-      ) as BuiltSet<Pet>;
-
+        const TypeInfo(BuiltSet, [const TypeInfo(Pet)]),
+      );     
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -340,44 +257,28 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
-    final _options = Options(
-      method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'apiKey',
-            'name': 'api_key',
-            'keyName': 'api_key',
-            'where': 'header',
-          },
-        ],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
+    final _response = await _rawApi.getPetById(
+      
+      petId: _repository.encodeStringParameter(petId, const TypeInfo(int)),
+
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Pet? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
+       _responseData = rawResponse == null ? null : _repository.deserialize(
         rawResponse,
-        specifiedType: const FullType(Pet),
-      ) as Pet;
-
+        const TypeInfo(Pet),
+      );     
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -422,52 +323,22 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet';
-    final _options = Options(
-      method: r'PUT',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'application/json',
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    dynamic _bodyData;
+    Object? _bodyData;
+    _bodyData = _repository.serialize(pet, const TypeInfo(Pet));
 
-    try {
-      const _type = FullType(Pet);
-      _bodyData = _serializers.serialize(pet, specifiedType: _type);
-
-    } catch(error, stackTrace) {
-      throw DioError(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioErrorType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
+    final _response = await _rawApi.updatePet(
+      
+      body: _bodyData,
+      requestContentType: 'application/json',
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -498,54 +369,26 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'application/x-www-form-urlencoded',
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    dynamic _bodyData;
+    Object? _bodyData;
+    _bodyData = <String, dynamic>{
+      if (name != null) r'name': _repository.encodeFormParameter(name, const TypeInfo(String)),
+      if (status != null) r'status': _repository.encodeFormParameter(status, const TypeInfo(String)),
+    };
 
-    try {
-      _bodyData = <String, dynamic>{
-        if (name != null) r'name': encodeQueryParameter(_serializers, name, const FullType(String)),
-        if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
-      };
-
-    } catch(error, stackTrace) {
-      throw DioError(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioErrorType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
+    final _response = await _rawApi.updatePetWithForm(
+      
+      petId: _repository.encodeStringParameter(petId, const TypeInfo(int)),
+      body: _bodyData,
+      requestContentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -576,64 +419,35 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'multipart/form-data',
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    dynamic _bodyData;
+    Object? _bodyData;
+    _bodyData = FormData.fromMap(<String, dynamic>{
+      if (additionalMetadata != null) r'additionalMetadata': _repository.encodeFormParameter(additionalMetadata, const TypeInfo(String)),
+      if (file != null) r'file': file,
+    });
 
-    try {
-      _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        if (file != null) r'file': file,
-      });
-
-    } catch(error, stackTrace) {
-      throw DioError(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioErrorType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
+    final _response = await _rawApi.uploadFile(
+      
+      petId: _repository.encodeStringParameter(petId, const TypeInfo(int)),
+      body: _bodyData,
+      requestContentType: 'multipart/form-data',
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     ApiResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
+       _responseData = rawResponse == null ? null : _repository.deserialize(
         rawResponse,
-        specifiedType: const FullType(ApiResponse),
-      ) as ApiResponse;
-
+        const TypeInfo(ApiResponse),
+      );     
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -682,64 +496,35 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
-    final _options = Options(
-      method: r'POST',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'oauth2',
-            'name': 'petstore_auth',
-          },
-        ],
-        ...?extra,
-      },
-      contentType: 'multipart/form-data',
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    dynamic _bodyData;
+    Object? _bodyData;
+    _bodyData = FormData.fromMap(<String, dynamic>{
+      if (additionalMetadata != null) r'additionalMetadata': _repository.encodeFormParameter(additionalMetadata, const TypeInfo(String)),
+      r'requiredFile': requiredFile,
+    });
 
-    try {
-      _bodyData = FormData.fromMap(<String, dynamic>{
-        if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        r'requiredFile': requiredFile,
-      });
-
-    } catch(error, stackTrace) {
-      throw DioError(
-         requestOptions: _options.compose(
-          _dio.options,
-          _path,
-        ),
-        type: DioErrorType.unknown,
-        error: error,
-        stackTrace: stackTrace,
-      );
-    }
-
-    final _response = await _dio.request<Object>(
-      _path,
-      data: _bodyData,
-      options: _options,
+    final _response = await _rawApi.uploadFileWithRequiredFile(
+      
+      petId: _repository.encodeStringParameter(petId, const TypeInfo(int)),
+      body: _bodyData,
+      requestContentType: 'multipart/form-data',
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     ApiResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
+       _responseData = rawResponse == null ? null : _repository.deserialize(
         rawResponse,
-        specifiedType: const FullType(ApiResponse),
-      ) as ApiResponse;
-
+        const TypeInfo(ApiResponse),
+      );     
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -763,3 +548,537 @@ class PetApi {
   }
 
 }
+
+class PetApiRaw {
+
+  final Dio _dio;
+
+  const PetApiRaw(this._dio);
+
+  /// Add a new pet to the store
+  /// 
+  ///
+  /// Parameters:
+  /// * [pet] - Pet object that needs to be added to the store
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<void>> addPet({ 
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet';
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Deletes a pet
+  /// 
+  ///
+  /// Parameters:
+  /// * [petId] - Pet id to delete
+  /// * [apiKey] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<void>> deletePet({ 
+    required String petId,
+    String? apiKey,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _options = Options(
+      method: r'DELETE',
+      headers: <String, dynamic>{
+        if (apiKey != null) r'api_key': apiKey,
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Finds Pets by status
+  /// Multiple status values can be provided with comma separated strings
+  ///
+  /// Parameters:
+  /// * [status] - Status values that need to be considered for filter
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<Object>> findPetsByStatus({ 
+    @Deprecated('status is deprecated') required Object status,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet/findByStatus';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      r'status': status,
+    };
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Finds Pets by tags
+  /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  ///
+  /// Parameters:
+  /// * [tags] - Tags to filter by
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [BuiltSet<Pet>] as data
+  /// Throws [DioError] if API call or serialization fails
+  @Deprecated('This operation has been deprecated')
+  Future<Response<Object>> findPetsByTags({ 
+    required Object tags,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet/findByTags';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    final _queryParameters = <String, dynamic>{
+      r'tags': tags,
+    };
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      queryParameters: _queryParameters,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Find pet by ID
+  /// Returns a single pet
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet to return
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Pet] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<Object>> getPetById({ 
+    required String petId,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'api_key',
+            'keyName': 'api_key',
+            'where': 'header',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Update an existing pet
+  /// 
+  ///
+  /// Parameters:
+  /// * [pet] - Pet object that needs to be added to the store
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<void>> updatePet({ 
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet';
+    final _options = Options(
+      method: r'PUT',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// Updates a pet in the store with form data
+  /// 
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet that needs to be updated
+  /// * [name] - Updated name of the pet
+  /// * [status] - Updated status of the pet
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<void>> updatePetWithForm({ 
+    required String petId,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// uploads an image
+  /// 
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet to update
+  /// * [additionalMetadata] - Additional data to pass to server
+  /// * [file] - file to upload
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<Object>> uploadFile({ 
+    required String petId,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  /// uploads an image (required)
+  /// 
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet to update
+  /// * [requiredFile] - file to upload
+  /// * [additionalMetadata] - Additional data to pass to server
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<Object>> uploadFileWithRequiredFile({ 
+    required String petId,
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
+    final _options = Options(
+      method: r'POST',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'oauth2',
+            'name': 'petstore_auth',
+          },
+        ],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+}
+
+

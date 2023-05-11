@@ -57,8 +57,9 @@ doc/StoreApi.md
 doc/Tag.md
 doc/User.md
 doc/UserApi.md
+lib/api.dart
+lib/models.dart
 lib/openapi.dart
-lib/src/api.dart
 lib/src/api/another_fake_api.dart
 lib/src/api/default_api.dart
 lib/src/api/fake_api.dart
@@ -66,6 +67,8 @@ lib/src/api/fake_classname_tags123_api.dart
 lib/src/api/pet_api.dart
 lib/src/api/store_api.dart
 lib/src/api/user_api.dart
+lib/src/api_client.dart
+lib/src/auth/_exports.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart
 lib/src/auth/basic_auth.dart
@@ -120,4 +123,6 @@ lib/src/model/single_ref_type.dart
 lib/src/model/special_model_name.dart
 lib/src/model/tag.dart
 lib/src/model/user.dart
+lib/src/repository_base.dart
+lib/src/repository_impl.dart
 pubspec.yaml

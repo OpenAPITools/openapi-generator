@@ -3,19 +3,17 @@
 //
 
 import 'dart:async';
-
-import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
-
+import 'package:openapi/src/repository_base.dart';
+import 'package:openapi/models.dart';
 import 'package:openapi/src/model/example.dart';
 
 class DefaultApi {
 
-  final Dio _dio;
+  final DefaultApiRaw _rawApi;
+  final SerializationRepositoryBase _repository;
 
-  final Serializers _serializers;
-
-  const DefaultApi(this._dio, this._serializers);
+  const DefaultApi(this._rawApi, this._repository);
 
   /// list
   /// 
@@ -37,37 +35,27 @@ class DefaultApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    final _path = r'/example';
-    final _options = Options(
-      method: r'GET',
-      headers: <String, dynamic>{
-        ...?headers,
-      },
-      extra: <String, dynamic>{
-        'secure': <Map<String, String>>[],
-        ...?extra,
-      },
-      validateStatus: validateStatus,
-    );
+  }) async {    
 
-    final _response = await _dio.request<Object>(
-      _path,
-      options: _options,
+    final _response = await _rawApi.list(
+      
+
       cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Example? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null ? null : _serializers.deserialize(
+       _responseData = rawResponse == null ? null : _repository.deserialize(
         rawResponse,
-        specifiedType: const FullType(Example),
-      ) as Example;
-
+        const TypeInfo(Example),
+      );     
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -91,3 +79,62 @@ class DefaultApi {
   }
 
 }
+
+class DefaultApiRaw {
+
+  final Dio _dio;
+
+  const DefaultApiRaw(this._dio);
+
+  /// list
+  /// 
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Example] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<Object>> list({ 
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/example';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      contentType: requestContentType,
+      validateStatus: validateStatus,
+    );
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+}
+
+

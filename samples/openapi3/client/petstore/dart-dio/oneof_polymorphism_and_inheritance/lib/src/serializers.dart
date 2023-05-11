@@ -11,24 +11,8 @@ import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
-import 'package:openapi/src/date_serializer.dart';
-import 'package:openapi/src/model/date.dart';
 
-import 'package:openapi/src/model/addressable.dart';
-import 'package:openapi/src/model/bar.dart';
-import 'package:openapi/src/model/bar_create.dart';
-import 'package:openapi/src/model/bar_ref.dart';
-import 'package:openapi/src/model/bar_ref_or_value.dart';
-import 'package:openapi/src/model/entity.dart';
-import 'package:openapi/src/model/entity_ref.dart';
-import 'package:openapi/src/model/extensible.dart';
-import 'package:openapi/src/model/foo.dart';
-import 'package:openapi/src/model/foo_ref.dart';
-import 'package:openapi/src/model/foo_ref_or_value.dart';
-import 'package:openapi/src/model/pasta.dart';
-import 'package:openapi/src/model/pizza.dart';
-import 'package:openapi/src/model/pizza_speziale.dart';
-
+import 'package:openapi/models.dart';
 part 'serializers.g.dart';
 
 @SerializersFor([

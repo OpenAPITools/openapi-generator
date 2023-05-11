@@ -3,32 +3,30 @@
 //
 
 import 'package:dio/dio.dart';
-import 'package:built_value/serializer.dart';
-import 'package:openapi/src/serializers.dart';
-import 'package:openapi/src/auth/api_key_auth.dart';
-import 'package:openapi/src/auth/basic_auth.dart';
-import 'package:openapi/src/auth/bearer_auth.dart';
-import 'package:openapi/src/auth/oauth.dart';
-import 'package:openapi/src/api/default_api.dart';
+import 'repository_base.dart';
+import 'repository_impl.dart';
+import 'package:openapi/api.dart';
+import 'package:openapi/models.dart';
+import 'package:openapi/src/auth/_exports.dart';
 
 class Openapi {
-  static const String basePath = r'http://localhost';
+  static const String basePath = r'http://api.example.xyz/v1';
 
   final Dio dio;
-  final Serializers serializers;
+  final SerializationRepositoryBase serializationRepository;
+
 
   Openapi({
     Dio? dio,
-    Serializers? serializers,
+    SerializationRepositoryBase? serializationRepositoryOverride,
     String? basePathOverride,
     List<Interceptor>? interceptors,
-  })  : this.serializers = serializers ?? standardSerializers,
-        this.dio = dio ??
+  })  : this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
               connectTimeout: const Duration(milliseconds: 5000),
               receiveTimeout: const Duration(milliseconds: 3000),
-            )) {
+            )), this.serializationRepository = serializationRepositoryOverride ?? BuiltValueJsonRepository(standardSerializers) {
     if (interceptors == null) {
       this.dio.interceptors.addAll([
         OAuthInterceptor(),
@@ -68,6 +66,6 @@ class Openapi {
   /// Get DefaultApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   DefaultApi getDefaultApi() {
-    return DefaultApi(dio, serializers);
+    return DefaultApi(DefaultApiRaw(dio), serializationRepository);
   }
 }

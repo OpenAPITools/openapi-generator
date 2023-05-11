@@ -5,10 +5,13 @@ doc/Apple.md
 doc/Banana.md
 doc/DefaultApi.md
 doc/Fruit.md
+lib/api.dart
+lib/models.dart
 lib/openapi.dart
-lib/src/api.dart
 lib/src/api/default_api.dart
+lib/src/api_client.dart
 lib/src/api_util.dart
+lib/src/auth/_exports.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart
 lib/src/auth/basic_auth.dart
@@ -19,5 +22,7 @@ lib/src/model/apple.dart
 lib/src/model/banana.dart
 lib/src/model/date.dart
 lib/src/model/fruit.dart
+lib/src/repository_base.dart
+lib/src/repository_impl.dart
 lib/src/serializers.dart
 pubspec.yaml

@@ -17,11 +17,14 @@ doc/FooRefOrValue.md
 doc/Pasta.md
 doc/Pizza.md
 doc/PizzaSpeziale.md
+lib/api.dart
+lib/models.dart
 lib/openapi.dart
-lib/src/api.dart
 lib/src/api/bar_api.dart
 lib/src/api/foo_api.dart
+lib/src/api_client.dart
 lib/src/api_util.dart
+lib/src/auth/_exports.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart
 lib/src/auth/basic_auth.dart
@@ -43,5 +46,7 @@ lib/src/model/foo_ref_or_value.dart
 lib/src/model/pasta.dart
 lib/src/model/pizza.dart
 lib/src/model/pizza_speziale.dart
+lib/src/repository_base.dart
+lib/src/repository_impl.dart
 lib/src/serializers.dart
 pubspec.yaml

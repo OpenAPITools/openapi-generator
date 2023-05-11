@@ -3,33 +3,30 @@
 //
 
 import 'package:dio/dio.dart';
-import 'package:openapi/src/auth/api_key_auth.dart';
-import 'package:openapi/src/auth/basic_auth.dart';
-import 'package:openapi/src/auth/bearer_auth.dart';
-import 'package:openapi/src/auth/oauth.dart';
-import 'package:openapi/src/api/another_fake_api.dart';
-import 'package:openapi/src/api/default_api.dart';
-import 'package:openapi/src/api/fake_api.dart';
-import 'package:openapi/src/api/fake_classname_tags123_api.dart';
-import 'package:openapi/src/api/pet_api.dart';
-import 'package:openapi/src/api/store_api.dart';
-import 'package:openapi/src/api/user_api.dart';
+import 'repository_base.dart';
+import 'repository_impl.dart';
+import 'package:openapi/api.dart';
+import 'package:openapi/models.dart';
+import 'package:openapi/src/auth/_exports.dart';
 
 class Openapi {
   static const String basePath = r'http://petstore.swagger.io:80/v2';
 
   final Dio dio;
+  final SerializationRepositoryBase serializationRepository;
+
+
   Openapi({
     Dio? dio,
+    SerializationRepositoryBase? serializationRepositoryOverride,
     String? basePathOverride,
     List<Interceptor>? interceptors,
-  })  : 
-        this.dio = dio ??
+  })  : this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
               connectTimeout: const Duration(milliseconds: 5000),
               receiveTimeout: const Duration(milliseconds: 3000),
-            )) {
+            )), this.serializationRepository = serializationRepositoryOverride ?? const JsonSerializableRepository() {
     if (interceptors == null) {
       this.dio.interceptors.addAll([
         OAuthInterceptor(),
@@ -69,42 +66,42 @@ class Openapi {
   /// Get AnotherFakeApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   AnotherFakeApi getAnotherFakeApi() {
-    return AnotherFakeApi(dio);
+    return AnotherFakeApi(AnotherFakeApiRaw(dio), serializationRepository);
   }
 
   /// Get DefaultApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   DefaultApi getDefaultApi() {
-    return DefaultApi(dio);
+    return DefaultApi(DefaultApiRaw(dio), serializationRepository);
   }
 
   /// Get FakeApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   FakeApi getFakeApi() {
-    return FakeApi(dio);
+    return FakeApi(FakeApiRaw(dio), serializationRepository);
   }
 
   /// Get FakeClassnameTags123Api instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   FakeClassnameTags123Api getFakeClassnameTags123Api() {
-    return FakeClassnameTags123Api(dio);
+    return FakeClassnameTags123Api(FakeClassnameTags123ApiRaw(dio), serializationRepository);
   }
 
   /// Get PetApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   PetApi getPetApi() {
-    return PetApi(dio);
+    return PetApi(PetApiRaw(dio), serializationRepository);
   }
 
   /// Get StoreApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   StoreApi getStoreApi() {
-    return StoreApi(dio);
+    return StoreApi(StoreApiRaw(dio), serializationRepository);
   }
 
   /// Get UserApi instance, base route and serializer can be overridden by a given but be careful,
   /// by doing that all interceptors will not be executed
   UserApi getUserApi() {
-    return UserApi(dio);
+    return UserApi(UserApiRaw(dio), serializationRepository);
   }
 }
