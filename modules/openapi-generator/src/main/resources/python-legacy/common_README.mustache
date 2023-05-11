@@ -38,14 +38,14 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
 {{/model}}{{/models}}
 
+<a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
-{{^authMethods}}
- All endpoints do not require authorization.
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-{{#last}} Authentication schemes defined for the API:{{/last}}
-## {{{name}}}
+<a id="{{name}}"></a>
+### {{{name}}}
 
 {{#isApiKey}}
 - **Type**: API key

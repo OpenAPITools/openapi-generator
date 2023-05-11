@@ -29,13 +29,13 @@ func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {
 
 {{#responses}}
 {{#dataType}}
-	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
-	//return Response({{code}}, {{dataType}}{}), nil
+	// TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
+	// return Response({{code}}, {{dataType}}{}), nil
 
 {{/dataType}}
 {{^dataType}}
-	//TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
-	//return Response({{code}}, nil),nil
+	// TODO: Uncomment the next line to return response Response({{code}}, {{dataType}}{}) or use other options such as http.Ok ...
+	// return Response({{code}}, nil),nil
 
 {{/dataType}}
 {{/responses}}

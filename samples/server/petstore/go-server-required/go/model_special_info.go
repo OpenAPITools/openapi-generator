@@ -21,15 +21,3 @@ type SpecialInfo struct {
 func AssertSpecialInfoRequired(obj SpecialInfo) error {
 	return nil
 }
-
-// AssertRecurseSpecialInfoRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of SpecialInfo (e.g. [][]SpecialInfo), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseSpecialInfoRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aSpecialInfo, ok := obj.(SpecialInfo)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertSpecialInfoRequired(aSpecialInfo)
-	})
-}

@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # {{packageName}}.{{apiPackage}}.tags.{{classFilename}}.{{classname}}{{#if description}}
 {{description}}{{/if}}
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 {{#with operations}}
 {{#each operation}}
 # **{{{operationId}}}**
-<a name="{{{operationId}}}"></a>
+<a id="{{{operationId}}}"></a>
 > {{#if returnType}}{{{returnType}}} {{/if}}{{{operationId}}}({{#each requiredParams}}{{#unless defaultValue}}{{paramName}}{{#if hasMore}}, {{/if}}{{/unless}}{{/each}})
 
 {{#if summary}}{{{summary}}}{{/if}}{{#if notes}}

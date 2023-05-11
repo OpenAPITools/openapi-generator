@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public ChildAllOf(int age)
         {
             Age = age;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Age

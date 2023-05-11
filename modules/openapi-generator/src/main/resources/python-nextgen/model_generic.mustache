@@ -1,5 +1,4 @@
 from __future__ import annotations
-from inspect import getfullargspec
 import pprint
 import re  # noqa: F401
 import json
@@ -31,53 +30,56 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{#vendorExtensions.x-regex}}
 
     @validator('{{{name}}}')
-    def {{{name}}}_validate_regular_expression(cls, v):
+    def {{{name}}}_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
         {{^required}}
-        if v is None:
-            return v
+        if value is None:
+            return value
 
         {{/required}}
         {{#required}}
         {{#isNullable}}
-        if v is None:
+        if value is None:
             return v
 
         {{/isNullable}}
         {{/required}}
-        if not re.match(r"{{{.}}}", v{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
+        if not re.match(r"{{{.}}}", value{{#vendorExtensions.x-modifiers}} ,re.{{{.}}}{{/vendorExtensions.x-modifiers}}):
             raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
-        return v
+        return value
     {{/vendorExtensions.x-regex}}
     {{#isEnum}}
 
     @validator('{{{name}}}')
-    def {{{name}}}_validate_enum(cls, v):
+    def {{{name}}}_validate_enum(cls, value):
+        """Validates the enum"""
         {{^required}}
-        if v is None:
-            return v
+        if value is None:
+            return value
 
         {{/required}}
         {{#required}}
         {{#isNullable}}
-        if v is None:
-            return v
+        if value is None:
+            return value
 
         {{/isNullable}}
         {{/required}}
         {{#isArray}}
-        for i in v:
+        for i in value:
             if i not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
                 raise ValueError("each list item must be one of ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
         {{^isArray}}
-        if v not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
+        if value not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
             raise ValueError("must be one of enum values ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
-        return v
+        return value
     {{/isEnum}}
 {{/vars}}
 
     class Config:
+        """Pydantic configuration"""
         allow_population_by_field_name = True
         validate_assignment = True
 
@@ -210,7 +212,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         if obj is None:
             return None
 
-        if type(obj) is not dict:
+        if not isinstance(obj, dict):
             return {{{classname}}}.parse_obj(obj)
 
         {{#disallowAdditionalPropertiesIfNotPresent}}

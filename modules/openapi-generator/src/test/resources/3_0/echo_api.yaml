@@ -319,6 +319,27 @@ paths:
             text/plain:
               schema:
                 type: string
+  # body parameter tests
+  /body/application/octetstream/binary:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/body/application/octetstream/binary
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /echo/body/Pet:
     post:
       tags:
@@ -351,6 +372,42 @@ paths:
             text/plain:
               schema:
                 type: string
+  /echo/body/Tag/response_string:
+    post:
+      tags:
+        - body
+      summary: Test empty json (request body)
+      description: Test empty json (request body)
+      operationId: test/echo/body/Tag/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /echo/body/FreeFormObject/response_string:
+    post:
+      tags:
+        - body
+      summary: Test free form object
+      description: Test free form object
+      operationId: test/echo/body/FreeFormObject/response_string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Free form object
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /binary/gif:
     post:
       tags:
@@ -375,6 +432,12 @@ components:
           schema:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
+    Tag:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Tag'
+      description: Tag object
   schemas:
     Category:
       type: object

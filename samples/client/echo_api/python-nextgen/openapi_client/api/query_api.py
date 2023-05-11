@@ -14,6 +14,8 @@
 
 
 import re  # noqa: F401
+import io
+import warnings
 
 from pydantic import validate_arguments, ValidationError
 from typing_extensions import Annotated
@@ -27,6 +29,7 @@ from typing import Any, Dict, Optional
 from openapi_client.models.string_enum_ref import StringEnumRef
 
 from openapi_client.api_client import ApiClient
+from openapi_client.api_response import ApiResponse
 from openapi_client.exceptions import (  # noqa: F401
     ApiTypeError,
     ApiValueError
@@ -60,10 +63,6 @@ class QueryApi(object):
         :type enum_ref_string_query: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74,10 +73,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_enum_ref_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_enum_ref_string_with_http_info(enum_ref_string_query, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_enum_ref_string_with_http_info(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs):  # noqa: E501
+    def test_enum_ref_string_with_http_info(self, enum_ref_string_query : Optional[StringEnumRef] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -91,13 +92,14 @@ class QueryApi(object):
         :type enum_ref_string_query: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -204,10 +206,6 @@ class QueryApi(object):
         :type string_query: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -218,10 +216,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_datetime_date_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_datetime_date_string_with_http_info(datetime_query, date_query, string_query, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_datetime_date_string_with_http_info(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs):  # noqa: E501
+    def test_query_datetime_date_string_with_http_info(self, datetime_query : Optional[datetime] = None, date_query : Optional[date] = None, string_query : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -239,13 +239,14 @@ class QueryApi(object):
         :type string_query: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -305,7 +306,7 @@ class QueryApi(object):
 
         if _params.get('date_query') is not None:  # noqa: E501
             if isinstance(_params['date_query'], datetime):
-                _query_parame.append(('date_query', _params['date_query'].strftime(self.api_client.configuration.date_format)))
+                _query_params.append(('date_query', _params['date_query'].strftime(self.api_client.configuration.date_format)))
             else:
                 _query_params.append(('date_query', _params['date_query']))
 
@@ -366,10 +367,6 @@ class QueryApi(object):
         :type string_query: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -380,10 +377,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_integer_boolean_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_integer_boolean_string_with_http_info(integer_query, boolean_query, string_query, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_integer_boolean_string_with_http_info(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs):  # noqa: E501
+    def test_query_integer_boolean_string_with_http_info(self, integer_query : Optional[StrictInt] = None, boolean_query : Optional[StrictBool] = None, string_query : Optional[StrictStr] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -401,13 +400,14 @@ class QueryApi(object):
         :type string_query: str
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -518,10 +518,6 @@ class QueryApi(object):
         :type query_object: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -532,10 +528,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_deep_object_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_deep_object_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_style_deep_object_explode_true_object_with_http_info(self, query_object : Optional[Dict[str, Dict[str, Any]]] = None, **kwargs):  # noqa: E501
+    def test_query_style_deep_object_explode_true_object_with_http_info(self, query_object : Optional[Dict[str, Dict[str, Any]]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -549,13 +547,14 @@ class QueryApi(object):
         :type query_object: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -658,10 +657,6 @@ class QueryApi(object):
         :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -672,10 +667,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_deep_object_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_deep_object_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_style_deep_object_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs):  # noqa: E501
+    def test_query_style_deep_object_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -689,13 +686,14 @@ class QueryApi(object):
         :type query_object: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -798,10 +796,6 @@ class QueryApi(object):
         :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -812,10 +806,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_form_explode_true_array_string_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_array_string_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_style_form_explode_true_array_string_with_http_info(self, query_object : Optional[Dict[str, Any]] = None, **kwargs):  # noqa: E501
+    def test_query_style_form_explode_true_array_string_with_http_info(self, query_object : Optional[Dict[str, Any]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -829,13 +825,14 @@ class QueryApi(object):
         :type query_object: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -938,10 +935,6 @@ class QueryApi(object):
         :type query_object: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -952,10 +945,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_form_explode_true_object_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_object_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_style_form_explode_true_object_with_http_info(self, query_object : Optional[Dict[str, Any]] = None, **kwargs):  # noqa: E501
+    def test_query_style_form_explode_true_object_with_http_info(self, query_object : Optional[Dict[str, Any]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -969,13 +964,14 @@ class QueryApi(object):
         :type query_object: Pet
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1078,10 +1074,6 @@ class QueryApi(object):
         :type query_object: DataQuery
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1092,10 +1084,12 @@ class QueryApi(object):
         :rtype: str
         """
         kwargs['_return_http_data_only'] = True
+        if '_preload_content' in kwargs:
+            raise ValueError("Error! Please call the test_query_style_form_explode_true_object_all_of_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
         return self.test_query_style_form_explode_true_object_all_of_with_http_info(query_object, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_style_form_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs):  # noqa: E501
+    def test_query_style_form_explode_true_object_all_of_with_http_info(self, query_object : Optional[Any] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test query parameter(s)  # noqa: E501
 
         Test query parameter(s)  # noqa: E501
@@ -1109,13 +1103,14 @@ class QueryApi(object):
         :type query_object: DataQuery
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
+        :param _preload_content: if False, the ApiResponse.data will
+                                 be set to none and raw_data will store the 
+                                 HTTP response body without reading/decoding.
+                                 Default is True.
         :type _preload_content: bool, optional
+        :param _return_http_data_only: response data instead of ApiResponse
+                                       object with status code, headers, etc
+        :type _return_http_data_only: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

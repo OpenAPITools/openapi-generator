@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**Invoke-PS123TestSpecialTags**](PSAnotherFakeApi.md#Invoke-PS123TestSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-<a name="Invoke-PS123TestSpecialTags"></a>
+<a id="Invoke-PS123TestSpecialTags"></a>
 # **Invoke-PS123TestSpecialTags**
 > Client Invoke-PS123TestSpecialTags<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Client] <PSCustomObject><br>

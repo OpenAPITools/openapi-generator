@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # petstore_api.apis.tags.default_api.DefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**foo_get**](#foo_get) | **get** /foo | 
 
 # **foo_get**
-<a name="foo_get"></a>
+<a id="foo_get"></a>
 > {str: (bool, date, datetime, dict, float, int, list, str, none_type)} foo_get()
 
 

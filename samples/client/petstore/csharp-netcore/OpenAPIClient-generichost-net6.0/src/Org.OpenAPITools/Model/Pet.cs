@@ -46,7 +46,10 @@ namespace Org.OpenAPITools.Model
             PhotoUrls = photoUrls;
             Status = status;
             Tags = tags;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// pet status in the store

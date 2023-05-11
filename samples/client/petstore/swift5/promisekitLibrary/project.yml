@@ -3,7 +3,7 @@ targets:
   PetstoreClient:
     type: framework
     platform: iOS
-    deploymentTarget: "9.0"
+    deploymentTarget: "11.0"
     sources: [PetstoreClient]
     info:
       path: ./Info.plist

@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.one_of_api.OneOfApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -19,7 +19,7 @@ Method | HTTP request | Description
 [**post_oneof_with_required_response_body_for_content_types**](#post_oneof_with_required_response_body_for_content_types) | **post** /responseBody/postOneofWithRequiredResponseBodyForContentTypes | 
 
 # **post_nested_oneof_to_check_validation_semantics_request_body**
-<a name="post_nested_oneof_to_check_validation_semantics_request_body"></a>
+<a id="post_nested_oneof_to_check_validation_semantics_request_body"></a>
 > post_nested_oneof_to_check_validation_semantics_request_body(nested_oneof_to_check_validation_semantics)
 
 
@@ -90,7 +90,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_nested_oneof_to_check_validation_semantics_response_body_for_content_types**
-<a name="post_nested_oneof_to_check_validation_semantics_response_body_for_content_types"></a>
+<a id="post_nested_oneof_to_check_validation_semantics_response_body_for_content_types"></a>
 > NestedOneofToCheckValidationSemantics post_nested_oneof_to_check_validation_semantics_response_body_for_content_types()
 
 
@@ -150,7 +150,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_complex_types_request_body**
-<a name="post_oneof_complex_types_request_body"></a>
+<a id="post_oneof_complex_types_request_body"></a>
 > post_oneof_complex_types_request_body(oneof_complex_types)
 
 
@@ -221,7 +221,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_complex_types_response_body_for_content_types**
-<a name="post_oneof_complex_types_response_body_for_content_types"></a>
+<a id="post_oneof_complex_types_response_body_for_content_types"></a>
 > OneofComplexTypes post_oneof_complex_types_response_body_for_content_types()
 
 
@@ -281,7 +281,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_request_body**
-<a name="post_oneof_request_body"></a>
+<a id="post_oneof_request_body"></a>
 > post_oneof_request_body(oneof)
 
 
@@ -352,7 +352,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_response_body_for_content_types**
-<a name="post_oneof_response_body_for_content_types"></a>
+<a id="post_oneof_response_body_for_content_types"></a>
 > Oneof post_oneof_response_body_for_content_types()
 
 
@@ -412,7 +412,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_with_base_schema_request_body**
-<a name="post_oneof_with_base_schema_request_body"></a>
+<a id="post_oneof_with_base_schema_request_body"></a>
 > post_oneof_with_base_schema_request_body(body)
 
 
@@ -483,7 +483,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_with_base_schema_response_body_for_content_types**
-<a name="post_oneof_with_base_schema_response_body_for_content_types"></a>
+<a id="post_oneof_with_base_schema_response_body_for_content_types"></a>
 > OneofWithBaseSchema post_oneof_with_base_schema_response_body_for_content_types()
 
 
@@ -543,7 +543,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_with_empty_schema_request_body**
-<a name="post_oneof_with_empty_schema_request_body"></a>
+<a id="post_oneof_with_empty_schema_request_body"></a>
 > post_oneof_with_empty_schema_request_body(oneof_with_empty_schema)
 
 
@@ -614,7 +614,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_with_empty_schema_response_body_for_content_types**
-<a name="post_oneof_with_empty_schema_response_body_for_content_types"></a>
+<a id="post_oneof_with_empty_schema_response_body_for_content_types"></a>
 > OneofWithEmptySchema post_oneof_with_empty_schema_response_body_for_content_types()
 
 
@@ -674,7 +674,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_with_required_request_body**
-<a name="post_oneof_with_required_request_body"></a>
+<a id="post_oneof_with_required_request_body"></a>
 > post_oneof_with_required_request_body(oneof_with_required)
 
 
@@ -745,7 +745,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_oneof_with_required_response_body_for_content_types**
-<a name="post_oneof_with_required_response_body_for_content_types"></a>
+<a id="post_oneof_with_required_response_body_for_content_types"></a>
 > OneofWithRequired post_oneof_with_required_response_body_for_content_types()
 
 

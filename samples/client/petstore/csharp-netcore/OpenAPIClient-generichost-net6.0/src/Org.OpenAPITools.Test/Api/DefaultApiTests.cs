@@ -58,7 +58,8 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FooGetAsyncTest()
         {
             var response = await _instance.FooGetAsync();
-            Assert.IsType<FooGetDefaultResponse>(response);
+            var model = response.ToModel();
+            Assert.IsType<FooGetDefaultResponse>(model);
         }
 
         /// <summary>
@@ -78,7 +79,8 @@ namespace Org.OpenAPITools.Test.Api
         public async Task HelloAsyncTest()
         {
             var response = await _instance.HelloAsync();
-            Assert.IsType<List<Guid>>(response);
+            var model = response.ToModel();
+            Assert.IsType<List<Guid>>(model);
         }
     }
 }

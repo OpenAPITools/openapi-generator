@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.type_api.TypeApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -21,7 +21,7 @@ Method | HTTP request | Description
 [**post_string_type_matches_strings_response_body_for_content_types**](#post_string_type_matches_strings_response_body_for_content_types) | **post** /responseBody/postStringTypeMatchesStringsResponseBodyForContentTypes | 
 
 # **post_array_type_matches_arrays_request_body**
-<a name="post_array_type_matches_arrays_request_body"></a>
+<a id="post_array_type_matches_arrays_request_body"></a>
 > post_array_type_matches_arrays_request_body(array_type_matches_arrays)
 
 
@@ -94,7 +94,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_array_type_matches_arrays_response_body_for_content_types**
-<a name="post_array_type_matches_arrays_response_body_for_content_types"></a>
+<a id="post_array_type_matches_arrays_response_body_for_content_types"></a>
 > ArrayTypeMatchesArrays post_array_type_matches_arrays_response_body_for_content_types()
 
 
@@ -154,7 +154,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_boolean_type_matches_booleans_request_body**
-<a name="post_boolean_type_matches_booleans_request_body"></a>
+<a id="post_boolean_type_matches_booleans_request_body"></a>
 > post_boolean_type_matches_booleans_request_body(body)
 
 
@@ -225,7 +225,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_boolean_type_matches_booleans_response_body_for_content_types**
-<a name="post_boolean_type_matches_booleans_response_body_for_content_types"></a>
+<a id="post_boolean_type_matches_booleans_response_body_for_content_types"></a>
 > bool post_boolean_type_matches_booleans_response_body_for_content_types()
 
 
@@ -285,7 +285,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_integer_type_matches_integers_request_body**
-<a name="post_integer_type_matches_integers_request_body"></a>
+<a id="post_integer_type_matches_integers_request_body"></a>
 > post_integer_type_matches_integers_request_body(body)
 
 
@@ -356,7 +356,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_integer_type_matches_integers_response_body_for_content_types**
-<a name="post_integer_type_matches_integers_response_body_for_content_types"></a>
+<a id="post_integer_type_matches_integers_response_body_for_content_types"></a>
 > int post_integer_type_matches_integers_response_body_for_content_types()
 
 
@@ -416,7 +416,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_null_type_matches_only_the_null_object_request_body**
-<a name="post_null_type_matches_only_the_null_object_request_body"></a>
+<a id="post_null_type_matches_only_the_null_object_request_body"></a>
 > post_null_type_matches_only_the_null_object_request_body(body)
 
 
@@ -487,7 +487,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_null_type_matches_only_the_null_object_response_body_for_content_types**
-<a name="post_null_type_matches_only_the_null_object_response_body_for_content_types"></a>
+<a id="post_null_type_matches_only_the_null_object_response_body_for_content_types"></a>
 > none_type post_null_type_matches_only_the_null_object_response_body_for_content_types()
 
 
@@ -547,7 +547,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_number_type_matches_numbers_request_body**
-<a name="post_number_type_matches_numbers_request_body"></a>
+<a id="post_number_type_matches_numbers_request_body"></a>
 > post_number_type_matches_numbers_request_body(body)
 
 
@@ -618,7 +618,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_number_type_matches_numbers_response_body_for_content_types**
-<a name="post_number_type_matches_numbers_response_body_for_content_types"></a>
+<a id="post_number_type_matches_numbers_response_body_for_content_types"></a>
 > int, float post_number_type_matches_numbers_response_body_for_content_types()
 
 
@@ -678,7 +678,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_object_type_matches_objects_request_body**
-<a name="post_object_type_matches_objects_request_body"></a>
+<a id="post_object_type_matches_objects_request_body"></a>
 > post_object_type_matches_objects_request_body(body)
 
 
@@ -749,7 +749,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_object_type_matches_objects_response_body_for_content_types**
-<a name="post_object_type_matches_objects_response_body_for_content_types"></a>
+<a id="post_object_type_matches_objects_response_body_for_content_types"></a>
 > {str: (bool, date, datetime, dict, float, int, list, str, none_type)} post_object_type_matches_objects_response_body_for_content_types()
 
 
@@ -809,7 +809,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_string_type_matches_strings_request_body**
-<a name="post_string_type_matches_strings_request_body"></a>
+<a id="post_string_type_matches_strings_request_body"></a>
 > post_string_type_matches_strings_request_body(body)
 
 
@@ -880,7 +880,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_string_type_matches_strings_response_body_for_content_types**
-<a name="post_string_type_matches_strings_response_body_for_content_types"></a>
+<a id="post_string_type_matches_strings_response_body_for_content_types"></a>
 > str post_string_type_matches_strings_response_body_for_content_types()
 
 

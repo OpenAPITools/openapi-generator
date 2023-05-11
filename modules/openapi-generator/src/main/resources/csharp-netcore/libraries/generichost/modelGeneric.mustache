@@ -4,6 +4,7 @@
     {{>visibility}} partial class {{classname}}{{#parent}} : {{{.}}}{{/parent}}{{>ImplementsIEquatable}}{{>ImplementsValidatable}}
     {
         {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
@@ -34,8 +35,10 @@
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/allVars}}
+            OnCreated();
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
         {{^composedSchemas.oneOf}}
         /// <summary>
@@ -68,9 +71,12 @@
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
             {{/allVars}}
+            OnCreated();
         }
 
         {{/composedSchemas.oneOf}}
+        partial void OnCreated();
+
         {{#vars}}
         {{#items.isEnum}}
         {{#items}}
@@ -103,6 +109,7 @@
         {{/isEnum}}
         {{/vars}}
         {{#composedSchemas.anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
@@ -115,8 +122,10 @@
         {{/deprecated}}
         public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.anyOf}}
         {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
@@ -129,6 +138,7 @@
         {{/deprecated}}
         public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
         {{#composedSchemas.allOf}}
         {{^isInherited}}

@@ -56,7 +56,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        /// <param name="patternWithBackslash">None.</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
@@ -86,6 +87,7 @@ namespace Org.OpenAPITools.Model
             this.Uuid = uuid;
             this.PatternWithDigits = patternWithDigits;
             this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            this.PatternWithBackslash = patternWithBackslash;
         }
 
         /// <summary>
@@ -203,6 +205,13 @@ namespace Org.OpenAPITools.Model
         public string PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
+        /// None
+        /// </summary>
+        /// <value>None</value>
+        [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = false)]
+        public string PatternWithBackslash { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -228,6 +237,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
+            sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -343,6 +353,11 @@ namespace Org.OpenAPITools.Model
                     this.PatternWithDigitsAndDelimiter == input.PatternWithDigitsAndDelimiter ||
                     (this.PatternWithDigitsAndDelimiter != null &&
                     this.PatternWithDigitsAndDelimiter.Equals(input.PatternWithDigitsAndDelimiter))
+                ) && 
+                (
+                    this.PatternWithBackslash == input.PatternWithBackslash ||
+                    (this.PatternWithBackslash != null &&
+                    this.PatternWithBackslash.Equals(input.PatternWithBackslash))
                 );
         }
 
@@ -399,6 +414,10 @@ namespace Org.OpenAPITools.Model
                 if (this.PatternWithDigitsAndDelimiter != null)
                 {
                     hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
+                }
+                if (this.PatternWithBackslash != null)
+                {
+                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
                 return hashCode;
             }

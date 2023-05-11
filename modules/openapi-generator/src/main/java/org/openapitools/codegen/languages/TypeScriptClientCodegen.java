@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -43,6 +44,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -76,6 +81,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     // NPM Option Values
     protected String npmRepository = null;
     protected String snapshot = null;
+    protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     private final DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private final DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
@@ -289,7 +295,59 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if ("number".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return getNameUsingEnumPropertyNaming("empty");
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return getNameUsingEnumPropertyNaming(getSymbolName(name));
+        }
+
+        // number
+        if ("number".equals(datatype)) {
+            String varName = "NUMBER_" + name;
+
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String enumName = sanitizeName(name);
+        enumName = enumName.replaceFirst("^_", "");
+        enumName = enumName.replaceFirst("_$", "");
+
+        enumName = getNameUsingEnumPropertyNaming(enumName);
+
+        if (enumName.matches("\\d.*")) { // starts with number
+            return "_" + enumName;
+        } else {
+            return enumName;
+        }
+    }
+
+    private String getNameUsingEnumPropertyNaming(String name) {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(underscore(name), LOWERCASE_FIRST_LETTER);
+            case PascalCase:
+                return camelize(underscore(name));
+            case snake_case:
+                return underscore(name);
+            case UPPERCASE:
+                return underscore(name).toUpperCase(Locale.ROOT);
+            default:
+                throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
     }
 

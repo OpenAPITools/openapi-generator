@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             Bar = bar;
             Foo = foo;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bar

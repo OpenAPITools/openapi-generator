@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # unit_test_api.apis.tags.pattern_api.PatternApi
 
 All URIs are relative to *https://someserver.com/v1*
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**post_pattern_validation_response_body_for_content_types**](#post_pattern_validation_response_body_for_content_types) | **post** /responseBody/postPatternValidationResponseBodyForContentTypes | 
 
 # **post_pattern_is_not_anchored_request_body**
-<a name="post_pattern_is_not_anchored_request_body"></a>
+<a id="post_pattern_is_not_anchored_request_body"></a>
 > post_pattern_is_not_anchored_request_body(body)
 
 
@@ -82,7 +82,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_pattern_is_not_anchored_response_body_for_content_types**
-<a name="post_pattern_is_not_anchored_response_body_for_content_types"></a>
+<a id="post_pattern_is_not_anchored_response_body_for_content_types"></a>
 > PatternIsNotAnchored post_pattern_is_not_anchored_response_body_for_content_types()
 
 
@@ -142,7 +142,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_pattern_validation_request_body**
-<a name="post_pattern_validation_request_body"></a>
+<a id="post_pattern_validation_request_body"></a>
 > post_pattern_validation_request_body(body)
 
 
@@ -213,7 +213,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **post_pattern_validation_response_body_for_content_types**
-<a name="post_pattern_validation_response_body_for_content_types"></a>
+<a id="post_pattern_validation_response_body_for_content_types"></a>
 > PatternValidation post_pattern_validation_response_body_for_content_types()
 
 

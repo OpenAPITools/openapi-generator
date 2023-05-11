@@ -1982,4 +1982,103 @@ public class JavaClientCodegenTest {
                 "  public Pet petType(String petType) {\n");
 
     }
+
+    @Test
+    public void testDeprecatedProperty() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        // deprecated builder method
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" +
+                        " public BigDog declawed(Boolean declawed) {");
+
+        // deprecated getter
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" +
+                        " @javax.annotation.Nullable\n" +
+                        "\n" +
+                        " public Boolean getDeclawed() {");
+        // deprecated setter
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" +
+                " public void setDeclawed(Boolean declawed) {");
+
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testRestTemplateWithGeneratedClientAsBeanDisabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path apiClient = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileNotContains(apiClient, "@Component");
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PetApi.java");
+        TestUtils.assertFileNotContains(petApi, "@Component");
+    }
+
+    @Test
+    public void testRestTemplateWithGeneratedClientAsBeanEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path apiClient = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(apiClient, "@Component");
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PetApi.java");
+        TestUtils.assertFileContains(petApi, "@Component");
+    }
+
 }

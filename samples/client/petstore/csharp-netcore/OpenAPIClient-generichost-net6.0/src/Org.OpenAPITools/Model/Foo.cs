@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public Foo(string bar = @"bar")
         {
             Bar = bar;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bar

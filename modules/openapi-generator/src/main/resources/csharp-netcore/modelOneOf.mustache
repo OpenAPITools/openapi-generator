@@ -24,6 +24,7 @@
 
         {{/isNullable}}
         {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         {{^isNull}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
@@ -38,6 +39,7 @@
         }
 
         {{/isNull}}
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
 
         private Object _actualInstance;
@@ -65,8 +67,8 @@
                 }
             }
         }
-        {{^skipOneOfAnyOfGetter}}
         {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         {{^isNull}}
 
         /// <summary>
@@ -79,8 +81,8 @@
             return ({{{dataType}}})this.ActualInstance;
         }
         {{/isNull}}
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
-        {{/skipOneOfAnyOfGetter}}
 
         /// <summary>
         /// Returns the string presentation of the object

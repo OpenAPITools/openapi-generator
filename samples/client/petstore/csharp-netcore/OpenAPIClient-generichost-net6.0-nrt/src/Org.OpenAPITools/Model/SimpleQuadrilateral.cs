@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             ShapeInterface = shapeInterface;
             QuadrilateralInterface = quadrilateralInterface;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeInterface
@@ -144,10 +147,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, simpleQuadrilateral.ShapeInterface, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, simpleQuadrilateral.QuadrilateralInterface, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

@@ -1,4 +1,4 @@
-<a name="__pageTop"></a>
+<a id="__pageTop"></a>
 # petstore_api.apis.tags.store_api.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**place_order**](#place_order) | **post** /store/order | Place an order for a pet
 
 # **delete_order**
-<a name="delete_order"></a>
+<a id="delete_order"></a>
 > delete_order(order_id)
 
 Delete purchase order by ID
@@ -99,7 +99,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_inventory**
-<a name="get_inventory"></a>
+<a id="get_inventory"></a>
 > {str: (int,)} get_inventory()
 
 Returns pet inventories by status
@@ -178,7 +178,7 @@ Key | Input Type | Accessed Type | Description | Notes
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **get_order_by_id**
-<a name="get_order_by_id"></a>
+<a id="get_order_by_id"></a>
 > Order get_order_by_id(order_id)
 
 Find purchase order by ID
@@ -289,7 +289,7 @@ No authorization required
 [[Back to top]](#__pageTop) [[Back to API list]](../../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../../README.md#documentation-for-models) [[Back to README]](../../../README.md)
 
 # **place_order**
-<a name="place_order"></a>
+<a id="place_order"></a>
 > Order place_order(order)
 
 Place an order for a pet

@@ -26,6 +26,7 @@ from petstore_api.api.store_api import StoreApi
 from petstore_api.api.user_api import UserApi
 
 # import ApiClient
+from petstore_api.api_response import ApiResponse
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
 from petstore_api.exceptions import OpenApiException
@@ -62,6 +63,8 @@ from petstore_api.models.dog_all_of import DogAllOf
 from petstore_api.models.dummy_model import DummyModel
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_string1 import EnumString1
+from petstore_api.models.enum_string2 import EnumString2
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
@@ -72,6 +75,7 @@ from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
+from petstore_api.models.int_or_string import IntOrString
 from petstore_api.models.list import List
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
@@ -81,6 +85,7 @@ from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
+from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum

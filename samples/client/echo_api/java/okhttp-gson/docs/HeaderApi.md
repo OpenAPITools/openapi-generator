@@ -7,7 +7,7 @@ All URIs are relative to *http://localhost:3000*
 | [**testHeaderIntegerBooleanString**](HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s) |
 
 
-<a name="testHeaderIntegerBooleanString"></a>
+<a id="testHeaderIntegerBooleanString"></a>
 # **testHeaderIntegerBooleanString**
 > String testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader)
 

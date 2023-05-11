@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public Banana(decimal count)
         {
             Count = count;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Count

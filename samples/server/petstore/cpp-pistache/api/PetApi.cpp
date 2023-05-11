@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string PetApi::base = "/v2";
 
 PetApi::PetApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 

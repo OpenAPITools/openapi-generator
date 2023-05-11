@@ -49,27 +49,23 @@ func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
 
 // Routes returns all the api routes for the StoreApiController
 func (c *StoreApiController) Routes() Routes {
-	return Routes{ 
-		{
-			"DeleteOrder",
+	return Routes{
+		"DeleteOrder": Route{
 			strings.ToUpper("Delete"),
 			"/v2/store/order/{orderId}",
 			c.DeleteOrder,
 		},
-		{
-			"GetInventory",
+		"GetInventory": Route{
 			strings.ToUpper("Get"),
 			"/v2/store/inventory",
 			c.GetInventory,
 		},
-		{
-			"GetOrderById",
+		"GetOrderById": Route{
 			strings.ToUpper("Get"),
 			"/v2/store/order/{orderId}",
 			c.GetOrderById,
 		},
-		{
-			"PlaceOrder",
+		"PlaceOrder": Route{
 			strings.ToUpper("Post"),
 			"/v2/store/order",
 			c.PlaceOrder,
@@ -88,7 +84,6 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // GetInventory - Returns pet inventories by status
@@ -101,7 +96,6 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // GetOrderById - Find purchase order by ID
@@ -119,7 +113,6 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // PlaceOrder - Place an order for a pet
@@ -143,5 +136,4 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }

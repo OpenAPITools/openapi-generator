@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public FooGetDefaultResponse(Foo stringProperty)
         {
             StringProperty = stringProperty;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets StringProperty

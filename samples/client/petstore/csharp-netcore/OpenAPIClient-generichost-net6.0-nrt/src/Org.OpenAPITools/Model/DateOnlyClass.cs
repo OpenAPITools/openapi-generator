@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public DateOnlyClass(DateTime dateOnlyProperty)
         {
             DateOnlyProperty = dateOnlyProperty;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets DateOnlyProperty
