@@ -11,7 +11,7 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.PostmanCodegen;
+import org.openapitools.codegen.languages.PostmanCollectionCodegen;
 
 import java.io.File;
 
@@ -26,31 +26,31 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.openapitools.codegen.TestUtils.*;
 
-public class PostmanCodegenTest {
+public class PostmanCollectionCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final PostmanCodegen postmanCodegen = new PostmanCodegen();
-        postmanCodegen.processOpts();
+        final PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
+        postmanCollectionCodegen.processOpts();
 
-        Assert.assertEquals(postmanCodegen.folderStrategy, "Tags");
-        Assert.assertEquals(postmanCodegen.postmanFile, "postman.json");
+        Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
+        Assert.assertEquals(postmanCollectionCodegen.postmanFile, "postman.json");
 
-        Assert.assertNull(postmanCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCodegen.additionalProperties().get("codegenOperationsByTag"));
+        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
     public void testConfigWithFolderStrategyTags() throws Exception {
-        final PostmanCodegen postmanCodegen = new PostmanCodegen();
+        final PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
 
-        postmanCodegen.additionalProperties().put(postmanCodegen.FOLDER_STRATEGY, "Tags");
-        postmanCodegen.processOpts();
+        postmanCollectionCodegen.additionalProperties().put(postmanCollectionCodegen.FOLDER_STRATEGY, "Tags");
+        postmanCollectionCodegen.processOpts();
 
-        Assert.assertEquals(postmanCodegen.folderStrategy, "Tags");
+        Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
 
-        Assert.assertNull(postmanCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCodegen.additionalProperties().get("codegenOperationsByTag"));
+        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
@@ -60,8 +60,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/Basic.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/Basic.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -86,8 +86,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/BasicJson.json")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/BasicJson.json")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -109,8 +109,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -131,8 +131,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -157,8 +157,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/BasicVariablesInExample.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -188,9 +188,9 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .addAdditionalProperty(PostmanCodegen.POSTMAN_VARIABLES, false)
-                .setInputSpec("src/test/resources/3_0/postman/BasicVariablesInExample.yaml")
+                .setGeneratorName("postman-collection")
+                .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_VARIABLES, false)
+                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -217,9 +217,9 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .addAdditionalProperty(PostmanCodegen.PATH_PARAMS_AS_VARIABLES, false)
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, false)
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
@@ -244,8 +244,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -269,8 +269,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -293,9 +293,9 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .addAdditionalProperty(PostmanCodegen.REQUEST_PARAMETER_GENERATION, "Schema")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .addAdditionalProperty(PostmanCollectionCodegen.REQUEST_PARAMETER_GENERATION, "Schema")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
@@ -318,8 +318,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -341,28 +341,28 @@ public class PostmanCodegenTest {
     public void doubleCurlyBraces() {
         String str = "/api/{var}/archive";
 
-        assertEquals("/api/{{var}}/archive", new PostmanCodegen().doubleCurlyBraces(str));
+        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
     }
 
     @Test
     public void doubleCurlyBracesNoChanges() {
         String str = "/api/{{var}}/archive";
 
-        assertEquals("/api/{{var}}/archive", new PostmanCodegen().doubleCurlyBraces(str));
+        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
     }
 
     @Test
     public void extractExampleByName() {
         String str = "#/components/examples/get-user-basic";
 
-        assertEquals("get-user-basic", new PostmanCodegen().extractExampleByName(str));
+        assertEquals("get-user-basic", new PostmanCollectionCodegen().extractExampleByName(str));
     }
 
     @Test
     public void mapToPostmanType() {
-        assertEquals("string", new PostmanCodegen().mapToPostmanType("String"));
-        assertEquals("number", new PostmanCodegen().mapToPostmanType("integer"));
-        assertEquals("any", new PostmanCodegen().mapToPostmanType("object"));
+        assertEquals("string", new PostmanCollectionCodegen().mapToPostmanType("String"));
+        assertEquals("number", new PostmanCollectionCodegen().mapToPostmanType("integer"));
+        assertEquals("any", new PostmanCollectionCodegen().mapToPostmanType("object"));
     }
 
     @Test
@@ -372,8 +372,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/JsonWithCommasInJsonExample.json")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/JsonWithCommasInJsonExample.json")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -396,8 +396,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/SampleProject.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
@@ -419,8 +419,8 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .setInputSpec("src/test/resources/3_0/postman/BasicVariablesInExample.yaml")
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -445,10 +445,10 @@ public class PostmanCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman")
-                .addAdditionalProperty(PostmanCodegen.POSTMAN_GUID, false)
-                .addAdditionalProperty(PostmanCodegen.POSTMAN_ISO_TIMESTAMP, false)
-                .setInputSpec("src/test/resources/3_0/postman/BasicVariablesInExample.yaml")
+                .setGeneratorName("postman-collection")
+                .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_GUID, false)
+                .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_ISO_TIMESTAMP, false)
+                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -472,33 +472,33 @@ public class PostmanCodegenTest {
         final String DESCRIPTION = "## Description \n\n Text with markdown \n";
         final String EXPECTED = "## Description \\n\\n Text with markdown \\n";
 
-        assertEquals(EXPECTED, new PostmanCodegen().formatDescription(DESCRIPTION));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().formatDescription(DESCRIPTION));
     }
 
     @Test
     public void testExtractPlaceholders() {
         final String INPUT = "Input with {{placeholder_1}} and {{placeholder_2}}";
 
-        assertEquals(2, new PostmanCodegen().extractPlaceholders(INPUT).size());
+        assertEquals(2, new PostmanCollectionCodegen().extractPlaceholders(INPUT).size());
     }
 
     @Test
     public void testExtractWithDuplicatePlaceholders() {
         final String INPUT = "Input with {{placeholder_1}}, {{placeholder_2}} and again {{placeholder_2}}";
 
-        assertEquals(2, new PostmanCodegen().extractPlaceholders(INPUT).size());
+        assertEquals(2, new PostmanCollectionCodegen().extractPlaceholders(INPUT).size());
     }
 
     @Test
     public void testExtractPlaceholdersIncludingGuidFormula() {
         final String INPUT = "Input with {{placeholder_1}} and {{$guid}}";
 
-        assertEquals(1, new PostmanCodegen().extractPlaceholders(INPUT).size());
+        assertEquals(1, new PostmanCollectionCodegen().extractPlaceholders(INPUT).size());
     }
 
     @Test
     public void testIsPostmanDynamicVariable() {
-        assertTrue(new PostmanCodegen().isPostmanDynamicVariable("$guid"));
+        assertTrue(new PostmanCollectionCodegen().isPostmanDynamicVariable("$guid"));
     }
 
     // test helpers
@@ -507,7 +507,7 @@ public class PostmanCodegenTest {
         CodegenProperty codegenProperty = new CodegenProperty();
         codegenProperty.isNumeric = true;
 
-        assertEquals("number", new PostmanCodegen().getPostmanType(codegenProperty));
+        assertEquals("number", new PostmanCollectionCodegen().getPostmanType(codegenProperty));
     }
 
     @Test
@@ -515,7 +515,7 @@ public class PostmanCodegenTest {
         CodegenProperty codegenProperty = new CodegenProperty();
         codegenProperty.isDate = true;
 
-        assertEquals("date", new PostmanCodegen().getPostmanType(codegenProperty));
+        assertEquals("date", new PostmanCollectionCodegen().getPostmanType(codegenProperty));
     }
 
     @Test
@@ -523,7 +523,7 @@ public class PostmanCodegenTest {
         CodegenProperty codegenProperty = new CodegenProperty();
         codegenProperty.isString = true;
 
-        assertEquals("string", new PostmanCodegen().getPostmanType(codegenProperty));
+        assertEquals("string", new PostmanCollectionCodegen().getPostmanType(codegenProperty));
     }
 
     @Test
@@ -548,7 +548,7 @@ public class PostmanCodegenTest {
             isDate = true;
         }});
 
-        assertEquals(EXPECTED, new PostmanCodegen().getJsonFromSchema(codegenParameter));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().getJsonFromSchema(codegenParameter));
     }
 
     @Test
@@ -557,7 +557,7 @@ public class PostmanCodegenTest {
         final String EXPECTED = "{\\n  \\\"id\\\" : 1,\\n  \\\"city\\\" : \\\"Amsterdam\\\"\\n}";
         final String JSON = "{\"id\":1,\"city\":\"Amsterdam\"}";
 
-        assertEquals(EXPECTED, new PostmanCodegen().formatJson(JSON));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().formatJson(JSON));
 
     }
 
@@ -567,7 +567,7 @@ public class PostmanCodegenTest {
         final String EXPECTED = "{\\n  \\\"id\\\" : 1,\\n  \\\"list\\\" : \\\"AMS,LON,ROM\\\"\\n}";
         final String JSON = "{\"id\":1,\"list\":\"AMS,LON,ROM\"}";
 
-        assertEquals(EXPECTED, new PostmanCodegen().formatJson(JSON));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().formatJson(JSON));
 
     }
 
@@ -575,7 +575,7 @@ public class PostmanCodegenTest {
     public void getAttributesFromJson() {
 
         final String JSON = "{\"id\":1,\"list\":\"AMS,LON,ROM\"}";
-        assertEquals(2, new PostmanCodegen().getAttributes(JSON).length);
+        assertEquals(2, new PostmanCollectionCodegen().getAttributes(JSON).length);
 
     }
 
@@ -590,7 +590,7 @@ public class PostmanCodegenTest {
         city.put("id", 1);
         city.put("city", "Amsterdam");
 
-        assertEquals(EXPECTED, new PostmanCodegen().convertToJson(city));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
     }
 
@@ -605,7 +605,7 @@ public class PostmanCodegenTest {
         city.put("id", 1);
         city.put("city", "it is \"Amsterdam\" ");
 
-        assertEquals(EXPECTED, new PostmanCodegen().convertToJson(city));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
     }
 
@@ -618,7 +618,7 @@ public class PostmanCodegenTest {
         city.put("id", 1);
         city.put("city", "Amsterdam");
 
-        assertEquals(EXPECTED, new PostmanCodegen().convertToJson(city));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
     }
 
@@ -639,7 +639,7 @@ public class PostmanCodegenTest {
         country.put("code", "NL");
         city.put("country", country);
 
-        assertEquals(EXPECTED, new PostmanCodegen().convertToJson(city));
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
     }
 

@@ -1,4 +1,0 @@
-generatorName: postman
-outputDir: samples/documentation/postman
-inputSpec: modules/openapi-generator/src/test/resources/3_0/postman/SampleProject.yaml
-templateDir: modules/openapi-generator/src/main/resources/postman

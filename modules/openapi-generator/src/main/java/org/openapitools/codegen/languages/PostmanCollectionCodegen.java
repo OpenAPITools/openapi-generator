@@ -21,11 +21,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * OpenAPI generator for Postman format v2.1
+ * OpenAPI generator for Postman Collection format v2.1
  */
-public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
+public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(PostmanCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PostmanCollectionCodegen.class);
 
     protected String apiVersion = "1.0.0";
 
@@ -85,7 +85,7 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
      * @see     org.openapitools.codegen.CodegenType
      */
     public CodegenType getTag() {
-        return CodegenType.DOCUMENTATION;
+        return CodegenType.SCHEMA;
     }
 
     @Override
@@ -101,17 +101,17 @@ public class PostmanCodegen extends DefaultCodegen implements CodegenConfig {
      * @return the friendly name for the generator
      */
     public String getName() {
-        return "postman";
+        return "postman-collection";
     }
 
-    public PostmanCodegen() {
+    public PostmanCollectionCodegen() {
         super();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
 
-        embeddedTemplateDir = templateDir = "postman";
+        embeddedTemplateDir = templateDir = "postman-collection";
         supportingFiles.add(
                 new SupportingFile("postman.mustache", "", postmanFile)
         );
