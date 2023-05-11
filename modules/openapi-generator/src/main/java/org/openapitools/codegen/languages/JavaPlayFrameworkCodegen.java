@@ -419,11 +419,13 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             super();
 
             this.name = cm.name;
+            this.description = cm.description;
             this.type = cm.type;
             this.scheme = cm.scheme;
             this.isBasic = cm.isBasic;
             this.isOAuth = cm.isOAuth;
             this.isApiKey = cm.isApiKey;
+            this.isOpenId = cm.isOpenId;
             this.isBasicBasic = cm.isBasicBasic;
             this.isBasicBearer = cm.isBasicBearer;
             this.isHttpSignature = cm.isHttpSignature;
@@ -437,6 +439,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             this.authorizationUrl = cm.authorizationUrl;
             this.tokenUrl = cm.tokenUrl;
             this.refreshUrl = cm.refreshUrl;
+            this.openIdConnectUrl = cm.openIdConnectUrl;
             this.scopes = cm.scopes;
             this.isCode = cm.isCode;
             this.isPassword = cm.isPassword;

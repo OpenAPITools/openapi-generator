@@ -53,9 +53,11 @@ public class CodegenSecurity {
         filteredSecurity.name = name;
         filteredSecurity.description = description;
         filteredSecurity.type = type;
+        filteredSecurity.scheme = scheme;
         filteredSecurity.isBasic = isBasic;
         filteredSecurity.isBasicBasic = isBasicBasic;
         filteredSecurity.isHttpSignature = isHttpSignature;
+        filteredSecurity.bearerFormat = bearerFormat;
         filteredSecurity.isBasicBearer = isBasicBearer;
         filteredSecurity.isApiKey = isApiKey;
         filteredSecurity.isOAuth = isOAuth;
