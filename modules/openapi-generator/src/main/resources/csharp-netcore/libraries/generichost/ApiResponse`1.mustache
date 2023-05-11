@@ -112,9 +112,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// </summary>
         public T{{nrt?}} ToModel(System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
         {
-            return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
-                : default(T);
+{{>ToModel}}
         }
 
         /// <summary>
