@@ -10,7 +10,7 @@ title: Documentation for the postman-collection Generator
 | generator stability | BETA | |
 | generator type | SCHEMA | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a postman JSON file | |
+| helpTxt | Generates a Postman collection (format v2.1.0) JSON file | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
