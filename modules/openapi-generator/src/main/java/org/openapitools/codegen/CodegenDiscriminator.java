@@ -129,6 +129,8 @@ public class CodegenDiscriminator {
                 return -1;
             }
 
+            // prioritize mappings based on the spec before any auto-generated class-name based
+            // so that during serialization the proper values are used in the json
             final boolean mappedEqualsModelName = getMappingName().equals(getModelName());
             if (mappedEqualsModelName != other.getMappingName().equals(other.getModelName())) {
                 return mappedEqualsModelName ? 1 : -1;
