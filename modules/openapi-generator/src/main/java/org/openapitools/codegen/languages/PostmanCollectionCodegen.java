@@ -295,6 +295,11 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     }
 
 
+    /**
+     * Add the CodegenOperation to the map that is passed to the Mustache templates
+     * The map groups the CodegenOperations by tag as defined in the OpenAPI spec
+     * @param codegenOperation Codegen operation instance
+     */
     void addToMap(CodegenOperation codegenOperation){
 
         String key = null;
@@ -427,7 +432,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return A string value for the help message
      */
     public String getHelp() {
-        return "Generates a postman JSON file";
+        return "Generates a Postman collection (format v2.1.0) JSON file";
     }
 
     /**
