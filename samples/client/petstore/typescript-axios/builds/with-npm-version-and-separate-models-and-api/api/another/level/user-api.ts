@@ -616,3 +616,4 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
+

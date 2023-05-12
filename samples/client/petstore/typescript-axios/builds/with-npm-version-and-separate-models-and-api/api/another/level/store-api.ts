@@ -325,3 +325,4 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
+

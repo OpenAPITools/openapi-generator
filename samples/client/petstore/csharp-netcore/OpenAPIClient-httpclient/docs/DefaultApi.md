@@ -8,7 +8,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**GetCountry**](DefaultApi.md#getcountry) | **POST** /country |  |
 | [**Hello**](DefaultApi.md#hello) | **GET** /hello | Hello |
 
-<a name="fooget"></a>
+<a id="fooget"></a>
 # **FooGet**
 > FooGetDefaultResponse FooGet ()
 
@@ -94,7 +94,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getcountry"></a>
+<a id="getcountry"></a>
 # **GetCountry**
 > void GetCountry (string country)
 
@@ -181,7 +181,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="hello"></a>
+<a id="hello"></a>
 # **Hello**
 > List&lt;Guid&gt; Hello ()
 

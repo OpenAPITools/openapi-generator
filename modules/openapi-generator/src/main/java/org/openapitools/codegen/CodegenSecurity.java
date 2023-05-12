@@ -59,6 +59,7 @@ public class CodegenSecurity {
         filteredSecurity.isBasicBearer = isBasicBearer;
         filteredSecurity.isApiKey = isApiKey;
         filteredSecurity.isOAuth = isOAuth;
+        filteredSecurity.isOpenId = isOpenId;
         filteredSecurity.keyParamName = keyParamName;
         filteredSecurity.isCode = isCode;
         filteredSecurity.isImplicit = isImplicit;
@@ -103,6 +104,7 @@ public class CodegenSecurity {
                 Objects.equals(scheme, that.scheme) &&
                 Objects.equals(isBasic, that.isBasic) &&
                 Objects.equals(isOAuth, that.isOAuth) &&
+                Objects.equals(isOpenId, that.isOpenId) &&
                 Objects.equals(isApiKey, that.isApiKey) &&
                 Objects.equals(isBasicBasic, that.isBasicBasic) &&
                 Objects.equals(isHttpSignature, that.isHttpSignature) &&
@@ -128,7 +130,7 @@ public class CodegenSecurity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, description, type, scheme, isBasic, isOAuth, isApiKey,
+        return Objects.hash(name, description, type, scheme, isBasic, isOAuth, isOpenId, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
                 authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit,
@@ -144,6 +146,7 @@ public class CodegenSecurity {
         sb.append(", scheme='").append(scheme).append('\'');
         sb.append(", isBasic=").append(isBasic);
         sb.append(", isOAuth=").append(isOAuth);
+        sb.append(", isOpenIdConnect=").append(isOpenId);
         sb.append(", isApiKey=").append(isApiKey);
         sb.append(", isBasicBasic=").append(isBasicBasic);
         sb.append(", isHttpSignature=").append(isHttpSignature);
