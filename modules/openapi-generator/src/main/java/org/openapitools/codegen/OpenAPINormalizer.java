@@ -100,7 +100,8 @@ public class OpenAPINormalizer {
         this.openAPI = openAPI;
         this.inputRules = inputRules;
 
-        if (Boolean.TRUE.equals(inputRules.get(DISABLE_ALL))) {
+        if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
+            LOGGER.info("Disabled all rules in OpenAPI Normalizer (DISABLE_ALL=true)");
             this.disableAll = true;
             return; // skip the rest
         }
@@ -119,7 +120,7 @@ public class OpenAPINormalizer {
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
-        //rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
+        rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
 
         processRules(inputRules);
     }
@@ -155,7 +156,7 @@ public class OpenAPINormalizer {
             } else if (enableAll) {
                 rules.put(rule.getKey(), true); // set rule
             } else {
-                rules.put(rule.getKey(), Boolean.valueOf(rule.getValue()));
+                rules.put(rule.getKey(), Boolean.parseBoolean(rule.getValue()));
             }
         }
 
@@ -171,7 +172,7 @@ public class OpenAPINormalizer {
      * the specification.
      */
     void normalize() {
-        if (rules == null || rules.isEmpty()) {
+        if (rules == null || rules.isEmpty() || disableAll) {
             return;
         }
 
