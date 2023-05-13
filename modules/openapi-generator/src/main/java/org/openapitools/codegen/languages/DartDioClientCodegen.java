@@ -289,9 +289,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private void configureNetworkingLibraryDio(String srcFolder) {
         imports.put("MultipartFile", DIO_IMPORT);
         final String dioMustacheFolder = "libraries/dio/";
-        final String authMustacheFolder = dioMustacheFolder +  "auth/";
-        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api_client.dart"));
+        supportingFiles.add(new SupportingFile(dioMustacheFolder + "api_client.mustache", srcFolder, "api_client.dart"));
+        supportingFiles.add(new SupportingFile(dioMustacheFolder + "api_util.mustache", srcFolder, "api_util.dart"));
         final String authFolder = srcFolder + File.separator + "auth";
+        final String authMustacheFolder = dioMustacheFolder +  "auth/";
         supportingFiles.add(new SupportingFile(authMustacheFolder + "auth_exports.mustache", authFolder, "_exports.dart"));
         supportingFiles.add(new SupportingFile(authMustacheFolder + "api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile(authMustacheFolder + "basic_auth.mustache", authFolder, "basic_auth.dart"));

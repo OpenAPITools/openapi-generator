@@ -7,10 +7,6 @@ abstract class SerializationRepositoryBase {
     
     Object serialize<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
     T deserialize<T>(Object value, TypeInfo targetTypeInfo, {Object? context,});
-
-    String encodeStringParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
-    Object encodeFormParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
-    Object encodeQueryParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
 }
 
 /// A modified version of `built_value`'s `FullType` class, found here

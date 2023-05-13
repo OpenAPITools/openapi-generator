@@ -1,9 +1,9 @@
 class {{classname}} {
 
-  final {{classname}}Raw _rawApi;
+  final {{classname}}Raw rawApi;
   final SerializationRepositoryBase _repository;
 
-  const {{classname}}(this._rawApi, this._repository);
+  const {{classname}}(this.rawApi, this._repository);
 
   {{#operation}}
   /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
@@ -49,14 +49,14 @@ class {{classname}} {
     {{#isMultipart}}
     _bodyData = FormData.fromMap(<String, dynamic>{
       {{#formParams}}
-      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}_repository.encodeFormParameter({{{paramName}}}, {{>types/recursion_base_type_info}}){{/isFile}},
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}encodeFormParameter(_repository, {{{paramName}}}, {{>types/recursion_base_type_info}}){{/isFile}},
       {{/formParams}}
     });
     {{/isMultipart}}
     {{^isMultipart}}
     _bodyData = <String, dynamic>{
       {{#formParams}}
-      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': _repository.encodeFormParameter({{{paramName}}}, {{>types/recursion_base_type_info}}),
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': encodeFormParameter(_repository, {{{paramName}}}, {{>types/recursion_base_type_info}}),
       {{/formParams}}
     };
     {{/isMultipart}}
@@ -71,17 +71,20 @@ class {{classname}} {
     {{/bodyParam}}
     {{/hasBodyOrFormParams}}
 
-    final _response = await _rawApi.{{nickname}}(
+    final _response = await rawApi.{{nickname}}(
       {{#allParams}}{{#isPathParam}}
-      {{paramName}}: _repository.encodeStringParameter({{paramName}}, {{>types/recursion_base_type_info}}),{{/isPathParam}}{{#isQueryParam}}
-      {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}_repository.encodeQueryParameter({{paramName}}, {{>types/recursion_base_type_info}}{{#collectionFormat}}, context: ListFormat.{{collectionFormat}}{{/collectionFormat}}) ,{{/isQueryParam}}{{#isHeaderParam}}
-      {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}_repository.encodeStringParameter({{paramName}}, {{>types/recursion_base_type_info}}) ,{{/isHeaderParam}}{{/allParams}}
+      {{paramName}}: _repository.serialize({{paramName}}, {{>types/recursion_base_type_info}}).toString(),{{/isPathParam}}{{#isQueryParam}}      
+      {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}encodeQueryParameter(_repository, {{paramName}}, {{>types/recursion_base_type_info}}, {{#collectionFormat}}format: ListFormat.{{.}},{{/collectionFormat}}) ,{{/isQueryParam}}{{#isHeaderParam}}
+      {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}_repository.serialize({{paramName}}, {{>types/recursion_base_type_info}}).toString() ,{{/isHeaderParam}}{{/allParams}}
       {{#hasConsumes}}
       body: _bodyData,
       requestContentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
+      {{#isResponseFile}}
+      responseType: responseType.bytes,
+      {{/isResponseFile}}
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

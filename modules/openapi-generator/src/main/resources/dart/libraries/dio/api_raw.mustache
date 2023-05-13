@@ -35,6 +35,7 @@ class {{classname}}Raw {
     Object? body,
     String? requestContentType,
     String? acceptContentType,
+    ResponseType? responseType,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -45,9 +46,6 @@ class {{classname}}Raw {
     final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{{paramName}}}.toString()){{/pathParams}};
     final _options = Options(
       method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
-      {{#isResponseFile}}
-      responseType: ResponseType.bytes,
-      {{/isResponseFile}}
       headers: <String, dynamic>{
         {{#httpUserAgent}}
         r'User-Agent': r'{{{.}}}',
@@ -71,6 +69,7 @@ class {{classname}}Raw {
         ...?extra,
       },
       contentType: requestContentType,
+      responseType: responseType,
       validateStatus: validateStatus,
     );{{#hasQueryParams}}
 

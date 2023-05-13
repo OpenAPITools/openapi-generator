@@ -11,84 +11,65 @@ class JsonSerializableRepository extends SerializationRepositoryBase {
         return jsonEncode(src);
     }
 
-    /*  ReturnType deserialize<ReturnType, BaseType>(dynamic value, String targetType, {bool growable= true}) {     }*/   
     @override
     T deserialize<T>(Object value, TypeInfo targetTypeInfo, {Object? context}) {
-        //Dio automatically calls jsonDecode if the value is a string
-        if (value is String) {
-            value = jsonDecode(value);
+        Object valueParsed;
+        if (context == 'decodedJson') {
+            //if we are deserializing a decoded json, don't decode it again.
+            valueParsed = value;
+        } else {
+            valueParsed = jsonDecode(value.toString()) as Object;            
         }
         switch (targetTypeInfo.root) {
             case String:
-                return valueString as T;
+                return valueParsed as T;
             case int:
-                return (value is num ? value.toInt() : int.parse(value.toString())) as T;
+                return (valueParsed is num ? valueParsed.toInt() : int.parse(valueParsed.toString())) as T;
             case bool:
-                if (value is bool) {
-                    return value as T;
+                if (valueParsed is bool) {
+                    return valueParsed as T;
                 }
-                final valueString = value.toString().toLowerCase();
+                final valueString = valueParsed.toString().toLowerCase();
                 return (valueString == 'true' || valueString == '1') as T;
             case double:
-                return (value is num ? value.toDouble() : double.parse(value.toString())) as T;
+                return (valueParsed is num ? valueParsed.toDouble() : double.parse(valueParsed.toString())) as T;
             //TODO: add support for DateTime?
             {{#models}}
             {{#model}}
             case {{{classname}}}:
                 {{#isEnum}}
-            {{#native_serialization}}return {{{classname}}}TypeTransformer().decode(value);{{/native_serialization}}
-            {{#json_serializable}} return _$enumDecode(_${{{classname}}}EnumMap, value);{{/json_serializable}}
+            {{#native_serialization}}return {{{classname}}}TypeTransformer().decode(valueParsed);{{/native_serialization}}
+            {{#json_serializable}} return _$enumDecode(_${{{classname}}}EnumMap, valueParsed);{{/json_serializable}}
                 {{/isEnum}}
                 {{^isEnum}}
-            return {{{classname}}}.fromJson(value as Map<String, dynamic>) as T;
+            return {{{classname}}}.fromJson(valueParsed as Map<String, dynamic>) as T;
                 {{/isEnum}}
             {{/model}}
             {{/models}}
             default:
             RegExpMatch? match;
 
-            if (value is List && (match = _regList.firstMatch(targetTypeInfo)) != null) {
+            if (valueParsed is List && (match = _regList.firstMatch(targetTypeInfo)) != null) {
                 targetType = match![1]!; // ignore: parameter_assignments
-                return value
+                return valueParsed
                 .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetTypeInfo, growable: growable))
                 .toList(growable: growable) as T;
             }
-            if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+            if (valueParsed is Set && (match = _regSet.firstMatch(targetType)) != null) {
                 targetType = match![1]!; // ignore: parameter_assignments
-                return value
+                return valueParsed
                 .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetTypeInfo, growable: growable))
                 .toSet() as T;
             }
-            if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
+            if (valueParsed is Map && (match = _regMap.firstMatch(targetType)) != null) {
                 targetType = match![1]!; // ignore: parameter_assignments
                 return Map<dynamic, BaseType>.fromIterables(
-                value.keys,
-                value.values.map((dynamic v) => deserialize<BaseType, BaseType>(v, targetTypeInfo, growable: growable)),
+                valueParsed.keys,
+                valueParsed.values.map((dynamic v) => deserialize<BaseType, BaseType>(v, targetTypeInfo, growable: growable)),
                 ) as T;
             }
             break;
         } 
         throw Exception('Cannot deserialize');        
     }
-
-    @override
-    Object encodeFormParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context}) {
-        return src;
-    }
-
-    @override
-    Object encodeQueryParameter<T>(T src, TypeInfo inputTypeInfo, {
-        Object? context,
-    }) {
-        return src;
-    }
-
-    @override
-    String encodeStringParameter<T>(T src, TypeInfo inputTypeInfo, {
-        Object? context,
-    }) {
-        return src.toString();
-    }
-
-
 }
