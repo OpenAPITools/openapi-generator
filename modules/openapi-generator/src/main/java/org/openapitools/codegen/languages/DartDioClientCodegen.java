@@ -120,7 +120,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportedSerializationLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
         supportedSerializationLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
         final CliOption serializationLibraryOptions = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
-        serializationLibraryOptions.setEnum(supportedLibraries);
+        serializationLibraryOptions.setEnum(supportedSerializationLibraries);
         serializationLibraryOptions.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibraryOptions);
 
