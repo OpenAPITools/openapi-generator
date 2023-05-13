@@ -5,12 +5,10 @@ import 'package:openapi/openapi.dart';
 void main() {
   final FooBasicGetDefaultResponse?
       instance = /* FooBasicGetDefaultResponse(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(FooBasicGetDefaultResponse, () {
     // Foo string
-    test('to test the property `string`', () async {
-      // TODO
-    });
+    test('to test the property `string`', () async {});
   });
 }

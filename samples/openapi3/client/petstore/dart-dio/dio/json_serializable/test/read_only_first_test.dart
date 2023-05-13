@@ -4,17 +4,13 @@ import 'package:openapi/openapi.dart';
 // tests for ReadOnlyFirst
 void main() {
   final ReadOnlyFirst? instance = /* ReadOnlyFirst(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(ReadOnlyFirst, () {
     // String bar
-    test('to test the property `bar`', () async {
-      // TODO
-    });
+    test('to test the property `bar`', () async {});
 
     // String baz
-    test('to test the property `baz`', () async {
-      // TODO
-    });
+    test('to test the property `baz`', () async {});
   });
 }

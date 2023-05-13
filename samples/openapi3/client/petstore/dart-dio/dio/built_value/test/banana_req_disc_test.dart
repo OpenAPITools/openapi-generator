@@ -4,17 +4,13 @@ import 'package:openapi/openapi.dart';
 // tests for BananaReqDisc
 void main() {
   final instance = BananaReqDiscBuilder();
-  // TODO add properties to the builder and call build()
+  // add properties to the builder and call build()
 
   group(BananaReqDisc, () {
     // int length
-    test('to test the property `length`', () async {
-      // TODO
-    });
+    test('to test the property `length`', () async {});
 
     // String fruitType
-    test('to test the property `fruitType`', () async {
-      // TODO
-    });
+    test('to test the property `fruitType`', () async {});
   });
 }

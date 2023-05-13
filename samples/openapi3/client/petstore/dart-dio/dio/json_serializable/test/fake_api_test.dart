@@ -9,130 +9,96 @@ void main() {
     // Health check endpoint
     //
     //Future<HealthCheckResult> fakeHealthGet() async
-    test('test fakeHealthGet', () async {
-      // TODO
-    });
+    test('test fakeHealthGet', () async {});
 
     // test http signature authentication
     //
     //Future fakeHttpSignatureTest(Pet pet, { String query1, String header1 }) async
-    test('test fakeHttpSignatureTest', () async {
-      // TODO
-    });
+    test('test fakeHttpSignatureTest', () async {});
 
     // Test serialization of outer boolean types
     //
     //Future<bool> fakeOuterBooleanSerialize({ bool body }) async
-    test('test fakeOuterBooleanSerialize', () async {
-      // TODO
-    });
+    test('test fakeOuterBooleanSerialize', () async {});
 
     // Test serialization of object with outer number type
     //
     //Future<OuterComposite> fakeOuterCompositeSerialize({ OuterComposite outerComposite }) async
-    test('test fakeOuterCompositeSerialize', () async {
-      // TODO
-    });
+    test('test fakeOuterCompositeSerialize', () async {});
 
     // Test serialization of outer number types
     //
     //Future<num> fakeOuterNumberSerialize({ num body }) async
-    test('test fakeOuterNumberSerialize', () async {
-      // TODO
-    });
+    test('test fakeOuterNumberSerialize', () async {});
 
     // Test serialization of outer string types
     //
     //Future<String> fakeOuterStringSerialize({ String body }) async
-    test('test fakeOuterStringSerialize', () async {
-      // TODO
-    });
+    test('test fakeOuterStringSerialize', () async {});
 
     // Test serialization of enum (int) properties with examples
     //
     //Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async
-    test('test fakePropertyEnumIntegerSerialize', () async {
-      // TODO
-    });
+    test('test fakePropertyEnumIntegerSerialize', () async {});
 
     // For this test, the body has to be a binary file.
     //
     //Future testBodyWithBinary(MultipartFile body) async
-    test('test testBodyWithBinary', () async {
-      // TODO
-    });
+    test('test testBodyWithBinary', () async {});
 
     // For this test, the body for this request must reference a schema named `File`.
     //
     //Future testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async
-    test('test testBodyWithFileSchema', () async {
-      // TODO
-    });
+    test('test testBodyWithFileSchema', () async {});
 
     //Future testBodyWithQueryParams(String query, User user) async
-    test('test testBodyWithQueryParams', () async {
-      // TODO
-    });
+    test('test testBodyWithQueryParams', () async {});
 
     // To test \"client\" model
     //
     // To test \"client\" model
     //
     //Future<ModelClient> testClientModel(ModelClient modelClient) async
-    test('test testClientModel', () async {
-      // TODO
-    });
+    test('test testClientModel', () async {});
 
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
     //
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
     //
     //Future testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async
-    test('test testEndpointParameters', () async {
-      // TODO
-    });
+    test('test testEndpointParameters', () async {});
 
     // To test enum parameters
     //
     // To test enum parameters
     //
     //Future testEnumParameters({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<ModelEnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString }) async
-    test('test testEnumParameters', () async {
-      // TODO
-    });
+    test('test testEnumParameters', () async {});
 
     // Fake endpoint to test group parameters (optional)
     //
     // Fake endpoint to test group parameters (optional)
     //
     //Future testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async
-    test('test testGroupParameters', () async {
-      // TODO
-    });
+    test('test testGroupParameters', () async {});
 
     // test inline additionalProperties
     //
     //
     //
     //Future testInlineAdditionalProperties(Map<String, String> requestBody) async
-    test('test testInlineAdditionalProperties', () async {
-      // TODO
-    });
+    test('test testInlineAdditionalProperties', () async {});
 
     // test json serialization of form data
     //
     //
     //
     //Future testJsonFormData(String param, String param2) async
-    test('test testJsonFormData', () async {
-      // TODO
-    });
+    test('test testJsonFormData', () async {});
 
     // To test the collection format in query parameters
     //
     //Future testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String> language }) async
-    test('test testQueryParameterCollectionFormat', () async {
-      // TODO
-    });
+    test('test testQueryParameterCollectionFormat', () async {});
   });
 }

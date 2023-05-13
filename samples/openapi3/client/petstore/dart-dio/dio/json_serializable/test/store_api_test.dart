@@ -11,35 +11,27 @@ void main() {
     // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     //
     //Future deleteOrder(String orderId) async
-    test('test deleteOrder', () async {
-      // TODO
-    });
+    test('test deleteOrder', () async {});
 
     // Returns pet inventories by status
     //
     // Returns a map of status codes to quantities
     //
     //Future<Map<String, int>> getInventory() async
-    test('test getInventory', () async {
-      // TODO
-    });
+    test('test getInventory', () async {});
 
     // Find purchase order by ID
     //
     // For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
     //
     //Future<Order> getOrderById(int orderId) async
-    test('test getOrderById', () async {
-      // TODO
-    });
+    test('test getOrderById', () async {});
 
     // Place an order for a pet
     //
     //
     //
     //Future<Order> placeOrder(Order order) async
-    test('test placeOrder', () async {
-      // TODO
-    });
+    test('test placeOrder', () async {});
   });
 }

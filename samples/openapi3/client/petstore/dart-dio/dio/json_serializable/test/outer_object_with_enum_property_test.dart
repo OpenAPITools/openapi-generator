@@ -5,12 +5,10 @@ import 'package:openapi/openapi.dart';
 void main() {
   final OuterObjectWithEnumProperty?
       instance = /* OuterObjectWithEnumProperty(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(OuterObjectWithEnumProperty, () {
     // OuterEnumInteger value
-    test('to test the property `value`', () async {
-      // TODO
-    });
+    test('to test the property `value`', () async {});
   });
 }

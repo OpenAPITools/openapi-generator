@@ -9,15 +9,11 @@ void main() {
     // Create a Foo
     //
     //Future<FooRefOrValue> createFoo({ Foo foo }) async
-    test('test createFoo', () async {
-      // TODO
-    });
+    test('test createFoo', () async {});
 
     // GET all Foos
     //
     //Future<List<FooRefOrValue>> getAllFoos() async
-    test('test getAllFoos', () async {
-      // TODO
-    });
+    test('test getAllFoos', () async {});
   });
 }

@@ -4,12 +4,10 @@ import 'package:openapi/openapi.dart';
 // tests for NumberOnly
 void main() {
   final NumberOnly? instance = /* NumberOnly(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(NumberOnly, () {
     // num justNumber
-    test('to test the property `justNumber`', () async {
-      // TODO
-    });
+    test('to test the property `justNumber`', () async {});
   });
 }

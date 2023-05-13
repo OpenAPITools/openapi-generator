@@ -5,12 +5,10 @@ import 'package:openapi/openapi.dart';
 void main() {
   final ComposedDiscOptionalTypeIncorrect?
       instance = /* ComposedDiscOptionalTypeIncorrect(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(ComposedDiscOptionalTypeIncorrect, () {
     // int fruitType
-    test('to test the property `fruitType`', () async {
-      // TODO
-    });
+    test('to test the property `fruitType`', () async {});
   });
 }

@@ -9,8 +9,6 @@ void main() {
     // Create a Bar
     //
     //Future<Bar> createBar(BarCreate barCreate) async
-    test('test createBar', () async {
-      // TODO
-    });
+    test('test createBar', () async {});
   });
 }

@@ -4,12 +4,10 @@ import 'package:openapi/openapi.dart';
 // tests for AppleVariant1
 void main() {
   final AppleVariant1? instance = /* AppleVariant1(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(AppleVariant1, () {
     // String kind
-    test('to test the property `kind`', () async {
-      // TODO
-    });
+    test('to test the property `kind`', () async {});
   });
 }

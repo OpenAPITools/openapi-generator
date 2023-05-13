@@ -5,27 +5,19 @@ import 'package:openapi/openapi.dart';
 void main() {
   final ObjectWithDeprecatedFields?
       instance = /* ObjectWithDeprecatedFields(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(ObjectWithDeprecatedFields, () {
     // String uuid
-    test('to test the property `uuid`', () async {
-      // TODO
-    });
+    test('to test the property `uuid`', () async {});
 
     // num id
-    test('to test the property `id`', () async {
-      // TODO
-    });
+    test('to test the property `id`', () async {});
 
     // DeprecatedObject deprecatedRef
-    test('to test the property `deprecatedRef`', () async {
-      // TODO
-    });
+    test('to test the property `deprecatedRef`', () async {});
 
     // List<Bar> bars
-    test('to test the property `bars`', () async {
-      // TODO
-    });
+    test('to test the property `bars`', () async {});
   });
 }

@@ -5,12 +5,10 @@ import 'package:openapi/openapi.dart';
 void main() {
   final FruitInlineInlineDiscOneOfOneOf?
       instance = /* FruitInlineInlineDiscOneOfOneOf(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(FruitInlineInlineDiscOneOfOneOf, () {
     // String fruitType
-    test('to test the property `fruitType`', () async {
-      // TODO
-    });
+    test('to test the property `fruitType`', () async {});
   });
 }

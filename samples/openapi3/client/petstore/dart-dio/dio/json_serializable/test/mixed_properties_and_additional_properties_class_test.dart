@@ -5,22 +5,16 @@ import 'package:openapi/openapi.dart';
 void main() {
   final MixedPropertiesAndAdditionalPropertiesClass?
       instance = /* MixedPropertiesAndAdditionalPropertiesClass(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(MixedPropertiesAndAdditionalPropertiesClass, () {
     // String uuid
-    test('to test the property `uuid`', () async {
-      // TODO
-    });
+    test('to test the property `uuid`', () async {});
 
     // DateTime dateTime
-    test('to test the property `dateTime`', () async {
-      // TODO
-    });
+    test('to test the property `dateTime`', () async {});
 
     // Map<String, Animal> map
-    test('to test the property `map`', () async {
-      // TODO
-    });
+    test('to test the property `map`', () async {});
   });
 }

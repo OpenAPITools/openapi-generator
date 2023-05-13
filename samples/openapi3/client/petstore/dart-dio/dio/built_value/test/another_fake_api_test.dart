@@ -11,8 +11,6 @@ void main() {
     // To test special tags and operation ID starting with number
     //
     //Future<ModelClient> call123testSpecialTags(ModelClient modelClient) async
-    test('test call123testSpecialTags', () async {
-      // TODO
-    });
+    test('test call123testSpecialTags', () async {});
   });
 }

@@ -37,7 +37,6 @@ class JsonSerializableRepository extends SerializationRepositoryBase {
         return (valueParsed is num
             ? valueParsed.toDouble()
             : double.parse(valueParsed.toString())) as T;
-      //TODO: add support for DateTime?
       case AdditionalPropertiesClass:
         return AdditionalPropertiesClass.fromJson(
             valueParsed as Map<String, dynamic>) as T;

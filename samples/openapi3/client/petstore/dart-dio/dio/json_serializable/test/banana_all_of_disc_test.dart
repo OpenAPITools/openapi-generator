@@ -4,17 +4,13 @@ import 'package:openapi/openapi.dart';
 // tests for BananaAllOfDisc
 void main() {
   final BananaAllOfDisc? instance = /* BananaAllOfDisc(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(BananaAllOfDisc, () {
     // int length
-    test('to test the property `length`', () async {
-      // TODO
-    });
+    test('to test the property `length`', () async {});
 
     // String fruitType
-    test('to test the property `fruitType`', () async {
-      // TODO
-    });
+    test('to test the property `fruitType`', () async {});
   });
 }

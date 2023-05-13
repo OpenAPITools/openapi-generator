@@ -4,22 +4,16 @@ import 'package:openapi/openapi.dart';
 // tests for OuterComposite
 void main() {
   final OuterComposite? instance = /* OuterComposite(...) */ null;
-  // TODO add properties to the entity
+  // add properties to the entity
 
   group(OuterComposite, () {
     // num myNumber
-    test('to test the property `myNumber`', () async {
-      // TODO
-    });
+    test('to test the property `myNumber`', () async {});
 
     // String myString
-    test('to test the property `myString`', () async {
-      // TODO
-    });
+    test('to test the property `myString`', () async {});
 
     // bool myBoolean
-    test('to test the property `myBoolean`', () async {
-      // TODO
-    });
+    test('to test the property `myBoolean`', () async {});
   });
 }
