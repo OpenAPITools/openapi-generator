@@ -64,6 +64,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
+    public static final String NETWORKING_LIBRARY_DIO = "dio";
+    public static final String NETWORKING_LIBRARY_HTTP = "http";
+    public static final String NETWORKING_LIBRARY_DEFAULT = NETWORKING_LIBRARY_DIO;
+
     private static final String DIO_IMPORT = "package:dio/dio.dart";
     public static final String FINAL_PROPERTIES = "finalProperties";
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
@@ -71,10 +75,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
+    
+    private String serializationLibrary;
 
     private String clientName;
 
     private TemplateManager templateManager;
+
+    private Map<String, String> supportedSerializationLibraries = new LinkedHashMap<>();
+    
+  
 
     public DartDioClientCodegen() {
         super();
@@ -97,15 +107,22 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 .build();
 
         outputFolder = "generated-code/dart-dio";
-        embeddedTemplateDir = "dart/libraries/dio";
+        embeddedTemplateDir = "dart";
         this.setTemplateDir(embeddedTemplateDir);
 
-        supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
-        supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
-        final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
-        serializationLibrary.setEnum(supportedLibraries);
-        serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
-        cliOptions.add(serializationLibrary);
+        supportedLibraries.put(NETWORKING_LIBRARY_DIO, "[DEFAULT] dio");
+        supportedLibraries.put(NETWORKING_LIBRARY_HTTP, "[BETA] http");
+        final CliOption networkingLibraryOptions = CliOption.newString(CodegenConstants.LIBRARY, "Specify networking library");
+        networkingLibraryOptions.setEnum(supportedLibraries);
+        networkingLibraryOptions.setDefault(NETWORKING_LIBRARY_DEFAULT);
+        cliOptions.add(networkingLibraryOptions);
+
+        supportedSerializationLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
+        supportedSerializationLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
+        final CliOption serializationLibraryOptions = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
+        serializationLibraryOptions.setEnum(supportedLibraries);
+        serializationLibraryOptions.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
+        cliOptions.add(serializationLibraryOptions);
 
         // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
@@ -128,6 +145,30 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
+    }
+
+    public String getSerializationLibrary() {
+        return serializationLibrary;
+    }
+
+     /**
+     * Set serialization library template.
+     *
+     * @param serializationLibrary Serialization Library template
+     */    
+    public void setSerializationLibrary(String serializationLibrary) {
+        if (serializationLibrary != null && !supportedSerializationLibraries.containsKey(serializationLibrary)) {
+            StringBuilder sb = new StringBuilder("Unknown serialization library: " + serializationLibrary + "\nAvailable serialization libraries:");
+            if (supportedSerializationLibraries.size() == 0) {
+                sb.append("\n  ").append("NONE");
+            } else {
+                for (String lib : supportedSerializationLibraries.keySet()) {
+                    sb.append("\n  ").append(lib);
+                }
+            }
+            throw new RuntimeException(sb.toString());
+        }
+        this.serializationLibrary = serializationLibrary;
     }
 
     public String getClientName() {
@@ -157,12 +198,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            additionalProperties.put(CodegenConstants.LIBRARY, NETWORKING_LIBRARY_DEFAULT);
+            LOGGER.debug("Networking library not set, using default {}", NETWORKING_LIBRARY_DEFAULT);
+        }
+        setLibrary(additionalProperties.get(CodegenConstants.LIBRARY).toString());
+
         if (!additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DEFAULT);
             LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_DEFAULT);
         }
-        setLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+        setSerializationLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
             this.setLegacyDiscriminatorBehavior(false);
         }
 
@@ -192,28 +239,72 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        supportingFiles.add(new SupportingFile("lib_api_exports.mustache", libPath, "api.dart"));
+        supportingFiles.add(new SupportingFile("lib_api_exports.mustache", libPath, "apis.dart"));
         supportingFiles.add(new SupportingFile("lib_model_exports.mustache", libPath, "models.dart"));
         supportingFiles.add(new SupportingFile("lib.mustache", libPath, pubName + ".dart"));
 
         final String srcFolder = libPath + sourceFolder;
-        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api_client.dart"));
         supportingFiles.add(new SupportingFile("serialization/repository_base.mustache", srcFolder, "repository_base.dart"));
-
-        final String authFolder = srcFolder + File.separator + "auth";
-        supportingFiles.add(new SupportingFile("auth/auth_exports.mustache", authFolder, "_exports.dart"));
-        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
-        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
-        
-        configureSerializationLibrary(srcFolder);
+                
+        configureNetworkingLibrary(srcFolder);
+        configureSerializationLibrary(srcFolder);        
         configureDateLibrary(srcFolder);
     }
 
-    private void configureSerializationLibrary(String srcFolder) {
+    private void configureNetworkingLibrary(String sourceFolder) {
         switch (library) {
+            case NETWORKING_LIBRARY_DIO:
+                additionalProperties.put("useDio", "true");
+                configureNetworkingLibraryDio(sourceFolder);
+                break;
+            default:
+            case NETWORKING_LIBRARY_HTTP:
+                additionalProperties.put("useHttp", "true");
+                configureNetworkingLibraryHttp(sourceFolder);
+                break;
+        }
+
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
+        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
+        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
+        templateManager = new TemplateManager(
+                templateManagerOptions,
+                getTemplatingEngine(),
+                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
+        );
+
+        // A lambda which allows for easy includes of serialization library specific
+        // templates without having to change the main template files.
+        additionalProperties.put("includeLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
+            MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
+            String templateFile = "libraries/" + library + "/" + fragment.execute() + ".mustache";
+            Template tmpl = engine.getCompiler()
+                    .withLoader(name -> engine.findTemplate(templateManager, name))
+                    .defaultValue("")
+                    .compile(templateManager.getFullTemplateContents(templateFile));
+
+            fragment.executeTemplate(tmpl, writer);
+        });
+    }
+    private void configureNetworkingLibraryDio(String srcFolder) {
+        imports.put("MultipartFile", DIO_IMPORT);
+        final String dioMustacheFolder = "libraries/dio/";
+        final String authMustacheFolder = dioMustacheFolder +  "auth/";
+        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api_client.dart"));
+        final String authFolder = srcFolder + File.separator + "auth";
+        supportingFiles.add(new SupportingFile(authMustacheFolder + "auth_exports.mustache", authFolder, "_exports.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + "api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + "basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + "bearer_auth.mustache", authFolder, "bearer_auth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + "oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile(authMustacheFolder + "auth.mustache", authFolder, "auth.dart"));
+    }
+    private void configureNetworkingLibraryHttp(String srcFolder) {
+        
+    }
+
+    private void configureSerializationLibrary(String srcFolder) {
+        switch (serializationLibrary) {
             case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
                 additionalProperties.put("useJsonSerializable", "true");
                 configureSerializationLibraryJsonSerializable(srcFolder);
@@ -234,11 +325,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
         );
 
+       
         // A lambda which allows for easy includes of serialization library specific
         // templates without having to change the main template files.
-        additionalProperties.put("includeLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
+        additionalProperties.put("includeSerializationTemplate", (Mustache.Lambda) (fragment, writer) -> {
             MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
-            String templateFile = "serialization/" + library + "/" + fragment.execute() + ".mustache";
+            String templateFile = "serialization/" + serializationLibrary + "/" + fragment.execute() + ".mustache";
             Template tmpl = engine.getCompiler()
                     .withLoader(name -> engine.findTemplate(templateManager, name))
                     .defaultValue("")
@@ -267,20 +359,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/json_serializable/repository_impl.mustache", srcFolder, "repository_impl.dart"));
-        supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
-        supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
-                "deserialize.dart"));
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));        
 
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", DIO_IMPORT);
     }
     
     private void configureDateLibrary(String srcFolder) {
@@ -293,14 +381,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 typeMapping.put("datetime", "OffsetDateTime");
                 imports.put("OffsetDate", "package:time_machine/time_machine.dart");
                 imports.put("OffsetDateTime", "package:time_machine/time_machine.dart");
-                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
                     supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
                 }
                 break;
             default:
             case DATE_LIBRARY_CORE:
                 additionalProperties.put("useDateLibCore", "true");
-                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
                     typeMapping.put("date", "Date");
                     typeMapping.put("Date", "Date");
                     importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
@@ -314,7 +402,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
                 if (ModelUtils.isArraySchema(schema)) {
                     if (ModelUtils.isSet(schema)) {
                         return "SetBuilder()";
@@ -578,7 +666,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
         }
@@ -598,7 +686,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
             if (property.isEnum && property.getComposedSchemas() == null) {
                 // enums are generated with built_value and make use of BuiltSet
                 model.imports.add("BuiltSet");
@@ -636,7 +724,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     param.baseType = param.baseType.replace("Uint8List", "MultipartFile");
                     op.imports.add("MultipartFile");
 
-                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
                         boolean skipFormModel = Boolean.parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
                         if (param.isFormParam && param.isContainer && !skipFormModel) {
                             // Because of skipFormModel=false, there is a model class generated which has
@@ -662,7 +750,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
             resultImports.addAll(rewriteImports(op.imports, false));
 
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
 
                 for (CodegenParameter param : op.allParams) {
                     // Generate serializer factories for all container type parameters.

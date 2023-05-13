@@ -9,34 +9,53 @@ import 'package:dio/dio.dart';
 import 'repository_base.dart';
 import 'serializers.dart';
 
+/// Converts our `TypeInfo` to `built_value`'s `FullType`
+FullType typeInfoToFullType(TypeInfo info) {
+  if (info.nullable) {
+    return FullType.nullable(
+        info.root, info.parameters.map(typeInfoToFullType).toList(),);
+  } else {
+    return FullType(
+        info.root, info.parameters.map(typeInfoToFullType).toList(),);
+  }
+}
+
 class BuiltValueJsonRepository extends SerializationRepositoryBase {
     final Serializers serializers;
     const BuiltValueJsonRepository(this.serializers);
 
     @override
-    T deserialize<T>(Object value, TypeInfo parsedType, {Object? context}) {
-        
+    T deserialize<T>(Object value, TypeInfo targetTypeInfo, {Object? context}) {
+      return serializers.deserialize(
+        value, 
+        specifiedType: typeInfoToFullType(targetTypeInfo),
+      ) as T;
+    }
+    
+    @override
+    Object serialize<T>(T src, TypeInfo inputTypeInfo, {Object? context}) {
+      return serializers.serialize(
+        src,
+        specifiedType: typeInfoToFullType(inputTypeInfo),
+      ) as Object;
     }
 
     @override
-    Object encodeFormParameter<T>(T src, TypeInfo parsedType, {Object? context}) {
+    Object encodeFormParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,}) {
     
     }
 
     @override
-    Object encodeQueryParameter<T>(T src, TypeInfo parsedType,
-        {Object? context}) {   
+    Object encodeQueryParameter<T>(T src, TypeInfo inputTypeInfo,
+        {Object? context,}) {   
     }
 
     @override
-    String encodeStringParameter<T>(T src, TypeInfo parsedType,
-        {Object? context}) {        
+    String encodeStringParameter<T>(T src, TypeInfo inputTypeInfo,
+        {Object? context,}) {        
     }
 
-    @override
-    Object serialize<T>(T src, TypeInfo parsedType, {Object? context}) {
-
-    }
+   
 }
 
 /*

@@ -1,22 +1,22 @@
-# {{pubName}}.api.{{classname}}{{#description}}
-{{.}}{{/description}}
+# {{{pubName}}}.api.{{{classname}}}{{#description}}
+{{{.}}}{{/description}}
 
 ## Load the API package
 ```dart
-import 'package:{{pubName}}/{{pubName}}.dart';
+import 'package:{{{pubName}}}/api.dart';
 ```
 
-All URIs are relative to *{{basePath}}*
+All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{#operations}}{{#operation}}[**{{{operationId}}}**]({{{classname}}}.md#{{{operationIdLowerCase}}}) | **{{{httpMethod}}}** {{{path}}} | {{{summary}}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 # **{{{operationId}}}**
-> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
@@ -24,13 +24,23 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:{{pubName}}/{{pubName}}.dart';
+import 'package:{{{pubName}}}/api.dart';
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
+{{#isBasicBasic}}
 // TODO Configure HTTP basic authorization: {{{name}}}
 //defaultApiClient.getAuthentication<HttpBasicAuth>('{{{name}}}').username = 'YOUR_USERNAME'
 //defaultApiClient.getAuthentication<HttpBasicAuth>('{{{name}}}').password = 'YOUR_PASSWORD';
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+// TODO Configure HTTP Bearer authorization: {{{name}}}
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('{{{name}}}').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('{{{name}}}').setAccessToken(yourTokenGeneratorFunction);
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 // TODO Configure API key authorization: {{{name}}}
@@ -45,18 +55,18 @@ import 'package:{{pubName}}/{{pubName}}.dart';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-final api = {{clientName}}().get{{classname}}();
+final api_instance = {{{classname}}}();
 {{#allParams}}
-final {{{dataType}}} {{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
+final {{{paramName}}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{dataType}}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try {
-    {{#returnType}}final response = {{/returnType}}api.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#returnType}}final result = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
     {{#returnType}}
-    print(response);
+    print(result);
     {{/returnType}}
-} catch on DioError (e) {
-    print('Exception when calling {{classname}}->{{operationId}}: $e\n');
+} catch (e) {
+    print('Exception when calling {{{classname}}}->{{{operationId}}}: $e\n');
 }
 ```
 
@@ -64,12 +74,12 @@ try {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{{description}}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{#allParams}} **{{{paramName}}}** | {{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{{dataType}}}**]({{{baseType}}}.md){{/isPrimitiveType}}| {{{description}}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{{returnBaseType}}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization
 
