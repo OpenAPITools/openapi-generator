@@ -1330,8 +1330,8 @@
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/built_value</module>
-                <module>samples/openapi3/client/petstore/dart-dio/json_serializable</module>
+                <module>samples/openapi3/client/petstore/dart-dio/dio/built_value</module>
+                <module>samples/openapi3/client/petstore/dart-dio/dio/json_serializable</module>
             </modules>
         </profile>
         <profile>
