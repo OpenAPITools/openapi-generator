@@ -1,0 +1,13 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/dio/json_serializable
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/v3.0.0.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  library: dio
+  serializationLibrary: json_serializable
