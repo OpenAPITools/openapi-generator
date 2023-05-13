@@ -7,14 +7,15 @@ import 'package:test/test.dart';
 
 void main() {
   group('api_utils', () {
+    final repository = BuiltValueJsonRepository(standardSerializers);
     group('encodeQueryParameter should encode', () {
       group('String enum', () {
         test('empty String for null', () {
           expect(
             encodeQueryParameter(
-              standardSerializers,
+              repository,
               null,
-              const FullType(ModelEnumClass),
+              const TypeInfo(ModelEnumClass),
             ),
             '',
           );
@@ -23,9 +24,9 @@ void main() {
         test('correct String for value', () {
           expect(
             encodeQueryParameter(
-              standardSerializers,
+              repository,
               ModelEnumClass.leftParenthesisXyzRightParenthesis,
-              const FullType(ModelEnumClass),
+              const TypeInfo(ModelEnumClass),
             ),
             '(xyz)',
           );
@@ -36,9 +37,9 @@ void main() {
         test('empty String for null', () {
           expect(
             encodeQueryParameter(
-              standardSerializers,
+              repository,
               null,
-              const FullType(EnumTestEnumIntegerEnum),
+              const TypeInfo(EnumTestEnumIntegerEnum),
             ),
             '',
           );
@@ -47,9 +48,9 @@ void main() {
         test('correct int for value', () {
           expect(
             encodeQueryParameter(
-              standardSerializers,
+              repository,
               EnumTestEnumIntegerEnum.numberNegative1,
-              const FullType(EnumTestEnumIntegerEnum),
+              const TypeInfo(EnumTestEnumIntegerEnum),
             ),
             -1,
           );
@@ -68,13 +69,13 @@ void main() {
               () => ListBuilder<EnumTestEnumIntegerEnum>(),
             ))
           .build();
-
+      final repository = BuiltValueJsonRepository(serializers);
       group('String enum', () {
         test('empty ListParam for empty list', () {
           final param = encodeCollectionQueryParameter(
-            serializers,
+            repository,
             <ModelEnumClass>[].build(),
-            const FullType(BuiltList, [FullType(ModelEnumClass)]),
+            const TypeInfo(BuiltList, [TypeInfo(ModelEnumClass)]),
           );
 
           expect(param.value, isEmpty);
@@ -83,12 +84,12 @@ void main() {
 
         test('correct ListParam for value', () {
           final param = encodeCollectionQueryParameter(
-            serializers,
+            repository,
             <ModelEnumClass>[
               ModelEnumClass.leftParenthesisXyzRightParenthesis,
               ModelEnumClass.efg,
             ].build(),
-            const FullType(BuiltList, [FullType(ModelEnumClass)]),
+            const TypeInfo(BuiltList, [TypeInfo(ModelEnumClass)]),
           );
 
           expect(param.value, hasLength(2));
@@ -100,9 +101,9 @@ void main() {
       group('int enum', () {
         test('empty ListParam for empty list', () {
           final param = encodeCollectionQueryParameter(
-            serializers,
+            repository,
             <EnumTestEnumIntegerEnum>[].build(),
-            const FullType(BuiltList, [FullType(EnumTestEnumIntegerEnum)]),
+            const TypeInfo(BuiltList, [TypeInfo(EnumTestEnumIntegerEnum)]),
           );
 
           expect(param.value, isEmpty);
@@ -111,12 +112,12 @@ void main() {
 
         test('correct ListParam for value', () {
           final param = encodeCollectionQueryParameter(
-            serializers,
+            repository,
             <EnumTestEnumIntegerEnum>[
               EnumTestEnumIntegerEnum.number1,
               EnumTestEnumIntegerEnum.numberNegative1,
             ].build(),
-            const FullType(BuiltList, [FullType(EnumTestEnumIntegerEnum)]),
+            const TypeInfo(BuiltList, [TypeInfo(EnumTestEnumIntegerEnum)]),
           );
 
           expect(param.value, hasLength(2));
@@ -130,9 +131,9 @@ void main() {
       test('empty String for null', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             null,
-            const FullType(Cat),
+            const TypeInfo(Cat),
           ),
           '',
         );
@@ -141,9 +142,9 @@ void main() {
       test('String for String', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             'foo',
-            const FullType(String),
+            const TypeInfo(String),
           ),
           'foo',
         );
@@ -152,9 +153,9 @@ void main() {
       test('List<String> for BuiltList<String>', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             ListBuilder<String>(['foo', 'bar', 'baz']).build(),
-            const FullType(BuiltList, [FullType(String)]),
+            const TypeInfo(BuiltList, [TypeInfo(String)]),
           ),
           ['foo', 'bar', 'baz'],
         );
@@ -163,13 +164,13 @@ void main() {
       test('Map<String, String> for BuiltList<String, String>', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             MapBuilder<String, String>({
               'foo': 'foo-value',
               'bar': 'bar-value',
               'baz': 'baz-value',
             }).build(),
-            const FullType(BuiltMap, [FullType(String), FullType(String)]),
+            const TypeInfo(BuiltMap, [TypeInfo(String), TypeInfo(String)]),
           ),
           {
             'foo': 'foo-value',
@@ -181,20 +182,19 @@ void main() {
 
       test('num for num', () {
         expect(
-          encodeFormParameter(standardSerializers, 0, const FullType(int)),
+          encodeFormParameter(repository, 0, const TypeInfo(int)),
           0,
         );
         expect(
-          encodeFormParameter(standardSerializers, 1, const FullType(int)),
+          encodeFormParameter(repository, 1, const TypeInfo(int)),
           1,
         );
         expect(
-          encodeFormParameter(standardSerializers, 1.0, const FullType(num)),
+          encodeFormParameter(repository, 1.0, const TypeInfo(num)),
           1.0,
         );
         expect(
-          encodeFormParameter(
-              standardSerializers, 1.234, const FullType(double)),
+          encodeFormParameter(repository, 1.234, const TypeInfo(double)),
           1.234,
         );
       });
@@ -202,9 +202,9 @@ void main() {
       test('List<num> for BuiltList<num>', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             ListBuilder<num>([0, 1, 2, 3, 4.5, -123.456]).build(),
-            const FullType(BuiltList, [FullType(num)]),
+            const TypeInfo(BuiltList, [TypeInfo(num)]),
           ),
           [0, 1, 2, 3, 4.5, -123.456],
         );
@@ -213,17 +213,17 @@ void main() {
       test('bool for bool', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             true,
-            const FullType(bool),
+            const TypeInfo(bool),
           ),
           true,
         );
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             false,
-            const FullType(bool),
+            const TypeInfo(bool),
           ),
           false,
         );
@@ -232,9 +232,9 @@ void main() {
       test('String for Date', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             DateTime.utc(2020, 8, 11),
-            const FullType(DateTime),
+            const TypeInfo(DateTime),
           ),
           '2020-08-11T00:00:00.000Z',
         );
@@ -243,9 +243,9 @@ void main() {
       test('String for DateTime', () {
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
-            const FullType(DateTime),
+            const TypeInfo(DateTime),
           ),
           '2020-08-11T12:30:55.123Z',
         );
@@ -254,17 +254,22 @@ void main() {
       test('JSON String for Cat', () {
         // Not sure that is even a valid case,
         // sending complex objects via FormData may not work as expected
+
         expect(
           encodeFormParameter(
-            standardSerializers,
+            repository,
             (CatBuilder()
                   ..color = 'black'
                   ..className = 'cat'
                   ..declawed = false)
                 .build(),
-            const FullType(Cat),
+            const TypeInfo(Cat),
           ),
-          '{"className":"cat","color":"black","declawed":false}',
+          equals({
+            "className": "cat",
+            "color": "black",
+            "declawed": false,
+          }),
         );
       });
     });
@@ -272,48 +277,48 @@ void main() {
     test('encodes FormData correctly', () {
       final data = FormData.fromMap({
         'null': encodeFormParameter(
-          standardSerializers,
+          repository,
           null,
-          const FullType(num),
+          const TypeInfo(num),
         ),
         'empty': encodeFormParameter(
-          standardSerializers,
+          repository,
           '',
-          const FullType(String),
+          const TypeInfo(String),
         ),
         'string_list': encodeFormParameter(
-          standardSerializers,
+          repository,
           ListBuilder<String>(['foo', 'bar', 'baz']).build(),
-          const FullType(BuiltList, [FullType(String)]),
+          const TypeInfo(BuiltList, [TypeInfo(String)]),
         ),
         'num_list': encodeFormParameter(
-          standardSerializers,
+          repository,
           ListBuilder<num>([0, 1, 2, 3, 4.5, -123.456]).build(),
-          const FullType(BuiltList, [FullType(num)]),
+          const TypeInfo(BuiltList, [TypeInfo(num)]),
         ),
         'string_map': encodeFormParameter(
-          standardSerializers,
+          repository,
           MapBuilder<String, String>({
             'foo': 'foo-value',
             'bar': 'bar-value',
             'baz': 'baz-value',
           }).build(),
-          const FullType(BuiltMap, [FullType(String), FullType(String)]),
+          const TypeInfo(BuiltMap, [TypeInfo(String), TypeInfo(String)]),
         ),
         'bool': encodeFormParameter(
-          standardSerializers,
+          repository,
           true,
-          const FullType(bool),
+          const TypeInfo(bool),
         ),
         'double': encodeFormParameter(
-          standardSerializers,
+          repository,
           -123.456,
-          const FullType(double),
+          const TypeInfo(double),
         ),
         'date_time': encodeFormParameter(
-          standardSerializers,
+          repository,
           DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
-          const FullType(DateTime),
+          const TypeInfo(DateTime),
         ),
       });
 
