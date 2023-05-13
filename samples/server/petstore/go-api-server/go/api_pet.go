@@ -17,25 +17,25 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// PetApiController binds http requests to an api service and writes the service results to the http response
-type PetApiController struct {
-	service PetApiServicer
+// PetAPIController binds http requests to an api service and writes the service results to the http response
+type PetAPIController struct {
+	service PetAPIServicer
 	errorHandler ErrorHandler
 }
 
-// PetApiOption for how the controller is set up.
-type PetApiOption func(*PetApiController)
+// PetAPIOption for how the controller is set up.
+type PetAPIOption func(*PetAPIController)
 
-// WithPetApiErrorHandler inject ErrorHandler into controller
-func WithPetApiErrorHandler(h ErrorHandler) PetApiOption {
-	return func(c *PetApiController) {
+// WithPetAPIErrorHandler inject ErrorHandler into controller
+func WithPetAPIErrorHandler(h ErrorHandler) PetAPIOption {
+	return func(c *PetAPIController) {
 		c.errorHandler = h
 	}
 }
 
-// NewPetApiController creates a default api controller
-func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
-	controller := &PetApiController{
+// NewPetAPIController creates a default api controller
+func NewPetAPIController(s PetAPIServicer, opts ...PetAPIOption) Router {
+	controller := &PetAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
@@ -47,8 +47,8 @@ func NewPetApiController(s PetApiServicer, opts ...PetApiOption) Router {
 	return controller
 }
 
-// Routes returns all the api routes for the PetApiController
-func (c *PetApiController) Routes() Routes {
+// Routes returns all the api routes for the PetAPIController
+func (c *PetAPIController) Routes() Routes {
 	return Routes{
 		"AddPet": Route{
 			strings.ToUpper("Post"),
@@ -94,7 +94,7 @@ func (c *PetApiController) Routes() Routes {
 }
 
 // AddPet - Add a new pet to the store
-func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -117,7 +117,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeletePet - Deletes a pet
-func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	petIdParam, err := parseInt64Parameter(params["petId"], true)
 	if err != nil {
@@ -136,7 +136,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	statusParam := strings.Split(query.Get("status"), ",")
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
@@ -151,7 +151,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
-func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	tagsParam := strings.Split(query.Get("tags"), ",")
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
@@ -165,7 +165,7 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 }
 
 // GetPetById - Find pet by ID
-func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	petIdParam, err := parseInt64Parameter(params["petId"], true)
 	if err != nil {
@@ -183,7 +183,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdatePet - Update an existing pet
-func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -206,7 +206,7 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
-func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -230,7 +230,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 }
 
 // UploadFile - uploads an image
-func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
+func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(32 << 20); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return

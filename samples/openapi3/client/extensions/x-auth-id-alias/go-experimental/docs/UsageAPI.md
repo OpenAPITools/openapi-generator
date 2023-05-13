@@ -1,13 +1,13 @@
-# \UsageApi
+# \UsageAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AnyKey**](UsageApi.md#AnyKey) | **Get** /any | Use any API key
-[**BothKeys**](UsageApi.md#BothKeys) | **Get** /both | Use both API keys
-[**KeyInHeader**](UsageApi.md#KeyInHeader) | **Get** /header | Use API key in header
-[**KeyInQuery**](UsageApi.md#KeyInQuery) | **Get** /query | Use API key in query
+[**AnyKey**](UsageAPI.md#AnyKey) | **Get** /any | Use any API key
+[**BothKeys**](UsageAPI.md#BothKeys) | **Get** /both | Use both API keys
+[**KeyInHeader**](UsageAPI.md#KeyInHeader) | **Get** /header | Use API key in header
+[**KeyInQuery**](UsageAPI.md#KeyInQuery) | **Get** /query | Use API key in query
 
 
 
@@ -35,13 +35,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UsageApi.AnyKey(context.Background()).Execute()
+    resp, r, err := apiClient.UsageAPI.AnyKey(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.AnyKey``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.AnyKey``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `AnyKey`: map[string]interface{}
-    fmt.Fprintf(os.Stdout, "Response from `UsageApi.AnyKey`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UsageAPI.AnyKey`: %v\n", resp)
 }
 ```
 
@@ -96,13 +96,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UsageApi.BothKeys(context.Background()).Execute()
+    resp, r, err := apiClient.UsageAPI.BothKeys(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.BothKeys``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.BothKeys``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `BothKeys`: map[string]interface{}
-    fmt.Fprintf(os.Stdout, "Response from `UsageApi.BothKeys`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UsageAPI.BothKeys`: %v\n", resp)
 }
 ```
 
@@ -157,13 +157,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UsageApi.KeyInHeader(context.Background()).Execute()
+    resp, r, err := apiClient.UsageAPI.KeyInHeader(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.KeyInHeader``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.KeyInHeader``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `KeyInHeader`: map[string]interface{}
-    fmt.Fprintf(os.Stdout, "Response from `UsageApi.KeyInHeader`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UsageAPI.KeyInHeader`: %v\n", resp)
 }
 ```
 
@@ -218,13 +218,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UsageApi.KeyInQuery(context.Background()).Execute()
+    resp, r, err := apiClient.UsageAPI.KeyInQuery(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UsageApi.KeyInQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UsageAPI.KeyInQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `KeyInQuery`: map[string]interface{}
-    fmt.Fprintf(os.Stdout, "Response from `UsageApi.KeyInQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UsageAPI.KeyInQuery`: %v\n", resp)
 }
 ```
 

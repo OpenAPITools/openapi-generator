@@ -1,16 +1,16 @@
-# \FakeClassnameTags123Api
+# \FakeClassnameTags123API
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestClassname**](FakeClassnameTags123Api.md#TestClassname) | **Patch** /fake_classname_test | To test class name in snake case
+[**TestClassname**](FakeClassnameTags123API.md#TestClassname) | **Patch** /fake_classname_test | To test class name in snake case
 
 
 
 ## TestClassname
 
-> Client TestClassname(ctx).Body(body).Execute()
+> Client TestClassname(ctx).Client(client).Execute()
 
 To test class name in snake case
 
@@ -29,17 +29,17 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewClient() // Client | client model
+    client := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeClassnameTags123Api.TestClassname(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeClassnameTags123API.TestClassname(context.Background()).Client(client).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123Api.TestClassname``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123API.TestClassname``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `TestClassname`: Client
-    fmt.Fprintf(os.Stdout, "Response from `FakeClassnameTags123Api.TestClassname`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `FakeClassnameTags123API.TestClassname`: %v\n", resp)
 }
 ```
 
@@ -54,7 +54,7 @@ Other parameters are passed through a pointer to a apiTestClassnameRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model | 
+ **client** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

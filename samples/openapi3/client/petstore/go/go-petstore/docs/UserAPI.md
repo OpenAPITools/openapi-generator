@@ -1,23 +1,23 @@
-# \UserApi
+# \UserAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateUser**](UserApi.md#CreateUser) | **Post** /user | Create user
-[**CreateUsersWithArrayInput**](UserApi.md#CreateUsersWithArrayInput) | **Post** /user/createWithArray | Creates list of users with given input array
-[**CreateUsersWithListInput**](UserApi.md#CreateUsersWithListInput) | **Post** /user/createWithList | Creates list of users with given input array
-[**DeleteUser**](UserApi.md#DeleteUser) | **Delete** /user/{username} | Delete user
-[**GetUserByName**](UserApi.md#GetUserByName) | **Get** /user/{username} | Get user by user name
-[**LoginUser**](UserApi.md#LoginUser) | **Get** /user/login | Logs user into the system
-[**LogoutUser**](UserApi.md#LogoutUser) | **Get** /user/logout | Logs out current logged in user session
-[**UpdateUser**](UserApi.md#UpdateUser) | **Put** /user/{username} | Updated user
+[**CreateUser**](UserAPI.md#CreateUser) | **Post** /user | Create user
+[**CreateUsersWithArrayInput**](UserAPI.md#CreateUsersWithArrayInput) | **Post** /user/createWithArray | Creates list of users with given input array
+[**CreateUsersWithListInput**](UserAPI.md#CreateUsersWithListInput) | **Post** /user/createWithList | Creates list of users with given input array
+[**DeleteUser**](UserAPI.md#DeleteUser) | **Delete** /user/{username} | Delete user
+[**GetUserByName**](UserAPI.md#GetUserByName) | **Get** /user/{username} | Get user by user name
+[**LoginUser**](UserAPI.md#LoginUser) | **Get** /user/login | Logs user into the system
+[**LogoutUser**](UserAPI.md#LogoutUser) | **Get** /user/logout | Logs out current logged in user session
+[**UpdateUser**](UserAPI.md#UpdateUser) | **Put** /user/{username} | Updated user
 
 
 
 ## CreateUser
 
-> CreateUser(ctx).Body(body).Execute()
+> CreateUser(ctx).User(user).Execute()
 
 Create user
 
@@ -36,13 +36,13 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewUser() // User | Created user object
+    user := *openapiclient.NewUser() // User | Created user object
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.CreateUser(context.Background()).Body(body).Execute()
+    r, err := apiClient.UserAPI.CreateUser(context.Background()).User(user).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.CreateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -59,7 +59,7 @@ Other parameters are passed through a pointer to a apiCreateUserRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md) | Created user object | 
+ **user** | [**User**](User.md) | Created user object | 
 
 ### Return type
 
@@ -71,7 +71,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -81,9 +81,11 @@ No authorization required
 
 ## CreateUsersWithArrayInput
 
-> CreateUsersWithArrayInput(ctx).Body(body).Execute()
+> CreateUsersWithArrayInput(ctx).User(user).Execute()
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -98,13 +100,13 @@ import (
 )
 
 func main() {
-    body := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
+    user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.CreateUsersWithArrayInput(context.Background()).Body(body).Execute()
+    r, err := apiClient.UserAPI.CreateUsersWithArrayInput(context.Background()).User(user).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithArrayInput``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.CreateUsersWithArrayInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -121,7 +123,7 @@ Other parameters are passed through a pointer to a apiCreateUsersWithArrayInputR
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[]User**](User.md) | List of user object | 
+ **user** | [**[]User**](User.md) | List of user object | 
 
 ### Return type
 
@@ -133,7 +135,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -143,9 +145,11 @@ No authorization required
 
 ## CreateUsersWithListInput
 
-> CreateUsersWithListInput(ctx).Body(body).Execute()
+> CreateUsersWithListInput(ctx).User(user).Execute()
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -160,13 +164,13 @@ import (
 )
 
 func main() {
-    body := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
+    user := []openapiclient.User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.CreateUsersWithListInput(context.Background()).Body(body).Execute()
+    r, err := apiClient.UserAPI.CreateUsersWithListInput(context.Background()).User(user).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.CreateUsersWithListInput``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.CreateUsersWithListInput``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -183,7 +187,7 @@ Other parameters are passed through a pointer to a apiCreateUsersWithListInputRe
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[]User**](User.md) | List of user object | 
+ **user** | [**[]User**](User.md) | List of user object | 
 
 ### Return type
 
@@ -195,7 +199,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -228,9 +232,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.DeleteUser(context.Background(), username).Execute()
+    r, err := apiClient.UserAPI.DeleteUser(context.Background(), username).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.DeleteUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.DeleteUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -277,6 +281,8 @@ No authorization required
 
 Get user by user name
 
+
+
 ### Example
 
 ```go
@@ -294,13 +300,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserApi.GetUserByName(context.Background(), username).Execute()
+    resp, r, err := apiClient.UserAPI.GetUserByName(context.Background(), username).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.GetUserByName``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetUserByName``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetUserByName`: User
-    fmt.Fprintf(os.Stdout, "Response from `UserApi.GetUserByName`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetUserByName`: %v\n", resp)
 }
 ```
 
@@ -345,6 +351,8 @@ No authorization required
 
 Logs user into the system
 
+
+
 ### Example
 
 ```go
@@ -363,13 +371,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserApi.LoginUser(context.Background()).Username(username).Password(password).Execute()
+    resp, r, err := apiClient.UserAPI.LoginUser(context.Background()).Username(username).Password(password).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LoginUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.LoginUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `LoginUser`: string
-    fmt.Fprintf(os.Stdout, "Response from `UserApi.LoginUser`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserAPI.LoginUser`: %v\n", resp)
 }
 ```
 
@@ -411,6 +419,8 @@ No authorization required
 
 Logs out current logged in user session
 
+
+
 ### Example
 
 ```go
@@ -427,9 +437,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.LogoutUser(context.Background()).Execute()
+    r, err := apiClient.UserAPI.LogoutUser(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.LogoutUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.LogoutUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -464,7 +474,7 @@ No authorization required
 
 ## UpdateUser
 
-> UpdateUser(ctx, username).Body(body).Execute()
+> UpdateUser(ctx, username).User(user).Execute()
 
 Updated user
 
@@ -484,13 +494,13 @@ import (
 
 func main() {
     username := "username_example" // string | name that need to be deleted
-    body := *openapiclient.NewUser() // User | Updated user object
+    user := *openapiclient.NewUser() // User | Updated user object
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.UserApi.UpdateUser(context.Background(), username).Body(body).Execute()
+    r, err := apiClient.UserAPI.UpdateUser(context.Background(), username).User(user).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserApi.UpdateUser``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.UpdateUser``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -512,7 +522,7 @@ Other parameters are passed through a pointer to a apiUpdateUserRequest struct v
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**User**](User.md) | Updated user object | 
+ **user** | [**User**](User.md) | Updated user object | 
 
 ### Return type
 
@@ -524,7 +534,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

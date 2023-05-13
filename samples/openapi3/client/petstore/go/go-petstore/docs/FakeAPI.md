@@ -1,33 +1,33 @@
-# \FakeApi
+# \FakeAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateXmlItem**](FakeApi.md#CreateXmlItem) | **Post** /fake/create_xml_item | creates an XmlItem
-[**FakeOuterBooleanSerialize**](FakeApi.md#FakeOuterBooleanSerialize) | **Post** /fake/outer/boolean | 
-[**FakeOuterCompositeSerialize**](FakeApi.md#FakeOuterCompositeSerialize) | **Post** /fake/outer/composite | 
-[**FakeOuterNumberSerialize**](FakeApi.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
-[**FakeOuterStringSerialize**](FakeApi.md#FakeOuterStringSerialize) | **Post** /fake/outer/string | 
-[**TestBodyWithFileSchema**](FakeApi.md#TestBodyWithFileSchema) | **Put** /fake/body-with-file-schema | 
-[**TestBodyWithQueryParams**](FakeApi.md#TestBodyWithQueryParams) | **Put** /fake/body-with-query-params | 
-[**TestClientModel**](FakeApi.md#TestClientModel) | **Patch** /fake | To test \&quot;client\&quot; model
-[**TestEndpointParameters**](FakeApi.md#TestEndpointParameters) | **Post** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-[**TestEnumParameters**](FakeApi.md#TestEnumParameters) | **Get** /fake | To test enum parameters
-[**TestGroupParameters**](FakeApi.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
-[**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
-[**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
-[**TestQueryParameterCollectionFormat**](FakeApi.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
+[**FakeHealthGet**](FakeAPI.md#FakeHealthGet) | **Get** /fake/health | Health check endpoint
+[**FakeOuterBooleanSerialize**](FakeAPI.md#FakeOuterBooleanSerialize) | **Post** /fake/outer/boolean | 
+[**FakeOuterCompositeSerialize**](FakeAPI.md#FakeOuterCompositeSerialize) | **Post** /fake/outer/composite | 
+[**FakeOuterNumberSerialize**](FakeAPI.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
+[**FakeOuterStringSerialize**](FakeAPI.md#FakeOuterStringSerialize) | **Post** /fake/outer/string | 
+[**TestBodyWithFileSchema**](FakeAPI.md#TestBodyWithFileSchema) | **Put** /fake/body-with-file-schema | 
+[**TestBodyWithQueryParams**](FakeAPI.md#TestBodyWithQueryParams) | **Put** /fake/body-with-query-params | 
+[**TestClientModel**](FakeAPI.md#TestClientModel) | **Patch** /fake | To test \&quot;client\&quot; model
+[**TestEndpointParameters**](FakeAPI.md#TestEndpointParameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**TestEnumParameters**](FakeAPI.md#TestEnumParameters) | **Get** /fake | To test enum parameters
+[**TestGroupParameters**](FakeAPI.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
+[**TestInlineAdditionalProperties**](FakeAPI.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
+[**TestJsonFormData**](FakeAPI.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
+[**TestQueryDeepObject**](FakeAPI.md#TestQueryDeepObject) | **Get** /fake/deep_object_test | 
+[**TestQueryParameterCollectionFormat**](FakeAPI.md#TestQueryParameterCollectionFormat) | **Put** /fake/test-query-parameters | 
+[**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](FakeAPI.md#TestUniqueItemsHeaderAndQueryParameterCollectionFormat) | **Put** /fake/test-unique-parameters | 
 
 
 
-## CreateXmlItem
+## FakeHealthGet
 
-> CreateXmlItem(ctx).XmlItem(xmlItem).Execute()
+> HealthCheckResult FakeHealthGet(ctx).Execute()
 
-creates an XmlItem
-
-
+Health check endpoint
 
 ### Example
 
@@ -42,34 +42,31 @@ import (
 )
 
 func main() {
-    xmlItem := *openapiclient.NewXmlItem() // XmlItem | XmlItem Body
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.CreateXmlItem(context.Background()).XmlItem(xmlItem).Execute()
+    resp, r, err := apiClient.FakeAPI.FakeHealthGet(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.CreateXmlItem``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.FakeHealthGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
+    // response from `FakeHealthGet`: HealthCheckResult
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.FakeHealthGet`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
-
+This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateXmlItemRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiFakeHealthGetRequest struct via the builder pattern
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body | 
 
 ### Return type
 
- (empty response body)
+[**HealthCheckResult**](HealthCheckResult.md)
 
 ### Authorization
 
@@ -77,8 +74,8 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
-- **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -110,13 +107,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.FakeOuterBooleanSerialize(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeAPI.FakeOuterBooleanSerialize(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterBooleanSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.FakeOuterBooleanSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FakeOuterBooleanSerialize`: bool
-    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterBooleanSerialize`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.FakeOuterBooleanSerialize`: %v\n", resp)
 }
 ```
 
@@ -143,7 +140,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -153,7 +150,7 @@ No authorization required
 
 ## FakeOuterCompositeSerialize
 
-> OuterComposite FakeOuterCompositeSerialize(ctx).Body(body).Execute()
+> OuterComposite FakeOuterCompositeSerialize(ctx).OuterComposite(outerComposite).Execute()
 
 
 
@@ -172,17 +169,17 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
+    outerComposite := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.FakeOuterCompositeSerialize(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeAPI.FakeOuterCompositeSerialize(context.Background()).OuterComposite(outerComposite).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterCompositeSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.FakeOuterCompositeSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FakeOuterCompositeSerialize`: OuterComposite
-    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterCompositeSerialize`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.FakeOuterCompositeSerialize`: %v\n", resp)
 }
 ```
 
@@ -197,7 +194,7 @@ Other parameters are passed through a pointer to a apiFakeOuterCompositeSerializ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | 
+ **outerComposite** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | 
 
 ### Return type
 
@@ -209,7 +206,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -242,13 +239,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.FakeOuterNumberSerialize(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeAPI.FakeOuterNumberSerialize(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterNumberSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.FakeOuterNumberSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FakeOuterNumberSerialize`: float32
-    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterNumberSerialize`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.FakeOuterNumberSerialize`: %v\n", resp)
 }
 ```
 
@@ -275,7 +272,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -308,13 +305,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.FakeOuterStringSerialize(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeAPI.FakeOuterStringSerialize(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterStringSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.FakeOuterStringSerialize``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FakeOuterStringSerialize`: string
-    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterStringSerialize`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.FakeOuterStringSerialize`: %v\n", resp)
 }
 ```
 
@@ -341,7 +338,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -351,7 +348,7 @@ No authorization required
 
 ## TestBodyWithFileSchema
 
-> TestBodyWithFileSchema(ctx).Body(body).Execute()
+> TestBodyWithFileSchema(ctx).FileSchemaTestClass(fileSchemaTestClass).Execute()
 
 
 
@@ -370,13 +367,13 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
+    fileSchemaTestClass := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestBodyWithFileSchema(context.Background()).Body(body).Execute()
+    r, err := apiClient.FakeAPI.TestBodyWithFileSchema(context.Background()).FileSchemaTestClass(fileSchemaTestClass).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestBodyWithFileSchema``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -393,7 +390,7 @@ Other parameters are passed through a pointer to a apiTestBodyWithFileSchemaRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
 
 ### Return type
 
@@ -415,7 +412,7 @@ No authorization required
 
 ## TestBodyWithQueryParams
 
-> TestBodyWithQueryParams(ctx).Query(query).Body(body).Execute()
+> TestBodyWithQueryParams(ctx).Query(query).User(user).Execute()
 
 
 
@@ -433,13 +430,13 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    body := *openapiclient.NewUser() // User | 
+    user := *openapiclient.NewUser() // User | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestBodyWithQueryParams(context.Background()).Query(query).Body(body).Execute()
+    r, err := apiClient.FakeAPI.TestBodyWithQueryParams(context.Background()).Query(query).User(user).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestBodyWithQueryParams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -457,7 +454,7 @@ Other parameters are passed through a pointer to a apiTestBodyWithQueryParamsReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string** |  | 
- **body** | [**User**](User.md) |  | 
+ **user** | [**User**](User.md) |  | 
 
 ### Return type
 
@@ -479,7 +476,7 @@ No authorization required
 
 ## TestClientModel
 
-> Client TestClientModel(ctx).Body(body).Execute()
+> Client TestClientModel(ctx).Client(client).Execute()
 
 To test \"client\" model
 
@@ -498,17 +495,17 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewClient() // Client | client model
+    client := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FakeApi.TestClientModel(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeAPI.TestClientModel(context.Background()).Client(client).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestClientModel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestClientModel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `TestClientModel`: Client
-    fmt.Fprintf(os.Stdout, "Response from `FakeApi.TestClientModel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.TestClientModel`: %v\n", resp)
 }
 ```
 
@@ -523,7 +520,7 @@ Other parameters are passed through a pointer to a apiTestClientModelRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model | 
+ **client** | [**Client**](Client.md) | client model | 
 
 ### Return type
 
@@ -547,7 +544,7 @@ No authorization required
 
 > TestEndpointParameters(ctx).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 
 
@@ -582,9 +579,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestEndpointParameters(context.Background()).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
+    r, err := apiClient.FakeAPI.TestEndpointParameters(context.Background()).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestEndpointParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -666,9 +663,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
+    r, err := apiClient.FakeAPI.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestEnumParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -742,9 +739,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
+    r, err := apiClient.FakeAPI.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestGroupParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -774,12 +771,12 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -788,9 +785,11 @@ No authorization required
 
 ## TestInlineAdditionalProperties
 
-> TestInlineAdditionalProperties(ctx).Param(param).Execute()
+> TestInlineAdditionalProperties(ctx).RequestBody(requestBody).Execute()
 
 test inline additionalProperties
+
+
 
 ### Example
 
@@ -805,13 +804,13 @@ import (
 )
 
 func main() {
-    param := map[string]string{"key": "Inner_example"} // map[string]string | request body
+    requestBody := map[string]string{"key": "Inner_example"} // map[string]string | request body
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestInlineAdditionalProperties(context.Background()).Param(param).Execute()
+    r, err := apiClient.FakeAPI.TestInlineAdditionalProperties(context.Background()).RequestBody(requestBody).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestInlineAdditionalProperties``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -828,7 +827,7 @@ Other parameters are passed through a pointer to a apiTestInlineAdditionalProper
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **map[string]string** | request body | 
+ **requestBody** | **map[string]string** | request body | 
 
 ### Return type
 
@@ -854,6 +853,8 @@ No authorization required
 
 test json serialization of form data
 
+
+
 ### Example
 
 ```go
@@ -872,9 +873,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestJsonFormData(context.Background()).Param(param).Param2(param2).Execute()
+    r, err := apiClient.FakeAPI.TestJsonFormData(context.Background()).Param(param).Param2(param2).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestJsonFormData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -912,6 +913,70 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## TestQueryDeepObject
+
+> TestQueryDeepObject(ctx).TestPet(testPet).InputOptions(inputOptions).Execute()
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+    testPet := map[string][]openapiclient.Pet{"key": map[string]interface{}{ ... }} // Pet |  (optional)
+    inputOptions := map[string][]openapiclient.Category{"key": map[string]interface{}{ ... }} // Category |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.FakeAPI.TestQueryDeepObject(context.Background()).TestPet(testPet).InputOptions(inputOptions).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestQueryDeepObject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryDeepObjectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testPet** | [**Pet**](Pet.md) |  | 
+ **inputOptions** | [**Category**](Category.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## TestQueryParameterCollectionFormat
 
 > TestQueryParameterCollectionFormat(ctx).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
@@ -941,9 +1006,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.FakeApi.TestQueryParameterCollectionFormat(context.Background()).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
+    r, err := apiClient.FakeAPI.TestQueryParameterCollectionFormat(context.Background()).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestQueryParameterCollectionFormat``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -978,6 +1043,74 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestUniqueItemsHeaderAndQueryParameterCollectionFormat
+
+> []Pet TestUniqueItemsHeaderAndQueryParameterCollectionFormat(ctx).QueryUnique(queryUnique).HeaderUnique(headerUnique).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+    queryUnique := []string{"Inner_example"} // []string | 
+    headerUnique := []string{"Inner_example"} // []string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.FakeAPI.TestUniqueItemsHeaderAndQueryParameterCollectionFormat(context.Background()).QueryUnique(queryUnique).HeaderUnique(headerUnique).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestUniqueItemsHeaderAndQueryParameterCollectionFormat``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestUniqueItemsHeaderAndQueryParameterCollectionFormat`: []Pet
+    fmt.Fprintf(os.Stdout, "Response from `FakeAPI.TestUniqueItemsHeaderAndQueryParameterCollectionFormat`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestUniqueItemsHeaderAndQueryParameterCollectionFormatRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryUnique** | **[]string** |  | 
+ **headerUnique** | **[]string** |  | 
+
+### Return type
+
+[**[]Pet**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

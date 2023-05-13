@@ -1,18 +1,18 @@
-# \AnotherFakeApi
+# \FakeClassnameTags123API
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Call123TestSpecialTags**](AnotherFakeApi.md#Call123TestSpecialTags) | **Patch** /another-fake/dummy | To test special tags
+[**TestClassname**](FakeClassnameTags123API.md#TestClassname) | **Patch** /fake_classname_test | To test class name in snake case
 
 
 
-## Call123TestSpecialTags
+## TestClassname
 
-> Client Call123TestSpecialTags(ctx).Body(body).Execute()
+> Client TestClassname(ctx).Body(body).Execute()
 
-To test special tags
+To test class name in snake case
 
 
 
@@ -33,13 +33,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AnotherFakeApi.Call123TestSpecialTags(context.Background()).Body(body).Execute()
+    resp, r, err := apiClient.FakeClassnameTags123API.TestClassname(context.Background()).Body(body).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeApi.Call123TestSpecialTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123API.TestClassname``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `Call123TestSpecialTags`: Client
-    fmt.Fprintf(os.Stdout, "Response from `AnotherFakeApi.Call123TestSpecialTags`: %v\n", resp)
+    // response from `TestClassname`: Client
+    fmt.Fprintf(os.Stdout, "Response from `FakeClassnameTags123API.TestClassname`: %v\n", resp)
 }
 ```
 
@@ -49,7 +49,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCall123TestSpecialTagsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiTestClassnameRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key_query](../README.md#api_key_query)
 
 ### HTTP request headers
 

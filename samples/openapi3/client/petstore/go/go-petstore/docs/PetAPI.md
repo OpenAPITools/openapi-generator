@@ -1,18 +1,18 @@
-# \PetApi
+# \PetAPI
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AddPet**](PetApi.md#AddPet) | **Post** /pet | Add a new pet to the store
-[**DeletePet**](PetApi.md#DeletePet) | **Delete** /pet/{petId} | Deletes a pet
-[**FindPetsByStatus**](PetApi.md#FindPetsByStatus) | **Get** /pet/findByStatus | Finds Pets by status
-[**FindPetsByTags**](PetApi.md#FindPetsByTags) | **Get** /pet/findByTags | Finds Pets by tags
-[**GetPetById**](PetApi.md#GetPetById) | **Get** /pet/{petId} | Find pet by ID
-[**UpdatePet**](PetApi.md#UpdatePet) | **Put** /pet | Update an existing pet
-[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
-[**UploadFile**](PetApi.md#UploadFile) | **Post** /pet/{petId}/uploadImage | uploads an image
-[**UploadFileWithRequiredFile**](PetApi.md#UploadFileWithRequiredFile) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+[**AddPet**](PetAPI.md#AddPet) | **Post** /pet | Add a new pet to the store
+[**DeletePet**](PetAPI.md#DeletePet) | **Delete** /pet/{petId} | Deletes a pet
+[**FindPetsByStatus**](PetAPI.md#FindPetsByStatus) | **Get** /pet/findByStatus | Finds Pets by status
+[**FindPetsByTags**](PetAPI.md#FindPetsByTags) | **Get** /pet/findByTags | Finds Pets by tags
+[**GetPetById**](PetAPI.md#GetPetById) | **Get** /pet/{petId} | Find pet by ID
+[**UpdatePet**](PetAPI.md#UpdatePet) | **Put** /pet | Update an existing pet
+[**UpdatePetWithForm**](PetAPI.md#UpdatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
+[**UploadFile**](PetAPI.md#UploadFile) | **Post** /pet/{petId}/uploadImage | uploads an image
+[**UploadFileWithRequiredFile**](PetAPI.md#UploadFileWithRequiredFile) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 
@@ -41,9 +41,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.PetApi.AddPet(context.Background()).Pet(pet).Execute()
+    r, err := apiClient.PetAPI.AddPet(context.Background()).Pet(pet).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.AddPet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.AddPet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -106,9 +106,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.PetApi.DeletePet(context.Background(), petId).ApiKey(apiKey).Execute()
+    r, err := apiClient.PetAPI.DeletePet(context.Background(), petId).ApiKey(apiKey).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.DeletePet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.DeletePet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -175,13 +175,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PetApi.FindPetsByStatus(context.Background()).Status(status).Execute()
+    resp, r, err := apiClient.PetAPI.FindPetsByStatus(context.Background()).Status(status).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.FindPetsByStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FindPetsByStatus`: []Pet
-    fmt.Fprintf(os.Stdout, "Response from `PetApi.FindPetsByStatus`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PetAPI.FindPetsByStatus`: %v\n", resp)
 }
 ```
 
@@ -241,13 +241,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PetApi.FindPetsByTags(context.Background()).Tags(tags).Execute()
+    resp, r, err := apiClient.PetAPI.FindPetsByTags(context.Background()).Tags(tags).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.FindPetsByTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.FindPetsByTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `FindPetsByTags`: []Pet
-    fmt.Fprintf(os.Stdout, "Response from `PetApi.FindPetsByTags`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PetAPI.FindPetsByTags`: %v\n", resp)
 }
 ```
 
@@ -307,13 +307,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PetApi.GetPetById(context.Background(), petId).Execute()
+    resp, r, err := apiClient.PetAPI.GetPetById(context.Background(), petId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.GetPetById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.GetPetById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetPetById`: Pet
-    fmt.Fprintf(os.Stdout, "Response from `PetApi.GetPetById`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PetAPI.GetPetById`: %v\n", resp)
 }
 ```
 
@@ -377,9 +377,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.PetApi.UpdatePet(context.Background()).Pet(pet).Execute()
+    r, err := apiClient.PetAPI.UpdatePet(context.Background()).Pet(pet).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.UpdatePet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -443,9 +443,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.PetApi.UpdatePetWithForm(context.Background(), petId).Name(name).Status(status).Execute()
+    r, err := apiClient.PetAPI.UpdatePetWithForm(context.Background(), petId).Name(name).Status(status).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UpdatePetWithForm``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.UpdatePetWithForm``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -515,13 +515,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PetApi.UploadFile(context.Background(), petId).AdditionalMetadata(additionalMetadata).File(file).Execute()
+    resp, r, err := apiClient.PetAPI.UploadFile(context.Background(), petId).AdditionalMetadata(additionalMetadata).File(file).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.UploadFile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `UploadFile`: ApiResponse
-    fmt.Fprintf(os.Stdout, "Response from `PetApi.UploadFile`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PetAPI.UploadFile`: %v\n", resp)
 }
 ```
 
@@ -589,13 +589,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PetApi.UploadFileWithRequiredFile(context.Background(), petId).RequiredFile(requiredFile).AdditionalMetadata(additionalMetadata).Execute()
+    resp, r, err := apiClient.PetAPI.UploadFileWithRequiredFile(context.Background(), petId).RequiredFile(requiredFile).AdditionalMetadata(additionalMetadata).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetApi.UploadFileWithRequiredFile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.UploadFileWithRequiredFile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `UploadFileWithRequiredFile`: ApiResponse
-    fmt.Fprintf(os.Stdout, "Response from `PetApi.UploadFileWithRequiredFile`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PetAPI.UploadFileWithRequiredFile`: %v\n", resp)
 }
 ```
 
