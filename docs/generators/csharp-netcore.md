@@ -49,6 +49,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
 |validatable|Generates self-validatable models.| |true|
+|zeroBasedEnums|Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.| |null|
 
 ## IMPORT MAPPING
 
