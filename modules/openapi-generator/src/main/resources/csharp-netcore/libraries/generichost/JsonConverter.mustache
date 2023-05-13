@@ -200,7 +200,7 @@
             {{/-last}}
             {{/composedSchemas.oneOf}}
             {{^composedSchemas.oneOf}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
+            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
             {{/composedSchemas.oneOf}}
         }
 
