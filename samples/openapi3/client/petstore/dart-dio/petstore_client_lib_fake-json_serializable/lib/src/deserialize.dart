@@ -45,145 +45,158 @@ final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-  ReturnType deserialize<ReturnType, BaseType>(dynamic value, String targetType, {bool growable= true}) {
-      switch (targetType) {
-        case 'String':
-          return '$value' as ReturnType;
-        case 'int':
-          return (value is int ? value : int.parse('$value')) as ReturnType;
-        case 'bool':
-          if (value is bool) {
-            return value as ReturnType;
-          }
-          final valueString = '$value'.toLowerCase();
-          return (valueString == 'true' || valueString == '1') as ReturnType;
-        case 'double':
-          return (value is double ? value : double.parse('$value')) as ReturnType;
-        case 'AdditionalPropertiesClass':
-          return AdditionalPropertiesClass.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'AllOfWithSingleRef':
-          return AllOfWithSingleRef.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Animal':
-          return Animal.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ApiResponse':
-          return ApiResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ArrayOfArrayOfNumberOnly':
-          return ArrayOfArrayOfNumberOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ArrayOfNumberOnly':
-          return ArrayOfNumberOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ArrayTest':
-          return ArrayTest.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Capitalization':
-          return Capitalization.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Cat':
-          return Cat.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'CatAllOf':
-          return CatAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Category':
-          return Category.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ClassModel':
-          return ClassModel.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'DeprecatedObject':
-          return DeprecatedObject.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Dog':
-          return Dog.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'DogAllOf':
-          return DogAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'EnumArrays':
-          return EnumArrays.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'EnumTest':
-          return EnumTest.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'FileSchemaTestClass':
-          return FileSchemaTestClass.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Foo':
-          return Foo.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'FooGetDefaultResponse':
-          return FooGetDefaultResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'FormatTest':
-          return FormatTest.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'HasOnlyReadOnly':
-          return HasOnlyReadOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'HealthCheckResult':
-          return HealthCheckResult.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'MapTest':
-          return MapTest.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'MixedPropertiesAndAdditionalPropertiesClass':
-          return MixedPropertiesAndAdditionalPropertiesClass.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Model200Response':
-          return Model200Response.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ModelClient':
-          return ModelClient.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ModelEnumClass':
-          
-          
-        case 'ModelFile':
-          return ModelFile.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ModelList':
-          return ModelList.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ModelReturn':
-          return ModelReturn.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Name':
-          return Name.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'NullableClass':
-          return NullableClass.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'NumberOnly':
-          return NumberOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ObjectWithDeprecatedFields':
-          return ObjectWithDeprecatedFields.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Order':
-          return Order.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'OuterComposite':
-          return OuterComposite.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'OuterEnum':
-          
-          
-        case 'OuterEnumDefaultValue':
-          
-          
-        case 'OuterEnumInteger':
-          
-          
-        case 'OuterEnumIntegerDefaultValue':
-          
-          
-        case 'OuterObjectWithEnumProperty':
-          return OuterObjectWithEnumProperty.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Pet':
-          return Pet.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'ReadOnlyFirst':
-          return ReadOnlyFirst.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'SingleRefType':
-          
-          
-        case 'SpecialModelName':
-          return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'Tag':
-          return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
-        case 'User':
-          return User.fromJson(value as Map<String, dynamic>) as ReturnType;
-        default:
-          RegExpMatch? match;
+ReturnType deserialize<ReturnType, BaseType>(dynamic value, String targetType,
+    {bool growable = true}) {
+  switch (targetType) {
+    case 'String':
+      return '$value' as ReturnType;
+    case 'int':
+      return (value is int ? value : int.parse('$value')) as ReturnType;
+    case 'bool':
+      if (value is bool) {
+        return value as ReturnType;
+      }
+      final valueString = '$value'.toLowerCase();
+      return (valueString == 'true' || valueString == '1') as ReturnType;
+    case 'double':
+      return (value is double ? value : double.parse('$value')) as ReturnType;
+    case 'AdditionalPropertiesClass':
+      return AdditionalPropertiesClass.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'AllOfWithSingleRef':
+      return AllOfWithSingleRef.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Animal':
+      return Animal.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ApiResponse':
+      return ApiResponse.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ArrayOfArrayOfNumberOnly':
+      return ArrayOfArrayOfNumberOnly.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'ArrayOfNumberOnly':
+      return ArrayOfNumberOnly.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'ArrayTest':
+      return ArrayTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'Capitalization':
+      return Capitalization.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Cat':
+      return Cat.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'CatAllOf':
+      return CatAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'Category':
+      return Category.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ClassModel':
+      return ClassModel.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'DeprecatedObject':
+      return DeprecatedObject.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Dog':
+      return Dog.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'DogAllOf':
+      return DogAllOf.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'EnumArrays':
+      return EnumArrays.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'EnumTest':
+      return EnumTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'FileSchemaTestClass':
+      return FileSchemaTestClass.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Foo':
+      return Foo.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'FooGetDefaultResponse':
+      return FooGetDefaultResponse.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'FormatTest':
+      return FormatTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'HasOnlyReadOnly':
+      return HasOnlyReadOnly.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'HealthCheckResult':
+      return HealthCheckResult.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'MapTest':
+      return MapTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'MixedPropertiesAndAdditionalPropertiesClass':
+      return MixedPropertiesAndAdditionalPropertiesClass.fromJson(
+          value as Map<String, dynamic>) as ReturnType;
+    case 'Model200Response':
+      return Model200Response.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'ModelClient':
+      return ModelClient.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ModelEnumClass':
+    case 'ModelFile':
+      return ModelFile.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ModelList':
+      return ModelList.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ModelReturn':
+      return ModelReturn.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'Name':
+      return Name.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'NullableClass':
+      return NullableClass.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'NumberOnly':
+      return NumberOnly.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ObjectWithDeprecatedFields':
+      return ObjectWithDeprecatedFields.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Order':
+      return Order.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'OuterComposite':
+      return OuterComposite.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'OuterEnum':
+    case 'OuterEnumDefaultValue':
+    case 'OuterEnumInteger':
+    case 'OuterEnumIntegerDefaultValue':
+    case 'OuterObjectWithEnumProperty':
+      return OuterObjectWithEnumProperty.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Pet':
+      return Pet.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'ReadOnlyFirst':
+      return ReadOnlyFirst.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'SingleRefType':
+    case 'SpecialModelName':
+      return SpecialModelName.fromJson(value as Map<String, dynamic>)
+          as ReturnType;
+    case 'Tag':
+      return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
+    case 'User':
+      return User.fromJson(value as Map<String, dynamic>) as ReturnType;
+    default:
+      RegExpMatch? match;
 
-          if (value is List && (match = _regList.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
-            return value
-              .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable))
-              .toList(growable: growable) as ReturnType;
-          }
-          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
-            return value
-              .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable))
-              .toSet() as ReturnType;
-          }
-          if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
-            return Map<dynamic, BaseType>.fromIterables(
-              value.keys,
-              value.values.map((dynamic v) => deserialize<BaseType, BaseType>(v, targetType, growable: growable)),
-            ) as ReturnType;
-          }
-          break;
-    } 
-    throw Exception('Cannot deserialize');
+      if (value is List && (match = _regList.firstMatch(targetType)) != null) {
+        targetType = match![1]!; // ignore: parameter_assignments
+        return value
+            .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(
+                v, targetType,
+                growable: growable))
+            .toList(growable: growable) as ReturnType;
+      }
+      if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
+        targetType = match![1]!; // ignore: parameter_assignments
+        return value
+            .map<BaseType>((dynamic v) => deserialize<BaseType, BaseType>(
+                v, targetType,
+                growable: growable))
+            .toSet() as ReturnType;
+      }
+      if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
+        targetType = match![1]!; // ignore: parameter_assignments
+        return Map<dynamic, BaseType>.fromIterables(
+          value.keys,
+          value.values.map((dynamic v) => deserialize<BaseType, BaseType>(
+              v, targetType,
+              growable: growable)),
+        ) as ReturnType;
+      }
+      break;
   }
+  throw Exception('Cannot deserialize');
+}

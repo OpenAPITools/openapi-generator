@@ -3,7 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for AdditionalPropertiesClass
 void main() {
-  final AdditionalPropertiesClass? instance = /* AdditionalPropertiesClass(...) */ null;
+  final AdditionalPropertiesClass?
+      instance = /* AdditionalPropertiesClass(...) */ null;
   // TODO add properties to the entity
 
   group(AdditionalPropertiesClass, () {
@@ -16,6 +17,5 @@ void main() {
     test('to test the property `mapOfMapProperty`', () async {
       // TODO
     });
-
   });
 }

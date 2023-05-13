@@ -5,7 +5,7 @@
 import 'package:dio/dio.dart';
 import 'repository_base.dart';
 import 'repository_impl.dart';
-import 'package:openapi/api.dart';
+import 'package:openapi/apis.dart';
 import 'package:openapi/models.dart';
 import 'package:openapi/src/auth/_exports.dart';
 
@@ -26,7 +26,7 @@ class Openapi {
               baseUrl: basePathOverride ?? basePath,
               connectTimeout: const Duration(milliseconds: 5000),
               receiveTimeout: const Duration(milliseconds: 3000),
-            )), this.serializationRepository = serializationRepositoryOverride ?? const JsonSerializableRepository() {
+            )), this.serializationRepository = serializationRepositoryOverride ?? JsonSerializableRepository() {
     if (interceptors == null) {
       this.dio.interceptors.addAll([
         OAuthInterceptor(),

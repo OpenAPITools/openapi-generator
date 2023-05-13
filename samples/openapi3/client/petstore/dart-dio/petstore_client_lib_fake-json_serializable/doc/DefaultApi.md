@@ -2,7 +2,7 @@
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getDefaultApi();
 

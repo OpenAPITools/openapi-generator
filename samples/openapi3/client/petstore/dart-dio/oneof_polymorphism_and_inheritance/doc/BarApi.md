@@ -2,7 +2,7 @@
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 ```
 
 All URIs are relative to *http://localhost:8080*
@@ -19,7 +19,7 @@ Create a Bar
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getBarApi();
 final BarCreate barCreate = ; // BarCreate | 

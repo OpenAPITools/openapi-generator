@@ -1,3 +1,21 @@
+/// The general rule for implementing this class is
+/// json == serialize<T>(deserialize<T>(json))
+/// object == deserialize<T>(serialize<T>(object))
+/// It doesn't have to be json, 
+abstract class SerializationRepositoryBase {
+    const SerializationRepositoryBase();
+    
+    Object serialize<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
+    T deserialize<T>(Object value, TypeInfo targetTypeInfo, {Object? context,});
+
+    String encodeStringParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
+    Object encodeFormParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
+    Object encodeQueryParameter<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
+}
+
+/// A modified version of `built_value`'s `FullType` class, found here
+/// https://github.com/google/built_value.dart/blob/ee22d400a69c673330481a6da1f0796b90bb369b/built_value/lib/serializer.dart
+/// It holds type information known by the spec (including generic type parameters)
 class TypeInfo {
     final Type root;
     final bool nullable;
@@ -40,15 +58,4 @@ class TypeInfo {
         var genericsStart = name.indexOf('<');
         return genericsStart == -1 ? name : name.substring(0, genericsStart);
     }
-}
-
-abstract class SerializationRepositoryBase {
-    const SerializationRepositoryBase();
-    
-    Object serialize<T>(T src, TypeInfo parsedType, {Object? context});
-    T deserialize<T>(Object value, TypeInfo parsedType, {Object? context});
-
-    String encodeStringParameter<T>(T src, TypeInfo parsedType, {Object? context});
-    Object encodeFormParameter<T>(T src, TypeInfo parsedType, {Object? context});
-    Object encodeQueryParameter<T>(T src, TypeInfo parsedType, {Object? context});
 }

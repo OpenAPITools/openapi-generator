@@ -3,7 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ObjectWithDeprecatedFields
 void main() {
-  final ObjectWithDeprecatedFields? instance = /* ObjectWithDeprecatedFields(...) */ null;
+  final ObjectWithDeprecatedFields?
+      instance = /* ObjectWithDeprecatedFields(...) */ null;
   // TODO add properties to the entity
 
   group(ObjectWithDeprecatedFields, () {
@@ -26,6 +27,5 @@ void main() {
     test('to test the property `bars`', () async {
       // TODO
     });
-
   });
 }

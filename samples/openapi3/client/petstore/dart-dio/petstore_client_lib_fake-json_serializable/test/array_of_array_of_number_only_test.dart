@@ -3,7 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for ArrayOfArrayOfNumberOnly
 void main() {
-  final ArrayOfArrayOfNumberOnly? instance = /* ArrayOfArrayOfNumberOnly(...) */ null;
+  final ArrayOfArrayOfNumberOnly? instance = /* ArrayOfArrayOfNumberOnly(...) */
+      null;
   // TODO add properties to the entity
 
   group(ArrayOfArrayOfNumberOnly, () {
@@ -11,6 +12,5 @@ void main() {
     test('to test the property `arrayArrayNumber`', () async {
       // TODO
     });
-
   });
 }

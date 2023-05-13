@@ -3,6 +3,6 @@
 //
 
 
-export 'api.dart';
+export 'apis.dart';
 export 'models.dart';
 export 'package:openapi/src/auth/_exports.dart';

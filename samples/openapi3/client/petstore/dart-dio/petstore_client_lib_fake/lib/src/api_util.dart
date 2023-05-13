@@ -12,7 +12,8 @@ import 'package:dio/dio.dart';
 /// Format the given form parameter object into something that Dio can handle.
 /// Returns primitive or String.
 /// Returns List/Map if the value is BuildList/BuiltMap.
-dynamic encodeFormParameter(Serializers serializers, dynamic value, FullType type) {
+dynamic encodeFormParameter(
+    Serializers serializers, dynamic value, FullType type) {
   if (value == null) {
     return '';
   }

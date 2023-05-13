@@ -8,7 +8,6 @@ import 'package:openapi/src/repository_base.dart';
 import 'package:openapi/models.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
-import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/health_check_result.dart';

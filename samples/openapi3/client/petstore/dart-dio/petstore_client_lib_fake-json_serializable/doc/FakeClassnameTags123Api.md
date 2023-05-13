@@ -2,7 +2,7 @@
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -21,7 +21,7 @@ To test class name in snake case
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure API key authorization: api_key_query
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key_query').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed

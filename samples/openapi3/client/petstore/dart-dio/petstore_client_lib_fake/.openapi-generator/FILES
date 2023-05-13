@@ -56,7 +56,7 @@ doc/StoreApi.md
 doc/Tag.md
 doc/User.md
 doc/UserApi.md
-lib/api.dart
+lib/apis.dart
 lib/models.dart
 lib/openapi.dart
 lib/src/api/another_fake_api.dart
@@ -67,7 +67,6 @@ lib/src/api/pet_api.dart
 lib/src/api/store_api.dart
 lib/src/api/user_api.dart
 lib/src/api_client.dart
-lib/src/api_util.dart
 lib/src/auth/_exports.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart

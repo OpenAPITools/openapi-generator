@@ -3,7 +3,5 @@ import 'package:openapi/openapi.dart';
 
 // tests for OuterEnum
 void main() {
-
-  group(OuterEnum, () {
-  });
+  group(OuterEnum, () {});
 }

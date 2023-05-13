@@ -5,7 +5,7 @@
 import 'package:dio/dio.dart';
 import 'repository_base.dart';
 import 'repository_impl.dart';
-import 'package:openapi/api.dart';
+import 'package:openapi/apis.dart';
 import 'package:openapi/models.dart';
 import 'package:openapi/src/auth/_exports.dart';
 

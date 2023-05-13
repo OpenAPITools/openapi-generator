@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for UserApi
 void main() {
   final instance = Openapi().getUserApi();
@@ -18,7 +17,7 @@ void main() {
 
     // Creates list of users with given input array
     //
-    // 
+    //
     //
     //Future createUsersWithArrayInput(BuiltList<User> user) async
     test('test createUsersWithArrayInput', () async {
@@ -27,7 +26,7 @@ void main() {
 
     // Creates list of users with given input array
     //
-    // 
+    //
     //
     //Future createUsersWithListInput(BuiltList<User> user) async
     test('test createUsersWithListInput', () async {
@@ -45,7 +44,7 @@ void main() {
 
     // Get user by user name
     //
-    // 
+    //
     //
     //Future<User> getUserByName(String username) async
     test('test getUserByName', () async {
@@ -54,7 +53,7 @@ void main() {
 
     // Logs user into the system
     //
-    // 
+    //
     //
     //Future<String> loginUser(String username, String password) async
     test('test loginUser', () async {
@@ -63,7 +62,7 @@ void main() {
 
     // Logs out current logged in user session
     //
-    // 
+    //
     //
     //Future logoutUser() async
     test('test logoutUser', () async {
@@ -78,6 +77,5 @@ void main() {
     test('test updateUser', () async {
       // TODO
     });
-
   });
 }

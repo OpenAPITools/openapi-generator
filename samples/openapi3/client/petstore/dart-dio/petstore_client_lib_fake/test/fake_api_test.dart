@@ -1,7 +1,6 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
-
 /// tests for FakeApi
 void main() {
   final instance = Openapi().getFakeApi();
@@ -84,9 +83,9 @@ void main() {
       // TODO
     });
 
-    // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
     //
-    // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
     //
     //Future testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, Uint8List binary, Date date, DateTime dateTime, String password, String callback }) async
     test('test testEndpointParameters', () async {
@@ -113,7 +112,7 @@ void main() {
 
     // test inline additionalProperties
     //
-    // 
+    //
     //
     //Future testInlineAdditionalProperties(BuiltMap<String, String> requestBody) async
     test('test testInlineAdditionalProperties', () async {
@@ -122,7 +121,7 @@ void main() {
 
     // test json serialization of form data
     //
-    // 
+    //
     //
     //Future testJsonFormData(String param, String param2) async
     test('test testJsonFormData', () async {
@@ -135,6 +134,5 @@ void main() {
     test('test testQueryParameterCollectionFormat', () async {
       // TODO
     });
-
   });
 }

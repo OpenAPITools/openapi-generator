@@ -5,12 +5,11 @@ doc/Apple.md
 doc/Banana.md
 doc/DefaultApi.md
 doc/Fruit.md
-lib/api.dart
+lib/apis.dart
 lib/models.dart
 lib/openapi.dart
 lib/src/api/default_api.dart
 lib/src/api_client.dart
-lib/src/api_util.dart
 lib/src/auth/_exports.dart
 lib/src/auth/api_key_auth.dart
 lib/src/auth/auth.dart

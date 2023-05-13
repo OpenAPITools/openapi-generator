@@ -2,7 +2,7 @@
 
 ## Load the API package
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 ```
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
@@ -35,7 +35,7 @@ Health check endpoint
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 
@@ -72,7 +72,7 @@ test http signature authentication
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure HTTP basic authorization: http_signature_test
 //defaultApiClient.getAuthentication<HttpBasicAuth>('http_signature_test').username = 'YOUR_USERNAME'
 //defaultApiClient.getAuthentication<HttpBasicAuth>('http_signature_test').password = 'YOUR_PASSWORD';
@@ -121,7 +121,7 @@ Test serialization of outer boolean types
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final bool body = true; // bool | Input boolean as post body
@@ -164,7 +164,7 @@ Test serialization of object with outer number type
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final OuterComposite outerComposite = ; // OuterComposite | Input composite as post body
@@ -207,7 +207,7 @@ Test serialization of outer number types
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final num body = 8.14; // num | Input number as post body
@@ -250,7 +250,7 @@ Test serialization of outer string types
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final String body = body_example; // String | Input string as post body
@@ -293,7 +293,7 @@ Test serialization of enum (int) properties with examples
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final OuterObjectWithEnumProperty outerObjectWithEnumProperty = ; // OuterObjectWithEnumProperty | Input enum (int) as post body
@@ -336,7 +336,7 @@ For this test, the body has to be a binary file.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final MultipartFile body = BINARY_DATA_HERE; // MultipartFile | image to upload
@@ -378,7 +378,7 @@ For this test, the body for this request must reference a schema named `File`.
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final FileSchemaTestClass fileSchemaTestClass = ; // FileSchemaTestClass | 
@@ -418,7 +418,7 @@ No authorization required
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final String query = query_example; // String | 
@@ -462,7 +462,7 @@ To test \"client\" model
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final ModelClient modelClient = ; // ModelClient | client model
@@ -505,7 +505,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure HTTP basic authorization: http_basic_test
 //defaultApiClient.getAuthentication<HttpBasicAuth>('http_basic_test').username = 'YOUR_USERNAME'
 //defaultApiClient.getAuthentication<HttpBasicAuth>('http_basic_test').password = 'YOUR_PASSWORD';
@@ -576,7 +576,7 @@ To test enum parameters
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final List<String> enumHeaderStringArray = ; // List<String> | Header parameter enum test (string array)
@@ -634,7 +634,7 @@ Fake endpoint to test group parameters (optional)
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 // TODO Configure HTTP basic authorization: bearer_test
 //defaultApiClient.getAuthentication<HttpBasicAuth>('bearer_test').username = 'YOUR_USERNAME'
 //defaultApiClient.getAuthentication<HttpBasicAuth>('bearer_test').password = 'YOUR_PASSWORD';
@@ -689,7 +689,7 @@ test inline additionalProperties
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final Map<String, String> requestBody = ; // Map<String, String> | request body
@@ -731,7 +731,7 @@ test json serialization of form data
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final String param = param_example; // String | field1
@@ -775,7 +775,7 @@ To test the collection format in query parameters
 
 ### Example
 ```dart
-import 'package:openapi/api.dart';
+import 'package:openapi/openapi.dart';
 
 final api = Openapi().getFakeApi();
 final List<String> pipe = ; // List<String> | 

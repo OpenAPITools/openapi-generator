@@ -3,7 +3,8 @@ import 'package:openapi/openapi.dart';
 
 // tests for MixedPropertiesAndAdditionalPropertiesClass
 void main() {
-  final MixedPropertiesAndAdditionalPropertiesClass? instance = /* MixedPropertiesAndAdditionalPropertiesClass(...) */ null;
+  final MixedPropertiesAndAdditionalPropertiesClass?
+      instance = /* MixedPropertiesAndAdditionalPropertiesClass(...) */ null;
   // TODO add properties to the entity
 
   group(MixedPropertiesAndAdditionalPropertiesClass, () {
@@ -21,6 +22,5 @@ void main() {
     test('to test the property `map`', () async {
       // TODO
     });
-
   });
 }
