@@ -33,7 +33,7 @@ class JsonSerializableRepository extends SerializationRepositoryBase {
                 return (valueString == 'true' || valueString == '1') as T;
             case double:
                 return (valueParsed is num ? valueParsed.toDouble() : double.parse(valueParsed.toString())) as T;
-            //TODO: add support for DateTime?
+            {{! TODO: add support for DateTime? }}
             {{#models}}
             {{#model}}
             case {{{classname}}}:
