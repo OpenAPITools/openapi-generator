@@ -220,6 +220,7 @@ Class | Method | HTTP request | Description
  - [Model.User](User.md)
  - [Model.Whale](Whale.md)
  - [Model.Zebra](Zebra.md)
+ - [Model.ZeroBasedEnum](ZeroBasedEnum.md)
 
 
 <a id="documentation-for-authorization"></a>

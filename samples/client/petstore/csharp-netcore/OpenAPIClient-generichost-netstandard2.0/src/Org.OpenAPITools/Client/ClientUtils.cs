@@ -162,6 +162,8 @@ namespace Org.OpenAPITools.Client
                 return Pet.StatusEnumToJsonValue(petStatusEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
+            if (obj is ZeroBasedEnum zeroBasedEnum)
+                return ZeroBasedEnumConverter.ToJsonValue(zeroBasedEnum);
             if (obj is ICollection collection)
             {
                 List<string> entries = new List<string>();
