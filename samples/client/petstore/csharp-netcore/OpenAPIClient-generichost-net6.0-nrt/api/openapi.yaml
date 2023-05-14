@@ -2211,6 +2211,14 @@ components:
       - unknown
       - notUnknown
       type: string
+    ZeroBasedEnumClass:
+      properties:
+        ZeroBasedEnum:
+          enum:
+          - unknown
+          - notUnknown
+          type: string
+      type: object
     _foo_get_default_response:
       example:
         string:
