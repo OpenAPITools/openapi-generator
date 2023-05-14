@@ -708,7 +708,7 @@ public class DefaultGeneratorTest {
                     StandardOpenOption.CREATE);
 
             final CodegenConfigurator configurator = new CodegenConfigurator()
-                    .setGeneratorName("python")
+                    .setGeneratorName("python-nextgen")
                     .setInputSpec("src/test/resources/3_0/petstore.yaml")
                     .setPackageName("io.something")
                     .setTemplateDir(templates.toAbsolutePath().toString())
