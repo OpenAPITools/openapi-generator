@@ -2279,3 +2279,8 @@ components:
           pattern: ^a
         - type: string
           pattern: ^b
+    ZeroBasedEnum:
+      type: string
+      enum:
+        - unknown
+        - notUnknown

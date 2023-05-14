@@ -2206,6 +2206,11 @@ components:
         type: string
       - pattern: ^b
         type: string
+    ZeroBasedEnum:
+      enum:
+      - unknown
+      - notUnknown
+      type: string
     _foo_get_default_response:
       example:
         string:

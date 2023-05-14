@@ -91,6 +91,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     // true if support nullable type
     protected boolean supportNullable = Boolean.FALSE;
 
+    protected Boolean zeroBasedEnums = null;
+    protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
+
     // nullable type
     protected Set<String> nullableType = new HashSet<>();
 
@@ -408,6 +411,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
         }
 
+        String zeroBasedEnums = "zeroBasedEnums";
+        if (additionalProperties.containsKey(zeroBasedEnums)) {
+            setZeroBasedEnums(convertPropertyToBooleanAndWriteBack(zeroBasedEnums));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
@@ -459,6 +467,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
             property.dataType = property.datatypeWithEnum;
         }
+
+        if (property.isEnum && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+            if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
+                property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+            } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                if (property.allowableValues.containsKey("values")){
+                    final List<Object> allowableValues = (List<Object>) property.allowableValues.get("values");
+                    boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                    property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                }
+            }
+        }
+
         if (property.isMap || property.isContainer) {
             // maps of enums will be marked both isMap and isEnum, correct that now
             property.isEnum = false;
@@ -477,6 +498,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // if found, prepend with _ to workaround the limitation
                 if (var.name.equalsIgnoreCase(cm.classname)) {
                     var.name = "_" + var.name;
+                }
+            }
+
+            if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+                if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
+                    cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+                } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                    if (cm.allowableValues.containsKey("values")){
+                        final List<Object> allowableValues = (List<Object>) cm.allowableValues.get("values");
+                        boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                        cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                    }
                 }
             }
         }
@@ -1333,6 +1366,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public String getInterfacePrefix() {
         return interfacePrefix;
+    }
+
+    public void setZeroBasedEnums(final Boolean zeroBasedEnums) {
+        this.zeroBasedEnums = zeroBasedEnums;
     }
 
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag) {

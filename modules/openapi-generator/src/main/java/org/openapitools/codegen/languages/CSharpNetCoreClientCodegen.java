@@ -227,6 +227,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 "The default DateTime format (only `generichost` library supports this option).",
                 this.dateTimeFormat);
 
+        addOption("zeroBasedEnums",
+                "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
+                null);
+
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
                 CodegenConstants.DOTNET_FRAMEWORK_DESC
