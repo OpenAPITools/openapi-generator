@@ -55,7 +55,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
-
         }
 
 
@@ -107,7 +106,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
-
         }
 
 
@@ -150,7 +148,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
             NUMBER_MINUS_1 = -1
-
         }
 
 
@@ -193,7 +190,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
             NUMBER_MINUS_2 = -2
-
         }
 
 
@@ -239,7 +235,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "-1.2")]
             NUMBER_MINUS_1_DOT_2 = 2
-
         }
 
 

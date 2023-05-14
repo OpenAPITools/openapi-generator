@@ -64,7 +64,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Grevys for value: grevys
             /// </summary>
             Grevys = 3
-
         }
 
         /// <summary>
