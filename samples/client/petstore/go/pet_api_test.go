@@ -45,7 +45,7 @@ func TestAddPet(t *testing.T) {
 func TestAddPetMock(t *testing.T) {
 	actualApi := client.PetAPI
 
-	mockApi := mock.NewMockPetAPI()
+	mockApi := mock.NewMockPetApi()
 	client.PetAPI = mockApi
 	TestAddPet(t)
 	client.PetAPI = actualApi
