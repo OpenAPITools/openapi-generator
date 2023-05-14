@@ -125,7 +125,9 @@ class PetApi {
       status: encodeQueryParameter(
         _repository,
         status,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltList, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.csv,
       ),
       cancelToken: cancelToken,
@@ -144,7 +146,9 @@ class PetApi {
           ? null
           : _repository.deserialize(
               rawResponse,
-              const TypeInfo(BuiltList, [const TypeInfo(Pet)]),
+              const TypeInfo(BuiltList, [
+                const TypeInfo(Pet),
+              ]),
             );
     } catch (error, stackTrace) {
       throw DioError(
@@ -196,7 +200,9 @@ class PetApi {
       tags: encodeQueryParameter(
         _repository,
         tags,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltSet, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.csv,
       ),
       cancelToken: cancelToken,
@@ -215,7 +221,9 @@ class PetApi {
           ? null
           : _repository.deserialize(
               rawResponse,
-              const TypeInfo(BuiltSet, [const TypeInfo(Pet)]),
+              const TypeInfo(BuiltSet, [
+                const TypeInfo(Pet),
+              ]),
             );
     } catch (error, stackTrace) {
       throw DioError(

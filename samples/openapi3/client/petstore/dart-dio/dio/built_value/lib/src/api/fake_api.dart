@@ -832,7 +832,9 @@ class FakeApi {
         r'enum_form_string_array': encodeFormParameter(
             _repository,
             enumFormStringArray,
-            const TypeInfo(String, [const TypeInfo(String)])),
+            const TypeInfo(String, [
+              const TypeInfo(String),
+            ])),
       if (enumFormString != null)
         r'enum_form_string': encodeFormParameter(
             _repository, enumFormString, const TypeInfo(String)),
@@ -842,8 +844,11 @@ class FakeApi {
       enumHeaderStringArray: enumHeaderStringArray == null
           ? null
           : _repository
-              .serialize(enumHeaderStringArray,
-                  const TypeInfo(String, [const TypeInfo(String)]))
+              .serialize(
+                  enumHeaderStringArray,
+                  const TypeInfo(BuiltList, [
+                    const TypeInfo(String),
+                  ]))
               .toString(),
       enumHeaderString: enumHeaderString == null
           ? null
@@ -855,7 +860,9 @@ class FakeApi {
           : encodeQueryParameter(
               _repository,
               enumQueryStringArray,
-              const TypeInfo(String, [const TypeInfo(String)]),
+              const TypeInfo(BuiltList, [
+                const TypeInfo(String),
+              ]),
               format: ListFormat.multi,
             ),
       enumQueryString: enumQueryString == null
@@ -884,7 +891,9 @@ class FakeApi {
           : encodeQueryParameter(
               _repository,
               enumQueryModelArray,
-              const TypeInfo(ModelEnumClass, [const TypeInfo(ModelEnumClass)]),
+              const TypeInfo(BuiltList, [
+                const TypeInfo(ModelEnumClass),
+              ]),
               format: ListFormat.multi,
             ),
       body: _bodyData,
@@ -1001,8 +1010,12 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {
     Object? _bodyData;
-    _bodyData = _repository.serialize(requestBody,
-        const TypeInfo(String, [TypeInfo(String), const TypeInfo(String)]));
+    _bodyData = _repository.serialize(
+        requestBody,
+        const TypeInfo(String, [
+          TypeInfo(String),
+          const TypeInfo(String),
+        ]));
 
     final _response = await rawApi.testInlineAdditionalProperties(
       body: _bodyData,
@@ -1103,31 +1116,41 @@ class FakeApi {
       pipe: encodeQueryParameter(
         _repository,
         pipe,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltList, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.pipes,
       ),
       ioutil: encodeQueryParameter(
         _repository,
         ioutil,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltList, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.csv,
       ),
       http: encodeQueryParameter(
         _repository,
         http,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltList, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.ssv,
       ),
       url: encodeQueryParameter(
         _repository,
         url,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltList, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.csv,
       ),
       context: encodeQueryParameter(
         _repository,
         context,
-        const TypeInfo(String, [const TypeInfo(String)]),
+        const TypeInfo(BuiltList, [
+          const TypeInfo(String),
+        ]),
         format: ListFormat.multi,
       ),
       allowEmpty: encodeQueryParameter(
@@ -1140,8 +1163,10 @@ class FakeApi {
           : encodeQueryParameter(
               _repository,
               language,
-              const TypeInfo(
-                  String, [TypeInfo(String), const TypeInfo(String)]),
+              const TypeInfo(BuiltMap, [
+                TypeInfo(String),
+                const TypeInfo(String),
+              ]),
             ),
       cancelToken: cancelToken,
       headers: headers,

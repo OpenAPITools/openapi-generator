@@ -141,16 +141,16 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<User>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltSet, [FullType(String)]),
-        () => SetBuilder<String>(),
-      )
-      ..addBuilderFactory(
         const FullType(BuiltSet, [FullType(Pet)]),
         () => SetBuilder<Pet>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(Pet)]),
         () => ListBuilder<Pet>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltSet, [FullType(BuiltSet)]),
+        () => SetBuilder<BuiltSet>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(FooRefOrValue)]),
@@ -161,12 +161,16 @@ Serializers serializers = (_$serializers.toBuilder()
         () => MapBuilder<String, int>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(ModelEnumClass)]),
-        () => ListBuilder<ModelEnumClass>(),
+        const FullType(BuiltMap, [FullType(String), FullType(BuiltMap)]),
+        () => MapBuilder<String, BuiltMap>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(BuiltList)]),
+        () => ListBuilder<BuiltList>(),
       )
       ..add(Addressable.serializer)
       ..add(Animal.serializer)

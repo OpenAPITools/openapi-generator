@@ -90,7 +90,10 @@ class StoreApi {
           ? null
           : _repository.deserialize(
               rawResponse,
-              const TypeInfo(Map, [TypeInfo(String), const TypeInfo(int)]),
+              const TypeInfo(Map, [
+                TypeInfo(String),
+                const TypeInfo(int),
+              ]),
             );
     } catch (error, stackTrace) {
       throw DioError(

@@ -1,1 +1,10 @@
-const TypeInfo{{#isNullable}}.nullable{{/isNullable}}({{#isContainer}}{{baseType}}, [{{#isMap}}TypeInfo(String), {{/isMap}}{{#items}}{{>types/recursion_base_type_info}}{{/items}}]{{/isContainer}}{{^isContainer}}{{#baseType}}{{{.}}}{{/baseType}}{{^baseType}}{{{dataType}}}{{/baseType}}{{/isContainer}})
+{{! Prefer working with schemas}}
+const TypeInfo{{#isNullable}}.nullable{{/isNullable}}(
+    {{#isContainer}}{{baseType}}, [
+        {{#isMap}}TypeInfo(String), {{/isMap}}
+        {{#items}}{{>types/recursion_base_type_info}}{{/items}},
+    ]{{/isContainer}}{{^isContainer}}
+    {{#baseType}}{{{.}}}{{/baseType}}
+    {{^baseType}}{{{dataType}}}{{/baseType}}
+    {{/isContainer}})
+

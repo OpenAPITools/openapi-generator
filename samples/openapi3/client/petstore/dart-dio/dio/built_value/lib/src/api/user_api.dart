@@ -81,7 +81,10 @@ class UserApi {
   }) async {
     Object? _bodyData;
     _bodyData = _repository.serialize(
-        user, const TypeInfo(User, [const TypeInfo(User)]));
+        user,
+        const TypeInfo(User, [
+          const TypeInfo(User),
+        ]));
 
     final _response = await rawApi.createUsersWithArrayInput(
       body: _bodyData,
@@ -122,7 +125,10 @@ class UserApi {
   }) async {
     Object? _bodyData;
     _bodyData = _repository.serialize(
-        user, const TypeInfo(User, [const TypeInfo(User)]));
+        user,
+        const TypeInfo(User, [
+          const TypeInfo(User),
+        ]));
 
     final _response = await rawApi.createUsersWithListInput(
       body: _bodyData,

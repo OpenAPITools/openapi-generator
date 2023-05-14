@@ -600,13 +600,13 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderStringArray** | [**BuiltList&lt;String&gt;**](BuiltList.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to '-efg']
- **enumQueryStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
+ **enumQueryStringArray** | [**BuiltList&lt;String&gt;**](BuiltList.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
- **enumQueryModelArray** | [**BuiltList&lt;ModelEnumClass&gt;**](ModelEnumClass.md)|  | [optional] 
+ **enumQueryModelArray** | [**BuiltList&lt;ModelEnumClass&gt;**](BuiltList.md)|  | [optional] 
  **enumFormStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
@@ -797,13 +797,13 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **ioutil** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **http** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **url** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **context** | [**BuiltList&lt;String&gt;**](String.md)|  | 
+ **pipe** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **ioutil** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **http** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **url** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **context** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
  **allowEmpty** | **String**|  | 
- **language** | [**BuiltMap&lt;String, String&gt;**](String.md)|  | [optional] 
+ **language** | [**BuiltMap&lt;String, String&gt;**](BuiltMap.md)|  | [optional] 
 
 ### Return type
 

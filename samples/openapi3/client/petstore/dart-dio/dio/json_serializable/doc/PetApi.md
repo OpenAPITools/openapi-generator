@@ -138,7 +138,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**List&lt;String&gt;**](List.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -183,7 +183,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | 
+ **tags** | [**Set&lt;String&gt;**](Set.md)| Tags to filter by | 
 
 ### Return type
 

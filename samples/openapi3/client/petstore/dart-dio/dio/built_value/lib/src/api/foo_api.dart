@@ -125,7 +125,9 @@ class FooApi {
           ? null
           : _repository.deserialize(
               rawResponse,
-              const TypeInfo(BuiltList, [const TypeInfo(FooRefOrValue)]),
+              const TypeInfo(BuiltList, [
+                const TypeInfo(FooRefOrValue),
+              ]),
             );
     } catch (error, stackTrace) {
       throw DioError(

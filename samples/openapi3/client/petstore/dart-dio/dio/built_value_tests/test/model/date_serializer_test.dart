@@ -1,5 +1,4 @@
 import 'package:openapi/openapi.dart';
-import 'package:openapi/src/date_serializer.dart';
 import 'package:test/test.dart';
 
 void main() {

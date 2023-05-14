@@ -91,7 +91,10 @@ class StoreApi {
           ? null
           : _repository.deserialize(
               rawResponse,
-              const TypeInfo(BuiltMap, [TypeInfo(String), const TypeInfo(int)]),
+              const TypeInfo(BuiltMap, [
+                TypeInfo(String),
+                const TypeInfo(int),
+              ]),
             );
     } catch (error, stackTrace) {
       throw DioError(

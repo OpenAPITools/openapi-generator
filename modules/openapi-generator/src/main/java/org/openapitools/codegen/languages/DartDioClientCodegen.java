@@ -46,8 +46,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.sql.Array;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -710,6 +712,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
     }
 
+    private void preferSchemaBaseType(CodegenParameter param) {
+        if (param.baseType != null && param.getSchema() != null && !param.baseType.equals(param.getSchema().baseType)){
+            param.baseType = param.getSchema().baseType;
+        }
+    }
+   
+    
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
@@ -719,7 +728,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
-            for (CodegenParameter param : op.allParams) {
+            for (CodegenParameter param : Stream.of(op.allParams, op.bodyParams, op.formParams)
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList())) {
                 if (((op.isMultipart && param.isFormParam) || param.isBodyParam) && (param.isBinary || param.isFile)) {
                     param.dataType = param.dataType.replace("Uint8List", "MultipartFile");
                     param.baseType = param.baseType.replace("Uint8List", "MultipartFile");
@@ -735,6 +746,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                         }
                     }
                 }
+
+                preferSchemaBaseType(param);
+            }
+            if (op.bodyParam != null) {
+                preferSchemaBaseType(op.bodyParam);
             }
 
             // The MultipartFile handling above changes the type of some parameters from

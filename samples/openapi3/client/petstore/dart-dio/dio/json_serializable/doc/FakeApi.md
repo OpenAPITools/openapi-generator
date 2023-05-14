@@ -600,13 +600,13 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderStringArray** | [**List&lt;String&gt;**](List.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to '-efg']
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
+ **enumQueryStringArray** | [**List&lt;String&gt;**](List.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
- **enumQueryModelArray** | [**List&lt;ModelEnumClass&gt;**](ModelEnumClass.md)|  | [optional] 
+ **enumQueryModelArray** | [**List&lt;ModelEnumClass&gt;**](List.md)|  | [optional] 
  **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
@@ -797,13 +797,13 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  | 
- **ioutil** | [**List&lt;String&gt;**](String.md)|  | 
- **http** | [**List&lt;String&gt;**](String.md)|  | 
- **url** | [**List&lt;String&gt;**](String.md)|  | 
- **context** | [**List&lt;String&gt;**](String.md)|  | 
+ **pipe** | [**List&lt;String&gt;**](List.md)|  | 
+ **ioutil** | [**List&lt;String&gt;**](List.md)|  | 
+ **http** | [**List&lt;String&gt;**](List.md)|  | 
+ **url** | [**List&lt;String&gt;**](List.md)|  | 
+ **context** | [**List&lt;String&gt;**](List.md)|  | 
  **allowEmpty** | **String**|  | 
- **language** | [**Map&lt;String, String&gt;**](String.md)|  | [optional] 
+ **language** | [**Map&lt;String, String&gt;**](Map.md)|  | [optional] 
 
 ### Return type
 

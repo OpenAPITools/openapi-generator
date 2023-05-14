@@ -75,7 +75,7 @@ class {{classname}} {
       {{#allParams}}{{#isPathParam}}
       {{paramName}}: _repository.serialize({{paramName}}, {{>types/recursion_base_type_info}}).toString(),{{/isPathParam}}{{#isQueryParam}}      
       {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}encodeQueryParameter(_repository, {{paramName}}, {{>types/recursion_base_type_info}}, {{#collectionFormat}}format: ListFormat.{{.}},{{/collectionFormat}}) ,{{/isQueryParam}}{{#isHeaderParam}}
-      {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}_repository.serialize({{paramName}}, {{>types/recursion_base_type_info}}).toString() ,{{/isHeaderParam}}{{/allParams}}
+      {{paramName}}: {{^required}}{{^isNullable}}{{{paramName}}} == null ? null : {{/isNullable}}{{/required}}_repository.serialize({{paramName}}, {{>types/recursion_base_type_info}}).toString(), {{/isHeaderParam}}{{/allParams}}
       {{#hasConsumes}}
       body: _bodyData,
       requestContentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
