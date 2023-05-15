@@ -40,11 +40,6 @@ public class TypeHolderExampleDto {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderExampleDto#TypeHolderExampleDto(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderExampleDto() {
     super();
   }

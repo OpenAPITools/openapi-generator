@@ -30,11 +30,6 @@ public class Foo extends Entity implements FooRefOrValue {
 
   private String fooPropB;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Foo#Foo(String)}
-   */
-  @Deprecated
   public Foo() {
     super();
   }
