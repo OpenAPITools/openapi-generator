@@ -38,11 +38,6 @@ public class TypeHolderDefaultDto {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderDefaultDto#TypeHolderDefaultDto(String, BigDecimal, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderDefaultDto() {
     super();
   }

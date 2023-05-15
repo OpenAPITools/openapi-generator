@@ -29,11 +29,6 @@ public class Cat extends Animal {
 
   private Boolean declawed;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Cat#Cat(String)}
-   */
-  @Deprecated
   public Cat() {
     super();
   }

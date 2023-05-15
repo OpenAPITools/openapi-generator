@@ -40,11 +40,6 @@ public class Animal {
 
   private String color = "red";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Animal#Animal(String)}
-   */
-  @Deprecated
   public Animal() {
     super();
   }

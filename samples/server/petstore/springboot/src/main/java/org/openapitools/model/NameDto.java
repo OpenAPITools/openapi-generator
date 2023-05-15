@@ -33,11 +33,6 @@ public class NameDto {
 
   private Integer _123Number;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link NameDto#NameDto(Integer)}
-   */
-  @Deprecated
   public NameDto() {
     super();
   }

@@ -69,11 +69,6 @@ public class BigCat extends Cat {
 
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCat#BigCat(String)}
-   */
-  @Deprecated
   public BigCat() {
     super();
   }
