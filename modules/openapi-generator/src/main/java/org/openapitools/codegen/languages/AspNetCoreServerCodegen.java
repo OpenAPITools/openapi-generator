@@ -410,18 +410,16 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         
         if (useSeparateModelProject)
         {
-            supportingFiles.add(new SupportingFile("typeConverter.mustache", sourceFolder + File.separator + modelPackage + File.separator + "Converters", "CustomEnumConverter.cs"));
+            String separateModelSeparator = sourceFolder + File.separator + modelPackage ;
+            supportingFiles.add(new SupportingFile("gitignore", separateModelSeparator, ".gitignore"));
+            supportingFiles.add(new SupportingFile("typeConverter.mustache", separateModelSeparator + File.separator + "Converters", "CustomEnumConverter.cs"));
+            supportingFiles.add(new SupportingFile("ModelsProject.csproj.mustache", separateModelSeparator, modelPackage + ".csproj"));
         } else {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         }
 
         if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
-        }
-
-        if (useSeparateModelProject)
-        {
-            supportingFiles.add(new SupportingFile("ModelsProject.csproj.mustache", sourceFolder + File.separator + modelPackage, modelPackage + ".csproj"));
         }
 
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));

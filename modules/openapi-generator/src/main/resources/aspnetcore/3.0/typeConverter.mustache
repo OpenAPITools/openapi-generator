@@ -1,7 +1,12 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
+{{#useNewtonsoft}}
 using Newtonsoft.Json;
+{{/useNewtonsoft}}
+{{^useNewtonsoft}}
+using System.Text.Json;
+{{/useNewtonsoft}}
 
 namespace {{packageName}}.Converters
 {
@@ -36,7 +41,7 @@ namespace {{packageName}}.Converters
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<T>(@"""" + value.ToString() + @"""");
+            return {{#useNewtonsoft}}JsonConvert.DeserializeObject{{/useNewtonsoft}}{{^useNewtonsoft}}JsonSerializer.Deserialize{{/useNewtonsoft}}<T>(@"""" + value.ToString() + @"""");
         }
     }
 }
