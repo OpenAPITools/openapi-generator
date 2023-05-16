@@ -221,18 +221,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.UuidWithPattern != null)
-                {
-                    hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
-                }
-                if (this.Uuid != null)
-                {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
-                }
-                if (this.DateTime != null)
-                {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
+                hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
                 if (this.Map != null)
                 {
                     hashCode = (hashCode * 59) + this.Map.GetHashCode();

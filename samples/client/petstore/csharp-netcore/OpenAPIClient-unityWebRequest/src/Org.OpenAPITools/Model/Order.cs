@@ -176,8 +176,7 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.ShipDate == input.ShipDate ||
-                    (this.ShipDate != null &&
-                    this.ShipDate.Equals(input.ShipDate))
+                    this.ShipDate.Equals(input.ShipDate)
                 ) && 
                 (
                     this.Status == input.Status ||
@@ -201,10 +200,7 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 hashCode = (hashCode * 59) + this.PetId.GetHashCode();
                 hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
-                if (this.ShipDate != null)
-                {
-                    hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
                 hashCode = (hashCode * 59) + this.Status.GetHashCode();
                 hashCode = (hashCode * 59) + this.Complete.GetHashCode();
                 return hashCode;

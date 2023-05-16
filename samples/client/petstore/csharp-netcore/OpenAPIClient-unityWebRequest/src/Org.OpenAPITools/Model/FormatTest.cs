@@ -326,18 +326,15 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Date == input.Date ||
-                    (this.Date != null &&
-                    this.Date.Equals(input.Date))
+                    this.Date.Equals(input.Date)
                 ) && 
                 (
                     this.DateTime == input.DateTime ||
-                    (this.DateTime != null &&
-                    this.DateTime.Equals(input.DateTime))
+                    this.DateTime.Equals(input.DateTime)
                 ) && 
                 (
                     this.Uuid == input.Uuid ||
-                    (this.Uuid != null &&
-                    this.Uuid.Equals(input.Uuid))
+                    this.Uuid.Equals(input.Uuid)
                 ) && 
                 (
                     this.Password == input.Password ||
@@ -391,18 +388,9 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Binary.GetHashCode();
                 }
-                if (this.Date != null)
-                {
-                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
-                }
-                if (this.DateTime != null)
-                {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
-                }
-                if (this.Uuid != null)
-                {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.Date.GetHashCode();
+                hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 if (this.Password != null)
                 {
                     hashCode = (hashCode * 59) + this.Password.GetHashCode();

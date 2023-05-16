@@ -118,18 +118,15 @@ namespace Org.OpenAPITools.Model
             return 
                 (
                     this.UuidWithPattern == input.UuidWithPattern ||
-                    (this.UuidWithPattern != null &&
-                    this.UuidWithPattern.Equals(input.UuidWithPattern))
+                    this.UuidWithPattern.Equals(input.UuidWithPattern)
                 ) && 
                 (
                     this.Uuid == input.Uuid ||
-                    (this.Uuid != null &&
-                    this.Uuid.Equals(input.Uuid))
+                    this.Uuid.Equals(input.Uuid)
                 ) && 
                 (
                     this.DateTime == input.DateTime ||
-                    (this.DateTime != null &&
-                    this.DateTime.Equals(input.DateTime))
+                    this.DateTime.Equals(input.DateTime)
                 ) && 
                 (
                     this.Map == input.Map ||
@@ -148,18 +145,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.UuidWithPattern != null)
-                {
-                    hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
-                }
-                if (this.Uuid != null)
-                {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
-                }
-                if (this.DateTime != null)
-                {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
+                hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
                 if (this.Map != null)
                 {
                     hashCode = (hashCode * 59) + this.Map.GetHashCode();
