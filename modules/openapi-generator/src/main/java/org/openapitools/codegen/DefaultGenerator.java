@@ -204,8 +204,8 @@ public class DefaultGenerator implements Generator {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
         generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.APIS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
-        generateModels = GlobalSettings.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
-        generateSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
+        generateModels = GlobalSettings.getProperty(CodegenConstants.MODELS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODELS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
+        generateSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
 
         if (generateApis == null && generateModels == null && generateSupportingFiles == null) {
             // no specifics are set, generate everything
