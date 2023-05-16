@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Models
                 ) && 
                 (
                     ShipDate == other.ShipDate ||
-                    ShipDate != null &&
+                    
                     ShipDate.Equals(other.ShipDate)
                 ) && 
                 (
@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Models
                     hashCode = hashCode * 59 + PetId.GetHashCode();
                     
                     hashCode = hashCode * 59 + Quantity.GetHashCode();
-                    if (ShipDate != null)
+                    
                     hashCode = hashCode * 59 + ShipDate.GetHashCode();
                     
                     hashCode = hashCode * 59 + Status.GetHashCode();
