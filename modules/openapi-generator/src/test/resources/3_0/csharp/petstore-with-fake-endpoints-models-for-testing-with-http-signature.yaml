@@ -2284,3 +2284,11 @@ components:
       enum:
         - unknown
         - notUnknown
+    ZeroBasedEnumClass:
+      type: object
+      properties:
+        ZeroBasedEnum:
+          type: string
+          enum:
+            - unknown
+            - notUnknown

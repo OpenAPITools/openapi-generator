@@ -96,6 +96,7 @@ docs/models/User.md
 docs/models/Whale.md
 docs/models/Zebra.md
 docs/models/ZeroBasedEnum.md
+docs/models/ZeroBasedEnumClass.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
 src/Org.OpenAPITools.Test/Api/DependencyInjectionTests.cs
@@ -218,5 +219,6 @@ src/Org.OpenAPITools/Model/User.cs
 src/Org.OpenAPITools/Model/Whale.cs
 src/Org.OpenAPITools/Model/Zebra.cs
 src/Org.OpenAPITools/Model/ZeroBasedEnum.cs
+src/Org.OpenAPITools/Model/ZeroBasedEnumClass.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/README.md
