@@ -153,6 +153,7 @@ The following generators are available:
 * [graphql-schema](generators/graphql-schema.md)  
 * [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
+* [postman-collection (beta)](generators/postman-collection.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 * [wsdl-schema (beta)](generators/wsdl-schema.md)  
 
