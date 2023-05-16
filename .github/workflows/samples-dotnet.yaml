@@ -8,6 +8,7 @@ on:
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
       - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useNewtonsoft/**'
   pull_request:
     paths:
       - 'samples/client/petstore/csharp-netcore/**net6.0**/'
@@ -15,6 +16,7 @@ on:
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
       - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useNewtonsoft/**'
 jobs:
   build:
     name: Build .Net projects
@@ -33,6 +35,7 @@ jobs:
           - samples/server/petstore/aspnetcore-6.0-pocoModels
           - samples/server/petstore/aspnetcore-6.0-project4Models
           - samples/server/petstore/aspnetcore-6.0-useSwashBuckle
+          - samples/server/petstore/aspnetcore-6.0-useNewtonsoft
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3.0.3

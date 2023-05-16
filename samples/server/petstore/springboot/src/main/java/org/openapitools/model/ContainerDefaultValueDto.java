@@ -41,11 +41,6 @@ public class ContainerDefaultValueDto {
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ContainerDefaultValueDto#ContainerDefaultValueDto(List<String>, List<String>)}
-   */
-  @Deprecated
   public ContainerDefaultValueDto() {
     super();
   }

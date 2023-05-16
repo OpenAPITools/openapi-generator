@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "sold")]
             Sold = 3
-
         }
 
 

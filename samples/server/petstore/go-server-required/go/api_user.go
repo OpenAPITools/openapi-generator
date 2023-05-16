@@ -17,25 +17,25 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// UserApiController binds http requests to an api service and writes the service results to the http response
-type UserApiController struct {
-	service UserApiServicer
+// UserAPIController binds http requests to an api service and writes the service results to the http response
+type UserAPIController struct {
+	service UserAPIServicer
 	errorHandler ErrorHandler
 }
 
-// UserApiOption for how the controller is set up.
-type UserApiOption func(*UserApiController)
+// UserAPIOption for how the controller is set up.
+type UserAPIOption func(*UserAPIController)
 
-// WithUserApiErrorHandler inject ErrorHandler into controller
-func WithUserApiErrorHandler(h ErrorHandler) UserApiOption {
-	return func(c *UserApiController) {
+// WithUserAPIErrorHandler inject ErrorHandler into controller
+func WithUserAPIErrorHandler(h ErrorHandler) UserAPIOption {
+	return func(c *UserAPIController) {
 		c.errorHandler = h
 	}
 }
 
-// NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
-	controller := &UserApiController{
+// NewUserAPIController creates a default api controller
+func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) Router {
+	controller := &UserAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
@@ -47,8 +47,8 @@ func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
 	return controller
 }
 
-// Routes returns all the api routes for the UserApiController
-func (c *UserApiController) Routes() Routes {
+// Routes returns all the api routes for the UserAPIController
+func (c *UserAPIController) Routes() Routes {
 	return Routes{
 		"CreateUser": Route{
 			strings.ToUpper("Post"),
@@ -94,7 +94,7 @@ func (c *UserApiController) Routes() Routes {
 }
 
 // CreateUser - Create user
-func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -117,7 +117,7 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
 	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -142,7 +142,7 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
 	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -167,7 +167,7 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 }
 
 // DeleteUser - Delete user
-func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
 	result, err := c.service.DeleteUser(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
@@ -180,7 +180,7 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetUserByName - Get user by user name
-func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
 	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
@@ -193,7 +193,7 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 }
 
 // LoginUser - Logs user into the system
-func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := query.Get("username")
 	passwordParam := query.Get("password")
@@ -208,7 +208,7 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // LogoutUser - Logs out current logged in user session
-func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.LogoutUser(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -220,7 +220,7 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdateUser - Updated user
-func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
+func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
 	userParam := User{}
 	d := json.NewDecoder(r.Body)

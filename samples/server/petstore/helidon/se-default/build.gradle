@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.openapitools'
+version = '1.0.0'
+
+description = """This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\"""
+
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+ext {
+    helidonVersion = '2.5.2'
+    mainClass='org.openapitools.server.Main'
+    validationApiVersion = '2.0.1.Final'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    // import Helidon BOM
+    implementation enforcedPlatform("io.helidon:helidon-dependencies:${project.helidonVersion}")
+    implementation "javax.validation:validation-api:${project.validationApiVersion}"
+    implementation 'io.helidon.webserver:helidon-webserver'
+    implementation 'io.helidon.media:helidon-media-jsonp'
+    implementation 'io.helidon.media:helidon-media-jackson'
+    implementation 'io.helidon.media:helidon-media-multipart'
+    implementation 'io.helidon.config:helidon-config-yaml'
+    implementation 'io.helidon.health:helidon-health'
+    implementation 'io.helidon.health:helidon-health-checks'
+    implementation 'io.helidon.metrics:helidon-metrics'
+    implementation 'io.helidon.openapi:helidon-openapi'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'io.helidon.webclient:helidon-webclient'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+// define a custom task to copy all dependencies in the runtime classpath
+// into build/libs/libs
+// uses built-in Copy
+task copyLibs(type: Copy) {
+    from configurations.runtimeClasspath
+    into 'build/libs/libs'
+}
+
+// add it as a dependency of built-in task 'assemble'
+copyLibs.dependsOn jar
+assemble.dependsOn copyLibs
+
+// default jar configuration
+// set the main classpath
+// add each jar under build/libs/libs into the classpath
+jar {
+    archiveFileName = "${project.name}.jar"
+    manifest {
+        attributes ('Main-Class': "${project.mainClass}",
+                'Class-Path': configurations.runtimeClasspath.files.collect { "libs/$it.name" }.join(' ')
+        )
+    }
+}
+application {
+mainClass = "${project.mainClass}"
+}

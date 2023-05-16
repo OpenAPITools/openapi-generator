@@ -55,8 +55,8 @@ class ArrayOfNumberOnly {
       }());
 
       return ArrayOfNumberOnly(
-        arrayNumber: json[r'ArrayNumber'] is List
-            ? (json[r'ArrayNumber'] as List).cast<num>()
+        arrayNumber: json[r'ArrayNumber'] is Iterable
+            ? (json[r'ArrayNumber'] as Iterable).cast<num>().toList(growable: false)
             : const [],
       );
     }

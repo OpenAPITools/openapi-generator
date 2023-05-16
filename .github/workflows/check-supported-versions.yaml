@@ -98,4 +98,4 @@ jobs:
           # test with java (jersey2) client generation only as ensure-up-to-date script is run in another job instead
           ./bin/generate-samples.sh ./bin/configs/java-jersey2-8.yaml
           # test debugSupportingFiles
-          ./bin/generate-samples.sh ./bin/configs/python.yaml -- --global-property debugSupportingFiles
+          ./bin/generate-samples.sh ./bin/configs/go-petstore.yaml -- --global-property debugSupportingFiles

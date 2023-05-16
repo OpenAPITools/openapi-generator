@@ -49,7 +49,6 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
-import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -651,9 +650,7 @@ public class DefaultCodegen implements CodegenConfig {
                 removeSelfReferenceImports(cm);
 
                 if (!this.getLegacyDiscriminatorBehavior()) {
-                    // skip cleaning up mapped models for python client generator
-                    // which uses its own logic
-                    cm.addDiscriminatorMappedModelsImports(!(this instanceof PythonClientCodegen));
+                    cm.addDiscriminatorMappedModelsImports(true);
                 }
             }
         }
@@ -3777,14 +3774,13 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
-        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1 && !(this instanceof PythonClientCodegen)) {
+        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1) {
             if (p.getAllOf().get(0) instanceof Schema) {
                 original = p;
                 p = (Schema) p.getAllOf().get(0);
             } else {
                 LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
             }
-
         }
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);

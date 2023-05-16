@@ -36,11 +36,6 @@ public class TypeHolderDefault {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderDefault#TypeHolderDefault(String, BigDecimal, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderDefault() {
     super();
   }
