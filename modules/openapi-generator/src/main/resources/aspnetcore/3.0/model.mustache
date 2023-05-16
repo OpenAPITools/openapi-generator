@@ -33,7 +33,9 @@ namespace {{modelPackage}}
     /// </summary>
     [DataContract]
     {{#discriminator}}
-    {{#useNewtonsoft}}[JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]{{/useNewtonsoft}}
+    {{#useNewtonsoft}}
+    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{/useNewtonsoft}}
     {{#useSwashbuckle}}
     [SwaggerDiscriminator("{{{discriminatorName}}}")]
     {{/useSwashbuckle}}

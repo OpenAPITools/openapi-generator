@@ -26,7 +26,6 @@ namespace Org.OpenAPITools.Models
     /// 
     /// </summary>
     [DataContract]
-    
     [SwaggerDiscriminator("ClassName")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "CAT")]
     [SwaggerSubType(typeof(Cat), DiscriminatorValue =  "CAT")]
