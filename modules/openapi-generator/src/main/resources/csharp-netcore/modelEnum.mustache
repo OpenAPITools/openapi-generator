@@ -35,7 +35,9 @@
         {{/useGenericHost}}
         {{/isString}}
         {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}}{{^vendorExtensions.x-zero-based-enum}} = {{-index}}{{/vendorExtensions.x-zero-based-enum}}{{/isString}}{{^-last}},{{/-last}}
+        {{^-last}}
 
+        {{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
     }

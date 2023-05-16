@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// Enum NotUnknown for value: notUnknown
         /// </summary>
         NotUnknown
-
     }
 
     public class ZeroBasedEnumConverter : JsonConverter<ZeroBasedEnum>

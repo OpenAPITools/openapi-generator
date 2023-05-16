@@ -44,7 +44,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [EnumMember(Value = "notUnknown")]
         NotUnknown
-
     }
 
 }
