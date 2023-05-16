@@ -64,6 +64,9 @@ Class | Method | HTTP request | Description
 {{#isBasicBearer}}
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
 - **Type**: OAuth
