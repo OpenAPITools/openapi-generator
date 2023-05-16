@@ -72,7 +72,7 @@ namespace {{modelPackage}}
         [MinLength({{minLength}})]{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
         [MaxLength({{.}})]{{/maxLength}}{{/minLength}}{{#minimum}}{{#maximum}}
         [Range({{minimum}}, {{maximum}})]{{/maximum}}{{/minimum}}
-        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}true{{/vendorExtensions.x-is-value-type}}{{^vendorExtensions.x-is-value-type}}false{{/vendorExtensions.x-is-value-type}}{{/isNullable}})]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}{{#vendorExtensions.x-csharp-value-type}}true{{/vendorExtensions.x-csharp-value-type}}{{^vendorExtensions.x-csharp-value-type}}false{{/vendorExtensions.x-csharp-value-type}}{{/isNullable}})]
         {{#isEnum}}
         public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
@@ -144,14 +144,14 @@ namespace {{modelPackage}}
             return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&{{/vendorExtensions.x-is-value-type}}
+                    {{^vendorExtensions.x-csharp-value-type}}{{name}} != null &&{{/vendorExtensions.x-csharp-value-type}}
                     {{name}}.Equals(other.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    {{^vendorExtensions.x-csharp-value-type}}{{name}} != null &&
                     other.{{name}} != null &&
-                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(other.{{name}})
+                    {{/vendorExtensions.x-csharp-value-type}}{{name}}.SequenceEqual(other.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
@@ -166,7 +166,7 @@ namespace {{modelPackage}}
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    {{^vendorExtensions.x-is-value-type}}if ({{name}} != null){{/vendorExtensions.x-is-value-type}}
+                    {{^vendorExtensions.x-csharp-value-type}}if ({{name}} != null){{/vendorExtensions.x-csharp-value-type}}
                     hashCode = hashCode * 59 + {{name}}.GetHashCode();
                 {{/vars}}
                 return hashCode;

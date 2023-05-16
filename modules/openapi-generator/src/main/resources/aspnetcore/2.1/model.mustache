@@ -104,14 +104,14 @@ namespace {{modelPackage}}
             return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&{{/vendorExtensions.x-is-value-type}}
+                    {{^vendorExtensions.x-csharp-value-type}}{{name}} != null &&{{/vendorExtensions.x-csharp-value-type}}
                     {{name}}.Equals(other.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    {{^vendorExtensions.x-csharp-value-type}}{{name}} != null &&
                     other.{{name}} != null &&
-                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(other.{{name}})
+                    {{/vendorExtensions.x-csharp-value-type}}{{name}}.SequenceEqual(other.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
@@ -126,7 +126,7 @@ namespace {{modelPackage}}
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    {{^vendorExtensions.x-is-value-type}}if ({{name}} != null){{/vendorExtensions.x-is-value-type}}
+                    {{^vendorExtensions.x-csharp-value-type}}if ({{name}} != null){{/vendorExtensions.x-csharp-value-type}}
                     hashCode = hashCode * 59 + {{name}}.GetHashCode();
                 {{/vars}}
                 return hashCode;

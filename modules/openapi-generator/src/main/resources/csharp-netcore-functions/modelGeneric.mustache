@@ -320,19 +320,19 @@
             return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}
+                    {{^vendorExtensions.x-csharp-value-type}}
                     (this.{{name}} != null &&
                     this.{{name}}.Equals(input.{{name}}))
-                    {{/vendorExtensions.x-is-value-type}}
-                    {{#vendorExtensions.x-is-value-type}}
+                    {{/vendorExtensions.x-csharp-value-type}}
+                    {{#vendorExtensions.x-csharp-value-type}}
                     this.{{name}}.Equals(input.{{name}})
-                    {{/vendorExtensions.x-is-value-type}}
+                    {{/vendorExtensions.x-csharp-value-type}}
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
+                    {{^vendorExtensions.x-csharp-value-type}}this.{{name}} != null &&
                     input.{{name}} != null &&
-                    {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
+                    {{/vendorExtensions.x-csharp-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
@@ -355,13 +355,13 @@
                 int hashCode = 41;
                 {{/parent}}
                 {{#vars}}
-                {{^vendorExtensions.x-is-value-type}}
+                {{^vendorExtensions.x-csharp-value-type}}
                 if (this.{{name}} != null)
                     hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
-                {{/vendorExtensions.x-is-value-type}}
-                {{#vendorExtensions.x-is-value-type}}
+                {{/vendorExtensions.x-csharp-value-type}}
+                {{#vendorExtensions.x-csharp-value-type}}
                 hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
-                {{/vendorExtensions.x-is-value-type}}
+                {{/vendorExtensions.x-csharp-value-type}}
                 {{/vars}}
                 {{#isAdditionalPropertiesTrue}}
                 if (this.AdditionalProperties != null)
