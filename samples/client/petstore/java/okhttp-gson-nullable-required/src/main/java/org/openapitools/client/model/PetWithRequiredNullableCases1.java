@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,7 +56,7 @@ import org.openapitools.client.JSON;
  * A pet for sale in the pet store
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Pet {
+public class PetWithRequiredNullableCases1 {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
@@ -70,7 +71,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls;
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
@@ -108,7 +109,7 @@ public class Pet {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      return null;
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {
@@ -130,10 +131,10 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
-  public Pet() {
+  public PetWithRequiredNullableCases1() {
   }
 
-  public Pet id(Long id) {
+  public PetWithRequiredNullableCases1 id(Long id) {
     
     this.id = id;
     return this;
@@ -154,7 +155,7 @@ public class Pet {
   }
 
 
-  public Pet category(Category category) {
+  public PetWithRequiredNullableCases1 category(Category category) {
     
     this.category = category;
     return this;
@@ -175,7 +176,7 @@ public class Pet {
   }
 
 
-  public Pet name(String name) {
+  public PetWithRequiredNullableCases1 name(String name) {
     
     this.name = name;
     return this;
@@ -185,7 +186,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getName() {
     return name;
   }
@@ -196,13 +197,13 @@ public class Pet {
   }
 
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public PetWithRequiredNullableCases1 photoUrls(List<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
   }
 
-  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+  public PetWithRequiredNullableCases1 addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
       this.photoUrls = new ArrayList<>();
     }
@@ -214,7 +215,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -225,13 +226,13 @@ public class Pet {
   }
 
 
-  public Pet tags(List<Tag> tags) {
+  public PetWithRequiredNullableCases1 tags(List<Tag> tags) {
     
     this.tags = tags;
     return this;
   }
 
-  public Pet addTagsItem(Tag tagsItem) {
+  public PetWithRequiredNullableCases1 addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
       this.tags = new ArrayList<>();
     }
@@ -255,7 +256,7 @@ public class Pet {
 
 
   @Deprecated
-  public Pet status(StatusEnum status) {
+  public PetWithRequiredNullableCases1 status(StatusEnum status) {
     
     this.status = status;
     return this;
@@ -291,9 +292,9 @@ public class Pet {
    *
    * @param key name of the property
    * @param value value of the property
-   * @return the Pet instance itself
+   * @return the PetWithRequiredNullableCases1 instance itself
    */
-  public Pet putAdditionalProperty(String key, Object value) {
+  public PetWithRequiredNullableCases1 putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
         this.additionalProperties = new HashMap<String, Object>();
     }
@@ -332,14 +333,18 @@ public class Pet {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Pet pet = (Pet) o;
-    return Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.category, pet.category) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.photoUrls, pet.photoUrls) &&
-        Objects.equals(this.tags, pet.tags) &&
-        Objects.equals(this.status, pet.status)&&
-        Objects.equals(this.additionalProperties, pet.additionalProperties);
+    PetWithRequiredNullableCases1 petWithRequiredNullableCases1 = (PetWithRequiredNullableCases1) o;
+    return Objects.equals(this.id, petWithRequiredNullableCases1.id) &&
+        Objects.equals(this.category, petWithRequiredNullableCases1.category) &&
+        Objects.equals(this.name, petWithRequiredNullableCases1.name) &&
+        Objects.equals(this.photoUrls, petWithRequiredNullableCases1.photoUrls) &&
+        Objects.equals(this.tags, petWithRequiredNullableCases1.tags) &&
+        Objects.equals(this.status, petWithRequiredNullableCases1.status)&&
+        Objects.equals(this.additionalProperties, petWithRequiredNullableCases1.additionalProperties);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
@@ -347,10 +352,17 @@ public class Pet {
     return Objects.hash(id, category, name, photoUrls, tags, status, additionalProperties);
   }
 
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Pet {\n");
+    sb.append("class PetWithRequiredNullableCases1 {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -397,17 +409,17 @@ public class Pet {
   * Validates the JSON Object and throws an exception if issues found
   *
   * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Pet
+  * @throws IOException if the JSON Object is invalid with respect to PetWithRequiredNullableCases1
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
+        if (!PetWithRequiredNullableCases1.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in PetWithRequiredNullableCases1 is not found in the empty JSON string", PetWithRequiredNullableCases1.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : Pet.openapiRequiredFields) {
+      for (String requiredField : PetWithRequiredNullableCases1.openapiRequiredFields) {
         if (jsonObj.get(requiredField) == null) {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
@@ -416,7 +428,7 @@ public class Pet {
       if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
       }
-      if (!jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
       // ensure the required json array is present
@@ -448,16 +460,16 @@ public class Pet {
     @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!Pet.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'Pet' and its subtypes
+       if (!PetWithRequiredNullableCases1.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'PetWithRequiredNullableCases1' and its subtypes
        }
        final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<Pet> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(Pet.class));
+       final TypeAdapter<PetWithRequiredNullableCases1> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(PetWithRequiredNullableCases1.class));
 
-       return (TypeAdapter<T>) new TypeAdapter<Pet>() {
+       return (TypeAdapter<T>) new TypeAdapter<PetWithRequiredNullableCases1>() {
            @Override
-           public void write(JsonWriter out, Pet value) throws IOException {
+           public void write(JsonWriter out, PetWithRequiredNullableCases1 value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
              // serialize additional properties
@@ -480,11 +492,11 @@ public class Pet {
            }
 
            @Override
-           public Pet read(JsonReader in) throws IOException {
+           public PetWithRequiredNullableCases1 read(JsonReader in) throws IOException {
              JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              // store additional fields in the deserialized instance
-             Pet instance = thisAdapter.fromJsonTree(jsonObj);
+             PetWithRequiredNullableCases1 instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type
@@ -511,18 +523,18 @@ public class Pet {
   }
 
  /**
-  * Create an instance of Pet given an JSON string
+  * Create an instance of PetWithRequiredNullableCases1 given an JSON string
   *
   * @param jsonString JSON string
-  * @return An instance of Pet
-  * @throws IOException if the JSON string is invalid with respect to Pet
+  * @return An instance of PetWithRequiredNullableCases1
+  * @throws IOException if the JSON string is invalid with respect to PetWithRequiredNullableCases1
   */
-  public static Pet fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, Pet.class);
+  public static PetWithRequiredNullableCases1 fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, PetWithRequiredNullableCases1.class);
   }
 
  /**
-  * Convert an instance of Pet to an JSON string
+  * Convert an instance of PetWithRequiredNullableCases1 to an JSON string
   *
   * @return JSON string
   */

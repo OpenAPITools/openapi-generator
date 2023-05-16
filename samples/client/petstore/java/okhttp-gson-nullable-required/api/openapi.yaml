@@ -738,7 +738,6 @@ components:
           $ref: '#/components/schemas/Category'
         name:
           example: doggie
-          nullable: true
           type: string
         photoUrls:
           items:
@@ -755,6 +754,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -765,6 +765,96 @@ components:
       - name
       - photoUrls
       title: a Pet
+      type: object
+      xml:
+        name: Pet
+    PetWithRequiredNullableCases1:
+      description: A pet for sale in the pet store
+      properties:
+        id:
+          format: int64
+          nullable: true
+          type: integer
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          nullable: true
+          type: string
+        photoUrls:
+          items:
+            type: string
+          nullable: true
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: true
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          deprecated: true
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          nullable: true
+          type: string
+      required:
+      - name
+      - photoUrls
+      title: a PetWithRequiredNullableCases1
+      type: object
+      xml:
+        name: Pet
+    PetWithRequiredNullableCases2:
+      description: A pet for sale in the pet store
+      properties:
+        id:
+          format: int64
+          nullable: false
+          type: integer
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          nullable: false
+          type: string
+        photoUrls:
+          items:
+            type: string
+          nullable: false
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          nullable: false
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          deprecated: true
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          nullable: false
+          type: string
+      required:
+      - name
+      - photoUrls
+      title: a PetWithRequiredNullableCases2
       type: object
       xml:
         name: Pet

@@ -55,7 +55,7 @@ import org.openapitools.client.JSON;
  * A pet for sale in the pet store
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Pet {
+public class PetWithRequiredNullableCases2 {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
@@ -130,10 +130,10 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
-  public Pet() {
+  public PetWithRequiredNullableCases2() {
   }
 
-  public Pet id(Long id) {
+  public PetWithRequiredNullableCases2 id(Long id) {
     
     this.id = id;
     return this;
@@ -154,7 +154,7 @@ public class Pet {
   }
 
 
-  public Pet category(Category category) {
+  public PetWithRequiredNullableCases2 category(Category category) {
     
     this.category = category;
     return this;
@@ -175,7 +175,7 @@ public class Pet {
   }
 
 
-  public Pet name(String name) {
+  public PetWithRequiredNullableCases2 name(String name) {
     
     this.name = name;
     return this;
@@ -196,13 +196,13 @@ public class Pet {
   }
 
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public PetWithRequiredNullableCases2 photoUrls(List<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
   }
 
-  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+  public PetWithRequiredNullableCases2 addPhotoUrlsItem(String photoUrlsItem) {
     if (this.photoUrls == null) {
       this.photoUrls = new ArrayList<>();
     }
@@ -225,13 +225,13 @@ public class Pet {
   }
 
 
-  public Pet tags(List<Tag> tags) {
+  public PetWithRequiredNullableCases2 tags(List<Tag> tags) {
     
     this.tags = tags;
     return this;
   }
 
-  public Pet addTagsItem(Tag tagsItem) {
+  public PetWithRequiredNullableCases2 addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
       this.tags = new ArrayList<>();
     }
@@ -255,7 +255,7 @@ public class Pet {
 
 
   @Deprecated
-  public Pet status(StatusEnum status) {
+  public PetWithRequiredNullableCases2 status(StatusEnum status) {
     
     this.status = status;
     return this;
@@ -291,9 +291,9 @@ public class Pet {
    *
    * @param key name of the property
    * @param value value of the property
-   * @return the Pet instance itself
+   * @return the PetWithRequiredNullableCases2 instance itself
    */
-  public Pet putAdditionalProperty(String key, Object value) {
+  public PetWithRequiredNullableCases2 putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
         this.additionalProperties = new HashMap<String, Object>();
     }
@@ -332,14 +332,14 @@ public class Pet {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Pet pet = (Pet) o;
-    return Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.category, pet.category) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.photoUrls, pet.photoUrls) &&
-        Objects.equals(this.tags, pet.tags) &&
-        Objects.equals(this.status, pet.status)&&
-        Objects.equals(this.additionalProperties, pet.additionalProperties);
+    PetWithRequiredNullableCases2 petWithRequiredNullableCases2 = (PetWithRequiredNullableCases2) o;
+    return Objects.equals(this.id, petWithRequiredNullableCases2.id) &&
+        Objects.equals(this.category, petWithRequiredNullableCases2.category) &&
+        Objects.equals(this.name, petWithRequiredNullableCases2.name) &&
+        Objects.equals(this.photoUrls, petWithRequiredNullableCases2.photoUrls) &&
+        Objects.equals(this.tags, petWithRequiredNullableCases2.tags) &&
+        Objects.equals(this.status, petWithRequiredNullableCases2.status)&&
+        Objects.equals(this.additionalProperties, petWithRequiredNullableCases2.additionalProperties);
   }
 
   @Override
@@ -350,7 +350,7 @@ public class Pet {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Pet {\n");
+    sb.append("class PetWithRequiredNullableCases2 {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -397,17 +397,17 @@ public class Pet {
   * Validates the JSON Object and throws an exception if issues found
   *
   * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Pet
+  * @throws IOException if the JSON Object is invalid with respect to PetWithRequiredNullableCases2
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
+        if (!PetWithRequiredNullableCases2.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in PetWithRequiredNullableCases2 is not found in the empty JSON string", PetWithRequiredNullableCases2.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : Pet.openapiRequiredFields) {
+      for (String requiredField : PetWithRequiredNullableCases2.openapiRequiredFields) {
         if (jsonObj.get(requiredField) == null) {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
@@ -448,16 +448,16 @@ public class Pet {
     @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!Pet.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'Pet' and its subtypes
+       if (!PetWithRequiredNullableCases2.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'PetWithRequiredNullableCases2' and its subtypes
        }
        final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<Pet> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(Pet.class));
+       final TypeAdapter<PetWithRequiredNullableCases2> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(PetWithRequiredNullableCases2.class));
 
-       return (TypeAdapter<T>) new TypeAdapter<Pet>() {
+       return (TypeAdapter<T>) new TypeAdapter<PetWithRequiredNullableCases2>() {
            @Override
-           public void write(JsonWriter out, Pet value) throws IOException {
+           public void write(JsonWriter out, PetWithRequiredNullableCases2 value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
              // serialize additional properties
@@ -480,11 +480,11 @@ public class Pet {
            }
 
            @Override
-           public Pet read(JsonReader in) throws IOException {
+           public PetWithRequiredNullableCases2 read(JsonReader in) throws IOException {
              JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              // store additional fields in the deserialized instance
-             Pet instance = thisAdapter.fromJsonTree(jsonObj);
+             PetWithRequiredNullableCases2 instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type
@@ -511,18 +511,18 @@ public class Pet {
   }
 
  /**
-  * Create an instance of Pet given an JSON string
+  * Create an instance of PetWithRequiredNullableCases2 given an JSON string
   *
   * @param jsonString JSON string
-  * @return An instance of Pet
-  * @throws IOException if the JSON string is invalid with respect to Pet
+  * @return An instance of PetWithRequiredNullableCases2
+  * @throws IOException if the JSON string is invalid with respect to PetWithRequiredNullableCases2
   */
-  public static Pet fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, Pet.class);
+  public static PetWithRequiredNullableCases2 fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, PetWithRequiredNullableCases2.class);
   }
 
  /**
-  * Convert an instance of Pet to an JSON string
+  * Convert an instance of PetWithRequiredNullableCases2 to an JSON string
   *
   * @return JSON string
   */

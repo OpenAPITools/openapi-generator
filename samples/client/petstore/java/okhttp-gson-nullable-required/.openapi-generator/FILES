@@ -10,6 +10,8 @@ docs/ModelApiResponse.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetWithRequiredNullableCases1.md
+docs/PetWithRequiredNullableCases2.md
 docs/StoreApi.md
 docs/Tag.md
 docs/User.md
@@ -52,5 +54,7 @@ src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/PetWithRequiredNullableCases1.java
+src/main/java/org/openapitools/client/model/PetWithRequiredNullableCases2.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java

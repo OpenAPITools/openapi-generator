@@ -145,6 +145,8 @@ Class | Method | HTTP request | Description
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [PetWithRequiredNullableCases1](docs/PetWithRequiredNullableCases1.md)
+ - [PetWithRequiredNullableCases2](docs/PetWithRequiredNullableCases2.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 
