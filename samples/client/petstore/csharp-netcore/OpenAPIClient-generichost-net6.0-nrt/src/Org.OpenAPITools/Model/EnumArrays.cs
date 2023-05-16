@@ -59,7 +59,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Crab for value: crab
             /// </summary>
             Crab = 2
-
         }
 
         /// <summary>
@@ -109,7 +108,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Dollar for value: $
             /// </summary>
             Dollar = 2
-
         }
 
         /// <summary>

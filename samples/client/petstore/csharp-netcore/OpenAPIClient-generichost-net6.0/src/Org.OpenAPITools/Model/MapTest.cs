@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Lower for value: lower
             /// </summary>
             Lower = 2
-
         }
 
         /// <summary>

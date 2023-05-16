@@ -37,11 +37,6 @@ public class Pizza extends Entity {
 
   private BigDecimal pizzaSize;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pizza#Pizza(String)}
-   */
-  @Deprecated
   public Pizza() {
     super();
   }

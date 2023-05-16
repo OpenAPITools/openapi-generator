@@ -98,9 +98,9 @@ org.openapitools.codegen.languages.PhpSlim4ServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpMezzioPathHandlerServerCodegen
 org.openapitools.codegen.languages.PhpDataTransferClientCodegen
+org.openapitools.codegen.languages.PostmanCollectionCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
-org.openapitools.codegen.languages.PythonNextgenClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonFastAPIServerCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen

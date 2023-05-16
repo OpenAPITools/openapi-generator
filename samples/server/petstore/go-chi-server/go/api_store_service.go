@@ -15,19 +15,19 @@ import (
 	"errors"
 )
 
-// StoreApiService is a service that implements the logic for the StoreApiServicer
-// This service should implement the business logic for every endpoint for the StoreApi API.
+// StoreAPIService is a service that implements the logic for the StoreAPIServicer
+// This service should implement the business logic for every endpoint for the StoreAPI API.
 // Include any external packages or services that will be required by this service.
-type StoreApiService struct {
+type StoreAPIService struct {
 }
 
-// NewStoreApiService creates a default api service
-func NewStoreApiService() StoreApiServicer {
-	return &StoreApiService{}
+// NewStoreAPIService creates a default api service
+func NewStoreAPIService() StoreAPIServicer {
+	return &StoreAPIService{}
 }
 
 // DeleteOrder - Delete purchase order by ID
-func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (ImplResponse, error) {
+func (s *StoreAPIService) DeleteOrder(ctx context.Context, orderId string) (ImplResponse, error) {
 	// TODO - update DeleteOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -41,7 +41,7 @@ func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (Impl
 }
 
 // GetInventory - Returns pet inventories by status
-func (s *StoreApiService) GetInventory(ctx context.Context) (ImplResponse, error) {
+func (s *StoreAPIService) GetInventory(ctx context.Context) (ImplResponse, error) {
 	// TODO - update GetInventory with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -52,7 +52,7 @@ func (s *StoreApiService) GetInventory(ctx context.Context) (ImplResponse, error
 }
 
 // GetOrderById - Find purchase order by ID
-func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (ImplResponse, error) {
+func (s *StoreAPIService) GetOrderById(ctx context.Context, orderId int64) (ImplResponse, error) {
 	// TODO - update GetOrderById with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -69,7 +69,7 @@ func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Impl
 }
 
 // PlaceOrder - Place an order for a pet
-func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (ImplResponse, error) {
+func (s *StoreAPIService) PlaceOrder(ctx context.Context, order Order) (ImplResponse, error) {
 	// TODO - update PlaceOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

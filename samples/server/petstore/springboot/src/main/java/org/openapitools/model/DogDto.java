@@ -31,11 +31,6 @@ public class DogDto extends AnimalDto {
 
   private String breed;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link DogDto#DogDto(String)}
-   */
-  @Deprecated
   public DogDto() {
     super();
   }

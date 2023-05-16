@@ -27,11 +27,6 @@ public class Extensible {
 
   private String atType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Extensible#Extensible(String)}
-   */
-  @Deprecated
   public Extensible() {
     super();
   }

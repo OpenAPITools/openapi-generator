@@ -42,7 +42,6 @@ namespace Org.OpenAPITools.Model
         /// Enum Delivered for value: delivered
         /// </summary>
         Delivered = 3
-
     }
 
     public class OuterEnumDefaultValueConverter : JsonConverter<OuterEnumDefaultValue>

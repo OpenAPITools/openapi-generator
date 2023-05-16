@@ -28,11 +28,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
   private String foorefPropA;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FooRef#FooRef(String)}
-   */
-  @Deprecated
   public FooRef() {
     super();
   }

@@ -29,11 +29,6 @@ public class PizzaSpeziale extends Pizza {
 
   private String toppings;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link PizzaSpeziale#PizzaSpeziale(String)}
-   */
-  @Deprecated
   public PizzaSpeziale() {
     super();
   }
