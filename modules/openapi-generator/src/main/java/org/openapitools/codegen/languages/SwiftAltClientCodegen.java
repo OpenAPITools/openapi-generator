@@ -55,8 +55,10 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
-    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]", "[String: [String: Any]]");
+    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]", "[String: [String: Any]]", "[Any]");
     protected boolean mapFileBinaryToData = true;
+
+    protected boolean anyDecoderWasAdded = false;
 
     /**
      * Constructor for the swift alt language codegen module.
@@ -232,6 +234,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     public void processOpts() {
         super.processOpts();
 
+        anyDecoderWasAdded = false;
         if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
@@ -665,20 +668,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         Map<String, Object> postProcessedModelsEnum = postProcessModelsEnum(objs);
-
-        // We iterate through the list of models, and also iterate through each of the
-        // properties for each model. For each property, if:
-        //
-        // CodegenProperty.name != CodegenProperty.baseName
-        //
-        // then we set
-        //
-        // CodegenProperty.vendorExtensions["x-codegen-escaped-property-name"] = true
-        //
-        // Also, if any property in the model has x-codegen-escaped-property-name=true, then we mark:
-        //
-        // CodegenModel.vendorExtensions["x-codegen-has-escaped-property-names"] = true
-        //
         List<Object> models = (List<Object>) postProcessedModelsEnum.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -694,6 +683,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                 }
                 if (modelHasPropertyWithEscapedName || notCodableTypes.contains(prop.dataType) || notCodableTypes.contains(prop.baseType)) {
                     cm.vendorExtensions.put("x-swift-contains-not-codable", true);
+                    addAnyDecoderIfNeeded();
                 }
             }
             if (modelHasPropertyWithEscapedName) {
@@ -763,6 +753,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
             operation.formParams.forEach(cp -> addFormVendorExtensions(cp, operation, modelMaps));
             if (notCodableTypes.contains(operation.returnType) || notCodableTypes.contains(operation.returnBaseType)) {
                 operation.vendorExtensions.put("x-swift-is-not-codable", true);
+                addAnyDecoderIfNeeded();
             }
             List<CodegenResponse> responses = operation.responses;
             for (CodegenResponse response : responses) {
@@ -821,7 +812,19 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.20.0                                          #");
+        System.out.println("# swift alternative generator v0.21.0                                          #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
+
+    protected void addAnyDecoderIfNeeded() {
+        if (!anyDecoderWasAdded) {
+            supportingFiles.add(new SupportingFile("AnyDecodable.mustache",
+                    projectName + File.separator + privateFolder,
+                    "AnyDecodable.swift"));
+            anyDecoderWasAdded = true;
+        }
     }
 }

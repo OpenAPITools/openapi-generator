@@ -117,15 +117,15 @@ open class {{classname}} {
                 {{! Begin headers }}
                 {{#headerParams}}
                 {{#-last}}
-                request.allHTTPHeaderFields = [
+                var headers = [String: String]()
                 {{/-last}}
                 {{/headerParams}}
                 {{#headerParams}}
-                    "{{baseName}}": {{> toString}}{{^-last}}, {{/-last}}
+                {{#required}}headers["{{baseName}}"] = {{> toString}}{{/required}}{{^required}}if let {{paramName}} = {{paramName}} { headers["{{baseName}}"] = {{> toString}} }{{/required}}
                 {{/headerParams}}
                 {{#headerParams}}
                 {{#-last}}
-                ].compactMapValues { $0 }
+                request.allHTTPHeaderFields = headers
                 {{/-last}}
                 {{/headerParams}}
                 {{! Begin body }}

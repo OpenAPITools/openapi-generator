@@ -35,27 +35,7 @@ public struct {{{classname}}}: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         {{#allVars}}
-        {{#vendorExtensions.x-swift-is-not-codable}}
-        {{#required}}
-        if let object = try JSONSerialization.jsonObject(with: try container.decode(Data.self, forKey: .{{{name}}})) as? {{{datatypeWithEnum}}} {
-            {{{name}}} = object
-        } else {
-            throw DecodingError.typeMismatch({{{datatypeWithEnum}}}.self, .init(codingPath: [CodingKeys.{{{name}}}], debugDescription: "Unable to cast types while decoding {{{classname}}}"))
-        }
-        {{/required}}
-        {{^required}}
-        if container.contains(.{{{name}}}) {
-            if let object = try JSONSerialization.jsonObject(with: try container.decode(Data.self, forKey: .{{{name}}})) as? {{{datatypeWithEnum}}} {
-                {{{name}}} = object
-            } else {
-                throw DecodingError.typeMismatch({{{datatypeWithEnum}}}.self, .init(codingPath: [CodingKeys.{{{name}}}], debugDescription: "Unable to cast types while decoding {{{classname}}}"))
-            }
-        }
-        {{/required}}
-        {{/vendorExtensions.x-swift-is-not-codable}}
-        {{^vendorExtensions.x-swift-is-not-codable}}
         {{{name}}} = try container.decode{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: .{{{name}}})
-        {{/vendorExtensions.x-swift-is-not-codable}}
         {{/allVars}}
     }
 
