@@ -55,7 +55,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NotUnknown for value: notUnknown
             /// </summary>
             NotUnknown
-
         }
 
         /// <summary>
