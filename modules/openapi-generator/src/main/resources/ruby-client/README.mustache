@@ -142,7 +142,8 @@ Class | Method | HTTP request | Description
 {{#isBasic}}
 {{#isBasicBasic}}- **Type**: HTTP basic authentication
 {{/isBasicBasic}}{{#isBasicBearer}}- **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
-{{/isBasicBearer}}
+{{/isBasicBearer}}{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
 
