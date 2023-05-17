@@ -250,7 +250,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[bool]({{defaultValue}}, parseBool),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[bool](parseBool),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
-		WithParse[float32](parseBool),{{/required}}{{/defaultValue}}
+		WithParse[bool](parseBool),{{/required}}{{/defaultValue}}
 	)
 	if err != nil {
 		w.WriteHeader(500)
