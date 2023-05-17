@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run maven
-        run: mvn --no-snapshot-updates --batch-mode --quiet install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        run: mvn --no-snapshot-updates --batch-mode --quiet install
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Setup Gradle
