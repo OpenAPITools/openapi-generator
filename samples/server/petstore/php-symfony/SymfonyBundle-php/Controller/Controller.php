@@ -211,6 +211,14 @@ class Controller extends AbstractController
             return 'application/xml';
         }
 
+        if (in_array('application/pdf', $accept) && in_array('application/pdf', $produced)) {
+            return 'application/pdf';
+        }
+
+        if (in_array('image/png', $accept) && in_array('image/png', $produced)) {
+            return 'image/png';
+        }
+
         // If we reach this point, we don't have a common ground between server and client
         return null;
     }
