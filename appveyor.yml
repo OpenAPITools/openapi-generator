@@ -74,6 +74,7 @@ build_script:
   #- mvn --no-snapshot-updates --quiet clean install -DskipTests -Dmaven.javadoc.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   # run the locally installed openapi-generator-gradle-plugin
   #- gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --stacktrace
+  - timeout 40
 test_script:
   # test c# API client (multiple frameworks)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
