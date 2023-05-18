@@ -567,6 +567,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: boolean_test # to ensure boolean query parameter won't cause compilation errors
+          in: query
+          description: boolean query parameter
+          schema:
+            type: boolean
       responses:
         '400':
           description: Invalid username supplied
