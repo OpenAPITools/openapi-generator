@@ -5,4 +5,3 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ## Overview
 This project was generated using the Helidon OpenAPI Generator.
-
