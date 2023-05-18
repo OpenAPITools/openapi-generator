@@ -452,11 +452,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: boolean_test
-          in: query
-          description: The password for login in clear text
-          schema:
-            type: boolean
       responses:
         '200':
           description: successful operation
