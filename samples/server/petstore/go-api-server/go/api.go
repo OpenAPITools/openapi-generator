@@ -17,6 +17,12 @@ import (
 
 
 
+// FakeAPIRouter defines the required methods for binding the api requests to a responses for the FakeAPI
+// The FakeAPIRouter implementation should parse necessary information from the http request,
+// pass the data to a FakeAPIServicer to perform the required actions, then write the service results to the http response.
+type FakeAPIRouter interface { 
+	BooleanAueryParameter(http.ResponseWriter, *http.Request)
+}
 // PetAPIRouter defines the required methods for binding the api requests to a responses for the PetAPI
 // The PetAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a PetAPIServicer to perform the required actions, then write the service results to the http response.
@@ -52,6 +58,15 @@ type UserAPIRouter interface {
 	LoginUser(http.ResponseWriter, *http.Request)
 	LogoutUser(http.ResponseWriter, *http.Request)
 	UpdateUser(http.ResponseWriter, *http.Request)
+}
+
+
+// FakeAPIServicer defines the api actions for the FakeAPI service
+// This interface intended to stay up to date with the openapi yaml used to generate it,
+// while the service implementation can be ignored with the .openapi-generator-ignore file
+// and updated with the logic required for the API.
+type FakeAPIServicer interface { 
+	BooleanAueryParameter(context.Context, bool) (ImplResponse, error)
 }
 
 
@@ -94,7 +109,7 @@ type UserAPIServicer interface {
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
 	DeleteUser(context.Context, string) (ImplResponse, error)
 	GetUserByName(context.Context, string) (ImplResponse, error)
-	LoginUser(context.Context, string, string) (ImplResponse, error)
+	LoginUser(context.Context, string, string, bool) (ImplResponse, error)
 	LogoutUser(context.Context) (ImplResponse, error)
 	UpdateUser(context.Context, string, User) (ImplResponse, error)
 }

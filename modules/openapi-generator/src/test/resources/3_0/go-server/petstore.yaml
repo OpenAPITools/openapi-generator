@@ -574,6 +574,24 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /fake/boolean/query/parameter:
+    get:
+      tags:
+        - fake
+      summary: Test boolean query parameter
+      description: Test boolean query parameter
+      operationId: boolean_auery_parameter
+      parameters:
+        - name: boolean_test
+          in: query
+          description: boolean query parameter
+          schema:
+            type: boolean
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
