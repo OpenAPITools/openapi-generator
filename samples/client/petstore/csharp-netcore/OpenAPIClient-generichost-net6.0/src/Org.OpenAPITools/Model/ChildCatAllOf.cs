@@ -52,7 +52,6 @@ namespace Org.OpenAPITools.Model
             /// Enum ChildCat for value: ChildCat
             /// </summary>
             ChildCat = 1
-
         }
 
         /// <summary>

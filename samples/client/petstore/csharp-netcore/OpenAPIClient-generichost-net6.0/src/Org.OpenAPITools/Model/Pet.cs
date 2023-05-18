@@ -71,7 +71,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Sold for value: sold
             /// </summary>
             Sold = 3
-
         }
 
         /// <summary>

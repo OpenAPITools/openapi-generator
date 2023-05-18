@@ -92,11 +92,6 @@ public class Pet {
   @JacksonXmlProperty(localName = "status")
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, List<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }

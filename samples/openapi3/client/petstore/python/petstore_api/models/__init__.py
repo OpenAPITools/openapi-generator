@@ -1,135 +1,85 @@
 # coding: utf-8
 
 # flake8: noqa
+"""
+    OpenAPI Petstore
 
-# import all models into this package
-# if you have many models here with many references from one model to another this may
-# raise a RecursionError
-# to avoid this, import only the models that you directly need like:
-# from petstore_api.model.pet import Pet
-# or import this package, but before doing it, use:
-# import sys
-# sys.setrecursionlimit(n)
+    This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  # noqa: E501
 
-from petstore_api.model.additional_properties_class import AdditionalPropertiesClass
-from petstore_api.model.additional_properties_validator import AdditionalPropertiesValidator
-from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
-from petstore_api.model.address import Address
-from petstore_api.model.animal import Animal
-from petstore_api.model.animal_farm import AnimalFarm
-from petstore_api.model.any_type_and_format import AnyTypeAndFormat
-from petstore_api.model.any_type_not_string import AnyTypeNotString
-from petstore_api.model.api_response import ApiResponse
-from petstore_api.model.apple import Apple
-from petstore_api.model.apple_req import AppleReq
-from petstore_api.model.array_holding_any_type import ArrayHoldingAnyType
-from petstore_api.model.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
-from petstore_api.model.array_of_enums import ArrayOfEnums
-from petstore_api.model.array_of_number_only import ArrayOfNumberOnly
-from petstore_api.model.array_test import ArrayTest
-from petstore_api.model.array_with_validations_in_items import ArrayWithValidationsInItems
-from petstore_api.model.banana import Banana
-from petstore_api.model.banana_req import BananaReq
-from petstore_api.model.bar import Bar
-from petstore_api.model.basque_pig import BasquePig
-from petstore_api.model.boolean import Boolean
-from petstore_api.model.boolean_enum import BooleanEnum
-from petstore_api.model.capitalization import Capitalization
-from petstore_api.model.cat import Cat
-from petstore_api.model.category import Category
-from petstore_api.model.child_cat import ChildCat
-from petstore_api.model.class_model import ClassModel
-from petstore_api.model.client import Client
-from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
-from petstore_api.model.composed_any_of_different_types_no_validations import ComposedAnyOfDifferentTypesNoValidations
-from petstore_api.model.composed_array import ComposedArray
-from petstore_api.model.composed_bool import ComposedBool
-from petstore_api.model.composed_none import ComposedNone
-from petstore_api.model.composed_number import ComposedNumber
-from petstore_api.model.composed_object import ComposedObject
-from petstore_api.model.composed_one_of_different_types import ComposedOneOfDifferentTypes
-from petstore_api.model.composed_string import ComposedString
-from petstore_api.model.currency import Currency
-from petstore_api.model.danish_pig import DanishPig
-from petstore_api.model.date_time_test import DateTimeTest
-from petstore_api.model.date_time_with_validations import DateTimeWithValidations
-from petstore_api.model.date_with_validations import DateWithValidations
-from petstore_api.model.decimal_payload import DecimalPayload
-from petstore_api.model.dog import Dog
-from petstore_api.model.drawing import Drawing
-from petstore_api.model.enum_arrays import EnumArrays
-from petstore_api.model.enum_class import EnumClass
-from petstore_api.model.enum_test import EnumTest
-from petstore_api.model.equilateral_triangle import EquilateralTriangle
-from petstore_api.model.file import File
-from petstore_api.model.file_schema_test_class import FileSchemaTestClass
-from petstore_api.model.foo import Foo
-from petstore_api.model.format_test import FormatTest
-from petstore_api.model.from_schema import FromSchema
-from petstore_api.model.fruit import Fruit
-from petstore_api.model.fruit_req import FruitReq
-from petstore_api.model.gm_fruit import GmFruit
-from petstore_api.model.grandparent_animal import GrandparentAnimal
-from petstore_api.model.has_only_read_only import HasOnlyReadOnly
-from petstore_api.model.health_check_result import HealthCheckResult
-from petstore_api.model.integer_enum import IntegerEnum
-from petstore_api.model.integer_enum_big import IntegerEnumBig
-from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
-from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
-from petstore_api.model.integer_max10 import IntegerMax10
-from petstore_api.model.integer_min15 import IntegerMin15
-from petstore_api.model.isosceles_triangle import IsoscelesTriangle
-from petstore_api.model.json_patch_request import JSONPatchRequest
-from petstore_api.model.json_patch_request_add_replace_test import JSONPatchRequestAddReplaceTest
-from petstore_api.model.json_patch_request_move_copy import JSONPatchRequestMoveCopy
-from petstore_api.model.json_patch_request_remove import JSONPatchRequestRemove
-from petstore_api.model.mammal import Mammal
-from petstore_api.model.map_test import MapTest
-from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
-from petstore_api.model.model200_response import Model200Response
-from petstore_api.model.model_return import ModelReturn
-from petstore_api.model.money import Money
-from petstore_api.model.name import Name
-from petstore_api.model.no_additional_properties import NoAdditionalProperties
-from petstore_api.model.nullable_class import NullableClass
-from petstore_api.model.nullable_shape import NullableShape
-from petstore_api.model.nullable_string import NullableString
-from petstore_api.model.number import Number
-from petstore_api.model.number_only import NumberOnly
-from petstore_api.model.number_with_validations import NumberWithValidations
-from petstore_api.model.object_interface import ObjectInterface
-from petstore_api.model.object_model_with_arg_and_args_properties import ObjectModelWithArgAndArgsProperties
-from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
-from petstore_api.model.object_with_all_of_with_req_test_prop_from_unset_add_prop import ObjectWithAllOfWithReqTestPropFromUnsetAddProp
-from petstore_api.model.object_with_decimal_properties import ObjectWithDecimalProperties
-from petstore_api.model.object_with_difficultly_named_props import ObjectWithDifficultlyNamedProps
-from petstore_api.model.object_with_inline_composition_property import ObjectWithInlineCompositionProperty
-from petstore_api.model.object_with_invalid_named_refed_properties import ObjectWithInvalidNamedRefedProperties
-from petstore_api.model.object_with_optional_test_prop import ObjectWithOptionalTestProp
-from petstore_api.model.object_with_validations import ObjectWithValidations
-from petstore_api.model.order import Order
-from petstore_api.model.parent_pet import ParentPet
-from petstore_api.model.pet import Pet
-from petstore_api.model.pig import Pig
-from petstore_api.model.player import Player
-from petstore_api.model.quadrilateral import Quadrilateral
-from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
-from petstore_api.model.read_only_first import ReadOnlyFirst
-from petstore_api.model.scalene_triangle import ScaleneTriangle
-from petstore_api.model.shape import Shape
-from petstore_api.model.shape_or_null import ShapeOrNull
-from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
-from petstore_api.model.some_object import SomeObject
-from petstore_api.model.special_model_name import SpecialModelName
-from petstore_api.model.string import String
-from petstore_api.model.string_boolean_map import StringBooleanMap
-from petstore_api.model.string_enum import StringEnum
-from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
-from petstore_api.model.string_with_validation import StringWithValidation
-from petstore_api.model.tag import Tag
-from petstore_api.model.triangle import Triangle
-from petstore_api.model.triangle_interface import TriangleInterface
-from petstore_api.model.uuid_string import UUIDString
-from petstore_api.model.user import User
-from petstore_api.model.whale import Whale
-from petstore_api.model.zebra import Zebra
+    The version of the OpenAPI document: 1.0.0
+    Generated by OpenAPI Generator (https://openapi-generator.tech)
+
+    Do not edit the class manually.
+"""
+
+
+# import models into model package
+from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
+from petstore_api.models.animal import Animal
+from petstore_api.models.any_of_color import AnyOfColor
+from petstore_api.models.any_of_pig import AnyOfPig
+from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
+from petstore_api.models.array_test import ArrayTest
+from petstore_api.models.basque_pig import BasquePig
+from petstore_api.models.capitalization import Capitalization
+from petstore_api.models.cat import Cat
+from petstore_api.models.cat_all_of import CatAllOf
+from petstore_api.models.category import Category
+from petstore_api.models.circular_reference_model import CircularReferenceModel
+from petstore_api.models.class_model import ClassModel
+from petstore_api.models.client import Client
+from petstore_api.models.color import Color
+from petstore_api.models.danish_pig import DanishPig
+from petstore_api.models.deprecated_object import DeprecatedObject
+from petstore_api.models.dog import Dog
+from petstore_api.models.dog_all_of import DogAllOf
+from petstore_api.models.dummy_model import DummyModel
+from petstore_api.models.enum_arrays import EnumArrays
+from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_string1 import EnumString1
+from petstore_api.models.enum_string2 import EnumString2
+from petstore_api.models.enum_test import EnumTest
+from petstore_api.models.file import File
+from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_api.models.first_ref import FirstRef
+from petstore_api.models.foo import Foo
+from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
+from petstore_api.models.format_test import FormatTest
+from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
+from petstore_api.models.int_or_string import IntOrString
+from petstore_api.models.list import List
+from petstore_api.models.map_test import MapTest
+from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
+from petstore_api.models.model200_response import Model200Response
+from petstore_api.models.model_return import ModelReturn
+from petstore_api.models.name import Name
+from petstore_api.models.nullable_class import NullableClass
+from petstore_api.models.number_only import NumberOnly
+from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
+from petstore_api.models.one_of_enum_string import OneOfEnumString
+from petstore_api.models.order import Order
+from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
+from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
+from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_api.models.parent import Parent
+from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
+from petstore_api.models.pet import Pet
+from petstore_api.models.pig import Pig
+from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.second_ref import SecondRef
+from petstore_api.models.self_reference_model import SelfReferenceModel
+from petstore_api.models.single_ref_type import SingleRefType
+from petstore_api.models.special_character_enum import SpecialCharacterEnum
+from petstore_api.models.special_model_name import SpecialModelName
+from petstore_api.models.special_name import SpecialName
+from petstore_api.models.tag import Tag
+from petstore_api.models.user import User
+from petstore_api.models.with_nested_one_of import WithNestedOneOf

@@ -38,8 +38,8 @@ namespace org::openapitools::server::api
 class  UserApi : public ApiBase {
 public:
     explicit UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~UserApi() = default;
-    void init();
+    ~UserApi() override = default;
+    void init() override;
 
     static const std::string base;
 

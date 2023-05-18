@@ -22,8 +22,10 @@
             [EnumMember(Value = "{{{value}}}")]
             {{/isString}}
             {{/useGenericHost}}
-            {{name}} = {{^isString}}{{{value}}}{{/isString}}{{#isString}}{{-index}}{{/isString}}{{^-last}},{{/-last}}
+            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}}{{^vendorExtensions.x-zero-based-enum}} = {{-index}}{{/vendorExtensions.x-zero-based-enum}}{{/isString}}{{^-last}},{{/-last}}
+            {{^-last}}
 
+            {{/-last}}
             {{/enumVars}}
             {{/allowableValues}}
         }

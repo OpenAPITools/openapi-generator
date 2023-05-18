@@ -40,11 +40,6 @@ public class Pet {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }

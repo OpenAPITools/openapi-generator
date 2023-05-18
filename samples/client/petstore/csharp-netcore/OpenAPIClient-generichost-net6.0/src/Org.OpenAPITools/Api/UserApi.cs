@@ -40,6 +40,17 @@ namespace Org.OpenAPITools.IApi
         Task<ApiResponse<object>> CreateUserAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
+        /// Create user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="user">Created user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
         /// Creates list of users with given input array
         /// </summary>
         /// <remarks>
@@ -57,11 +68,33 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Creates list of users with given input array
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Creates list of users with given input array
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Delete user
@@ -76,6 +109,17 @@ namespace Org.OpenAPITools.IApi
         Task<ApiResponse<object>> DeleteUserAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
         /// Get user by user name
         /// </summary>
         /// <remarks>
@@ -86,6 +130,17 @@ namespace Org.OpenAPITools.IApi
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;User&gt;&gt;</returns>
         Task<ApiResponse<User>> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get user by user name
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;User&gt;&gt;</returns>
+        Task<ApiResponse<User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Logs user into the system
@@ -101,6 +156,18 @@ namespace Org.OpenAPITools.IApi
         Task<ApiResponse<string>> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
+        /// Logs user into the system
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;string&gt;&gt;</returns>
+        Task<ApiResponse<string>> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
         /// Logs out current logged in user session
         /// </summary>
         /// <remarks>
@@ -110,6 +177,16 @@ namespace Org.OpenAPITools.IApi
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> LogoutUserAsync(System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Logs out current logged in user session
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> LogoutUserOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Updated user
@@ -123,6 +200,18 @@ namespace Org.OpenAPITools.IApi
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
         Task<ApiResponse<object>> UpdateUserAsync(User user, string username, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Updated user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -243,6 +332,24 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
+        /// <param name="user">Created user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await CreateUserAsync(user, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Create user This can only be done by the logged in user.
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -342,6 +449,24 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// Creates list of users with given input array 
+        /// </summary>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await CreateUsersWithArrayInputAsync(user, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -451,6 +576,24 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
+        /// <param name="user">List of user object</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await CreateUsersWithListInputAsync(user, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Creates list of users with given input array 
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -555,6 +698,24 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Delete user This can only be done by the logged in user.
         /// </summary>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await DeleteUserAsync(username, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Delete user This can only be done by the logged in user.
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -641,6 +802,24 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// Get user by user name 
+        /// </summary>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
+        public async Task<ApiResponse<User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await GetUserByNameAsync(username, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -753,6 +932,25 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Logs user into the system 
         /// </summary>
+        /// <param name="username">The user name for login</param>
+        /// <param name="password">The password for login in clear text</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
+        public async Task<ApiResponse<string>> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await LoginUserAsync(username, password, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Logs user into the system 
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
@@ -852,6 +1050,23 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> LogoutUserOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await LogoutUserAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Logs out current logged in user session 
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
@@ -943,6 +1158,25 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// Updated user This can only be done by the logged in user.
+        /// </summary>
+        /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await UpdateUserAsync(user, username, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

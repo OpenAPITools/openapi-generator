@@ -2,6 +2,7 @@ Org.OpenAPITools.sln
 README.md
 build.bat
 build.sh
+src/Org.OpenAPITools.Models/.gitignore
 src/Org.OpenAPITools.Models/Animal.cs
 src/Org.OpenAPITools.Models/ApiResponse.cs
 src/Org.OpenAPITools.Models/Cat.cs

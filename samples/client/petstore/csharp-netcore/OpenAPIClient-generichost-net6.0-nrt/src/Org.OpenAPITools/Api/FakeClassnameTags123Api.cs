@@ -38,8 +38,19 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;ModelClient?&gt;&gt;</returns>
+        /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
         Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// To test class name in snake case
+        /// </summary>
+        /// <remarks>
+        /// To test class name in snake case
+        /// </remarks>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;?&gt;</returns>
+        Task<ApiResponse<ModelClient>?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -155,6 +166,24 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// To test class name in snake case To test class name in snake case
+        /// </summary>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
+        public async Task<ApiResponse<ModelClient>?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await TestClassnameAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

@@ -35,11 +35,6 @@ public class Bar extends Entity implements BarRefOrValue {
 
   private FooRefOrValue foo;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Bar#Bar(String, String)}
-   */
-  @Deprecated
   public Bar() {
     super();
   }

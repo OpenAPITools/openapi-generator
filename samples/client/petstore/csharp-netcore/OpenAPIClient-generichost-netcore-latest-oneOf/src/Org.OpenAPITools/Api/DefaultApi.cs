@@ -37,8 +37,18 @@ namespace Org.OpenAPITools.IApi
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;Fruit?&gt;&gt;</returns>
+        /// <returns>Task&lt;ApiResponse&lt;Fruit&gt;&gt;</returns>
         Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;Fruit&gt;?&gt;</returns>
+        Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -107,6 +117,23 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorRootGet(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
+        public async Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await RootGetAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
