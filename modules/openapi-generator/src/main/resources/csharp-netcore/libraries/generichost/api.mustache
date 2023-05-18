@@ -38,8 +38,21 @@ namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}{{nrt?}}&gt;&gt;</returns>
+        /// <returns>Task&lt;ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;&gt;</returns>
         Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}});
+
+        /// <summary>
+        /// {{summary}}
+        /// </summary>
+        /// <remarks>
+        /// {{notes}}
+        /// </remarks>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;{{nrt?}}&gt;</returns>
+        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
         {{^-last}}
 
         {{/-last}}
@@ -181,6 +194,26 @@ namespace {{packageName}}.{{apiPackage}}
         protected virtual void OnError{{operationId}}({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
+        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
+        {
+            try
+            {
+                return await {{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
