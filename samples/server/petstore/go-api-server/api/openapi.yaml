@@ -522,6 +522,14 @@ paths:
         schema:
           type: string
         style: simple
+      - description: boolean query parameter
+        explode: true
+        in: query
+        name: boolean_test
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "400":
           description: Invalid username supplied
@@ -590,27 +598,6 @@ paths:
       summary: Updated user
       tags:
       - user
-  /fake/boolean/query/parameter:
-    get:
-      description: Test boolean query parameter
-      operationId: boolean_auery_parameter
-      parameters:
-      - description: boolean query parameter
-        explode: true
-        in: query
-        name: boolean_test
-        required: false
-        schema:
-          type: boolean
-        style: form
-      responses:
-        "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
-      summary: Test boolean query parameter
-      tags:
-      - fake
 components:
   requestBodies:
     UserArray:

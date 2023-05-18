@@ -567,22 +567,7 @@ paths:
           required: true
           schema:
             type: string
-      responses:
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
-      security:
-        - api_key: []
-  /fake/boolean/query/parameter:
-    get:
-      tags:
-        - fake
-      summary: Test boolean query parameter
-      description: Test boolean query parameter
-      operationId: boolean_auery_parameter
-      parameters:
-        - name: boolean_test
+        - name: boolean_test # to ensure boolean query parameter won't cause compilation errors
           in: query
           description: boolean query parameter
           schema:
@@ -592,6 +577,8 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+      security:
+        - api_key: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

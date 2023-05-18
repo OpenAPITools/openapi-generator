@@ -173,8 +173,17 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
+	query := r.URL.Query()
 	usernameParam := params["username"]
-	result, err := c.service.DeleteUser(r.Context(), usernameParam)
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
