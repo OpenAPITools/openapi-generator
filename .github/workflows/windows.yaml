@@ -46,4 +46,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Gradle tests
         run: |
-          ./gradlew -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
+          gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
