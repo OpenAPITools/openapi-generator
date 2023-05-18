@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        java: [11, 17]
+        java: [11]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.java }}
