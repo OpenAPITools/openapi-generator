@@ -30,6 +30,7 @@ import org.openapitools.client.infrastructure.*
 
 class PetApi(client: WebClient) : ApiClient(client) {
 
+
     @Throws(WebClientResponseException::class)
     fun addPet(body: Pet): Mono<Unit> {
         return addPetWithHttpInfo(body = body)
