@@ -1,6 +1,6 @@
 generatorName: go-server
 outputDir: samples/server/petstore/go-api-server
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go-server/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/go-server
 additionalProperties:
   hideGenerationTimestamp: "true"

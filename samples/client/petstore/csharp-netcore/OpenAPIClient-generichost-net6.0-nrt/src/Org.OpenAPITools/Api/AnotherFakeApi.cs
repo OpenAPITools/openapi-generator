@@ -38,8 +38,19 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;ModelClient?&gt;&gt;</returns>
+        /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
         Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// To test special tags
+        /// </summary>
+        /// <remarks>
+        /// To test special tags and operation ID starting with number
+        /// </remarks>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;?&gt;</returns>
+        Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -155,6 +166,24 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// To test special tags To test special tags and operation ID starting with number
+        /// </summary>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
+        public async Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await Call123TestSpecialTagsAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

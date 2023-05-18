@@ -38,8 +38,19 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;Person?&gt;&gt;</returns>
+        /// <returns>Task&lt;ApiResponse&lt;Person&gt;&gt;</returns>
         Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="personId">The id of the person to retrieve</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;Person&gt;?&gt;</returns>
+        Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -120,6 +131,24 @@ namespace Org.OpenAPITools.Api
         protected virtual void OnErrorList(Exception exception, string pathFormat, string path, string personId)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="personId">The id of the person to retrieve</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
+        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await ListAsync(personId, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
