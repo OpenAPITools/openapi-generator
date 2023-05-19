@@ -409,7 +409,7 @@
                                     <artifactId>maven-enforcer-plugin</artifactId>
                                     <executions>
                                         <execution>
-                                            <id>enforce-banned-dependencies</id>
+                                            <id>enforce-versions</id>
                                             <inputs>
                                                 <properties>
                                                     <property>
