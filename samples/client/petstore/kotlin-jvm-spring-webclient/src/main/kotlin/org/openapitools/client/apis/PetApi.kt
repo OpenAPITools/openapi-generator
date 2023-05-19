@@ -32,26 +32,27 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun addPet(body: Pet): Mono<Unit> {
-        return addPetWithHttpInfo(body = body)
+    fun addPet(pet: Pet): Mono<Pet> {
+        return addPetWithHttpInfo(pet = pet)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun addPetWithHttpInfo(body: Pet): Mono<ResponseEntity<Unit>> {
-        val localVariableConfig = addPetRequestConfig(body = body)
-        return request<Pet, Unit>(
+    fun addPetWithHttpInfo(pet: Pet): Mono<ResponseEntity<Pet>> {
+        val localVariableConfig = addPetRequestConfig(pet = pet)
+        return request<Pet, Pet>(
             localVariableConfig
         )
     }
 
-    fun addPetRequestConfig(body: Pet) : RequestConfig<Pet> {
-        val localVariableBody = body
+    fun addPetRequestConfig(pet: Pet) : RequestConfig<Pet> {
+        val localVariableBody = pet
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Content-Type"] = "application/xml"
-        
+        localVariableHeaders["Accept"] = "application/xml, application/json"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
@@ -206,26 +207,27 @@ class PetApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun updatePet(body: Pet): Mono<Unit> {
-        return updatePetWithHttpInfo(body = body)
+    fun updatePet(pet: Pet): Mono<Pet> {
+        return updatePetWithHttpInfo(pet = pet)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun updatePetWithHttpInfo(body: Pet): Mono<ResponseEntity<Unit>> {
-        val localVariableConfig = updatePetRequestConfig(body = body)
-        return request<Pet, Unit>(
+    fun updatePetWithHttpInfo(pet: Pet): Mono<ResponseEntity<Pet>> {
+        val localVariableConfig = updatePetRequestConfig(pet = pet)
+        return request<Pet, Pet>(
             localVariableConfig
         )
     }
 
-    fun updatePetRequestConfig(body: Pet) : RequestConfig<Pet> {
-        val localVariableBody = body
+    fun updatePetRequestConfig(pet: Pet) : RequestConfig<Pet> {
+        val localVariableBody = pet
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Content-Type"] = "application/xml"
-        
+        localVariableHeaders["Accept"] = "application/xml, application/json"
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",

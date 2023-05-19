@@ -123,23 +123,24 @@ class StoreApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun placeOrder(body: Order): Mono<Order> {
-        return placeOrderWithHttpInfo(body = body)
+    fun placeOrder(order: Order): Mono<Order> {
+        return placeOrderWithHttpInfo(order = order)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun placeOrderWithHttpInfo(body: Order): Mono<ResponseEntity<Order>> {
-        val localVariableConfig = placeOrderRequestConfig(body = body)
+    fun placeOrderWithHttpInfo(order: Order): Mono<ResponseEntity<Order>> {
+        val localVariableConfig = placeOrderRequestConfig(order = order)
         return request<Order, Order>(
             localVariableConfig
         )
     }
 
-    fun placeOrderRequestConfig(body: Order) : RequestConfig<Order> {
-        val localVariableBody = body
+    fun placeOrderRequestConfig(order: Order) : RequestConfig<Order> {
+        val localVariableBody = order
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(

@@ -31,90 +31,93 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
 
     @Throws(WebClientResponseException::class)
-    fun createUser(body: User): Mono<Unit> {
-        return createUserWithHttpInfo(body = body)
+    fun createUser(user: User): Mono<Unit> {
+        return createUserWithHttpInfo(user = user)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun createUserWithHttpInfo(body: User): Mono<ResponseEntity<Unit>> {
-        val localVariableConfig = createUserRequestConfig(body = body)
+    fun createUserWithHttpInfo(user: User): Mono<ResponseEntity<Unit>> {
+        val localVariableConfig = createUserRequestConfig(user = user)
         return request<User, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUserRequestConfig(body: User) : RequestConfig<User> {
-        val localVariableBody = body
+    fun createUserRequestConfig(user: User) : RequestConfig<User> {
+        val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
 
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Mono<Unit> {
-        return createUsersWithArrayInputWithHttpInfo(body = body)
+    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Mono<Unit> {
+        return createUsersWithArrayInputWithHttpInfo(user = user)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithArrayInputWithHttpInfo(body: kotlin.collections.List<User>): Mono<ResponseEntity<Unit>> {
-        val localVariableConfig = createUsersWithArrayInputRequestConfig(body = body)
+    fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>): Mono<ResponseEntity<Unit>> {
+        val localVariableConfig = createUsersWithArrayInputRequestConfig(user = user)
         return request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUsersWithArrayInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
-        val localVariableBody = body
+    fun createUsersWithArrayInputRequestConfig(user: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+        val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
 
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithListInput(body: kotlin.collections.List<User>): Mono<Unit> {
-        return createUsersWithListInputWithHttpInfo(body = body)
+    fun createUsersWithListInput(user: kotlin.collections.List<User>): Mono<Unit> {
+        return createUsersWithListInputWithHttpInfo(user = user)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun createUsersWithListInputWithHttpInfo(body: kotlin.collections.List<User>): Mono<ResponseEntity<Unit>> {
-        val localVariableConfig = createUsersWithListInputRequestConfig(body = body)
+    fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>): Mono<ResponseEntity<Unit>> {
+        val localVariableConfig = createUsersWithListInputRequestConfig(user = user)
         return request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
     }
 
-    fun createUsersWithListInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
-        val localVariableBody = body
+    fun createUsersWithListInputRequestConfig(user: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
+        val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -144,7 +147,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -240,37 +243,38 @@ class UserApi(client: WebClient) : ApiClient(client) {
             path = "/user/logout",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
 
 
     @Throws(WebClientResponseException::class)
-    fun updateUser(username: kotlin.String, body: User): Mono<Unit> {
-        return updateUserWithHttpInfo(username = username, body = body)
+    fun updateUser(username: kotlin.String, user: User): Mono<Unit> {
+        return updateUserWithHttpInfo(username = username, user = user)
             .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
-    fun updateUserWithHttpInfo(username: kotlin.String, body: User): Mono<ResponseEntity<Unit>> {
-        val localVariableConfig = updateUserRequestConfig(username = username, body = body)
+    fun updateUserWithHttpInfo(username: kotlin.String, user: User): Mono<ResponseEntity<Unit>> {
+        val localVariableConfig = updateUserRequestConfig(username = username, user = user)
         return request<User, Unit>(
             localVariableConfig
         )
     }
 
-    fun updateUserRequestConfig(username: kotlin.String, body: User) : RequestConfig<User> {
-        val localVariableBody = body
+    fun updateUserRequestConfig(username: kotlin.String, user: User) : RequestConfig<User> {
+        val localVariableBody = user
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
