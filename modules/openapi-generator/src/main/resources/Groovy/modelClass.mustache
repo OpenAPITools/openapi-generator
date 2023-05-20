@@ -1,0 +1,7 @@
+@Canonical
+class {{classname}} {
+{{#vars}}
+    {{#description}}/* {{{.}}} */{{/description}}
+    {{{dataType}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+{{/vars}}
+}

@@ -1,0 +1,25 @@
+enum {{classname}} {
+{{#allowableValues}}{{#enumVars}}
+    {{#enumDescription}}
+        /**
+        * {{.}}
+        */
+    {{/enumDescription}}
+    {{{name}}}({{{value}}}){{^-last}},
+    {{/-last}}{{/enumVars}}{{/allowableValues}}
+
+    private final {{{dataType}}} value
+
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}({{{dataType}}} value) {
+        this.value = value
+    }
+
+    {{{dataType}}} getValue() {
+        value
+    }
+
+    @Override
+    String toString() {
+        String.valueOf(value)
+    }
+}
