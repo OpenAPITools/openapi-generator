@@ -1,8 +1,14 @@
-name: Check Supported Java Versions
+name: Linux tests
+
 on:
   push:
     branches:
       - master
+      - '[5-9]+.[0-9]+.x'
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
 
 jobs:
   build:
