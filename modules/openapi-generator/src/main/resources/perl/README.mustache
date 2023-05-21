@@ -266,11 +266,11 @@ use Data::Dumper;
 my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
     # Configure HTTP basic authorization: {{{name}}}
     username => 'YOUR_USERNAME',
     password => 'YOUR_PASSWORD',
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
     # Configure API key authorization: {{{name}}}
     api_key => {'{{{keyParamName}}}' => 'YOUR_API_KEY'},
@@ -321,8 +321,12 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}

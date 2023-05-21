@@ -16,7 +16,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        java: [8, 11]
+        java: [11, 17]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.java }}
@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run maven
-        run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests
+        run: mvn --no-snapshot-updates --batch-mode --quiet install
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Setup Gradle
