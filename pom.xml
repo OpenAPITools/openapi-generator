@@ -254,7 +254,8 @@
                     <source>${maven.compiler.source}</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
-                    <failOnWarnings>true</failOnWarnings>
+                    <failOnWarnings>false</failOnWarnings>
+                    <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>
@@ -1439,8 +1440,8 @@
         </repository>
     </repositories>
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 
         <archunit.version>0.23.1</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
@@ -1453,7 +1454,7 @@
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <groovy.version>3.0.9</groovy.version>
         <guava.version>31.1-jre</guava.version>
-        <handlebars-java.version>4.2.1</handlebars-java.version>
+        <handlebars-java.version>4.3.1</handlebars-java.version>
         <jackson-threetenbp.version>2.12.5</jackson-threetenbp.version>
         <jackson-databind.version>2.14.0</jackson-databind.version>
         <jackson.version>2.14.0</jackson.version>

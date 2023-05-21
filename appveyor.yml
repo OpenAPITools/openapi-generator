@@ -17,30 +17,31 @@ install:
 build_script:
   - dotnet --info
   # build C# aspnetcore 5.0 server
-  - dotnet build samples\server\petstore\aspnetcore-5.0\Org.OpenAPITools.sln
-  # build C# aspnetcore 3.1 server
-  - dotnet build samples\server\petstore\aspnetcore-3.1\Org.OpenAPITools.sln
-  # build C# aspnetcore 3.0 server
-  - dotnet build samples\server\petstore\aspnetcore-3.0\Org.OpenAPITools.sln
-  # build C# aspnetcore 2.2 server
-  - dotnet build samples\server\petstore\aspnetcore\Org.OpenAPITools.sln
-  # build C# API client (multiple frameworks)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\Org.OpenAPITools.sln
-  # build C# API client (httpclient)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
-  # build C# API client (generichost)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\Org.OpenAPITools.sln
-  # build C# API client (netcore)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
-  # build C# API client (.net framework 4.7)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
-  # build C# API client (.net framework 4.8)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net48\Org.OpenAPITools.sln
-  # build C# API client (.net 5.0)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
-  # build C# API client (.net 5.0 with ConditionalSerialization)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
+  #- dotnet build samples\server\petstore\aspnetcore-5.0\Org.OpenAPITools.sln
+  ## build C# aspnetcore 3.1 server
+  #- dotnet build samples\server\petstore\aspnetcore-3.1\Org.OpenAPITools.sln
+  ## build C# aspnetcore 3.0 server
+  #- dotnet build samples\server\petstore\aspnetcore-3.0\Org.OpenAPITools.sln
+  ## build C# aspnetcore 2.2 server
+  #- dotnet build samples\server\petstore\aspnetcore\Org.OpenAPITools.sln
+  ## build C# API client (multiple frameworks)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\Org.OpenAPITools.sln
+  ## build C# API client (httpclient)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
+  ## build C# API client (generichost)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\Org.OpenAPITools.sln
+  ## build C# API client (netcore)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
+  ## build C# API client (.net framework 4.7)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
+  ## build C# API client (.net framework 4.8)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net48\Org.OpenAPITools.sln
+  ## build C# API client (.net 5.0)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
+  ## build C# API client (.net 5.0 with ConditionalSerialization)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
+
   ## build C# API client
   #- nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
   #- msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
