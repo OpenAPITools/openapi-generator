@@ -89,7 +89,7 @@ jobs:
       - name: Setup Maven
         uses: s4u/setup-maven-action@v1.7.0
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 11
           maven-version: 3.9.0
       - name: Download build artifact
         uses: actions/download-artifact@v3
