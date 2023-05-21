@@ -216,11 +216,11 @@ Authentication schemes defined for the API:
 ### bearer_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 <a id="http_signature_test"></a>
 ### http_signature_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 

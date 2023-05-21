@@ -99,9 +99,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
     protected String roomModelPackage = "";
-
+    protected boolean omitGradleWrapper = false;
 
     protected String authFolder;
+
 
     public enum DateLibrary {
         STRING("string"),
@@ -265,6 +266,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return generateRoomModels;
     }
 
+    public boolean getOmitGradleWrapper() {
+        return omitGradleWrapper;
+    }
+
     public void setGenerateRoomModels(Boolean generateRoomModels) {
         this.generateRoomModels = generateRoomModels;
     }
@@ -334,6 +339,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setRoomModelPackage(String roomModelPackage) {
         this.roomModelPackage = roomModelPackage;
+    }
+
+    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
+        this.omitGradleWrapper = omitGradleWrapper;
     }
 
     @Override
@@ -424,6 +433,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(REQUEST_DATE_CONVERTER)) {
             setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
+        }
+
+        if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
+            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
         }
 
         commonSupportingFiles();
@@ -787,10 +800,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         // gradle wrapper supporting files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        if (!getOmitGradleWrapper()) {
+            supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+            supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        }
     }
 
     @Override

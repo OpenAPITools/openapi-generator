@@ -201,6 +201,8 @@ Authentication schemes defined for the API:
 
 ### http_signature_test
 
+- **Type**: HTTP signature authentication
+
 ## Tests
 
 To run the tests, use:
