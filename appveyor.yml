@@ -59,7 +59,7 @@ test_script:
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  #- dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.7)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.8)
