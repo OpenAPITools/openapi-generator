@@ -28,7 +28,7 @@ public interface FakeClassnameTags123Api {
      * PATCH /fake_classname_test : To test class name in snake case
      * To test class name in snake case
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      */
     @HttpExchange(
@@ -38,7 +38,7 @@ public interface FakeClassnameTags123Api {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> testClassname(
-         @RequestBody Mono<Client> body
+         @RequestBody Mono<Client> client
     );
 
 }

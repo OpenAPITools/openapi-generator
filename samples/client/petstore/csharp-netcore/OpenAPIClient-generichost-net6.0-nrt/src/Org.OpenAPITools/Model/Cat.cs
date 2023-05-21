@@ -38,11 +38,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = "red") : base(className, color)
+        internal Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = @"red") : base(className, color)
         {
             Dictionary = dictionary;
             CatAllOf = catAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Dictionary
@@ -138,12 +141,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, cat.Dictionary, jsonSerializerOptions);
 
-            writer.WriteString("className", cat.ClassName);
-            writer.WriteString("color", cat.Color);
+            System.Text.Json.JsonSerializer.Serialize(writer, cat.CatAllOf, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

@@ -28,11 +28,12 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.parser.ObjectMapperFactory;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.util.ClasspathHelper;
-import io.swagger.v3.parser.ObjectMapperFactory;
 import io.swagger.v3.parser.util.RemoteUrl;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
@@ -41,18 +42,17 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.io.FileUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -71,27 +71,28 @@ public class ModelUtils {
 
     private static final String freeFormExplicit = "x-is-free-form";
 
-    private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
+    private static final ObjectMapper JSON_MAPPER;
+    private static final ObjectMapper YAML_MAPPER;
 
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
         YAML_MAPPER = ObjectMapperFactory.createYaml();
     }
 
-    public static void setDisallowAdditionalPropertiesIfNotPresent(boolean value) {
-        GlobalSettings.setProperty(disallowAdditionalPropertiesIfNotPresent, Boolean.toString(value));
-    }
-
     public static boolean isDisallowAdditionalPropertiesIfNotPresent() {
         return Boolean.parseBoolean(GlobalSettings.getProperty(disallowAdditionalPropertiesIfNotPresent, "true"));
     }
 
-    public static void setGenerateAliasAsModel(boolean value) {
-        GlobalSettings.setProperty(generateAliasAsModelKey, Boolean.toString(value));
+    public static void setDisallowAdditionalPropertiesIfNotPresent(boolean value) {
+        GlobalSettings.setProperty(disallowAdditionalPropertiesIfNotPresent, Boolean.toString(value));
     }
 
     public static boolean isGenerateAliasAsModel() {
         return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
+    }
+
+    public static void setGenerateAliasAsModel(boolean value) {
+        GlobalSettings.setProperty(generateAliasAsModelKey, Boolean.toString(value));
     }
 
     public static boolean isGenerateAliasAsModel(Schema schema) {
@@ -371,12 +372,6 @@ public class ModelUtils {
         }
     }
 
-    @FunctionalInterface
-    private static interface OpenAPISchemaVisitor {
-
-        public void visit(Schema schema, String mimeType);
-    }
-
     public static String getSimpleRef(String ref) {
         if (ref == null) {
             once(LOGGER).warn("Failed to get the schema name: null");
@@ -417,10 +412,7 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isTypeObjectSchema(Schema schema) {
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
     }
 
     /**
@@ -446,20 +438,11 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isObjectSchema(Schema schema) {
-        if (schema instanceof ObjectSchema) {
-            return true;
-        }
-
-        // must not be a map
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
-            return true;
-        }
-
-        // must have at least one property
-        if (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            return true;
-        }
-        return false;
+        return (schema instanceof ObjectSchema) ||
+                // must not be a map
+                (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) ||
+                // must have at least one property
+                (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
     }
 
     /**
@@ -470,10 +453,7 @@ public class ModelUtils {
      * @return true if the specified schema is a Composed schema.
      */
     public static boolean isComposedSchema(Schema schema) {
-        if (schema instanceof ComposedSchema) {
-            return true;
-        }
-        return false;
+        return schema instanceof ComposedSchema;
     }
 
     /**
@@ -506,11 +486,7 @@ public class ModelUtils {
             count++;
         }
 
-        if (count > 1) {
-            return true;
-        }
-
-        return false;
+        return count > 1;
     }
 
     /**
@@ -548,23 +524,9 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
-        if (schema instanceof MapSchema) {
-            return true;
-        }
-
-        if (schema == null) {
-            return false;
-        }
-
-        if (schema.getAdditionalProperties() instanceof Schema) {
-            return true;
-        }
-
-        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
-            return true;
-        }
-
-        return false;
+        return (schema instanceof MapSchema) ||
+                (schema.getAdditionalProperties() instanceof Schema) ||
+                (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
     }
 
     /**
@@ -582,174 +544,122 @@ public class ModelUtils {
     }
 
     public static boolean isStringSchema(Schema schema) {
-        if (schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(schema.getType());
     }
 
     public static boolean isIntegerSchema(Schema schema) {
-        if (schema instanceof IntegerSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType());
     }
 
     public static boolean isShortSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
-                && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // format: short (int32)
-            return true;
-        }
-        return false;
+        // format: short (int32)
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
+                && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat());
+    }
+
+    public static boolean isUnsignedIntegerSchema(Schema schema) {
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+                ("int32".equals(schema.getFormat()) || schema.getFormat() == null) && // format: int32
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE));
     }
 
     public static boolean isLongSchema(Schema schema) {
-        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
-                && SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) { // format: long (int64)
-            return true;
-        }
-        return false;
+        // format: long (int64)
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
+                && SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat());
+    }
+
+    public static boolean isUnsignedLongSchema(Schema schema) {
+        return SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) && // type: integer
+                "int64".equals(schema.getFormat()) && // format: int64
+                (schema.getExtensions() != null && (Boolean) schema.getExtensions().getOrDefault("x-unsigned", Boolean.FALSE));
     }
 
     public static boolean isBooleanSchema(Schema schema) {
-        if (schema instanceof BooleanSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return schema instanceof BooleanSchema || SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType());
     }
 
     public static boolean isNumberSchema(Schema schema) {
-        if (schema instanceof NumberSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return schema instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType());
     }
 
     public static boolean isFloatSchema(Schema schema) {
-        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) { // format: float
-            return true;
-        }
-        return false;
+        // format: float
+        return SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat());
     }
 
     public static boolean isDoubleSchema(Schema schema) {
-        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) { // format: double
-            return true;
-        }
-        return false;
+        // format: double
+        return SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat());
     }
 
     public static boolean isDateSchema(Schema schema) {
-        if (schema instanceof DateSchema) {
-            return true;
-        }
-
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat())) { // format: date
-            return true;
-        }
-        return false;
+        return (schema instanceof DateSchema) ||
+                // format: date
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isDateTimeSchema(Schema schema) {
-        if (schema instanceof DateTimeSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat())) { // format: date-time
-            return true;
-        }
-        return false;
+        return (schema instanceof DateTimeSchema) ||
+                // format: date-time
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isPasswordSchema(Schema schema) {
-        if (schema instanceof PasswordSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat())) { // double
-            return true;
-        }
-        return false;
+        return (schema instanceof PasswordSchema) ||
+                // double
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isByteArraySchema(Schema schema) {
-        if (schema instanceof ByteArraySchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat())) { // format: byte
-            return true;
-        }
-        return false;
+        return (schema instanceof ByteArraySchema) ||
+                // format: byte
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isBinarySchema(Schema schema) {
-        if (schema instanceof BinarySchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat())) { // format: binary
-            return true;
-        }
-        return false;
+        return (schema instanceof BinarySchema) ||
+                // format: binary
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isFileSchema(Schema schema) {
-        if (schema instanceof FileSchema) {
-            return true;
-        }
-        // file type in oas2 mapped to binary in oas3
-        return isBinarySchema(schema);
+        return (schema instanceof FileSchema) ||
+                // file type in oas2 mapped to binary in oas3
+                isBinarySchema(schema);
     }
 
     public static boolean isUUIDSchema(Schema schema) {
-        if (schema instanceof UUIDSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat())) { // format: uuid
-            return true;
-        }
-        return false;
+        return (schema instanceof UUIDSchema) ||
+                // format: uuid
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isURISchema(Schema schema) {
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && URI_FORMAT.equals(schema.getFormat())) { // format: uri
-            return true;
-        }
-        return false;
+        // format: uri
+        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && URI_FORMAT.equals(schema.getFormat());
     }
 
     public static boolean isEmailSchema(Schema schema) {
-        if (schema instanceof EmailSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
-                && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat())) { // format: email
-            return true;
-        }
-        return false;
+        return (schema instanceof EmailSchema) ||
+                // format: email
+                (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                        && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat()));
     }
 
     public static boolean isDecimalSchema(Schema schema) {
-        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
-                && "number".equals(schema.getFormat())) { // format: number
-            return true;
-        }
-        return false;
+        // format: number
+        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
+                && "number".equals(schema.getFormat());
     }
 
     /**
@@ -759,17 +669,11 @@ public class ModelUtils {
      * @return true if it's a model with at least one properties
      */
     public static boolean isModel(Schema schema) {
-        if (schema == null) {
-            return false;
-        }
-
-        // has properties
-        if (null != schema.getProperties() && !schema.getProperties().isEmpty()) {
-            return true;
-        }
-
-        // composed schema is a model, consider very simple ObjectSchema a model
-        return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
+        return (schema != null) &&
+                // has properties
+                ((null != schema.getProperties() && !schema.getProperties().isEmpty())
+                // composed schema is a model, consider very simple ObjectSchema a model
+                || (schema instanceof ComposedSchema || schema instanceof ObjectSchema));
     }
 
     /**
@@ -779,16 +683,12 @@ public class ModelUtils {
      * @return true if it's a model with at least one properties
      */
     public static boolean isModelWithPropertiesOnly(Schema schema) {
-        if (schema == null) {
-            return false;
-        }
-
-        if (null != schema.getProperties() && !schema.getProperties().isEmpty() && // has properties
-                (schema.getAdditionalProperties() == null || // no additionalProperties is set
-                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()))) {
-            return true;
-        }
-        return false;
+        return (schema != null) &&
+                // has properties
+                (null != schema.getProperties() && !schema.getProperties().isEmpty()) &&
+                // no additionalProperties is set
+                (schema.getAdditionalProperties() == null ||
+                        (schema.getAdditionalProperties() instanceof Boolean && !(Boolean) schema.getAdditionalProperties()));
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -878,14 +778,10 @@ public class ModelUtils {
                     if (addlProps instanceof ObjectSchema) {
                         ObjectSchema objSchema = (ObjectSchema) addlProps;
                         // additionalProperties defined as {}
-                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
-                            return true;
-                        }
+                        return objSchema.getProperties() == null || objSchema.getProperties().isEmpty();
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
-                            return true;
-                        }
+                        return addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty());
                     }
                 }
             }
@@ -1003,11 +899,7 @@ public class ModelUtils {
     }
 
     public static ApiResponse getApiResponse(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
             return openAPI.getComponents().getResponses().get(name);
         }
         return null;
@@ -1032,11 +924,7 @@ public class ModelUtils {
     }
 
     public static Parameter getParameter(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
             return openAPI.getComponents().getParameters().get(name);
         }
         return null;
@@ -1061,11 +949,7 @@ public class ModelUtils {
     }
 
     public static Callback getCallback(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
             return openAPI.getComponents().getCallbacks().get(name);
         }
         return null;
@@ -1372,11 +1256,7 @@ public class ModelUtils {
     }
 
     public static Header getHeader(OpenAPI openAPI, String name) {
-        if (name == null) {
-            return null;
-        }
-
-        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
+        if (name != null && openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
             return openAPI.getComponents().getHeaders().get(name);
         }
         return null;
@@ -1393,7 +1273,6 @@ public class ModelUtils {
         return groupedByParent.entrySet().stream()
                 .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().stream().map(e -> e.getKey()).collect(Collectors.toList())));
     }
-
 
     /**
      * Get the interfaces from the schema (composed)
@@ -1483,14 +1362,6 @@ public class ModelUtils {
             }
         }
 
-        if (refedWithoutDiscriminator.size() == 1 && hasAmbiguousParents) {
-            // allOf with a single $ref (no discriminator)
-            // TODO to be removed in 5.x or 6.x release
-            LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
-                            " in the 5.x release. Composed schema name: {}. Title: {}",
-                    composedSchema.getName(), composedSchema.getTitle());
-        }
-
         return null;
     }
 
@@ -1575,17 +1446,17 @@ public class ModelUtils {
     public static boolean isExtensionParent(Schema schema) {
         if (schema.getExtensions() == null) {
             return false;
+        }
+
+        Object xParent = schema.getExtensions().get("x-parent");
+        if (xParent == null) {
+            return false;
+        } else if (xParent instanceof Boolean) {
+            return (Boolean) xParent;
+        } else if (xParent instanceof String) {
+            return StringUtils.isNotEmpty((String) xParent);
         } else {
-            Object xParent = schema.getExtensions().get("x-parent");
-            if (xParent == null) {
-                return false;
-            } else if (xParent instanceof Boolean) {
-                return (Boolean) xParent;
-            } else if (xParent instanceof String) {
-                return StringUtils.isNotEmpty((String) xParent);
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -1665,18 +1536,15 @@ public class ModelUtils {
      * either be null or a specified type:
      * <p>
      * OptionalOrder:
-     *   oneOf:
-     *     - type: 'null'
-     *     - $ref: '#/components/schemas/Order'
+     * oneOf:
+     * - type: 'null'
+     * - $ref: '#/components/schemas/Order'
      *
      * @param schema the OpenAPI schema
      * @return true if the schema is the 'null' type
      */
     public static boolean isNullType(Schema schema) {
-        if ("null".equals(schema.getType())) {
-            return true;
-        }
-        return false;
+        return "null".equals(schema.getType());
     }
 
     /**
@@ -1697,47 +1565,90 @@ public class ModelUtils {
 
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
         // TODO move this method to IJsonSchemaValidationProperties
-        if (schema != null && target != null) {
-            if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
-                return;
-            }
-            Integer minItems = schema.getMinItems();
-            Integer maxItems = schema.getMaxItems();
-            Boolean uniqueItems = schema.getUniqueItems();
-            Integer minProperties = schema.getMinProperties();
-            Integer maxProperties = schema.getMaxProperties();
-            Integer minLength = schema.getMinLength();
-            Integer maxLength = schema.getMaxLength();
-            String pattern = schema.getPattern();
-            BigDecimal multipleOf = schema.getMultipleOf();
-            BigDecimal minimum = schema.getMinimum();
-            BigDecimal maximum = schema.getMaximum();
-            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+        if (schema == null ||
+                target == null ||
+                schema.get$ref() != null)
+            return;
+        SchemaValidations.ValidationSetBuilder vSB = new SchemaValidations.ValidationSetBuilder();
 
-            if (isArraySchema(schema)) {
+        Integer minItems = schema.getMinItems();
+        if (minItems != null) vSB.withMinItems();
+
+        Integer maxItems = schema.getMaxItems();
+        if (maxItems != null) vSB.withMaxItems();
+
+        Boolean uniqueItems = schema.getUniqueItems();
+        if (uniqueItems != null) vSB.withUniqueItems();
+
+        Integer minProperties = schema.getMinProperties();
+        if (minProperties != null) vSB.withMinProperties();
+
+        Integer maxProperties = schema.getMaxProperties();
+        if (maxProperties != null) vSB.withMaxProperties();
+
+        Integer minLength = schema.getMinLength();
+        if (minLength != null) vSB.withMinLength();
+
+        Integer maxLength = schema.getMaxLength();
+        if (maxLength != null) vSB.withMaxLength();
+
+        String pattern = schema.getPattern();
+        if (pattern != null) vSB.withPattern();
+
+        BigDecimal multipleOf = schema.getMultipleOf();
+        if (multipleOf != null) vSB.withMultipleOf();
+
+        BigDecimal minimum = schema.getMinimum();
+        if (minimum != null) vSB.withMinimum();
+
+        BigDecimal maximum = schema.getMaximum();
+        if (maximum != null) vSB.withMaximum();
+
+        Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+        if (exclusiveMinimum != null) vSB.withExclusiveMinimum();
+
+        Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+        if (exclusiveMaximum != null) vSB.withExclusiveMaximum();
+
+        LinkedHashSet<String> setValidations = vSB.build();
+
+        if (isBooleanSchema(schema) || isNullType(schema)) {
+            logWarnMessagesForIneffectiveValidations(setValidations, schema, new HashSet<>());
+        } else if (isArraySchema(schema)) {
+            if (minItems != null || maxItems != null || uniqueItems != null)
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
-            } else if (isTypeObjectSchema(schema)) {
+            logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.ARRAY_VALIDATIONS);
+        } else if (isTypeObjectSchema(schema)) {
+            if (minProperties != null || maxProperties != null)
                 setObjectValidations(minProperties, maxProperties, target);
-            } else if (isStringSchema(schema)) {
+            logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.OBJECT_VALIDATIONS);
+        } else if (isStringSchema(schema)) {
+            if (minLength != null || maxLength != null || pattern != null)
                 setStringValidations(minLength, maxLength, pattern, target);
-                if (isDecimalSchema(schema)) {
+            if (isDecimalSchema(schema)) {
+                if (multipleOf != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null)
                     setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
-                }
-            } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
-                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
-            } else if (isAnyType(schema)) {
-                // anyType can have any validations set on it
-                setArrayValidations(minItems, maxItems, uniqueItems, target);
-                setObjectValidations(minProperties, maxProperties, target);
-                setStringValidations(minLength, maxLength, pattern, target);
-                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
-            }
 
-            if (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null || uniqueItems != null) {
-                target.setHasValidation(true);
-            }
+                Set<String> stringAndNumericValidations = new HashSet<>(SchemaValidations.STRING_VALIDATIONS);
+                stringAndNumericValidations.addAll(SchemaValidations.NUMERIC_VALIDATIONS);
+                logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, stringAndNumericValidations);
+            } else
+                logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.STRING_VALIDATIONS);
+
+        } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
+            if (multipleOf != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null)
+                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+            logWarnMessagesForIneffectiveValidations(new LinkedHashSet(setValidations), schema, SchemaValidations.NUMERIC_VALIDATIONS);
+        } else if (isAnyType(schema)) {
+            // anyType can have any validations set on it
+            setArrayValidations(minItems, maxItems, uniqueItems, target);
+            setObjectValidations(minProperties, maxProperties, target);
+            setStringValidations(minLength, maxLength, pattern, target);
+            setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
         }
+
+        if (!setValidations.isEmpty())
+            target.setHasValidation(true);
     }
 
     private static void setArrayValidations(Integer minItems, Integer maxItems, Boolean uniqueItems, IJsonSchemaValidationProperties target) {
@@ -1776,6 +1687,13 @@ public class ModelUtils {
             }
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
         }
+    }
+
+    private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
+        setValidations.removeAll(effectiveValidations);
+        setValidations.stream().forEach(validation -> {
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '"+ schema.getType() +"'. Ignoring!");
+        });
     }
 
     private static ObjectMapper getRightMapper(String data) {
@@ -1851,5 +1769,255 @@ public class ModelUtils {
         //GlobalSettings.setProperty(openapiDocVersion, version);
 
         return new SemVer(version);
+    }
+
+    /**
+     * Returns true if the schema contains allOf but
+     * no properties/oneOf/anyOf defined.
+     *
+     * @param schema the schema
+     * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
+     */
+    public static boolean isAllOf(Schema schema) {
+        if (hasAllOf(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                (schema.getOneOf() == null || schema.getOneOf().isEmpty()) &&
+                (schema.getAnyOf() == null || schema.getAnyOf().isEmpty())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains allOf and may or may not have
+     * properties/oneOf/anyOf defined.
+     *
+     * @param schema the schema
+     * @return true if allOf is not empty
+     */
+    public static boolean hasAllOf(Schema schema) {
+        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains allOf and properties,
+     * and no oneOf/anyOf defined.
+     *
+     * @param schema the schema
+     * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
+     */
+    public static boolean isAllOfWithProperties(Schema schema) {
+        return hasAllOf(schema) && (schema.getProperties() != null && !schema.getProperties().isEmpty()) &&
+                (schema.getOneOf() == null || schema.getOneOf().isEmpty()) &&
+                (schema.getAnyOf() == null || schema.getAnyOf().isEmpty());
+    }
+
+    /**
+     * Returns true if the schema contains oneOf but
+     * no properties/allOf/anyOf defined.
+     *
+     * @param schema the schema
+     * @return true if the schema contains oneOf but no properties/allOf/anyOf defined.
+     */
+    public static boolean isOneOf(Schema schema) {
+        if (hasOneOf(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                (schema.getAllOf() == null || schema.getAllOf().isEmpty()) &&
+                (schema.getAnyOf() == null || schema.getAnyOf().isEmpty())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains oneOf and may or may not have
+     * properties/allOf/anyOf defined.
+     *
+     * @param schema the schema
+     * @return true if allOf is not empty
+     */
+    public static boolean hasOneOf(Schema schema) {
+        if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains anyOf but
+     * no properties/allOf/anyOf defined.
+     *
+     * @param schema the schema
+     * @return true if the schema contains oneOf but no properties/allOf/anyOf defined.
+     */
+    public static boolean isAnyOf(Schema schema) {
+        if (hasAnyOf(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                (schema.getAllOf() == null || schema.getAllOf().isEmpty()) &&
+                (schema.getOneOf() == null || schema.getOneOf().isEmpty())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema contains anyOf and may or may not have
+     * properties/allOf/oneOf defined.
+     *
+     * @param schema the schema
+     * @return true if anyOf is not empty
+     */
+    public static boolean hasAnyOf(Schema schema) {
+        if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if any of the common attributes of the schema (e.g. readOnly, default, maximum, etc) is defined.
+     *
+     * @param schema the schema
+     * @return true if allOf is not empty
+     */
+    public static boolean hasCommonAttributesDefined(Schema schema) {
+        if (schema.getNullable() != null || schema.getDefault() != null ||
+                schema.getMinimum() != null || schema.getMaximum() != null ||
+                schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null ||
+                schema.getMinLength() != null || schema.getMaxLength() != null ||
+                schema.getMinItems() != null || schema.getMaxItems() != null ||
+                schema.getReadOnly() != null || schema.getWriteOnly() != null ||
+                schema.getPattern() != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @FunctionalInterface
+    private interface OpenAPISchemaVisitor {
+
+        void visit(Schema schema, String mimeType);
+    }
+
+    private static final class SchemaValidations {
+
+        public static Set<String> ARRAY_VALIDATIONS = new ValidationSetBuilder()
+                .withMinItems()
+                .withMaxItems()
+                .withUniqueItems()
+                .build();
+        public static Set<String> OBJECT_VALIDATIONS = new ValidationSetBuilder()
+                .withMinProperties()
+                .withMaxProperties()
+                .build();
+        public static Set<String> STRING_VALIDATIONS = new ValidationSetBuilder()
+                .withMinLength()
+                .withMaxLength()
+                .withPattern()
+                .build();
+        public static Set<String> NUMERIC_VALIDATIONS = new ValidationSetBuilder()
+                .withMultipleOf()
+                .withMinimum()
+                .withMaximum()
+                .withExclusiveMinimum()
+                .withExclusiveMaximum()
+                .build();
+
+        public static Set<String> ALL_VALIDATIONS;
+
+        static {
+            ALL_VALIDATIONS = new HashSet<>(ARRAY_VALIDATIONS);
+            ALL_VALIDATIONS.addAll(OBJECT_VALIDATIONS);
+            ALL_VALIDATIONS.addAll(STRING_VALIDATIONS);
+            ALL_VALIDATIONS.addAll(NUMERIC_VALIDATIONS);
+        }
+
+        SchemaValidations() {
+        }
+
+
+        public static class ValidationSetBuilder {
+            LinkedHashSet<String> validationSet;
+
+            ValidationSetBuilder() {
+                this.validationSet = new LinkedHashSet<String>();
+            }
+
+            public ValidationSetBuilder withMinItems() {
+                this.validationSet.add("minItems");
+                return this;
+            }
+
+            public ValidationSetBuilder withMaxItems() {
+                this.validationSet.add("maxItems");
+                return this;
+            }
+
+            public ValidationSetBuilder withUniqueItems() {
+                this.validationSet.add("uniqueItems");
+                return this;
+            }
+
+            public ValidationSetBuilder withMinProperties() {
+                this.validationSet.add("minProperties");
+                return this;
+            }
+
+            public ValidationSetBuilder withMaxProperties() {
+                this.validationSet.add("maxProperties");
+                return this;
+            }
+
+            public ValidationSetBuilder withMinLength() {
+                this.validationSet.add("minLength");
+                return this;
+            }
+
+            public ValidationSetBuilder withMaxLength() {
+                this.validationSet.add("maxLength");
+                return this;
+            }
+
+            public ValidationSetBuilder withPattern() {
+                this.validationSet.add("pattern");
+                return this;
+            }
+
+            public ValidationSetBuilder withMultipleOf() {
+                this.validationSet.add("multipleOf");
+                return this;
+            }
+
+            public ValidationSetBuilder withMinimum() {
+                this.validationSet.add("minimum");
+                return this;
+            }
+
+            public ValidationSetBuilder withMaximum() {
+                this.validationSet.add("maximum");
+                return this;
+            }
+
+            public ValidationSetBuilder withExclusiveMinimum() {
+                this.validationSet.add("exclusiveMinimum");
+                return this;
+            }
+
+            public ValidationSetBuilder withExclusiveMaximum() {
+                this.validationSet.add("exclusiveMaximum");
+                return this;
+            }
+
+            public LinkedHashSet<String> build() {
+                return this.validationSet;
+            }
+        }
     }
 }

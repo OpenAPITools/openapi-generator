@@ -34,6 +34,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -52,7 +56,7 @@ import org.openapitools.client.JSON;
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String SERIALIZED_NAME_VALUES = "values";
   @SerializedName(SERIALIZED_NAME_VALUES)
-  private List<String> values = new ArrayList<>();
+  private List<String> values;
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -76,7 +80,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * @return values
   **/
   @javax.annotation.Nullable
-
   public List<String> getValues() {
     return values;
   }

@@ -145,7 +145,7 @@ namespace {{packageName}}.Client
                                 {
                                     "{{{name}}}", new Dictionary<string, object> {
                                         {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
-                                        {"default_value", "{{{defaultValue}}}"},
+                                        {"default_value", {{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}"{{{defaultValue}}}"},
                                         {{#enumValues}}
                                         {{#-first}}
                                         {

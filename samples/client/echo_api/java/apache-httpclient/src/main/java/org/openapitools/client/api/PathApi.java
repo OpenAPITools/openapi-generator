@@ -23,6 +23,7 @@ import org.openapitools.client.Pair;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PathApi {
+
+
   private ApiClient apiClient;
 
   public PathApi() {
@@ -57,6 +60,20 @@ public class PathApi {
    * @throws ApiException if fails to make API call
    */
   public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
+    return this.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test path parameter(s)
+   * Test path parameter(s)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pathString' is set
@@ -83,6 +100,8 @@ public class PathApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -114,4 +133,5 @@ public class PathApi {
         localVarReturnType
     );
   }
+
 }

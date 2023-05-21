@@ -9,3 +9,4 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   useOneOfDiscriminatorLookup: true
   targetFramework: net47
+  skipOneOfAnyOfGetter: true

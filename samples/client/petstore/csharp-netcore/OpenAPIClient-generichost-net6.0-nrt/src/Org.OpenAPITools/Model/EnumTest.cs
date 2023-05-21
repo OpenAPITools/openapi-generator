@@ -45,36 +45,6 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public EnumTest(EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumInteger outerEnumInteger, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, OuterEnum? outerEnum = default)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (enumString == null)
-                throw new ArgumentNullException("enumString is a required property for EnumTest and cannot be null.");
-
-            if (enumStringRequired == null)
-                throw new ArgumentNullException("enumStringRequired is a required property for EnumTest and cannot be null.");
-
-            if (enumInteger == null)
-                throw new ArgumentNullException("enumInteger is a required property for EnumTest and cannot be null.");
-
-            if (enumIntegerOnly == null)
-                throw new ArgumentNullException("enumIntegerOnly is a required property for EnumTest and cannot be null.");
-
-            if (enumNumber == null)
-                throw new ArgumentNullException("enumNumber is a required property for EnumTest and cannot be null.");
-
-            if (outerEnumInteger == null)
-                throw new ArgumentNullException("outerEnumInteger is a required property for EnumTest and cannot be null.");
-
-            if (outerEnumDefaultValue == null)
-                throw new ArgumentNullException("outerEnumDefaultValue is a required property for EnumTest and cannot be null.");
-
-            if (outerEnumIntegerDefaultValue == null)
-                throw new ArgumentNullException("outerEnumIntegerDefaultValue is a required property for EnumTest and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             EnumInteger = enumInteger;
             EnumIntegerOnly = enumIntegerOnly;
             EnumNumber = enumNumber;
@@ -84,7 +54,10 @@ namespace Org.OpenAPITools.Model
             OuterEnumInteger = outerEnumInteger;
             OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
             OuterEnum = outerEnum;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines EnumInteger
@@ -100,7 +73,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
             NUMBER_MINUS_1 = -1
-
         }
 
         /// <summary>
@@ -150,7 +122,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
             NUMBER_MINUS_2 = -2
-
         }
 
         /// <summary>
@@ -200,7 +171,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1_DOT_2 for value: -1.2
             /// </summary>
             NUMBER_MINUS_1_DOT_2 = 2
-
         }
 
         /// <summary>
@@ -261,7 +231,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             Empty = 3
-
         }
 
         /// <summary>
@@ -328,7 +297,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             Empty = 3
-
         }
 
         /// <summary>
@@ -427,12 +395,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -486,13 +455,16 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "enum_integer":
-                            enumInteger = (EnumTest.EnumIntegerEnum) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                enumInteger = (EnumTest.EnumIntegerEnum)utf8JsonReader.GetInt32();
                             break;
                         case "enum_integer_only":
-                            enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                enumIntegerOnly = (EnumTest.EnumIntegerOnlyEnum)utf8JsonReader.GetInt32();
                             break;
                         case "enum_number":
-                            enumNumber = (EnumTest.EnumNumberEnum) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                enumNumber = (EnumTest.EnumNumberEnum)utf8JsonReader.GetInt32();
                             break;
                         case "enum_string":
                             string enumStringRawValue = utf8JsonReader.GetString();
@@ -523,6 +495,36 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (enumString == null)
+                throw new ArgumentNullException(nameof(enumString), "Property is required for class EnumTest.");
+
+            if (enumStringRequired == null)
+                throw new ArgumentNullException(nameof(enumStringRequired), "Property is required for class EnumTest.");
+
+            if (enumInteger == null)
+                throw new ArgumentNullException(nameof(enumInteger), "Property is required for class EnumTest.");
+
+            if (enumIntegerOnly == null)
+                throw new ArgumentNullException(nameof(enumIntegerOnly), "Property is required for class EnumTest.");
+
+            if (enumNumber == null)
+                throw new ArgumentNullException(nameof(enumNumber), "Property is required for class EnumTest.");
+
+            if (outerEnumInteger == null)
+                throw new ArgumentNullException(nameof(outerEnumInteger), "Property is required for class EnumTest.");
+
+            if (outerEnumDefaultValue == null)
+                throw new ArgumentNullException(nameof(outerEnumDefaultValue), "Property is required for class EnumTest.");
+
+            if (outerEnumIntegerDefaultValue == null)
+                throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is required for class EnumTest.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new EnumTest(enumInteger, enumIntegerOnly, enumNumber, enumString, enumStringRequired, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum);
         }

@@ -123,8 +123,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
         typeMapping.put("long", "long");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
         typeMapping.put("decimal", "decimal");
@@ -789,7 +791,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if (datatype.startsWith("int") || datatype.startsWith("long") ||
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("ulong") || datatype.startsWith("long") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");

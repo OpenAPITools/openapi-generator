@@ -36,6 +36,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -119,7 +123,7 @@ public class DefaultValue {
 
   public static final String SERIALIZED_NAME_ARRAY_STRING = "array_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING)
-  private List<String> arrayString = new ArrayList<>();
+  private List<String> arrayString;
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_NULLABLE = "array_string_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_NULLABLE)
@@ -155,7 +159,6 @@ public class DefaultValue {
    * @return arrayStringEnumRefDefault
   **/
   @javax.annotation.Nullable
-
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
     return arrayStringEnumRefDefault;
   }
@@ -185,7 +188,6 @@ public class DefaultValue {
    * @return arrayStringEnumDefault
   **/
   @javax.annotation.Nullable
-
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
     return arrayStringEnumDefault;
   }
@@ -215,7 +217,6 @@ public class DefaultValue {
    * @return arrayStringDefault
   **/
   @javax.annotation.Nullable
-
   public List<String> getArrayStringDefault() {
     return arrayStringDefault;
   }
@@ -245,7 +246,6 @@ public class DefaultValue {
    * @return arrayIntegerDefault
   **/
   @javax.annotation.Nullable
-
   public List<Integer> getArrayIntegerDefault() {
     return arrayIntegerDefault;
   }
@@ -275,7 +275,6 @@ public class DefaultValue {
    * @return arrayString
   **/
   @javax.annotation.Nullable
-
   public List<String> getArrayString() {
     return arrayString;
   }
@@ -293,6 +292,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringNullableItem(String arrayStringNullableItem) {
+    if (this.arrayStringNullable == null) {
+      this.arrayStringNullable = new ArrayList<>();
+    }
     this.arrayStringNullable.add(arrayStringNullableItem);
     return this;
   }
@@ -302,7 +304,6 @@ public class DefaultValue {
    * @return arrayStringNullable
   **/
   @javax.annotation.Nullable
-
   public List<String> getArrayStringNullable() {
     return arrayStringNullable;
   }
@@ -320,6 +321,9 @@ public class DefaultValue {
   }
 
   public DefaultValue addArrayStringExtensionNullableItem(String arrayStringExtensionNullableItem) {
+    if (this.arrayStringExtensionNullable == null) {
+      this.arrayStringExtensionNullable = new ArrayList<>();
+    }
     this.arrayStringExtensionNullable.add(arrayStringExtensionNullableItem);
     return this;
   }
@@ -329,7 +333,6 @@ public class DefaultValue {
    * @return arrayStringExtensionNullable
   **/
   @javax.annotation.Nullable
-
   public List<String> getArrayStringExtensionNullable() {
     return arrayStringExtensionNullable;
   }
@@ -351,7 +354,6 @@ public class DefaultValue {
    * @return stringNullable
   **/
   @javax.annotation.Nullable
-
   public String getStringNullable() {
     return stringNullable;
   }

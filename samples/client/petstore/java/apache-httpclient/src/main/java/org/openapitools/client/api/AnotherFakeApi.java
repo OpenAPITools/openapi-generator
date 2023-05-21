@@ -24,6 +24,7 @@ import org.openapitools.client.model.Client;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
+
+
   private ApiClient apiClient;
 
   public AnotherFakeApi() {
@@ -57,6 +60,19 @@ public class AnotherFakeApi {
    * @throws ApiException if fails to make API call
    */
   public Client call123testSpecialTags(Client client) throws ApiException {
+    return this.call123testSpecialTags(client, Collections.emptyMap());
+  }
+
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client call123testSpecialTags(Client client, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
@@ -76,6 +92,8 @@ public class AnotherFakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -107,4 +125,5 @@ public class AnotherFakeApi {
         localVarReturnType
     );
   }
+
 }

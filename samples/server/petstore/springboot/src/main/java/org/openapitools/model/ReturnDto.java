@@ -25,7 +25,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ReturnDto {
 
-  @JsonProperty("return")
   private Integer _return;
 
   public ReturnDto _return(Integer _return) {
@@ -39,6 +38,7 @@ public class ReturnDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("return")
   public Integer getReturn() {
     return _return;
   }

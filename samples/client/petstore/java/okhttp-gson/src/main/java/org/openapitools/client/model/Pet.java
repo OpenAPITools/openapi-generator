@@ -36,6 +36,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -70,7 +74,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -139,7 +143,6 @@ public class Pet {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -161,7 +164,6 @@ public class Pet {
    * @return category
   **/
   @javax.annotation.Nullable
-
   public Category getCategory() {
     return category;
   }
@@ -183,7 +185,6 @@ public class Pet {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
@@ -201,6 +202,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -210,7 +214,6 @@ public class Pet {
    * @return photoUrls
   **/
   @javax.annotation.Nonnull
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -240,7 +243,6 @@ public class Pet {
    * @return tags
   **/
   @javax.annotation.Nullable
-
   public List<Tag> getTags() {
     return tags;
   }
@@ -262,7 +264,6 @@ public class Pet {
    * @return status
   **/
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }

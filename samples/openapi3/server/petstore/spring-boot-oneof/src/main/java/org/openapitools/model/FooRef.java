@@ -26,14 +26,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FooRef extends EntityRef implements FooRefOrValue {
 
-  @JsonProperty("foorefPropA")
   private String foorefPropA;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FooRef#FooRef(String)}
-   */
-  @Deprecated
   public FooRef() {
     super();
   }
@@ -56,6 +50,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   */
   
   @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foorefPropA")
   public String getFoorefPropA() {
     return foorefPropA;
   }

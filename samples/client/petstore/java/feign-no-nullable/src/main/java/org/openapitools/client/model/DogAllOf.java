@@ -64,7 +64,6 @@ public class DogAllOf {
     this.breed = breed;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

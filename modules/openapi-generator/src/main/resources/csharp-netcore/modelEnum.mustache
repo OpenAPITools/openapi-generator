@@ -34,8 +34,10 @@
         [EnumMember(Value = "{{{value}}}")]
         {{/useGenericHost}}
         {{/isString}}
-        {{name}} = {{^isString}}{{{value}}}{{/isString}}{{#isString}}{{-index}}{{/isString}}{{^-last}},{{/-last}}
+        {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}}{{^vendorExtensions.x-zero-based-enum}} = {{-index}}{{/vendorExtensions.x-zero-based-enum}}{{/isString}}{{^-last}},{{/-last}}
+        {{^-last}}
 
+        {{/-last}}
         {{/enumVars}}
         {{/allowableValues}}
     }
@@ -76,7 +78,7 @@
             {{#allowableValues}}
             {{#enumVars}}
             if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
-                return {{^isNumeric}}"{{/isNumeric}}{{value}}{{^isNumeric}}"{{/isNumeric}};
+                return {{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}};
 
             {{/enumVars}}
             {{/allowableValues}}

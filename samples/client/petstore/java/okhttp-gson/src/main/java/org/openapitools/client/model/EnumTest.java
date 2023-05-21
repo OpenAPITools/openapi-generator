@@ -37,6 +37,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -342,7 +346,6 @@ public class EnumTest {
    * @return enumString
   **/
   @javax.annotation.Nullable
-
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -364,7 +367,6 @@ public class EnumTest {
    * @return enumStringRequired
   **/
   @javax.annotation.Nonnull
-
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -386,7 +388,6 @@ public class EnumTest {
    * @return enumInteger
   **/
   @javax.annotation.Nullable
-
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -408,7 +409,6 @@ public class EnumTest {
    * @return enumIntegerOnly
   **/
   @javax.annotation.Nullable
-
   public EnumIntegerOnlyEnum getEnumIntegerOnly() {
     return enumIntegerOnly;
   }
@@ -430,7 +430,6 @@ public class EnumTest {
    * @return enumNumber
   **/
   @javax.annotation.Nullable
-
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -452,7 +451,6 @@ public class EnumTest {
    * @return outerEnum
   **/
   @javax.annotation.Nullable
-
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -474,7 +472,6 @@ public class EnumTest {
    * @return outerEnumInteger
   **/
   @javax.annotation.Nullable
-
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
@@ -496,7 +493,6 @@ public class EnumTest {
    * @return outerEnumDefaultValue
   **/
   @javax.annotation.Nullable
-
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
@@ -518,7 +514,6 @@ public class EnumTest {
    * @return outerEnumIntegerDefaultValue
   **/
   @javax.annotation.Nullable
-
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }

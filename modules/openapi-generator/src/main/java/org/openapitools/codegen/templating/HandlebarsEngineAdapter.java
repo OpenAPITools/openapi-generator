@@ -36,9 +36,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.AccessibleObject;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
      final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
@@ -68,12 +71,35 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             }
         };
 
+        // $ref: https://github.com/jknack/handlebars.java/issues/917
+        var MY_FIELD_VALUE_RESOLVER = new FieldValueResolver() {
+            @Override
+            protected Set<FieldWrapper> members(
+                    Class<?> clazz) {
+                var members = super.members(clazz);
+                return members.stream()
+                    .filter(fw -> isValidField(fw))
+                    .collect(Collectors.toSet());
+            }
+
+            boolean isValidField(
+                    FieldWrapper fw) {
+                if (fw instanceof AccessibleObject) {
+                    if (isUseSetAccessible(fw)) {
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            }
+        };
+
         Context context = Context
                 .newBuilder(bundle)
                 .resolver(
                         MapValueResolver.INSTANCE,
                         JavaBeanValueResolver.INSTANCE,
-                        FieldValueResolver.INSTANCE,
+                        MY_FIELD_VALUE_RESOLVER.INSTANCE,
                         MethodValueResolver.INSTANCE)
                 .build();
 

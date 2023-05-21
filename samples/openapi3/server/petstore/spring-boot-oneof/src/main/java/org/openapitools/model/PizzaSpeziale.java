@@ -27,14 +27,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class PizzaSpeziale extends Pizza {
 
-  @JsonProperty("toppings")
   private String toppings;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link PizzaSpeziale#PizzaSpeziale(String)}
-   */
-  @Deprecated
   public PizzaSpeziale() {
     super();
   }
@@ -57,6 +51,7 @@ public class PizzaSpeziale extends Pizza {
   */
   
   @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("toppings")
   public String getToppings() {
     return toppings;
   }

@@ -17,6 +17,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 /**
@@ -41,6 +42,7 @@ data class ModelWithEnumPropertyHavingDefault (
      *
      * Values: vALUE,unknownDefaultOpenApi
      */
+    @JsonClass(generateAdapter = false)
     enum class PropertyName(val value: kotlin.String) {
         @Json(name = "VALUE") vALUE("VALUE"),
         @Json(name = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");

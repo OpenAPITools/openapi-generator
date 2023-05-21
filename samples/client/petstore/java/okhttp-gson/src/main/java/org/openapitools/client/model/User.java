@@ -33,6 +33,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -111,7 +115,6 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -133,7 +136,6 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-
   public String getUsername() {
     return username;
   }
@@ -155,7 +157,6 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-
   public String getFirstName() {
     return firstName;
   }
@@ -177,7 +178,6 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-
   public String getLastName() {
     return lastName;
   }
@@ -199,7 +199,6 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-
   public String getEmail() {
     return email;
   }
@@ -221,7 +220,6 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-
   public String getPassword() {
     return password;
   }
@@ -243,7 +241,6 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-
   public String getPhone() {
     return phone;
   }
@@ -265,7 +262,6 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -287,7 +283,6 @@ public class User {
    * @return objectWithNoDeclaredProps
   **/
   @javax.annotation.Nullable
-
   public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
   }
@@ -309,7 +304,6 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
   **/
   @javax.annotation.Nullable
-
   public Object getObjectWithNoDeclaredPropsNullable() {
     return objectWithNoDeclaredPropsNullable;
   }
@@ -331,7 +325,6 @@ public class User {
    * @return anyTypeProp
   **/
   @javax.annotation.Nullable
-
   public Object getAnyTypeProp() {
     return anyTypeProp;
   }
@@ -353,7 +346,6 @@ public class User {
    * @return anyTypePropNullable
   **/
   @javax.annotation.Nullable
-
   public Object getAnyTypePropNullable() {
     return anyTypePropNullable;
   }

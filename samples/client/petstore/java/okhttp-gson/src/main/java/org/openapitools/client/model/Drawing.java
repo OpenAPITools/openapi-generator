@@ -39,6 +39,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -69,7 +73,7 @@ public class Drawing {
 
   public static final String SERIALIZED_NAME_SHAPES = "shapes";
   @SerializedName(SERIALIZED_NAME_SHAPES)
-  private List<Shape> shapes = new ArrayList<>();
+  private List<Shape> shapes;
 
   public Drawing() {
   }
@@ -85,7 +89,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-
   public Shape getMainShape() {
     return mainShape;
   }
@@ -107,7 +110,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
@@ -129,7 +131,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-
   public NullableShape getNullableShape() {
     return nullableShape;
   }
@@ -159,7 +160,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-
   public List<Shape> getShapes() {
     return shapes;
   }

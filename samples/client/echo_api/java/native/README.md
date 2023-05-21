@@ -83,12 +83,11 @@ public class BodyApiExample {
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
         BodyApi apiInstance = new BodyApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            Pet result = apiInstance.testEchoBodyPet(pet);
+            File result = apiInstance.testBinaryGif();
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling BodyApi#testEchoBodyPet");
+            System.err.println("Exception when calling BodyApi#testBinaryGif");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -105,16 +104,26 @@ All URIs are relative to *http://localhost:3000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
+*BodyApi* | [**testBinaryGifWithHttpInfo**](docs/BodyApi.md#testBinaryGifWithHttpInfo) | **POST** /binary/gif | Test binary (gif) response body
+*BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
+*BodyApi* | [**testBodyApplicationOctetstreamBinaryWithHttpInfo**](docs/BodyApi.md#testBodyApplicationOctetstreamBinaryWithHttpInfo) | **POST** /body/application/octetstream/binary | Test body parameter(s)
+*BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
+*BodyApi* | [**testEchoBodyFreeFormObjectResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseStringWithHttpInfo) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**testEchoBodyPetResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetResponseStringWithHttpInfo) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
+*BodyApi* | [**testEchoBodyTagResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyTagResponseStringWithHttpInfo) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormIntegerBooleanStringWithHttpInfo**](docs/FormApi.md#testFormIntegerBooleanStringWithHttpInfo) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *HeaderApi* | [**testHeaderIntegerBooleanString**](docs/HeaderApi.md#testHeaderIntegerBooleanString) | **GET** /header/integer/boolean/string | Test header parameter(s)
 *HeaderApi* | [**testHeaderIntegerBooleanStringWithHttpInfo**](docs/HeaderApi.md#testHeaderIntegerBooleanStringWithHttpInfo) | **GET** /header/integer/boolean/string | Test header parameter(s)
 *PathApi* | [**testsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 *PathApi* | [**testsPathStringPathStringIntegerPathIntegerWithHttpInfo**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*QueryApi* | [**testEnumRefString**](docs/QueryApi.md#testEnumRefString) | **GET** /query/enum_ref_string | Test query parameter(s)
+*QueryApi* | [**testEnumRefStringWithHttpInfo**](docs/QueryApi.md#testEnumRefStringWithHttpInfo) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**testQueryDatetimeDateString**](docs/QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**testQueryDatetimeDateStringWithHttpInfo**](docs/QueryApi.md#testQueryDatetimeDateStringWithHttpInfo) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
@@ -138,6 +147,7 @@ Class | Method | HTTP request | Description
  - [DataQuery](docs/DataQuery.md)
  - [DataQueryAllOf](docs/DataQueryAllOf.md)
  - [DefaultValue](docs/DefaultValue.md)
+ - [NumberPropertiesOnly](docs/NumberPropertiesOnly.md)
  - [Pet](docs/Pet.md)
  - [Query](docs/Query.md)
  - [StringEnumRef](docs/StringEnumRef.md)
@@ -146,10 +156,11 @@ Class | Method | HTTP request | Description
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
-Authentication schemes defined for the API:
+Endpoints do not require authorization.
+
 
 ## Recommendation
 

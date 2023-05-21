@@ -36,7 +36,7 @@ class OuterEnum {
 
   static OuterEnum? fromJson(dynamic value) => OuterEnumTypeTransformer().decode(value);
 
-  static List<OuterEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<OuterEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

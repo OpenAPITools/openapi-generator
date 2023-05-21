@@ -74,6 +74,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
     public static final String OMIT_GRADLE_PLUGIN_VERSIONS = "omitGradlePluginVersions";
     public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
+    public static final String USE_SETTINGS_GRADLE = "useSettingsGradle";
     public static final String IDEA = "idea";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -98,9 +99,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
     protected String roomModelPackage = "";
-
+    protected boolean omitGradleWrapper = false;
 
     protected String authFolder;
+
 
     public enum DateLibrary {
         STRING("string"),
@@ -238,6 +240,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
+        cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
         cliOptions.add(CliOption.newBoolean(IDEA, "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
 
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
@@ -261,6 +264,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getGenerateRoomModels() {
         return generateRoomModels;
+    }
+
+    public boolean getOmitGradleWrapper() {
+        return omitGradleWrapper;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -332,6 +339,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setRoomModelPackage(String roomModelPackage) {
         this.roomModelPackage = roomModelPackage;
+    }
+
+    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
+        this.omitGradleWrapper = omitGradleWrapper;
     }
 
     @Override
@@ -422,6 +433,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(REQUEST_DATE_CONVERTER)) {
             setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
+        }
+
+        if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
+            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
         }
 
         commonSupportingFiles();
@@ -785,10 +800,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         // gradle wrapper supporting files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        if (!getOmitGradleWrapper()) {
+            supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+            supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        }
     }
 
     @Override

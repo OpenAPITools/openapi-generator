@@ -32,6 +32,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -74,7 +78,6 @@ public class ModelApiResponse {
    * @return code
   **/
   @javax.annotation.Nullable
-
   public Integer getCode() {
     return code;
   }
@@ -96,7 +99,6 @@ public class ModelApiResponse {
    * @return type
   **/
   @javax.annotation.Nullable
-
   public String getType() {
     return type;
   }
@@ -118,7 +120,6 @@ public class ModelApiResponse {
    * @return message
   **/
   @javax.annotation.Nullable
-
   public String getMessage() {
     return message;
   }

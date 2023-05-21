@@ -158,7 +158,7 @@ _bodyData=jsonEncode(pet);
   /// Returns a [Future] containing a [Response] with a [List<Pet>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<List<Pet>>> findPetsByStatus({ 
-    required List<String> status,
+    @Deprecated('status is deprecated') required List<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -197,10 +197,11 @@ _bodyData=jsonEncode(pet);
       onReceiveProgress: onReceiveProgress,
     );
 
-    List<Pet> _responseData;
+    List<Pet>? _responseData;
 
     try {
-_responseData = deserialize<List<Pet>, Pet>(_response.data!, 'List<Pet>', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'List<Pet>', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -278,10 +279,11 @@ _responseData = deserialize<List<Pet>, Pet>(_response.data!, 'List<Pet>', growab
       onReceiveProgress: onReceiveProgress,
     );
 
-    Set<Pet> _responseData;
+    Set<Pet>? _responseData;
 
     try {
-_responseData = deserialize<Set<Pet>, Pet>(_response.data!, 'Set<Pet>', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Set<Pet>', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -355,10 +357,11 @@ _responseData = deserialize<Set<Pet>, Pet>(_response.data!, 'Set<Pet>', growable
       onReceiveProgress: onReceiveProgress,
     );
 
-    Pet _responseData;
+    Pet? _responseData;
 
     try {
-_responseData = deserialize<Pet, Pet>(_response.data!, 'Pet', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -596,10 +599,11 @@ _bodyData=jsonEncode(pet);
       onReceiveProgress: onReceiveProgress,
     );
 
-    ApiResponse _responseData;
+    ApiResponse? _responseData;
 
     try {
-_responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiResponse', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -693,10 +697,11 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
       onReceiveProgress: onReceiveProgress,
     );
 
-    ApiResponse _responseData;
+    ApiResponse? _responseData;
 
     try {
-_responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiResponse', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,

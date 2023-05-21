@@ -64,14 +64,8 @@ public class BigCat extends Cat {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCat#BigCat(String)}
-   */
-  @Deprecated
   public BigCat() {
     super();
   }
@@ -93,6 +87,7 @@ public class BigCat extends Cat {
    * @return kind
   */
   
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }

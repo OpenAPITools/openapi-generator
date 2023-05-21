@@ -31,7 +31,7 @@ import java.util.List;
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String SERIALIZED_NAME_VALUES = "values";
   @SerializedName(SERIALIZED_NAME_VALUES)
-  private List<String> values = new ArrayList<>();
+  private List<String> values;
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
@@ -64,7 +64,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public void setValues(List<String> values) {
     this.values = values;
   }
-
 
   @Override
   public boolean equals(Object o) {

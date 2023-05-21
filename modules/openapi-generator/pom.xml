@@ -60,7 +60,7 @@
                     <generateGitPropertiesFilename>${project.build.outputDirectory}/openapi-generator-git.properties</generateGitPropertiesFilename>
                     <!-- REVIEWER NOTE: Never allow external contributors to change these without full clarification. -->
                     <includeOnlyProperties>
-                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.version$</includeOnlyProperty>
                         <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
                     </includeOnlyProperties>
                     <commitIdGenerationMode>full</commitIdGenerationMode>
@@ -217,10 +217,6 @@
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
                     <debug>true</debug>
-                    <links>
-                        <link>http://java.sun.com/javaee/5/docs/api</link>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-                    </links>
                     <excludePackageNames/>
                 </configuration>
             </plugin>
@@ -271,6 +267,12 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

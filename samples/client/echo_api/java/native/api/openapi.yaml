@@ -99,6 +99,29 @@ paths:
       tags:
       - header
       x-accepts: text/plain
+  /query/enum_ref_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/enum_ref_string
+      parameters:
+      - explode: true
+        in: query
+        name: enum_ref_string_query
+        required: false
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/datetime/date/string:
     get:
       description: Test query parameter(s)
@@ -290,6 +313,28 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /body/application/octetstream/binary:
+    post:
+      description: Test body parameter(s)
+      operationId: test/body/application/octetstream/binary
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+      x-content-type: application/octet-stream
+      x-accepts: text/plain
   /echo/body/Pet:
     post:
       description: Test body parameter(s)
@@ -326,6 +371,62 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: text/plain
+  /echo/body/Tag/response_string:
+    post:
+      description: Test empty json (request body)
+      operationId: test/echo/body/Tag/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Tag'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test empty json (request body)
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: text/plain
+  /echo/body/FreeFormObject/response_string:
+    post:
+      description: Test free form object
+      operationId: test/echo/body/FreeFormObject/response_string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Free form object
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test free form object
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: text/plain
+  /binary/gif:
+    post:
+      description: Test binary (gif) response body
+      operationId: test/binary/gif
+      responses:
+        "200":
+          content:
+            image/gif:
+              schema:
+                format: binary
+                type: string
+          description: Successful operation
+      summary: Test binary (gif) response body
+      tags:
+      - body
+      x-accepts: image/gif
 components:
   requestBodies:
     Pet:
@@ -334,6 +435,12 @@ components:
           schema:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
+    Tag:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Tag'
+      description: Tag object
   schemas:
     Category:
       example:
@@ -505,6 +612,19 @@ components:
       allOf:
       - $ref: '#/components/schemas/DataQuery_allOf'
       - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      properties:
+        number:
+          type: number
+        float:
+          format: float
+          type: number
+        double:
+          format: double
+          maximum: 50.2
+          minimum: 0.8
+          type: number
+      type: object
     test_form_integer_boolean_string_request:
       properties:
         integer_form:

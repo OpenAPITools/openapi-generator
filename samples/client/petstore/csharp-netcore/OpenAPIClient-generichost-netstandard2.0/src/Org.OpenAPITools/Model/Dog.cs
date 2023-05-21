@@ -35,10 +35,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        internal Dog(DogAllOf dogAllOf, string className, string color = @"red") : base(className, color)
         {
             DogAllOf = dogAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets DogAllOf
@@ -126,12 +129,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, dog.DogAllOf, jsonSerializerOptions);
 
-            writer.WriteString("className", dog.ClassName);
-            writer.WriteString("color", dog.Color);
-
-            writer.WriteEndObject();
         }
     }
 }

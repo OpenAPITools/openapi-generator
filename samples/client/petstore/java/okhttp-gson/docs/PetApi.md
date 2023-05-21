@@ -15,7 +15,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 > addPet(pet)
 
@@ -82,7 +82,7 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **405** | Invalid input |  -  |
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
@@ -150,7 +150,7 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **400** | Invalid pet value |  -  |
 
-<a name="findPetsByStatus"></a>
+<a id="findPetsByStatus"></a>
 # **findPetsByStatus**
 > List&lt;Pet&gt; findPetsByStatus(status)
 
@@ -219,7 +219,7 @@ public class Example {
 | **200** | successful operation |  -  |
 | **400** | Invalid status value |  -  |
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
 > List&lt;Pet&gt; findPetsByTags(tags)
 
@@ -288,7 +288,7 @@ public class Example {
 | **200** | successful operation |  -  |
 | **400** | Invalid tag value |  -  |
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -359,7 +359,7 @@ public class Example {
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 > updatePet(pet)
 
@@ -428,7 +428,7 @@ null (empty response body)
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
@@ -498,7 +498,7 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **405** | Invalid input |  -  |
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
 > ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
@@ -569,7 +569,7 @@ public class Example {
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
-<a name="uploadFileWithRequiredFile"></a>
+<a id="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 

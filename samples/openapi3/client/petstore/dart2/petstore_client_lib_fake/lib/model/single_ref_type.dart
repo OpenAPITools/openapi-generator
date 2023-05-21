@@ -34,7 +34,7 @@ class SingleRefType {
 
   static SingleRefType? fromJson(dynamic value) => SingleRefTypeTypeTransformer().decode(value);
 
-  static List<SingleRefType>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<SingleRefType> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SingleRefType>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

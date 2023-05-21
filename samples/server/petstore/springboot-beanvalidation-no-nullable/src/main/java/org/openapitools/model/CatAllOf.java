@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOf {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {
@@ -37,6 +36,7 @@ public class CatAllOf {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

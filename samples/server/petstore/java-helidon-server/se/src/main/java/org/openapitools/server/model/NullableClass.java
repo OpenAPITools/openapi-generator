@@ -21,7 +21,7 @@ public class NullableClass extends HashMap<String, Object>  {
     private OffsetDateTime datetimeProp;
     private List<Object> arrayNullableProp;
     private List<Object> arrayAndItemsNullableProp;
-    private List<Object> arrayItemsNullable = new ArrayList<>();
+    private List<Object> arrayItemsNullable;
     private Map<String, Object> objectNullableProp;
     private Map<String, Object> objectAndItemsNullableProp;
     private Map<String, Object> objectItemsNullable = new HashMap<>();

@@ -124,8 +124,9 @@ public interface StoreApi {
 
     /**
      * POST /store/order : Place an order for a pet
+     * 
      *
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
@@ -143,12 +144,13 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = { "application/xml", "application/json" }
+        produces = { "application/xml", "application/json" },
+        consumes = { "application/json" }
     )
     default ResponseEntity<Order> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {
-        return getDelegate().placeOrder(body);
+        return getDelegate().placeOrder(order);
     }
 
 }

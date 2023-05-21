@@ -29,7 +29,7 @@ public class Pet   {
 
   private List<String> photoUrls = new ArrayList<>();
 
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
 
 public enum StatusEnum {
@@ -138,6 +138,9 @@ public enum StatusEnum {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }

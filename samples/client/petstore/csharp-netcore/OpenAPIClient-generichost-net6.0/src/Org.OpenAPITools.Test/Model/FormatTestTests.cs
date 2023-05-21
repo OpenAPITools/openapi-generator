@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -152,6 +151,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Password'
         }
         /// <summary>
+        /// Test the property 'PatternWithBackslash'
+        /// </summary>
+        [Fact]
+        public void PatternWithBackslashTest()
+        {
+            // TODO unit test for the property 'PatternWithBackslash'
+        }
+        /// <summary>
         /// Test the property 'PatternWithDigits'
         /// </summary>
         [Fact]
@@ -174,6 +181,22 @@ namespace Org.OpenAPITools.Test.Model
         public void StringPropertyTest()
         {
             // TODO unit test for the property 'StringProperty'
+        }
+        /// <summary>
+        /// Test the property 'UnsignedInteger'
+        /// </summary>
+        [Fact]
+        public void UnsignedIntegerTest()
+        {
+            // TODO unit test for the property 'UnsignedInteger'
+        }
+        /// <summary>
+        /// Test the property 'UnsignedLong'
+        /// </summary>
+        [Fact]
+        public void UnsignedLongTest()
+        {
+            // TODO unit test for the property 'UnsignedLong'
         }
         /// <summary>
         /// Test the property 'Uuid'

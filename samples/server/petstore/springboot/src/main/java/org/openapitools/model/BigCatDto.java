@@ -69,14 +69,8 @@ public class BigCatDto extends CatDto {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCatDto#BigCatDto(String)}
-   */
-  @Deprecated
   public BigCatDto() {
     super();
   }
@@ -99,6 +93,7 @@ public class BigCatDto extends CatDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }

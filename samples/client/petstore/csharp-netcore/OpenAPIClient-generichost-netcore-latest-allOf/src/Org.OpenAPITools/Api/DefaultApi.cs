@@ -38,20 +38,8 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;Person?&gt;&gt;</returns>
-        Task<ApiResponse<Person?>> ListWithHttpInfoAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Person&gt;</returns>
-        Task<Person> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;Person&gt;&gt;</returns>
+        Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// 
@@ -61,8 +49,8 @@ namespace Org.OpenAPITools.IApi
         /// </remarks>
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Person?&gt;</returns>
-        Task<Person?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;Person&gt;?&gt;</returns>
+        Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
     }
 }
 
@@ -106,46 +94,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Person"/>&gt;</returns>
-        public async Task<Person> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Person?> result = await ListWithHttpInfoAsync(personId, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="personId">The id of the person to retrieve</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Person"/>&gt;</returns>
-        public async Task<Person?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Person?>? result = null;
-            try 
-            {
-                result = await ListWithHttpInfoAsync(personId, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
-
-        /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="personId"></param>
@@ -167,9 +115,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        protected virtual void AfterList(ApiResponse<Person?> apiResponse, string personId)
+        protected virtual void AfterList(ApiResponse<Person> apiResponseLocalVar, string personId)
         {
         }
 
@@ -188,63 +136,77 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         ///  
         /// </summary>
+        /// <param name="personId">The id of the person to retrieve</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
+        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
+        {
+            try
+            {
+                return await ListAsync(personId, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person?>> ListWithHttpInfoAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
                 personId = OnList(personId);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/person/display/{personId}";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/person/display/{personId}";
 
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7BpersonId%7D", Uri.EscapeDataString(personId.ToString()));
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpersonId%7D", Uri.EscapeDataString(personId.ToString()));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] accepts = new string[] { 
+                    string[] acceptLocalVars = new string[] { 
                         "application/json" 
                     };
 
-                    string? accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/person/display/{personId}", uriBuilder.Path));
+                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/person/display/{personId}", uriBuilderLocalVar.Path));
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
-                        ApiResponse<Person?> apiResponse = new ApiResponse<Person?>(responseMessage, responseContent);
+                        ApiResponse<Person> apiResponseLocalVar = new ApiResponse<Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<Person>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterList(apiResponse, personId);
-                        }
+                        AfterList(apiResponseLocalVar, personId);
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorList(e, "/person/display/{personId}", uriBuilder.Path, personId);
+                OnErrorList(e, "/person/display/{personId}", uriBuilderLocalVar.Path, personId);
                 throw;
             }
         }

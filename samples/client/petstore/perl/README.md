@@ -480,6 +480,7 @@ Class | Method | HTTP request | Description
 
 # DOCUMENTATION FOR AUTHORIZATION
 
+Authentication schemes defined for the API:
 ## petstore_auth
 
 - **Type**: OAuth
@@ -507,9 +508,9 @@ Class | Method | HTTP request | Description
 
 ## bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 ## http_signature_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 

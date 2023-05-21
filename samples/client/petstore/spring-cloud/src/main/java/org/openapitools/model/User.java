@@ -23,28 +23,20 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("username")
   private String username;
 
-  @JsonProperty("firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
   private String lastName;
 
-  @JsonProperty("email")
   private String email;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("phone")
   private String phone;
 
-  @JsonProperty("userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -58,6 +50,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -77,6 +70,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -96,6 +90,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -115,6 +110,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -134,6 +130,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -153,6 +150,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -172,6 +170,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -191,6 +190,7 @@ public class User {
   */
   
   @ApiModelProperty(value = "User Status")
+  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

@@ -157,14 +157,16 @@ public interface StoreApi {
 
     /**
      * POST /store/order : Place an order for a pet
+     * 
      *
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
     @Operation(
         operationId = "placeOrder",
         summary = "Place an order for a pet",
+        description = "",
         tags = { "store" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
@@ -177,10 +179,11 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = "application/json"
+        produces = "application/json",
+        consumes = "application/json"
     )
     default ResponseEntity<Order> placeOrder(
-        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

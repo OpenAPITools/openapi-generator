@@ -1,0 +1,55 @@
+openapi: 3.0.1
+info:
+  title: TEST
+  description: |-
+    ## TEST
+  version: 1.0.0
+
+servers:
+  - url: /v3
+    description: Major version of service
+
+tags:
+  - name: consent-controller
+    description: Consent API
+
+
+paths:
+  /paginated-with-params:
+    get:
+      tags:
+        - consent-controller
+      operationId: paginatedWithParams
+      x-spring-paginated: true
+      parameters:
+      - in: query
+        name: param1
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAgreement'
+  /paginated:
+    get:
+      tags:
+      - consent-controller
+      operationId: paginated
+      x-spring-paginated: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAgreement'
+components:
+  schemas:
+    ResponseAgreement:
+      type: object
+      properties:
+        agreementId:
+          type: string

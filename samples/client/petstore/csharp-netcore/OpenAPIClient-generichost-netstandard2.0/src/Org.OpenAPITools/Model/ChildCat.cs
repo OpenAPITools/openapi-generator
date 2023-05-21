@@ -37,7 +37,10 @@ namespace Org.OpenAPITools.Model
         internal ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ChildCatAllOf
@@ -121,11 +124,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, childCat.ChildCatAllOf, jsonSerializerOptions);
 
-            writer.WriteString("pet_type", childCat.PetType);
-
-            writer.WriteEndObject();
         }
     }
 }
