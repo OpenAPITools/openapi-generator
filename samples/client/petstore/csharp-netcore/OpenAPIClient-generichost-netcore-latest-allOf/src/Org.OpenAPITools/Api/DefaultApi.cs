@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Person&gt;&gt;</returns>
-        Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Person&gt;?&gt;</returns>
-        Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -190,11 +190,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/person/display/{personId}", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<Person> apiResponseLocalVar = new ApiResponse<Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 

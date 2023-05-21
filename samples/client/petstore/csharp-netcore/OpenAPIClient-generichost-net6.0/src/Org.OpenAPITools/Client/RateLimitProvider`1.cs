@@ -40,8 +40,7 @@ namespace Org.OpenAPITools.Client
             for (int i = 0; i < _tokens.Length; i++)
                 _tokens[i].TokenBecameAvailable += ((sender) => AvailableTokens.Writer.TryWrite((TTokenBase) sender));
         }
-
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null) 
-            => await AvailableTokens.Reader.ReadAsync(cancellation.GetValueOrDefault()).ConfigureAwait(false);
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default)
+            => await AvailableTokens.Reader.ReadAsync(cancellation).ConfigureAwait(false);
     }
 } 
