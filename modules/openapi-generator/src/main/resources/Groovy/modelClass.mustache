@@ -1,7 +1,19 @@
 @Canonical
 class {{classname}} {
 {{#vars}}
+        {{#isEnum}}
+
+        {{^isContainer}}
+    {{>modelEnum}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#mostInnerItems}}
+    {{>modelEnum}}
+        {{/mostInnerItems}}
+        {{/isContainer}}
+        {{/isEnum}}
+
     {{#description}}/* {{{.}}} */{{/description}}
-    {{{dataType}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+    {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
 {{/vars}}
 }
