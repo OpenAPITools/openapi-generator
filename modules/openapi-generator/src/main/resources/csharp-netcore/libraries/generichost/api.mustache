@@ -375,7 +375,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content{{nrt!}}.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
+                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content{{nrt!}}.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
                     httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
 
@@ -407,11 +407,11 @@ namespace {{packageName}}.{{apiPackage}}
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "{{path}}", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{^netStandard}}{{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}{{/netStandard}}).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
                         ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 

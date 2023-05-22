@@ -1,8 +1,14 @@
-name: Check Supported Java Versions
+name: Linux tests
+
 on:
   push:
     branches:
       - master
+      - '[5-9]+.[0-9]+.x'
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
 
 jobs:
   build:
@@ -10,15 +16,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        java: [8, 11]
+        java: [11, 17]
         os: [ubuntu-latest]
-        include:
-          - java: 8
-            os: windows-latest
-          - java: 17
-            os: ubuntu-latest
-            # Need to update to Gradle version with v17 support in modules/openapi-generator-gradle-plugin/pom.xml
-            flags: -am -pl modules/openapi-generator-cli -Dmaven.javadoc.skip=true -Dmaven.test.skip=true
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -45,15 +44,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: 3.9.0
+
       - name: Build with Maven
         shell: bash
-        run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml ${{ matrix.flags }}
+        run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v3
-        if: matrix.java == '8' && matrix.os == 'ubuntu-latest'
+        if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -63,7 +68,7 @@ jobs:
         run: gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
 
       - name: Test Maven plugin integration
-        if: matrix.java == '8'
+        if: matrix.java == '11'
         shell: bash
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
@@ -78,12 +83,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-#         include:
-#           - os: windows-latest
-#             flags: --skip-docs
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: 11
+          maven-version: 3.9.0
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:

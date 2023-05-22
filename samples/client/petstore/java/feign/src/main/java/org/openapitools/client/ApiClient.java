@@ -70,7 +70,7 @@ public class ApiClient {
       } else if ("bearer_test".equals(authName)) {
         auth = new HttpBearerAuth("bearer");
       } else if ("http_signature_test".equals(authName)) {
-        auth = new HttpBearerAuth("signature");
+        throw new RuntimeException("auth name \"" + authName + "\" does not have a supported http scheme type");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }

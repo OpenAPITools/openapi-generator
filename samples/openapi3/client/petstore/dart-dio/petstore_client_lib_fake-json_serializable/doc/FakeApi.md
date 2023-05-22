@@ -73,9 +73,6 @@ test http signature authentication
 ### Example
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: http_signature_test
-//defaultApiClient.getAuthentication<HttpBasicAuth>('http_signature_test').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('http_signature_test').password = 'YOUR_PASSWORD';
 
 final api = Openapi().getFakeApi();
 final Pet pet = ; // Pet | Pet object that needs to be added to the store
@@ -635,9 +632,6 @@ Fake endpoint to test group parameters (optional)
 ### Example
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure HTTP basic authorization: bearer_test
-//defaultApiClient.getAuthentication<HttpBasicAuth>('bearer_test').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('bearer_test').password = 'YOUR_PASSWORD';
 
 final api = Openapi().getFakeApi();
 final int requiredStringGroup = 56; // int | Required String in group parameters

@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.AbstractDateTimeDV;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.media.*;

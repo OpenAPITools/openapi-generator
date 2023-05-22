@@ -68,6 +68,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
+    protected static final String NET_STANDARD_14_OR_LATER = "netstandard14OrLater";
+    protected static final String NET_STANDARD_15_OR_LATER = "netstandard15OrLater";
+    protected static final String NET_STANDARD_16_OR_LATER = "netstandard16OrLater";
+    protected static final String NET_STANDARD_20_OR_LATER = "netstandard20OrLater";
+    protected static final String NET_STANDARD_21_OR_LATER = "netstandard21OrLater";
+    protected static final String NET_CORE_APP_31_OR_LATER = "netcoreapp31OrLater";
+    protected static final String NET_47_OR_LATER = "net47OrLater";
+    protected static final String NET_48_OR_LATER = "net48OrLater";
+    protected static final String NET_60_OR_LATER = "net60OrLater";
+    protected static final String NET_70_OR_LATER = "net70OrLater";
+
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
@@ -1400,6 +1411,77 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
+        }
+
+        if (strategies.stream().anyMatch(p -> Boolean.FALSE.equals(p.name == "netstandard1.3"))) {
+            if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.4"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.5"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.6"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.0"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.1"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netcoreapp3.1"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_CORE_APP_31_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net47"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_CORE_APP_31_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net48"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_CORE_APP_31_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net6.0"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_CORE_APP_31_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net7.0"))){
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_CORE_APP_31_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+            } else {
+                throw new RuntimeException("Unhanlded case");
+            }
         }
     }
 
