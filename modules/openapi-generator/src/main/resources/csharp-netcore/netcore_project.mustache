@@ -45,9 +45,9 @@
     <PackageReference Include="Polly" Version="{{^netStandard}}7.2.3{{/netStandard}}{{#netStandard}}7.2.3{{/netStandard}}" />
       {{/supportsRetry}}
     {{#validatable}}
-    {{#netStandard}}
+    {{^net60OrLater}}
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    {{/netStandard}}
+    {{/net60OrLater}}
     {{/validatable}}
   </ItemGroup>
 
