@@ -179,7 +179,6 @@ public class ApiClient extends JavaTimeFormatter {
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
     authentications.put("bearer_test", new HttpBearerAuth("bearer"));
-    authentications.put("http_signature_test", new HttpBearerAuth("signature"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 

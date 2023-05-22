@@ -43,7 +43,6 @@ paths:
         '405':
           description: Invalid input
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -63,7 +62,6 @@ paths:
         '405':
           description: Validation exception
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -110,7 +108,6 @@ paths:
         '400':
           description: Invalid status value
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -151,7 +148,6 @@ paths:
         '400':
           description: Invalid tag value
       security:
-        - http_signature_test: []
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
@@ -1197,12 +1193,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    http_signature_test:
-      # Test the 'HTTP signature' security scheme.
-      # Each HTTP request is cryptographically signed as specified
-      # in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-      type: http
-      scheme: signature
   schemas:
     Foo:
       type: object
