@@ -25,7 +25,7 @@ namespace Org.OpenAPITools
         /// </summary>
         protected TTokenBase[] _tokens;
 
-        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null);
+        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default);
 
         /// <summary>
         /// Instantiates a TokenProvider.
