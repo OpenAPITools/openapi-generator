@@ -183,6 +183,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
         rootJavaEEPackage = MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE;
+        addSchemaImportsFromV3SpecLocations = true;
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
