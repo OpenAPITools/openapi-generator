@@ -284,7 +284,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -398,6 +398,87 @@
                     <groupId>pl.project13.maven</groupId>
                     <artifactId>git-commit-id-plugin</artifactId>
                     <version>${git-commit-id-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.gradle</groupId>
+                    <artifactId>gradle-enterprise-maven-extension</artifactId>
+                    <configuration>
+                        <gradleEnterprise>
+                            <plugins>
+                                <plugin>
+                                    <groupId>org.apache.maven.plugins</groupId>
+                                    <artifactId>maven-enforcer-plugin</artifactId>
+                                    <executions>
+                                        <execution>
+                                            <id>enforce-versions</id>
+                                            <inputs>
+                                                <properties>
+                                                    <property>
+                                                        <name>fail</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>failFast</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>failIfNoRules</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>rulesToSkip</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>rulesToExecute</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>rules</name>
+                                                    </property>
+                                                    <property>
+                                                        <name>skip</name>
+                                                    </property>
+                                                </properties>
+                                                <ignoredProperties>
+                                                    <ignore>ignoreCache</ignore>
+                                                    <ignore>mojoExecution</ignore>
+                                                    <ignore>session</ignore>
+                                                </ignoredProperties>
+                                            </inputs>
+                                            <nestedProperties>
+                                                <property>
+                                                    <name>project</name>
+                                                    <iteratedProperties>
+                                                        <property>
+                                                            <name>dependencies</name>
+                                                            <inputs>
+                                                                <properties>
+                                                                    <property>
+                                                                        <name>groupId</name>
+                                                                    </property>
+                                                                    <property>
+                                                                        <name>artifactId</name>
+                                                                    </property>
+                                                                    <property>
+                                                                        <name>version</name>
+                                                                    </property>
+                                                                    <property>
+                                                                        <name>type</name>
+                                                                    </property>
+                                                                    <property>
+                                                                        <name>scope</name>
+                                                                    </property>
+                                                                </properties>
+                                                            </inputs>
+                                                        </property>
+                                                    </iteratedProperties>
+                                                </property>
+                                            </nestedProperties>
+                                            <outputs>
+                                                <cacheableBecause>version check should run in every build</cacheableBecause>
+                                            </outputs>
+                                        </execution>
+                                    </executions>
+                                </plugin>
+                            </plugins>
+                        </gradleEnterprise>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
