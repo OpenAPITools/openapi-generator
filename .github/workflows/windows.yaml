@@ -38,6 +38,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: 3.9.0
       - name: Run maven
         run: mvn --no-snapshot-updates --batch-mode --quiet install
         env:

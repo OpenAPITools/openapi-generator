@@ -44,6 +44,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: 3.9.0
+
       - name: Build with Maven
         shell: bash
         run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml
@@ -80,6 +86,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: 11
+          maven-version: 3.9.0
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
