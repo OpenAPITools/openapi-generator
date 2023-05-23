@@ -1,18 +1,20 @@
 @Canonical
 class {{classname}} {
 {{#vars}}
-        {{#isEnum}}
+    {{#isEnum}}
 
-        {{^isContainer}}
-    {{>modelEnum}}
-        {{/isContainer}}
-        {{#isContainer}}
-        {{#mostInnerItems}}
-    {{>modelEnum}}
-        {{/mostInnerItems}}
-        {{/isContainer}}
-        {{/isEnum}}
+    {{^isContainer}}
+{{#lambda.indented}}
+    {{>modelEnum}}{{/lambda.indented}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{#lambda.indented}}
+    {{>modelEnum}}{{/lambda.indented}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
 
+    {{/isEnum}}
     {{#description}}/* {{{.}}} */{{/description}}
     {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
 {{/vars}}

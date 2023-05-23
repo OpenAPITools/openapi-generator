@@ -1,5 +1,12 @@
 package {{invokerPackage}}
 
+import groovy.json.JsonBuilder
+import groovy.json.JsonGenerator
+import groovyx.net.http.ChainedHttpConfig
+import groovyx.net.http.ContentTypes
+import groovyx.net.http.NativeHandlers
+import groovyx.net.http.ToServer
+
 import static groovyx.net.http.HttpBuilder.configure
 import static java.net.URI.create
 
