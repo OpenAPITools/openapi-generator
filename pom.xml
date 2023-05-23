@@ -287,7 +287,7 @@
                 <version>3.3.0</version>
                 <executions>
                     <execution>
-                        <id>enforce-versions</id>
+                        <id>enforce-maven</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
@@ -410,7 +410,7 @@
                                     <artifactId>maven-enforcer-plugin</artifactId>
                                     <executions>
                                         <execution>
-                                            <id>enforce-versions</id>
+                                            <id>enforce-maven</id>
                                             <inputs>
                                                 <properties>
                                                     <property>
