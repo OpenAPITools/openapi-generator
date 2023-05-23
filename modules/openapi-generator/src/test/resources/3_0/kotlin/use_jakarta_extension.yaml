@@ -1,0 +1,33 @@
+openapi: "3.0.1"
+info:
+  title: example
+  version: "1.0"
+paths:
+  /locations:
+    post:
+      operationId: createLocation
+      tags:
+        - location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocation'
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad Request
+components:
+  schemas:
+    CreateLocation:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          nullable: false
+          minLength: 1
+          maxLength: 512
