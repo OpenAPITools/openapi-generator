@@ -165,10 +165,11 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         @SuppressWarnings("unchecked")
-        Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
+
         for (CodegenOperation operation : operationList) {
             if (operation.hasProduces) {
                 for (Map<String, String> produces : operation.produces) {
