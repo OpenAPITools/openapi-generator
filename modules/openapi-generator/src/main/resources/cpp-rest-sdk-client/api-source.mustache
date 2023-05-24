@@ -256,9 +256,9 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     }
     {{/isKeyInQuery}}
     {{/isApiKey}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     // Basic authentication is added automatically as part of the http_client_config
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     // oauth2 authentication is added automatically as part of the http_client_config
     {{/isOAuth}}

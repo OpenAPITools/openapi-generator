@@ -235,6 +235,7 @@ Class | Method | HTTP request | Description
  - [Model.Whale](docs/Whale.md)
  - [Model.Zebra](docs/Zebra.md)
  - [Model.ZeroBasedEnum](docs/ZeroBasedEnum.md)
+ - [Model.ZeroBasedEnumClass](docs/ZeroBasedEnumClass.md)
 
 
 <a id="documentation-for-authorization"></a>

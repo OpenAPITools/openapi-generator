@@ -254,9 +254,14 @@ public class DefaultGenerator implements Generator {
         config.processOpts();
 
         // normalize the spec
-        if (config.getUseOpenAPINormalizer()) {
-            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
-            openapiNormalizer.normalize();
+        try {
+            if (config.getUseOpenAPINormalizer()) {
+                OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+                openapiNormalizer.normalize();
+            }
+        } catch (Exception e) {
+            LOGGER.error("An exception occurred in OpenAPI Normalizer. Please report the issue via https://github.com/openapitools/openapi-generator/issues/new/: ");
+            e.printStackTrace();
         }
 
         // resolve inline models

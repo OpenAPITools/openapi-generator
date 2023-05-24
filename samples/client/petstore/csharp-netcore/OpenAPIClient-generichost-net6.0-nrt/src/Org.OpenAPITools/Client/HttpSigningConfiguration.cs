@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="request"></param>
         /// <param name="requestBody"></param>
         /// <param name="cancellationToken"></param>
-        internal Dictionary<string, string> GetHttpSignedHeader(System.Net.Http.HttpRequestMessage request, string requestBody, System.Threading.CancellationToken? cancellationToken = null)
+        internal Dictionary<string, string> GetHttpSignedHeader(System.Net.Http.HttpRequestMessage request, string requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             if (request.RequestUri == null)
                 throw new NullReferenceException("The request URI was null");

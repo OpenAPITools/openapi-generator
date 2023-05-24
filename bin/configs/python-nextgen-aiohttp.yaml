@@ -1,8 +1,0 @@
-generatorName: python-nextgen
-outputDir: samples/openapi3/client/petstore/python-nextgen-aiohttp
-inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing.yaml
-templateDir: modules/openapi-generator/src/main/resources/python-nextgen
-library: asyncio
-additionalProperties:
-  packageName: petstore_api
-  mapNumberTo: float

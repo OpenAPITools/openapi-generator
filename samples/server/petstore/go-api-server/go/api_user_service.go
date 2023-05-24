@@ -60,7 +60,7 @@ func (s *UserAPIService) CreateUsersWithListInput(ctx context.Context, user []Us
 }
 
 // DeleteUser - Delete user
-func (s *UserAPIService) DeleteUser(ctx context.Context, username string) (ImplResponse, error) {
+func (s *UserAPIService) DeleteUser(ctx context.Context, username string, booleanTest bool) (ImplResponse, error) {
 	// TODO - update DeleteUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -91,7 +91,7 @@ func (s *UserAPIService) GetUserByName(ctx context.Context, username string) (Im
 }
 
 // LoginUser - Logs user into the system
-func (s *UserAPIService) LoginUser(ctx context.Context, username string, password string) (ImplResponse, error) {
+func (s *UserAPIService) LoginUser(ctx context.Context, username string, password string, booleanTest bool) (ImplResponse, error) {
 	// TODO - update LoginUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

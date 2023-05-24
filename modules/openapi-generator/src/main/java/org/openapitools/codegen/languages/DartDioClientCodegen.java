@@ -92,7 +92,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     SchemaSupportFeature.anyOf
                 )
         );
-        generatorMetadata = GeneratorMetadata.newBuilder()
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
                 .build();
 

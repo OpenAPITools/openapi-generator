@@ -275,12 +275,7 @@ Authentication schemes defined for the API:
 <a id="bearer_test"></a>
 ### bearer_test
 
-- **Type**: HTTP basic authentication
-
-<a id="http_signature_test"></a>
-### http_signature_test
-
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 
 ## Recommendation
