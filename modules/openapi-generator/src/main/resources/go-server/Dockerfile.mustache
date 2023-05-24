@@ -7,7 +7,7 @@ COPY go.mod .
 
 ENV CGO_ENABLED=0
 
-RUN go build -a -installsuffix cgo -o {{packageName}} .
+RUN go build -o {{packageName}} .
 
 FROM scratch AS runtime
 COPY --from=build /go/src/{{packageName}} ./
