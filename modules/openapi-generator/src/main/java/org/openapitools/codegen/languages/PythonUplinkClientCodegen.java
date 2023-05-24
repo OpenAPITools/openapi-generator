@@ -161,7 +161,7 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
             }
         }
 
-        return objects;
+        return objs;
     }
 
     @Override
@@ -189,7 +189,7 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
             }
         }
 
-        return operations;
+        return objs;
     }
 
     @Override
