@@ -3562,6 +3562,11 @@ public class DefaultCodegen implements CodegenConfig {
                 required.addAll(schema.getRequired());
             }
 
+            // Composed Schemas may have properties defined on themselves as well in case of nested inheritance this is rather important
+            if (schema.getProperties() != null) {
+                properties.putAll(schema.getProperties());
+            }
+
             if (composedSchema.getOneOf() != null) {
                 for (Schema component : composedSchema.getOneOf()) {
                     addProperties(properties, required, component, visitedSchemas);

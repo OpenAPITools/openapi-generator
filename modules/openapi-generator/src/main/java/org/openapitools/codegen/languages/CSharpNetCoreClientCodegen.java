@@ -381,9 +381,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
-            final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
-            if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+            Schema currentParentModel = allDefinitions.get(codegenModel.parentSchema);
+            // We need to iterate through the whole inheritance structure and check whether we need to inherit properties
+            while (currentParentModel != null) {
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, currentParentModel);
+
+
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -410,6 +413,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         codegenModel.parentVars.add(parentVar);
                     }
                 }
+
+                // Find parent of current parent if it exists. In inheritance its important to take the whole tree into account
+                currentParentModel = allDefinitions.get(parentCodegenModel.parentSchema);
             }
         }
 
