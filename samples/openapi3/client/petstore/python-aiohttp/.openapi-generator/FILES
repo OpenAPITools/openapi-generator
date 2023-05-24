@@ -173,5 +173,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_nullable_property.py
 tox.ini
