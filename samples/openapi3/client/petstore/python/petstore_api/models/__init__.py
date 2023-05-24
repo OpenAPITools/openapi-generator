@@ -59,6 +59,7 @@ from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
+from petstore_api.models.nullable_property import NullableProperty
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.one_of_enum_string import OneOfEnumString
