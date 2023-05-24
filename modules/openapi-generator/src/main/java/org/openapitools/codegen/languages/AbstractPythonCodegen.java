@@ -342,8 +342,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         refSchema.setTitle(ref);
                     }
                     if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                        if (!includedSchemas.contains(schema.getTitle())) {
-                            includedSchemas.add(schema.getTitle());
+                        if (!includedSchemas.contains(refSchema)) {
+                            includedSchemas.add(refSchema);
                             return toExampleValueRecursive(refSchema, includedSchemas, indentation);
                         }
                     } else {
