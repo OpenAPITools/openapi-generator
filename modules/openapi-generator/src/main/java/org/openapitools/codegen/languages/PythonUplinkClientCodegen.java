@@ -124,11 +124,11 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
         for (String schemaName : allDefinitions.keySet()) {
             String modelName = toModelName(schemaName);
 
-            HashMap<String, Object> objModel = (HashMap<String, Object>) objects.get(modelName);
+            ModelsMap objModel = objs.get(modelName);
             if (objModel != null) { // to avoid form parameter's models that are not generated (skipFormModel=true)
-                List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
-                for (Map<String, Object> model : models) {
-                    CodegenModel cm = (CodegenModel) model.get("model");
+                List<ModelMap> models = objModel.getModels();
+                for (ModelMap model : models) {
+                    CodegenModel cm = model.getModel();
 
                     // Transform imports
                     String[] importModelNames = cm.imports.toArray(new String[0]);
