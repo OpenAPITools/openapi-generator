@@ -6,7 +6,6 @@ COPY go.sum .
 COPY go.mod .
 
 ENV CGO_ENABLED=0
-RUN go install
 
 RUN go build -a -installsuffix cgo -o {{packageName}} .
 
