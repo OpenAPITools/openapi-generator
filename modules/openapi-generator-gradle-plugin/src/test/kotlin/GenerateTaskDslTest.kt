@@ -129,6 +129,75 @@ class GenerateTaskDslTest : TestBase() {
     }
 
     @Test
+    fun `openApiGenerate should add userDefinedTemplates from DSL config`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        initUserDefinedTemplates("templates", "my.mustache")
+        val buildGradle = """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            templateDir = file("templates").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+            files = [
+                "my.mustache": ["templateType": "Model", "destinationFilename":"My.kt"]
+            ]
+        }
+    """.trimIndent()
+        withProject(buildGradle, projectFiles)
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(result.output.contains("Successfully generated code to"), "User friendly generate notice is missing.")
+
+        listOf(
+            "build/kotlin/.openapi-generator-ignore",
+            "build/kotlin/docs/PetsApi.md",
+            "build/kotlin/docs/Error.md",
+            "build/kotlin/docs/Pet.md",
+            "build/kotlin/README.md",
+            "build/kotlin/build.gradle",
+            "build/kotlin/.openapi-generator/VERSION",
+            "build/kotlin/settings.gradle",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/PetMy.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/ErrorMy.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
+        ).map {
+            val f = File(temp, it)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation: $f")
+        }
+        println(result.output)
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    private fun initUserDefinedTemplates(dir: String, template: String) {
+        temp.resolve(dir).mkdir()
+        val mym = temp.resolve("$dir/$template")
+        mym.createNewFile()
+        mym.writeText("""{}""")
+    }
+
+    @Test
     fun `openApiGenerate should not cleanup outputDir by default`() {
         // Arrange
         val projectFiles = mapOf(
