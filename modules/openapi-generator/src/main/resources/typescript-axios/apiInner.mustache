@@ -54,8 +54,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             assertParamExists('{{nickname}}', '{{paramName}}', {{paramName}})
     {{/required}}
     {{/allParams}}
-            const localVarPath = `{{{path}}}`{{#pathParams}}
-                .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
+            const localVarPath = '{{{path}}}'{{#pathParams}}
+                .replace("{{baseName}}", encodeURIComponent(String({{paramName}}))){{/pathParams}};
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
