@@ -10,7 +10,7 @@
     [DataContract(Name = "{{{name}}}")]
     {{^useUnityWebRequest}}
     {{#discriminator}}
-    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorBaseName}}}")] // {{{discriminatorName}}}
     {{#mappedModels}}
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
     {{/mappedModels}}

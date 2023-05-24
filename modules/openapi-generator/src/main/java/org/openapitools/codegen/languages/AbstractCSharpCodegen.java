@@ -665,6 +665,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
+                Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+                final Schema parentModel = allDefinitions.get(toModelName(model.parent));
+                final CodegenModel parentCodegenModel = parentModel != null ? super.fromModel(model.parent, parentModel) : null;
+
                 for (CodegenProperty var : model.allVars) {
                     if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
@@ -676,6 +680,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
+
+                        updateCodegenPropertyEnumDefaultValue(var, parentCodegenModel);
                     }
                 }
                 for (CodegenProperty var : model.vars) {
@@ -689,6 +695,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
+
+                        updateCodegenPropertyEnumDefaultValue(var, parentCodegenModel);
                     }
                 }
                 for (CodegenProperty var : model.readWriteVars) {
@@ -702,6 +710,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
+
+                        updateCodegenPropertyEnumDefaultValue(var, parentCodegenModel);
                     }
                 }
                 for (CodegenProperty var : model.readOnlyVars) {
@@ -715,6 +725,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
+
+                        updateCodegenPropertyEnumDefaultValue(var, parentCodegenModel);
                     }
                 }
 
@@ -770,6 +782,30 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 } */
             } else {
                 LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+            }
+        }
+    }
+
+    private void updateCodegenPropertyEnumDefaultValue(CodegenProperty var, CodegenModel parentCodegenModel) {
+        if (var.defaultValue != null && parentCodegenModel != null) {
+            String rawDefaultValue = var.defaultValue.replace("\"", "");
+
+            if (parentCodegenModel.discriminator != null) {
+                for (Map.Entry<String, String> mapping : parentCodegenModel.discriminator.getMapping().entrySet()) {
+                    String candidate;
+                    if (mapping.getValue().indexOf('/') >= 0) {
+                        candidate = ModelUtils.getSimpleRef(mapping.getValue());
+                        if (ModelUtils.getSchema(openAPI, candidate) == null) {
+                            LOGGER.error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", candidate);
+                        }
+                    } else {
+                        candidate = mapping.getValue();
+                    }
+
+                    if (rawDefaultValue.equals(candidate)) {
+                        var.defaultValue = var.datatypeWithEnum + "." + mapping.getKey();
+                    }
+                }
             }
         }
     }
