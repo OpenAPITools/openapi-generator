@@ -117,7 +117,7 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
      * @return the updated objs
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objects) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objects);
 
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
