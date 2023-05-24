@@ -72,4 +72,4 @@ jobs:
           dotnet-version: '6.0.x'
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: Org.OpenAPITools.sln
+        run: dotnet build Org.OpenAPITools.sln
