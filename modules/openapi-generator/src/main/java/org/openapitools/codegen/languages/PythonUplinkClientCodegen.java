@@ -2,6 +2,7 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
