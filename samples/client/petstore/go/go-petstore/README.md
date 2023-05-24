@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./petstore"
+import petstore "github.com/GIT_USER_ID/GIT_REPO_ID"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -40,7 +40,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), petstore.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -48,7 +48,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), petstore.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -58,14 +58,14 @@ Note, enum values are always validated and all unused variables are silently ign
 ### URLs Configuration per Operation
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
-An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+```golang
+ctx := context.WithValue(context.Background(), petstore.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), petstore.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -78,43 +78,43 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **Patch** /another-fake/dummy | To test special tags
-*FakeApi* | [**CreateXmlItem**](docs/FakeApi.md#createxmlitem) | **Post** /fake/create_xml_item | creates an XmlItem
-*FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
-*FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
-*FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
-*FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
-*FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
-*FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
-*FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **Post** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-*FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **Get** /fake | To test enum parameters
-*FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
-*FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
-*FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **Put** /fake/test-query-paramters | 
-*FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
-*PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **Post** /pet | Add a new pet to the store
-*PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
-*PetApi* | [**FindPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **Get** /pet/findByStatus | Finds Pets by status
-*PetApi* | [**FindPetsByTags**](docs/PetApi.md#findpetsbytags) | **Get** /pet/findByTags | Finds Pets by tags
-*PetApi* | [**GetPetById**](docs/PetApi.md#getpetbyid) | **Get** /pet/{petId} | Find pet by ID
-*PetApi* | [**UpdatePet**](docs/PetApi.md#updatepet) | **Put** /pet | Update an existing pet
-*PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#updatepetwithform) | **Post** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | [**UploadFile**](docs/PetApi.md#uploadfile) | **Post** /pet/{petId}/uploadImage | uploads an image
-*PetApi* | [**UploadFileWithRequiredFile**](docs/PetApi.md#uploadfilewithrequiredfile) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-*StoreApi* | [**DeleteOrder**](docs/StoreApi.md#deleteorder) | **Delete** /store/order/{order_id} | Delete purchase order by ID
-*StoreApi* | [**GetInventory**](docs/StoreApi.md#getinventory) | **Get** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**GetOrderById**](docs/StoreApi.md#getorderbyid) | **Get** /store/order/{order_id} | Find purchase order by ID
-*StoreApi* | [**PlaceOrder**](docs/StoreApi.md#placeorder) | **Post** /store/order | Place an order for a pet
-*UserApi* | [**CreateUser**](docs/UserApi.md#createuser) | **Post** /user | Create user
-*UserApi* | [**CreateUsersWithArrayInput**](docs/UserApi.md#createuserswitharrayinput) | **Post** /user/createWithArray | Creates list of users with given input array
-*UserApi* | [**CreateUsersWithListInput**](docs/UserApi.md#createuserswithlistinput) | **Post** /user/createWithList | Creates list of users with given input array
-*UserApi* | [**DeleteUser**](docs/UserApi.md#deleteuser) | **Delete** /user/{username} | Delete user
-*UserApi* | [**GetUserByName**](docs/UserApi.md#getuserbyname) | **Get** /user/{username} | Get user by user name
-*UserApi* | [**LoginUser**](docs/UserApi.md#loginuser) | **Get** /user/login | Logs user into the system
-*UserApi* | [**LogoutUser**](docs/UserApi.md#logoutuser) | **Get** /user/logout | Logs out current logged in user session
-*UserApi* | [**UpdateUser**](docs/UserApi.md#updateuser) | **Put** /user/{username} | Updated user
+*AnotherFakeAPI* | [**Call123TestSpecialTags**](docs/AnotherFakeAPI.md#call123testspecialtags) | **Patch** /another-fake/dummy | To test special tags
+*FakeAPI* | [**CreateXmlItem**](docs/FakeAPI.md#createxmlitem) | **Post** /fake/create_xml_item | creates an XmlItem
+*FakeAPI* | [**FakeOuterBooleanSerialize**](docs/FakeAPI.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
+*FakeAPI* | [**FakeOuterCompositeSerialize**](docs/FakeAPI.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
+*FakeAPI* | [**FakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
+*FakeAPI* | [**FakeOuterStringSerialize**](docs/FakeAPI.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
+*FakeAPI* | [**TestBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
+*FakeAPI* | [**TestBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
+*FakeAPI* | [**TestClientModel**](docs/FakeAPI.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
+*FakeAPI* | [**TestEndpointParameters**](docs/FakeAPI.md#testendpointparameters) | **Post** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*FakeAPI* | [**TestEnumParameters**](docs/FakeAPI.md#testenumparameters) | **Get** /fake | To test enum parameters
+*FakeAPI* | [**TestGroupParameters**](docs/FakeAPI.md#testgroupparameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
+*FakeAPI* | [**TestInlineAdditionalProperties**](docs/FakeAPI.md#testinlineadditionalproperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeAPI* | [**TestJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
+*FakeAPI* | [**TestQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **Put** /fake/test-query-parameters | 
+*FakeClassnameTags123API* | [**TestClassname**](docs/FakeClassnameTags123API.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
+*PetAPI* | [**AddPet**](docs/PetAPI.md#addpet) | **Post** /pet | Add a new pet to the store
+*PetAPI* | [**DeletePet**](docs/PetAPI.md#deletepet) | **Delete** /pet/{petId} | Deletes a pet
+*PetAPI* | [**FindPetsByStatus**](docs/PetAPI.md#findpetsbystatus) | **Get** /pet/findByStatus | Finds Pets by status
+*PetAPI* | [**FindPetsByTags**](docs/PetAPI.md#findpetsbytags) | **Get** /pet/findByTags | Finds Pets by tags
+*PetAPI* | [**GetPetById**](docs/PetAPI.md#getpetbyid) | **Get** /pet/{petId} | Find pet by ID
+*PetAPI* | [**UpdatePet**](docs/PetAPI.md#updatepet) | **Put** /pet | Update an existing pet
+*PetAPI* | [**UpdatePetWithForm**](docs/PetAPI.md#updatepetwithform) | **Post** /pet/{petId} | Updates a pet in the store with form data
+*PetAPI* | [**UploadFile**](docs/PetAPI.md#uploadfile) | **Post** /pet/{petId}/uploadImage | uploads an image
+*PetAPI* | [**UploadFileWithRequiredFile**](docs/PetAPI.md#uploadfilewithrequiredfile) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*StoreAPI* | [**DeleteOrder**](docs/StoreAPI.md#deleteorder) | **Delete** /store/order/{order_id} | Delete purchase order by ID
+*StoreAPI* | [**GetInventory**](docs/StoreAPI.md#getinventory) | **Get** /store/inventory | Returns pet inventories by status
+*StoreAPI* | [**GetOrderById**](docs/StoreAPI.md#getorderbyid) | **Get** /store/order/{order_id} | Find purchase order by ID
+*StoreAPI* | [**PlaceOrder**](docs/StoreAPI.md#placeorder) | **Post** /store/order | Place an order for a pet
+*UserAPI* | [**CreateUser**](docs/UserAPI.md#createuser) | **Post** /user | Create user
+*UserAPI* | [**CreateUsersWithArrayInput**](docs/UserAPI.md#createuserswitharrayinput) | **Post** /user/createWithArray | Creates list of users with given input array
+*UserAPI* | [**CreateUsersWithListInput**](docs/UserAPI.md#createuserswithlistinput) | **Post** /user/createWithList | Creates list of users with given input array
+*UserAPI* | [**DeleteUser**](docs/UserAPI.md#deleteuser) | **Delete** /user/{username} | Delete user
+*UserAPI* | [**GetUserByName**](docs/UserAPI.md#getuserbyname) | **Get** /user/{username} | Get user by user name
+*UserAPI* | [**LoginUser**](docs/UserAPI.md#loginuser) | **Get** /user/login | Logs user into the system
+*UserAPI* | [**LogoutUser**](docs/UserAPI.md#logoutuser) | **Get** /user/logout | Logs out current logged in user session
+*UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Put** /user/{username} | Updated user
 
 
 ## Documentation For Models
@@ -172,40 +172,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
-
-
-### api_key_query
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
-
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-    UserName: "username",
-    Password: "password",
-})
-r, err := client.Service.Operation(auth, args)
-```
-
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -232,6 +199,36 @@ import "golang.org/x/oauth2"
 
 tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
 auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+r, err := client.Service.Operation(auth, args)
+```
+
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
+
+### api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
+
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+    UserName: "username",
+    Password: "password",
+})
 r, err := client.Service.Operation(auth, args)
 ```
 

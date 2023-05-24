@@ -23,9 +23,11 @@ public struct APIHelper {
     public static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
         return source.reduce(into: [String: String]()) { result, item in
             if let collection = item.value as? [Any?] {
-                result[item.key] = collection.filter { $0 != nil }.map { "\($0!)" }.joined(separator: ",")
+                result[item.key] = collection
+                    .compactMap { value in convertAnyToString(value) }
+                    .joined(separator: ",")
             } else if let value: Any = item.value {
-                result[item.key] = "\(value)"
+                result[item.key] = convertAnyToString(value)
             }
         }
     }
@@ -45,21 +47,67 @@ public struct APIHelper {
         }
     }
 
+    public static func convertAnyToString(_ value: Any?) -> String? {
+        guard let value = value else { return nil }
+        if let value = value as? any RawRepresentable {
+            return "\(value.rawValue)"
+        } else {
+            return "\(value)"
+        }
+    }
+
     public static func mapValueToPathItem(_ source: Any) -> Any {
         if let collection = source as? [Any?] {
-            return collection.filter { $0 != nil }.map { "\($0!)" }.joined(separator: ",")
+            return collection
+                .compactMap { value in convertAnyToString(value) }
+                .joined(separator: ",")
         }
         return source
     }
 
+    /// maps all values from source to query parameters
+    ///
+    /// explode attribute is respected: collection values might be either joined or split up into separate key value pairs
+    public static func mapValuesToQueryItems(_ source: [String: (wrappedValue: Any?, isExplode: Bool)]) -> [URLQueryItem]? {
+        let destination = source.filter { $0.value.wrappedValue != nil }.reduce(into: [URLQueryItem]()) { result, item in
+            if let collection = item.value.wrappedValue as? [Any?] {
+
+                let collectionValues: [String] = collection.compactMap { value in convertAnyToString(value) }
+
+                if !item.value.isExplode {
+                    result.append(URLQueryItem(name: item.key, value: collectionValues.joined(separator: ",")))
+                } else {
+                    collectionValues
+                        .forEach { value in
+                            result.append(URLQueryItem(name: item.key, value: value))
+                        }
+                }
+
+            } else if let value = item.value.wrappedValue {
+                result.append(URLQueryItem(name: item.key, value: convertAnyToString(value)))
+            }
+        }
+
+        if destination.isEmpty {
+            return nil
+        }
+        return destination
+    }
+
+    /// maps all values from source to query parameters
+    ///
+    /// collection values are always exploded
     public static func mapValuesToQueryItems(_ source: [String: Any?]) -> [URLQueryItem]? {
         let destination = source.filter { $0.value != nil }.reduce(into: [URLQueryItem]()) { result, item in
             if let collection = item.value as? [Any?] {
-                collection.filter { $0 != nil }.map { "\($0!)" }.forEach { value in
-                    result.append(URLQueryItem(name: item.key, value: value))
-                }
+                collection
+                    .compactMap { value in convertAnyToString(value) }
+                    .forEach { value in
+                        result.append(URLQueryItem(name: item.key, value: value))
+                    }
+
             } else if let value = item.value {
-                result.append(URLQueryItem(name: item.key, value: "\(value)"))
+                result.append(URLQueryItem(name: item.key, value: convertAnyToString(value)))
             }
         }
 

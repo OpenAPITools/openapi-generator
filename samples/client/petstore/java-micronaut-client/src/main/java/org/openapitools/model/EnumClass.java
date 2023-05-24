@@ -29,34 +29,34 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @Introspected
 public enum EnumClass {
-  _ABC("_abc"),
-  _EFG("-efg"),
-  _XYZ_("(xyz)");
+    _ABC("_abc"),
+    _EFG("-efg"),
+    _XYZ_("(xyz)");
 
-  private String value;
+    private String value;
 
-  EnumClass(String value) {
-    this.value = value;
-  }
-
-  @JsonValue
-  public String getValue() {
-    return value;
-  }
-
-  @Override
-  public String toString() {
-    return String.valueOf(value);
-  }
-
-  @JsonCreator
-  public static EnumClass fromValue(String value) {
-    for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    EnumClass(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
-  }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static EnumClass fromValue(String value) {
+        for (EnumClass b : EnumClass.values()) {
+            if (b.value.equals(value)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
 }
 

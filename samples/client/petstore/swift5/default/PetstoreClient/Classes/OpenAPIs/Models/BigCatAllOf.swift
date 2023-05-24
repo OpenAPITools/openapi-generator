@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct BigCatAllOf: Codable, Hashable {
+public struct BigCatAllOf: Codable, JSONEncodable, Hashable {
 
     public enum Kind: String, Codable, CaseIterable {
         case lions = "lions"

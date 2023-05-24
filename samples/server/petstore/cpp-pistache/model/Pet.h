@@ -71,8 +71,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    Category getCategory() const;
-    void setCategory(Category const& value);
+    org::openapitools::server::model::Category getCategory() const;
+    void setCategory(org::openapitools::server::model::Category const& value);
     bool categoryIsSet() const;
     void unsetCategory();
     /// <summary>
@@ -88,8 +88,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::vector<Tag> getTags() const;
-    void setTags(std::vector<Tag> const& value);
+    std::vector<org::openapitools::server::model::Tag> getTags() const;
+    void setTags(std::vector<org::openapitools::server::model::Tag> const& value);
     bool tagsIsSet() const;
     void unsetTags();
     /// <summary>
@@ -100,18 +100,18 @@ public:
     bool statusIsSet() const;
     void unsetStatus();
 
-    friend void to_json(nlohmann::json& j, const Pet& o);
-    friend void from_json(const nlohmann::json& j, Pet& o);
+    friend  void to_json(nlohmann::json& j, const Pet& o);
+    friend  void from_json(const nlohmann::json& j, Pet& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
-    Category m_Category;
+    org::openapitools::server::model::Category m_Category;
     bool m_CategoryIsSet;
     std::string m_Name;
 
     std::vector<std::string> m_PhotoUrls;
 
-    std::vector<Tag> m_Tags;
+    std::vector<org::openapitools::server::model::Tag> m_Tags;
     bool m_TagsIsSet;
     std::string m_Status;
     bool m_StatusIsSet;

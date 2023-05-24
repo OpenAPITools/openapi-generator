@@ -56,7 +56,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "delivered")]
             Delivered = 3
-
         }
 
 
@@ -106,6 +105,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
+        /// <example>&quot;2020-02-02T20:20:20.000222Z&quot;</example>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
         public DateTime ShipDate { get; set; }
 
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Order {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  PetId: ").Append(PetId).Append("\n");
@@ -171,13 +171,15 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
-                hashCode = hashCode * 59 + this.PetId.GetHashCode();
-                hashCode = hashCode * 59 + this.Quantity.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
+                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
                 if (this.ShipDate != null)
-                    hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
-                hashCode = hashCode * 59 + this.Status.GetHashCode();
-                hashCode = hashCode * 59 + this.Complete.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Status.GetHashCode();
+                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
                 return hashCode;
             }
         }

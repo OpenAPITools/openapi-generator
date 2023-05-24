@@ -16,8 +16,8 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.framework>0.1.1</version.framework>
-        <version.jackson>2.10.5</version.jackson>
-        <version.jackson.databind>2.10.5.1</version.jackson.databind>
+        <version.jackson>2.14.1</version.jackson>
+        <version.jackson.databind>2.14.1</version.jackson.databind>
         <version.slf4j>1.7.21</version.slf4j>
         <version.jose4j>0.5.2</version.jose4j>
         <version.antlr4>4.5.3</version.antlr4>
@@ -27,13 +27,14 @@
         <version.encoder>1.2</version.encoder>
         <version.metrics>3.1.2</version.metrics>
         <version.logback>1.2.0</version.logback>
-        <version.junit>4.13</version.junit>
+        <version.junit>4.13.2</version.junit>
         <version.mockito>2.1.0-beta.124</version.mockito>
-        <version.undertow>1.4.0.Final</version.undertow>
+        <version.undertow>2.2.24.Final</version.undertow>
         <version.jsonpath>2.2.0</version.jsonpath>
-        <version.httpclient>4.5.2</version.httpclient>
+        <version.httpclient>4.5.13</version.httpclient>
         <version.httpasyncclient>4.1.2</version.httpasyncclient>
         <version.swagger>1.5.10</version.swagger>
+        <version.annotation.api>1.3.5</version.annotation.api>
     </properties>
 
     <dependencies>
@@ -108,6 +109,11 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${version.swagger}</version>
         </dependency>
+        <dependency>
+           <groupId>jakarta.annotation</groupId>
+           <artifactId>jakarta.annotation-api</artifactId>
+           <version>${version.annotation.api}</version>
+        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -137,6 +143,21 @@
         <directory>target</directory>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>

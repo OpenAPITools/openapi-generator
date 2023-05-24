@@ -17,6 +17,20 @@
     <finalName>${project.artifactId}-${project.version}</finalName>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <fork>true</fork>
+          <meminitial>128m</meminitial>
+          <maxmem>512m</maxmem>
+          <compilerArgs>
+            <arg>-Xlint:all</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
         <version>3.0.0-M1</version>
         <executions>
@@ -88,7 +102,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13</version>
+      <version>4.13.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -100,32 +114,33 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.2</version>
+      <version>4.5.13</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
   <properties>
-    <version.httpasyncclient>4.1.2</version.httpasyncclient>
-    <version.jackson.databind>2.9.10.4</version.jackson.databind>
+    <version.jose4j>0.5.2</version.jose4j>
     <version.jsonpath>2.2.0</version.jsonpath>
-    <version.commons.codec>1.10</version.commons.codec>
+    <version.httpclient>4.5.13</version.httpclient>
+    <version.logback>1.2.0</version.logback>
+    <java.version>1.8</java.version>
+    <version.junit>4.13.2</version.junit>
+    <version.swagger>1.5.10</version.swagger>
+    <version.commons.io>2.5</version.commons.io>
+    <version.antlr4>4.5.3</version.antlr4>
+    <version.mockito>2.1.0-beta.124</version.mockito>
     <version.metrics>3.1.2</version.metrics>
+    <version.commons-lang>2.6</version.commons-lang>
+    <version.annotation.api>1.3.5</version.annotation.api>
+    <version.framework>0.1.1</version.framework>
+    <version.jackson>2.14.1</version.jackson>
+    <version.httpasyncclient>4.1.2</version.httpasyncclient>
+    <version.undertow>2.2.24.Final</version.undertow>
+    <version.slf4j>1.7.21</version.slf4j>
+    <version.jackson.databind>2.14.1</version.jackson.databind>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.encoder>1.2</version.encoder>
-    <version.httpclient>4.5.2</version.httpclient>
-    <version.undertow>1.4.0.Final</version.undertow>
-    <version.jose4j>0.5.2</version.jose4j>
-    <version.commons-lang>2.6</version.commons-lang>
-    <java.version>1.8</java.version>
-    <version.jackson>2.9.10</version.jackson>
-    <version.framework>0.1.1</version.framework>
-    <version.swagger>1.5.10</version.swagger>
-    <version.mockito>2.1.0-beta.124</version.mockito>
-    <version.slf4j>1.7.21</version.slf4j>
-    <version.commons.io>2.5</version.commons.io>
-    <version.logback>1.1.7</version.logback>
-    <version.junit>4.13</version.junit>
-    <version.antlr4>4.5.3</version.antlr4>
+    <version.commons.codec>1.10</version.commons.codec>
   </properties>
 </project>
 

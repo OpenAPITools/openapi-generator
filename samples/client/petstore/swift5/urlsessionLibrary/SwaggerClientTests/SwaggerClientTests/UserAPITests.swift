@@ -27,7 +27,7 @@ class UserAPITests: XCTestCase {
     func testLogin() {
         let expectation = self.expectation(description: "testLogin")
 
-        UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
+        PetstoreClientAPI.UserAPI.loginUser(username: "swiftTester", password: "swift") { (_, error) in
             guard error == nil else {
                 XCTFail("error logging in")
                 return
@@ -42,7 +42,7 @@ class UserAPITests: XCTestCase {
     func testLogout() {
         let expectation = self.expectation(description: "testLogout")
 
-        UserAPI.logoutUser { (_, error) in
+        PetstoreClientAPI.UserAPI.logoutUser { (_, error) in
             guard error == nil else {
                 XCTFail("error logging out")
                 return
@@ -58,7 +58,7 @@ class UserAPITests: XCTestCase {
         // The path for this operation is /user/{userId}. In order to make a usable path,
         // then we must make sure that {userId} is percent-escaped when it is substituted
         // into the path. So we intentionally introduce a path with spaces.
-        let userRequestBuilder = UserAPI.getUserByNameWithRequestBuilder(username: "User Name With Spaces")
+        let userRequestBuilder = PetstoreClientAPI.UserAPI.getUserByNameWithRequestBuilder(username: "User Name With Spaces")
         let urlContainsSpace = userRequestBuilder.URLString.contains(" ")
 
         XCTAssert(!urlContainsSpace, "Expected URL to be escaped, but it was not.")

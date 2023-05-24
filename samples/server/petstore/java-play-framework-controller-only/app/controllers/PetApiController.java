@@ -119,17 +119,17 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result updatePetWithForm(Http.Request request, Long petId) throws Exception {
-        String valuename = (request.body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
+        String[] valuename = request.body().asMultipartFormData().asFormUrlEncoded().get("name");
         String name;
         if (valuename != null) {
-            name = valuename;
+            name = valuename[0];
         } else {
             name = null;
         }
-        String valuestatus = (request.body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
+        String[] valuestatus = request.body().asMultipartFormData().asFormUrlEncoded().get("status");
         String status;
         if (valuestatus != null) {
-            status = valuestatus;
+            status = valuestatus[0];
         } else {
             status = null;
         }
@@ -138,15 +138,15 @@ public class PetApiController extends Controller {
 
     @ApiAction
     public Result uploadFile(Http.Request request, Long petId) throws Exception {
-        String valueadditionalMetadata = (request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
+        String[] valueadditionalMetadata = request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata");
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
-            additionalMetadata = valueadditionalMetadata;
+            additionalMetadata = valueadditionalMetadata[0];
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
+        Http.MultipartFormData<TemporaryFile> body_file = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> _file = body_file.getFile("file");
         return ok();
     }
 

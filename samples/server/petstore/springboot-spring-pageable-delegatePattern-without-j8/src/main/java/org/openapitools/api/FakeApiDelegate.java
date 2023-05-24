@@ -2,27 +2,37 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
+import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import io.swagger.annotations.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import javax.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface FakeApiDelegate {
+
+    default Optional<NativeWebRequest> getRequest() {
+        return Optional.empty();
+    }
 
     /**
      * POST /fake/create_xml_item : creates an XmlItem
@@ -32,7 +42,10 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#createXmlItem
      */
-    ResponseEntity<Void> createXmlItem(XmlItem xmlItem);
+    default ResponseEntity<Void> createXmlItem(XmlItem xmlItem) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/boolean
@@ -42,7 +55,10 @@ public interface FakeApiDelegate {
      * @return Output boolean (status code 200)
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body);
+    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/composite
@@ -52,7 +68,19 @@ public interface FakeApiDelegate {
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body);
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
+                    ApiUtil.setExampleResponse(request, "*/*", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/number
@@ -62,7 +90,10 @@ public interface FakeApiDelegate {
      * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body);
+    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/outer/string
@@ -72,7 +103,10 @@ public interface FakeApiDelegate {
      * @return Output string (status code 200)
      * @see FakeApi#fakeOuterStringSerialize
      */
-    ResponseEntity<String> fakeOuterStringSerialize(String body);
+    default ResponseEntity<String> fakeOuterStringSerialize(String body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PUT /fake/body-with-file-schema
@@ -82,7 +116,10 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithFileSchema
      */
-    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body);
+    default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PUT /fake/body-with-query-params
@@ -92,8 +129,11 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
-    ResponseEntity<Void> testBodyWithQueryParams(String query,
-        User body);
+    default ResponseEntity<Void> testBodyWithQueryParams(String query,
+        User body) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * PATCH /fake : To test \&quot;client\&quot; model
@@ -103,7 +143,19 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    ResponseEntity<Client> testClientModel(Client body);
+    default ResponseEntity<Client> testClientModel(Client body) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"client\" : \"client\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake : Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -127,7 +179,7 @@ public interface FakeApiDelegate {
      *         or User not found (status code 404)
      * @see FakeApi#testEndpointParameters
      */
-    ResponseEntity<Void> testEndpointParameters(BigDecimal number,
+    default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
         Double _double,
         String patternWithoutDelimiter,
         byte[] _byte,
@@ -140,7 +192,10 @@ public interface FakeApiDelegate {
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
-        String paramCallback);
+        String paramCallback) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * GET /fake : To test enum parameters
@@ -158,14 +213,17 @@ public interface FakeApiDelegate {
      *         or Not found (status code 404)
      * @see FakeApi#testEnumParameters
      */
-    ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
+    default ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
         String enumHeaderString,
         List<String> enumQueryStringArray,
         String enumQueryString,
         Integer enumQueryInteger,
         Double enumQueryDouble,
         List<String> enumFormStringArray,
-        String enumFormString);
+        String enumFormString) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional)
@@ -177,15 +235,18 @@ public interface FakeApiDelegate {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return Someting wrong (status code 400)
+     * @return Something wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
-    ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
+    default ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
         Boolean requiredBooleanGroup,
         Long requiredInt64Group,
         Integer stringGroup,
         Boolean booleanGroup,
-        Long int64Group);
+        Long int64Group) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
@@ -194,7 +255,10 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param);
+    default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
@@ -204,11 +268,14 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testJsonFormData
      */
-    ResponseEntity<Void> testJsonFormData(String param,
-        String param2);
+    default ResponseEntity<Void> testJsonFormData(String param,
+        String param2) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
@@ -219,11 +286,14 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testQueryParameterCollectionFormat
      */
-    ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
+    default ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
         List<String> ioutil,
         List<String> http,
         List<String> url,
-        List<String> context);
+        List<String> context) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
@@ -234,8 +304,20 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
+    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
-        String additionalMetadata);
+        String additionalMetadata) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 }

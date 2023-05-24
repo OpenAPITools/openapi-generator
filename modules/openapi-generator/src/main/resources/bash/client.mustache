@@ -25,7 +25,7 @@
 # {{#externalDocs}}{{url}}{{/externalDocs}}
 #
 
-# For improved pattern matching in case statemets
+# For improved pattern matching in case statements
 shopt -s extglob
 
 ###############################################################################
@@ -66,7 +66,7 @@ declare -A header_arguments
 declare -A operation_parameters
 
 ##
-# Declare colors with autodection if output is terminal
+# Declare colors with autodetection if output is terminal
 if [ -t 1 ]; then
     RED="$(tput setaf 1)"
     GREEN="$(tput setaf 2)"
@@ -349,6 +349,29 @@ body_parameters_to_json() {
 
 ##############################################################################
 #
+# Converts an associative array into form urlencoded string
+#
+##############################################################################
+body_parameters_to_form_urlencoded() {
+    local body_form_urlencoded="-d '"
+    local count=0
+    for key in "${!body_parameters[@]}"; do
+        if [[ $((count++)) -gt 0 ]]; then
+            body_form_urlencoded+="&"
+        fi
+        body_form_urlencoded+="${key}=${body_parameters[${key}]}"
+    done
+    body_form_urlencoded+="'"
+
+    if [[ "${#body_parameters[@]}" -eq 0 ]]; then
+        echo ""
+    else
+        echo "${body_form_urlencoded}"
+    fi
+}
+
+##############################################################################
+#
 # Helper method for showing error because for example echo in
 # build_request_path() is evaluated as part of command line not printed on
 # output. Anyway better idea for resource clean up ;-).
@@ -454,7 +477,7 @@ build_request_path() {
                 parameter_value+="${qparam}=${qvalue}"
             done
         #
-        # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
+        # Append parameters specified as 'multi' collections i.e. param=value1&param=value2&...
         #
         elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
@@ -564,10 +587,10 @@ EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
     echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
     {{#x-codegen-basicauth-env}}echo -e "                 or export ${RED}{{x-codegen-basicauth-env}}='<username>:<password>'${OFF}"{{/x-codegen-basicauth-env}}
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
     echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}{{keyParamName}}:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
@@ -620,7 +643,7 @@ echo "  $ops" | column -t -s ';'
     echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
     echo -e "  --dry-run\\t\\t\\t\\tPrint out the cURL command without"
     echo -e "           \\t\\t\\t\\texecuting it"
-    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodected"
+    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodetected"
     echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\\t\\tSet the 'Accept' header in the request"
     echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\\tSet the 'Content-type' header in "
     echo -e "                                \\tthe request"
@@ -670,7 +693,7 @@ print_version() {
 ##############################################################################
 print_{{operationId}}_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasic}}BASIC{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-bash-codegen-description}}
@@ -785,7 +808,7 @@ call_{{operationId}}() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 {{#hasConsumes}}
 {{#consumes}}
@@ -841,11 +864,21 @@ call_{{operationId}}() {
     fi
 {{/hasBodyParam}}
 {{^hasBodyParam}}
+{{#hasFormParams}}
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
+{{/hasFormParams}}
+{{^hasFormParams}}
+    if [[ "$print_curl" = true ]]; then
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+{{/hasFormParams}}
 {{/hasBodyParam}}
 }
 
@@ -971,7 +1004,7 @@ case $key in
     ;;
     *:=*)
     # Parse body arguments and convert them into top level
-    # JSON properties passed in the body content without qoutes
+    # JSON properties passed in the body content without quotes
     if [[ "$operation" ]]; then
         # ignore error about 'sep' being unused
         # shellcheck disable=SC2034

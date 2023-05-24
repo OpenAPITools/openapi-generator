@@ -21,7 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 public interface PetApiService {
       Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException;
-      Response deletePet(Long petId,String apiKey,SecurityContext securityContext)
+      Response deletePet(Long petId,SecurityContext securityContext)
       throws NotFoundException;
       Response findPetsByStatus(List<String> status,SecurityContext securityContext)
       throws NotFoundException;

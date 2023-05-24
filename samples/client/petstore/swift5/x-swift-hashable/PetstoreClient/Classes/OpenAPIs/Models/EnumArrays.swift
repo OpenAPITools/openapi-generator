@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct EnumArrays: Codable {
+public struct EnumArrays: Codable, JSONEncodable {
 
     public enum JustSymbol: String, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="

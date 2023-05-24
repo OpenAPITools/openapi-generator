@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: 'Issue 11088 - modelMutable and Kotlin container types'
+  version: 0.1.0
+paths:
+  '/':
+    get:
+      operationId: myOperation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyModel'
+components:
+  schemas:
+    MyModel:
+      description: Model with properties that should be mutable in Kotlin
+      properties:
+        myIntArray:
+          type: array
+          items:
+            type: integer
+        myStringSet:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        myFreeFormObjectWithPrimitiveValues:
+          type: object
+          additionalProperties:
+            type: integer
+        myFreeFormObjectWithComplexValues:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              myArrayOfInts:
+                type: array
+                items:
+                  type: integer
+              mySetOfStrings:
+                type: array
+                items:
+                  type: string
+                uniqueItems: true
+        myFreeFormObject:
+          type: object
+          additionalProperties:
+            type: object
+

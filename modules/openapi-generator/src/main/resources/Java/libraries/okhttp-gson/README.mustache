@@ -18,8 +18,8 @@
 ## Requirements
 
 Building the API client library requires:
-1. Java {{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}+
-2. Maven/Gradle
+1. Java 1.8+
+2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
 
@@ -55,7 +55,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
+  repositories {
+    mavenCentral()     // Needed if the '{{{artifactId}}}' jar has been published to maven central.
+    mavenLocal()       // Needed if the '{{{artifactId}}}' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
+  }
 ```
 
 ### Others
@@ -89,6 +96,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("{{{basePath}}}");
+    {{#withAWSV4Signature}}
+    // Configure AWS Signature V4 authorization
+    defaultClient.setAWS4Configuration("YOUR_ACCESS_KEY", "YOUR_SECRET_KEY", "REGION", "SERVICE")
+    {{/withAWSV4Signature}}
     {{#hasAuthMethods}}
     {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
     // Configure HTTP basic authorization: {{{name}}}
@@ -144,18 +155,25 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{classname}}]({{modelDocPath}}{{classname}}.md)
 {{/model}}{{/models}}
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-{{^authMethods}}All endpoints do not require authorization.
-{{/authMethods}}Authentication schemes defined for the API:
-{{#authMethods}}### {{name}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+<a id="{{name}}"></a>
+### {{name}}
 
 {{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}

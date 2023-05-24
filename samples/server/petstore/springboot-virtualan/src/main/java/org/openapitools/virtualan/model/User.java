@@ -1,41 +1,40 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class User   {
-  @JsonProperty("id")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class User {
+
   private Long id;
 
-  @JsonProperty("username")
   private String username;
 
-  @JsonProperty("firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
   private String lastName;
 
-  @JsonProperty("email")
   private String email;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("phone")
   private String phone;
 
-  @JsonProperty("userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -47,9 +46,9 @@ public class User   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -67,9 +66,9 @@ public class User   {
    * Get username
    * @return username
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -87,9 +86,9 @@ public class User   {
    * Get firstName
    * @return firstName
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -107,9 +106,9 @@ public class User   {
    * Get lastName
    * @return lastName
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -127,9 +126,9 @@ public class User   {
    * Get email
    * @return email
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -147,9 +146,9 @@ public class User   {
    * Get password
    * @return password
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -167,9 +166,9 @@ public class User   {
    * Get phone
    * @return phone
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -187,9 +186,9 @@ public class User   {
    * User Status
    * @return userStatus
   */
-  @ApiModelProperty(value = "User Status")
-
-
+  
+  @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -197,7 +196,6 @@ public class User   {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -227,7 +225,6 @@ public class User   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");

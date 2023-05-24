@@ -18,17 +18,16 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
 import com.google.common.collect.Sets;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -40,6 +39,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Locale;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 @SuppressWarnings("static-method")
 public class TypeScriptNodeModelTest {
 
@@ -68,7 +68,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "number");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "undefined");
+        Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.required);
 
@@ -76,7 +76,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "undefined");
+        Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.required);
 
@@ -85,7 +85,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property3.complexType, null);
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "undefined");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertFalse(property3.required);
 
         final CodegenProperty property4 = cm.vars.get(3);
@@ -93,7 +93,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property4.complexType, null);
         Assert.assertEquals(property4.dataType, "string");
         Assert.assertEquals(property4.name, "birthDate");
-        Assert.assertEquals(property4.defaultValue, "undefined");
+        Assert.assertEquals(property4.defaultValue, null);
         Assert.assertFalse(property4.required);
 
         final CodegenProperty property5 = cm.vars.get(4);
@@ -101,7 +101,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property5.complexType, null);
         Assert.assertEquals(property5.dataType, "boolean");
         Assert.assertEquals(property5.name, "active");
-        Assert.assertEquals(property5.defaultValue, "undefined");
+        Assert.assertEquals(property5.defaultValue, null);
         Assert.assertFalse(property5.required);
         Assert.assertFalse(property5.isContainer);
     }
@@ -187,7 +187,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "number");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "undefined");
+        Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.required);
 
@@ -297,7 +297,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "Array<string>");
     }
 
-    @Test(description = "convert an string additional properties model")
+    @Test(description = "convert a string additional properties model")
     public void arrayModelAdditionalPropertiesStringTest() {
         final Schema schema = new Schema()
                 .description("a map model")
@@ -313,7 +313,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "string");
     }
 
-    @Test(description = "convert an complex additional properties model")
+    @Test(description = "convert a complex additional properties model")
     public void arrayModelAdditionalPropertiesComplexTest() {
         final Schema schema = new Schema()
                 .description("a map model")

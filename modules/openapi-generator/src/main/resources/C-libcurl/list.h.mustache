@@ -23,8 +23,8 @@ typedef struct list_t {
 
 #define list_ForEach(element, list) for(element = (list != NULL) ? (list)->firstEntry : NULL; element != NULL; element = element->nextListEntry)
 
-list_t* list_create();
-void list_free(list_t* listToFree);
+list_t* list_createList();
+void list_freeList(list_t* listToFree);
 
 void list_addElement(list_t* list, void* dataToAddInList);
 listEntry_t* list_getElementAt(list_t *list, long indexOfElement);

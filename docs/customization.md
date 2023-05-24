@@ -56,7 +56,7 @@ The above configuration will do the following:
 * Compile a user-provided `my_custom_templates/api_interfaces.mustache` following our usual API template compilation logic. That is, one file will be created per API; APIs are generated defined according to tags in your spec documentation. The destination filename of `Interface.kt` will act as a suffix for the filename. So, a tag of `Equipment` will output a corresponding `EquipmentInterface.kt`.
 * Because `api.mustache` is the same mustache filename as used in your target generator (`kotlin` in this example), we support the following:
   - The destination filename provides a suffix for the generated output. APIs generate per tag in your specification. So, a tag of `Equipment` will output a corresponding `EquipmentImpl.kt`. This option will be used whether `api.mustache` targets a user customized template or a built-in template.
-  - The built-in template will be used if you haven't provided an customized template. The kotlin generator defines the suffix as simply `.kt`, so this scenario would modify only the generated file suffixes according to the previous bullet point.
+  - The built-in template will be used if you haven't provided a customized template. The kotlin generator defines the suffix as simply `.kt`, so this scenario would modify only the generated file suffixes according to the previous bullet point.
   - Your `api.mustache` will be used if it exists in your custom template directory. For generators with library options, such as `jvm-okhttp3` in the kotlin generator, your file must exist in the same relative location as the embedded template. For kotlin using the `jvm-okhttp3` library option, this file would need to be located at `my_custom_templates/libraries/jvm-okhttp/api.mustache`. See [templating](./templating.md) for more details.
 * Compile `my_custom_templates/other/check.mustache` with the supporting files bundle, and output to `scripts/check.sh` in your output directory. Note that we don't currently support setting file flags on output, so scripts such as these will either have to be sourced rather than executed, or have file flags set separately after generation (external to our tooling).
 
@@ -110,7 +110,7 @@ java -cp "out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.ja
 Note the `my-codegen` is an option for `-g` now, and you can use the usual arguments for generating your code:
 
 ```sh
-java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
   org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o ./out/myClient
@@ -169,7 +169,7 @@ If you publish your artifact to a distant maven repository, do not forget to add
 
 You may not want to generate *all* models in your project. Likewise, you may want just one or two apis to be written.  If that's the case, you can use system properties or [global properties](./global-properties.md) to control the output.
 
-The default is generate *everything* supported by the specific library. Once you enable a feature, it will restrict the contents generated:
+The default is to generate *everything* supported by the specific library. Once you enable a feature, it will restrict the contents generated:
 
 ```sh
 # generate only models
@@ -216,7 +216,7 @@ These options default to true and don't limit the generation of the feature opti
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
-To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to `true`) (this option is introduced at v3.2.2 and `true` by default starting from v5.x).
+To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to `true`) (this option is introduced at v3.2.2 and `true` by default starting from v5.0.0).
 
 ```sh
 --global-property skipFormModel=true
@@ -360,7 +360,7 @@ import org.openapitools.codegen.languages.*;
 
 public class MyObjcCodegen extends ObjcClientCodegen {
     static {
-        PREFIX = "HELO";
+        PREFIX = "HELLO";
     }
 }
 ```
@@ -394,3 +394,135 @@ or
 ```
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
+
+## Schema Mapping
+
+One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mapping TypeAlias=foo.bar.TypeAlias
+```
+Another example (in conjunction with --type-mappings):
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i /tmp/alias.yaml -o /tmp/alias/ --schema-mappings stream=org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody --type-mappings string+binary=stream
+```
+while /tmp/alias.yaml is as follows:
+```yaml
+openapi: 3.0.3
+info:
+  title: Demo app
+  version: 1.0.0
+servers:
+  - url: /api/v1
+paths:
+  /demo:
+    get:
+      summary: Demo
+      operationId: demo
+      responses:
+        '200':
+          description: Demo response
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+```
+
+## Inline Schema Naming
+
+Inline schemas are created as separate schemas automatically and the auto-generated schema name may not look good to everyone. One can customize the name using the `title` field or the `inlineSchemaNameMapping` option. For exmaple, run the following,
+
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings inline_object_2=SomethingMapped,inline_object_4=nothing_new
+```
+will show the following in the console:
+```
+[main] INFO  o.o.codegen.InlineModelResolver - Inline schema created as arbitraryObjectRequestBodyProperty_request. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mappings in CLI).
+[main] INFO  o.o.codegen.InlineModelResolver - Inline schema created as meta_200_response. To have complete control of the model name, set the `title` field or use the inlineSchemaNameMapping option (--inline-schema-name-mappings in CLI).
+```
+For example, to name the inline schema `meta_200_response` as `MetaObject`, use the `--inline-schema-name-mappings` option as follows:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings meta_200_response=MetaObject,arbitraryObjectRequestBodyProperty_request=ArbitraryRequest
+```
+
+Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
+```
+--inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
+```
+
+Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+
+## OpenAPI Normalizer
+
+OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectly conform to the specification) to make it workable with OpenAPI Generator. A few rules are switched on by default since 7.0.0 release:
+
+- SIMPLIFY_ONEOF_ANYOF 
+- SIMPLIFY_BOOLEAN_ENUM
+
+(One can use `DISABLE_ALL=true` to disable all the rules)
+
+Here is a list of rules supported:
+
+- `REF_AS_PARENT_IN_ALLOF`: when set to `true`, child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
+```
+
+- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY=true
+```
+
+- `SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING`: when set to `true`, simplify anyOf schema with string and enum of string to just `string`
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
+```
+
+- `SIMPLIFY_BOOLEAN_ENUM`: when set to `true`, convert boolean enum to just enum.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyBooleanEnum_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_BOOLEAN_ENUM=true
+```
+
+- `SIMPLIFY_ONEOF_ANYOF`: when set to `true`, simplify oneOf/anyOf by 1) removing null (sub-schema) or enum of null (sub-schema) and setting nullable to true instead, and 2) simplifying oneOf/anyOf with a single sub-schema to just the sub-schema itself.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ONEOF_ANYOF=true
+```
+
+- `KEEP_ONLY_FIRST_TAG_IN_OPERATION`: when set to `true`, only keep the first tag in operation if there are more than one tag defined.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer KEEP_ONLY_FIRST_TAG_IN_OPERATION=true
+```
+
+- `SET_TAGS_FOR_ALL_OPERATIONS`: when set to a string value, tags in all operatinos will reset to the string value provided.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=true
+```
+
+- `ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE`: when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1) by adding x-unsigned to the schema
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE=true
+```
+
+- `REFACTOR_ALLOF_WITH_PROPERTIES_ONLY`: When set to true, refactor schema with allOf and properties in the same level to a schema with allOf only and, the allOf contains a new schema containing the properties in the top level.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true
+```
+

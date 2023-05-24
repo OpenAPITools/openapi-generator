@@ -1,6 +1,5 @@
 /*
- * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
+ * Copyright 2021 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +16,28 @@
 
 package org.openapitools.codegen.dart.dio;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class DartDioClientCodegenTest {
 
@@ -38,6 +48,15 @@ public class DartDioClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
+    }
+
+    @Test
+    public void testInitialFeatures() {
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertNotNull(codegen.getFeatureSet().getSecurityFeatures());
+        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().isEmpty());
     }
 
     @Test
@@ -61,12 +80,12 @@ public class DartDioClientCodegenTest {
     }
 
     @Test
-    public void testKeywords() throws Exception {
+    public void testKeywords() {
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
 
-        List<String> reservedWordsList = new ArrayList<String>();
+        List<String> reservedWordsList = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), StandardCharsets.UTF_8));
             while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
             reader.close();
         } catch (Exception e) {
@@ -82,4 +101,26 @@ public class DartDioClientCodegenTest {
         }
     }
 
+    @Test
+    public void verifyDartDioGeneratorRuns() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setPackageName("my-package")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
+    }
 }

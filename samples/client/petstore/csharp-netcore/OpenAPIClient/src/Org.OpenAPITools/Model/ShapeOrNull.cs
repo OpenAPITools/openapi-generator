@@ -46,10 +46,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class
-        /// with the <see cref="Quadrilateral" /> class
+        /// with the <see cref="Triangle" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of Quadrilateral.</param>
-        public ShapeOrNull(Quadrilateral actualInstance)
+        /// <param name="actualInstance">An instance of Triangle.</param>
+        public ShapeOrNull(Triangle actualInstance)
         {
             this.IsNullable = true;
             this.SchemaType= "oneOf";
@@ -58,10 +58,10 @@ namespace Org.OpenAPITools.Model
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class
-        /// with the <see cref="Triangle" /> class
+        /// with the <see cref="Quadrilateral" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of Triangle.</param>
-        public ShapeOrNull(Triangle actualInstance)
+        /// <param name="actualInstance">An instance of Quadrilateral.</param>
+        public ShapeOrNull(Quadrilateral actualInstance)
         {
             this.IsNullable = true;
             this.SchemaType= "oneOf";
@@ -98,23 +98,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
-        /// the InvalidClassException will be thrown
-        /// </summary>
-        /// <returns>An instance of Quadrilateral</returns>
-        public Quadrilateral GetQuadrilateral()
-        {
-            return (Quadrilateral)this.ActualInstance;
-        }
-
-        /// <summary>
-        /// Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+        /// Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Triangle</returns>
         public Triangle GetTriangle()
         {
             return (Triangle)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Quadrilateral</returns>
+        public Quadrilateral GetQuadrilateral()
+        {
+            return (Quadrilateral)this.ActualInstance;
         }
 
         /// <summary>

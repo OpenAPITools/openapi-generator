@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -34,84 +32,85 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class ReadOnlyFirst {
-  public static final String JSON_PROPERTY_BAR = "bar";
-  private String bar;
+    public static final String JSON_PROPERTY_BAR = "bar";
+    private String bar;
 
-  public static final String JSON_PROPERTY_BAZ = "baz";
-  private String baz;
+    public static final String JSON_PROPERTY_BAZ = "baz";
+    private String baz;
 
-  /**
-   * Get bar
-   * @return bar
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getBar() {
-    return bar;
-  }
-
-  public ReadOnlyFirst baz(String baz) {
-    this.baz = baz;
-    return this;
-  }
-
-  /**
-   * Get baz
-   * @return baz
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BAZ)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getBaz() {
-    return baz;
-  }
-
-  @JsonProperty(JSON_PROPERTY_BAZ)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBaz(String baz) {
-    this.baz = baz;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public ReadOnlyFirst() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    /**
+     * Get bar
+     * @return bar
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_BAR)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public String getBar() {
+        return bar;
     }
-    ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return Objects.equals(this.bar, readOnlyFirst.bar) &&
-        Objects.equals(this.baz, readOnlyFirst.baz);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(bar, baz);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ReadOnlyFirst {\n");
-    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
-    sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    public ReadOnlyFirst baz(String baz) {
+        this.baz = baz;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    /**
+     * Get baz
+     * @return baz
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_BAZ)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public String getBaz() {
+        return baz;
+    }
+
+    @JsonProperty(JSON_PROPERTY_BAZ)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setBaz(String baz) {
+        this.baz = baz;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
+        return Objects.equals(this.bar, readOnlyFirst.bar) &&
+            Objects.equals(this.baz, readOnlyFirst.baz);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bar, baz);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ReadOnlyFirst {\n");
+        sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
+        sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }
+

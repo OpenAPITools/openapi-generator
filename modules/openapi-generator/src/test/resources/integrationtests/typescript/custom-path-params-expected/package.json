@@ -1,0 +1,33 @@
+{
+  "name": "custom-path-params-integration-test",
+  "version": "1.0.3",
+  "description": "OpenAPI client for custom-path-params-integration-test",
+  "author": "OpenAPI-Generator Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https:////.git"
+  },
+  "keywords": [
+    "openapi-client",
+    "openapi-generator"
+  ],
+  "license": "Unlicense",
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json"
+  },
+  "peerDependencies": {
+    "@angular/core": "^15.0.3",
+    "rxjs": "^7.5.5"
+  },
+  "devDependencies": {
+    "@angular/common": "^15.0.3",
+    "@angular/compiler": "^15.0.3",
+    "@angular/compiler-cli": "^15.0.3",
+    "@angular/core": "^15.0.3",
+    "@angular/platform-browser": "^15.0.3",
+    "ng-packagr": "^15.0.2",
+    "reflect-metadata": "^0.1.3",
+    "rxjs": "^7.5.5",
+    "typescript": ">=4.8.2 <4.10.0",
+    "zone.js": "^0.11.5"
+  }}

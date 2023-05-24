@@ -5,19 +5,21 @@ group = '{{groupId}}'
 version = '{{artifactVersion}}'
 
 repositories {
-    maven { url "https://repo1.maven.org/maven2" }
-    jcenter()
+    mavenCentral()
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-install {
-    repositories.mavenInstaller {
-        pom.artifactId = '{{artifactId}}'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = '{{artifactId}}'
+            from components.java
+        }
     }
 }
 
@@ -28,16 +30,14 @@ task execute(type:JavaExec) {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "2.10.5"
-    jackson_databind_version = "2.10.5.1"
-    vertx_version = "3.4.2"
-    junit_version = "4.13.1"
+    jackson_version = "2.13.4"
+    jackson_databind_version = "2.13.4.2"
+    vertx_version = "3.5.2"
+    junit_version = "4.13.2"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.1"
+    jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
-    {{#threetenbp}}
-    jackson_threeten_version = "2.9.10"
-    {{/threetenbp}}
+    jakarta_annotation_version = "1.3.5"
 }
 
 dependencies {
@@ -51,16 +51,11 @@ dependencies {
     {{#joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
-    {{#java8}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    {{/java8}}
-    {{#threetenbp}}
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:jackson_threeten_version"
-    {{/threetenbp}}
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation "io.vertx:vertx-unit:$vertx_version"
 }

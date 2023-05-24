@@ -65,13 +65,70 @@ libraryDependencies += "{{{groupId}}}" % "{{{artifactId}}}" % "{{{artifactVersio
 
 ## Getting Started
 
+Please follow the [installation](#installation) instruction and execute the following Java code:
+
+```scala
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+import {{invokerPackage}}._
+import {{modelPackage}}._
+import {{{package}}}.{{{classname}}}
+
+import akka.actor.ActorSystem
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+
+object {{{classname}}}Example extends App {
+
+    implicit val system: ActorSystem = ActorSystem()
+    import system.dispatcher{{#hasAuthMethods}}
+    {{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+    // Configure HTTP basic authorization: {{{name}}}
+    implicit val {{{name}}}: BasicCredentials = BasicCredentials("YOUR USERNAME", "YOUR PASSWORD"){{/isBasicBasic}}{{#isBasicBearer}}
+    // Configure HTTP bearer authorization: {{{name}}}
+    implicit val {{{name}}}: BearerToken = BearerToken("BEARER TOKEN"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
+    // Configure API key authorization: {{{name}}}
+    implicit val {{{name}}}: ApiKeyValue = ApiKeyValue("YOUR API KEY"){{/isApiKey}}
+    {{/authMethods}}
+    {{/hasAuthMethods}}
+
+    // Create invoker to execute requests
+    val apiInvoker = ApiInvoker()
+    val apiInstance = {{{classname}}}("{{{basePath}}}"){{#allParams}}
+    val {{{paramName}}}: {{{dataType}}} = {{{example}}} // {{{dataType}}} | {{{description}}}
+    {{/allParams}}
+
+    val request = apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+    val response = apiInvoker.execute(request)
+
+    response.onComplete {
+        case Success(org.openapitools.client.core.ApiResponse(code, content, headers)) =>
+            System.out.println(s"Status code: $code}")
+            System.out.println(s"Response headers: ${headers.mkString(", ")}"){{#returnType}}
+            System.out.println(s"Response body: $content"){{/returnType}}
+
+        case Failure(error @ ApiError(code, message, responseContent, cause, headers)) =>
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}")
+            System.err.println(s"Status code: $code}")
+            System.err.println(s"Reason: $responseContent")
+            System.err.println(s"Response headers: ${headers.mkString(", ")}")
+            error.printStackTrace();
+
+        case Failure(exception) =>
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}")
+            exception.printStackTrace();
+    }
+
+}
+{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | **{{operationId}}** | **{{httpMethod}}** {{path}} | {{summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models
@@ -79,11 +136,14 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{classname}}]({{modelDocPath}}{{classname}}.md)
 {{/model}}{{/models}}
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-{{^authMethods}}All endpoints do not require authorization.
-{{/authMethods}}Authentication schemes defined for the API:
-{{#authMethods}}### {{name}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+<a id="{{name}}"></a>
+### {{name}}
 
 {{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{keyParamName}}

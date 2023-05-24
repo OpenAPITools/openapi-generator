@@ -1,8 +1,19 @@
 ---
-title: Config Options for csharp
-sidebar_label: csharp
+title: Documentation for the csharp Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | csharp | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | C# | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a CSharp client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -25,7 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5 compatible</dd><dt>**v4.5.2**</dt><dd>.NET Framework 4.5.2+ compatible</dd><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd></dl>|v4.5|
+|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5 compatible</dd><dt>**v4.5.2**</dt><dd>.NET Framework 4.5.2+ compatible</dd><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd></dl>|v4.5|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useCompareNetObjects|Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
@@ -82,6 +93,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>long</li>
 <li>long?</li>
 <li>string</li>
+<li>uint</li>
+<li>uint?</li>
+<li>ulong</li>
+<li>ulong?</li>
 </ul>
 
 ## RESERVED WORDS
@@ -212,7 +227,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -272,6 +291,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -284,6 +307,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

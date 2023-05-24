@@ -15,7 +15,7 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 
-/// struct for typed errors of method `delete_order`
+/// struct for typed errors of method [`delete_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderError {
@@ -24,14 +24,14 @@ pub enum DeleteOrderError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_inventory`
+/// struct for typed errors of method [`get_inventory`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_order_by_id`
+/// struct for typed errors of method [`get_order_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
@@ -40,7 +40,7 @@ pub enum GetOrderByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `place_order`
+/// struct for typed errors of method [`place_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {
@@ -51,13 +51,14 @@ pub enum PlaceOrderError {
 
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 pub fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
+    let local_var_configuration = configuration;
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
+    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(order_id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
@@ -78,16 +79,17 @@ pub fn delete_order(configuration: &configuration::Configuration, order_id: &str
 
 /// Returns a map of status codes to quantities
 pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
+    let local_var_configuration = configuration;
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/inventory", configuration.base_path);
+    let local_var_uri_str = format!("{}/store/inventory", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref local_var_apikey) = configuration.api_key {
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
         let local_var_key = local_var_apikey.key.clone();
         let local_var_value = match local_var_apikey.prefix {
             Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
@@ -111,15 +113,16 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<:
     }
 }
 
-/// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+/// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdError>> {
+    let local_var_configuration = configuration;
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
+    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=order_id);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
@@ -138,14 +141,16 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     }
 }
 
+/// 
 pub fn place_order(configuration: &configuration::Configuration, order: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderError>> {
+    let local_var_configuration = configuration;
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order", configuration.base_path);
+    let local_var_uri_str = format!("{}/store/order", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     local_var_req_builder = local_var_req_builder.json(&order);

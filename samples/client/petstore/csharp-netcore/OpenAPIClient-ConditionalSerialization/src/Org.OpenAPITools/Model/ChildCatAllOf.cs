@@ -43,7 +43,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "ChildCat")]
             ChildCat = 1
-
         }
 
 
@@ -80,7 +79,10 @@ namespace Org.OpenAPITools.Model
         public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             this._Name = name;
-            this.PetType = petType;
+            if (this.Name != null)
+            {
+                this._flagName = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -120,7 +122,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ChildCatAllOf {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
@@ -168,10 +170,14 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Name != null)
-                    hashCode = hashCode * 59 + this.Name.GetHashCode();
-                hashCode = hashCode * 59 + this.PetType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -1340,7 +1340,7 @@
                         "example": "tlead1"
                     }
                 },
-                "description": "a team member, could be project lead or an member with assigned tasks."
+                "description": "a team member, could be project lead or a member with assigned tasks."
             },
             "TaskWeek": {
                 "type": "object",
@@ -1407,7 +1407,7 @@
         "securitySchemes": {
             "Authentication": {
                 "type": "apiKey",
-                "description": "auth with jwt bearer token in 'Authentication' header of proctected requests.",
+                "description": "auth with jwt bearer token in 'Authentication' header of protected requests.",
                 "name": "Authentication",
                 "in": "header"
             }

@@ -79,7 +79,7 @@ public class KotlinTestUtils {
         } else {
             String s;
             try {
-                s = new String(baos.toByteArray(), "UTF-8");
+                s = baos.toString("UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }

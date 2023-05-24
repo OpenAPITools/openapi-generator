@@ -62,15 +62,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
-import javax.annotation.Nullable;
+import {{javaxPackage}}.annotation.Nullable;
 
 {{#jsr310}}
-{{#threetenbp}}
-import org.threeten.bp.OffsetDateTime;
-{{/threetenbp}}
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
 {{/jsr310}}
 
 import {{invokerPackage}}.auth.Authentication;
@@ -160,8 +155,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -457,6 +452,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             collectionFormat = CollectionFormat.CSV;
         }
 
+        if (value instanceof Map) {
+            @SuppressWarnings("unchecked")
+            final Map<String, Object> valuesMap = (Map<String, Object>) value;
+            for (final Entry<String, Object> entry : valuesMap.entrySet()) {
+                params.add(entry.getKey(), parameterToString(entry.getValue()));
+            }
+            return params;
+        }
+
         Collection<?> valueCollection = null;
         if (value instanceof Collection) {
             valueCollection = (Collection<?>) value;
@@ -513,7 +517,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return boolean true if the MediaType represents JSON, false otherwise
      */
     public boolean isJsonMime(MediaType mediaType) {
-        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*\\+json[;]?\\s*$"));
+        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*(\\+json|ndjson)[;]?\\s*$"));
     }
 
     /**
@@ -615,7 +619,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     /**
      * Include queryParams in uriParams taking into account the paramName
-     * @param queryParam The query parameters
+     * @param queryParams The query parameters
      * @param uriParams The path parameters
      * return templatized query string
      */
@@ -654,7 +658,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
 
         String finalUri = builder.build(false).toUriString();
-        Map<String, Object> uriParams = new HashMap();
+        Map<String, Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         if (queryParams != null && !queryParams.isEmpty()) {
@@ -724,7 +728,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param headerParams The header parameters
      * @param cookieParams the cookie parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
+    protected void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {

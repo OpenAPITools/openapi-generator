@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
-        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = true)]
         public decimal LengthCm { get; set; }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class BananaReq {\n");
             sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
             sb.Append("  Sweet: ").Append(Sweet).Append("\n");
@@ -112,8 +112,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.LengthCm.GetHashCode();
-                hashCode = hashCode * 59 + this.Sweet.GetHashCode();
+                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
                 return hashCode;
             }
         }

@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.1.RELEASE</version>
+		<version>2.7.6</version>
 	</parent>
 	<build>
 		<plugins>
@@ -20,7 +20,7 @@
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<!-- RELEASE_VERSION -->
-				<version>5.3.0-SNAPSHOT</version>
+				<version>7.0.0-SNAPSHOT</version>
 				<!-- /RELEASE_VERSION -->
 				<executions>
 					<execution>
@@ -32,14 +32,15 @@
 							<!-- specify the swagger yaml -->
 							<inputSpec>${project.basedir}/swagger.yaml</inputSpec>
 
-							<!-- target to generate java client code -->
+							<!-- target to generate java server code -->
 							<generatorName>spring</generatorName>
 
-							<!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-								 you can use the following target: <generatorName>spring</generatorName> -->
+							<!-- hint: if you want to generate java client code
+								 you can use the following generator: <generatorName>java</generatorName> -->
 
 							<!-- pass any necessary config options -->
 							<configOptions>
+								<documentationProvider>springfox</documentationProvider>
 								<serializableModel>true</serializableModel>
 								<snapshotVersion>true</snapshotVersion>
 							</configOptions>
@@ -78,7 +79,7 @@
 			<version>${swagger-annotations-version}</version>
 		</dependency>
 
-		<!-- You can find the dependencies for the library configuation you chose by looking in JavaClientCodegen.
+		<!-- You can find the dependencies for the library configuration you chose by looking in JavaClientCodegen.
 			 Then find the corresponding dependency on Maven Central, and set the versions in the property section below -->
 
 		<dependency>
@@ -124,8 +125,6 @@
 
 	<properties>
 		<swagger-annotations-version>1.5.8</swagger-annotations-version>
-
-		<spring-boot-starter-web.version>2.2.1.RELEASE</spring-boot-starter-web.version>
 		<springfox-version>2.8.0</springfox-version>
 	</properties>
 </project>

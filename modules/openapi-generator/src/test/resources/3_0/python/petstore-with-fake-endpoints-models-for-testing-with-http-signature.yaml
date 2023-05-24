@@ -16,8 +16,6 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
-  - name: fake
-    description: Fake api used for feature testing
 paths:
   /foo:
     get:
@@ -33,15 +31,17 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
-      - url: 'http://petstore.swagger.io/v2'
-      - url: 'http://path-server-test.petstore.local/v2'
+      - url: 'https://petstore.swagger.io/v2'
+      - url: 'https://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
       summary: Add a new pet to the store
-      description: ''
+      description: Add a new pet to the store
       operationId: addPet
       responses:
+        '200':
+          description: Ok
         '405':
           description: Invalid input
       security:
@@ -135,7 +135,6 @@ paths:
             type: array
             items:
               type: string
-            example: ['tag1', 'tag2']
       responses:
         '200':
           description: successful operation
@@ -248,6 +247,45 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  '/pet/{petId}/uploadImage':
+    post:
+      tags:
+        - pet
+      summary: uploads an image
+      description: ''
+      operationId: uploadImage
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
   /store/inventory:
     get:
       tags:
@@ -300,7 +338,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -507,8 +545,8 @@ paths:
           schema:
             type: string
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Success
         '404':
           description: User not found
   /fake_classname_test:
@@ -517,7 +555,7 @@ paths:
         - 'fake_classname_tags 123#$%^'
       summary: To test class name in snake case
       description: To test class name in snake case
-      operationId: testClassname
+      operationId: Classname
       responses:
         '200':
           description: successful operation
@@ -535,7 +573,7 @@ paths:
         - fake
       summary: To test "client" model
       description: To test "client" model
-      operationId: testClientModel
+      operationId: ClientModel
       responses:
         '200':
           description: successful operation
@@ -550,7 +588,7 @@ paths:
         - fake
       summary: To test enum parameters
       description: To test enum parameters
-      operationId: testEnumParameters
+      operationId: EnumParameters
       parameters:
         - name: enum_header_string_array
           in: header
@@ -613,10 +651,14 @@ paths:
               - 1.1
               - -1.2
       responses:
-        '400':
-          description: Invalid request
+        '200':
+          description: Success
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -653,10 +695,10 @@ paths:
         假端點
         偽のエンドポイント
         가짜 엔드 포인트
-      operationId: testEndpointParameters
+      operationId: EndpointParameters
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Success
         '404':
           description: User not found
       security:
@@ -692,14 +734,12 @@ paths:
                   type: number
                   format: float
                   maximum: 987.6
-                  exclusiveMaximum: true
                 double:
                   description: None
                   type: number
                   format: double
                   minimum: 67.8
                   maximum: 123.4
-                  exclusiveMaximum: true
                 string:
                   description: None
                   type: string
@@ -747,7 +787,7 @@ paths:
         - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
       description: Fake endpoint to test group parameters (optional)
-      operationId: testGroupParameters
+      operationId: GroupParameters
       x-group-parameters: true
       parameters:
         - name: required_string_group
@@ -786,8 +826,8 @@ paths:
             type: integer
             format: int64
       responses:
-        '400':
-          description: Someting wrong
+        '200':
+          description: succeeded
   /fake/refs/number:
     post:
       tags:
@@ -882,15 +922,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AnimalFarm'
-            examples:
-              simple-list:
-                 summary: Simple list example
-                 description: Should not get into code examples
-                 value:
-                    - className: foo
-                      color: yellow
-                    - className: bar
-                      color: green
         required: false
       responses:
         '200':
@@ -905,13 +936,13 @@ paths:
       tags:
         - fake
       description: Test serialization of object with $refed properties
-      operationId: ComposedOneOfNumberWithValidations
+      operationId: ComposedOneOfDifferentTypes
       requestBody:
         description: Input model
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+              $ref: '#/components/schemas/ComposedOneOfDifferentTypes'
         required: false
       responses:
         '200':
@@ -919,7 +950,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+                $ref: '#/components/schemas/ComposedOneOfDifferentTypes'
   /fake/refs/object_model_with_ref_props:
     post:
       tags:
@@ -982,26 +1013,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
-  /fake/refs/enum-test:
-    post:
-      tags:
-        - fake
-      summary: Object contains enum properties and array properties containing enums
-      operationId: EnumTest
-      requestBody:
-        description: Input object
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Enum_Test'
-        required: false
-      responses:
-        200:
-          description: Got object containing enums
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Enum_Test'
   /fake/additional-properties-with-array-of-enums:
     get:
       tags:
@@ -1028,7 +1039,7 @@ paths:
         - fake
       summary: test json serialization of form data
       description: ''
-      operationId: testJsonFormData
+      operationId: JsonFormData
       responses:
         '200':
           description: successful operation
@@ -1053,7 +1064,7 @@ paths:
         - fake
       summary: test inline additionalProperties
       description: ''
-      operationId: testInlineAdditionalProperties
+      operationId: InlineAdditionalProperties
       responses:
         '200':
           description: successful operation
@@ -1070,7 +1081,7 @@ paths:
     put:
       tags:
         - fake
-      operationId: testBodyWithQueryParams
+      operationId: BodyWithQueryParams
       parameters:
         - name: query
           in: query
@@ -1109,7 +1120,7 @@ paths:
       description: >-
         For this test, the body for this request much reference a schema named
         `File`.
-      operationId: testBodyWithFileSchema
+      operationId: BodyWithFileSchema
       responses:
         '200':
           description: Success
@@ -1119,12 +1130,37 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/case-sensitive-params:
+    put:
+      tags:
+        - fake
+      description: Ensures that original naming is used in endpoint params, that way we won't have collisions
+      operationId: CaseSensitiveParams
+      parameters:
+        - name: someVar
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: SomeVar
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: some_var
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
       description: To test the collection format in query parameters
-      operationId: testQueryParameterCollectionFormat
+      operationId: QueryParameterCollectionFormat
       parameters:
         - name: pipe
           in: query
@@ -1167,37 +1203,153 @@ paths:
             type: array
             items:
               type: string
+        - name: refParam
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/StringWithValidation'
       responses:
         "200":
           description: Success
-  /{fileName}:
-    get:
-      servers:
-        - url: http://www.jtricks.com
+  '/fake/{petId}/uploadImageWithRequiredFile':
+    post:
+      tags:
+        - pet
+      summary: uploads an image (required)
+      description: ''
+      operationId: uploadFileWithRequiredFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                requiredFile:
+                  description: file to upload
+                  type: string
+                  format: binary
+              required:
+                - requiredFile
+  /fake/parameterCollisions/{1}/{aB}/{Ab}/{self}/{A-B}/:
+    post:
       tags:
         - fake
-      summary: downloads a file using Content-Disposition
-      operationId: downloadAttachment
+      summary: parameter collision case
+      operationId: parameterCollisions
       parameters:
-        - name: fileName
+        - name: 1
+          in: query
+          schema:
+            type: string
+        - name: aB
+          in: query
+          schema:
+            type: string
+        - name: Ab
+          in: query
+          schema:
+            type: string
+        - name: self
+          in: query
+          schema:
+            type: string
+        - name: A-B
+          in: query
+          schema:
+            type: string
+        - name: 1
+          in: header
+          schema:
+            type: string
+        - name: aB
+          in: header
+          schema:
+            type: string
+        - name: self
+          in: header
+          schema:
+            type: string
+        - name: A-B
+          in: header
+          schema:
+            type: string
+        - name: 1
           in: path
-          description: file name
           required: true
           schema:
             type: string
+        - name: aB
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Ab
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: self
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: A-B
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 1
+          in: cookie
+          schema:
+            type: string
+        - name: aB
+          in: cookie
+          schema:
+            type: string
+        - name: Ab
+          in: cookie
+          schema:
+            type: string
+        - name: self
+          in: cookie
+          schema:
+            type: string
+        - name: A-B
+          in: cookie
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema: {}
       responses:
         200:
-          description: successful operation
+          description: success
           content:
-            'text/plain':
-              schema:
-                type: string
-                format: binary
-          headers:
-            Content-Disposition:
-              schema:
-                type: string
-              description: "describes the received file. Looks like: 'attachment; filename=fileName.txt'"
+            application/json:
+              schema: {}
   /fake/uploadFile:
     post:
       tags:
@@ -1288,66 +1440,190 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /fake/postInlineAdditionalPropertiesRefPayload:
+  /fake/inlineComposition/:
     post:
       tags:
         - fake
-      operationId: postInlineAdditionalPropertiesRefPayload
-      responses:
-        200:
-          description: InlineAdditionalPropertiesRefPayload
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
+      summary: testing composed schemas at inline locations
+      operationId: inlineComposition
+      parameters:
+        - name: compositionAtRoot
+          in: query
+          schema:
+            allOf:
+              - type: string
+                minLength: 1
+        - name: compositionInProperty
+          in: query
+          schema:
+            type: object
+            properties:
+              someProp:
+                allOf:
+                  - type: string
+                    minLength: 1
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InlineAdditionalPropertiesRefPayload'
-  /fake/postInlineAdditionalPropertiesPayload:
-    post:
-      tags:
-        - fake
-      operationId: postInlineAdditionalPropertiesPayload
-      responses:
-        200:
-          description: InlineAdditionalPropertiesPayload
-          content:
-            application/json:
-              schema:
-                description: this payload is used for verification that some model_to_dict issues are fixed
-                type: object
-                properties:
-                  arrayData:
-                    type: array
-                    nullable: true
-                    items:
-                      type: object
-                      properties:
-                        labels:
-                          type: array
-                          items:
-                            type: string
-                            nullable: true
-      requestBody:
-        content:
-          application/json:
+              allOf:
+                - type: string
+                  minLength: 1
+          multipart/form-data:
             schema:
-              description: this payload is used for verification that some model_to_dict issues are fixed
               type: object
               properties:
-                arrayData:
-                  type: array
-                  nullable: true
-                  items:
-                    type: object
-                    properties:
-                      labels:
-                        type: array
-                        items:
-                          type: string
-                          nullable: true
+                someProp:
+                  allOf:
+                    - type: string
+                      minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: string
+                    minLength: 1
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  someProp:
+                    allOf:
+                      - type: string
+                        minLength: 1
+  '/fake/objInQuery':
+    get:
+      tags:
+        - fake
+      summary: user list
+      operationId: objectInQuery
+      parameters:
+        - name: mapBean
+          in: query
+          required: false
+          description: mapBean
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            properties:
+              keyword:
+                title: keyword
+                type: string
+      responses:
+        '200':
+          description: ok
+  '/fake/refObjInQuery':
+    get:
+      tags:
+        - fake
+      summary: user list
+      operationId: refObjectInQuery
+      parameters:
+        - name: mapBean
+          in: query
+          required: false
+          description: mapBean
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Foo'
+      responses:
+        '200':
+          description: ok
+  '/fake/jsonWithCharset':
+    post:
+      tags:
+        - fake
+      summary: json with charset tx and rx
+      operationId: jsonWithCharset
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema: {}
+      responses:
+        200:
+          description: success
+          content:
+            application/json; charset=utf-8:
+              schema: {}
+  "/fake/responseWithoutSchema":
+    get:
+      tags:
+        - fake
+      summary: receives a response without schema
+      operationId: responseWithoutSchema
+      responses:
+        '200':
+          description: contents without schema definition
+          content:
+            application/json: {}
+            application/xml: {}
+  /fake/jsonPatch:
+    patch:
+      summary: json patch
+      description: json patch route with a requestBody
+      operationId: jsonPatch
+      tags:
+        - fake
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/JSONPatchRequest'
+      responses:
+        '200':
+          description: OK
+  /fake/deleteCoffee/{id}:
+    delete:
+      operationId: deleteCoffee
+      summary: Delete coffee
+      description: Delete the coffee identified by the given id, (delete without request body)
+      tags:
+        - fake
+      parameters:
+        - name: id
+          in: path
+          description: The internal object id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '202':
+          description: header only
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: string
+                format: number
+        default:
+          description: Unexpected error
+  /fake/queryParamWithJsonContentType:
+    get:
+      operationId: queryParamWithJsonContentType
+      summary: query param with json content-type
+      tags:
+        - fake
+      parameters:
+        - name: someParam
+          in: query
+          description: The internal object id
+          required: true
+          content:
+            application/json:
+              schema: {}
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema: {}
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1520,13 +1796,12 @@ components:
             Here the 'type' attribute is not specified, which means the value can be anything,
             including the null value, string, number, boolean, array or object.
             See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        # TODO: this should be supported, currently there are some issues in the code generation.
-        #anyTypeExceptNullProp:
-        #  description: any type except 'null'
-        #    Here the 'type' attribute is not specified, which means the value can be anything,
-        #    including the null value, string, number, boolean, array or object.
-        #  not:
-        #    type: 'null'
+        anyTypeExceptNullProp:
+          description: any type except 'null'
+            Here the 'type' attribute is not specified, which means the value can be anything,
+            including the null value, string, number, boolean, array or object.
+          not:
+            type: 'null'
         anyTypePropNullable:
           description: test code generation for any type
             Here the 'type' attribute is not specified, which means the value can be anything,
@@ -1598,6 +1873,7 @@ components:
       description: Model for testing reserved words
       properties:
         return:
+          description: this is a reserved python keyword
           type: integer
           format: int32
       xml:
@@ -1615,19 +1891,18 @@ components:
           type: integer
           format: int32
         property:
+          description: this is a reserved python keyword
           type: string
-        123Number:
-          type: integer
-          readOnly: true
       xml:
         name: Name
     200_response:
-      description: Model for testing model name starting with number
+      description: model with an invalid class name for python, starts with a number
       properties:
         name:
           type: integer
           format: int32
         class:
+          description: this is a reserved python keyword
           type: string
       xml:
         name: Name
@@ -1643,8 +1918,6 @@ components:
           properties:
             breed:
               type: string
-            legs:
-              $ref: '#/components/schemas/Legs'
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
@@ -1652,19 +1925,6 @@ components:
           properties:
             declawed:
               type: boolean
-    Legs:
-      type: object
-      required:
-        - legs
-      properties:
-        legs:
-          enum:
-            - '2'
-            - '4'
-          default: '4'
-          x-enum-as-string: true
-        name:
-          type: string
     Address:
       type: object
       additionalProperties:
@@ -1681,15 +1941,11 @@ components:
         color:
           type: string
           default: red
-        tail:
-          type: boolean
-          default: true
-          readOnly: true
     AnimalFarm:
       type: array
       items:
         $ref: '#/components/schemas/Animal'
-    format_test:
+    FormatTest:
       type: object
       required:
         - number
@@ -1705,6 +1961,9 @@ components:
         int32:
           type: integer
           format: int32
+        int32withValidations:
+          type: integer
+          format: int32
           maximum: 200
           minimum: 20
         int64:
@@ -1716,15 +1975,27 @@ components:
           type: number
           multipleOf: 32.5
         float:
+          description: this is a reserved python keyword
           type: number
           format: float
           maximum: 987.6
           minimum: 54.3
+        float32:
+          type: number
+          format: float
         double:
           type: number
           format: double
           maximum: 123.4
           minimum: 67.8
+        float64:
+          type: number
+          format: double
+        arrayWithUniqueItems:
+          type: array
+          items:
+            type: number
+          uniqueItems: true
         string:
           type: string
           pattern: '/[a-z]/i'
@@ -1762,6 +2033,8 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+        noneProp:
+          type: 'null'
     EnumClass:
       type: string
       default: '-efg'
@@ -1769,6 +2042,18 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+        - COUNT_1M
+        - COUNT_50M
+    ObjectModelWithArgAndArgsProperties:
+      type: object
+      properties:
+        arg:
+          type: string
+        args:
+          type: string
+      required:
+      - arg
+      - args
     Enum_Test:
       type: object
       required:
@@ -1798,12 +2083,6 @@ components:
           enum:
             - 1.1
             - -1.2
-        enum_bool:
-          type: boolean
-          enum:
-            - false
-        boolEnum:
-          $ref: '#/components/schemas/BooleanEnum'
         stringEnum:
           $ref: '#/components/schemas/StringEnum'
         IntegerEnum:
@@ -1814,12 +2093,6 @@ components:
           $ref: '#/components/schemas/IntegerEnumWithDefaultValue'
         IntegerEnumOneValue:
           $ref: '#/components/schemas/IntegerEnumOneValue'
-        InlineArrayOfStrEnum:
-          type: array
-          items:
-            $ref: '#/components/schemas/StringEnum'
-        ArrayOfStrEnum:
-          $ref: '#/components/schemas/ArrayOfEnums'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1864,11 +2137,6 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Animal'
-    List:
-      type: object
-      properties:
-        123-list:
-          type: string
     Client:
       type: object
       properties:
@@ -1998,12 +2266,19 @@ components:
           multiple
           lines
         - "double quote \n with newline"
+        - null
     IntegerEnum:
       type: integer
       enum:
         - 0
         - 1
         - 2
+    IntegerEnumBig:
+      type: integer
+      enum:
+        - 10
+        - 11
+        - 12
     StringEnumWithDefaultValue:
       type: string
       enum:
@@ -2022,29 +2297,51 @@ components:
       type: integer
       enum:
         - 0
+    NullableString:
+      nullable: true
+      type: string
     ObjectModelWithRefProps:
       description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
       type: object
       properties:
-        my_number:
+        myNumber:
           $ref: '#/definitions/NumberWithValidations'
-        my_readonly:
-          $ref: '#/definitions/Readonly'
-        my_string:
+        myString:
           $ref: '#/definitions/String'
-        my_boolean:
+        myBoolean:
           $ref: '#/definitions/Boolean'
     NumberWithValidations:
       type: number
       minimum: 10
       maximum: 20
-    Readonly:
-      type: object
-      readOnly: true
-      properties:
-         name:
-            type: string
-    ComposedOneOfNumberWithValidations:
+    ComposedAnyOfDifferentTypesNoValidations:
+      anyOf:
+        - type: object
+        - type: string
+          format: date
+        - type: string
+          format: date-time
+        - type: string
+          format: binary
+        - type: string
+          format: byte
+        - type: string
+        - type: object
+        - type: boolean
+        - type: 'null'
+        - type: array
+          items: {}
+        - type: number
+        - type: number
+          format: float
+        - type: number
+          format: double
+        - type: integer
+        - type: integer
+          format: int32
+        - type: integer
+          format: int64
+    ComposedOneOfDifferentTypes:
       description: this is a model that allows payloads of type object or number
       oneOf:
         - $ref: '#/components/schemas/NumberWithValidations'
@@ -2052,6 +2349,16 @@ components:
         - type: 'null'
         - type: string
           format: date
+        - type: object
+          minProperties: 4
+          maxProperties: 4
+        - type: array
+          maxItems: 4
+          minItems: 4
+          items: {}
+        - type: string
+          format: date-time
+          pattern: '^2020.*'
     Number:
       type: number
     String:
@@ -2078,13 +2385,26 @@ components:
         sourceURI:
           description: Test capitalization
           type: string
-    _special_model.name_:
+    ObjectWithDifficultlyNamedProps:
+      type: object
+      description: model with properties that have invalid names for python
       properties:
         '$special[property.name]':
           type: integer
           format: int64
-      xml:
-        name: '$special[model.name]'
+        123-list:
+          type: string
+        123Number:
+          type: integer
+          readOnly: true
+      required:
+        - 123-list
+    _special_model.name_:
+      type: object
+      description: model with an invalid class name for python
+      properties:
+        a:
+          type: string
     HealthCheckResult:
       type: object
       properties:
@@ -2131,9 +2451,6 @@ components:
           items:
             type: object
             nullable: true
-        object_nullable:
-          type: object
-          nullable: true
         object_nullable_prop:
           type: object
           nullable: true
@@ -2151,21 +2468,9 @@ components:
             type: object
             nullable: true
       additionalProperties:
+        type: object
         nullable: true
-    ComposedSchemaWithPropsAndNoAddProps:
-      properties:
-        color:
-          type: string
-      allOf:
-        - $ref: '#/components/schemas/Tag'
-      # Below additionalProperties is set to false to validate the use
-      # case when a composed schema has additionalProperties set to false.
-      # This definition will only allow in object payloads that set color and no other properties because
-      # additionalProperties are evaluated at the schema level and do not include composed schema
-      # properties. Only color is defined here, all others are additional
-      additionalProperties: false
     fruit:
-      description: a schema that tests oneOf and includes a schema level property
       properties:
         color:
           type: string
@@ -2207,6 +2512,8 @@ components:
           type: boolean
         className:
           type: string
+          enum:
+            - whale
       required:
         - className
     zebra:
@@ -2220,6 +2527,8 @@ components:
             - grevys
         className:
           type: string
+          enum:
+            - zebra
       required:
         - className
       additionalProperties: true
@@ -2234,6 +2543,8 @@ components:
       properties:
         className:
           type: string
+          enum:
+            - BasquePig
       required:
         - className
     DanishPig:
@@ -2241,6 +2552,8 @@ components:
       properties:
         className:
           type: string
+          enum:
+            - DanishPig
       required:
         - className
     gmFruit:
@@ -2251,8 +2564,6 @@ components:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
     fruitReq:
-      description: a schema where additionalProperties is on in the composed schema and off in the oneOf object schemas
-        also, this schem accepts null as a value
       oneOf:
         - type: 'null'
         - $ref: '#/components/schemas/appleReq'
@@ -2323,25 +2634,23 @@ components:
         propertyName: shapeType
     NullableShape:
       description: The value may be a shape or the 'null' value.
-        The 'nullable' attribute was introduced in OAS schema >= 3.0
-        and has been deprecated in OAS schema >= 3.1.
+        For a composed schema to validate a null payload,
+        one of its chosen oneOf schemas must be type null
+        or nullable (introduced in OAS schema >= 3.0)
       oneOf:
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'
-      discriminator:
-        propertyName: shapeType
-      nullable: true
-    ShapeInterface:
+        - type: "null"
+    TriangleInterface:
       properties:
         shapeType:
           type: string
-      required:
-        - shapeType
-    TriangleInterface:
-      properties:
+          enum:
+            - 'Triangle'
         triangleType:
           type: string
       required:
+        - shapeType
         - triangleType
     Triangle:
       oneOf:
@@ -2354,21 +2663,41 @@ components:
       # equivalent to allowing undeclared properties of any type.
     EquilateralTriangle:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+        - type: object
+          properties:
+            triangleType:
+              type: string
+              enum:
+                - 'EquilateralTriangle'
     IsoscelesTriangle:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+        - type: object
+          properties:
+            triangleType:
+              type: string
+              enum:
+                - 'IsoscelesTriangle'
     ScaleneTriangle:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+        - type: object
+          properties:
+            triangleType:
+              type: string
+              enum:
+                - 'ScaleneTriangle'
     QuadrilateralInterface:
       properties:
+        shapeType:
+          type: string
+          enum:
+            - 'Quadrilateral'
         quadrilateralType:
           type: string
       required:
+        - shapeType
         - quadrilateralType
     Quadrilateral:
       oneOf:
@@ -2378,12 +2707,22 @@ components:
         propertyName: quadrilateralType
     SimpleQuadrilateral:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+        - type: object
+          properties:
+            quadrilateralType:
+              type: string
+              enum:
+                - 'SimpleQuadrilateral'
     ComplexQuadrilateral:
       allOf:
-        - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
+        - type: object
+          properties:
+            quadrilateralType:
+              type: string
+              enum:
+                - 'ComplexQuadrilateral'
     GrandparentAnimal:
       type: object
       required:
@@ -2423,54 +2762,255 @@ components:
       type: object
     ObjectWithValidations:
       type: object
-      minProperties: 1
+      minProperties: 2
     SomeObject:
       allOf:
         - $ref: '#/components/schemas/ObjectInterface'
-    SomeObjectWithSelfAttr:
+    ArrayWithValidationsInItems:
+      type: array
+      maxItems: 2
+      items:
+        type: integer
+        format: int64
+        maximum: 7
+    ArrayHoldingAnyType:
+      type: array
+      items:
+        description: any type can be stored here
+    DateWithValidations:
+      type: string
+      format: date
+      pattern: '^2020.*'
+    DateTimeWithValidations:
+      type: string
+      format: date-time
+      pattern: '^2020.*'
+    NoAdditionalProperties:
       type: object
       properties:
-        self:
-          type: string
-    InlineAdditionalPropertiesRefPayload:
-      description: this payload is used for verification that some model_to_dict issues are fixed
-      type: object
-      properties:
-        arrayData:
-          type: array
-          nullable: true
-          items:
-            type: object
-            properties:
-              labels:
-                type: array
-                items:
-                  type: string
-                  nullable: true
-    Mole:
-      type: object
+        id:
+          type: integer
+          format: int64
+        petId:
+          type: integer
+          format: int64
       required:
-        - blind
-        - smell
-        - hearing
+        - id
+      additionalProperties: false
+    IntegerMax10:
+      type: integer
+      format: int64
+      maximum: 10
+    IntegerMin15:
+      type: integer
+      format: int64
+      minimum: 15
+    StringWithValidation:
+      type: string
+      minLength: 7
+    Player:
+      type: object
+      description: a model that includes a self reference this forces properties and additionalProperties
+        to be lazy loaded in python models because the Player class has not fully loaded when defining
+        properties
       properties:
-        blind:
-          type: boolean
-          readOnly: true
-        smell:
+        name:
           type: string
-          readOnly: false
-        touch:
-          type: boolean
-          readOnly: true
-        taste:
-          type: string
-          readOnly: false
-        hearing:
-          type: boolean
-        seeingGhosts:
-          type: boolean
+        enemyPlayer:
+          $ref: '#/components/schemas/Player'
     BooleanEnum:
       type: boolean
       enum:
         - true
+    ComposedObject:
+      type: object
+      allOf:
+        - {}
+    ComposedNumber:
+      type: number
+      allOf:
+        - {}
+    ComposedString:
+      type: string
+      allOf:
+        - {}
+    ComposedBool:
+      type: boolean
+      allOf:
+        - {}
+    ComposedArray:
+      type: array
+      items: {}
+      allOf:
+        - {}
+    ComposedNone:
+      type: 'null'
+      allOf:
+        - {}
+    Currency:
+      type: string
+      enum:
+        - eur
+        - usd
+    Money:
+      type: object
+      properties:
+        amount:
+          type: string
+          format: number
+        currency:
+          $ref: '#/components/schemas/Currency'
+      required:
+        - amount
+        - currency
+    DecimalPayload:
+      type: string
+      format: number
+    ObjectWithDecimalProperties:
+      type: object
+      properties:
+        length:
+          $ref: '#/components/schemas/DecimalPayload'
+        width:
+          type: string
+          format: number
+        cost:
+          $ref: '#/components/schemas/Money'
+    ObjectWithInlineCompositionProperty:
+      type: object
+      properties:
+        someProp:
+          allOf:
+            - type: string
+              minLength: 1
+    UUIDString:
+      type: string
+      format: uuid
+      minLength: 1
+    AnyTypeNotString:
+      not:
+        type: string
+    JSONPatchRequest:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/JSONPatchRequestAddReplaceTest'
+          - $ref: '#/components/schemas/JSONPatchRequestRemove'
+          - $ref: '#/components/schemas/JSONPatchRequestMoveCopy'
+    JSONPatchRequestAddReplaceTest:
+      type: object
+      additionalProperties: false
+      required:
+        - value
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        value:
+          description: The value to add, replace or test.
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - add
+            - replace
+            - test
+    JSONPatchRequestRemove:
+      type: object
+      additionalProperties: false
+      required:
+        - op
+        - path
+      properties:
+        path:
+          description: A JSON Pointer path.
+          type: string
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - remove
+    JSONPatchRequestMoveCopy:
+      type: object
+      additionalProperties: false
+      required:
+        - from
+        - op
+        - path
+      properties:
+        from:
+          description: A JSON Pointer path.
+          type: string
+        path:
+          description: A JSON Pointer path.
+          type: string
+        op:
+          description: The operation to perform.
+          type: string
+          enum:
+            - move
+            - copy
+    AdditionalPropertiesValidator:
+      type: object
+      allOf:
+        - type: object
+          additionalProperties: true
+        - type: object
+          additionalProperties:
+            minLength: 3
+        - type: object
+          additionalProperties:
+            maxLength: 5
+    AnyTypeAndFormat:
+      type: object
+      properties:
+        uuid:
+          format: uuid
+        date:
+          format: date
+        date-time:
+          format: date-time
+        number:
+          format: number
+        binary:
+          format: binary
+        int32:
+          format: int32
+        int64:
+          format: int64
+        double:
+          format: double
+        float:
+          format: float
+    FromSchema:
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+    ObjectWithInvalidNamedRefedProperties:
+      type: object
+      properties:
+        from:
+          $ref: "#/components/schemas/FromSchema"
+        "!reference":
+          $ref: "#/components/schemas/ArrayWithValidationsInItems"
+      required:
+        - from
+        - "!reference"
+    ObjectWithOptionalTestProp:
+      type: object
+      properties:
+        test:
+          type: string
+    ObjectWithAllOfWithReqTestPropFromUnsetAddProp:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalTestProp'
+        - type: object
+          required: [ test ]
+          properties:
+            name:
+              type: string

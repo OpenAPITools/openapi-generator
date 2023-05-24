@@ -44,7 +44,7 @@ Void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [api_key_query](../README.md#api_key_query)
 
 ### HTTP request headers
 
@@ -95,7 +95,7 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [String]) -> Observable<[Pet]>
+    open class func findPetsByStatus(status: [Status_findPetsByStatus]) -> Observable<[Pet]>
 ```
 
 Finds Pets by status

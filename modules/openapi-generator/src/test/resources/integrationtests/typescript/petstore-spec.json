@@ -486,7 +486,7 @@
                     "store"
                 ],
                 "summary": "Find purchase order by ID",
-                "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+                "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
                 "operationId": "getOrderById",
                 "produces": [
                     "application/xml",
@@ -689,7 +689,7 @@
                             "X-Expires-After": {
                                 "type": "string",
                                 "format": "date-time",
-                                "description": "date in UTC when toekn expires"
+                                "description": "date in UTC when token expires"
                             }
                         }
                     },

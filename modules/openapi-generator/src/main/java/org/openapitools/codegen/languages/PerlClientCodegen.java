@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,6 +41,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
 
+    protected static int emptyFunctionNameCounter = 0;
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
     protected String moduleName = "WWW::OpenAPIClient";
@@ -47,7 +50,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected static int emptyFunctionNameCounter = 0;
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public PerlClientCodegen() {
         super();
@@ -115,7 +118,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("double");
         languageSpecificPrimitives.add("string");
         languageSpecificPrimitives.add("boolean");
-        languageSpecificPrimitives.add("DateTime");
+        languageSpecificPrimitives.add("DATE");
+        languageSpecificPrimitives.add("DATE_TIME");
         languageSpecificPrimitives.add("ARRAY");
         languageSpecificPrimitives.add("HASH");
         languageSpecificPrimitives.add("object");
@@ -126,10 +130,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "double");
         typeMapping.put("double", "double");
         typeMapping.put("number", "double");
+        typeMapping.put("decimal", "double");
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DATE");
+        typeMapping.put("DateTime", "DATE_TIME");
         typeMapping.put("password", "string");
         typeMapping.put("array", "ARRAY");
         typeMapping.put("set", "ARRAY");
@@ -332,6 +337,18 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // model name cannot use reserved keyword
@@ -347,7 +364,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        // add prefix/suffic to model name
+        // add prefix/suffix to model name
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -358,7 +375,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
@@ -614,7 +633,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
                 "pm".equals(FilenameUtils.getExtension(file.toString())) ||
                 "pl".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = perlTidyPath + " -b -bext='/' " + file.toString();
+            String command = perlTidyPath + " -b -bext='/' " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -643,4 +662,41 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("# - OpenAPI Generator for Perl Developers            https://bit.ly/2OId6p3    #");
         System.out.println("################################################################################");
     }
+
+    /**
+     * Convert OAS Model object to Codegen Model object
+     * A custom version is made for this method to ensure that
+     * model.format remains empty string
+     *
+     * @param name the name of the model
+     * @param sc   OAS Model object
+     * @return Codegen Model object
+     */
+    @Override
+    public CodegenModel fromModel(String name, Schema sc) {
+        CodegenModel cm = super.fromModel(name, sc);
+        cm.setFormat("");
+        return cm;
+    }
+
+    /**
+     * Convert OAS Property object to Codegen Property object
+     * A custom version is made for this method to ensure that
+     * property.format remains empty string
+     *
+     * @param name name of the property
+     * @param p OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
+     * @return Codegen Property object
+     */
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        property.setFormat("");
+        return property;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PERL; }
 }

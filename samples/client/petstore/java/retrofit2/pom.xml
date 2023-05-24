@@ -137,17 +137,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.2</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.7</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -241,15 +241,10 @@
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
-            <dependency>
-                <groupId>org.threeten</groupId>
-                <artifactId>threetenbp</artifactId>
-                <version>${threetenbp-version}</version>
-            </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -262,15 +257,14 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <swagger-annotations-version>1.6.3</swagger-annotations-version>
         <retrofit-version>2.5.0</retrofit-version>
-        <threetenbp-version>1.4.0</threetenbp-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.13.1</junit-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>

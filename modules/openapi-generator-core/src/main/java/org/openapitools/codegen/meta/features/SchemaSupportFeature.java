@@ -66,5 +66,33 @@ public enum SchemaSupportFeature {
      * <p>This suggests support of OneOf in OpenAPI Specification with a discriminator.</p>
      */
     @OAS3
-    Union
+    Union,
+
+    /**
+     * The json schema Composition allOf keyword
+     * If a composed schema uses the allOf keyword, then payloads must be valid against all the given allOf schemas
+     */
+    @OAS2 @OAS3
+    allOf,
+
+    /**
+     * The json schema Composition anyOf keyword
+     * If a composed schema uses the anyOf keyword, then payloads must be valid against any of the given anyOf schemas
+     */
+    @OAS3
+    anyOf,
+
+    /**
+     * The json schema Composition oneOf keyword
+     * If a composed schema uses the oneOf keyword, then payloads must be valid against one of the given oneOf schemas
+     */
+    @OAS3
+    oneOf,
+
+    /**
+     * The json schema Composition not keyword
+     * If a composed schema uses the not keyword, then payloads must not be valid against the given not schema
+     */
+    @OAS3
+    not
 }

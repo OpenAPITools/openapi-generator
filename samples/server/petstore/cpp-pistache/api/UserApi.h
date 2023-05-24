@@ -19,11 +19,13 @@
 #define UserApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 
+#include <optional>
 #include <utility>
 
 #include "User.h"
@@ -33,11 +35,11 @@
 namespace org::openapitools::server::api
 {
 
-class  UserApi {
+class  UserApi : public ApiBase {
 public:
     explicit UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~UserApi() = default;
-    void init();
+    ~UserApi() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -54,18 +56,16 @@ private:
     void update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    const std::shared_ptr<Pistache::Rest::Router> router;
-
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
-    /// May be overriden to return custom error formats. This is called inside a catch block.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
-    /// May be overriden to return custom error formats. This is called inside a catch block.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleOperationException(const std::exception& ex) const noexcept;
@@ -85,7 +85,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -93,7 +93,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Delete user
     /// </summary>
@@ -118,7 +118,7 @@ private:
     /// </remarks>
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
-    virtual void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void login_user(const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Logs out current logged in user session
     /// </summary>

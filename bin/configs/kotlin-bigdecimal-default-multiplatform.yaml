@@ -1,0 +1,7 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-bigdecimal-default-multiplatform
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_10866_bigdecimal_default.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-bigdecimal-default-multiplatform
+  library: multiplatform

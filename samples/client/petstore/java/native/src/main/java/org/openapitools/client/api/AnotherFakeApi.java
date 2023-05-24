@@ -22,22 +22,29 @@ import org.openapitools.client.model.Client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.http.HttpRequest;
+import java.nio.channels.Channels;
+import java.nio.channels.Pipe;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -77,24 +84,24 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client body) throws ApiException {
-    ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(body);
+  public Client call123testSpecialTags(Client client) throws ApiException {
+    ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client);
     return localVarResponse.getData();
   }
 
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param body client model (required)
+   * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(body);
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -102,14 +109,17 @@ public class AnotherFakeApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("call123testSpecialTags", localVarResponse);
-      }
-      return new ApiResponse<Client>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("call123testSpecialTags", localVarResponse);
+        }
+        return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -119,10 +129,10 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client body) throws ApiException {
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client client) throws ApiException {
+    // verify the required parameter 'client' is set
+    if (client == null) {
+      throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -135,7 +145,7 @@ public class AnotherFakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(client);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

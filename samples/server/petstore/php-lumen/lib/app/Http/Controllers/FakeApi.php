@@ -177,6 +177,8 @@ class FakeApi extends Controller
 
         $enum_query_double = $input['enum_query_double'];
 
+        $enum_query_model_array = $input['enum_query_model_array'];
+
         $enum_form_string_array = $input['enum_form_string_array'];
 
         $enum_form_string = $input['enum_form_string'];
@@ -549,6 +551,11 @@ class FakeApi extends Controller
             throw new \InvalidArgumentException('Missing the required parameter $context when calling testQueryParameterCollectionFormat');
         }
         $context = $input['context'];
+
+        if (!isset($input['allow_empty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $allow_empty when calling testQueryParameterCollectionFormat');
+        }
+        $allow_empty = $input['allow_empty'];
 
         $language = $input['language'];
 

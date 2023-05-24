@@ -1,18 +1,13 @@
 {{#platforms}}
 {{#node}}
 // TODO: evaluate if we can easily get rid of this library
-import * as FormData from "form-data";
-import { URLSearchParams } from 'url';
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
+import { URL, URLSearchParams } from 'url';
+import * as http from 'http';
+import * as https from 'https';
 {{/node}}
 {{/platforms}}
-{{#platforms}}
-{{^deno}}
-// typings of url-parse are incorrect...
-// @ts-ignore
-import * as URLParse from "url-parse";
-{{/deno}}
-{{/platforms}}
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 
 {{#platforms}}
 {{^deno}}
@@ -57,44 +52,6 @@ export type HttpFile = {{{fileContentDataType}}} & { readonly name: string };
 {{/node}}
 {{/platforms}}
 
-{{#platforms}}
-{{#deno}}
-/**
- * URLParse Wrapper for Deno
- */
-class URLParse {
-    private url: URL;
-
-    constructor(address: string, _parser: boolean) {
-        this.url = new URL(address);
-    }
-
-    public set(_part: 'query', obj: {[key: string]: string | undefined}) {
-        for (const key in obj) {
-            const value = obj[key];
-            if (value) {
-              this.url.searchParams.set(key, value);
-            } else {
-              this.url.searchParams.set(key, "");
-            }
-        }
-    }
-
-    public get query() {
-        const obj: {[key: string]: string} = {};
-        for (const [key, value] of this.url.searchParams.entries()) {
-            obj[key] = value;
-        }
-        return obj;
-    }
-
-    public toString() {
-        return this.url.toString();
-    }
-}
-{{/deno}}
-{{/platforms}}
-
 export class HttpException extends Error {
     public constructor(msg: string) {
         super(msg);
@@ -112,7 +69,12 @@ export type RequestBody = undefined | string | FormData | URLSearchParams;
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: URLParse;
+    private url: URL;
+    {{#platforms}}
+    {{#node}}
+    private agent: http.Agent | https.Agent | undefined = undefined;
+    {{/node}}
+    {{/platforms}}
 
     /**
      * Creates the request context using a http method and request resource url
@@ -121,7 +83,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(url);
     }
 
     /*
@@ -129,7 +91,9 @@ export class RequestContext {
      *
      */
     public getUrl(): string {
-        return this.url.toString();
+        return this.url.toString().endsWith("/") ?
+            this.url.toString().slice(0, -1)
+            : this.url.toString();
     }
 
     /**
@@ -137,7 +101,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(url);
     }
 
     /**
@@ -166,9 +130,7 @@ export class RequestContext {
     }
 
     public setQueryParam(name: string, value: string) {
-        let queryObj = this.url.query;
-        queryObj[name] = value;
-        this.url.set("query", queryObj);
+        this.url.searchParams.set(name, value);
     }
 
     /**
@@ -185,6 +147,18 @@ export class RequestContext {
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
+    {{#platforms}}
+    {{#node}}
+    
+    public setAgent(agent: http.Agent | https.Agent) {
+        this.agent = agent;
+    }
+
+    public getAgent(): http.Agent | https.Agent | undefined {
+        return this.agent;
+    }
+    {{/node}}
+    {{/platforms}}
 }
 
 export interface ResponseBody {
@@ -286,6 +260,22 @@ export class ResponseContext {
         }
         {{/node}}
         {{/platforms}}
+    }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | {{{fileContentDataType}}} | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
     }
 }
 

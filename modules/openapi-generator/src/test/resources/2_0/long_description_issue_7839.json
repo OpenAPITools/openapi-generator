@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "Are creatures of the cosmos Rig Veda? Trillion! Made in the interiors of collapsing stars Apollonius of Perga, globular star cluster emerged into consciousness bits of moving fluff brain is the seed of intelligence citizens of distant epochs another world courage of our questions a mote of dust suspended in a sunbeam ship of the imagination, paroxysm of global death intelligent beings? Two ghostly white figures in coveralls and helmets are soflty dancing hearts of the stars brain is the seed of intelligence quasar, Drake Equation billions upon billions and billions upon billions upon billions upon billions upon billions upon billions upon billions!\n",
+    "description" : "Are creatures of the cosmos Rig Veda? Trillion! Made in the interiors of collapsing stars Apollonius of Perga, globular star cluster emerged into consciousness bits of moving fluff brain is the seed of intelligence citizens of distant epochs another world courage of our questions a mote of dust suspended in a sunbeam ship of the imagination, paroxysm of global death intelligent beings? Two ghostly white figures in coveralls and helmets are softly dancing hearts of the stars brain is the seed of intelligence quasar, Drake Equation billions upon billions and billions upon billions upon billions upon billions upon billions upon billions upon billions!\n",
     "version" : "1.0.0",
     "title" : "OpenAPI Petstore",
     "license" : {
@@ -130,7 +130,7 @@
       "get" : {
         "tags" : [ "pet" ],
         "summary" : "Finds Pets by tags",
-        "description" : "Muliple tags can be provided with comma separated strings. Use\\ \\ tag1, tag2, tag3 for testing.",
+        "description" : "Multiple tags can be provided with comma separated strings. Use\\ \\ tag1, tag2, tag3 for testing.",
         "operationId" : "findPetsByTags",
         "produces" : [ "application/json", "application/xml" ],
         "parameters" : [ {
@@ -360,7 +360,7 @@
       "get" : {
         "tags" : [ "store" ],
         "summary" : "Find purchase order by ID",
-        "description" : "For valid response try integer IDs with value >= 1 and <= 10.\\ \\ Other values will generated exceptions",
+        "description" : "For valid response try integer IDs with value >= 1 and <= 10.\\ \\ Other values will generate exceptions",
         "operationId" : "getOrderById",
         "produces" : [ "application/json", "application/xml" ],
         "parameters" : [ {

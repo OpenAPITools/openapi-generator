@@ -6,8 +6,7 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -33,14 +32,8 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
-            {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
-            {{/java8}}
-            {{^java8}}
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-            {{/java8}}
         }
 
         // Rename the aar correctly
@@ -55,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -83,20 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
-    {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    {{/java8}}
-    {{^java8}}
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
-    {{/java8}}
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -110,26 +100,16 @@ ext {
     oltu_version = "1.0.1"
     retrofit_version = "2.3.0"
     {{#usePlayWS}}
-    jackson_version = "2.10.5"
-    jackson_databind_version = "2.10.5.1"
+    jackson_version = "2.13.4"
+    jackson_databind_version = "2.13.4.2"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.1"
+    jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
-    {{#play24}}
-    play_version = "2.4.11"
-    {{/play24}}
-    {{#play25}}
-    play_version = "2.5.14"
-    {{/play25}}
-    {{#play26}}
     play_version = "2.6.7"
-    {{/play26}}
     {{/usePlayWS}}
+    jakarta_annotation_version = "1.3.5"
     swagger_annotations_version = "1.5.22"
-    junit_version = "4.13.1"
-    {{#useRxJava}}
-    rx_java_version = "1.3.0"
-    {{/useRxJava}}
+    junit_version = "4.13.2"
     {{#useRxJava2}}
     rx_java_version = "2.1.1"
     {{/useRxJava2}}
@@ -139,9 +119,6 @@ ext {
     {{#joda}}
     jodatime_version = "2.9.9"
     {{/joda}}
-    {{#threetenbp}}
-    threetenbp_version = "1.4.0"
-    {{/threetenbp}}
     json_fire_version = "1.8.0"
 }
 
@@ -149,10 +126,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    {{#useRxJava}}
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
-    implementation "io.reactivex:rxjava:$rx_java_version"
-    {{/useRxJava}}
     {{#useRxJava2}}
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
@@ -170,17 +143,9 @@ dependencies {
     {{#joda}}
     implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
-    {{#threetenbp}}
-    implementation "org.threeten:threetenbp:$threetenbp_version"
-    {{/threetenbp}}
     {{#usePlayWS}}
-    {{#play26}}
     implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
-    implementation "javax.validation:validation-api:1.1.0.Final"
-    {{/play26}}
-    {{^play26}}
-    implementation "com.typesafe.play:play-java-ws_2.11:$play_version"
-    {{/play26}}
+    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
@@ -188,8 +153,8 @@ dependencies {
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/usePlayWS}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

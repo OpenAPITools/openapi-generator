@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -81,10 +81,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
+    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("petstore_auth", new OAuth());
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -265,7 +265,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * The path of temporary folder used to store downloaded files from endpoints
    * with file response. The default value is <code>null</code>, i.e. using
-   * the system's default tempopary folder.
+   * the system's default temporary folder.
    *
    * @return the temporary folder path
    * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html#createTempFile(java.lang.String,%20java.lang.String,%20java.nio.file.attribute.FileAttribute...)">createTempFile</a>
@@ -632,18 +632,18 @@ public class ApiClient extends JavaTimeFormatter {
 
     Invocation.Builder invocationBuilder = target.request().accept(accept);
 
-    for (Entry<String, String> headerParamsEnrty : headerParams.entrySet()) {
-      String value = headerParamsEnrty.getValue();
+    for (Entry<String, String> headerParamsEntry : headerParams.entrySet()) {
+      String value = headerParamsEntry.getValue();
       if (value != null) {
-        invocationBuilder = invocationBuilder.header(headerParamsEnrty.getKey(), value);
+        invocationBuilder = invocationBuilder.header(headerParamsEntry.getKey(), value);
       }
     }
 
-    for (Entry<String, String> defaultHeaderEnrty: defaultHeaderMap.entrySet()) {
-      if (!headerParams.containsKey(defaultHeaderEnrty.getKey())) {
-        String value = defaultHeaderEnrty.getValue();
+    for (Entry<String, String> defaultHeaderEntry: defaultHeaderMap.entrySet()) {
+      if (!headerParams.containsKey(defaultHeaderEntry.getKey())) {
+        String value = defaultHeaderEntry.getValue();
         if (value != null) {
-          invocationBuilder = invocationBuilder.header(defaultHeaderEnrty.getKey(), value);
+          invocationBuilder = invocationBuilder.header(defaultHeaderEntry.getKey(), value);
         }
       }
     }
@@ -666,6 +666,38 @@ public class ApiClient extends JavaTimeFormatter {
 
     Entity<?> entity = serialize(body, formParams, contentType);
 
+    try (Response response = invoke(invocationBuilder, method, entity)) {
+      statusCode = response.getStatusInfo().getStatusCode();
+      responseHeaders = buildResponseHeaders(response);
+
+      if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
+        return null;
+      } else if (response.getStatusInfo().getFamily().equals(Status.Family.SUCCESSFUL)) {
+        if (returnType == null)
+          return null;
+        else
+          return deserialize(response, returnType);
+      } else {
+        String message = "error";
+        String respBody = null;
+        if (response.hasEntity()) {
+          try {
+            respBody = String.valueOf(response.readEntity(String.class));
+            message = respBody;
+          } catch (RuntimeException e) {
+            // e.printStackTrace();
+          }
+        }
+        throw new ApiException(
+          response.getStatus(),
+          message,
+          buildResponseHeaders(response),
+          respBody);
+      }
+    }
+  }
+
+  private Response invoke(Invocation.Builder invocationBuilder, String method, Entity<?> entity) throws ApiException {
     Response response = null;
 
     if ("GET".equals(method)) {
@@ -688,36 +720,10 @@ public class ApiClient extends JavaTimeFormatter {
       throw new ApiException(500, "unknown method type " + method);
     }
 
-    statusCode = response.getStatusInfo().getStatusCode();
-    responseHeaders = buildResponseHeaders(response);
-
-    if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
-      return null;
-    } else if (response.getStatusInfo().getFamily().equals(Status.Family.SUCCESSFUL)) {
-      if (returnType == null)
-        return null;
-      else
-        return deserialize(response, returnType);
-    } else {
-      String message = "error";
-      String respBody = null;
-      if (response.hasEntity()) {
-        try {
-          respBody = String.valueOf(response.readEntity(String.class));
-          message = respBody;
-        } catch (RuntimeException e) {
-          // e.printStackTrace();
-        }
-      }
-      throw new ApiException(
-        response.getStatus(),
-        message,
-        buildResponseHeaders(response),
-        respBody);
-    }
+    return response;
   }
 
-   /**
+  /**
    * Build the Client used to make HTTP requests.
    */
   private Client buildHttpClient(boolean debugging) {

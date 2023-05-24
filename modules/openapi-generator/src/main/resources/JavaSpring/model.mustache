@@ -1,5 +1,6 @@
 package {{package}};
 
+import java.net.URI;
 import java.util.Objects;
 {{#imports}}import {{import}};
 {{/imports}}
@@ -9,9 +10,13 @@ import org.openapitools.jackson.nullable.JsonNullable;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
+import java.time.OffsetDateTime;
 {{#useBeanValidation}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+{{/useBeanValidation}}
+{{^useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.NotNull;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
@@ -22,8 +27,12 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 {{/withXml}}
 {{/jackson}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.media.Schema;
+{{/swagger2AnnotationLibrary}}
+
 {{#withXml}}
-import javax.xml.bind.annotation.*;
+import {{javaxPackage}}.xml.bind.annotation.*;
 {{/withXml}}
 {{^parent}}
 {{#hateoas}}
@@ -31,13 +40,16 @@ import org.springframework.hateoas.RepresentationModel;
 {{/hateoas}}
 {{/parent}}
 
+import java.util.*;
+import {{javaxPackage}}.annotation.Generated;
+
 {{#models}}
 {{#model}}
 {{#isEnum}}
 {{>enumOuterClass}}
 {{/isEnum}}
 {{^isEnum}}
-{{>pojo}}
+{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{>pojo}}{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

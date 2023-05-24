@@ -34,6 +34,7 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
     public static final String MAIN_PACKAGE_VALUE = "net.test";
     public static final String MODEL_PROPERTY_NAMING = "camelCase";
     public static final String DATE_LIBRARY = "joda";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
 
     @Override
@@ -57,6 +58,7 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
                 .put("dateLibrary", DATE_LIBRARY)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
 

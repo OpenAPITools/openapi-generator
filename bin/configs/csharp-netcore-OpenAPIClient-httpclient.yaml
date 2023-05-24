@@ -1,7 +1,7 @@
 # for .net standard httpclient
 generatorName: csharp-netcore
 outputDir: samples/client/petstore/csharp-netcore/OpenAPIClient-httpclient
-inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp-netcore
 library: httpclient
 additionalProperties:

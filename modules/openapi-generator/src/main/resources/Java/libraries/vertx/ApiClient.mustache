@@ -34,12 +34,7 @@ import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 
 {{#jsr310}}
-{{#threetenbp}}
-import org.threeten.bp.OffsetDateTime;
-{{/threetenbp}}
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
 {{/jsr310}}
 import java.text.DateFormat;
 import java.util.*;
@@ -98,8 +93,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -690,14 +685,14 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             auth.setUsername(username);
             auth.setPassword(password);
             authentications.put("{{name}}", auth);
-        }{{/isBasicBasic}}{{^isBasicBasic}}
+        }{{/isBasicBasic}}{{#isBasicBearer}}
 
         public void add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String bearerToken) {
            HttpBearerAuth auth = new
            HttpBearerAuth("{{scheme}}");
            auth.setBearerToken(bearerToken);
            authentications.put("{{name}}", auth);
-        }{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        }{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
 
         public void add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String apikey, String apiKeyPrefix) {
            ApiKeyAuth auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}},"{{keyParamName}}");
@@ -716,13 +711,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             AuthInfo authInfo = new AuthInfo();
             authInfo.add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(username, password);
             return authInfo;
-        }{{/isBasicBasic}}{{^isBasicBasic}}
+        }{{/isBasicBasic}}{{#isBasicBearer}}
 
         public static AuthInfo for{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String bearerToken) {
             AuthInfo authInfo = new AuthInfo();
             authInfo.add{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(bearerToken);
             return authInfo;
-        }{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        }{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
 
         public static AuthInfo for{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Authentication(String apikey, String apiKeyPrefix) {
             AuthInfo authInfo = new AuthInfo();

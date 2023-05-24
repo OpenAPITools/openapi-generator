@@ -15,7 +15,7 @@
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<!-- RELEASE_VERSION -->
-				<version>5.3.0-SNAPSHOT</version>
+				<version>7.0.0-SNAPSHOT</version>
 				<!-- /RELEASE_VERSION -->
 				<executions>
 					<execution>
@@ -26,12 +26,13 @@
 						<configuration>
 							<!-- specify the swagger yaml -->
 							<inputSpec>${project.basedir}/swagger.yaml</inputSpec>
+							<cleanupOutput>true</cleanupOutput>
 
-							<!-- target to generate java client code -->
+							<!-- target to generate kotlin client code -->
 							<generatorName>kotlin</generatorName>
 
-							<!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-								 you can use the following target: <generatorName>spring</generatorName> -->
+							<!-- hint: if you want to generate kotlin server code, e.g. based on Spring Boot,
+								 you can use the following generator: <generatorName>kotlin-spring</generatorName> -->
 
 							<!-- pass any necessary config options -->
 							<configOptions>
@@ -127,7 +128,7 @@
 			<version>${swagger-annotations-version}</version>
 		</dependency>
 
-		<!-- You can find the dependencies for the library configuation you chose by looking in JavaClientCodegen.
+		<!-- You can find the dependencies for the library configuration you chose by looking in JavaClientCodegen.
 			 Then find the corresponding dependency on Maven Central, and set the versions in the property section below -->
 
 		<!-- HTTP client: jersey-client -->
@@ -235,7 +236,7 @@
 		<jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
 		<jodatime-version>2.7</jodatime-version>
 		<maven-plugin-version>1.0.0</maven-plugin-version>
-		<junit-version>4.8.1</junit-version>
+		<junit-version>4.13.2</junit-version>
 		<kotlin.version>1.5.10</kotlin.version>
 		<kotlinJvmTarget>1.8</kotlinJvmTarget>
 		<moshi-kotlin.version>1.12.0</moshi-kotlin.version>

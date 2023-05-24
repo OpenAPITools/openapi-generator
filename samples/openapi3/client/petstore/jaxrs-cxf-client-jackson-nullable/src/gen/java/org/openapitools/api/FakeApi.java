@@ -167,7 +167,7 @@ public interface FakeApi  {
     
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Someting wrong") })
+        @ApiResponse(code = 400, message = "Something wrong") })
     public void testGroupParameters(@QueryParam("required_string_group") Integer requiredStringGroup, @HeaderParam("required_boolean_group")  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
 
     /**
@@ -195,7 +195,7 @@ public interface FakeApi  {
     public void testJsonFormData(@Multipart(value = "param")  String param, @Multipart(value = "param2")  String param2);
 
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     @ApiOperation(value = "", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })

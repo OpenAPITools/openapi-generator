@@ -1,34 +1,39 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
-import org.threeten.bp.OffsetDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class MixedPropertiesAndAdditionalPropertiesClass   {
-  @JsonProperty("uuid")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class MixedPropertiesAndAdditionalPropertiesClass {
+
   private UUID uuid;
 
-  @JsonProperty("dateTime")
-  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("map")
   @Valid
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
@@ -39,10 +44,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
+  @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
@@ -60,10 +64,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
+  @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -79,7 +82,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
@@ -89,10 +92,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
+  @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
@@ -100,7 +102,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -125,7 +126,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-    
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    map: ").append(toIndentedString(map)).append("\n");

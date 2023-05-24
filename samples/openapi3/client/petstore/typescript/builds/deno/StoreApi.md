@@ -116,7 +116,7 @@ This endpoint does not need any parameter.
 # **getOrderById**
 > Order getOrderById()
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
 ### Example
 
@@ -171,6 +171,7 @@ No authorization required
 
 # **placeOrder**
 > Order placeOrder(order)
+
 
 
 ### Example

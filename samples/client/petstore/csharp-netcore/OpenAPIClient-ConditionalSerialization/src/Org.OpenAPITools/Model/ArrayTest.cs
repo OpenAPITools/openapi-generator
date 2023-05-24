@@ -41,8 +41,20 @@ namespace Org.OpenAPITools.Model
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this._ArrayOfString = arrayOfString;
+            if (this.ArrayOfString != null)
+            {
+                this._flagArrayOfString = true;
+            }
             this._ArrayArrayOfInteger = arrayArrayOfInteger;
+            if (this.ArrayArrayOfInteger != null)
+            {
+                this._flagArrayArrayOfInteger = true;
+            }
             this._ArrayArrayOfModel = arrayArrayOfModel;
+            if (this.ArrayArrayOfModel != null)
+            {
+                this._flagArrayArrayOfModel = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -130,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
             sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
@@ -179,13 +191,21 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.ArrayOfString != null)
-                    hashCode = hashCode * 59 + this.ArrayOfString.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayOfString.GetHashCode();
+                }
                 if (this.ArrayArrayOfInteger != null)
-                    hashCode = hashCode * 59 + this.ArrayArrayOfInteger.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.GetHashCode();
+                }
                 if (this.ArrayArrayOfModel != null)
-                    hashCode = hashCode * 59 + this.ArrayArrayOfModel.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

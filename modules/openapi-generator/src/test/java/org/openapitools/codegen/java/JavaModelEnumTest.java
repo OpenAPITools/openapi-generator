@@ -75,7 +75,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<String>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<NameEnum>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<NameEnum>()");
+        Assert.assertEquals(enumVar.defaultValue, null);
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -108,7 +108,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<List<String>>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<List<NameEnum>>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<List<NameEnum>>()");
+        Assert.assertEquals(enumVar.defaultValue, null);
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -146,8 +146,8 @@ public class JavaModelEnumTest {
         discriminator.setPropertyName("model_type");
         parentModel.setDiscriminator(discriminator);
 
-        final ComposedSchema composedSchema = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref(parentModel.getName()));
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.addAllOfItem(new Schema().$ref(parentModel.getName()));
         composedSchema.setName("sample");
 
         final JavaClientCodegen codegen = new JavaClientCodegen();

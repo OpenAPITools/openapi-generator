@@ -1,25 +1,46 @@
 ---
-title: Config Options for java-micronaut-client
-sidebar_label: java-micronaut-client
+title: Documentation for the java-micronaut-client Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | java-micronaut-client | pass this to the generate command after -g |
+| generator stability | BETA | |
+| generator type | CLIENT | |
+| generator language | Java | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Java Micronaut Client. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalClientTypeAnnotations|Additional annotations for client type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
+|applicationName|Micronaut application name (Defaults to the artifactId value)| |openapi-micronaut-client|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
-|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-micronaut|
+|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-micronaut-client|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|authorizationFilterPattern|Configure the authorization filter pattern for the client. Generally defined when generating clients from multiple specification files| |null|
+|basePathSeparator|Configure the separator to use between the application name and base path when referencing the property| |-|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |build|Specify for which build tool to generate files|<dl><dt>**gradle**</dt><dd>Gradle configuration is generated for the project</dd><dt>**all**</dt><dd>Both Gradle and Maven configurations are generated</dd><dt>**maven**</dt><dd>Maven configuration is generated for the project</dd></dl>|all|
-|configPackage|Configuration package for generated code| |org.openapitools.configuration|
+|camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
+|clientId|Configure the service ID for the Client| |null|
 |configureAuth|Configure all the authorization methods as specified in the file| |false|
+|containerDefaultToNull|Set containers (array, set, map) default to null| |false|
+|dateFormat|Specify the format pattern of date as a string| |null|
+|dateLibrary|Option. Date library to use|<dl><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
+|datetimeFormat|Specify the format pattern of date-time as a string| |null|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
@@ -28,33 +49,60 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|generateOperationOnlyForFirstTag|When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. If true, each operation will be generated only once in the first assigned tag.| |false|
+|generateSwaggerAnnotations|Specify if you want to generate swagger annotations and which version|<dl><dt>**swagger2**</dt><dd>Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas</dd><dt>**true**</dt><dd>Equivalent to &quot;swagger2&quot;</dd><dt>**false**</dt><dd>Do not generate swagger annotations</dd><dt>**swagger1**</dt><dd>Use io.swagger:swagger-annotations for annotating operations and schemas</dd></dl>|false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
+|implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
+|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools|
-|java8|Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|true|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
+|micronautVersion|Micronaut version, only &gt;=3.0.0 versions are supported| |3.4.3|
 |modelPackage|package for generated models| |org.openapitools.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|reactive|Make the responses use Reactor Mono as wrapper| |true|
+|requiredPropertiesInConstructor|Allow only to create models with all the required properties provided in constructor| |true|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
+|serializationLibrary|Serialization library for model|<dl><dt>**jackson**</dt><dd>Jackson as serialization library</dd><dt>**micronaut_serde_jackson**</dt><dd>Use micronaut-serialization with Jackson annotations</dd></dl>|jackson|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |test|Specify which test tool to generate files for|<dl><dt>**junit**</dt><dd>Use JUnit as test tool</dd><dt>**spock**</dt><dd>Use Spock as test tool</dd></dl>|junit|
-|title|Client service name| |OpenAPI Micronaut Client|
+|testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
+|title|Client service name| |null|
 |useBeanValidation|Use BeanValidation API annotations| |true|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
+|useOptional|Use Optional container for optional parameters| |false|
+|visitable|Generate visitor for subtypes with a discriminator| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|wrapInHttpResponse|Wrap the response in HttpResponse object| |false|
+
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
+|x-implements|Ability to specify interfaces that model must implements|MODEL|empty array
+|x-setter-extra-annotation|Custom annotation that can be specified over java setter for specific field|FIELD|When field is array & uniqueItems, then this extension is used to add `@JsonDeserialize(as = LinkedHashSet.class)` over setter, otherwise no value
+|x-tags|Specify multiple swagger tags for operation|OPERATION|null
+|x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
+|x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
+|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+
 
 ## IMPORT MAPPING
 
@@ -131,6 +179,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>else</li>
 <li>enum</li>
 <li>extends</li>
+<li>file</li>
 <li>final</li>
 <li>finally</li>
 <li>float</li>
@@ -144,6 +193,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
+<li>list</li>
 <li>localreturntype</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>
@@ -215,7 +265,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -275,6 +329,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -287,6 +345,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✓|OAS2,OAS3
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

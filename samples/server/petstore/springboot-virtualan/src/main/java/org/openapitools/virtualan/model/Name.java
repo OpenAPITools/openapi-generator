@@ -1,31 +1,45 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Name   {
-  @JsonProperty("name")
+
+@Schema(name = "Name", description = "Model for testing model name same as property name")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class Name {
+
   private Integer name;
 
-  @JsonProperty("snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
   private String property;
 
-  @JsonProperty("123Number")
   private Integer _123number;
+
+  public Name() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Name(Integer name) {
+    this.name = name;
+  }
 
   public Name name(Integer name) {
     this.name = name;
@@ -36,10 +50,9 @@ public class Name   {
    * Get name
    * @return name
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -57,9 +70,9 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
-  @ApiModelProperty(readOnly = true, value = "")
-
-
+  
+  @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -77,9 +90,9 @@ public class Name   {
    * Get property
    * @return property
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -97,9 +110,9 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
-  @ApiModelProperty(readOnly = true, value = "")
-
-
+  
+  @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }
@@ -107,7 +120,6 @@ public class Name   {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -133,7 +145,6 @@ public class Name   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Name {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");

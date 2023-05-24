@@ -12,7 +12,7 @@
 
 package org.openapitools.client.api;
 
-import com.sun.jersey.api.client.GenericType;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
@@ -24,12 +24,16 @@ import org.openapitools.client.model.Client;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
+
+
   private ApiClient apiClient;
 
   public AnotherFakeApi() {
@@ -51,30 +55,45 @@ public class AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client body) throws ApiException {
-    Object localVarPostBody = body;
+  public Client call123testSpecialTags(Client client) throws ApiException {
+    return this.call123testSpecialTags(client, Collections.emptyMap());
+  }
+
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param client client model (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client call123testSpecialTags(Client client, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = client;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
+    // verify the required parameter 'client' is set
+    if (client == null) {
+      throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
     }
     
     // create path and map variables
     String localVarPath = "/another-fake/dummy";
 
-    // query params
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -89,7 +108,22 @@ public class AnotherFakeApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-      }
+    TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "PATCH",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
 }

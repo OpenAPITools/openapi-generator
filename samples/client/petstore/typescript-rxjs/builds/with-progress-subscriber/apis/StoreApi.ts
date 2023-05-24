@@ -11,9 +11,11 @@
  * Do not edit the class manually.
  */
 
-import { Observable } from 'rxjs';
-import { BaseAPI, HttpHeaders, throwIfNullOrUndefined, encodeURI, OperationOpts, RawAjaxResponse } from '../runtime';
-import {
+import type { Observable } from 'rxjs';
+import type { AjaxResponse } from 'rxjs/ajax';
+import { BaseAPI, throwIfNullOrUndefined, encodeURI } from '../runtime';
+import type { OperationOpts, HttpHeaders } from '../runtime';
+import type {
     Order,
 } from '../models';
 
@@ -40,8 +42,8 @@ export class StoreApi extends BaseAPI {
      */
     deleteOrder({ orderId }: DeleteOrderRequest): Observable<void>
     deleteOrder({ orderId }: DeleteOrderRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
-    deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
+    deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
+    deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
         throwIfNullOrUndefined(orderId, 'orderId', 'deleteOrder');
 
         return this.request<void>({
@@ -57,8 +59,8 @@ export class StoreApi extends BaseAPI {
      */
     getInventory(): Observable<{ [key: string]: number; }>
     getInventory(opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{ [key: string]: number; }>
-    getInventory(opts?: OperationOpts): Observable<RawAjaxResponse<{ [key: string]: number; }>>
-    getInventory(opts?: OperationOpts): Observable<{ [key: string]: number; } | RawAjaxResponse<{ [key: string]: number; }>> {
+    getInventory(opts?: OperationOpts): Observable<AjaxResponse<{ [key: string]: number; }>>
+    getInventory(opts?: OperationOpts): Observable<{ [key: string]: number; } | AjaxResponse<{ [key: string]: number; }>> {
         const headers: HttpHeaders = {
             ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
@@ -72,13 +74,13 @@ export class StoreApi extends BaseAPI {
     };
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      */
     getOrderById({ orderId }: GetOrderByIdRequest): Observable<Order>
     getOrderById({ orderId }: GetOrderByIdRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Order>
-    getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<RawAjaxResponse<Order>>
-    getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<Order | RawAjaxResponse<Order>> {
+    getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<AjaxResponse<Order>>
+    getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<Order | AjaxResponse<Order>> {
         throwIfNullOrUndefined(orderId, 'orderId', 'getOrderById');
 
         return this.request<Order>({
@@ -93,8 +95,8 @@ export class StoreApi extends BaseAPI {
      */
     placeOrder({ body }: PlaceOrderRequest): Observable<Order>
     placeOrder({ body }: PlaceOrderRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Order>
-    placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<RawAjaxResponse<Order>>
-    placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<Order | RawAjaxResponse<Order>> {
+    placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<AjaxResponse<Order>>
+    placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<Order | AjaxResponse<Order>> {
         throwIfNullOrUndefined(body, 'body', 'placeOrder');
 
         const headers: HttpHeaders = {

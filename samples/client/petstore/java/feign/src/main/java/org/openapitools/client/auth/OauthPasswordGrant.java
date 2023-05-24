@@ -24,7 +24,7 @@ public class OauthPasswordGrant extends OAuth {
 
   @Override
   protected OAuthFlow getFlow() {
-    return OAuthFlow.password;
+    return OAuthFlow.PASSWORD;
   }
 
   /**

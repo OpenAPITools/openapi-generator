@@ -15,14 +15,13 @@ Install the following dependencies:
 
 ```shell
 go get github.com/stretchr/testify/assert
-go get golang.org/x/oauth2
 go get golang.org/x/net/context
 ```
 
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./x_auth_id_alias"
+import x_auth_id_alias "github.com/GIT_USER_ID/GIT_REPO_ID"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -40,7 +39,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), x_auth_id_alias.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -48,7 +47,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), x_auth_id_alias.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -58,14 +57,14 @@ Note, enum values are always validated and all unused variables are silently ign
 ### URLs Configuration per Operation
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
-An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+```golang
+ctx := context.WithValue(context.Background(), x_auth_id_alias.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), x_auth_id_alias.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -78,10 +77,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*UsageApi* | [**AnyKey**](docs/UsageApi.md#anykey) | **Get** /any | Use any API key
-*UsageApi* | [**BothKeys**](docs/UsageApi.md#bothkeys) | **Get** /both | Use both API keys
-*UsageApi* | [**KeyInHeader**](docs/UsageApi.md#keyinheader) | **Get** /header | Use API key in header
-*UsageApi* | [**KeyInQuery**](docs/UsageApi.md#keyinquery) | **Get** /query | Use API key in query
+*UsageAPI* | [**AnyKey**](docs/UsageAPI.md#anykey) | **Get** /any | Use any API key
+*UsageAPI* | [**BothKeys**](docs/UsageAPI.md#bothkeys) | **Get** /both | Use both API keys
+*UsageAPI* | [**KeyInHeader**](docs/UsageAPI.md#keyinheader) | **Get** /header | Use API key in header
+*UsageAPI* | [**KeyInQuery**](docs/UsageAPI.md#keyinquery) | **Get** /query | Use API key in query
 
 
 ## Documentation For Models
@@ -91,7 +90,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-
+Authentication schemes defined for the API:
 ### api_key
 
 - **Type**: API key
@@ -99,7 +98,6 @@ Class | Method | HTTP request | Description
 - **Location**: HTTP header
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-Api-Key and passed in as the auth context for each request.
-
 
 ### api_key_query
 

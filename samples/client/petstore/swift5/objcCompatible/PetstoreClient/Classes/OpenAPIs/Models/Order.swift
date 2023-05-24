@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class Order: NSObject, Codable {
+@objcMembers public class Order: NSObject, Codable, JSONEncodable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"

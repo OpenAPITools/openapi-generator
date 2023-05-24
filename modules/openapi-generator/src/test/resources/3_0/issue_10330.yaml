@@ -1,0 +1,289 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "composed schema isX type checks"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /ComposedObject:
+    get:
+      parameters:
+      - in: query
+        name: ComposedObject
+        schema:
+          type: object
+          allOf:
+            - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedObject
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - {}
+  /ComposedNumber:
+    get:
+      parameters:
+        - in: query
+          name: ComposedNumber
+          schema:
+            type: number
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: number
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedNumber
+          content:
+            application/json:
+              schema:
+                type: number
+                allOf:
+                  - {}
+  /ComposedInteger:
+    get:
+      parameters:
+        - in: query
+          name: ComposedInteger
+          schema:
+            type: integer
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: integer
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedInteger
+          content:
+            application/json:
+              schema:
+                type: integer
+                allOf:
+                  - {}
+  /ComposedString:
+    get:
+      parameters:
+        - in: query
+          name: ComposedString
+          schema:
+            type: string
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedString
+          content:
+            application/json:
+              schema:
+                type: string
+                allOf:
+                  - {}
+  /ComposedBool:
+    get:
+      parameters:
+        - in: query
+          name: ComposedBool
+          schema:
+            type: boolean
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: boolean
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedBool
+          content:
+            application/json:
+              schema:
+                type: boolean
+                allOf:
+                  - {}
+  /ComposedArray:
+    get:
+      parameters:
+        - in: query
+          name: ComposedArray
+          schema:
+            type: array
+            items: {}
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: {}
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedArray
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+                allOf:
+                  - {}
+  /ComposedNone:
+    get:
+      parameters:
+        - in: query
+          name: ComposedNone
+          schema:
+            type: 'null'
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedNone
+          content:
+            application/json:
+              schema:
+                type: 'null'
+                allOf:
+                  - {}
+  /ComposedAnyType:
+    get:
+      parameters:
+        - in: query
+          name: ComposedAnyType
+          schema:
+            allOf:
+              - {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - {}
+      responses:
+        '200':
+          description: ComposedAnyType
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - {}
+components:
+  schemas:
+    ObjectWithComposedProperties:
+      type: object
+      properties:
+        ComposedObject:
+          type: object
+          allOf:
+            - {}
+        ComposedNumber:
+          type: number
+          allOf:
+            - {}
+        ComposedInteger:
+          type: integer
+          allOf:
+            - {}
+        ComposedString:
+          type: string
+          allOf:
+            - {}
+        ComposedBool:
+          type: boolean
+          allOf:
+            - {}
+        ComposedArray:
+          type: array
+          items: {}
+          allOf:
+            - {}
+        ComposedNone:
+          type: 'null'
+          allOf:
+            - {}
+        ComposedAnyType:
+          allOf:
+            - {}
+    ComposedObject:
+      type: object
+      allOf:
+        - {}
+    ComposedNumber:
+      type: number
+      allOf:
+        - {}
+    ComposedInteger:
+      type: integer
+      allOf:
+        - {}
+    ComposedString:
+      type: string
+      allOf:
+        - {}
+    ComposedBool:
+      type: boolean
+      allOf:
+        - {}
+    ComposedArray:
+      type: array
+      items: {}
+      allOf:
+        - {}
+    ComposedNone:
+      type: 'null'
+      allOf:
+        - {}
+    ComposedAnyType:
+      allOf:
+        - {}

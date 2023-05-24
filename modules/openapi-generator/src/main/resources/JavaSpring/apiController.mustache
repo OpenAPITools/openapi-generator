@@ -1,63 +1,74 @@
 package {{package}};
 
-{{^jdk8}}
 {{#imports}}import {{import}};
 {{/imports}}
+
+{{#_api_controller_impl_}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
+{{/swagger1AnnotationLibrary}}
+{{/_api_controller_impl_}}
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
-{{/jdk8}}
 import org.springframework.stereotype.Controller;
-{{^jdk8}}
+{{/useResponseEntity}}
+{{^useResponseEntity}}
+import org.springframework.web.bind.annotation.RestController;
+{{/useResponseEntity}}
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-{{/jdk8}}
 import org.springframework.web.bind.annotation.RequestMapping;
-{{^jdk8}}
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-{{/jdk8}}
+import org.springframework.web.multipart.MultipartFile;
 {{^isDelegate}}
 import org.springframework.web.context.request.NativeWebRequest;
 {{/isDelegate}}
-{{^jdk8}}
-import org.springframework.web.multipart.MultipartFile;
-{{#vendorExtensions.x-spring-paginated}}
-import org.springframework.data.domain.Pageable;
-{{/vendorExtensions.x-spring-paginated}}
-import springfox.documentation.annotations.ApiIgnore;
 
-    {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-    {{/useBeanValidation}}
-{{/jdk8}}
-{{#jdk8}}
-import java.util.Optional;
-{{/jdk8}}
-{{^jdk8}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
 import java.util.List;
 import java.util.Map;
-    {{#async}}
-import java.util.concurrent.Callable;
-    {{/async}}
-{{/jdk8}}
+import java.util.Optional;
+import {{javaxPackage}}.annotation.Generated;
+
 {{>generatedAnnotation}}
+{{#useResponseEntity}}
 @Controller
+{{/useResponseEntity}}
+{{^useResponseEntity}}
+@RestController
+{{/useResponseEntity}}
+{{#useRequestMappingOnController}}
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
+{{/useRequestMappingOnController}}
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
 {{#isDelegate}}
 
     private final {{classname}}Delegate delegate;
 
-    public {{classname}}Controller(@org.springframework.beans.factory.annotation.Autowired(required = false) {{classname}}Delegate delegate) {
-    {{#jdk8}}
+    public {{classname}}Controller(@Autowired(required = false) {{classname}}Delegate delegate) {
         this.delegate = Optional.ofNullable(delegate).orElse(new {{classname}}Delegate() {});
     }
 
@@ -65,34 +76,25 @@ public class {{classname}}Controller implements {{classname}} {
     public {{classname}}Delegate getDelegate() {
         return delegate;
     }
-    {{/jdk8}}
-    {{^jdk8}}
-        this.delegate = delegate;
-    }
-    {{/jdk8}}
 {{/isDelegate}}
 {{^isDelegate}}
     {{^reactive}}
 
-    {{^jdk8}}
-    {{/jdk8}}
     private final NativeWebRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public {{classname}}Controller(NativeWebRequest request) {
         this.request = request;
     }
-    {{#jdk8}}
 
     @Override
     public Optional<NativeWebRequest> getRequest() {
         return Optional.ofNullable(request);
     }
-    {{/jdk8}}
     {{/reactive}}
 {{/isDelegate}}
 
-{{^jdk8}}
+{{#_api_controller_impl_}}
 {{#operation}}
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
@@ -114,26 +116,33 @@ public class {{classname}}Controller implements {{classname}} {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, @ApiIgnore final Pageable pageable{{/vendorExtensions.x-spring-paginated}}) {
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
+        {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
+        {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
+        {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore {{/springFoxDocumentationProvider}}{{#springDocDocumentationProvider}}@ParameterObject {{/springDocDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}
+    ) {
     {{^isDelegate}}
         {{^async}}
         {{>methodBody}}
         {{/async}}
         {{#async}}
-        return new Callable<ResponseEntity<{{>returnTypes}}>>() {
+        return new Callable<{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}>() {
             @Override
-            public ResponseEntity<{{>returnTypes}}> call() {
+            public {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} call() {
                 {{>methodBody}}
             }
         };
         {{/async}}
     {{/isDelegate}}
     {{#isDelegate}}
-        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, pageable{{/vendorExtensions.x-spring-paginated}});
+        {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}delegate.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
     {{/isDelegate}}
     }
 
 {{/operation}}
-{{/jdk8}}
+{{/_api_controller_impl_}}
 }
 {{/operations}}

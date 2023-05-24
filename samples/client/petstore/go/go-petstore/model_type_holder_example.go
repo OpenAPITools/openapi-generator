@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the TypeHolderExample type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &TypeHolderExample{}
+
 // TypeHolderExample struct for TypeHolderExample
 type TypeHolderExample struct {
 	StringItem string `json:"string_item"`
@@ -60,7 +63,7 @@ func (o *TypeHolderExample) GetStringItem() string {
 // GetStringItemOk returns a tuple with the StringItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetStringItemOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StringItem, true
@@ -84,7 +87,7 @@ func (o *TypeHolderExample) GetNumberItem() float32 {
 // GetNumberItemOk returns a tuple with the NumberItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetNumberItemOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.NumberItem, true
@@ -108,7 +111,7 @@ func (o *TypeHolderExample) GetFloatItem() float32 {
 // GetFloatItemOk returns a tuple with the FloatItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetFloatItemOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.FloatItem, true
@@ -132,7 +135,7 @@ func (o *TypeHolderExample) GetIntegerItem() int32 {
 // GetIntegerItemOk returns a tuple with the IntegerItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetIntegerItemOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IntegerItem, true
@@ -156,7 +159,7 @@ func (o *TypeHolderExample) GetBoolItem() bool {
 // GetBoolItemOk returns a tuple with the BoolItem field value
 // and a boolean to check if the value has been set.
 func (o *TypeHolderExample) GetBoolItemOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.BoolItem, true
@@ -179,11 +182,11 @@ func (o *TypeHolderExample) GetArrayItem() []int32 {
 
 // GetArrayItemOk returns a tuple with the ArrayItem field value
 // and a boolean to check if the value has been set.
-func (o *TypeHolderExample) GetArrayItemOk() (*[]int32, bool) {
-	if o == nil  {
+func (o *TypeHolderExample) GetArrayItemOk() ([]int32, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ArrayItem, true
+	return o.ArrayItem, true
 }
 
 // SetArrayItem sets field value
@@ -192,26 +195,22 @@ func (o *TypeHolderExample) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["string_item"] = o.StringItem
-	}
-	if true {
-		toSerialize["number_item"] = o.NumberItem
-	}
-	if true {
-		toSerialize["float_item"] = o.FloatItem
-	}
-	if true {
-		toSerialize["integer_item"] = o.IntegerItem
-	}
-	if true {
-		toSerialize["bool_item"] = o.BoolItem
-	}
-	if true {
-		toSerialize["array_item"] = o.ArrayItem
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o TypeHolderExample) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["string_item"] = o.StringItem
+	toSerialize["number_item"] = o.NumberItem
+	toSerialize["float_item"] = o.FloatItem
+	toSerialize["integer_item"] = o.IntegerItem
+	toSerialize["bool_item"] = o.BoolItem
+	toSerialize["array_item"] = o.ArrayItem
+	return toSerialize, nil
 }
 
 type NullableTypeHolderExample struct {

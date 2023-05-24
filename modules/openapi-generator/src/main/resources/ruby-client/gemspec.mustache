@@ -17,10 +17,11 @@ Gem::Specification.new do |s|
   s.summary     = "{{gemSummary}}{{^gemSummary}}{{{appName}}} Ruby Gem{{/gemSummary}}"
   s.description = "{{gemDescription}}{{^gemDescription}}{{{appDescription}}}{{^appDescription}}{{{appName}}} Ruby Gem{{/appDescription}}{{/gemDescription}}"
   s.license     = "{{{gemLicense}}}{{^gemLicense}}Unlicense{{/gemLicense}}"
-  s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 2.4{{/gemRequiredRubyVersion}}"
+  s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 2.7{{/gemRequiredRubyVersion}}"
 
   {{#isFaraday}}
-  s.add_runtime_dependency 'faraday', '~> 1.0', '>= 1.0.1'
+  s.add_runtime_dependency 'faraday', '>= 1.0.1', '< 3.0'
+  s.add_runtime_dependency 'faraday-multipart'
   {{/isFaraday}}
   {{^isFaraday}}
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'

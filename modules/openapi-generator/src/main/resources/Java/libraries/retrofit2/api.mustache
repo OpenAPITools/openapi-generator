@@ -2,9 +2,6 @@ package {{package}};
 
 import {{invokerPackage}}.CollectionFormats.*;
 
-{{#useRxJava}}
-import rx.Observable;
-{{/useRxJava}}
 {{#useRxJava2}}
 import io.reactivex.Observable;
 {{/useRxJava2}}
@@ -31,12 +28,11 @@ import okhttp3.MultipartBody;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
+import java.util.Set;
 
 {{#operations}}
 public interface {{classname}} {
@@ -47,7 +43,7 @@ public interface {{classname}} {
 {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
 {{/allParams}}
-   * @return {{^doNotUseRx}}{{#useRxJava}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{/isResponseFile}}&gt;{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{/isResponseFile}}&gt;{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{/doNotUseRx}}{{#doNotUseRx}}Call&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/doNotUseRx}}
+   * @return {{^doNotUseRx}}{{#useRxJava2}}{{#returnType}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{/isResponseFile}}&gt;{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Observable&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{/isResponseFile}}&gt;{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{/doNotUseRx}}{{#doNotUseRx}}Call&lt;{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{returnType}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}&gt;{{/doNotUseRx}}
 {{#isDeprecated}}
    * @deprecated
 {{/isDeprecated}}
@@ -74,7 +70,7 @@ public interface {{classname}} {
   {{/prioritizedContentTypes}}
   {{/formParams}}
   @{{httpMethod}}("{{{path}}}")
-  {{^doNotUseRx}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{/doNotUseRx}}{{#doNotUseRx}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}>{{/doNotUseRx}} {{operationId}}({{^allParams}});{{/allParams}}
+  {{^doNotUseRx}}{{#useRxJava2}}{{#returnType}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{/doNotUseRx}}{{#doNotUseRx}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{^returnType}}Void{{/returnType}}{{/isResponseFile}}>{{/doNotUseRx}} {{operationId}}({{^allParams}});{{/allParams}}
     {{#allParams}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{^-last}}, {{/-last}}{{#-last}}
   );{{/-last}}{{/allParams}}
 

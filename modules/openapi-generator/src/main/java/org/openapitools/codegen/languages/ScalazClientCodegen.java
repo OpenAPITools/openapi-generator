@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -86,7 +87,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
         additionalProperties.put("apiPackage", apiPackage);
 
-        // Explicitly defining bulid.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
+        // Explicitly defining build.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
         supportingFiles.add(new SupportingFile("build.properties.mustache", "", "project/build.properties"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("dateTimeCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "DateTimeCodecs.scala"));
@@ -152,7 +153,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -228,7 +229,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
 
     private static abstract class CustomLambda implements Mustache.Lambda {

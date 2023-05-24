@@ -80,7 +80,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = "available"
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             expect(ObjectSerializer.serialize(pet, "Pet", "")).to.deep.equal({
@@ -187,7 +187,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = "available"
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             const deserialized = ObjectSerializer.deserialize({
@@ -230,5 +230,11 @@ describe("ObjectSerializer", () => {
             }
             expect(deserialized).to.deep.equal(categories)
         })        
+    })
+    describe("Parse", () => {
+        it("text/html", () => {
+            const input = "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n<title>Error 404 Not Found</title>\n</head>\n<body><h2>HTTP ERROR 404</h2>\n<p>Resource not found</p>\n</body>\n</html>\n"
+            expect(ObjectSerializer.parse(input, "text/html")).to.equal(input)
+        });
     })
 })

@@ -45,6 +45,7 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+        - api_key_query: []
     put:
       tags:
         - pet
@@ -321,7 +322,7 @@ paths:
       tags:
         - store
       summary: Find purchase order by ID
-      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -829,7 +830,7 @@ paths:
           description: Integer in group parameters
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1169,6 +1170,8 @@ definitions:
       status:
         type: string
         description: pet status in the store
+        x-null-encodable: true
+        default: null
         enum:
           - available
           - pending
@@ -1212,6 +1215,8 @@ definitions:
         readOnly: true
         type: integer
         format: int32
+        x-null-encodable: true
+        default: 11033
       property:
         type: string
       123Number:

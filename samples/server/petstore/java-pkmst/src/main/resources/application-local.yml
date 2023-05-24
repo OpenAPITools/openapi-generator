@@ -20,14 +20,11 @@ info:
     name: Pkmst
     description: Microservice developed by PKMST
     version: 1.0.0
-
-health:
-  hystrix:
-    enabled: true
-
+    
 security:
   basic:
     enabled: false
+
 # provide rabbitmq configuration
 spring:
   rabbitmq:

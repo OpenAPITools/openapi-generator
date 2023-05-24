@@ -135,7 +135,7 @@ paths:
       tags:
       - pet
       summary: Finds Pets by tags
-      description: Muliple tags can be provided with comma separated strings. Use         tag1,
+      description: Multiple tags can be provided with comma separated strings. Use         tag1,
         tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
@@ -353,7 +353,7 @@ paths:
       - store
       summary: Find purchase order by ID
       description: For valid response try integer IDs with value >= 1 and <= 10.         Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - name: orderId

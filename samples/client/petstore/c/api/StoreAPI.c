@@ -53,12 +53,14 @@ StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
                     localVarBodyParameters,
                     "DELETE");
 
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid ID supplied");
-    }
-    if (apiClient->response_code == 404) {
-        printf("%s\n","Order not found");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid ID supplied");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 404) {
+    //    printf("%s\n","Order not found");
+    //}
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -86,7 +88,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -108,13 +110,14 @@ StoreAPI_getInventory(apiClient_t *apiClient)
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    //primitive reutrn type not simple
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    //primitive return type not simple
     cJSON *localVarJSON = cJSON_Parse(apiClient->dataReceived);
     cJSON *VarJSON;
-    list_t *elementToReturn = list_create();
+    list_t *elementToReturn = list_createList();
     cJSON_ArrayForEach(VarJSON, localVarJSON){
         keyValuePair_t *keyPair = keyValuePair_create(strdup(VarJSON->string), cJSON_Print(VarJSON));
         list_addElement(elementToReturn, keyPair);
@@ -129,7 +132,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     return elementToReturn;
@@ -141,7 +144,7 @@ end:
 
 // Find purchase order by ID
 //
-// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 //
 order_t*
 StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
@@ -149,7 +152,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -186,15 +189,18 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid ID supplied");
-    }
-    if (apiClient->response_code == 404) {
-        printf("%s\n","Order not found");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid ID supplied");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 404) {
+    //    printf("%s\n","Order not found");
+    //}
     //nonprimitive not container
     cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
@@ -212,7 +218,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     free(localVarToReplace_orderId);
@@ -231,7 +237,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -263,12 +269,14 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid Order");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid Order");
+    //}
     //nonprimitive not container
     cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
@@ -286,7 +294,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     if (localVarSingleItemJSON_body) {

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -17,18 +18,19 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Pet  implements Serializable {
-  
+@JsonTypeName("Pet")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Pet  implements Serializable {
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
-  private @Valid Set<String> photoUrls = new LinkedHashSet<String>();
-  private @Valid List<Tag> tags = new ArrayList<Tag>();
-
-public enum StatusEnum {
+  private @Valid Set<String> photoUrls = new LinkedHashSet<>();
+  private @Valid List<Tag> tags;
+  public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
@@ -49,6 +51,21 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static StatusEnum fromString(String s) {
+        for (StatusEnum b : StatusEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -62,6 +79,18 @@ public enum StatusEnum {
 
   private @Valid StatusEnum status;
 
+  protected Pet(PetBuilder<?, ?> b) {
+    this.id = b.id;
+    this.category = b.category;
+    this.name = b.name;
+    this.photoUrls = b.photoUrls;
+    this.tags = b.tags;
+    this.status = b.status;
+  }
+
+  public Pet() {
+  }
+
   /**
    **/
   public Pet id(Long id) {
@@ -70,26 +99,23 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
 
-/**
+  /**
    **/
   public Pet category(Category category) {
     this.category = category;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -98,18 +124,17 @@ public enum StatusEnum {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(Category category) {
     this.category = category;
   }
 
-/**
+  /**
    **/
   public Pet name(String name) {
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
@@ -119,18 +144,17 @@ public enum StatusEnum {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -140,18 +164,34 @@ public enum StatusEnum {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
-/**
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
+
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  public Pet removePhotoUrlsItem(String photoUrlsItem) {
+    if (photoUrlsItem != null && this.photoUrls != null) {
+      this.photoUrls.remove(photoUrlsItem);
+    }
+
+    return this;
+  }
+  /**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -160,11 +200,28 @@ public enum StatusEnum {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
-/**
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
+
+    this.tags.add(tagsItem);
+    return this;
+  }
+
+  public Pet removeTagsItem(Tag tagsItem) {
+    if (tagsItem != null && this.tags != null) {
+      this.tags.remove(tagsItem);
+    }
+
+    return this;
+  }
+  /**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {
@@ -173,14 +230,13 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -235,5 +291,58 @@ public enum StatusEnum {
   }
 
 
+  public static PetBuilder<?, ?> builder() {
+    return new PetBuilderImpl();
+  }
+
+  private static final class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
+
+    @Override
+    protected PetBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Pet build() {
+      return new Pet(this);
+    }
+  }
+
+  public static abstract class PetBuilder<C extends Pet, B extends PetBuilder<C, B>>  {
+    private Long id;
+    private Category category;
+    private String name;
+    private Set<String> photoUrls = new LinkedHashSet<>();
+    private List<Tag> tags;
+    private StatusEnum status;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B category(Category category) {
+      this.category = category;
+      return self();
+    }
+    public B name(String name) {
+      this.name = name;
+      return self();
+    }
+    public B photoUrls(Set<String> photoUrls) {
+      this.photoUrls = photoUrls;
+      return self();
+    }
+    public B tags(List<Tag> tags) {
+      this.tags = tags;
+      return self();
+    }
+    public B status(StatusEnum status) {
+      this.status = status;
+      return self();
+    }
+  }
 }
 

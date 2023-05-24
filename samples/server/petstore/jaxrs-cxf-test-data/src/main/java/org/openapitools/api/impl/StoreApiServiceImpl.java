@@ -35,7 +35,7 @@ public class StoreApiServiceImpl implements StoreApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/Users/williamcheng/Code/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/Users/williamcheng/Code/openapi-generator2/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/StoreApi");
         } catch (CacheException e) {
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class StoreApiServiceImpl implements StoreApi {
     /**
      * Find purchase order by ID
      *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
      */
     @Override

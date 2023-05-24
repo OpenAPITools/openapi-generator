@@ -1,0 +1,279 @@
+openapi: 3.0.0
+info:
+  title: Extra Annotation Test
+  version: 1.0.0
+tags:
+  - name: employee
+  - name: surveyGroup
+  - name: skills
+  - name: surveySubmission
+  - name: userProfile
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /employee:
+    get:
+      tags:
+        - employee
+      parameters:
+        - name: filterBy
+          description: Field by which to filter results.
+          in: query
+          schema:
+            type: string
+          example: name
+        - name: filter
+          description: String to filter on, query string
+          in: query
+          schema:
+            type: string
+          example: Frank
+        - name: sortBy
+          description: Field by which to sort
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          description: Sort Order
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: offset
+          description: Page offset
+          schema:
+            type: integer
+            format: int32
+          in: query
+        - name: maxResults
+          description: Maximum number of results to return, defaults to 20
+          schema:
+            type: integer
+            format: int32
+          example: 20
+          in: query
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+          description: A list resource collection of Employees.
+      operationId: getEmployees
+      summary: List all employees.
+components:
+  schemas:
+    EmployeeEntity:
+      type: object
+      x-class-extra-annotation: |-
+        @javax.persistence.Entity
+        @javax.persistence.Table(
+            name = "employees",
+            uniqueConstraints = {
+              @javax.persistence.UniqueConstraint(columnNames = {"email"})
+            }
+          )
+      allOf:
+        - $ref: "#/components/schemas/Employee"
+      properties:
+        assignments:
+          description: Projects for which the employee has been assigned to a SurveyGroup
+          items:
+            $ref: "#/components/schemas/EmployeeAssignment"
+          type: array
+          x-field-extra-annotation: |-
+            @javax.persistence.OneToMany(mappedBy = "employee")
+    Employee:
+      type: object
+      x-class-extra-annotation: |-
+          @javax.persistence.MappedSuperclass
+      properties:
+        id:
+          description: Employee's ID
+          type: string
+          example: jsmith@openapi.com
+          x-field-extra-annotation: |-
+            @javax.persistence.Id
+        name:
+          description: Name of the employee.
+          type: string
+          example: John Smith
+        email:
+          description: The email address of the employee.
+          type: string
+          example: jsmith@openapi.com
+          x-field-extra-annotation: |-
+            @org.hibernate.annotations.Formula("CONCAT(id, '@openapi.com')")
+        role:
+          description: "The role of the employee. For example, consultant, PM, TSM, etc."
+          type: string
+          example: Consultant
+        hasAcceptedTerms:
+          description: Whether the employee has accepted the terms of the usage agreement.
+          type: boolean
+          example: false
+          x-field-extra-annotation: |-
+            @javax.persistence.Transient
+        dateTermsAccepted:
+          description: The date the employee accepted the terms of the usage agreement.
+          type: string
+          format: date
+          example: "2021-02-09"
+        termsVersionNumber:
+          description: The version number of terms of the usage agreement.
+          type: number
+          format: float
+          example: 1.0
+    SurveyGroupEntity:
+      required:
+        - opportunityId
+        - projectName
+        - projectCreatorId
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/SurveyGroup"
+      x-class-extra-annotation: |-
+        @javax.persistence.Entity
+        @javax.persistence.Table(name = "survey_groups")
+      properties:
+        assignments:
+          type: array
+          x-field-extra-annotation: |-
+            @javax.persistence.OneToMany
+            @javax.persistence.JoinColumn(name = "survey_group_id")
+          items:
+            $ref: "#/components/schemas/EmployeeAssignment"
+        disabled:
+          description: A flag indicating if this Survey Group is disabled
+          type: boolean
+          x-field-extra-annotation: |-
+            @javax.persistence.Column(nullable = false)
+          default: false
+          example: false
+    SurveyGroup:
+      required:
+        - opportunityId
+        - projectName
+        - projectCreatorId
+        - tsmId
+      type: object
+      x-class-extra-annotation: |-
+        @javax.persistence.MappedSuperclass
+        @javax.persistence.EntityListeners(org.springframework.data.jpa.domain.support.AuditingEntityListener.class)
+      properties:
+        id:
+          description: A GUID that uniquely identifies the SurveyGroup.
+          type: string
+          format: uuid
+          example: f1ad7649-eb70-4499-9c82-a63fe2c6dc71
+          x-field-extra-annotation: |-
+            @javax.persistence.Id
+            @javax.persistence.GeneratedValue(generator = "UUID")
+            @org.hibernate.annotations.GenericGenerator(name = "UUID", strategy =
+              "org.hibernate.id.UUIDGenerator")
+            @javax.persistence.Column(name = "id", updatable = false, nullable =
+              false)
+        createdDate:
+          description: The date the project was created.
+          type: string
+          format: date-time
+          readOnly: true
+          example: "2020-01-29"
+          x-field-extra-annotation: |-
+            @org.springframework.data.annotation.CreatedDate
+        createdBy:
+          description: The employee id (Kerberos) of the user that created the project.
+          type: string
+          example: janedoe
+          x-field-extra-annotation: |-
+            @org.springframework.data.annotation.CreatedBy
+        modifiedDate:
+          description: The date the project was last modified
+          type: string
+          format: date-time
+          readOnly: true
+          example: "2020-01-29"
+          x-field-extra-annotation: |-
+            @org.springframework.data.annotation.LastModifiedDate
+        modifiedBy:
+          description: The employee id (Kerberos) of the user that last modified the project.
+          type: string
+          example: janedoe
+          x-field-extra-annotation: |-
+            @org.springframework.data.annotation.LastModifiedBy
+        opportunityId:
+          description: The ID of the Opportunity from PSA.
+          type: string
+          example: 3456NAS
+          x-field-extra-annotation: |-
+            @javax.persistence.Column(unique = true)
+        projectName:
+          description: The name of the project.
+          type: string
+          example: NASA App Modernization
+        projectCreatorId:
+          description: The email address of the creator of the project.
+          type: string
+          example: janedoe@openapi.com
+        submissionStatus:
+          x-field-extra-annotation: |-
+            @javax.persistence.Transient
+          description: Returns a status of "Complete" or "Incomplete"
+          type: string
+          example: Complete
+          enum:
+            - Complete
+            - Incomplete
+    EmployeeAssignment:
+      type: object
+      x-class-extra-annotation: |-
+        @javax.persistence.Entity
+        @javax.persistence.Table(
+          name = "employee_assignments",
+          uniqueConstraints={
+          @javax.persistence.UniqueConstraint(columnNames={"employee_id", "survey_group_id"})
+          })
+      properties:
+        id:
+          description: A GUID that uniquely identifies the project.
+          type: string
+          format: uuid
+          example: f9238beb-9649-4983-9059-4f0ee372d56e
+          x-field-extra-annotation: |-
+            @javax.persistence.Id
+            @javax.persistence.GeneratedValue(generator = "UUID")
+            @org.hibernate.annotations.GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+            @javax.persistence.Column(name = "id", updatable = false, nullable = false)
+        employee:
+          allOf:
+            - $ref: "#/components/schemas/EmployeeEntity"
+          type: object
+          x-field-extra-annotation: |-
+            @javax.persistence.ManyToOne(cascade = javax.persistence.CascadeType.REMOVE)
+            @javax.persistence.JoinColumn(name = "employee_id", nullable=false)
+        surveyGroup:
+          description: The unique ID of the SurveyGroup associated with the opportunity.
+          type: object
+          x-field-extra-annotation: |-
+            @javax.persistence.ManyToOne
+            @javax.persistence.JoinColumn(name = "survey_group_id", nullable=false)
+          allOf:
+            - $ref: "#/components/schemas/SurveyGroupEntity"
+        startDate:
+          description: The date the employee started the project.
+          type: string
+          format: date-time
+          example: "2020-01-29"
+        endDate:
+          description: The employee's end date on the project.
+          type: string
+          format: date-time
+          example: "2020-01-29"
+        billableRole:
+          description: Role that the employee is billed for on the project..
+          type: string
+          example: Consultant

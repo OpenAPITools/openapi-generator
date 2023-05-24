@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Client
         public Multimap<string, string> QueryParameters { get; set; }
 
         /// <summary>
-        /// Header parameters to be applied to to the request.
+        /// Header parameters to be applied to the request.
         /// Keys may have 1 or more values associated.
         /// </summary>
         public Multimap<string, string> HeaderParameters { get; set; }
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// File parameters to be sent along with the request.
         /// </summary>
-        public Dictionary<string, Stream> FileParameters { get; set; }
+        public Multimap<string, Stream> FileParameters { get; set; }
 
         /// <summary>
         /// Cookies to be sent along with the request.
@@ -54,9 +54,24 @@ namespace Org.OpenAPITools.Client
         public List<Cookie> Cookies { get; set; }
 
         /// <summary>
+        /// Operation associated with the request path.
+        /// </summary>
+        public string Operation { get; set; }
+
+        /// <summary>
+        /// Index associated with the operation.
+        /// </summary>
+        public int OperationIndex { get; set; }
+
+        /// <summary>
         /// Any data associated with a request body.
         /// </summary>
         public Object Data { get; set; }
+
+        /// <summary>
+        /// If request should be authenticated with OAuth.
+        /// </summary>
+        public bool OAuth { get; set; }
 
         /// <summary>
         /// Constructs a new instance of <see cref="RequestOptions"/>
@@ -67,7 +82,7 @@ namespace Org.OpenAPITools.Client
             QueryParameters = new Multimap<string, string>();
             HeaderParameters = new Multimap<string, string>();
             FormParameters = new Dictionary<string, string>();
-            FileParameters = new Dictionary<string, Stream>();
+            FileParameters = new Multimap<string, Stream>();
             Cookies = new List<Cookie>();
         }
     }

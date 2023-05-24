@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "byteArray schema isX type checks"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /TxRxByteArray:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              format: byte
+      responses:
+        '200':
+          description: ComposedObject
+          content:
+            application/json:
+              schema:
+                type: string
+                format: byte
+  /RxRefObjectContainingByteArray:
+    get:
+      responses:
+        '200':
+          description: ComposedNumber
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectContainingByteArray'
+components:
+  schemas:
+    ObjectContainingByteArray:
+      type: object
+      properties:
+        byteArray:
+          type: string
+          format: byte

@@ -19,11 +19,13 @@
 #define PetApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 
+#include <optional>
 #include <utility>
 
 #include "ApiResponse.h"
@@ -33,11 +35,11 @@
 namespace org::openapitools::server::api
 {
 
-class  PetApi {
+class  PetApi : public ApiBase {
 public:
     explicit PetApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~PetApi() = default;
-    void init();
+    ~PetApi() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -54,18 +56,16 @@ private:
     void upload_file_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void pet_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    const std::shared_ptr<Pistache::Rest::Router> router;
-
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
-    /// May be overriden to return custom error formats. This is called inside a catch block.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
-    /// May be overriden to return custom error formats. This is called inside a catch block.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleOperationException(const std::exception& ex) const noexcept;
@@ -86,7 +86,7 @@ private:
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
     /// <param name="apiKey"> (optional, default to &quot;&quot;)</param>
-    virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void delete_pet(const int64_t &petId, const std::optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Finds Pets by status
     /// </summary>
@@ -94,7 +94,7 @@ private:
     /// Multiple status values can be provided with comma separated strings
     /// </remarks>
     /// <param name="status">Status values that need to be considered for filter</param>
-    virtual void find_pets_by_status(const Pistache::Optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_status(const std::optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Finds Pets by tags
     /// </summary>
@@ -102,7 +102,7 @@ private:
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
-    virtual void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_tags(const std::optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Find pet by ID
     /// </summary>

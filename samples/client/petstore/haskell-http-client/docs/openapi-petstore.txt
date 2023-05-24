@@ -22,10 +22,10 @@
 module OpenAPIPetstore.Logging
 
 -- | Runs a Katip logging block with the Log environment
-type LogExecWithContext = forall m. MonadIO m => LogContext -> LogExec m
+type LogExecWithContext = forall m a. MonadIO m => LogContext -> LogExec m a
 
 -- | A Katip logging block
-type LogExec m = forall a. KatipT m a -> m a
+type LogExec m a = KatipT m a -> m a
 
 -- | A Katip Log environment
 type LogContext = LogEnv
@@ -145,7 +145,7 @@ instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMult
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Types.Double
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Types.Float
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Types.Int
-instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Integer.Type.Integer
+instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Num.Integer.Integer
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData GHC.Base.String
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeMultipartFormData Data.Text.Internal.Text
 instance OpenAPIPetstore.MimeTypes.MimeRender OpenAPIPetstore.MimeTypes.MimeNoContent OpenAPIPetstore.MimeTypes.NoContent
@@ -162,7 +162,7 @@ instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeNoCont
 module OpenAPIPetstore.Core
 
 data OpenAPIPetstoreConfig
-OpenAPIPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext -> [AnyAuthMethod] -> Bool -> OpenAPIPetstoreConfig
+OpenAPIPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext -> [AnyAuthMethod] -> Bool -> ByteString -> OpenAPIPetstoreConfig
 
 -- | host supplied in the Request
 [configHost] :: OpenAPIPetstoreConfig -> ByteString
@@ -181,6 +181,10 @@ OpenAPIPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext 
 
 -- | throw exceptions if auth methods are not configured
 [configValidateAuthMethods] :: OpenAPIPetstoreConfig -> Bool
+
+-- | Configures additional querystring characters which must not be URI
+--   encoded, e.g. <tt>+</tt> or <tt>:</tt>
+[configQueryExtraUnreserved] :: OpenAPIPetstoreConfig -> ByteString
 
 -- | constructs a default OpenAPIPetstoreConfig
 --   
@@ -301,6 +305,7 @@ toPath :: ToHttpApiData a => a -> ByteString
 toHeader :: ToHttpApiData a => (HeaderName, a) -> [Header]
 toForm :: ToHttpApiData v => (ByteString, v) -> Form
 toQuery :: ToHttpApiData a => (ByteString, Maybe a) -> [QueryItem]
+toPartialEscapeQuery :: ByteString -> Query -> PartialEscapeQuery
 
 -- | Determines the format of the array if type array is used.
 data CollectionFormat
@@ -345,7 +350,7 @@ _applyAuthMethods :: OpenAPIPetstoreRequest req contentType res accept -> OpenAP
 
 -- | Removes Null fields. (OpenAPI-Specification 2.0 does not allow Null in
 --   JSON)
-_omitNulls :: [(Text, Value)] -> Value
+_omitNulls :: [(Key, Value)] -> Value
 
 -- | Encodes fields using WH.toQueryParam
 _toFormItem :: (ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
@@ -403,29 +408,29 @@ Binary :: ByteString -> Binary
 _readBinaryBase64 :: MonadFail m => Text -> m Binary
 _showBinaryBase64 :: Binary -> Text
 type Lens_' s a = Lens_ s s a a
-type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
-instance Control.DeepSeq.NFData OpenAPIPetstore.Core.Binary
-instance GHC.Classes.Ord OpenAPIPetstore.Core.Binary
-instance Data.Data.Data OpenAPIPetstore.Core.Binary
-instance GHC.Classes.Eq OpenAPIPetstore.Core.Binary
-instance Control.DeepSeq.NFData OpenAPIPetstore.Core.ByteArray
-instance GHC.Classes.Ord OpenAPIPetstore.Core.ByteArray
-instance Data.Data.Data OpenAPIPetstore.Core.ByteArray
-instance GHC.Classes.Eq OpenAPIPetstore.Core.ByteArray
-instance Control.DeepSeq.NFData OpenAPIPetstore.Core.Date
-instance GHC.Arr.Ix OpenAPIPetstore.Core.Date
-instance GHC.Classes.Ord OpenAPIPetstore.Core.Date
-instance Data.Data.Data OpenAPIPetstore.Core.Date
-instance GHC.Classes.Eq OpenAPIPetstore.Core.Date
-instance GHC.Enum.Enum OpenAPIPetstore.Core.Date
+type Lens_ s t a b = forall (f :: Type -> Type). Functor f => (a -> f b) -> s -> f t
+instance GHC.Show.Show OpenAPIPetstore.Core.ParamBody
+instance GHC.Show.Show OpenAPIPetstore.Core.Params
+instance GHC.Show.Show (OpenAPIPetstore.Core.OpenAPIPetstoreRequest req contentType res accept)
+instance GHC.Show.Show OpenAPIPetstore.Core.AuthMethodException
 instance Control.DeepSeq.NFData OpenAPIPetstore.Core.DateTime
 instance GHC.Classes.Ord OpenAPIPetstore.Core.DateTime
 instance Data.Data.Data OpenAPIPetstore.Core.DateTime
 instance GHC.Classes.Eq OpenAPIPetstore.Core.DateTime
-instance GHC.Show.Show OpenAPIPetstore.Core.AuthMethodException
-instance GHC.Show.Show (OpenAPIPetstore.Core.OpenAPIPetstoreRequest req contentType res accept)
-instance GHC.Show.Show OpenAPIPetstore.Core.Params
-instance GHC.Show.Show OpenAPIPetstore.Core.ParamBody
+instance Control.DeepSeq.NFData OpenAPIPetstore.Core.Date
+instance GHC.Ix.Ix OpenAPIPetstore.Core.Date
+instance GHC.Classes.Ord OpenAPIPetstore.Core.Date
+instance Data.Data.Data OpenAPIPetstore.Core.Date
+instance GHC.Classes.Eq OpenAPIPetstore.Core.Date
+instance GHC.Enum.Enum OpenAPIPetstore.Core.Date
+instance Control.DeepSeq.NFData OpenAPIPetstore.Core.ByteArray
+instance GHC.Classes.Ord OpenAPIPetstore.Core.ByteArray
+instance Data.Data.Data OpenAPIPetstore.Core.ByteArray
+instance GHC.Classes.Eq OpenAPIPetstore.Core.ByteArray
+instance Control.DeepSeq.NFData OpenAPIPetstore.Core.Binary
+instance GHC.Classes.Ord OpenAPIPetstore.Core.Binary
+instance Data.Data.Data OpenAPIPetstore.Core.Binary
+instance GHC.Classes.Eq OpenAPIPetstore.Core.Binary
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Core.Binary
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Core.Binary
 instance Web.Internal.HttpApiData.FromHttpApiData OpenAPIPetstore.Core.Binary
@@ -511,17 +516,16 @@ modifyInitRequest :: InitRequest req contentType res accept -> (Request -> Reque
 modifyInitRequestM :: Monad m => InitRequest req contentType res accept -> (Request -> m Request) -> m (InitRequest req contentType res accept)
 
 -- | Run a block using the configured logger instance
-runConfigLog :: MonadIO m => OpenAPIPetstoreConfig -> LogExec m
+runConfigLog :: MonadIO m => OpenAPIPetstoreConfig -> LogExec m a
 
 -- | Run a block using the configured logger instance (logs exceptions)
-runConfigLogWithExceptions :: (MonadCatch m, MonadIO m) => Text -> OpenAPIPetstoreConfig -> LogExec m
-instance GHC.Show.Show (OpenAPIPetstore.Client.InitRequest req contentType res accept)
+runConfigLogWithExceptions :: (MonadCatch m, MonadIO m) => Text -> OpenAPIPetstoreConfig -> LogExec m a
+instance GHC.Show.Show OpenAPIPetstore.Client.MimeError
 instance Data.Traversable.Traversable OpenAPIPetstore.Client.MimeResult
 instance Data.Foldable.Foldable OpenAPIPetstore.Client.MimeResult
 instance GHC.Base.Functor OpenAPIPetstore.Client.MimeResult
 instance GHC.Show.Show res => GHC.Show.Show (OpenAPIPetstore.Client.MimeResult res)
-instance GHC.Show.Show OpenAPIPetstore.Client.MimeError
-instance GHC.Classes.Eq OpenAPIPetstore.Client.MimeError
+instance GHC.Show.Show (OpenAPIPetstore.Client.InitRequest req contentType res accept)
 
 
 module OpenAPIPetstore.Model
@@ -1858,287 +1862,287 @@ data AuthOAuthPetstoreAuth
 
 -- | secret
 AuthOAuthPetstoreAuth :: Text -> AuthOAuthPetstoreAuth
-instance GHC.Show.Show OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
-instance GHC.Show.Show OpenAPIPetstore.Model.AuthBasicHttpBasicTest
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthBasicHttpBasicTest
-instance GHC.Show.Show OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
-instance GHC.Show.Show OpenAPIPetstore.Model.AuthApiKeyApiKey
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthApiKeyApiKey
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumTest
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumTest
-instance GHC.Enum.Enum OpenAPIPetstore.Model.OuterEnum
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.OuterEnum
-instance GHC.Classes.Ord OpenAPIPetstore.Model.OuterEnum
-instance GHC.Classes.Eq OpenAPIPetstore.Model.OuterEnum
-instance GHC.Show.Show OpenAPIPetstore.Model.OuterEnum
-instance GHC.Enum.Enum OpenAPIPetstore.Model.EnumClass
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.EnumClass
-instance GHC.Classes.Ord OpenAPIPetstore.Model.EnumClass
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumClass
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumClass
-instance GHC.Show.Show OpenAPIPetstore.Model.Status
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Status
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Pet
-instance GHC.Show.Show OpenAPIPetstore.Model.Pet
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Status2
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Status2
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Status2
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Status2
-instance GHC.Show.Show OpenAPIPetstore.Model.E'Status2
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Order
-instance GHC.Show.Show OpenAPIPetstore.Model.Order
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Status
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Status
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Status
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Status
-instance GHC.Show.Show OpenAPIPetstore.Model.E'Status
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCat
-instance GHC.Show.Show OpenAPIPetstore.Model.BigCat
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCatAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.BigCatAllOf
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Kind
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Kind
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Kind
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Kind
-instance GHC.Show.Show OpenAPIPetstore.Model.E'Kind
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumArrays
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumArrays
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'JustSymbol
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'JustSymbol
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'JustSymbol
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'JustSymbol
-instance GHC.Show.Show OpenAPIPetstore.Model.E'JustSymbol
-instance GHC.Classes.Eq OpenAPIPetstore.Model.MapTest
-instance GHC.Show.Show OpenAPIPetstore.Model.MapTest
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Inner
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Inner
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Inner
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Inner
-instance GHC.Show.Show OpenAPIPetstore.Model.E'Inner
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumString
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumString
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumString
-instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumString
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryInteger
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryInteger
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumQueryInteger
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumQueryInteger
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumQueryInteger
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumQueryInteger
-instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumQueryInteger
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryDouble
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryDouble
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumNumber
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumNumber
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumNumber
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumNumber
-instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumNumber
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumInteger
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumInteger
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumInteger
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumInteger
-instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumInteger
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumFormStringArray
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumFormStringArray
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumHeaderStringArray
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumHeaderStringArray
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryStringArray
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryStringArray
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumFormStringArray
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumFormStringArray
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumFormStringArray
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumFormStringArray
-instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumFormStringArray
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumFormString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumFormString
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumHeaderString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumHeaderString
-instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryString
-instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumFormString
-instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumFormString
-instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumFormString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumFormString
-instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumFormString
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalMetadata
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalMetadata
+instance GHC.Show.Show OpenAPIPetstore.Model.ApiKey
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ApiKey
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BodyBool
+instance GHC.Show.Show OpenAPIPetstore.Model.BodyBool
+instance GHC.Classes.Eq OpenAPIPetstore.Model.BodyBool
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BodyDouble
+instance GHC.Show.Show OpenAPIPetstore.Model.BodyDouble
+instance GHC.Classes.Eq OpenAPIPetstore.Model.BodyDouble
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BodyText
+instance GHC.Show.Show OpenAPIPetstore.Model.BodyText
+instance GHC.Classes.Eq OpenAPIPetstore.Model.BodyText
+instance GHC.Show.Show OpenAPIPetstore.Model.BooleanGroup
+instance GHC.Classes.Eq OpenAPIPetstore.Model.BooleanGroup
+instance GHC.Show.Show OpenAPIPetstore.Model.Byte
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Byte
+instance GHC.Show.Show OpenAPIPetstore.Model.Callback
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Callback
+instance GHC.Show.Show OpenAPIPetstore.Model.Context
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Context
+instance GHC.Show.Show OpenAPIPetstore.Model.File2
+instance GHC.Classes.Eq OpenAPIPetstore.Model.File2
+instance GHC.Show.Show OpenAPIPetstore.Model.Http
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Http
+instance GHC.Show.Show OpenAPIPetstore.Model.Int32
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Int32
+instance GHC.Show.Show OpenAPIPetstore.Model.Int64
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64
+instance GHC.Show.Show OpenAPIPetstore.Model.Int64Group
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64Group
+instance GHC.Show.Show OpenAPIPetstore.Model.Ioutil
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Ioutil
+instance GHC.Show.Show OpenAPIPetstore.Model.Name2
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Name2
+instance GHC.Show.Show OpenAPIPetstore.Model.Number
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Number
+instance GHC.Show.Show OpenAPIPetstore.Model.OrderId
+instance GHC.Classes.Eq OpenAPIPetstore.Model.OrderId
+instance GHC.Show.Show OpenAPIPetstore.Model.OrderIdText
+instance GHC.Classes.Eq OpenAPIPetstore.Model.OrderIdText
+instance GHC.Show.Show OpenAPIPetstore.Model.Param
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Param
+instance GHC.Show.Show OpenAPIPetstore.Model.Param2
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Param2
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamBinary
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamBinary
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamDate
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamDate
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamDateTime
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamDateTime
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamDouble
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamDouble
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamFloat
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamFloat
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamInteger
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamInteger
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.ParamMapMapStringText
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamMapMapStringText
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamMapMapStringText
+instance GHC.Show.Show OpenAPIPetstore.Model.ParamString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamString
+instance GHC.Show.Show OpenAPIPetstore.Model.Password
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Password
+instance GHC.Show.Show OpenAPIPetstore.Model.PatternWithoutDelimiter
+instance GHC.Classes.Eq OpenAPIPetstore.Model.PatternWithoutDelimiter
+instance GHC.Show.Show OpenAPIPetstore.Model.PetId
+instance GHC.Classes.Eq OpenAPIPetstore.Model.PetId
+instance GHC.Show.Show OpenAPIPetstore.Model.Pipe
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Pipe
+instance GHC.Show.Show OpenAPIPetstore.Model.Query
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Query
+instance GHC.Show.Show OpenAPIPetstore.Model.RequiredBooleanGroup
+instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredBooleanGroup
+instance GHC.Show.Show OpenAPIPetstore.Model.RequiredFile
+instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredFile
+instance GHC.Show.Show OpenAPIPetstore.Model.RequiredInt64Group
+instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredInt64Group
+instance GHC.Show.Show OpenAPIPetstore.Model.RequiredStringGroup
+instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredStringGroup
+instance GHC.Show.Show OpenAPIPetstore.Model.StatusText
+instance GHC.Classes.Eq OpenAPIPetstore.Model.StatusText
+instance GHC.Show.Show OpenAPIPetstore.Model.StringGroup
+instance GHC.Classes.Eq OpenAPIPetstore.Model.StringGroup
+instance GHC.Show.Show OpenAPIPetstore.Model.Tags
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Tags
+instance GHC.Show.Show OpenAPIPetstore.Model.Url
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Url
+instance GHC.Show.Show OpenAPIPetstore.Model.Username
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Username
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesAnyType
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesAnyType
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesArray
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesArray
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesBoolean
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesBoolean
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesClass
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesClass
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesInteger
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesInteger
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesNumber
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesNumber
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesObject
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesObject
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesString
+instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Animal
+instance GHC.Show.Show OpenAPIPetstore.Model.Animal
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ApiResponse
+instance GHC.Show.Show OpenAPIPetstore.Model.ApiResponse
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayOfArrayOfNumberOnly
+instance GHC.Show.Show OpenAPIPetstore.Model.ArrayOfArrayOfNumberOnly
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayOfNumberOnly
+instance GHC.Show.Show OpenAPIPetstore.Model.ArrayOfNumberOnly
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Capitalization
+instance GHC.Show.Show OpenAPIPetstore.Model.Capitalization
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Cat
+instance GHC.Show.Show OpenAPIPetstore.Model.Cat
+instance GHC.Classes.Eq OpenAPIPetstore.Model.CatAllOf
+instance GHC.Show.Show OpenAPIPetstore.Model.CatAllOf
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Category
+instance GHC.Show.Show OpenAPIPetstore.Model.Category
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ClassModel
+instance GHC.Show.Show OpenAPIPetstore.Model.ClassModel
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Client
+instance GHC.Show.Show OpenAPIPetstore.Model.Client
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Dog
+instance GHC.Show.Show OpenAPIPetstore.Model.Dog
+instance GHC.Classes.Eq OpenAPIPetstore.Model.DogAllOf
+instance GHC.Show.Show OpenAPIPetstore.Model.DogAllOf
+instance GHC.Classes.Eq OpenAPIPetstore.Model.File
+instance GHC.Show.Show OpenAPIPetstore.Model.File
+instance GHC.Classes.Eq OpenAPIPetstore.Model.FileSchemaTestClass
+instance GHC.Show.Show OpenAPIPetstore.Model.FileSchemaTestClass
+instance GHC.Classes.Eq OpenAPIPetstore.Model.FormatTest
+instance GHC.Show.Show OpenAPIPetstore.Model.FormatTest
+instance GHC.Classes.Eq OpenAPIPetstore.Model.HasOnlyReadOnly
+instance GHC.Show.Show OpenAPIPetstore.Model.HasOnlyReadOnly
+instance GHC.Classes.Eq OpenAPIPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass
+instance GHC.Show.Show OpenAPIPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Model200Response
+instance GHC.Show.Show OpenAPIPetstore.Model.Model200Response
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ModelList
+instance GHC.Show.Show OpenAPIPetstore.Model.ModelList
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ModelReturn
+instance GHC.Show.Show OpenAPIPetstore.Model.ModelReturn
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Name
+instance GHC.Show.Show OpenAPIPetstore.Model.Name
+instance GHC.Classes.Eq OpenAPIPetstore.Model.NumberOnly
+instance GHC.Show.Show OpenAPIPetstore.Model.NumberOnly
+instance GHC.Classes.Eq OpenAPIPetstore.Model.OuterComposite
+instance GHC.Show.Show OpenAPIPetstore.Model.OuterComposite
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ReadOnlyFirst
+instance GHC.Show.Show OpenAPIPetstore.Model.ReadOnlyFirst
+instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayTest
+instance GHC.Show.Show OpenAPIPetstore.Model.ArrayTest
+instance GHC.Classes.Eq OpenAPIPetstore.Model.SpecialModelName
+instance GHC.Show.Show OpenAPIPetstore.Model.SpecialModelName
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Tag
+instance GHC.Show.Show OpenAPIPetstore.Model.Tag
+instance GHC.Classes.Eq OpenAPIPetstore.Model.TypeHolderDefault
+instance GHC.Show.Show OpenAPIPetstore.Model.TypeHolderDefault
+instance GHC.Classes.Eq OpenAPIPetstore.Model.TypeHolderExample
+instance GHC.Show.Show OpenAPIPetstore.Model.TypeHolderExample
+instance GHC.Classes.Eq OpenAPIPetstore.Model.User
+instance GHC.Show.Show OpenAPIPetstore.Model.User
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Body
+instance GHC.Show.Show OpenAPIPetstore.Model.Body
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Body
+instance GHC.Classes.Eq OpenAPIPetstore.Model.XmlItem
+instance GHC.Show.Show OpenAPIPetstore.Model.XmlItem
 instance GHC.Enum.Enum OpenAPIPetstore.Model.E'ArrayEnum
 instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'ArrayEnum
 instance GHC.Classes.Ord OpenAPIPetstore.Model.E'ArrayEnum
 instance GHC.Classes.Eq OpenAPIPetstore.Model.E'ArrayEnum
 instance GHC.Show.Show OpenAPIPetstore.Model.E'ArrayEnum
-instance GHC.Classes.Eq OpenAPIPetstore.Model.XmlItem
-instance GHC.Show.Show OpenAPIPetstore.Model.XmlItem
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Body
-instance GHC.Show.Show OpenAPIPetstore.Model.Body
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Body
-instance GHC.Classes.Eq OpenAPIPetstore.Model.User
-instance GHC.Show.Show OpenAPIPetstore.Model.User
-instance GHC.Classes.Eq OpenAPIPetstore.Model.TypeHolderExample
-instance GHC.Show.Show OpenAPIPetstore.Model.TypeHolderExample
-instance GHC.Classes.Eq OpenAPIPetstore.Model.TypeHolderDefault
-instance GHC.Show.Show OpenAPIPetstore.Model.TypeHolderDefault
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Tag
-instance GHC.Show.Show OpenAPIPetstore.Model.Tag
-instance GHC.Classes.Eq OpenAPIPetstore.Model.SpecialModelName
-instance GHC.Show.Show OpenAPIPetstore.Model.SpecialModelName
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayTest
-instance GHC.Show.Show OpenAPIPetstore.Model.ArrayTest
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ReadOnlyFirst
-instance GHC.Show.Show OpenAPIPetstore.Model.ReadOnlyFirst
-instance GHC.Classes.Eq OpenAPIPetstore.Model.OuterComposite
-instance GHC.Show.Show OpenAPIPetstore.Model.OuterComposite
-instance GHC.Classes.Eq OpenAPIPetstore.Model.NumberOnly
-instance GHC.Show.Show OpenAPIPetstore.Model.NumberOnly
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Name
-instance GHC.Show.Show OpenAPIPetstore.Model.Name
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ModelReturn
-instance GHC.Show.Show OpenAPIPetstore.Model.ModelReturn
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ModelList
-instance GHC.Show.Show OpenAPIPetstore.Model.ModelList
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Model200Response
-instance GHC.Show.Show OpenAPIPetstore.Model.Model200Response
-instance GHC.Classes.Eq OpenAPIPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass
-instance GHC.Show.Show OpenAPIPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass
-instance GHC.Classes.Eq OpenAPIPetstore.Model.HasOnlyReadOnly
-instance GHC.Show.Show OpenAPIPetstore.Model.HasOnlyReadOnly
-instance GHC.Classes.Eq OpenAPIPetstore.Model.FormatTest
-instance GHC.Show.Show OpenAPIPetstore.Model.FormatTest
-instance GHC.Classes.Eq OpenAPIPetstore.Model.FileSchemaTestClass
-instance GHC.Show.Show OpenAPIPetstore.Model.FileSchemaTestClass
-instance GHC.Classes.Eq OpenAPIPetstore.Model.File
-instance GHC.Show.Show OpenAPIPetstore.Model.File
-instance GHC.Classes.Eq OpenAPIPetstore.Model.DogAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.DogAllOf
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Dog
-instance GHC.Show.Show OpenAPIPetstore.Model.Dog
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Client
-instance GHC.Show.Show OpenAPIPetstore.Model.Client
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ClassModel
-instance GHC.Show.Show OpenAPIPetstore.Model.ClassModel
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Category
-instance GHC.Show.Show OpenAPIPetstore.Model.Category
-instance GHC.Classes.Eq OpenAPIPetstore.Model.CatAllOf
-instance GHC.Show.Show OpenAPIPetstore.Model.CatAllOf
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Cat
-instance GHC.Show.Show OpenAPIPetstore.Model.Cat
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Capitalization
-instance GHC.Show.Show OpenAPIPetstore.Model.Capitalization
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayOfNumberOnly
-instance GHC.Show.Show OpenAPIPetstore.Model.ArrayOfNumberOnly
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayOfArrayOfNumberOnly
-instance GHC.Show.Show OpenAPIPetstore.Model.ArrayOfArrayOfNumberOnly
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ApiResponse
-instance GHC.Show.Show OpenAPIPetstore.Model.ApiResponse
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Animal
-instance GHC.Show.Show OpenAPIPetstore.Model.Animal
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesString
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesObject
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesObject
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesNumber
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesNumber
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesInteger
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesInteger
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesClass
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesClass
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesBoolean
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesBoolean
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesArray
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesArray
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalPropertiesAnyType
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalPropertiesAnyType
-instance GHC.Show.Show OpenAPIPetstore.Model.Username
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Username
-instance GHC.Show.Show OpenAPIPetstore.Model.Url
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Url
-instance GHC.Show.Show OpenAPIPetstore.Model.Tags
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Tags
-instance GHC.Show.Show OpenAPIPetstore.Model.StringGroup
-instance GHC.Classes.Eq OpenAPIPetstore.Model.StringGroup
-instance GHC.Show.Show OpenAPIPetstore.Model.StatusText
-instance GHC.Classes.Eq OpenAPIPetstore.Model.StatusText
-instance GHC.Show.Show OpenAPIPetstore.Model.RequiredStringGroup
-instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredStringGroup
-instance GHC.Show.Show OpenAPIPetstore.Model.RequiredInt64Group
-instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredInt64Group
-instance GHC.Show.Show OpenAPIPetstore.Model.RequiredFile
-instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredFile
-instance GHC.Show.Show OpenAPIPetstore.Model.RequiredBooleanGroup
-instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredBooleanGroup
-instance GHC.Show.Show OpenAPIPetstore.Model.Query
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Query
-instance GHC.Show.Show OpenAPIPetstore.Model.Pipe
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Pipe
-instance GHC.Show.Show OpenAPIPetstore.Model.PetId
-instance GHC.Classes.Eq OpenAPIPetstore.Model.PetId
-instance GHC.Show.Show OpenAPIPetstore.Model.PatternWithoutDelimiter
-instance GHC.Classes.Eq OpenAPIPetstore.Model.PatternWithoutDelimiter
-instance GHC.Show.Show OpenAPIPetstore.Model.Password
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Password
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamString
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamString
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.ParamMapMapStringText
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamMapMapStringText
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamMapMapStringText
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamInteger
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamInteger
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamFloat
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamFloat
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamDouble
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamDouble
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamDateTime
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamDateTime
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamDate
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamDate
-instance GHC.Show.Show OpenAPIPetstore.Model.ParamBinary
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ParamBinary
-instance GHC.Show.Show OpenAPIPetstore.Model.Param2
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Param2
-instance GHC.Show.Show OpenAPIPetstore.Model.Param
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Param
-instance GHC.Show.Show OpenAPIPetstore.Model.OrderIdText
-instance GHC.Classes.Eq OpenAPIPetstore.Model.OrderIdText
-instance GHC.Show.Show OpenAPIPetstore.Model.OrderId
-instance GHC.Classes.Eq OpenAPIPetstore.Model.OrderId
-instance GHC.Show.Show OpenAPIPetstore.Model.Number
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Number
-instance GHC.Show.Show OpenAPIPetstore.Model.Name2
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Name2
-instance GHC.Show.Show OpenAPIPetstore.Model.Ioutil
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Ioutil
-instance GHC.Show.Show OpenAPIPetstore.Model.Int64Group
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64Group
-instance GHC.Show.Show OpenAPIPetstore.Model.Int64
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64
-instance GHC.Show.Show OpenAPIPetstore.Model.Int32
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Int32
-instance GHC.Show.Show OpenAPIPetstore.Model.Http
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Http
-instance GHC.Show.Show OpenAPIPetstore.Model.File2
-instance GHC.Classes.Eq OpenAPIPetstore.Model.File2
-instance GHC.Show.Show OpenAPIPetstore.Model.Context
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Context
-instance GHC.Show.Show OpenAPIPetstore.Model.Callback
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Callback
-instance GHC.Show.Show OpenAPIPetstore.Model.Byte
-instance GHC.Classes.Eq OpenAPIPetstore.Model.Byte
-instance GHC.Show.Show OpenAPIPetstore.Model.BooleanGroup
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BooleanGroup
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BodyText
-instance GHC.Show.Show OpenAPIPetstore.Model.BodyText
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BodyText
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BodyDouble
-instance GHC.Show.Show OpenAPIPetstore.Model.BodyDouble
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BodyDouble
-instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.BodyBool
-instance GHC.Show.Show OpenAPIPetstore.Model.BodyBool
-instance GHC.Classes.Eq OpenAPIPetstore.Model.BodyBool
-instance GHC.Show.Show OpenAPIPetstore.Model.ApiKey
-instance GHC.Classes.Eq OpenAPIPetstore.Model.ApiKey
-instance GHC.Show.Show OpenAPIPetstore.Model.AdditionalMetadata
-instance GHC.Classes.Eq OpenAPIPetstore.Model.AdditionalMetadata
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumFormString
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumFormString
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumFormString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumFormString
+instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumFormString
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryString
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumHeaderString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumHeaderString
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumFormString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumFormString
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumFormStringArray
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumFormStringArray
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumFormStringArray
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumFormStringArray
+instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumFormStringArray
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryStringArray
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryStringArray
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumHeaderStringArray
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumHeaderStringArray
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumFormStringArray
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumFormStringArray
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumInteger
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumInteger
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumInteger
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumInteger
+instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumInteger
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumNumber
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumNumber
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumNumber
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumNumber
+instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumNumber
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryDouble
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryDouble
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumQueryInteger
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumQueryInteger
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumQueryInteger
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumQueryInteger
+instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumQueryInteger
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumQueryInteger
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumQueryInteger
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'EnumString
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'EnumString
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'EnumString
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'EnumString
+instance GHC.Show.Show OpenAPIPetstore.Model.E'EnumString
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Inner
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Inner
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Inner
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Inner
+instance GHC.Show.Show OpenAPIPetstore.Model.E'Inner
+instance GHC.Classes.Eq OpenAPIPetstore.Model.MapTest
+instance GHC.Show.Show OpenAPIPetstore.Model.MapTest
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'JustSymbol
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'JustSymbol
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'JustSymbol
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'JustSymbol
+instance GHC.Show.Show OpenAPIPetstore.Model.E'JustSymbol
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumArrays
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumArrays
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Kind
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Kind
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Kind
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Kind
+instance GHC.Show.Show OpenAPIPetstore.Model.E'Kind
+instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCatAllOf
+instance GHC.Show.Show OpenAPIPetstore.Model.BigCatAllOf
+instance GHC.Classes.Eq OpenAPIPetstore.Model.BigCat
+instance GHC.Show.Show OpenAPIPetstore.Model.BigCat
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Status
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Status
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Status
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Status
+instance GHC.Show.Show OpenAPIPetstore.Model.E'Status
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Order
+instance GHC.Show.Show OpenAPIPetstore.Model.Order
+instance GHC.Enum.Enum OpenAPIPetstore.Model.E'Status2
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.E'Status2
+instance GHC.Classes.Ord OpenAPIPetstore.Model.E'Status2
+instance GHC.Classes.Eq OpenAPIPetstore.Model.E'Status2
+instance GHC.Show.Show OpenAPIPetstore.Model.E'Status2
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Pet
+instance GHC.Show.Show OpenAPIPetstore.Model.Pet
+instance GHC.Show.Show OpenAPIPetstore.Model.Status
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Status
+instance GHC.Enum.Enum OpenAPIPetstore.Model.EnumClass
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.EnumClass
+instance GHC.Classes.Ord OpenAPIPetstore.Model.EnumClass
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumClass
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumClass
+instance GHC.Enum.Enum OpenAPIPetstore.Model.OuterEnum
+instance GHC.Enum.Bounded OpenAPIPetstore.Model.OuterEnum
+instance GHC.Classes.Ord OpenAPIPetstore.Model.OuterEnum
+instance GHC.Classes.Eq OpenAPIPetstore.Model.OuterEnum
+instance GHC.Show.Show OpenAPIPetstore.Model.OuterEnum
+instance GHC.Classes.Eq OpenAPIPetstore.Model.EnumTest
+instance GHC.Show.Show OpenAPIPetstore.Model.EnumTest
+instance GHC.Show.Show OpenAPIPetstore.Model.AuthApiKeyApiKey
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthApiKeyApiKey
+instance GHC.Show.Show OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
+instance GHC.Show.Show OpenAPIPetstore.Model.AuthBasicHttpBasicTest
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthBasicHttpBasicTest
+instance GHC.Show.Show OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
+instance GHC.Classes.Eq OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
 instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthOAuthPetstoreAuth
 instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthBasicHttpBasicTest
 instance OpenAPIPetstore.Core.AuthMethod OpenAPIPetstore.Model.AuthApiKeyApiKeyQuery
@@ -2430,7 +2434,7 @@ data GetInventory
 --   Find purchase order by ID
 --   
 --   For valid response try integer IDs with value <a>5 or</a> 10. Other
---   values will generated exceptions
+--   values will generate exceptions
 getOrderById :: Accept accept -> OrderId -> OpenAPIPetstoreRequest GetOrderById MimeNoContent Order accept
 data GetOrderById
 
@@ -2716,7 +2720,7 @@ testJsonFormData :: Consumes TestJsonFormData MimeFormUrlEncoded => Param -> Par
 data TestJsonFormData
 
 -- | <pre>
---   PUT /fake/test-query-paramters
+--   PUT /fake/test-query-parameters
 --   </pre>
 --   
 --   To test the collection format in query parameters

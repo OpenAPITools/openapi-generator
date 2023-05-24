@@ -1,0 +1,13 @@
+{{>additionalOneOfTypeAnnotations}}
+{{#withXml}}
+{{>xmlAnnotation}}
+{{/withXml}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{/discriminator}}
+{{>generatedAnnotation}}
+public interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+    {{#discriminator}}
+    public {{propertyType}} {{propertyGetter}}();
+    {{/discriminator}}
+}

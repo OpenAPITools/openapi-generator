@@ -43,7 +43,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
@@ -63,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.0.0-M5</version>
                 <configuration>
                     <systemProperties>
                         <property>
@@ -91,16 +91,14 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- attach test jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.2.2</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>jar</goal>
                             <goal>test-jar</goal>
                         </goals>
                     </execution>
@@ -108,11 +106,10 @@
                 <configuration>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.10</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>add_sources</id>
@@ -143,16 +140,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
                 <configuration>
-                    {{#java8}}
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    {{/java8}}
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <fork>true</fork>
                     <meminitial>128m</meminitial>
                     <maxmem>512m</maxmem>
@@ -165,7 +156,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.2</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -176,12 +167,7 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#java8}}
-                        <source>1.8</source>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                    {{/java8}}
+                    <source>1.8</source>
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -194,7 +180,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -203,6 +189,46 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Use spotless plugin to automatically format code, remove unused import, etc
+                 To apply changes directly to the file, run `mvn spotless:apply`
+                 Ref: https://github.com/diffplug/spotless/tree/main/plugin-maven
+            -->
+            <plugin>
+              <groupId>com.diffplug.spotless</groupId>
+              <artifactId>spotless-maven-plugin</artifactId>
+              <version>${spotless.version}</version>
+              <configuration>
+                <formats>
+                  <!-- you can define as many formats as you want, each is independent -->
+                  <format>
+                    <!-- define the files to apply to -->
+                    <includes>
+                      <include>.gitignore</include>
+                    </includes>
+                    <!-- define the steps to apply to those files -->
+                    <trimTrailingWhitespace/>
+                    <endWithNewline/>
+                    <indent>
+                      <spaces>true</spaces> <!-- or <tabs>true</tabs> -->
+                      <spacesPerTab>4</spacesPerTab> <!-- optional, default is 4 -->
+                    </indent>
+                  </format>
+                </formats>
+                <!-- define a language-specific format -->
+                <java>
+                  <!-- no need to specify files, inferred automatically, but you can if you want -->
+
+                  <!-- apply a specific flavor of google-java-format and reflow long strings -->
+                  <googleJavaFormat>
+                    <version>1.8</version>
+                    <style>AOSP</style>
+                    <reflowLongStrings>true</reflowLongStrings>
+                  </googleJavaFormat>
+                  <removeUnusedImports/>
+                  <importOrder/>
+                </java>
+              </configuration>
             </plugin>
         </plugins>
     </build>
@@ -215,7 +241,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -232,11 +258,13 @@
     </profiles>
 
     <dependencies>
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swagger1AnnotationLibrary}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -305,28 +333,11 @@
             <version>${jackson-version}</version>
         </dependency>
         {{/joda}}
-        {{#java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        {{/java8}}
-        {{#threetenbp}}
-        <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${threetenbp-version}</version>
-        </dependency>
-        {{/threetenbp}}
-        {{^java8}}
-        <!-- Base64 encoding that works in both JVM and Android -->
-        <dependency>
-            <groupId>com.brsanthu</groupId>
-            <artifactId>migbase64</artifactId>
-            <version>2.2</version>
-        </dependency>
-        {{/java8}}
         {{#hasHttpSignatureMethods}}
         <dependency>
             <groupId>org.tomitribe</groupId>
@@ -344,16 +355,16 @@
         {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
             <scope>provided</scope>
         </dependency>
         {{/useBeanValidation}}
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -363,29 +374,35 @@
         </dependency>
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.6.1</swagger-annotations-version>
-        <jersey-version>2.30.1</jersey-version>
-        <jackson-version>2.10.5</jackson-version>
-        <jackson-databind-version>2.10.5.1</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
-        {{#threetenbp}}
-        <threetenbp-version>2.9.10</threetenbp-version>
-        {{/threetenbp}}
-        <javax-annotation-version>1.3.2</javax-annotation-version>
-        <junit-version>4.13.1</junit-version>
+        <swagger-annotations-version>1.6.6</swagger-annotations-version>
+        <jersey-version>2.35</jersey-version>
+        <jackson-version>2.13.4</jackson-version>
+        <jackson-databind-version>2.13.4.2</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{#useBeanValidation}}
+        <beanvalidation-version>2.0.2</beanvalidation-version>
+        {{/useBeanValidation}}
+        <junit-version>5.8.2</junit-version>
         {{#hasHttpSignatureMethods}}
-        <http-signature-version>1.5</http-signature-version>
+        <http-signature-version>1.7</http-signature-version>
         {{/hasHttpSignatureMethods}}
         {{#hasOAuthMethods}}
-        <scribejava-apis-version>6.9.0</scribejava-apis-version>
+        <scribejava-apis-version>8.3.1</scribejava-apis-version>
         {{/hasOAuthMethods}}
+        <spotless.version>2.21.0</spotless.version>
     </properties>
 </project>

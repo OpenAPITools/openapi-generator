@@ -25,17 +25,35 @@ import rx.Observable
 import io.reactivex.Single
 {{/useRxJava2}}
 {{#useRxJava3}}
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Single
 {{/useRxJava3}}
 {{^returnType}}
 {{#useRxJava2}}
 import io.reactivex.Completable
 {{/useRxJava2}}
 {{#useRxJava3}}
-import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Completable
 {{/useRxJava3}}
 {{/returnType}}
 {{/doNotUseRxAndCoroutines}}
+{{^multiplatform}}
+{{#gson}}
+import com.google.gson.annotations.SerializedName
+{{/gson}}
+{{#moshi}}
+import com.squareup.moshi.Json
+{{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+{{/jackson}}
+{{#kotlinx_serialization}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+{{/kotlinx_serialization}}
+{{/multiplatform}}
+{{#multiplatform}}
+import kotlinx.serialization.*
+{{/multiplatform}}
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -55,15 +73,71 @@ import okhttp3.ResponseBody
 {{/operation}}
 interface {{classname}} {
     {{#operation}}
+    {{#allParams}}
+    {{#isEnum}}
+
+    /**
+    * enum for parameter {{paramName}}
+    */
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{^enumUnknownDefaultCase}}
+        {{#allowableValues}}
+            {{#enumVars}}
+                {{^multiplatform}}
+                    {{#moshi}}
+        @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+                    {{/moshi}}
+                    {{#gson}}
+        @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+                    {{/gson}}
+                    {{#jackson}}
+        @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+                    {{/jackson}}
+                    {{#kotlinx_serialization}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+                    {{/kotlinx_serialization}}
+                {{/multiplatform}}
+                {{#multiplatform}}
+                    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}
+                {{/multiplatform}}
+            {{/enumVars}}
+        {{/allowableValues}}
+    {{/enumUnknownDefaultCase}}
+    {{#enumUnknownDefaultCase}}
+        {{#allowableValues}}
+            {{#enumVars}}
+                {{^-last}}
+                    {{^multiplatform}}
+                        {{#moshi}}
+            @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+                        {{/moshi}}
+                        {{#gson}}
+            @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+                        {{/gson}}
+                        {{#jackson}}
+            @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+                        {{/jackson}}
+                        {{#kotlinx_serialization}}
+            @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+                        {{/kotlinx_serialization}}
+                    {{/multiplatform}}
+                    {{#multiplatform}}
+            @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}),
+                    {{/multiplatform}}
+                {{/-last}}
+            {{/enumVars}}
+        {{/allowableValues}}
+    {{/enumUnknownDefaultCase}}
+    }
+
+    {{/isEnum}}
+    {{/allParams}}
     /**
      * {{summary}}
      * {{notes}}
      * Responses:{{#responses}}
      *  - {{code}}: {{{message}}}{{/responses}}
-     *
-    {{#allParams}}
-     * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}
+     *{{>paramJavadoc}}
      * @return {{^useCoroutines}}[Call]<{{/useCoroutines}}{{#isResponseFile}}[ResponseBody]{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}[{{{.}}}]{{/returnType}}{{^returnType}}[Unit]{{/returnType}}{{/isResponseFile}}{{^useCoroutines}}>{{/useCoroutines}}
      */
     {{#isDeprecated}}

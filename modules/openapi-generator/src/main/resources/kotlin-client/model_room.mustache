@@ -1,0 +1,38 @@
+{{>licenseInfo}}
+package {{roomModelPackage}}
+
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import {{modelPackage}}.*
+
+{{#models}}
+{{#model}}
+
+@Entity(tableName = "{{classname}}")
+/**
+* Room model for {{{description}}}
+{{#allVars}}
+* @param {{{name}}} {{{description}}}
+{{/allVars}}
+*/
+data class {{classname}}RoomModel (
+    @PrimaryKey(autoGenerate = true) var roomTableId: Int,
+    {{#allVars}}{{#items.isPrimitiveType}}var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}},
+    {{/items.isPrimitiveType}}{{/allVars}}
+    {{#allVars}}{{^isEnum}}{{^isArray}}var {{{name}}}: {{{dataType}}}{{>model_room_init_var}},
+    {{/isArray}}{{/isEnum}}{{/allVars}}
+    {{#allVars}}{{#isEnum}}{{^isArray}}var {{{name}}}: {{classname}}.{{{nameInCamelCase}}}{{>model_room_init_var}},
+    {{/isArray}}{{/isEnum}}{{/allVars}}) {
+{{#allVars}}{{#isArray}}{{#isList}}{{^items.isPrimitiveType}}
+    @Ignore
+    {{^isNullable}}{{#required}}lateinit {{/required}}{{/isNullable}}var {{{name}}}: {{#isArray}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{^items.isEnum}}{{^items.isPrimitiveType}}{{^items.isModel}}{{/items.isModel}}{{/items.isPrimitiveType}}{{{items.dataType}}}{{/items.isEnum}}{{#items.isEnum}}{{classname}}.{{{nameInCamelCase}}}{{/items.isEnum}}>{{>model_room_init_var}}{{/isArray}}
+{{/items.isPrimitiveType}}{{/isList}}{{/isArray}}{{/allVars}}
+    {{^discriminator}}companion object { }
+
+        fun toApiModel(): {{classname}} = {{classname}}(
+        {{#allVars}}{{name}} = this.{{name}},
+        {{/allVars}}){{/discriminator}}
+}
+{{/model}}
+{{/models}}

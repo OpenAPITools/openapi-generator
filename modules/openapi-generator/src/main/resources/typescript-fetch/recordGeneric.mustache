@@ -96,7 +96,17 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         (apiObject as any).recType = {{#isEntity}}asEntity ? {{classname}}RecordEntityProps.recType : {{/isEntity}}{{classname}}RecordProps.recType;
 {{#vars}}
         {{#isUniqueId}}
-        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.{{#isArray}}map(item => item.{{/isArray}}toString(){{#isArray}}){{/isArray}};{{^required}} } {{/required}}
+        {{#isArray}}
+        {{#items.isArray}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.map(item => item.map(item2 => item2?.toString()));{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{^items.isArray}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.map(item => item?.toString());{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{/isArray}}
+        {{^isArray}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.toString();{{^required}} } {{/required}}
+        {{/isArray}}
         {{/isUniqueId}}
         {{^keepAsJSObject}}
         {{#isModel}}
@@ -134,6 +144,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 
     public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
+        // @ts-ignore
         const entity = yield select(apiEntity{{classname}}Selector, {id: entityId});
         if (!entity) {return undefined; }
 
@@ -160,12 +171,14 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
 {{#vars}}
 {{#isEntity}}
 {{^keepAsJSObject}}
+            // @ts-ignore
             {{name}}: {{^required}}entity.{{name}} ? {{/required}}yield call({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toInlined, entity.{{name}}){{^required}} : null{{/required}},
 {{/keepAsJSObject}}
 {{/isEntity}}
 {{#isArray}}
 {{#items.isEntity}}
 {{^keepAsJSObject}}
+            // @ts-ignore
             {{name}}: {{^required}}entity.{{name}} ? {{/required}}yield call({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toInlinedArray, entity.{{name}}){{^required}} : null{{/required}},
 {{/keepAsJSObject}}
 {{/items.isEntity}}
@@ -183,6 +196,7 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         if (!entityIds) {return null; }
         let entities = List<{{classname}}Record>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            // @ts-ignore
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
             if (entity) {
                 entities.push(entity);
@@ -196,7 +210,17 @@ class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname
         const apiObject = super.toApi(record);
 {{#vars}}
         {{#isUniqueId}}
-        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => parseFloat(item)).toArray(){{/isArray}}{{^isArray}}parseFloat(record.{{name}}){{/isArray}};{{^required}} } {{/required}}
+        {{#isArray}}
+        {{#items.isArray}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(){{/isArray}};{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{^items.isArray}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => (item ? parseFloat(item) : null) as number).toArray(){{/isArray}};{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{/isArray}}
+        {{^isArray}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{^isArray}}parseFloat(record.{{name}}){{/isArray}};{{^required}} } {{/required}}
+        {{/isArray}}
         {{/isUniqueId}}
         {{^keepAsJSObject}}
         {{#isModel}}

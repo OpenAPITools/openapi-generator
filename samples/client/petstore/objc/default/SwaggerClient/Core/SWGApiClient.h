@@ -67,10 +67,10 @@ extern NSString *const SWGResponseObjectErrorKey;
  * Updates header parameters and query parameters for authentication
  *
  * @param headers The header parameter will be updated, passed by pointer to pointer.
- * @param querys The query parameters will be updated, passed by pointer to pointer.
+ * @param queries The query parameters will be updated, passed by pointer to pointer.
  * @param authSettings The authentication names NSArray.
  */
-- (void) updateHeaderParams:(NSDictionary **)headers queryParams:(NSDictionary **)querys WithAuthSettings:(NSArray *)authSettings;
+- (void) updateHeaderParams:(NSDictionary **)headers queryParams:(NSDictionary **)queries WithAuthSettings:(NSArray *)authSettings;
 
 
 /**

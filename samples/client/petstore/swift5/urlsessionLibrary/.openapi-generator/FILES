@@ -1,4 +1,5 @@
 .gitignore
+.swiftformat
 Cartfile
 Package.swift
 PetstoreClient.podspec
@@ -60,6 +61,7 @@ Sources/PetstoreClient/Models/User.swift
 Sources/PetstoreClient/OpenISO8601DateFormatter.swift
 Sources/PetstoreClient/SynchronizedDictionary.swift
 Sources/PetstoreClient/URLSessionImplementations.swift
+Sources/PetstoreClient/Validation.swift
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnimalFarm.md

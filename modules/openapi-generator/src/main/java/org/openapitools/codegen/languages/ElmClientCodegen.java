@@ -26,6 +26,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +43,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -142,7 +147,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "Posix");
         typeMapping.put("password", "String");
         typeMapping.put("ByteArray", "String");
-        typeMapping.put("file", "String");
+        typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("UUID", "Uuid");
         typeMapping.put("URI", "String");
@@ -183,11 +188,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
@@ -195,7 +200,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -222,7 +227,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = camelize(name.replaceAll("[^a-zA-Z0-9_]", ""), true);
+        final String varName = camelize(name.replaceAll("[^a-zA-Z0-9_]", ""), LOWERCASE_FIRST_LETTER);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }
 
@@ -270,20 +275,18 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessAllModels(final Map<String, Object> orgObjs) {
-        final Map<String, Object> objs = super.postProcessAllModels(orgObjs);
+    public Map<String, ModelsMap> postProcessAllModels(final Map<String, ModelsMap> orgObjs) {
+        final Map<String, ModelsMap> objs = super.postProcessAllModels(orgObjs);
 
         // put all models in one file
-        final Map<String, Object> objects = new HashMap<>();
-        final Map<String, Object> dataObj = objs.values().stream()
-            .map(obj -> (Map<String, Object>) obj)
+        final Map<String, ModelsMap> objects = new HashMap<>();
+        final ModelsMap dataObj = objs.values().stream()
             .findFirst()
-            .orElse(new HashMap<>());
-        final List<Map<String, Object>> models = objs.values().stream()
-            .map(obj -> (Map<String, Object>) obj)
-            .flatMap(obj -> ((List<Map<String, Object>>) obj.get("models")).stream())
+            .orElse(new ModelsMap());
+        final List<ModelMap> models = objs.values().stream()
+            .flatMap(obj -> obj.getModels().stream())
             .flatMap(obj -> {
-                final CodegenModel model = (CodegenModel) obj.get("model");
+                final CodegenModel model = obj.getModel();
                 // circular references
                 model.vars.forEach(var -> {
                     var.isCircularReference = model.allVars.stream()
@@ -319,56 +322,50 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final boolean includeTime = anyVarMatches(models, prop -> prop.isDate || prop.isDateTime);
         final boolean includeUuid = anyVarMatches(models, prop -> prop.isUuid);
 
-        dataObj.put("models", models);
+        dataObj.setModels(models);
         dataObj.put("includeTime", includeTime);
         dataObj.put("includeUuid", includeUuid);
         objects.put("Data", dataObj);
         return objects;
     }
 
-    private boolean anyVarMatches(final List<Map<String, Object>> models, final Predicate<CodegenProperty> predicate) {
+    private boolean anyVarMatches(final List<ModelMap> models, final Predicate<CodegenProperty> predicate) {
         return models.stream()
-            .map(obj -> (CodegenModel) obj.get("model"))
-            .flatMap(model -> model.vars.stream())
-            .filter(var -> {
-                CodegenProperty prop = var;
-                while (prop != null) {
-                    if (predicate.test(prop)) {
-                        return true;
+                .map(ModelMap::getModel)
+                .flatMap(model -> model.vars.stream()).anyMatch(var -> {
+                    CodegenProperty prop = var;
+                    while (prop != null) {
+                        if (predicate.test(prop)) {
+                            return true;
+                        }
+                        prop = prop.items;
                     }
-                    prop = prop.items;
-                }
-                return false;
-            })
-            .count() > 0;
+                    return false;
+                });
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return postProcessModelsEnum(objs);
     }
 
     private static boolean anyOperationParam(final List<CodegenOperation> operations, final Predicate<CodegenParameter> predicate) {
         return operations.stream()
                 .flatMap(operation -> operation.allParams.stream())
-                .filter(predicate)
-                .findAny()
-                .isPresent();
+                .anyMatch(predicate);
     }
 
     private static boolean anyOperationResponse(final List<CodegenOperation> operations, final Predicate<CodegenResponse> predicate) {
         return operations.stream()
                 .flatMap(operation -> operation.responses.stream())
-                .filter(predicate)
-                .findAny()
-                .isPresent();
+                .anyMatch(predicate);
     }
 
     @Override
-    @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+    @SuppressWarnings("static-method")
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
+        List<CodegenOperation> ops = objs.getOperation();
         ops.forEach(op -> {
             op.allParams = op.allParams.stream().sorted(new ParameterSorter()).collect(Collectors.toList());
             op.responses.forEach(response -> {
@@ -376,18 +373,34 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     response.isModel = !response.primitiveType;
                 }
             });
+            // an empty string is truthy so we explicitly set empty notes to null
+            // So we don't print empty notes
+            if (op.notes != null && op.notes.isEmpty())
+                op.notes = null;
         });
 
-        final boolean includeTime =
-            anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
-            anyOperationParam(ops, param -> param.isDate || param.isDateTime);
-        final boolean includeUuid =
-            anyOperationResponse(ops, response -> response.isUuid) ||
-            anyOperationParam(ops, param -> param.isUuid);
+        final boolean includeTime = anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
+                anyOperationParam(ops, param -> (param.isDate || param.isDateTime) || itemsIncludesType(param.items, p -> p.isDate || p.isDateTime));
+        final boolean includeUuid = anyOperationResponse(ops, response -> response.isUuid) ||
+                anyOperationParam(ops, param -> param.isUuid || itemsIncludesType(param.items, p -> p.isUuid));
+        final boolean includeFile = anyOperationResponse(ops, response -> response.isFile) ||
+            anyOperationParam(ops, param -> param.isFile || itemsIncludesType(param.items, p -> p.isFile));
+
         operations.put("includeTime", includeTime);
         operations.put("includeUuid", includeUuid);
+        operations.put("includeFile", includeFile);
 
         return operations;
+    }
+
+    private static boolean itemsIncludesType(CodegenProperty p, Predicate<CodegenProperty> condition) {
+        if (p == null)
+            return false;
+
+        if (p.items != null)
+            return itemsIncludesType(p.items, condition);
+
+        return condition.test(p);
     }
 
     static class ParameterSorter implements Comparator<CodegenParameter> {
@@ -464,7 +477,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
-            writer.write(fragment.execute().replaceAll("\\s+", ""));
+            writer.write(fragment.execute().replaceAll("\\s+", " ").trim());
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELM; }
 }

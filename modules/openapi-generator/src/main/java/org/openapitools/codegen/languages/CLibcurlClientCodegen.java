@@ -23,6 +23,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -245,7 +247,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "final",
                         "override",
                         "transaction_safe",
-                        "transaction_safe_dynamic")
+                        "transaction_safe_dynamic",
+
+                        // VC++ reserved keywords
+                        "stdin",
+                        "stdout",
+                        "stderr")
         );
 
         instantiationTypes.clear();
@@ -318,6 +325,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -513,9 +521,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isBooleanSchema(schema)) {
             example = "1";
         } else if (ModelUtils.isArraySchema(schema)) {
-            example = "list_create()";
+            example = "list_createList()";
         } else if (ModelUtils.isMapSchema(schema)) {
-            example = "list_create()";
+            example = "list_createList()";
         } else if (ModelUtils.isObjectSchema(schema)) {
             return null; // models are managed at moustache level
         } else {
@@ -553,7 +561,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -710,7 +718,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -726,19 +734,19 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -845,8 +853,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cm = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cm = super.fromProperty(name, p, required);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
             if (ref.getEnum() != null) {
@@ -868,8 +876,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return; // skip if C_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
-        Set<String> supportedFileType = new HashSet<String>(
+        // only process the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
+        Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
                         "supporting-mustache",
                         "model-test",
@@ -883,7 +891,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file.toString();
+            String command = cPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -914,4 +922,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
         System.out.println("################################################################################");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C; }
 }

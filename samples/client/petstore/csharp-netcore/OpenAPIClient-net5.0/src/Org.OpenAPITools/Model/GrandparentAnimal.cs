@@ -51,14 +51,18 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType = default(string))
         {
             // to ensure "petType" is required (not null)
-            this.PetType = petType ?? throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            if (petType == null)
+            {
+                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            }
+            this.PetType = petType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = true)]
         public string PetType { get; set; }
 
         /// <summary>
@@ -73,7 +77,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class GrandparentAnimal {\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -120,9 +124,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.PetType != null)
-                    hashCode = hashCode * 59 + this.PetType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

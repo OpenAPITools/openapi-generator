@@ -1,11 +1,11 @@
 package org.openapitools.api;
 
 import org.openapitools.api.*;
-import org.openapitools.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import java.util.List;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 
 import java.util.List;

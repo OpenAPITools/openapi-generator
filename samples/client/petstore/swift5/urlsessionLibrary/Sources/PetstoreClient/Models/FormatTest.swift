@@ -10,13 +10,20 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.FormatTest")
-public typealias FormatTest = PetstoreClient.FormatTest
+@available(*, deprecated, renamed: "PetstoreClientAPI.FormatTest")
+public typealias FormatTest = PetstoreClientAPI.FormatTest
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
-public final class FormatTest: Codable, Hashable {
+public final class FormatTest: Codable, JSONEncodable, Hashable {
 
+    static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
+    static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
+    static let numberRule = NumericRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
+    static let floatRule = NumericRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
+    static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
+    static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
+    static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
     public var integer: Int?
     public var int32: Int?
     public var int64: Int64?

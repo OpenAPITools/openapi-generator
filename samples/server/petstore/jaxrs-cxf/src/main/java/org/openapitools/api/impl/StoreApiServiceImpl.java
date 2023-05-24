@@ -32,10 +32,10 @@ public class StoreApiServiceImpl implements StoreApi {
      */
     public void deleteOrder(String orderId) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Returns pet inventories by status
      *
@@ -44,31 +44,30 @@ public class StoreApiServiceImpl implements StoreApi {
      */
     public Map<String, Integer> getInventory() {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Find purchase order by ID
      *
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
      */
     public Order getOrderById(Long orderId) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Place an order for a pet
      *
      */
     public Order placeOrder(Order body) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
-}
 
+}

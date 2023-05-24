@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,15 +9,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesBoolean
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
-  @JsonProperty("name")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
+
   private String name;
 
   public AdditionalPropertiesBoolean name(String name) {
@@ -28,9 +35,9 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
    * Get name
    * @return name
   */
+  
   @ApiModelProperty(value = "")
-
-
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -38,7 +45,6 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

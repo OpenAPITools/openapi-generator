@@ -29,6 +29,7 @@ import org.openapitools.codegen.meta.features.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.EnumSet;
 import java.util.Locale;
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
@@ -56,22 +57,16 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        // TODO: Ada maintainer review.
         modifyFeatureSet(features -> features
                 .excludeDocumentationFeatures(DocumentationFeature.Readme)
-                .excludeWireFormatFeatures(
-                        WireFormatFeature.XML,
-                        WireFormatFeature.PROTOBUF
-                )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Password,
                         SecurityFeature.OAuth2_AuthorizationCode,
                         SecurityFeature.OAuth2_ClientCredentials,
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey
-                )
+                        SecurityFeature.BearerToken
+                ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -123,6 +118,8 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("packageDir", "client");
         additionalProperties.put("mainName", "client");
         additionalProperties.put("isServer", false);
+        additionalProperties.put("httpClientPackageName", httpClientPackageName);
+        additionalProperties.put("openApiPackageName", openApiPackageName);
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String[] names = this.modelPackage.split("\\.");

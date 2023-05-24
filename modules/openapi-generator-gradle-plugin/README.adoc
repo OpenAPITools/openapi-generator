@@ -1,8 +1,8 @@
 = OpenAPI Generator Gradle Plugin
 
-This document describes the gradle plugin for OpenAPI Generator.
+This document describes the Gradle plugin for OpenAPI Generator.
 
-This gradle plugin offers a declarative DSL via _extensions_ (these are Gradle project extensions).
+This Gradle plugin offers a declarative DSL via _extensions_ (these are Gradle project extensions).
 These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugin. The plugin maps the extensions to a task of the same name to provide a clean API. If you're interested in the extension/task mapping concept from a high-level, you can https://docs.gradle.org/current/userguide/custom_plugins.html#sec:mapping_extension_properties_to_task_properties[check out Gradle's docs].
 
 == Tasks
@@ -37,7 +37,7 @@ compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
 
-All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your Gradle file, you may have multiple tasks.
 
 .One Extension, multiple tasks
 [source,groovy]
@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "5.1.1"
+  id "org.openapi.generator" version "6.3.0"
 }
 ----
 
@@ -113,7 +113,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:5.1.1"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:6.3.0"
   }
 }
 
@@ -153,6 +153,21 @@ apply plugin: 'org.openapi.generator'
 |String
 |None
 |The Open API 2.0/3.x specification location.
+
+|inputSpecRootDirectory
+|String
+|None
+|Local root folder with spec file(s)
+
+|mergedFileName
+|String
+|None
+|Name of the file that will contain all merged specs
+
+|remoteInputSpec
+|String
+|None
+|The remote Open API 2.0/3.x specification URL location.
 
 |templateDir
 |String
@@ -204,6 +219,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |Suffix that will be appended to all model names.
 
+|apiNameSuffix
+|String
+|None
+|Suffix that will be appended to all api names.
+
 |instantiationTypes
 |Map(String,String)
 |None
@@ -214,10 +234,30 @@ apply plugin: 'org.openapi.generator'
 |None
 |Sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option. To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.
 
+|schemaMappings
+|Map(String,String)
+|None
+|specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
+
+|inlineSchemaNameMappings
+|Map(String,String)
+|None
+|specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird.
+
+|inlineSchemaNameDefaults
+|Map(String,String)
+|None
+|specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+
 |additionalProperties
 |Map(String,Any)
 |None
 |Sets additional properties that can be referenced by the mustache templates.
+
+|serverVariables
+|Map(String,String)
+|None
+|Sets server variable for server URL template substitution, in the format of name=value,name=value. You can also have multiple occurrences of this option.
 
 |languageSpecificPrimitives
 |List(String)
@@ -342,7 +382,7 @@ apply plugin: 'org.openapi.generator'
 |configOptions
 |Map(String,String)
 |None
-|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md). Note that any config options from a generator specific document may go here, and some generators may duplicate other options which are siblings to `configOptions`.
+|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md[generators docs]. Note that any config options from a generator specific document may go here, and some generators may duplicate other options which are siblings to `configOptions`.
 
 |logToStderr
 |Boolean
@@ -359,6 +399,11 @@ apply plugin: 'org.openapi.generator'
 |false
 |To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
 
+|openapiNormalizer
+|Map(String,String)
+|None
+|specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original.
+
 |generateAliasAsModel
 |Boolean
 |false
@@ -368,6 +413,11 @@ apply plugin: 'org.openapi.generator'
 |String
 |mustache
 |Templating engine: "mustache" (default) or "handlebars" (beta)
+
+|cleanupOutput
+|Boolean
+|false
+|Defines whether the output directory should be cleaned up before generating the output.
 |===
 
 [NOTE]
@@ -398,7 +448,7 @@ openApiGenerate {
     // other settings omitted
     globalProperties = [
         apis: "",
-        models: "User,Pet"
+        models: "User:Pet"
     ]
 }
 ----
@@ -677,7 +727,7 @@ You can run `gradle tasks --debug` to see this registration.
 
 === Android Studio
 
-Android Studio may experience a Windows-specific Guava dependency conflict with openapig-enerator-gradle-plugin versions greater than 3.0.0.
+Android Studio may experience a Windows-specific Guava dependency conflict with openapi-generator-gradle-plugin versions greater than 3.0.0.
 
 As a workaround, you may force exclude conflicting Guava dependencies.
 
@@ -690,7 +740,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.3') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:6.3.0') {
             exclude group: 'com.google.guava'
         }
     }

@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public HealthCheckResult(string nullableMessage = default(string))
         {
             this._NullableMessage = nullableMessage;
+            if (this.NullableMessage != null)
+            {
+                this._flagNullableMessage = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -78,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class HealthCheckResult {\n");
             sb.Append("  NullableMessage: ").Append(NullableMessage).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -125,9 +129,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.NullableMessage != null)
-                    hashCode = hashCode * 59 + this.NullableMessage.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.NullableMessage.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

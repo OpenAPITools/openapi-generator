@@ -1,6 +1,6 @@
 import * as petstore from 'ts-petstore-client'
 
-import { expect, assert } from "chai";
+import { expect } from "chai";
 import * as fs from 'fs';
 
 const configuration = petstore.createConfiguration()
@@ -10,122 +10,110 @@ const tag = new petstore.Tag();
 tag.name = "tag1"
 tag.id = Math.floor(Math.random() * 100000)
 
-const pet = new petstore.Pet()
-pet.id = Math.floor(Math.random() * 100000)
-pet.name = "PetName"
-pet.photoUrls = []
-pet.status = 'available'
-pet.tags = [ tag ]
-pet.category = undefined
+let pet: petstore.Pet;
 
-describe("PetApi", () =>{ 
-    it("addPet", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((createdPet: petstore.Pet) => {
-            expect(createdPet).to.deep.equal(pet);
-            done()
-        }).catch((err: any) => {
-            done(err)
-        })
+describe("PetApi", () => {
+    beforeEach(async () => {
+        pet = new petstore.Pet()
+        pet.id = Math.floor(Math.random() * 100000)
+        pet.name = "PetName"
+        pet.photoUrls = []
+        pet.status = petstore.PetStatusEnum.Available
+        pet.tags = [ tag ]
+
+        await petApi.addPet(pet);
+    });
+
+    it("addPet", async () => {
+        const createdPet = await petApi.getPetById(pet.id)
+        expect(createdPet).to.deep.equal(pet);
     })
 
-    it("deletePet", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.deletePet(pet.id)
-        }).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((pet: petstore.Pet) => {
-            done("Pet with id " + pet.id + " was not deleted!");
-        }).catch((err: any) => {
-            if (err.code && err.code == 404) {
-                done();                
-            } else {
-                done(err)
-            }
-        })
+    it("deletePet", async () => {
+        await petApi.deletePet(pet.id);
+        let deletedPet;
+        try {
+            deletedPet = await petApi.getPetById(pet.id)
+        } catch (err) {
+            expect(err.code).to.equal(404);
+            expect(err.message).to.include("Pet not found");
+            return;
+        }
+        throw new Error("Pet with id " + deletedPet.id + " was not deleted!");
     })
 
-    it("findPetsByStatus", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.findPetsByStatus(["available"])
-        }).then((pets: petstore.Pet[]) => {
-            expect(pets.length).to.be.at.least(1);
-            done();
-        }).catch((err: any) => {
-            done(err)
-        })
+    it("deleteNonExistentPet", async () => {
+        // Use an id that is too big for the server to handle.
+        const nonExistentId = 100000000000000000000000000;
+        try {
+            await petApi.deletePet(nonExistentId)
+        } catch (err) {
+            // The 404 response for this endpoint is officially documented, but
+            // that documentation is not used for generating the client code.
+            // That means we get an error about the response being undefined
+            // here.
+            expect(err.code).to.equal(404);
+            expect(err.message).to.include("Unknown API Status Code");
+            expect(err.body).to.include("404");
+            expect(err.body).to.include("message");
+            return;
+        }
+        throw new Error("Deleted non-existent pet with id " + nonExistentId + "!");
     })
 
-    // bugged on server side! Code 500
-/*    it("findPetsByTag", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.findPetsByTags([tag.name])
-        }).then((pets: Pet[]) => {
-            expect(pets.length).to.be.at.least(1);
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
-    })*/
-
-    it("getPetById", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((returnedPet: petstore.Pet) => {
-            expect(returnedPet).to.deep.equal(pet);
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
+    it("failRunTimeRequiredParameterCheck", async () => {
+        try {
+            await petApi.deletePet(null)
+        } catch (err) {
+            expect(err.api).to.equal("PetApi");
+            expect(err.message).to.include("PetApi");
+            expect(err.method).to.equal("deletePet");
+            expect(err.message).to.include("deletePet");
+            expect(err.field).to.equal("petId");
+            expect(err.message).to.include("petId");
+            return;
+        }
+        throw new Error("Accepted missing parameter!");
     })
 
-    it("updatePet", (done) => {
-        const oldName = pet.name
+    it("findPetsByStatus", async () => {
+        const pets = await petApi.findPetsByStatus(["available"]);
+        expect(pets.length).to.be.at.least(1);
+    })
+
+    it("findPetsByTag", async () => {
+        const pets = await petApi.findPetsByTags([tag.name])
+        expect(pets.length).to.be.at.least(1);
+    })
+
+    it("getPetById", async () => {
+        const returnedPet = await petApi.getPetById(pet.id);
+        expect(returnedPet).to.deep.equal(pet);
+    })
+
+    it("updatePet", async () => {
+        pet.name = "updated name";
+        await petApi.updatePet(pet);
+        await petApi.updatePet(pet);
+
+        const returnedPet = await petApi.getPetById(pet.id);
+        expect(returnedPet.id).to.equal(pet.id)
+        expect(returnedPet.name).to.equal(pet.name);
+    })
+
+    it("updatePetWithForm", async () => {
         const updatedName = "updated name";
-        petApi.addPet(pet).then(() => {
-            pet.name = updatedName
-            return petApi.updatePet(pet).then(() => {
-                pet.name = oldName;
-            }).catch((err: any) => {
-                pet.name = oldName
-                throw err;
-            });
-        }).then(() => {
-            return petApi.getPetById(pet.id);
-        }).then((returnedPet: petstore.Pet) => {
-            expect(returnedPet.id).to.equal(pet.id)
-            expect(returnedPet.name).to.equal(updatedName);
-            done();
-        }).catch((err: any) => {
-            done(err)
-        })
+        await petApi.updatePetWithForm(pet.id, updatedName);
+
+        const returnedPet = await petApi.getPetById(pet.id)
+        expect(returnedPet.id).to.equal(pet.id)
+        expect(returnedPet.name).to.equal(updatedName);
     })
 
-// not supported by online swagger api?
-/*    it("updatePetWithForm", (done) => {
-        const updatedName = "updated name";
-        petApi.addPet(pet).then(() => {
-            return petApi.updatePetWithForm(pet.id, updatedName)
-        }).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((returnedPet: Pet) => {
-            expect(returnedPet.id).to.equal(pet.id)
-            expect(returnedPet.name).to.equal(updatedName);
-            done()
-        }).catch((err: any) => {
-            done(err)
-        })
-    })*/
-
-    it("uploadFile", (done) => {
+    it("uploadFile", async () => {
         const image = fs.readFileSync(__dirname + "/pet.png")
-        petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image}).then((response: any) => {
-            expect(response.code).to.be.gte(200).and.lt(300);
-            expect(response.message).to.contain("pet.png");
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
+        const response = await petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image});
+        expect(response.code).to.be.gte(200).and.lt(300);
+        expect(response.message).to.contain("pet.png");
     })
 })

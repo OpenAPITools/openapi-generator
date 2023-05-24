@@ -1,6 +1,8 @@
 package {{package}};
 
+{{#models.0}}
 import {{modelPackage}}.*;
+{{/models.0}}
 import {{package}}.{{classname}}Service;
 import {{package}}.factories.{{classname}}ServiceFactory;
 
@@ -19,14 +21,14 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+import {{javaxPackage}}.servlet.ServletConfig;
+import {{javaxPackage}}.ws.rs.core.Context;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.SecurityContext;
+import {{javaxPackage}}.ws.rs.*;
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 @Path("{{commonPath}}")
@@ -60,7 +62,7 @@ public class {{classname}}  {
    }
 
 {{#operation}}
-    @{{httpMethod}}
+    @{{javaxPackage}}.ws.rs.{{httpMethod}}
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
     {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
     {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
@@ -76,6 +78,13 @@ public class {{classname}}  {
         @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}
         {{/responses}}
     })
+    {{#implicitHeadersParams.0}}
+    @io.swagger.annotations.ApiImplicitParams({
+        {{#implicitHeadersParams}}
+        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+        })
+    {{/implicitHeadersParams.0}}
     public Response {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},{{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.{{nickname}}({{#allParams}}{{#isFormParam}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{/isFormParam}}{{^isFile}}{{paramName}}{{/isFile}}{{^isFormParam}}{{#isFile}}{{paramName}}{{/isFile}}{{/isFormParam}}, {{/allParams}}securityContext);

@@ -64,7 +64,7 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -95,9 +95,10 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 405) {
-        printf("%s\n","Invalid input");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 405) {
+    //    printf("%s\n","Invalid input");
+    //}
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -109,7 +110,7 @@ end:
     
     
     
-    list_free(localVarContentType);
+    list_freeList(localVarContentType);
     free(localVarPath);
     if (localVarSingleItemJSON_body) {
         cJSON_Delete(localVarSingleItemJSON_body);
@@ -125,7 +126,7 @@ void
 PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
 {
     list_t    *localVarQueryParameters = NULL;
-    list_t    *localVarHeaderParameters = list_create();
+    list_t    *localVarHeaderParameters = list_createList();
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
@@ -174,9 +175,10 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
                     localVarBodyParameters,
                     "DELETE");
 
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid pet value");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid pet value");
+    //}
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -185,7 +187,7 @@ end:
         apiClient->dataReceivedLen = 0;
     }
     
-    list_free(localVarHeaderParameters);
+    list_freeList(localVarHeaderParameters);
     
     
     
@@ -210,10 +212,10 @@ end:
 list_t*
 PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
 {
-    list_t    *localVarQueryParameters = list_create();
+    list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -242,17 +244,19 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid status value");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid status value");
+    //}
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     if(!cJSON_IsArray(PetAPIlocalVarJSON)) {
         return 0;//nonprimitive container
     }
-    list_t *elementToReturn = list_create();
+    list_t *elementToReturn = list_createList();
     cJSON *VarJSON;
     cJSON_ArrayForEach(VarJSON, PetAPIlocalVarJSON)
     {
@@ -272,10 +276,10 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    list_free(localVarQueryParameters);
+    list_freeList(localVarQueryParameters);
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     return elementToReturn;
@@ -292,10 +296,10 @@ end:
 list_t*
 PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
 {
-    list_t    *localVarQueryParameters = list_create();
+    list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -324,17 +328,19 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid tag value");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid tag value");
+    //}
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     if(!cJSON_IsArray(PetAPIlocalVarJSON)) {
         return 0;//nonprimitive container
     }
-    list_t *elementToReturn = list_create();
+    list_t *elementToReturn = list_createList();
     cJSON *VarJSON;
     cJSON_ArrayForEach(VarJSON, PetAPIlocalVarJSON)
     {
@@ -354,10 +360,10 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    list_free(localVarQueryParameters);
+    list_freeList(localVarQueryParameters);
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     return elementToReturn;
@@ -377,7 +383,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -414,15 +420,18 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid ID supplied");
-    }
-    if (apiClient->response_code == 404) {
-        printf("%s\n","Pet not found");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid ID supplied");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 404) {
+    //    printf("%s\n","Pet not found");
+    //}
     //nonprimitive not container
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     pet_t *elementToReturn = pet_parseFromJSON(PetAPIlocalVarJSON);
@@ -440,7 +449,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     free(localVarToReplace_petId);
@@ -460,7 +469,7 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -491,15 +500,18 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
                     localVarBodyParameters,
                     "PUT");
 
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Invalid ID supplied");
-    }
-    if (apiClient->response_code == 404) {
-        printf("%s\n","Pet not found");
-    }
-    if (apiClient->response_code == 405) {
-        printf("%s\n","Validation exception");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Invalid ID supplied");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 404) {
+    //    printf("%s\n","Pet not found");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 405) {
+    //    printf("%s\n","Validation exception");
+    //}
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -511,7 +523,7 @@ end:
     
     
     
-    list_free(localVarContentType);
+    list_freeList(localVarContentType);
     free(localVarPath);
     if (localVarSingleItemJSON_body) {
         cJSON_Delete(localVarSingleItemJSON_body);
@@ -528,9 +540,9 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = list_create();
+    list_t    *localVarFormParameters = list_createList();
     list_t *localVarHeaderType = NULL;
-    list_t *localVarContentType = list_create();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -589,9 +601,10 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 405) {
-        printf("%s\n","Invalid input");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 405) {
+    //    printf("%s\n","Invalid input");
+    //}
     //No return type
 end:
     if (apiClient->dataReceived) {
@@ -601,9 +614,9 @@ end:
     }
     
     
-    list_free(localVarFormParameters);
+    list_freeList(localVarFormParameters);
     
-    list_free(localVarContentType);
+    list_freeList(localVarContentType);
     free(localVarPath);
     free(localVarToReplace_petId);
     if (keyForm_name) {
@@ -634,9 +647,9 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = list_create();
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = list_create();
+    list_t    *localVarFormParameters = list_createList();
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -696,9 +709,10 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","successful operation");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
     //nonprimitive not container
     cJSON *PetAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     api_response_t *elementToReturn = api_response_parseFromJSON(PetAPIlocalVarJSON);
@@ -715,9 +729,9 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
     }
     
     
-    list_free(localVarFormParameters);
-    list_free(localVarHeaderType);
-    list_free(localVarContentType);
+    list_freeList(localVarFormParameters);
+    list_freeList(localVarHeaderType);
+    list_freeList(localVarContentType);
     free(localVarPath);
     free(localVarToReplace_petId);
     if (keyForm_additionalMetadata) {

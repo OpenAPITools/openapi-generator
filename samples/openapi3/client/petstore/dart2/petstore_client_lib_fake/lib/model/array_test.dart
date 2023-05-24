@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -31,69 +32,101 @@ class ArrayTest {
 
   @override
   int get hashCode =>
-    (arrayOfString == null ? 0 : arrayOfString.hashCode) +
-    (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
-    (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
+    // ignore: unnecessary_parenthesis
+    (arrayOfString.hashCode) +
+    (arrayArrayOfInteger.hashCode) +
+    (arrayArrayOfModel.hashCode);
 
   @override
   String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (arrayOfString != null) {
-      json[r'array_of_string'] = arrayOfString;
-    }
-    if (arrayArrayOfInteger != null) {
-      json[r'array_array_of_integer'] = arrayArrayOfInteger;
-    }
-    if (arrayArrayOfModel != null) {
-      json[r'array_array_of_model'] = arrayArrayOfModel;
-    }
+      json[r'array_of_string'] = this.arrayOfString;
+      json[r'array_array_of_integer'] = this.arrayArrayOfInteger;
+      json[r'array_array_of_model'] = this.arrayArrayOfModel;
     return json;
   }
 
   /// Returns a new [ArrayTest] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ArrayTest fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ArrayTest(
-        arrayOfString: json[r'array_of_string'] == null
-          ? null
-          : (json[r'array_of_string'] as List).cast<String>(),
-        arrayArrayOfInteger: json[r'array_array_of_integer'] == null
-          ? null
-          : (json[r'array_array_of_integer'] as List).map(
-              (e) => e == null ? null : (e as List).cast<int>()
-            ).toList(growable: false),
-        arrayArrayOfModel: json[r'array_array_of_model'] == null
-          ? null
-          : (json[r'array_array_of_model'] as List).map(
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static ArrayTest? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "ArrayTest[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ArrayTest[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return ArrayTest(
+        arrayOfString: json[r'array_of_string'] is Iterable
+            ? (json[r'array_of_string'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
+        arrayArrayOfInteger: json[r'array_array_of_integer'] is List
+          ? (json[r'array_array_of_integer'] as List).map((e) =>
+              e == null ? const  <int>[] : (e as List).cast<int>()
+            ).toList()
+          :  const [],
+        arrayArrayOfModel: json[r'array_array_of_model'] is List
+          ? (json[r'array_array_of_model'] as List).map((e) =>
               ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
-            ).toList(growable: false),
-    );
+            ).toList()
+          :  const [],
+      );
+    }
+    return null;
+  }
 
-  static List<ArrayTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ArrayTest>[]
-      : json.map((dynamic value) => ArrayTest.fromJson(value)).toList(growable: true == growable);
+  static List<ArrayTest> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ArrayTest>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ArrayTest.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
-  static Map<String, ArrayTest> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, ArrayTest> mapFromJson(dynamic json) {
     final map = <String, ArrayTest>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ArrayTest.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ArrayTest.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of ArrayTest-objects as value to a dart map
-  static Map<String, List<ArrayTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ArrayTest>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ArrayTest>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = ArrayTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = ArrayTest.listFromJson(entry.value, growable: growable,);
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

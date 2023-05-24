@@ -4,18 +4,14 @@ package {{packageName}}
 {{#operations}}
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io"
+	"net/http"
+	"net/url"
 {{#imports}}	"{{import}}"
 {{/imports}}
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 {{#generateInterfaces}}
 
 type {{classname}} interface {
@@ -28,22 +24,22 @@ type {{classname}} interface {
 	{{{unescapedNotes}}}
 	{{/notes}}
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
-	 @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-	 @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	@param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	@return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
 	{{#isDeprecated}}
 
 	Deprecated
 	{{/isDeprecated}}
 	*/
-	{{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	{{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
 
 	// {{nickname}}Execute executes the request{{#returnType}}
 	//  @return {{{.}}}{{/returnType}}
 	{{#isDeprecated}}
 	// Deprecated
 	{{/isDeprecated}}
-	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
+	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error)
 	{{/operation}}
 }
 {{/generateInterfaces}}
@@ -52,26 +48,33 @@ type {{classname}} interface {
 type {{classname}}Service service
 {{#operation}}
 
-type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request struct {
-	ctx _context.Context
-	ApiService {{#generateInterfaces}}{{classname}}{{/generateInterfaces}}{{^generateInterfaces}}*{{classname}}Service{{/generateInterfaces}}
+type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request struct {
+	ctx context.Context{{#generateInterfaces}}
+	ApiService {{classname}}
+{{/generateInterfaces}}{{^generateInterfaces}}
+	ApiService *{{classname}}Service
+{{/generateInterfaces}}
 {{#allParams}}
-	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+	{{paramName}} {{^isPathParam}}{{^isFile}}*{{/isFile}}{{/isPathParam}}{{{dataType}}}
 {{/allParams}}
 }
-{{#allParams}}{{^isPathParam}}
+
+{{#allParams}}
+{{^isPathParam}}
 {{#description}}
 // {{.}}
 {{/description}}
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
-	r.{{paramName}} = &{{paramName}}
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request {
+	r.{{paramName}} = {{^isFile}}&{{/isFile}}{{paramName}}
 	return r
-}{{/isPathParam}}{{/allParams}}
+}
 
-func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+{{/isPathParam}}
+{{/allParams}}
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) Execute() ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	return r.ApiService.{{nickname}}Execute(r)
 }
 
@@ -82,16 +85,16 @@ func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Reques
 {{{unescapedNotes}}}
 {{/notes}}
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
  @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
- @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+ @return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
 {{#isDeprecated}}
 
 Deprecated
 {{/isDeprecated}}
 */
-func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
-	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request {
+	return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request{
 		ApiService: a,
 		ctx: ctx,
 		{{#pathParams}}
@@ -105,29 +108,27 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
 {{#isDeprecated}}
 // Deprecated
 {{/isDeprecated}}
-func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
+		localVarHTTPMethod   = http.Method{{httpMethod}}
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		{{#returnType}}
-		localVarReturnValue  {{{.}}}
+		localVarReturnValue  {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}
 		{{/returnType}}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
 	if err != nil {
-		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, GenericOpenAPIError{error: err.Error()}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}, "{{collectionFormat}}")), -1){{/pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", url.PathEscape(parameterValueToString(r.{{paramName}}, "{{paramName}}")), -1){{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	{{#allParams}}
 	{{#required}}
 	{{^isPathParam}}
@@ -188,15 +189,15 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
+				parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
+			parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
 		}
 	}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-	localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+	parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	{{/required}}
 	{{^required}}
@@ -206,14 +207,14 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
+				parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", s.Index(i), "{{collectionFormat}}")
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
+			parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", t, "{{collectionFormat}}")
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-		localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+		parameterAddToHeaderOrQuery(localVarQueryParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}
@@ -241,36 +242,37 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 {{#headerParams}}
 	{{#required}}
-	localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{collectionFormat}}")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	{{/required}}
 	{{^required}}
 	if r.{{paramName}} != nil {
-		localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{collectionFormat}}")
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	}
 	{{/required}}
 {{/headerParams}}
 {{#formParams}}
 {{#isFile}}
-	localVarFormFileName = "{{baseName}}"
-{{#required}}
-	localVarFile := *r.{{paramName}}
-{{/required}}
-{{^required}}
-	var localVarFile {{dataType}}
-	if r.{{paramName}} != nil {
-		localVarFile = *r.{{paramName}}
-	}
-{{/required}}
-	if localVarFile != nil {
-		fbs, _ := _ioutil.ReadAll(localVarFile)
-		localVarFileBytes = fbs
-		localVarFileName = localVarFile.Name()
-		localVarFile.Close()
+	var {{paramName}}LocalVarFormFileName string
+	var {{paramName}}LocalVarFileName     string
+	var {{paramName}}LocalVarFileBytes    []byte
+
+	{{paramName}}LocalVarFormFileName = "{{baseName}}"
+
+
+	{{paramName}}LocalVarFile := r.{{paramName}}
+
+	if {{paramName}}LocalVarFile != nil {
+		fbs, _ := io.ReadAll({{paramName}}LocalVarFile)
+
+		{{paramName}}LocalVarFileBytes = fbs
+		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
+		{{paramName}}LocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 	}
 {{/isFile}}
 {{^isFile}}
 {{#required}}
-	localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+	parameterAddToHeaderOrQuery(localVarFormParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 {{/required}}
 {{^required}}
 {{#isModel}}
@@ -284,7 +286,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isModel}}
 {{^isModel}}
 	if r.{{paramName}} != nil {
-		localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
+		parameterAddToHeaderOrQuery(localVarFormParams, "{{baseName}}", r.{{paramName}}, "{{collectionFormat}}")
 	}
 {{/isModel}}
 {{/required}}
@@ -330,7 +332,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isKeyInCookie}}
 {{/isApiKey}}
 {{/authMethods}}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
@@ -340,15 +342,15 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -356,16 +358,30 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		{{#dataType}}
 		{{^is1xx}}
 		{{^is2xx}}
+		{{#range}}
+		{{#is3xx}}
+		if localVarHTTPResponse.StatusCode >= 300 && localVarHTTPResponse.StatusCode < 400 {
+		{{/is3xx}}
+		{{#is4xx}}
+		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
+		{{/is4xx}}
+		{{#is5xx}}
+		if localVarHTTPResponse.StatusCode >= 500 {
+		{{/is5xx}}
+		{{/range}}
+		{{^range}}
 		{{^wildcard}}
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
 		{{/wildcard}}
+		{{/range}}
 			var v {{{dataType}}}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			{{^-last}}
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
 			{{/-last}}
@@ -382,7 +398,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	{{#returnType}}
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

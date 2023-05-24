@@ -1,0 +1,13 @@
+    @{{httpMethod}}
+    @Path("{{{path}}}"){{#hasConsumes}}
+    @Consumes({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
+    @Produces({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}{{#useSwaggerAnnotations}}
+    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#hasAuthMethods}}, authorizations = {
+        {{#authMethods}}{{#isOAuth}}@Authorization(value = "{{name}}", scopes = {
+            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
+            {{/-last}}{{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}
+        {{^isOAuth}}@Authorization(value = "{{name}}"){{^-last}},{{/-last}}
+        {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} })
+    @ApiResponses(value = { {{#responses}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}
+    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}){{#returnResponse}}: Response{{/returnResponse}}{{^returnResponse}}{{#returnType}}: {{{returnType}}}{{/returnType}}{{/returnResponse}}

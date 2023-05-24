@@ -14,6 +14,11 @@
   infoLink: "https://www.adesso.de/"
   pinned: false
 -
+  caption: "Adyen"
+  image: "img/companies/adyen.png"
+  infoLink: "https://www.adyen.com/"
+  pinned: false
+-
   caption: "Agoda"
   image: "img/companies/agoda.png"
   infoLink: "https://www.agoda.com/"
@@ -44,9 +49,24 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: Amazon Web Services (AWS)
+  image: "img/companies/aws.png"
+  infoLink: "https://aws.amazon.com/"
+  pinned: false 
+-
   caption: "b<>com"
   image: "img/companies/b-com.png"
   infoLink: "https://b-com.com/en"
+  pinned: false
+-
+  caption: "百度营销"
+  image: "img/companies/ebaidu.jpeg"
+  infoLink: "https://e.baidu.com"
+  pinned: false
+-
+  caption: "Bandwidth"
+  image: "img/companies/bandwidth.png"
+  infoLink: "https://dev.bandwidth.com/"
   pinned: false
 -
   caption: "Banzai Cloud"
@@ -72,6 +92,11 @@
   caption: Boxever
   image: "img/companies/boxever.svg"
   infoLink: "https://www.boxever.com/"
+  pinned: false
+-
+  caption: Bunker Holding Group
+  image: "img/companies/bunker-holding.png"
+  infoLink: "https://www.bunker-holding.com/"
   pinned: false
 -
   caption: "California State University, Northridge"
@@ -134,6 +159,16 @@
   infoLink: "https://docspring.com"
   pinned: false
 -
+  caption: Deeproute.ai
+  image: "img/companies/deeproute_logo.jpg"
+  infoLink: "https://www.deeproute.ai/"
+  pinned: false
+-
+  caption: "dmTECH GmbH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmTECH.de"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -142,6 +177,11 @@
   caption: "Edge Impulse"
   image: "img/companies/edge_impulse.png"
   infoLink: "https://www.edgeimpulse.com/"
+  pinned: false
+-
+  caption: "Elastic Email"
+  image: "img/companies/elasticemail.png"
+  infoLink: "https://elasticemail.com/"
   pinned: false
 -
   caption: "Element AI"
@@ -154,9 +194,9 @@
   infoLink: "https://www.emineo.ch/"
   pinned: false
 -
-  caption: "freee"
-  image: "img/companies/freee.png"
-  infoLink: "https://corp.freee.co.jp/en/"
+  caption: "fastly"
+  image: "img/companies/fastly.png"
+  infoLink: "https://www.fastly.com/"
   pinned: false
 -
   caption: "Fenergo"
@@ -164,9 +204,19 @@
   infoLink: "https://www.fenergo.com/"
   pinned: false
 -
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
+  pinned: false
+-
   caption: FiNC Technologies
   image: "img/companies/finc-technologies.png"
   infoLink: "https://company.finc.com/"
+  pinned: false
+-
+  caption: "freee"
+  image: "img/companies/freee.png"
+  infoLink: "https://corp.freee.co.jp/en/"
   pinned: false
 -
   caption: "FreshCells"
@@ -194,6 +244,11 @@
   infoLink: "https://www.giantmonkey.de/"
   pinned: true
 -
+  caption: "Glovo"
+  image: "img/companies/glovo.svg"
+  infoLink: "https://glovoapp.com/"
+  pinned: false
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"
@@ -202,6 +257,11 @@
   caption: "GoDaddy"
   image: "img/companies/godaddy.png"
   infoLink: "https://www.godaddy.com/"
+  pinned: false
+-
+  caption: Gradle Enterprise
+  image: "img/companies/gradle-enterprise.png"
+  infoLink: "https://gradle.com/"
   pinned: false
 -
   caption: "Gumtree"
@@ -274,6 +334,11 @@
   infoLink: "https://www.mailslurp.com/"
   pinned: false
 -
+  caption: Mastercard
+  image: "img/companies/mastercard.png"
+  infoLink: "https://developers.mastercard.com"
+  pinned: false
+-
   caption: "Médiavision"
   image: "img/companies/mediavision.jpeg"
   infoLink: "https://www.mediavision.fr/"
@@ -302,6 +367,11 @@
   caption: Nokia 
   image: "img/companies/nokia.png"
   infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: OneSignal
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/"
   pinned: false
 -
   caption: Options Clearing Corporation (OCC)
@@ -339,6 +409,11 @@
   infoLink: "https://www.plaid.com/"
   pinned: false
 -
+  caption: Pinterest 
+  image: "img/companies/pinterest.png"
+  infoLink: "https://www.pinterest.com/"
+  pinned: false
+-
   caption: Ponicode
   image: "img/companies/ponicode.png"
   infoLink: "https://ponicode.dev/"
@@ -352,6 +427,21 @@
   caption: "Prometheus/Alertmanager"
   image: "img/companies/prometheus.png"
   infoLink: "https://github.com/prometheus/alertmanager"
+  pinned: false
+-
+  caption: "PTV Group"
+  image: "img/companies/ptvgroup.png"
+  infoLink: "https://www.myptv.com/"
+  pinned: false  
+-
+  caption: Puppet
+  image: "img/companies/puppet.svg"
+  infoLink: "https://www.puppet.com"
+  pinned: false
+-
+  caption: Qovery
+  image: "img/companies/qovery.png"
+  infoLink: "https://www.qovery.com"
   pinned: false
 -
   caption: "Qulix Systems"
@@ -419,6 +509,16 @@
   infoLink: "https://dev.telstra.com/"
   pinned: true
 -
+  caption: Tencent
+  image: "img/companies/tencent.png"
+  infoLink: "https://www.tencent.com/"
+  pinned: false
+-
+  caption: TileDB
+  image: "img/companies/tiledb.png"
+  infoLink: "https://www.tiledb.com/"
+  pinned: false
+-
   caption: The University of Aizu
   image: "img/companies/uoa.png"
   infoLink: "https://www.u-aizu.ac.jp/en/"
@@ -437,6 +537,11 @@
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"
+  pinned: false
+-
+  caption: "Twilio"
+  image: "img/companies/twilio.png"
+  infoLink: "https://twilio.com"
   pinned: false
 -
   caption: "Twitter"
@@ -517,4 +622,9 @@
   caption: ZOZO Technologies
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
+  pinned: false
+-
+  caption: 3DS OUTSCALE
+  image: "img/companies/outscale.png"
+  infoLink: "https://www.outscale.com/"
   pinned: false

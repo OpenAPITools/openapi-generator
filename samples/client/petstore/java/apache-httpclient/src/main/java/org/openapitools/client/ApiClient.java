@@ -12,28 +12,38 @@
 
 package org.openapitools.client;
 
-import org.threeten.bp.*;
-
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import java.time.OffsetDateTime;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.GZIPContentEncodingFilter;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.api.client.WebResource.Builder;
-
-import com.sun.jersey.multipart.FormDataMultiPart;
-import com.sun.jersey.multipart.file.FileDataBodyPart;
-
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
+import org.apache.hc.client5.http.cookie.BasicCookieStore;
+import org.apache.hc.client5.http.cookie.Cookie;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.cookie.BasicClientCookie;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.FileEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -46,16 +56,28 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.net.URLEncoder;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Paths;
+import java.lang.reflect.Type;
+import java.net.URI;
 
 import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -66,8 +88,51 @@ public class ApiClient extends JavaTimeFormatter {
   private String basePath = "http://petstore.swagger.io:80/v2";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
+      "http://{server}.swagger.io:{port}/v2",
+      "petstore server",
+      new HashMap<String, ServerVariable>() {{
+        put("server", new ServerVariable(
+          "No description provided",
+          "petstore",
+          new HashSet<String>(
+            Arrays.asList(
+              "petstore",
+              "qa-petstore",
+              "dev-petstore"
+            )
+          )
+        ));
+        put("port", new ServerVariable(
+          "No description provided",
+          "80",
+          new HashSet<String>(
+            Arrays.asList(
+              "80",
+              "8080"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://localhost:8080/{version}",
+      "The local server",
+      new HashMap<String, ServerVariable>() {{
+        put("version", new ServerVariable(
+          "No description provided",
+          "v2",
+          new HashSet<String>(
+            Arrays.asList(
+              "v1",
+              "v2"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://127.0.0.1/no_varaible",
+      "The local server without variables",
       new HashMap<String, ServerVariable>()
     )
   ));
@@ -76,8 +141,9 @@ public class ApiClient extends JavaTimeFormatter {
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
-  private Client httpClient;
+  private CloseableHttpClient httpClient;
   private ObjectMapper objectMapper;
+  protected String tempFolderPath = null;
 
   private Map<String, Authentication> authentications;
 
@@ -86,7 +152,10 @@ public class ApiClient extends JavaTimeFormatter {
 
   private DateFormat dateFormat;
 
-  public ApiClient() {
+  // Methods that can have a request body
+  private static List<String> bodyMethods = Arrays.asList("POST", "PUT", "DELETE", "PATCH");
+
+  public ApiClient(CloseableHttpClient httpClient) {
     objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -95,11 +164,7 @@ public class ApiClient extends JavaTimeFormatter {
     objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     objectMapper.registerModule(new JavaTimeModule());
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
+    objectMapper.registerModule(new JsonNullableModule());
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
@@ -109,38 +174,23 @@ public class ApiClient extends JavaTimeFormatter {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
+    authentications.put("petstore_auth", new OAuth());
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("petstore_auth", new OAuth());
+    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
-    rebuildHttpClient();
+    this.httpClient = httpClient;
+  }
+
+  public ApiClient() {
+    this(HttpClients.createDefault());
   }
 
   public static DateFormat buildDefaultDateFormat() {
     return new RFC3339DateFormat();
-  }
-
-  /**
-   * Build the Client used to make HTTP requests with the latest settings,
-   * i.e. objectMapper and debugging.
-   * TODO: better to use the Builder Pattern?
-   * @return API client
-   */
-  public ApiClient rebuildHttpClient() {
-    // Add the JSON serialization support to Jersey
-    JacksonJsonProvider jsonProvider = new JacksonJsonProvider(objectMapper);
-    DefaultClientConfig conf = new DefaultClientConfig();
-    conf.getSingletons().add(jsonProvider);
-    Client client = Client.create(conf);
-    client.addFilter(new GZIPContentEncodingFilter(false));
-    if (debugging) {
-      client.addFilter(new LoggingFilter());
-    }
-    this.httpClient = client;
-    return this;
   }
 
   /**
@@ -155,18 +205,28 @@ public class ApiClient extends JavaTimeFormatter {
     return objectMapper;
   }
 
+  /**
+   * Sets the object mapper.
+   *
+   * @param objectMapper object mapper
+   * @return API client
+   */
   public ApiClient setObjectMapper(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
-    // Need to rebuild the Client as it depends on object mapper.
-    rebuildHttpClient();
     return this;
   }
 
-  public Client getHttpClient() {
+  public CloseableHttpClient getHttpClient() {
     return httpClient;
   }
 
-  public ApiClient setHttpClient(Client httpClient) {
+  /**
+   * Sets the HTTP client.
+   *
+   * @param httpClient HTTP client
+   * @return API client
+   */
+  public ApiClient setHttpClient(CloseableHttpClient httpClient) {
     this.httpClient = httpClient;
     return this;
   }
@@ -175,8 +235,15 @@ public class ApiClient extends JavaTimeFormatter {
     return basePath;
   }
 
+  /**
+   * Sets the base path.
+   *
+   * @param basePath base path
+   * @return API client
+   */
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    this.serverIndex = null;
     return this;
   }
 
@@ -184,6 +251,12 @@ public class ApiClient extends JavaTimeFormatter {
     return servers;
   }
 
+  /**
+   * Sets the server.
+   *
+   * @param servers a list of server configuration
+   * @return API client
+   */
   public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
     return this;
@@ -193,6 +266,12 @@ public class ApiClient extends JavaTimeFormatter {
     return serverIndex;
   }
 
+  /**
+   * Sets the server index.
+   *
+   * @param serverIndex server index
+   * @return API client
+   */
   public ApiClient setServerIndex(Integer serverIndex) {
     this.serverIndex = serverIndex;
     return this;
@@ -202,6 +281,12 @@ public class ApiClient extends JavaTimeFormatter {
     return serverVariables;
   }
 
+  /**
+   * Sets the server variables.
+   *
+   * @param serverVariables server variables
+   * @return API client
+   */
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
     return this;
@@ -209,6 +294,7 @@ public class ApiClient extends JavaTimeFormatter {
 
   /**
    * Gets the status code of the previous request
+   *
    * @return Status code
    */
   public int getStatusCode() {
@@ -241,16 +327,43 @@ public class ApiClient extends JavaTimeFormatter {
     return authentications.get(authName);
   }
 
+  /**
+   * The path of temporary folder used to store downloaded files from endpoints
+   * with file response. The default value is <code>null</code>, i.e. using
+   * the system's default temporary folder.
+   *
+   * @return Temp folder path
+   */
+  public String getTempFolderPath() {
+    return tempFolderPath;
+  }
+
+  /**
+   * Helper method to set access token for the first Bearer authentication.
+   * @param bearerToken Bearer token
+   * @return API client
+   */
+  public ApiClient setBearerToken(String bearerToken) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+        return this;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
+  }
+
 
   /**
    * Helper method to set username for the first HTTP basic authentication.
    * @param username Username
+   * @return API client
    */
-  public void setUsername(String username) {
+  public ApiClient setUsername(String username) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
         ((HttpBasicAuth) auth).setUsername(username);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
@@ -259,12 +372,13 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Helper method to set password for the first HTTP basic authentication.
    * @param password Password
+   * @return API client
    */
-  public void setPassword(String password) {
+  public ApiClient setPassword(String password) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof HttpBasicAuth) {
         ((HttpBasicAuth) auth).setPassword(password);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
@@ -274,12 +388,13 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Helper method to set API key value for the first API key authentication.
    * @param apiKey the API key
+   * @return API client
    */
-  public void setApiKey(String apiKey) {
+  public ApiClient setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
         ((ApiKeyAuth) auth).setApiKey(apiKey);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
@@ -288,12 +403,13 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Helper method to set API key prefix for the first API key authentication.
    * @param apiKeyPrefix API key prefix
+   * @return API client
    */
-  public void setApiKeyPrefix(String apiKeyPrefix) {
+  public ApiClient setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof ApiKeyAuth) {
         ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No API key authentication configured!");
@@ -303,12 +419,13 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
+   * @return API client
    */
-  public void setAccessToken(String accessToken) {
+  public ApiClient setAccessToken(String accessToken) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
         ((OAuth) auth).setAccessToken(accessToken);
-        return;
+        return this;
       }
     }
     throw new RuntimeException("No OAuth2 authentication configured!");
@@ -322,6 +439,16 @@ public class ApiClient extends JavaTimeFormatter {
    */
   public ApiClient setUserAgent(String userAgent) {
     addDefaultHeader("User-Agent", userAgent);
+    return this;
+  }
+
+  /**
+   * Set temp folder path
+   * @param tempFolderPath Temp folder path
+   * @return API client
+   */
+  public ApiClient setTempFolderPath(String tempFolderPath) {
+    this.tempFolderPath = tempFolderPath;
     return this;
   }
 
@@ -364,9 +491,8 @@ public class ApiClient extends JavaTimeFormatter {
    * @return API client
    */
   public ApiClient setDebugging(boolean debugging) {
+    // TODO: implement debugging mode
     this.debugging = debugging;
-    // Need to rebuild the Client as it depends on the value of debugging.
-    rebuildHttpClient();
     return this;
   }
 
@@ -387,7 +513,6 @@ public class ApiClient extends JavaTimeFormatter {
    */
    public ApiClient setConnectTimeout(int connectionTimeout) {
      this.connectionTimeout = connectionTimeout;
-     httpClient.setConnectTimeout(connectionTimeout);
      return this;
    }
 
@@ -408,8 +533,6 @@ public class ApiClient extends JavaTimeFormatter {
     this.dateFormat = dateFormat;
     // Also set the date format for model (de)serialization with Date properties.
     this.objectMapper.setDateFormat((DateFormat) dateFormat.clone());
-    // Need to rebuild the Client as objectMapper changes.
-    rebuildHttpClient();
     return this;
   }
 
@@ -474,9 +597,11 @@ public class ApiClient extends JavaTimeFormatter {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null || value instanceof Collection) return params;
+    if (name == null || name.isEmpty() || value == null || value instanceof Collection) {
+      return params;
+    }
 
-    params.add(new Pair(name, parameterToString(value)));
+    params.add(new Pair(name, escapeString(parameterToString(value))));
     return params;
   }
 
@@ -601,6 +726,49 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
+   * Transforms response headers into map.
+   *
+   * @param headers HTTP headers
+   * @return a map of string array
+   */
+  protected Map<String, List<String>> transformResponseHeaders(Header[] headers) {
+    Map<String, List<String>> headersMap = new HashMap<>();
+    for (Header header : headers) {
+      List<String> valuesList = headersMap.get(header.getName());
+      if (valuesList != null) {
+        valuesList.add(header.getValue());
+      } else {
+        valuesList = new ArrayList<>();
+        valuesList.add(header.getValue());
+        headersMap.put(header.getName(), valuesList);
+      }
+    }
+    return headersMap;
+  }
+
+  /**
+   * Parse content type object from header value
+   */
+  private ContentType getContentType(String headerValue) throws ApiException {
+    try {
+      return ContentType.parse(headerValue);
+    } catch (UnsupportedCharsetException e) {
+      throw new ApiException("Could not parse content type " + headerValue);
+    }
+  }
+
+  /**
+   * Get content type of a response or null if one was not provided
+   */
+  private String getResponseMimeType(HttpResponse response) throws ApiException {
+    Header contentTypeHeader = response.getFirstHeader("Content-Type");
+    if (contentTypeHeader != null) {
+      return getContentType(contentTypeHeader.getValue()).getMimeType();
+    }
+    return null;
+  }
+
+  /**
    * Serialize the given Java object into string according the given
    * Content-Type (only JSON is supported for now).
    * @param obj Object
@@ -609,31 +777,139 @@ public class ApiClient extends JavaTimeFormatter {
    * @return Object
    * @throws ApiException API exception
    */
-  public Object serialize(Object obj, String contentType, Map<String, Object> formParams) throws ApiException {
-    if (contentType.startsWith("multipart/form-data")) {
-      FormDataMultiPart mp = new FormDataMultiPart();
-      for (Entry<String, Object> param: formParams.entrySet()) {
-        if( param.getValue() instanceof List && !( ( List ) param.getValue() ).isEmpty()
-                  && ( ( List ) param.getValue() ).get( 0 ) instanceof File ) {
-            @SuppressWarnings( "unchecked" )
-            List<File> files = ( List<File> ) param.getValue();
-            for( File file : files ) {
-              mp.bodyPart( new FileDataBodyPart( param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE ) );
-            }
-        } else if (param.getValue() instanceof File) {
-          File file = (File) param.getValue();
-          mp.bodyPart(new FileDataBodyPart(param.getKey(), file, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+  public HttpEntity serialize(Object obj, Map<String, Object> formParams, ContentType contentType) throws ApiException {
+    String mimeType = contentType.getMimeType();
+    if (isJsonMime(mimeType)) {
+      try {
+        return new StringEntity(objectMapper.writeValueAsString(obj), contentType);
+      } catch (JsonProcessingException e) {
+        throw new ApiException(e);
+      }
+    } else if (mimeType.equals(ContentType.MULTIPART_FORM_DATA.getMimeType())) {
+      MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
+      for (Entry<String, Object> paramEntry : formParams.entrySet()) {
+        Object value = paramEntry.getValue();
+        if (value instanceof File) {
+          multiPartBuilder.addBinaryBody(paramEntry.getKey(), (File) value);
+        } else if (value instanceof byte[]) {
+          multiPartBuilder.addBinaryBody(paramEntry.getKey(), (byte[]) value);
         } else {
-          mp.field(param.getKey(), parameterToString(param.getValue()), MediaType.MULTIPART_FORM_DATA_TYPE);
+          Charset charset = contentType.getCharset();
+          if (charset != null) {
+            ContentType customContentType = ContentType.create(ContentType.TEXT_PLAIN.getMimeType(), charset);
+            multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()),
+                    customContentType);
+          } else {
+            multiPartBuilder.addTextBody(paramEntry.getKey(), parameterToString(paramEntry.getValue()));
+          }
         }
       }
-      return mp;
-    } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
-      return this.getXWWWFormUrlencodedParams(formParams);
+      return multiPartBuilder.build();
+    } else if (mimeType.equals(ContentType.APPLICATION_FORM_URLENCODED.getMimeType())) {
+      List<NameValuePair> formValues = new ArrayList<>();
+      for (Entry<String, Object> paramEntry : formParams.entrySet()) {
+        formValues.add(new BasicNameValuePair(paramEntry.getKey(), parameterToString(paramEntry.getValue())));
+      }
+      return new UrlEncodedFormEntity(formValues, contentType.getCharset());
     } else {
-      // We let Jersey attempt to serialize the body
-      return obj;
+      // Handle files with unknown content type
+      if (obj instanceof File) {
+        return new FileEntity((File) obj, contentType);
+      } else if (obj instanceof byte[]) {
+        return new ByteArrayEntity((byte[]) obj, contentType);
+      }
+      throw new ApiException("Serialization for content type '" + contentType + "' not supported");
     }
+  }
+
+  /**
+   * Deserialize response body to Java object according to the Content-Type.
+   *
+   * @param <T> Type
+   * @param response Response
+   * @param valueType Return type
+   * @return Deserialized object
+   * @throws ApiException API exception
+   * @throws IOException IO exception
+   */
+  @SuppressWarnings("unchecked")
+  public <T> T deserialize(CloseableHttpResponse response, TypeReference<T> valueType) throws ApiException, IOException, ParseException {
+    if (valueType == null) {
+      return null;
+    }
+    HttpEntity entity = response.getEntity();
+    Type valueRawType = valueType.getType();
+    if (valueRawType.equals(byte[].class)) {
+      return (T) EntityUtils.toByteArray(entity);
+    } else if (valueRawType.equals(File.class)) {
+      return (T) downloadFileFromResponse(response);
+    }
+    String mimeType = getResponseMimeType(response);
+    if (mimeType == null || isJsonMime(mimeType)) {
+      // Assume json if no mime type
+      // convert input stream to string
+      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
+      String content = (String) (s.hasNext() ? s.next() : "");
+
+      if ("".equals(content)) { // returns null for empty body
+        return null;
+      }
+
+      return objectMapper.readValue(content, valueType);
+    } else if ("text/plain".equalsIgnoreCase(mimeType)) {
+      // convert input stream to string
+      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
+      return (T) (s.hasNext() ? s.next() : "");
+    } else {
+      throw new ApiException(
+          "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
+          response.getCode(),
+          responseHeaders,
+          EntityUtils.toString(entity)
+      );
+    }
+  }
+
+  private File downloadFileFromResponse(CloseableHttpResponse response) throws IOException {
+    Header contentDispositionHeader = response.getFirstHeader("Content-Disposition");
+    String contentDisposition = contentDispositionHeader == null ? null : contentDispositionHeader.getValue();
+    File file = prepareDownloadFile(contentDisposition);
+    Files.copy(response.getEntity().getContent(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    return file;
+  }
+
+  protected File prepareDownloadFile(String contentDisposition) throws IOException {
+    String filename = null;
+    if (contentDisposition != null && !"".equals(contentDisposition)) {
+      // Get filename from the Content-Disposition header.
+      Pattern pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+      Matcher matcher = pattern.matcher(contentDisposition);
+      if (matcher.find())
+        filename = matcher.group(1);
+    }
+
+    String prefix;
+    String suffix = null;
+    if (filename == null) {
+      prefix = "download-";
+      suffix = "";
+    } else {
+      int pos = filename.lastIndexOf('.');
+      if (pos == -1) {
+        prefix = filename + "-";
+      } else {
+        prefix = filename.substring(0, pos) + "-";
+        suffix = filename.substring(pos);
+      }
+      // Files.createTempFile requires the prefix to be at least three characters long
+      if (prefix.length() < 3)
+        prefix = "download-";
+    }
+
+    if (tempFolderPath == null)
+      return Files.createTempFile(prefix, suffix).toFile();
+    else
+      return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
   }
 
   /**
@@ -642,9 +918,10 @@ public class ApiClient extends JavaTimeFormatter {
    * @param path The sub path
    * @param queryParams The query parameters
    * @param collectionQueryParams The collection query parameters
+   * @param urlQueryDeepObject URL query string of the deep object parameters
    * @return The full URL
    */
-  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams) {
+  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams, String urlQueryDeepObject) {
     String baseURL;
     if (serverIndex != null) {
       if (serverIndex < 0 || serverIndex >= servers.size()) {
@@ -672,7 +949,8 @@ public class ApiClient extends JavaTimeFormatter {
             url.append("&");
           }
           String value = parameterToString(param.getValue());
-          url.append(escapeString(param.getName())).append("=").append(escapeString(value));
+          // query parameter value already escaped as part of parameterToPair
+          url.append(escapeString(param.getName())).append("=").append(value);
         }
       }
     }
@@ -694,60 +972,42 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
 
+    if (urlQueryDeepObject != null && urlQueryDeepObject.length() > 0) {
+      url.append(url.toString().contains("?") ? "&" : "?");
+      url.append(urlQueryDeepObject);
+    }
+
     return url.toString();
   }
 
-  private ClientResponse getAPIResponse(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames) throws ApiException {
-    if (body != null && !formParams.isEmpty()) {
-      throw new ApiException(500, "Cannot have body and form params");
+  protected boolean isSuccessfulStatus(int statusCode) {
+    return statusCode >= 200 && statusCode < 300;
+  }
+
+  protected boolean isBodyAllowed(String method) {
+    return bodyMethods.contains(method);
+  }
+
+  protected Cookie buildCookie(String key, String value, URI uri) {
+    BasicClientCookie cookie = new BasicClientCookie(key, value);
+    cookie.setDomain(uri.getHost());
+    cookie.setPath("/");
+    return cookie;
+  }
+
+  protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
+    statusCode = response.getCode();
+    if (statusCode == HttpStatus.SC_NO_CONTENT) {
+      return null;
     }
 
-    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
-
-    final String url = buildUrl(path, queryParams, collectionQueryParams);
-    Builder builder;
-    if (accept == null) {
-      builder = httpClient.resource(url).getRequestBuilder();
+    responseHeaders = transformResponseHeaders(response.getHeaders());
+    if (isSuccessfulStatus(statusCode)) {
+      return this.deserialize(response, returnType);
     } else {
-      builder = httpClient.resource(url).accept(accept);
+      String message = EntityUtils.toString(response.getEntity());
+      throw new ApiException(message, statusCode, responseHeaders, message);
     }
-
-    for (Entry<String, String> keyValue : headerParams.entrySet()) {
-      builder = builder.header(keyValue.getKey(), keyValue.getValue());
-    }
-    for (Map.Entry<String,String> keyValue : defaultHeaderMap.entrySet()) {
-      if (!headerParams.containsKey(keyValue.getKey())) {
-        builder = builder.header(keyValue.getKey(), keyValue.getValue());
-      }
-    }
-
-    for (Entry<String, String> keyValue : cookieParams.entrySet()) {
-      builder = builder.cookie(new Cookie(keyValue.getKey(), keyValue.getValue()));
-    }
-    for (Map.Entry<String,String> keyValue : defaultCookieMap.entrySet()) {
-      if (!cookieParams.containsKey(keyValue.getKey())) {
-        builder = builder.cookie(new Cookie(keyValue.getKey(), keyValue.getValue()));
-      }
-    }
-
-    ClientResponse response = null;
-
-    if ("GET".equals(method)) {
-      response = (ClientResponse) builder.get(ClientResponse.class);
-    } else if ("POST".equals(method)) {
-      response = builder.type(contentType).post(ClientResponse.class, serialize(body, contentType, formParams));
-    } else if ("PUT".equals(method)) {
-      response = builder.type(contentType).put(ClientResponse.class, serialize(body, contentType, formParams));
-    } else if ("DELETE".equals(method)) {
-      response = builder.type(contentType).delete(ClientResponse.class, serialize(body, contentType, formParams));
-    } else if ("PATCH".equals(method)) {
-      response = builder.type(contentType).header("X-HTTP-Method-Override", "PATCH").post(ClientResponse.class, serialize(body, contentType, formParams));
-    } else if ("HEAD".equals(method)) {
-      response = builder.head();
-    } else {
-      throw new ApiException(500, "unknown method type " + method);
-    }
-    return response;
   }
 
   /**
@@ -758,6 +1018,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param method The request method, one of "GET", "POST", "PUT", and "DELETE"
    * @param queryParams The query parameters
    * @param collectionQueryParams The collection query parameters
+   * @param urlQueryDeepObject A URL query string for deep object parameters
    * @param body The request body object - if it is not binary, otherwise null
    * @param headerParams The header parameters
    * @param cookieParams The cookie parameters
@@ -769,36 +1030,72 @@ public class ApiClient extends JavaTimeFormatter {
    * @return The response body in type of string
    * @throws ApiException API exception
    */
-   public <T> T invokeAPI(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+   public <T> T invokeAPI(
+       String path,
+       String method,
+       List<Pair> queryParams,
+       List<Pair> collectionQueryParams,
+       String urlQueryDeepObject,
+       Object body,
+       Map<String, String> headerParams,
+       Map<String, String> cookieParams,
+       Map<String, Object> formParams,
+       String accept,
+       String contentType,
+       String[] authNames,
+       TypeReference<T> returnType) throws ApiException {
+    if (body != null && !formParams.isEmpty()) {
+      throw new ApiException("Cannot have body and form params");
+    }
 
-    ClientResponse response = getAPIResponse(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames);
+    updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
+    final String url = buildUrl(path, queryParams, collectionQueryParams, urlQueryDeepObject);
 
-    statusCode = response.getStatusInfo().getStatusCode();
-    responseHeaders = response.getHeaders();
+    ClassicRequestBuilder builder = ClassicRequestBuilder.create(method);
+    builder.setUri(url);
 
-    if(response.getStatusInfo().getStatusCode() == ClientResponse.Status.NO_CONTENT.getStatusCode()) {
-      return null;
-    } else if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
-      if (returnType == null)
-        return null;
-      else
-        return response.getEntity(returnType);
-    } else {
-      String message = "error";
-      String respBody = null;
-      if (response.hasEntity()) {
-        try {
-          respBody = response.getEntity(String.class);
-          message = respBody;
-        } catch (RuntimeException e) {
-          // e.printStackTrace();
-        }
+    if (accept != null) {
+      builder.addHeader("Accept", accept);
+    }
+    for (Entry<String, String> keyValue : headerParams.entrySet()) {
+      builder.addHeader(keyValue.getKey(), keyValue.getValue());
+    }
+    for (Map.Entry<String,String> keyValue : defaultHeaderMap.entrySet()) {
+      if (!headerParams.containsKey(keyValue.getKey())) {
+        builder.addHeader(keyValue.getKey(), keyValue.getValue());
       }
-      throw new ApiException(
-        response.getStatusInfo().getStatusCode(),
-        message,
-        response.getHeaders(),
-        respBody);
+    }
+
+    BasicCookieStore store = new BasicCookieStore();
+    for (Entry<String, String> keyValue : cookieParams.entrySet()) {
+      store.addCookie(buildCookie(keyValue.getKey(), keyValue.getValue(), builder.getUri()));
+    }
+    for (Entry<String,String> keyValue : defaultCookieMap.entrySet()) {
+      if (!cookieParams.containsKey(keyValue.getKey())) {
+        store.addCookie(buildCookie(keyValue.getKey(), keyValue.getValue(), builder.getUri()));
+      }
+    }
+
+    HttpClientContext context = HttpClientContext.create();
+    context.setCookieStore(store);
+
+    ContentType contentTypeObj = getContentType(contentType);
+    if (body != null || !formParams.isEmpty()) {
+      if (isBodyAllowed(method)) {
+        // Add entity if we have content and a valid method
+        builder.setEntity(serialize(body, formParams, contentTypeObj));
+      } else {
+        throw new ApiException("method " + method + " does not support a request body");
+      }
+    } else {
+      // for empty body
+      builder.setEntity(new StringEntity("", contentTypeObj));
+    }
+
+    try (CloseableHttpResponse response = httpClient.execute(builder.build(), context)) {
+      return processResponse(response, returnType);
+    } catch (IOException | ParseException e) {
+      throw new ApiException(e);
     }
   }
 
@@ -816,33 +1113,5 @@ public class ApiClient extends JavaTimeFormatter {
       if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
       auth.applyToParams(queryParams, headerParams, cookieParams);
     }
-  }
-
-  /**
-   * Encode the given form parameters as request body.
-   * @param formParams Form parameters
-   * @return HTTP form encoded parameters
-   */
-  private String getXWWWFormUrlencodedParams(Map<String, Object> formParams) {
-    StringBuilder formParamBuilder = new StringBuilder();
-
-    for (Entry<String, Object> param : formParams.entrySet()) {
-      String valueStr = parameterToString(param.getValue());
-      try {
-        formParamBuilder.append(URLEncoder.encode(param.getKey(), "utf8"))
-            .append("=")
-            .append(URLEncoder.encode(valueStr, "utf8"));
-        formParamBuilder.append("&");
-      } catch (UnsupportedEncodingException e) {
-        // move on to next
-      }
-    }
-
-    String encodedFormParams = formParamBuilder.toString();
-    if (encodedFormParams.endsWith("&")) {
-      encodedFormParams = encodedFormParams.substring(0, encodedFormParams.length() - 1);
-    }
-
-    return encodedFormParams;
   }
 }

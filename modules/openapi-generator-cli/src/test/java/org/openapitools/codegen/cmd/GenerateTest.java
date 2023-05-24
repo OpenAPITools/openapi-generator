@@ -22,7 +22,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.mockito.MockSettings;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.SpecValidationException;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.TestException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -429,5 +431,13 @@ public class GenerateTest {
         verify(configurator).toClientOptInput();
         verify(configurator).toContext();
         verifyNoMoreInteractions(configurator);
+    }
+
+    /**
+     * This test ensures that when the
+     */
+    @Test(expectedExceptions = SpecValidationException.class)
+    public void testNPEWithInvalidSpecFile() {
+        setupAndRunTest("-i", "src/test/resources/npe-test.yaml", "-g", "java", "-o", "src/main/java", false, null);
     }
 }

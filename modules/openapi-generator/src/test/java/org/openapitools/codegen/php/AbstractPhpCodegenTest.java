@@ -132,6 +132,7 @@ public class AbstractPhpCodegenTest {
     public void testArrayOfArrays() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8945.yaml");
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+        codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MyResponse");
         CodegenModel cm1 = codegen.fromModel("MyResponse", test1);
@@ -144,6 +145,27 @@ public class AbstractPhpCodegenTest {
         CodegenProperty cp1 = cm1.vars.get(0);
         cp1 = codegen.fromProperty("ArrayProp", test1);
         Assert.assertTrue(cp1.isPrimitiveType);
+    }
+
+    @Test(description = "Issue #10244")
+    public void testEnumPropertyWithDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_10244.yaml");
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(TestUtils.createCodegenModelWrapper(cm1));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp1 = cm1.vars.get(0);
+        Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

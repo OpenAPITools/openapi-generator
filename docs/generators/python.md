@@ -1,23 +1,36 @@
 ---
-title: Config Options for python
-sidebar_label: python
+title: Documentation for the python Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | python | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Python | |
+| generator language version | 3.7+ | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Python client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default. NOTE: this option breaks composition and will be removed in 6.0.0</dd></dl>|false|
+|dateFormat|date format for query parameters| |%Y-%m-%d|
+|datetimeFormat|datetime format for query parameters| |%Y-%m-%dT%H:%M:%S%z|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|library|library template (sub-template) to use: asyncio, tornado, urllib3| |urllib3|
+|library|library template (sub-template) to use: asyncio, tornado (deprecated), urllib3| |urllib3|
+|mapNumberTo|Map number to Union[StrictFloat, StrictInt], StrictStr or float.| |Union[StrictFloat, StrictInt]|
 |packageName|python package name (convention: snake_case).| |openapi_client|
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
-|pythonAttrNoneIfUnset|when accessing unset attribute, return `None` instead of raising `ApiAttributeError`| |false|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
-|useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
 
@@ -34,13 +47,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
+<li>Dict</li>
+<li>List</li>
 <li>bool</li>
+<li>bytearray</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>
+<li>decimal.Decimal</li>
 <li>dict</li>
-<li>file</li>
-<li>file_type</li>
 <li>float</li>
 <li>int</li>
 <li>list</li>
@@ -52,17 +67,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
-<li>all_params</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>
-<li>auth_settings</li>
 <li>await</li>
-<li>body_params</li>
+<li>base64</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>
+<li>date</li>
 <li>def</li>
 <li>del</li>
 <li>elif</li>
@@ -72,28 +86,24 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>false</li>
 <li>finally</li>
 <li>for</li>
-<li>form_params</li>
 <li>from</li>
 <li>global</li>
-<li>header_params</li>
 <li>if</li>
 <li>import</li>
 <li>in</li>
 <li>is</li>
+<li>json</li>
 <li>lambda</li>
-<li>local_var_files</li>
 <li>none</li>
 <li>nonlocal</li>
 <li>not</li>
 <li>or</li>
 <li>pass</li>
-<li>path_params</li>
 <li>print</li>
 <li>property</li>
-<li>query_params</li>
 <li>raise</li>
-<li>resource_path</li>
 <li>return</li>
+<li>schema</li>
 <li>self</li>
 <li>true</li>
 <li>try</li>
@@ -130,7 +140,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -167,7 +181,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✓|OAS3
+|ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
@@ -188,8 +202,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✓|OAS2,OAS3
+|anyOf|✓|OAS3
+|oneOf|✓|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -202,6 +220,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -9,12 +9,20 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
+import {{rootJavaEEPackage}}.ws.rs.*;
+import {{rootJavaEEPackage}}.ws.rs.core.Response;
+import {{rootJavaEEPackage}}.ws.rs.core.MediaType;
 {{^disableMultipart}}
 import org.apache.cxf.jaxrs.ext.multipart.*;
 {{/disableMultipart}}
+{{#microprofileMutiny}}
+import io.smallrye.mutiny.Uni;
+{{/microprofileMutiny}}
+
+{{#useBeanValidation}}
+import {{rootJavaEEPackage}}.validation.constraints.*;
+import {{rootJavaEEPackage}}.validation.Valid;
+{{/useBeanValidation}}
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
@@ -30,7 +38,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 {{/appName}}
 
-@RegisterRestClient
+@RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
 public interface {{classname}}  {
@@ -61,7 +69,7 @@ public interface {{classname}}  {
 {{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
-    public {{{returnType}}}{{^returnType}}void{{/returnType}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
 {{/operation}}
 }
 {{/operations}}

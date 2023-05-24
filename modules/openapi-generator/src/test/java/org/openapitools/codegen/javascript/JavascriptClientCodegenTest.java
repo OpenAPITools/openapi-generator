@@ -96,7 +96,7 @@ public class JavascriptClientCodegenTest {
         Assert.assertFalse(property2.isContainer);
     }
 
-    @Test(description = "test isDefualt in the response")
+    @Test(description = "test isDefault in the response")
     public void testResponseIsDefault() throws Exception {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

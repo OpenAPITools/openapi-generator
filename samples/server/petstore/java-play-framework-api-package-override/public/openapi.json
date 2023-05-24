@@ -54,7 +54,7 @@
         "summary" : "Add a new pet to the store",
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       },
       "put" : {
@@ -95,7 +95,7 @@
         "summary" : "Update an existing pet",
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "application/json",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -301,16 +301,7 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "name" : {
-                    "description" : "Updated name of the pet",
-                    "type" : "string"
-                  },
-                  "status" : {
-                    "description" : "Updated status of the pet",
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/updatePetWithForm_request"
               }
             }
           }
@@ -326,7 +317,7 @@
         } ],
         "summary" : "Updates a pet in the store with form data",
         "tags" : [ "pet" ],
-        "x-contentType" : "application/x-www-form-urlencoded",
+        "x-content-type" : "application/x-www-form-urlencoded",
         "x-accepts" : "application/json"
       }
     },
@@ -347,17 +338,7 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "description" : "Additional data to pass to server",
-                    "type" : "string"
-                  },
-                  "file" : {
-                    "description" : "file to upload",
-                    "format" : "binary",
-                    "type" : "string"
-                  }
-                }
+                "$ref" : "#/components/schemas/uploadFile_request"
               }
             }
           }
@@ -379,7 +360,7 @@
         } ],
         "summary" : "uploads an image",
         "tags" : [ "pet" ],
-        "x-contentType" : "multipart/form-data",
+        "x-content-type" : "multipart/form-data",
         "x-accepts" : "application/json"
       }
     },
@@ -449,7 +430,7 @@
         "summary" : "Place an order for a pet",
         "tags" : [ "store" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -481,7 +462,7 @@
         "x-accepts" : "application/json"
       },
       "get" : {
-        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         "operationId" : "getOrderById",
         "parameters" : [ {
           "description" : "ID of pet that needs to be fetched",
@@ -549,7 +530,7 @@
         "summary" : "Create user",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -579,7 +560,7 @@
         "summary" : "Creates list of users with given input array",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -609,7 +590,7 @@
         "summary" : "Creates list of users with given input array",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     },
@@ -657,7 +638,7 @@
                 }
               },
               "X-Expires-After" : {
-                "description" : "date in UTC when toekn expires",
+                "description" : "date in UTC when token expires",
                 "schema" : {
                   "format" : "date-time",
                   "type" : "string"
@@ -792,7 +773,7 @@
         "summary" : "Updated user",
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
-        "x-contentType" : "*/*",
+        "x-content-type" : "*/*",
         "x-accepts" : "application/json"
       }
     }
@@ -1015,6 +996,33 @@
           }
         },
         "title" : "An uploaded response",
+        "type" : "object"
+      },
+      "updatePetWithForm_request" : {
+        "properties" : {
+          "name" : {
+            "description" : "Updated name of the pet",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "Updated status of the pet",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "uploadFile_request" : {
+        "properties" : {
+          "additionalMetadata" : {
+            "description" : "Additional data to pass to server",
+            "type" : "string"
+          },
+          "file" : {
+            "description" : "file to upload",
+            "format" : "binary",
+            "type" : "string"
+          }
+        },
         "type" : "object"
       }
     },

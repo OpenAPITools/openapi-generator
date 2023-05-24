@@ -10,9 +10,11 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
@@ -30,7 +32,7 @@ namespace Org.OpenAPITools.Client
         public static CompareLogic compareLogic;
 
         /// <summary>
-        /// Static contstructor to initialise compareLogic.
+        /// Static constructor to initialise compareLogic.
         /// </summary>
         static ClientUtils()
         {
@@ -114,45 +116,26 @@ namespace Org.OpenAPITools.Client
                 return dateTimeOffset.ToString((configuration ?? GlobalConfiguration.Instance).DateTimeFormat);
             if (obj is bool boolean)
                 return boolean ? "true" : "false";
-            if (obj is ICollection collection)
-                return string.Join(",", collection.Cast<object>());
+            if (obj is ICollection collection) {
+                List<string> entries = new List<string>();
+                foreach (var entry in collection)
+                    entries.Add(ParameterToString(entry, configuration));
+                return string.Join(",", entries);
+            }
+            if (obj is Enum && HasEnumMemberAttrValue(obj))
+                return GetEnumMemberAttrValue(obj);
 
             return Convert.ToString(obj, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
-        /// URL encode a string
-        /// Credit/Ref: https://github.com/restsharp/RestSharp/blob/master/RestSharp/Extensions/StringExtensions.cs#L50
+        /// Serializes the given object when not null. Otherwise return null.
         /// </summary>
-        /// <param name="input">string to be URL encoded</param>
-        /// <returns>Byte array</returns>
-        public static string UrlEncode(string input)
+        /// <param name="obj">The object to serialize.</param>
+        /// <returns>Serialized string.</returns>
+        public static string Serialize(object obj)
         {
-            const int maxLength = 32766;
-
-            if (input == null)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (input.Length <= maxLength)
-            {
-                return Uri.EscapeDataString(input);
-            }
-
-            StringBuilder sb = new StringBuilder(input.Length * 2);
-            int index = 0;
-
-            while (index < input.Length)
-            {
-                int length = Math.Min(input.Length - index, maxLength);
-                string subString = input.Substring(index, length);
-
-                sb.Append(Uri.EscapeDataString(subString));
-                index += subString.Length;
-            }
-
-            return sb.ToString();
+            return obj != null ? Newtonsoft.Json.JsonConvert.SerializeObject(obj) : null;
         }
 
         /// <summary>
@@ -238,6 +221,41 @@ namespace Org.OpenAPITools.Client
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
             return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+        }
+
+        /// <summary>
+        /// Is the Enum decorated with EnumMember Attribute
+        /// </summary>
+        /// <param name="enumVal"></param>
+        /// <returns>true if found</returns>
+        private static bool HasEnumMemberAttrValue(object enumVal)
+        {
+            if (enumVal == null)
+                throw new ArgumentNullException(nameof(enumVal));
+            var enumType = enumVal.GetType();
+            var memInfo = enumType.GetMember(enumVal.ToString() ?? throw new InvalidOperationException());
+            var attr = memInfo.FirstOrDefault()?.GetCustomAttributes(false).OfType<EnumMemberAttribute>().FirstOrDefault();
+            if (attr != null) return true;
+                return false;
+        }
+
+        /// <summary>
+        /// Get the EnumMember value
+        /// </summary>
+        /// <param name="enumVal"></param>
+        /// <returns>EnumMember value as string otherwise null</returns>
+        private static string GetEnumMemberAttrValue(object enumVal)
+        {
+            if (enumVal == null)
+                throw new ArgumentNullException(nameof(enumVal));
+            var enumType = enumVal.GetType();
+            var memInfo = enumType.GetMember(enumVal.ToString() ?? throw new InvalidOperationException());
+            var attr = memInfo.FirstOrDefault()?.GetCustomAttributes(false).OfType<EnumMemberAttribute>().FirstOrDefault();
+            if (attr != null)
+            {
+                return attr.Value;
+            }
+            return null;
         }
     }
 }

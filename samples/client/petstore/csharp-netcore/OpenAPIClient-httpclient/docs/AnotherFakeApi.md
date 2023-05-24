@@ -2,12 +2,11 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**Call123TestSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+| Method | HTTP request | Description |
+|--------|--------------|-------------|
+| [**Call123TestSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags |
 
-
-<a name="call123testspecialtags"></a>
+<a id="call123testspecialtags"></a>
 # **Call123TestSpecialTags**
 > ModelClient Call123TestSpecialTags (ModelClient modelClient)
 
@@ -46,8 +45,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -55,11 +54,31 @@ namespace Example
 }
 ```
 
+#### Using the Call123TestSpecialTagsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // To test special tags
+    ApiResponse<ModelClient> response = apiInstance.Call123TestSpecialTagsWithHttpInfo(modelClient);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTagsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **modelClient** | [**ModelClient**](ModelClient.md) | client model |  |
 
 ### Return type
 

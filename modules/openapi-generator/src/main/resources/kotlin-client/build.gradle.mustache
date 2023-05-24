@@ -1,13 +1,18 @@
 group '{{groupId}}'
 version '{{artifactVersion}}'
+{{^omitGradleWrapper}}
 
 wrapper {
-    gradleVersion = '6.8.3'
+    gradleVersion = '7.5'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
+{{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = '1.7.21'
+    {{#jvm-ktor}}
+    ext.ktor_version = '2.1.3'
+    {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.9.0'
     {{/jvm-retrofit2}}
@@ -20,6 +25,13 @@ buildscript {
     {{#useRxJava3}}
     ext.rxJava3Version = '3.0.12'
     {{/useRxJava3}}
+    {{#jvm-vertx}}
+    ext.vertx_version = "4.3.3"
+    {{/jvm-vertx}}
+    {{#jvm-spring-webclient}}
+    ext.spring_boot_version = "2.7.11"
+    ext.reactor_version = "3.5.6"
+    {{/jvm-spring-webclient}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -42,51 +54,82 @@ apply plugin: 'kotlin-parcelize'
 {{#kotlinx_serialization}}
 apply plugin: 'kotlinx-serialization'
 {{/kotlinx_serialization}}
+{{#idea}}
+apply plugin: 'idea'
+{{/idea}}
+apply plugin: 'maven-publish'
+{{^useSettingsGradle}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
 }
+{{/useSettingsGradle}}
 
 test {
     useJUnitPlatform()
 }
+{{#idea}}
+
+idea {
+    module {
+        sourceDirs += file('src/main/kotlin')
+        testSourceDirs += file('src/test/kotlin')
+    }
+}
+{{/idea}}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
     {{#useCoroutines}}
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     {{/useCoroutines}}
     {{/doNotUseRxAndCoroutines}}
     {{#moshi}}
     {{^moshiCodeGen}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
-    implementation "com.squareup.moshi:moshi-adapters:1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.13.0"
     {{/moshiCodeGen}}
     {{#moshiCodeGen}}
-    implementation "com.squareup.moshi:moshi:1.12.0"
-    implementation "com.squareup.moshi:moshi-adapters:1.12.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
+    implementation "com.squareup.moshi:moshi:1.13.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.13.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
     {{/moshiCodeGen}}
     {{/moshi}}
     {{#gson}}
-    implementation "com.google.code.gson:gson:2.8.7"
+    implementation "com.google.code.gson:gson:2.9.0"
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3"
     {{/jackson}}
     {{#kotlinx_serialization}}
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
     {{/kotlinx_serialization}}
+    {{#jvm-ktor}}
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
+    {{#gson}}
+    implementation "io.ktor:ktor-serialization-gson:$ktor_version"
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
+    {{/gson}}
+    {{#jackson}}
+    implementation "io.ktor:ktor-client-jackson:$ktor_version"
+    implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
+    {{/jackson}}
+    {{/jvm-ktor}}
     {{#jvm-okhttp3}}
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
     {{/jvm-okhttp3}}
     {{#jvm-okhttp4}}
-    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
     {{/jvm-okhttp4}}
+    {{#jvm-spring-webclient}}
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
+    implementation "io.projectreactor:reactor-core:$reactor_version"
+    {{/jvm-spring-webclient}}
     {{#threetenbp}}
     implementation "org.threeten:threetenbp:1.5.1"
     {{/threetenbp}}
@@ -94,7 +137,7 @@ dependencies {
     {{#hasOAuthMethods}}
     implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
     {{/hasOAuthMethods}}
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
     {{#useRxJava}}
     implementation "io.reactivex:rxjava:$rxJavaVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
@@ -120,6 +163,15 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    {{#jvm-vertx}}
+    implementation "io.vertx:vertx-web-client:$vertx_version"
+    implementation "io.vertx:vertx-core:$vertx_version"
+    implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
+    implementation "io.vertx:vertx-uri-template:$vertx_version"
+    {{#useCoroutines}}
+    implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
+    {{/useCoroutines}}
+    {{/jvm-vertx}}
 }
 {{#kotlinx_serialization}}
 

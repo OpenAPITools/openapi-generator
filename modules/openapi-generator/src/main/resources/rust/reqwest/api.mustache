@@ -10,14 +10,14 @@ use super::{Error, configuration};
 {{#vendorExtensions.x-group-parameters}}
 {{#allParams}}
 {{#-first}}
-/// struct for passing parameters to the method `{{operationId}}`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`{{operationId}}`]
+#[derive(Clone, Debug, Default)]
 pub struct {{{operationIdCamelCase}}}Params {
 {{/-first}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
 {{#-last}}
 }
 
@@ -30,7 +30,7 @@ pub struct {{{operationIdCamelCase}}}Params {
 {{#supportMultipleResponses}}
 {{#operations}}
 {{#operation}}
-/// struct for typed successes of method `{{operationId}}`
+/// struct for typed successes of method [`{{operationId}}`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Success {
@@ -50,7 +50,7 @@ pub enum {{{operationIdCamelCase}}}Success {
 {{/supportMultipleResponses}}
 {{#operations}}
 {{#operation}}
-/// struct for typed errors of method `{{operationId}}`
+/// struct for typed errors of method [`{{operationId}}`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Error {
@@ -81,6 +81,8 @@ pub enum {{{operationIdCamelCase}}}Error {
 {{/notes}}
 {{#vendorExtensions.x-group-parameters}}
 pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+    let local_var_configuration = configuration;
+
     // unbox the parameters
     {{#allParams}}
     let {{paramName}} = params.{{paramName}};
@@ -88,21 +90,59 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 
 {{/vendorExtensions.x-group-parameters}}
 {{^vendorExtensions.x-group-parameters}}
-pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{#isBodyParam}}crate::models::{{/isBodyParam}}{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>> {
+    let local_var_configuration = configuration;
 {{/vendorExtensions.x-group-parameters}}
 
-    let local_var_client = &configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{#isString}}){{/isString}}{{/pathParams}});
+    let local_var_uri_str = format!("{}{{{path}}}", local_var_configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{#isString}}){{/isString}}{{/pathParams}});
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::{{{httpMethod}}}, local_var_uri_str.as_str());
 
     {{#queryParams}}
     {{#required}}
-    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+    {{#isArray}}
+    local_var_req_builder = match "{{collectionFormat}}" {
+        "multi" => local_var_req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
+    {{/isArray}}
+    {{^isArray}}
+    {{^isNullable}}
+    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{/isNullable}}
+    {{#isNullable}}
+    {{#isDeepObject}}
+    if let Some(ref local_var_str) = {{{paramName}}} {
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
+        local_var_req_builder = local_var_req_builder.query(&params);
+    };
+    {{/isDeepObject}}
+    {{^isDeepObject}}
+    if let Some(ref local_var_str) = {{{paramName}}} {
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+    };
+    {{/isDeepObject}}
+    {{/isNullable}}
+    {{/isArray}}
     {{/required}}
     {{^required}}
     if let Some(ref local_var_str) = {{{paramName}}} {
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+        {{#isArray}}
+        local_var_req_builder = match "{{collectionFormat}}" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+        {{/isArray}}
+        {{^isArray}}
+        {{#isDeepObject}}
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
+        local_var_req_builder = local_var_req_builder.query(&params);
+        {{/isDeepObject}}
+        {{^isDeepObject}}
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{/isDeepObject}}
+        {{/isArray}}
     }
     {{/required}}
     {{/queryParams}}
@@ -110,7 +150,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#authMethods}}
     {{#isApiKey}}
     {{#isKeyInQuery}}
-    if let Some(ref local_var_apikey) = configuration.api_key {
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
         let local_var_key = local_var_apikey.key.clone();
         let local_var_value = match local_var_apikey.prefix {
             Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
@@ -122,7 +162,31 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isApiKey}}
     {{/authMethods}}
     {{/hasAuthMethods}}
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
+    {{#hasAuthMethods}}
+    {{#withAWSV4Signature}}
+    if let Some(ref local_var_aws_v4_key) = local_var_configuration.aws_v4_key {
+        let local_var_new_headers = match local_var_aws_v4_key.sign(
+	    &local_var_uri_str,
+	    "{{{httpMethod}}}",
+	    {{#hasBodyParam}}
+	    {{#bodyParams}}
+	    &serde_json::to_string(&{{{paramName}}}).expect("param should serialize to string"),
+	    {{/bodyParams}}
+	    {{/hasBodyParam}}
+	    {{^hasBodyParam}}
+	    &"",
+	    {{/hasBodyParam}}
+	    ) {
+	      Ok(new_headers) => new_headers,
+	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
+	    };
+	for (local_var_name, local_var_value) in local_var_new_headers.iter() {
+	    local_var_req_builder = local_var_req_builder.header(local_var_name.as_str(), local_var_value.as_str());
+	}
+    }
+    {{/withAWSV4Signature}}
+    {{/hasAuthMethods}}
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     {{#hasHeaderParams}}
@@ -149,7 +213,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#authMethods}}
     {{#isApiKey}}
     {{#isKeyInHeader}}
-    if let Some(ref local_var_apikey) = configuration.api_key {
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
         let local_var_key = local_var_apikey.key.clone();
         let local_var_value = match local_var_apikey.prefix {
             Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
@@ -161,18 +225,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isApiKey}}
     {{#isBasic}}
     {{#isBasicBasic}}
-    if let Some(ref local_var_auth_conf) = configuration.basic_auth {
+    if let Some(ref local_var_auth_conf) = local_var_configuration.basic_auth {
         local_var_req_builder = local_var_req_builder.basic_auth(local_var_auth_conf.0.to_owned(), local_var_auth_conf.1.to_owned());
     };
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-    if let Some(ref local_var_token) = configuration.bearer_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     {{/isBasicBearer}}
     {{/isBasic}}
     {{#isOAuth}}
-    if let Some(ref local_var_token) = configuration.oauth_access_token {
+    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     {{/isOAuth}}
@@ -208,18 +272,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{^isFile}}
     {{#required}}
     {{^isNullable}}
-    local_var_form = local_var_form.text("{{{baseName}}}", {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
+    local_var_form = local_var_form.text("{{{baseName}}}", {{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_form = local_var_form.text("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
+        Some(local_var_param_value) => { local_var_form = local_var_form.text("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string()); },
         None => { local_var_form = local_var_form.text("{{{baseName}}}", ""); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
     if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_form = local_var_form.text("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string());
+        local_var_form = local_var_form.text("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     }
     {{/required}}
     {{/isFile}}
@@ -252,18 +316,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{^isFile}}
     {{#required}}
     {{^isNullable}}
-    local_var_form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
+    local_var_form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_form_params.insert("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
+        Some(local_var_param_value) => { local_var_form_params.insert("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string()); },
         None => { local_var_form_params.insert("{{{baseName}}}", ""); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
     if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_form_params.insert("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string());
+        local_var_form_params.insert("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     }
     {{/required}}
     {{/isFile}}

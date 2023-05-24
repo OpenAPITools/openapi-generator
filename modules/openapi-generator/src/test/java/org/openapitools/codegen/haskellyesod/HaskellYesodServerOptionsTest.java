@@ -25,5 +25,6 @@ public class HaskellYesodServerOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setProjectName(HaskellYesodServerOptionsProvider.PROJECT_NAME_VALUE);
         verify(clientCodegen).setApiModuleName(HaskellYesodServerOptionsProvider.API_MODULE_NAME_VALUE);
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(HaskellYesodServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

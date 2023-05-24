@@ -2,17 +2,17 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 
@@ -21,6 +21,8 @@ Method | HTTP request | Description
 > addPet(pet)
 
 Add a new pet to the store
+
+
 
 ### Example
 
@@ -60,9 +62,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -90,6 +92,8 @@ null (empty response body)
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 
@@ -130,10 +134,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| Pet id to delete |
- **apiKey** | **String**|  | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| Pet id to delete | |
+| **apiKey** | **String**|  | [optional] |
 
 ### Return type
 
@@ -203,9 +207,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
@@ -275,9 +279,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
@@ -349,9 +353,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to return |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to return | |
 
 ### Return type
 
@@ -380,6 +384,8 @@ Name | Type | Description  | Notes
 > updatePet(pet)
 
 Update an existing pet
+
+
 
 ### Example
 
@@ -419,9 +425,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -451,6 +457,8 @@ null (empty response body)
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 
@@ -492,11 +500,11 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional]
- **status** | **String**| Updated status of the pet | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet that needs to be updated | |
+| **name** | **String**| Updated name of the pet | [optional] |
+| **status** | **String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -521,9 +529,11 @@ null (empty response body)
 
 ## uploadFile
 
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
+
+
 
 ### Example
 
@@ -548,9 +558,9 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | ID of pet to update
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-        File file = new File("/path/to/file"); // File | file to upload
+        File _file = new File("/path/to/file"); // File | file to upload
         try {
-            ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+            ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, _file);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -566,11 +576,11 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
+| **_file** | **File**| file to upload | [optional] |
 
 ### Return type
 
@@ -597,6 +607,8 @@ Name | Type | Description  | Notes
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
+
+
 
 ### Example
 
@@ -639,11 +651,11 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update |
- **requiredFile** | **File**| file to upload |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **requiredFile** | **File**| file to upload | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 
 ### Return type
 

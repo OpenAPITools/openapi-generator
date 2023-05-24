@@ -46,13 +46,45 @@ namespace Org.OpenAPITools.Model
         public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
         {
             this._MapProperty = mapProperty;
+            if (this.MapProperty != null)
+            {
+                this._flagMapProperty = true;
+            }
             this._MapOfMapProperty = mapOfMapProperty;
+            if (this.MapOfMapProperty != null)
+            {
+                this._flagMapOfMapProperty = true;
+            }
             this._Anytype1 = anytype1;
+            if (this.Anytype1 != null)
+            {
+                this._flagAnytype1 = true;
+            }
             this._MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
+            if (this.MapWithUndeclaredPropertiesAnytype1 != null)
+            {
+                this._flagMapWithUndeclaredPropertiesAnytype1 = true;
+            }
             this._MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
+            if (this.MapWithUndeclaredPropertiesAnytype2 != null)
+            {
+                this._flagMapWithUndeclaredPropertiesAnytype2 = true;
+            }
             this._MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
+            if (this.MapWithUndeclaredPropertiesAnytype3 != null)
+            {
+                this._flagMapWithUndeclaredPropertiesAnytype3 = true;
+            }
             this._EmptyMap = emptyMap;
+            if (this.EmptyMap != null)
+            {
+                this._flagEmptyMap = true;
+            }
             this._MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+            if (this.MapWithUndeclaredPropertiesString != null)
+            {
+                this._flagMapWithUndeclaredPropertiesString = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -261,7 +293,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
             sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
             sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
@@ -315,23 +347,41 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.MapProperty != null)
-                    hashCode = hashCode * 59 + this.MapProperty.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapProperty.GetHashCode();
+                }
                 if (this.MapOfMapProperty != null)
-                    hashCode = hashCode * 59 + this.MapOfMapProperty.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapOfMapProperty.GetHashCode();
+                }
                 if (this.Anytype1 != null)
-                    hashCode = hashCode * 59 + this.Anytype1.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Anytype1.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesAnytype1 != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesAnytype2 != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesAnytype3 != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                }
                 if (this.EmptyMap != null)
-                    hashCode = hashCode * 59 + this.EmptyMap.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.EmptyMap.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesString != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

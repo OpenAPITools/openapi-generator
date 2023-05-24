@@ -20,10 +20,13 @@ package org.openapitools.codegen.templating.mustache;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.utils.CamelizeOption;
 
 import java.io.IOException;
 import java.io.Writer;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -42,10 +45,14 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class CamelCaseLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
     private Boolean escapeParam = false;
-    private Boolean lowercaseFirstLetter = true;
+    private CamelizeOption option = LOWERCASE_FIRST_LETTER;
 
     public CamelCaseLambda(boolean lowercaseFirstLetter) {
-      this.lowercaseFirstLetter = lowercaseFirstLetter;
+        if (lowercaseFirstLetter) {
+            option = LOWERCASE_FIRST_LETTER;
+        } else {
+            option = UPPERCASE_FIRST_CHAR;
+        }
     }
 
     public CamelCaseLambda() {}
@@ -62,7 +69,7 @@ public class CamelCaseLambda implements Mustache.Lambda {
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String text = camelize(fragment.execute(), lowercaseFirstLetter);
+        String text = camelize(fragment.execute().replace(" ", "_"), option);
         if (generator != null) {
             text = generator.sanitizeName(text);
             if (generator.reservedWords().contains(text)) {

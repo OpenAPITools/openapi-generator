@@ -47,8 +47,8 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
       <version>${servlet-api-version}</version>
     </dependency>
     <dependency>
@@ -67,9 +67,9 @@
        <version>${jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.annotation</groupId>
-      <artifactId>javax.annotation-api</artifactId>
-      <version>${javax-annotation-version}</version>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>${jakarta-annotation-version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -83,12 +83,12 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>1.7</java.version>
+    <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <servlet-api-version>2.5</servlet-api-version>
+    <servlet-api-version>4.0.4</servlet-api-version>
     <jackson-version>2.8.9</jackson-version>
-    <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

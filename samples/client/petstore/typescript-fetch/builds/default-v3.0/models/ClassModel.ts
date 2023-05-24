@@ -27,6 +27,15 @@ export interface ClassModel {
     _class?: string;
 }
 
+/**
+ * Check if a given object implements the ClassModel interface.
+ */
+export function instanceOfClassModel(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ClassModelFromJSON(json: any): ClassModel {
     return ClassModelFromJSONTyped(json, false);
 }

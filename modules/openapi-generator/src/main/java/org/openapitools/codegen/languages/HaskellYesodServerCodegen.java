@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
@@ -46,7 +47,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
-    static final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 
     protected String projectName;
     protected String apiModuleName;
@@ -136,7 +137,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
                 )
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Bool",
                         "Int",
@@ -359,7 +360,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private List<String> pathToComponents(String path, List<CodegenParameter> pathParams) {
         // Map the capture params by their names.
-        HashMap<String, String> captureTypes = new HashMap<String, String>();
+        HashMap<String, String> captureTypes = new HashMap<>();
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
@@ -370,7 +371,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
 
         // Convert the path into a list of yesod path components.
-        List<String> components = new ArrayList<String>();
+        List<String> components = new ArrayList<>();
         for (String piece : path.split("/")) {
             if (piece.startsWith("{") && piece.endsWith("}")) {
                 String name = piece.substring(1, piece.length() - 1);
@@ -412,7 +413,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         List<Map<String, Object>> routes = (List<Map<String, Object>>) additionalProperties.get("routes");
         if (routes == null) {
-            routes = new ArrayList<Map<String, Object>>();
+            routes = new ArrayList<>();
             additionalProperties.put("routes", routes);
         }
 
@@ -432,10 +433,10 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
 
         if (!found) {
-            Map<String, Object> route = new HashMap<String, Object>();
+            Map<String, Object> route = new HashMap<>();
             route.put("path", path);
             route.put("resource", resource);
-            List<String> methods = new ArrayList<String>();
+            List<String> methods = new ArrayList<>();
             methods.add(op.httpMethod);
             route.put("methods", methods);
             routes.add(route);
@@ -534,8 +535,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         String name = string;
         //Check if it is a reserved word, in which case the underscore is added when property name is generated.
         if (string.startsWith("_")) {
-            if (reservedWords.contains(string.substring(1, string.length()))) {
-                name = string.substring(1, string.length());
+            if (reservedWords.contains(string.substring(1))) {
+                name = string.substring(1);
             } else if (reservedWordsMappings.containsValue(string)) {
                 name = LEADING_UNDERSCORE.matcher(string).replaceFirst("");
             }
@@ -571,7 +572,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = camelize(model.classname, true);
+        String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }
@@ -614,7 +615,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file.toString();
+            String command = haskellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -630,4 +631,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
 }

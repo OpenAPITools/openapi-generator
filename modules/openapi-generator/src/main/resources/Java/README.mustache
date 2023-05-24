@@ -20,8 +20,13 @@
 
 Building the API client library requires:
 
-1. Java {{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}+
+1. Java 1.8+
+{{#jersey2}}
+2. Maven (3.8.3+)/Gradle (7.2+)
+{{/jersey2}}
+{{^jersey2}}
 2. Maven/Gradle
+{{/jersey2}}
 
 ## Installation
 
@@ -57,7 +62,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
+  repositories {
+    mavenCentral()     // Needed if the '{{{artifactId}}}' jar has been published to maven central.
+    mavenLocal()       // Needed if the '{{{artifactId}}}' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "{{{groupId}}}:{{{artifactId}}}:{{{artifactVersion}}}"
+  }
 ```
 
 ### Others
@@ -185,11 +197,14 @@ Class | Method | HTTP request | Description
 {{#models}}{{#model}} - [{{classname}}]({{modelDocPath}}{{classname}}.md)
 {{/model}}{{/models}}
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-{{^authMethods}}All endpoints do not require authorization.
-{{/authMethods}}Authentication schemes defined for the API:
-{{#authMethods}}### {{name}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+<a id="{{name}}"></a>
+### {{name}}
 
 {{#isApiKey}}
 
@@ -197,10 +212,18 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}
+{{#isBasicBasic}}
 
 - **Type**: HTTP basic authentication
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+
+- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}
+
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}
 
 - **Type**: OAuth

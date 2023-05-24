@@ -1,21 +1,20 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
-import * as models from '../models/all{{extensionForDeno}}';
-import { Configuration} from '../configuration{{extensionForDeno}}'
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{importFileExtension}}';
+import { Configuration} from '../configuration{{importFileExtension}}'
 {{#useRxJS}}
 import { Observable } from 'rxjs';
 {{/useRxJS}}
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
+import { {{{ classname }}} } from '{{{ importPath }}}{{importFileExtension}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 
 {{#operations}}
-import { Observable{{classname}} } from "./ObservableAPI{{extensionForDeno}}";
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
+import { Observable{{classname}} } from "./ObservableAPI{{importFileExtension}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{importFileExtension}}";
 
 {{#operation}}
 export interface {{classname}}{{operationIdCamelCase}}Request {
@@ -47,7 +46,7 @@ export class Object{{classname}} {
      {{/summary}}
      * @param param the request object
      */
-    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
         return this.api.{{nickname}}({{#allParams}}param.{{paramName}}, {{/allParams}} options){{^useRxJS}}.toPromise(){{/useRxJS}};
     }
 

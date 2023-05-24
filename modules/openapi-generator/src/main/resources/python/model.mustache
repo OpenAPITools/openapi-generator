@@ -1,58 +1,14 @@
-{{> partial_header }}
+# coding: utf-8
 
-import re  # noqa: F401
-import sys  # noqa: F401
-
-from {{packageName}}.model_utils import (  # noqa: F401
-    ApiTypeError,
-    ModelComposed,
-    ModelNormal,
-    ModelSimple,
-    cached_property,
-    change_keys_js_to_python,
-    convert_js_args_to_python_args,
-    date,
-    datetime,
-    file_type,
-    none_type,
-    validate_get_composed_info,
-)
-from ..model_utils import OpenApiModel
-from {{packageName}}.exceptions import ApiAttributeError
+{{>partial_header}}
 
 {{#models}}
 {{#model}}
-{{#imports}}
-{{#-first}}
-
-def lazy_import():
-{{/-first}}
-    {{{.}}}
-{{/imports}}
-
-
-{{^interfaces}}
-{{#isArray}}
-{{> model_templates/model_simple }}
-{{/isArray}}
 {{#isEnum}}
-{{> model_templates/model_simple }}
+{{>model_enum}}
 {{/isEnum}}
-{{#isAlias}}
-{{> model_templates/model_simple }}
-{{/isAlias}}
-{{^isArray}}
 {{^isEnum}}
-{{^isAlias}}
-{{> model_templates/model_normal }}
-{{/isAlias}}
+{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_generic}}{{/anyOf}}{{/oneOf}}
 {{/isEnum}}
-{{/isArray}}
-{{/interfaces}}
-{{#interfaces}}
-{{#-last}}
-{{> model_templates/model_composed }}
-{{/-last}}
-{{/interfaces}}
 {{/model}}
 {{/models}}

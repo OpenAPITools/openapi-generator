@@ -24,10 +24,10 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <memory>
+#include <optional>
 
 #include <PetApi.h>
 
-#include <pistache/optional.h>
 
 #include "ApiResponse.h"
 #include "Pet.h"
@@ -38,15 +38,15 @@ namespace org::openapitools::server::api
 
 using namespace org::openapitools::server::model;
 
-class PetApiImpl : public org::openapitools::server::api::PetApi {
+class  PetApiImpl : public org::openapitools::server::api::PetApi {
 public:
     explicit PetApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     ~PetApiImpl() override = default;
 
     void add_pet(const Pet &body, Pistache::Http::ResponseWriter &response);
-    void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response);
-    void find_pets_by_status(const Pistache::Optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response);
-    void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response);
+    void delete_pet(const int64_t &petId, const std::optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response);
+    void find_pets_by_status(const std::optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response);
+    void find_pets_by_tags(const std::optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response);
     void get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response);
     void update_pet(const Pet &body, Pistache::Http::ResponseWriter &response);
     void update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);

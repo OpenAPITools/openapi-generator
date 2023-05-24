@@ -20,10 +20,33 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * Order
@@ -103,6 +126,8 @@ public class Order {
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 
+  public Order() {
+  }
 
   public Order id(Long id) {
     
@@ -115,8 +140,6 @@ public class Order {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Long getId() {
     return id;
   }
@@ -138,8 +161,6 @@ public class Order {
    * @return petId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Long getPetId() {
     return petId;
   }
@@ -161,8 +182,6 @@ public class Order {
    * @return quantity
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -184,8 +203,6 @@ public class Order {
    * @return shipDate
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -207,8 +224,6 @@ public class Order {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Order Status")
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -230,8 +245,6 @@ public class Order {
    * @return complete
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Boolean getComplete() {
     return complete;
   }
@@ -240,6 +253,7 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
+
 
 
   @Override
@@ -289,5 +303,96 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("id");
+    openapiFields.add("petId");
+    openapiFields.add("quantity");
+    openapiFields.add("shipDate");
+    openapiFields.add("status");
+    openapiFields.add("complete");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Order
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (!Order.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in Order is not found in the empty JSON string", Order.openapiRequiredFields.toString()));
+        }
+      }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!Order.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Order` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Order.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Order' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Order> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Order.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Order>() {
+           @Override
+           public void write(JsonWriter out, Order value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Order read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of Order given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Order
+  * @throws IOException if the JSON string is invalid with respect to Order
+  */
+  public static Order fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Order.class);
+  }
+
+ /**
+  * Convert an instance of Order to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -33,6 +33,8 @@ app/apimodels/MapTest.java
 app/apimodels/MixedPropertiesAndAdditionalPropertiesClass.java
 app/apimodels/Model200Response.java
 app/apimodels/ModelApiResponse.java
+app/apimodels/ModelFile.java
+app/apimodels/ModelList.java
 app/apimodels/ModelReturn.java
 app/apimodels/Name.java
 app/apimodels/NumberOnly.java
@@ -69,6 +71,7 @@ app/controllers/UserApiControllerImpInterface.java
 app/openapitools/ApiCall.java
 app/openapitools/ErrorHandler.java
 app/openapitools/OpenAPIUtils.java
+app/openapitools/SecurityAPIUtils.java
 build.sbt
 conf/application.conf
 conf/logback.xml

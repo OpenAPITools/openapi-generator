@@ -144,10 +144,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.2</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.8</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -241,11 +241,6 @@
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
-            <dependency>
-                <groupId>org.threeten</groupId>
-                <artifactId>threetenbp</artifactId>
-                <version>${threetenbp-version}</version>
-            </dependency>
             <!-- JSON processing: jackson -->
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
@@ -265,7 +260,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson-databind-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openapitools</groupId>
@@ -283,14 +278,14 @@
                 <version>${play-version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>1.1.0.Final</version>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
             </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -307,14 +302,15 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <jackson-version>2.12.1</jackson-version>
+        <swagger-annotations-version>1.6.3</swagger-annotations-version>
+        <jackson-version>2.13.4</jackson-version>
+        <jackson-databind-version>2.13.4.2</jackson-databind-version>
         <play-version>2.6.7</play-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <retrofit-version>2.5.0</retrofit-version>
-        <threetenbp-version>1.4.0</threetenbp-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.13.1</junit-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>

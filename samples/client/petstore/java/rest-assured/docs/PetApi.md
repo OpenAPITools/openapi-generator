@@ -2,20 +2,20 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 > addPet(body)
 
@@ -38,9 +38,9 @@ api.addPet()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -55,7 +55,7 @@ null (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
@@ -78,10 +78,10 @@ api.deletePet()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| Pet id to delete |
- **apiKey** | **String**|  | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| Pet id to delete | |
+| **apiKey** | **String**|  | [optional] |
 
 ### Return type
 
@@ -96,7 +96,7 @@ null (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
+<a id="findPetsByStatus"></a>
 # **findPetsByStatus**
 > List&lt;Pet&gt; findPetsByStatus(status)
 
@@ -121,9 +121,9 @@ api.findPetsByStatus()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
@@ -138,7 +138,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
 > Set&lt;Pet&gt; findPetsByTags(tags)
 
@@ -163,9 +163,9 @@ api.findPetsByTags()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
 
 ### Return type
 
@@ -180,7 +180,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -205,9 +205,9 @@ api.getPetById()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to return |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to return | |
 
 ### Return type
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 > updatePet(body)
 
@@ -245,9 +245,9 @@ api.updatePet()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -262,7 +262,7 @@ null (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
@@ -285,11 +285,11 @@ api.updatePetWithForm()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional]
- **status** | **String**| Updated status of the pet | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet that needs to be updated | |
+| **name** | **String**| Updated name of the pet | [optional] |
+| **status** | **String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -304,9 +304,9 @@ null (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -327,11 +327,11 @@ api.uploadFile()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
+| **_file** | **File**| file to upload | [optional] |
 
 ### Return type
 
@@ -346,7 +346,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
-<a name="uploadFileWithRequiredFile"></a>
+<a id="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
@@ -370,11 +370,11 @@ api.uploadFileWithRequiredFile()
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update |
- **requiredFile** | **File**| file to upload |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **requiredFile** | **File**| file to upload | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
 
 ### Return type
 

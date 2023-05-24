@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test additonal properties
+        /// Test additional properties
         /// </summary>
         [Fact]
         public void TestAdditionalProperties()
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.Test
             EnumTest enumTest = new EnumTest();
             enumTest.EnumIntegerOnly = EnumTest.EnumIntegerOnlyEnum.NUMBER_2;
             enumTest.EnumInteger = EnumTest.EnumIntegerEnum.NUMBER_MINUS_1;
-            Assert.Equal("{\"enum_integer\":-1,\"enum_integer_only\":2,\"outerEnum\":null}", JsonConvert.SerializeObject(enumTest));
+            Assert.Equal("{\"enum_string_required\":0,\"enum_integer\":-1,\"enum_integer_only\":2,\"outerEnum\":null}", JsonConvert.SerializeObject(enumTest));
         }
     }
 }

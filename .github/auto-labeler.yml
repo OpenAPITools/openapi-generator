@@ -62,9 +62,6 @@ labels:
       - '\s*?-[gl] erlang(-.*)?-client\s*?'
       - '\s*?\[erlang-proper\]\s*?'
       - '\s*?-[gl] erlang-proper\s*?'
-    'Client: Flash/ActionScript':
-      - '\s*?\[flash\]\s*?'
-      - '\s*?-[gl] flash(?!-)\b'
     'Client: Go':
       - '\s*?\[go\]\s*?'
       - '\s*?-[gl] go(?!-)\b'
@@ -223,8 +220,6 @@ labels:
     'Server: C-Sharp':
       - '\s*?\[aspnetcore\]\s*?'
       - '\s*?-[gl] aspnetcore\s*?'
-      - '\s*?\[csharp-nancyfx\]\s*?'
-      - '\s*?-[gl] csharp-nancyfx\s*?'
     # 'Server: Ceylon': # TODO: REMOVE UNUSED LABEL
     'Server: Eiffel':
       - '\s*?\[eiffel(-.*)?-server\]\s*?'

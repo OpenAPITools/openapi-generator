@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UserApi = exports.UserApiFetchParamCreator = exports.StoreApi = exports.StoreApiFetchParamCreator = exports.PetApi = exports.PetApiFetchParamCreator = exports.RequiredError = exports.COLLECTION_FORMATS = void 0;
+exports.UserApiFetchParamCreator = exports.UserApi = exports.StoreApiFetchParamCreator = exports.StoreApi = exports.RequiredError = exports.PetApiFetchParamCreator = exports.PetApi = exports.COLLECTION_FORMATS = void 0;
 
 var url = _interopRequireWildcard(require("url"));
 
@@ -599,7 +599,7 @@ const StoreApiFetchParamCreator = function (configuration) {
     },
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @throws {RequiredError}
      */
@@ -702,7 +702,7 @@ const StoreApi = function (configuration, fetch = portableFetch) {
     },
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @throws {RequiredError}
      */

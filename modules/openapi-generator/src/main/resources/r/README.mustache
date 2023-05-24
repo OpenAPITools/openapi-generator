@@ -36,7 +36,7 @@ git clone https://{{gitHost}}/{{{gitUserId}}}/{{{gitRepoId}}}
 cd {{{gitRepoId}}}
 R CMD build .
 R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz --no-manual
-R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD INSTALL --preclean {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
 
 ### Install the package
@@ -52,10 +52,26 @@ library(devtools)
 install_github("{{{gitUserId}}}/{{{gitRepoId}}}")
 ```
 
+To install the package from a local file:
+```R
+install.packages("{{{packageName}}}_{{{packageVersion}}}.tar.gz", repos = NULL, type = "source")
+```
+
 ### Usage
 
 ```R
 library({{{packageName}}})
+```
+
+### Reformat code
+
+To reformat code using [styler](https://styler.r-lib.org/index.html), please run the following in the R console:
+
+```R
+install.packages("remotes")
+remotes::install_github("r-lib/styler@v1.7.0.9003")
+library("styler")
+style_dir()
 ```
 
 ## Documentation for API Endpoints
@@ -74,28 +90,57 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-{{^authMethods}} All endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
-{{#authMethods}}### {{name}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasic}}
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
+{{#isBasicBasic}}
+- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+- **Type**: Bearer authentication
+{{#bearerFormat}}
+- **Bearer Format**: {{{.}}}
+{{/bearerFormat}}
+{{/isBasicBearer}}
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+- **Type**: OAuth
 - **Flow**: {{flow}}
+{{#authorizationUrl}}
 - **Authorization URL**: {{authorizationUrl}}
+{{/authorizationUrl}}
+{{#tokenUrl}}
+- **Token URL**: {{tokenUrl}}
+{{/tokenUrl}}
+{{#refreshUrl}}
+- **Refresh URL**: {{refreshUrl}}
+{{/refreshUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
-{{#scopes}}  - {{scope}}: {{description}}
+{{#scopes}}  - `{{scope}}`: {{description}}
 {{/scopes}}
 {{/isOAuth}}
 
 {{/authMethods}}
 
-
+{{#apiInfo}}
+{{#apis}}
+{{#-last}}
+{{#infoEmail}}
 ## Author
 
-{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
-{{/-last}}{{/apis}}{{/apiInfo}}
+{{{infoEmail}}}
+{{/infoEmail}}
+{{/-last}}
+{{/apis}}
+{{/apiInfo}}

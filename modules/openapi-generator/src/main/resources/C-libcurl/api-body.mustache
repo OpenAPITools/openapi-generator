@@ -101,11 +101,11 @@ end:
 {{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}}{{/isMap}}{{/isContainer}} {{{paramName}}} {{/allParams}})
 {
-    list_t    *localVarQueryParameters = {{#hasQueryParams}}list_create();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
-    list_t    *localVarHeaderParameters = {{#hasHeaderParams}}list_create();{{/hasHeaderParams}}{{^hasHeaderParams}}NULL;{{/hasHeaderParams}}
-    list_t    *localVarFormParameters = {{#hasFormParams}}list_create();{{/hasFormParams}}{{^hasFormParams}}NULL;{{/hasFormParams}}
-    list_t *localVarHeaderType = {{#hasProduces}}list_create();{{/hasProduces}}{{^hasProduces}}NULL;{{/hasProduces}}
-    list_t *localVarContentType = {{#hasConsumes}}list_create();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
+    list_t    *localVarQueryParameters = {{#hasQueryParams}}list_createList();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
+    list_t    *localVarHeaderParameters = {{#hasHeaderParams}}list_createList();{{/hasHeaderParams}}{{^hasHeaderParams}}NULL;{{/hasHeaderParams}}
+    list_t    *localVarFormParameters = {{#hasFormParams}}list_createList();{{/hasFormParams}}{{^hasFormParams}}NULL;{{/hasFormParams}}
+    list_t *localVarHeaderType = {{#hasProduces}}list_createList();{{/hasProduces}}{{^hasProduces}}NULL;{{/hasProduces}}
+    list_t *localVarContentType = {{#hasConsumes}}list_createList();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -212,7 +212,17 @@ end:
     {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
     {{/isArray}}
+    {{#isInteger}}
+    if (1) // Always send integer parameters to the API server
+    {{/isInteger}}
+    {{#isBoolean}}
+    if (1) // Always send boolean parameters to the API server
+    {{/isBoolean}}
+    {{^isInteger}}
+    {{^isBoolean}}
     if ({{paramName}})
+    {{/isBoolean}}
+    {{/isInteger}}
     {
         {{#isArray}}
         list_addElement(localVarQueryParameters,{{paramName}});
@@ -326,22 +336,23 @@ end:
                     "{{{httpMethod}}}");
 
     {{#responses}}
-    if (apiClient->response_code == {{code}}) {
-        printf("%s\n","{{message}}");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == {{code}}) {
+    //    printf("%s\n","{{message}}");
+    //}
     {{/responses}}
     {{#returnType}}
     {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
-    //primitive reutrn type simple
+    //primitive return type simple
     {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
 
     {{/returnSimpleType}}
     {{^returnSimpleType}}
-    //primitive reutrn type not simple
+    //primitive return type not simple
     cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
     cJSON *{{{paramName}}}VarJSON;
-    list_t *elementToReturn = list_create();
+    list_t *elementToReturn = list_createList();
     cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
         keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), cJSON_Print({{{paramName}}}VarJSON));
         list_addElement(elementToReturn, keyPair);
@@ -356,7 +367,7 @@ end:
     if(!cJSON_IsArray({{classname}}localVarJSON)) {
         return 0;//nonprimitive container
     }
-    list_t *elementToReturn = list_create();
+    list_t *elementToReturn = list_createList();
     cJSON *{{{paramName}}}VarJSON;
     cJSON_ArrayForEach({{{paramName}}}VarJSON, {{classname}}localVarJSON)
     {
@@ -388,11 +399,11 @@ end:
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
-    {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
-    {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
-    {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
-    {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
+    {{#hasQueryParams}}list_freeList(localVarQueryParameters);{{/hasQueryParams}}
+    {{#hasHeaderParams}}list_freeList(localVarHeaderParameters);{{/hasHeaderParams}}
+    {{#hasFormParams}}list_freeList(localVarFormParameters);{{/hasFormParams}}
+    {{#hasProduces}}list_freeList(localVarHeaderType);{{/hasProduces}}
+    {{#hasConsumes}}list_freeList(localVarContentType);{{/hasConsumes}}
     free(localVarPath);
     {{#pathParams}}
     free(localVarToReplace_{{paramName}});
@@ -526,11 +537,11 @@ end:
         apiClient->dataReceived = NULL;
         apiClient->dataReceivedLen = 0;
     }
-    {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
-    {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
-    {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
-    {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
-    {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
+    {{#hasQueryParams}}list_freeList(localVarQueryParameters);{{/hasQueryParams}}
+    {{#hasHeaderParams}}list_freeList(localVarHeaderParameters);{{/hasHeaderParams}}
+    {{#hasFormParams}}list_freeList(localVarFormParameters);{{/hasFormParams}}
+    {{#hasProduces}}list_freeList(localVarHeaderType);{{/hasProduces}}
+    {{#hasConsumes}}list_freeList(localVarContentType);{{/hasConsumes}}
     free(localVarPath);
     {{#pathParams}}
     free(localVarToReplace_{{paramName}});

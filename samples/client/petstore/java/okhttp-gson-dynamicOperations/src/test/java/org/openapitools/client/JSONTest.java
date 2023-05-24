@@ -16,14 +16,11 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import okio.ByteString;
-import org.junit.*;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZoneOffset;
-import org.threeten.bp.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JSONTest {
     private ApiClient apiClient = null;
@@ -97,7 +94,7 @@ public class JSONTest {
             // OK
         }
         try {
-            // unexpected miliseconds
+            // unexpected milliseconds
             json.deserialize("\"2015-11-07T03:49:09.000Z\"", Date.class);
             fail("json parsing should fail");
         } catch (RuntimeException e) {

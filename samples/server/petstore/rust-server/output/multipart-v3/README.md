@@ -104,13 +104,13 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineObject](docs/InlineObject.md)
  - [MultipartRelatedRequest](docs/MultipartRelatedRequest.md)
  - [MultipartRequestObjectField](docs/MultipartRequestObjectField.md)
+ - [MultipleIdenticalMimeTypesPostRequest](docs/MultipleIdenticalMimeTypesPostRequest.md)
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

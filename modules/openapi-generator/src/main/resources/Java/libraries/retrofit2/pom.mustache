@@ -144,28 +144,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                {{#java8}}
                     <source>1.8</source>
                     <target>1.8</target>
-                {{/java8}}
-                {{^java8}}
-                    <source>1.7</source>
-                    <target>1.7</target>
-                {{/java8}}
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.2</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#java8}}
-                        <source>1.8</source>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                    {{/java8}}
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -266,25 +255,6 @@
                 <version>${jodatime-version}</version>
             </dependency>
         {{/joda}}
-        {{#threetenbp}}
-            <dependency>
-                <groupId>org.threeten</groupId>
-                <artifactId>threetenbp</artifactId>
-                <version>${threetenbp-version}</version>
-            </dependency>
-        {{/threetenbp}}
-        {{#useRxJava}}
-            <dependency>
-                <groupId>io.reactivex</groupId>
-                <artifactId>rxjava</artifactId>
-                <version>${rxjava-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.squareup.retrofit2</groupId>
-                <artifactId>adapter-rxjava</artifactId>
-                <version>${retrofit-version}</version>
-            </dependency>
-        {{/useRxJava}}
         {{#useRxJava2}}
             <dependency>
                 <groupId>io.reactivex.rxjava2</groupId>
@@ -329,7 +299,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson-databind-version}</version>
             </dependency>
             {{#openApiNullable}}
             <dependency>
@@ -340,7 +310,7 @@
             {{/openApiNullable}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
             {{#withXml}}
@@ -351,32 +321,16 @@
                     <version>${jackson-version}</version>
                 </dependency>
             {{/withXml}}
-            {{#play24}}
-            <dependency>
-                <groupId>com.typesafe.play</groupId>
-                <artifactId>play-java-ws_2.11</artifactId>
-                <version>${play-version}</version>
-            </dependency>
-            {{/play24}}
-            {{#play25}}
-            <dependency>
-                <groupId>com.typesafe.play</groupId>
-                <artifactId>play-java-ws_2.11</artifactId>
-                <version>${play-version}</version>
-            </dependency>
-            {{/play25}}
-            {{#play26}}
             <dependency>
                 <groupId>com.typesafe.play</groupId>
                 <artifactId>play-ahc-ws_2.12</artifactId>
                 <version>${play-version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>1.1.0.Final</version>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
             </dependency>
-            {{/play26}}
         {{/usePlayWS}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->
@@ -388,9 +342,9 @@
             </dependency>
         {{/parcelableModel}}
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -403,44 +357,39 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        <swagger-annotations-version>1.6.3</swagger-annotations-version>
         {{#usePlayWS}}
-        <jackson-version>2.12.1</jackson-version>
-        {{#play24}}
-        <play-version>2.4.11</play-version>
-        {{/play24}}
-        {{#play25}}
-        <play-version>2.5.15</play-version>
-        {{/play25}}
-        {{#play26}}
+        <jackson-version>2.13.4</jackson-version>
+        <jackson-databind-version>2.13.4.2</jackson-databind-version>
         <play-version>2.6.7</play-version>
-        {{/play26}}
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{/usePlayWS}}
         <retrofit-version>2.5.0</retrofit-version>
-        {{#useRxJava}}
-        <rxjava-version>1.3.0</rxjava-version>
-        {{/useRxJava}}
         {{#useRxJava2}}
         <rxjava-version>2.1.1</rxjava-version>
         {{/useRxJava2}}
         {{#useRxJava3}}
-            <rxjava-version>3.0.4</rxjava-version>
+        <rxjava-version>3.0.4</rxjava-version>
         {{/useRxJava3}}
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
-        {{#threetenbp}}
-        <threetenbp-version>1.4.0</threetenbp-version>
-        {{/threetenbp}}
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
+{{#useBeanValidation}}
+        <beanvalidation-version>2.0.2</beanvalidation-version>
+{{/useBeanValidation}}
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.13.1</junit-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>

@@ -61,52 +61,52 @@ cJSON *order_convertToJSON(order_t *order) {
     cJSON *item = cJSON_CreateObject();
 
     // order->id
-    if(order->id) { 
+    if(order->id) {
     if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // order->pet_id
-    if(order->pet_id) { 
+    if(order->pet_id) {
     if(cJSON_AddNumberToObject(item, "petId", order->pet_id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // order->quantity
-    if(order->quantity) { 
+    if(order->quantity) {
     if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // order->ship_date
-    if(order->ship_date) { 
+    if(order->ship_date) {
     if(cJSON_AddStringToObject(item, "shipDate", order->ship_date) == NULL) {
     goto fail; //Date-Time
     }
-     } 
+    }
 
 
     // order->status
-    
+    if(order->status != openapi_petstore_order_STATUS_NULL) {
     if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
     {
     goto fail; //Enum
     }
-    
+    }
 
 
     // order->complete
-    if(order->complete) { 
+    if(order->complete) {
     if(cJSON_AddBoolToObject(item, "complete", order->complete) == NULL) {
     goto fail; //Bool
     }
-     } 
+    }
 
     return item;
 fail:
@@ -150,7 +150,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     // order->ship_date
     cJSON *ship_date = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
     if (ship_date) { 
-    if(!cJSON_IsString(ship_date))
+    if(!cJSON_IsString(ship_date) && !cJSON_IsNull(ship_date))
     {
     goto end; //DateTime
     }
@@ -181,7 +181,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
         id ? id->valuedouble : 0,
         pet_id ? pet_id->valuedouble : 0,
         quantity ? quantity->valuedouble : 0,
-        ship_date ? strdup(ship_date->valuestring) : NULL,
+        ship_date && !cJSON_IsNull(ship_date) ? strdup(ship_date->valuestring) : NULL,
         status ? statusVariable : -1,
         complete ? complete->valueint : 0
         );

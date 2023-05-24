@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `oauth_jwt` (
 CREATE TABLE IF NOT EXISTS `oauth_jti` (
   `issuer`              VARCHAR(80)    NOT NULL,
   `subject`             VARCHAR(80)    DEFAULT NULL,
-  `audiance`            VARCHAR(80)    DEFAULT NULL,
+  `audience`            VARCHAR(80)    DEFAULT NULL,
   `expires`             TIMESTAMP      NOT NULL,
   `jti`                 VARCHAR(2000)  NOT NULL
 );

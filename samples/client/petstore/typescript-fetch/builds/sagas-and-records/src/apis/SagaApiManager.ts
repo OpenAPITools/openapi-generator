@@ -18,15 +18,7 @@ export class Api {
     public static storeApi: StoreApi;
     public static userApi: UserApi;
 
-    public static init(apiBasePath: string) {
-        const apiBaseConfig: ConfigurationParameters = {
-            basePath: apiBasePath,
-            credentials: "include",
-            headers: {
-                'Cache-Control': 'no-cache, no-store' // this is needed to prevent stalling issues in Chrome. Also it is a good behavior for api calls.
-            }
-        };
-
+    public static init(apiBaseConfig: ConfigurationParameters) {
         Api.behaviorApi = new BehaviorApi(new Configuration(apiBaseConfig));
         Api.petApi = new PetApi(new Configuration(apiBaseConfig));
         Api.petPartApi = new PetPartApi(new Configuration(apiBaseConfig));

@@ -105,12 +105,17 @@ export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase
 
         yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
 
-        const response{{#returnType}}: Required<{{{.}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
+        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{nickname}},
 {{#allParams.0}}
 {{#allParams}}
 {{#isUniqueId}}
 {{#isArray}}
-            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.map(p => parseFloat(p)).toArray(){{^required}} : undefined{{/required}},
+{{#items.isArray}}
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.map(p => p.toArray().map(p2 => (p2 ? parseFloat(p2) : null) as number)).toArray(){{^required}} : undefined{{/required}},
+{{/items.isArray}}
+{{^items.isArray}}
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.map(p => (p ? parseFloat(p) : null) as number ).toArray(){{^required}} : undefined{{/required}},
+{{/items.isArray}}
 {{/isArray}}
 {{^isArray}}
             {{^required}}{{paramName}} ? {{/required}}parseFloat({{paramName}}){{^required}} : undefined{{/required}},

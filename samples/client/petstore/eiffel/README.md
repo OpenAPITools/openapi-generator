@@ -35,7 +35,7 @@ Class | Method | HTTP request | Description
 *FAKE_API* | [**test_group_parameters**](docs/FAKE_API.md#test_group_parameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 *FAKE_API* | [**test_inline_additional_properties**](docs/FAKE_API.md#test_inline_additional_properties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 *FAKE_API* | [**test_json_form_data**](docs/FAKE_API.md#test_json_form_data) | **Get** /fake/jsonFormData | test json serialization of form data
-*FAKE_API* | [**test_query_parameter_collection_format**](docs/FAKE_API.md#test_query_parameter_collection_format) | **Put** /fake/test-query-paramters | 
+*FAKE_API* | [**test_query_parameter_collection_format**](docs/FAKE_API.md#test_query_parameter_collection_format) | **Put** /fake/test-query-parameters | 
 *FAKECLASSNAMETAGS123_API* | [**test_classname**](docs/FAKECLASSNAMETAGS123_API.md#test_classname) | **Patch** /fake_classname_test | To test class name in snake case
 *PET_API* | [**add_pet**](docs/PET_API.md#add_pet) | **Post** /pet | Add a new pet to the store
 *PET_API* | [**delete_pet**](docs/PET_API.md#delete_pet) | **Delete** /pet/{petId} | Deletes a pet

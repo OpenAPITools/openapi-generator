@@ -41,8 +41,20 @@ namespace Org.OpenAPITools.Model
         public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
         {
             this._Code = code;
+            if (this.Code != null)
+            {
+                this._flagCode = true;
+            }
             this._Type = type;
+            if (this.Type != null)
+            {
+                this._flagType = true;
+            }
             this._Message = message;
+            if (this.Message != null)
+            {
+                this._flagMessage = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -130,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
@@ -178,13 +190,19 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Code.GetHashCode();
+                hashCode = (hashCode * 59) + this.Code.GetHashCode();
                 if (this.Type != null)
-                    hashCode = hashCode * 59 + this.Type.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                }
                 if (this.Message != null)
-                    hashCode = hashCode * 59 + this.Message.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

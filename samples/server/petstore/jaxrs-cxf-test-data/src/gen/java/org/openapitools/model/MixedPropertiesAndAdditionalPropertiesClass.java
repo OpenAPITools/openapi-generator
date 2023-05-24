@@ -10,13 +10,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -45,7 +38,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   /**
    * Sets the <code>uuid</code> property.
    */
-  public void setUuid(UUID uuid) {
+ public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
@@ -69,7 +62,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   /**
    * Sets the <code>dateTime</code> property.
    */
-  public void setDateTime(Date dateTime) {
+ public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
 
@@ -93,7 +86,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
   /**
    * Sets the <code>map</code> property.
    */
-  public void setMap(Map<String, Animal> map) {
+ public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
 

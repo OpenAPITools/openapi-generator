@@ -14,7 +14,7 @@ Method | HTTP request | Description
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createUser"></a>
+<a id="createUser"></a>
 # **createUser**
 > createUser(body)
 
@@ -60,7 +60,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
+<a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
 > createUsersWithArrayInput(body)
 
@@ -104,7 +104,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="createUsersWithListInput"></a>
+<a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
 > createUsersWithListInput(body)
 
@@ -148,7 +148,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="deleteUser"></a>
+<a id="deleteUser"></a>
 # **deleteUser**
 > deleteUser(username)
 
@@ -194,7 +194,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getUserByName"></a>
+<a id="getUserByName"></a>
 # **getUserByName**
 > User getUserByName(username)
 
@@ -237,9 +237,9 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="loginUser"></a>
+<a id="loginUser"></a>
 # **loginUser**
 > kotlin.String loginUser(username, password)
 
@@ -284,9 +284,9 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="logoutUser"></a>
+<a id="logoutUser"></a>
 # **logoutUser**
 > logoutUser()
 
@@ -326,7 +326,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="updateUser"></a>
+<a id="updateUser"></a>
 # **updateUser**
 > updateUser(username, body)
 

@@ -29,7 +29,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -38,7 +37,6 @@ import java.util.function.Supplier;
 import org.openapitools.client.JSON;
 import static io.restassured.http.Method.*;
 
-@Api(value = "Pet")
 public class PetApi {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -74,102 +72,39 @@ public class PetApi {
         );
     }
 
-    @ApiOperation(value = "Add a new pet to the store",
-            notes = "",
-            nickname = "addPet",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 405, message = "Invalid input")  })
     public AddPetOper addPet() {
         return new AddPetOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Deletes a pet",
-            notes = "",
-            nickname = "deletePet",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid pet value")  })
     public DeletePetOper deletePet() {
         return new DeletePetOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Finds Pets by status",
-            notes = "Multiple status values can be provided with comma separated strings",
-            nickname = "findPetsByStatus",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid status value")  })
     public FindPetsByStatusOper findPetsByStatus() {
         return new FindPetsByStatusOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Finds Pets by tags",
-            notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-            nickname = "findPetsByTags",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid tag value")  })
     @Deprecated
     public FindPetsByTagsOper findPetsByTags() {
         return new FindPetsByTagsOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Find pet by ID",
-            notes = "Returns a single pet",
-            nickname = "getPetById",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
-            @ApiResponse(code = 404, message = "Pet not found")  })
     public GetPetByIdOper getPetById() {
         return new GetPetByIdOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Update an existing pet",
-            notes = "",
-            nickname = "updatePet",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
-            @ApiResponse(code = 404, message = "Pet not found") ,
-            @ApiResponse(code = 405, message = "Validation exception")  })
     public UpdatePetOper updatePet() {
         return new UpdatePetOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Updates a pet in the store with form data",
-            notes = "",
-            nickname = "updatePetWithForm",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 405, message = "Invalid input")  })
     public UpdatePetWithFormOper updatePetWithForm() {
         return new UpdatePetWithFormOper(createReqSpec());
     }
 
-    @ApiOperation(value = "uploads an image",
-            notes = "",
-            nickname = "uploadFile",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileOper uploadFile() {
         return new UploadFileOper(createReqSpec());
     }
 
-    @ApiOperation(value = "uploads an image (required)",
-            notes = "",
-            nickname = "uploadFileWithRequiredFile",
-            tags = { "pet" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileWithRequiredFileOper uploadFileWithRequiredFile() {
         return new UploadFileWithRequiredFileOper(createReqSpec());
     }
@@ -694,7 +629,7 @@ public class PetApi {
      *
      * @see #petIdPath ID of pet to update (required)
      * @see #additionalMetadataForm Additional data to pass to server (optional)
-     * @see #fileMultiPart file to upload (optional)
+     * @see #_fileMultiPart file to upload (optional)
      * return ModelApiResponse
      */
     public static class UploadFileOper implements Oper {
@@ -758,11 +693,11 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param file (File) file to upload (optional)
+         * @param _file (File) file to upload (optional)
          * @return operation
          */
-         public UploadFileOper fileMultiPart(File file) {
-            reqSpec.addMultiPart(file);
+         public UploadFileOper _fileMultiPart(File _file) {
+            reqSpec.addMultiPart(_file);
             return this;
          }
 

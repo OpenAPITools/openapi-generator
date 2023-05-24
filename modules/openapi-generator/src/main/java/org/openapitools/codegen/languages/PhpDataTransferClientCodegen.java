@@ -92,8 +92,9 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 .stability(Stability.BETA)
                 .build();
 
-        //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
-        typeMapping.put("double", "float");
+        // remove these from primitive types to make the output works
+        languageSpecificPrimitives.remove("\\DateTime");
+        languageSpecificPrimitives.remove("\\SplFileObject");
 
         apiTemplateFiles.clear();
         apiTestTemplateFiles.clear();
@@ -197,12 +198,14 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     protected void generateParameterSchemas(OpenAPI openAPI) {
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         Map<String, Schema> propertySchemas = new HashMap<>();
                         if (operation == null || operation.getParameters() == null) {
                             continue;
@@ -420,8 +423,9 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     protected void quoteMediaTypes(OpenAPI openAPI) {
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 List<Operation> operations = path.readOperations();
                 if (operations != null) {
                     for (Operation operation : operations) {

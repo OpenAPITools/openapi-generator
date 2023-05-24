@@ -9,10 +9,10 @@ let package = Package(
         .macOS(.v10_15),
         {{/useVapor}}
         {{^useVapor}}
-        .iOS(.v9),
-        .macOS(.v10_11),
-        .tvOS(.v9),
-        .watchOS(.v3),
+        .iOS(.v11),
+        .macOS(.v10_13),
+        .tvOS(.v11),
+        .watchOS(.v4),
         {{/useVapor}}
     ],
     products: [
@@ -24,19 +24,19 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
+        .package(url: "https://github.com/Flight-School/AnyCodable", .upToNextMajor(from: "0.6.1")),
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire", from: "4.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.4.3")),
         {{/useAlamofire}}
+        {{#usePromiseKit}}
+        .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "6.15.3")),
+        {{/usePromiseKit}}
+        {{#useRxSwift}}
+        .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.2.0")),
+        {{/useRxSwift}}
         {{#useVapor}}
         .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
         {{/useVapor}}
-        {{#usePromiseKit}}
-        .package(url: "https://github.com/mxcl/PromiseKit", from: "6.15.3"),
-        {{/usePromiseKit}}
-        {{#useRxSwift}}
-        .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.2.0"),
-        {{/useRxSwift}}
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

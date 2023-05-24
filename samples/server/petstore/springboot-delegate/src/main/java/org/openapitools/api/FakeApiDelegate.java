@@ -2,30 +2,33 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -62,11 +65,11 @@ public interface FakeApiDelegate {
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
      *
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
@@ -107,14 +110,35 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     * @see FakeApi#responseObjectDifferentNames
+     */
+    default ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(Long petId) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithFileSchema
      */
-    default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body) {
+    default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -123,12 +147,12 @@ public interface FakeApiDelegate {
      * PUT /fake/body-with-query-params
      *
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
-        User body) {
+        User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -137,11 +161,11 @@ public interface FakeApiDelegate {
      * PATCH /fake : To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    default ResponseEntity<Client> testClientModel(Client body) {
+    default ResponseEntity<Client> testClientModel(Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -233,7 +257,7 @@ public interface FakeApiDelegate {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return Someting wrong (status code 400)
+     * @return Something wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
     default ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
@@ -248,18 +272,20 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
+     * 
      *
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param) {
+    default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
+     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -273,11 +299,10 @@ public interface FakeApiDelegate {
     }
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
-     * @param ioutil  (required)
      * @param http  (required)
      * @param url  (required)
      * @param context  (required)
@@ -285,7 +310,6 @@ public interface FakeApiDelegate {
      * @see FakeApi#testQueryParameterCollectionFormat
      */
     default ResponseEntity<Void> testQueryParameterCollectionFormat(List<String> pipe,
-        List<String> ioutil,
         List<String> http,
         List<String> url,
         List<String> context) {
@@ -295,6 +319,7 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)

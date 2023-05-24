@@ -14,8 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,255 +43,253 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class Pet {
-  public static final String JSON_PROPERTY_ID = "id";
-  private Long id;
+    public static final String JSON_PROPERTY_ID = "id";
+    private Long id;
 
-  public static final String JSON_PROPERTY_CATEGORY = "category";
-  private Category category;
+    public static final String JSON_PROPERTY_CATEGORY = "category";
+    private Category category;
 
-  public static final String JSON_PROPERTY_NAME = "name";
-  private String name;
+    public static final String JSON_PROPERTY_NAME = "name";
+    private String name;
 
-  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+    public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
+    private Set<String> photoUrls = new LinkedHashSet<>();
 
-  public static final String JSON_PROPERTY_TAGS = "tags";
-  private List<Tag> tags = null;
+    public static final String JSON_PROPERTY_TAGS = "tags";
+    private List<Tag> tags = null;
 
-  /**
-   * pet status in the store
-   */
-  public enum StatusEnum {
-    AVAILABLE("available"),
-    PENDING("pending"),
-    SOLD("sold");
+    /**
+     * pet status in the store
+     */
+    public enum StatusEnum {
+        AVAILABLE("available"),
+        PENDING("pending"),
+        SOLD("sold");
 
-    private String value;
+        private String value;
 
-    StatusEnum(String value) {
-      this.value = value;
+        StatusEnum(String value) {
+            this.value = value;
+        }
+
+        @JsonValue
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        @JsonCreator
+        public static StatusEnum fromValue(String value) {
+            for (StatusEnum b : StatusEnum.values()) {
+                if (b.value.equals(value)) {
+                    return b;
+                }
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        }
+    }
+    public static final String JSON_PROPERTY_STATUS = "status";
+    private StatusEnum status;
+
+    public Pet() {
+    }
+    public Pet id(Long id) {
+        this.id = id;
+        return this;
     }
 
-    @JsonValue
-    public String getValue() {
-      return value;
+    /**
+     * Get id
+     * @return id
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_ID)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public Long getId() {
+        return id;
+    }
+
+    @JsonProperty(JSON_PROPERTY_ID)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Pet category(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    /**
+     * Get category
+     * @return category
+     **/
+    @Valid
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_CATEGORY)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public Category getCategory() {
+        return category;
+    }
+
+    @JsonProperty(JSON_PROPERTY_CATEGORY)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Pet name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Get name
+     * @return name
+     **/
+    @NotNull
+    @JsonProperty(JSON_PROPERTY_NAME)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    public String getName() {
+        return name;
+    }
+
+    @JsonProperty(JSON_PROPERTY_NAME)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Pet photoUrls(Set<String> photoUrls) {
+        this.photoUrls = photoUrls;
+        return this;
+    }
+
+    public Pet addPhotoUrlsItem(String photoUrlsItem) {
+        this.photoUrls.add(photoUrlsItem);
+        return this;
+    }
+
+    /**
+     * Get photoUrls
+     * @return photoUrls
+     **/
+    @NotNull
+    @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    public Set<String> getPhotoUrls() {
+        return photoUrls;
+    }
+
+    @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+       @JsonDeserialize(as = LinkedHashSet.class)
+    public void setPhotoUrls(Set<String> photoUrls) {
+        this.photoUrls = photoUrls;
+    }
+
+    public Pet tags(List<Tag> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    public Pet addTagsItem(Tag tagsItem) {
+        if (this.tags == null) {
+            this.tags = new ArrayList<>();
+        }
+        this.tags.add(tagsItem);
+        return this;
+    }
+
+    /**
+     * Get tags
+     * @return tags
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_TAGS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    @JsonProperty(JSON_PROPERTY_TAGS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Pet status(StatusEnum status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * pet status in the store
+     * @return status
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_STATUS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    @JsonProperty(JSON_PROPERTY_STATUS)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Pet pet = (Pet) o;
+        return Objects.equals(this.id, pet.id) &&
+            Objects.equals(this.category, pet.category) &&
+            Objects.equals(this.name, pet.name) &&
+            Objects.equals(this.photoUrls, pet.photoUrls) &&
+            Objects.equals(this.tags, pet.tags) &&
+            Objects.equals(this.status, pet.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, category, name, photoUrls, tags, status);
     }
 
     @Override
     public String toString() {
-      return String.valueOf(value);
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Pet {\n");
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
+        sb.append("    category: ").append(toIndentedString(category)).append("\n");
+        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
+        sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+        sb.append("    status: ").append(toIndentedString(status)).append("\n");
+        sb.append("}");
+        return sb.toString();
     }
 
-    @JsonCreator
-    public static StatusEnum fromValue(String value) {
-      for (StatusEnum b : StatusEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
         }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        return o.toString().replace("\n", "\n    ");
     }
-  }
-  public static final String JSON_PROPERTY_STATUS = "status";
-  private StatusEnum status;
-
-  public Pet id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Long getId() {
-    return id;
-  }
-
-  @JsonProperty(JSON_PROPERTY_ID)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Pet category(Category category) {
-    this.category = category;
-    return this;
-  }
-
-  /**
-   * Get category
-   * @return category
-   **/
-  @Valid
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Category getCategory() {
-    return category;
-  }
-
-  @JsonProperty(JSON_PROPERTY_CATEGORY)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setCategory(Category category) {
-    this.category = category;
-  }
-
-  public Pet name(String name) {
-    this.name = name;
-    return this;
-  }
-
-  /**
-   * Get name
-   * @return name
-   **/
-  @NotNull
-  @ApiModelProperty(example = "doggie", required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public String getName() {
-    return name;
-  }
-
-  @JsonProperty(JSON_PROPERTY_NAME)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public Pet photoUrls(Set<String> photoUrls) {
-    this.photoUrls = photoUrls;
-    return this;
-  }
-
-  public Pet addPhotoUrlsItem(String photoUrlsItem) {
-    this.photoUrls.add(photoUrlsItem);
-    return this;
-  }
-
-  /**
-   * Get photoUrls
-   * @return photoUrls
-   **/
-  @NotNull
-  @ApiModelProperty(required = true, value = "")
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public Set<String> getPhotoUrls() {
-    return photoUrls;
-  }
-
-  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setPhotoUrls(Set<String> photoUrls) {
-    this.photoUrls = photoUrls;
-  }
-
-  public Pet tags(List<Tag> tags) {
-    this.tags = tags;
-    return this;
-  }
-
-  public Pet addTagsItem(Tag tagsItem) {
-    if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
-    }
-    this.tags.add(tagsItem);
-    return this;
-  }
-
-  /**
-   * Get tags
-   * @return tags
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_TAGS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<Tag> getTags() {
-    return tags;
-  }
-
-  @JsonProperty(JSON_PROPERTY_TAGS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setTags(List<Tag> tags) {
-    this.tags = tags;
-  }
-
-  public Pet status(StatusEnum status) {
-    this.status = status;
-    return this;
-  }
-
-  /**
-   * pet status in the store
-   * @return status
-   **/
-  @Nullable
-  @ApiModelProperty(value = "pet status in the store")
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public StatusEnum getStatus() {
-    return status;
-  }
-
-  @JsonProperty(JSON_PROPERTY_STATUS)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setStatus(StatusEnum status) {
-    this.status = status;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Pet pet = (Pet) o;
-    return Objects.equals(this.id, pet.id) &&
-        Objects.equals(this.category, pet.category) &&
-        Objects.equals(this.name, pet.name) &&
-        Objects.equals(this.photoUrls, pet.photoUrls) &&
-        Objects.equals(this.tags, pet.tags) &&
-        Objects.equals(this.status, pet.status);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, category, name, photoUrls, tags, status);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Pet {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 
 }
+

@@ -7,8 +7,8 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ### Requirements
 
-PHP 7.3 and later.
-Should also work with PHP 8.0 but has not been tested.
+PHP 7.4 and later.
+Should also work with PHP 8.0.
 
 ### Composer
 
@@ -90,7 +90,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/Api/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/Api/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/Api/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/Api/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 ## Models
 
 - [AdditionalPropertiesClass](docs/Model/AdditionalPropertiesClass.md)
+- [AllOfWithSingleRef](docs/Model/AllOfWithSingleRef.md)
 - [Animal](docs/Model/Animal.md)
 - [ApiResponse](docs/Model/ApiResponse.md)
 - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
@@ -137,10 +138,10 @@ Class | Method | HTTP request | Description
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
 - [Foo](docs/Model/Foo.md)
+- [FooGetDefaultResponse](docs/Model/FooGetDefaultResponse.md)
 - [FormatTest](docs/Model/FormatTest.md)
 - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
 - [HealthCheckResult](docs/Model/HealthCheckResult.md)
-- [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
 - [MapTest](docs/Model/MapTest.md)
 - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)
 - [Model200Response](docs/Model/Model200Response.md)
@@ -159,18 +160,28 @@ Class | Method | HTTP request | Description
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
+- [SingleRefType](docs/Model/SingleRefType.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
 - [User](docs/Model/User.md)
 
 ## Authorization
 
+Authentication schemes defined for the API:
+### petstore_auth
+
+- **Type**: `OAuth`
+- **Flow**: `implicit`
+- **Authorization URL**: `http://petstore.swagger.io/api/oauth/dialog`
+- **Scopes**: 
+    - **write:pets**: modify pets in your account
+    - **read:pets**: read your pets
+
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
 
 
 ### api_key_query
@@ -180,28 +191,17 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
+### http_basic_test
+
+- **Type**: HTTP basic authentication
 
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
 
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-
 ### http_signature_test
 
-
-### petstore_auth
-
-- **Type**: `OAuth`
-- **Flow**: `implicit`
-- **Authorization URL**: `http://petstore.swagger.io/api/oauth/dialog`
-- **Scopes**: 
-    - **write:pets**: modify pets in your account
-    - **read:pets**: read your pets
+- **Type**: HTTP signature authentication
 
 ## Tests
 

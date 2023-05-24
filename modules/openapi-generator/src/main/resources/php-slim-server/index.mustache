@@ -64,7 +64,7 @@ $config['settings'] = [
     // 'addContentLengthHeader' => true,
 
     /**
-     * Filename for caching the FastRoute routes. Must be set to to a valid filename within
+     * Filename for caching the FastRoute routes. Must be set to a valid filename within
      * a writeable directory. If the file does not exist, then it is created with the correct
      * cache information on first run.
      * Set to false to disable the FastRoute cache system.
@@ -83,7 +83,7 @@ $config['settings'] = [
 $config['tokenAuthenticationOptions'] = [
     /**
      * Tokens are essentially passwords. You should treat them as such and you should always
-     * use HTTPS. If the middleware detects insecure usage over HTTP it will return unathorized
+     * use HTTPS. If the middleware detects insecure usage over HTTP it will return unauthorized
      * with a message Required HTTPS for token authentication. This rule is relaxed for requests
      * on localhost. To allow insecure usage you must enable it manually by setting secure to
      * false.
@@ -98,7 +98,7 @@ $config['tokenAuthenticationOptions'] = [
     // 'relaxed' => ['localhost', '127.0.0.1'],
 
     /**
-     * By default on ocurred a fail on authentication, is sent a response on json format with a
+     * By default on occurred a fail on authentication, is sent a response on json format with a
      * message (`Invalid Token` or `Not found Token`) and with the token (if found), with status
      * `401 Unauthorized`. You can customize it by setting a callable function on error option.
      * Default: null

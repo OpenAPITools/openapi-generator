@@ -61,6 +61,7 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 
     public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
+        // @ts-ignore
         const entity = yield select(apiEntityTagSelector, {id: entityId});
         if (!entity) {return undefined; }
 
@@ -82,6 +83,7 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
         if (!entityIds) {return null; }
         let entities = List<TagRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            // @ts-ignore
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
             if (entity) {
                 entities.push(entity);

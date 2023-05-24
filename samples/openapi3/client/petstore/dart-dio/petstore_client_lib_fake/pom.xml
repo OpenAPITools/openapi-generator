@@ -27,19 +27,6 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>export-dartfmt</id>
-                        <phase>pre-install-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>export</executable>
-                            <arguments>
-                                <argument>DART_FMT_PATH=/usr/local/bin/dartfmt</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>pub-get</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -68,31 +55,28 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>dartanalyzer</id>
+                        <id>dart-analyze</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>dartanalyzer</executable>
+                            <executable>dart</executable>
                             <arguments>
+                                <argument>analyze</argument>
                                 <argument>--fatal-infos</argument>
-                                <argument>--options</argument>
-                                <argument>analysis_options.yaml</argument>
-                                <argument>.</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>pub-test</id>
+                        <id>dart-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>pub</executable>
+                            <executable>dart</executable>
                             <arguments>
-                                <argument>run</argument>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>
@@ -112,33 +96,47 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>tests-dartanalyzer</id>
-                        <phase>integration-test</phase>
+                        <id>tests-dart-format</id>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>dartanalyzer</executable>
+                            <executable>dart</executable>
                             <arguments>
-                                <argument>--fatal-infos</argument>
-                                <argument>--options</argument>
-                                <argument>analysis_options.yaml</argument>
+                                <argument>format</argument>
+                                <argument>--set-exit-if-changed</argument>
+                                <argument>--output=none</argument>
                                 <argument>.</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>tests-pub-test</id>
+                        <id>tests-dart-analyze</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>pub</executable>
+                            <executable>dart</executable>
                             <arguments>
-                                <argument>run</argument>
+                                <argument>analyze</argument>
+                                <argument>--fatal-infos</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tests-dart-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>../petstore_client_lib_fake_tests</workingDirectory>
+                            <executable>dart</executable>
+                            <arguments>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>

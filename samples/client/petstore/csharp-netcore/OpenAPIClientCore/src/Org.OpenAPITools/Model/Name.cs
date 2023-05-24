@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public int _Name { get; set; }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  _Name: ").Append(_Name).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
@@ -142,11 +142,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this._Name.GetHashCode();
-                hashCode = hashCode * 59 + this.SnakeCase.GetHashCode();
+                hashCode = (hashCode * 59) + this._Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
-                    hashCode = hashCode * 59 + this.Property.GetHashCode();
-                hashCode = hashCode * 59 + this._123Number.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Property.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this._123Number.GetHashCode();
                 return hashCode;
             }
         }

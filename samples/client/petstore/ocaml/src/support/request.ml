@@ -39,8 +39,8 @@ let handle_response resp on_success_handler =
   | #Cohttp.Code.success_status -> on_success_handler ()
   | s -> failwith ("Server responded with status " ^ Cohttp.Code.(reason_phrase_of_code (code_of_status s)))
 
-let handle_unit_response resp = handle_response resp (fun () -> Lwt.return ())	
-	
+let handle_unit_response resp = handle_response resp (fun () -> Lwt.return ())
+
 let read_json_body resp body =
   handle_response resp (fun () ->
     (Lwt.(Cohttp_lwt.Body.to_string body >|= Yojson.Safe.from_string)))

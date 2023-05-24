@@ -13,7 +13,7 @@
 
 package org.openapitools.client;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pair {
     private String name = "";
     private String value = "";
@@ -49,10 +49,6 @@ public class Pair {
 
     private boolean isValidString(String arg) {
         if (arg == null) {
-            return false;
-        }
-
-        if (arg.trim().isEmpty()) {
             return false;
         }
 

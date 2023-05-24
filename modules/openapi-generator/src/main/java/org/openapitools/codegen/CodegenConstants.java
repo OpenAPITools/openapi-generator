@@ -35,6 +35,8 @@ public class CodegenConstants {
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
+    public static final String API_NAME = "apiName";
+
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
@@ -212,10 +214,10 @@ public class CodegenConstants {
     public static final String PARAM_NAMING_DESC = "Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name";
 
     public static final String DOTNET_FRAMEWORK = "targetFramework";
-    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`";
+    public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.1`";
 
     public static final String NULLABLE_REFERENCE_TYPES = "nullableReferenceTypes";
-    public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.";
+    public static final String NULLABLE_REFERENCE_TYPES_DESC = "Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.";
 
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
@@ -376,8 +378,11 @@ public class CodegenConstants {
     public static final String REMOVE_ENUM_VALUE_PREFIX = "removeEnumValuePrefix";
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
 
+    public static final String SKIP_ONEOF_ANYOF_GETTER = "skipOneOfAnyOfGetter";
+    public static final String SKIP_ONEOF_ANYOF_GETTER_DESC = "Skip the generation of getter for sub-schemas in oneOf/anyOf models.";
+
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
-    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).";
+    public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).";
 
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
@@ -386,6 +391,33 @@ public class CodegenConstants {
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+
+    public static final String UNSUPPORTED_V310_SPEC_MSG =
+                    "Generation using 3.1.0 specs is in development and is not officially supported yet. " +
+                    "If you would like to expedite development, please consider woking on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
+                    "and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g";
+
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
+            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
+            "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
+
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
+
+    public static final String INIT_REQUIRED_VARS = "initRequiredVars";
+    public static final String INIT_REQUIRED_VARS_DESC = "If set to true then the required variables are included as positional arguments in __init__ and _from_openapi_data methods. Note: this can break some composition use cases. To learn more read PR #8802.";
+
+    public static final String ERROR_OBJECT_TYPE = "errorObjectType";
+
+    public static final String NON_COMPLIANT_USE_DISCR_IF_COMPOSITION_FAILS = "nonCompliantUseDiscriminatorIfCompositionFails";
+    public static final String NON_COMPLIANT_USE_DISCR_IF_COMPOSITION_FAILS_DESC =
+            "When true, If the payload fails to validate against composed schemas (allOf/anyOf/oneOf/not) and a " +
+                    "discriminator is present, then ignore the composition validation errors and attempt to use the " +
+                    "discriminator to validate the payload.<br />" +
+                    "Note: setting this to true makes the generated client not comply with json schema because it ignores " +
+                    "composition validation errors. Please consider making your schemas more restrictive rather than " +
+                    "setting this to true. You can do that by:<ul>" +
+                    "<li>defining the propertyName as an enum with only one value in the schemas that are in your discriminator map</li>" +
+                    "<li>setting additionalProperties: false in your schemas</li></ul>";
 }

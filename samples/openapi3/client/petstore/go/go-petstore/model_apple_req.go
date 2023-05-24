@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the AppleReq type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AppleReq{}
+
 // AppleReq struct for AppleReq
 type AppleReq struct {
 	Cultivar string `json:"cultivar"`
@@ -54,7 +57,7 @@ func (o *AppleReq) GetCultivar() string {
 // GetCultivarOk returns a tuple with the Cultivar field value
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetCultivarOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Cultivar, true
@@ -67,7 +70,7 @@ func (o *AppleReq) SetCultivar(v string) {
 
 // GetMealy returns the Mealy field value if set, zero value otherwise.
 func (o *AppleReq) GetMealy() bool {
-	if o == nil || o.Mealy == nil {
+	if o == nil || IsNil(o.Mealy) {
 		var ret bool
 		return ret
 	}
@@ -77,7 +80,7 @@ func (o *AppleReq) GetMealy() bool {
 // GetMealyOk returns a tuple with the Mealy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AppleReq) GetMealyOk() (*bool, bool) {
-	if o == nil || o.Mealy == nil {
+	if o == nil || IsNil(o.Mealy) {
 		return nil, false
 	}
 	return o.Mealy, true
@@ -85,7 +88,7 @@ func (o *AppleReq) GetMealyOk() (*bool, bool) {
 
 // HasMealy returns a boolean if a field has been set.
 func (o *AppleReq) HasMealy() bool {
-	if o != nil && o.Mealy != nil {
+	if o != nil && !IsNil(o.Mealy) {
 		return true
 	}
 
@@ -98,11 +101,17 @@ func (o *AppleReq) SetMealy(v bool) {
 }
 
 func (o AppleReq) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["cultivar"] = o.Cultivar
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
-	if o.Mealy != nil {
+	return json.Marshal(toSerialize)
+}
+
+func (o AppleReq) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["cultivar"] = o.Cultivar
+	if !IsNil(o.Mealy) {
 		toSerialize["mealy"] = o.Mealy
 	}
 
@@ -110,7 +119,7 @@ func (o AppleReq) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {

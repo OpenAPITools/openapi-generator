@@ -39,7 +39,7 @@ public class PetApiServiceImpl implements PetApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/Users/williamcheng/Code/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/Users/williamcheng/Code/openapi-generator2/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/PetApi");
         } catch (CacheException e) {
             e.printStackTrace();
@@ -135,7 +135,7 @@ public class PetApiServiceImpl implements PetApi {
      *
      */
     @Override
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata,  Attachment fileDetail) {
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata,  Attachment _fileDetail) {
         try {
             ModelApiResponse response = cache.getObject("/uploadFile/response", ModelApiResponse.class);
             return response;

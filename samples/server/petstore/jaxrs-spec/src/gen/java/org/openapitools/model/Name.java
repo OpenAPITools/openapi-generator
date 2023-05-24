@@ -11,17 +11,29 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name  implements Serializable {
-  
+@JsonTypeName("Name")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Name  implements Serializable {
   private @Valid Integer name;
   private @Valid Integer snakeCase;
   private @Valid String property;
   private @Valid Integer _123number;
+
+  protected Name(NameBuilder<?, ?> b) {
+    this.name = b.name;
+    this.snakeCase = b.snakeCase;
+    this.property = b.property;
+    this._123number = b._123number;
+  }
+
+  public Name() {
+  }
 
   /**
    **/
@@ -31,8 +43,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   @NotNull
@@ -40,18 +50,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Name snakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -60,18 +69,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
-/**
+  /**
    **/
   public Name property(String property) {
     this.property = property;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -80,18 +88,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(String property) {
     this.property = property;
   }
 
-/**
+  /**
    **/
   public Name _123number(Integer _123number) {
     this._123number = _123number;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -100,6 +107,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _123number;
   }
 
+  @JsonProperty("123Number")
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
@@ -150,5 +158,48 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static NameBuilder<?, ?> builder() {
+    return new NameBuilderImpl();
+  }
+
+  private static final class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
+
+    @Override
+    protected NameBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Name build() {
+      return new Name(this);
+    }
+  }
+
+  public static abstract class NameBuilder<C extends Name, B extends NameBuilder<C, B>>  {
+    private Integer name;
+    private Integer snakeCase;
+    private String property;
+    private Integer _123number;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B name(Integer name) {
+      this.name = name;
+      return self();
+    }
+    public B snakeCase(Integer snakeCase) {
+      this.snakeCase = snakeCase;
+      return self();
+    }
+    public B property(String property) {
+      this.property = property;
+      return self();
+    }
+    public B _123number(Integer _123number) {
+      this._123number = _123number;
+      return self();
+    }
+  }
 }
 

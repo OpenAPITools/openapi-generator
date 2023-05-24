@@ -203,7 +203,7 @@ public class FakeApi  {
     
     @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake" })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Something wrong", response = Void.class) })
     public Response testGroupParameters(
         @ApiParam(value = "Required String in group parameters", required = true) @QueryParam("required_string_group") @NotNull  Integer requiredStringGroup,
         @ApiParam(value = "Required Boolean in group parameters" ,required=true)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup,
@@ -243,7 +243,7 @@ public class FakeApi  {
         return delegate.testJsonFormData(param,param2,securityContext);
     }
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake" })

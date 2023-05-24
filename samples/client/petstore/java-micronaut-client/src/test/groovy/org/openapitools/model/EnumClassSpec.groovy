@@ -12,7 +12,7 @@ public class EnumClassSpec extends Specification {
     /**
      * Model tests for EnumClass
      */
-    void "EnumClass test"() {
+    void 'EnumClass test'() {
         // TODO: test EnumClass
     }
 

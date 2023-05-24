@@ -18,12 +18,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 {{#useOptional}}
 import java.util.Optional;
 {{/useOptional}}
-import javax.servlet.ServletContext;
+import {{javaxPackage}}.annotation.Generated;
+import {{javaxPackage}}.servlet.ServletContext;
 
 {{>generatedAnnotation}}
 @Configuration
 @EnableSwagger2
-public class OpenAPIDocumentationConfig {
+public class SpringFoxConfiguration {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -45,19 +46,13 @@ public class OpenAPIDocumentationConfig {
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("{{apiPackage}}"))
                     .build()
-                {{#java8}}
                 .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
                 .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
-                {{/java8}}
                 {{#joda}}
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
                 {{/joda}}
-                {{#threetenbp}}
-                .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
-                {{/threetenbp}}
                 {{#useOptional}}
                 .genericModelSubstitutes(Optional.class)
                 {{/useOptional}}

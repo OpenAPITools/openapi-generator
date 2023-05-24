@@ -14,7 +14,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 const std::string {{classname}}::base = "{{basePathWithoutHost}}";
 
 {{classname}}::{{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 
@@ -74,11 +74,11 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     // Getting the query params
     {{#queryParams}}
     auto {{paramName}}Query = request.query().get("{{baseName}}");
-    Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
-    if(!{{paramName}}Query.isEmpty()){
+    std::optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}}> {{paramName}};
+    if({{paramName}}Query.has_value()){
         {{^isContainer}}{{dataType}}{{/isContainer}}{{#isArray}}std::vector<{{items.baseType}}>{{/isArray}} valueQuery_instance;
-        if(fromStringValue({{paramName}}Query.get(), valueQuery_instance)){
-            {{paramName}} = Pistache::Some(valueQuery_instance);
+        if(fromStringValue({{paramName}}Query.value(), valueQuery_instance)){
+            {{paramName}} = valueQuery_instance;
         }
     }
     {{/queryParams}}
@@ -93,8 +93,10 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{#hasBodyParam}}
     {{#bodyParam}}
     {{^isPrimitiveType}}
-        nlohmann::json::parse(request.body()).get_to({{paramName}});
-        {{paramName}}.validate();
+        nlohmann::json::parse(request.body()).get_to({{paramName}});{{#isArray}}
+        for (const auto& validationParam : {{paramName}})
+             validationParam.validate();{{/isArray}}{{^isArray}}
+        {{paramName}}.validate();{{/isArray}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
         {{paramName}} = request.body();

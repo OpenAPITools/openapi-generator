@@ -80,17 +80,14 @@ public class ExampleGenerator {
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+            if (as.getItems() != null) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), as.getItems());
-            } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
-                return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(as.getItems().get$ref()));
+                        new ArrayList<>(producesInfo), as);
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
             }
-        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primitive type (e.g. integer, string)
             return generate((Map<String, Object>) responseSchema.getExample(),
                     new ArrayList<String>(producesInfo), responseSchema);
         } else { // model
@@ -165,11 +162,14 @@ public class ExampleGenerator {
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.<String>emptySet());
+                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
                     }
+                } else {
+                    kv.put(EXAMPLE, "Custom MIME type example not yet supported: " + mediaType);
+                    output.add(kv);
                 }
             }
         } else {

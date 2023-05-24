@@ -48,16 +48,24 @@ namespace Org.OpenAPITools.Model
         public ComplexQuadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            this._ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for ComplexQuadrilateral and cannot be null");
+            if (shapeType == null)
+            {
+                throw new ArgumentNullException("shapeType is a required property for ComplexQuadrilateral and cannot be null");
+            }
+            this._ShapeType = shapeType;
             // to ensure "quadrilateralType" is required (not null)
-            this._QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for ComplexQuadrilateral and cannot be null");
+            if (quadrilateralType == null)
+            {
+                throw new ArgumentNullException("quadrilateralType is a required property for ComplexQuadrilateral and cannot be null");
+            }
+            this._QuadrilateralType = quadrilateralType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = true)]
         public string ShapeType
         {
             get{ return _ShapeType;}
@@ -81,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = true)]
         public string QuadrilateralType
         {
             get{ return _QuadrilateralType;}
@@ -114,7 +122,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ComplexQuadrilateral {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
@@ -162,11 +170,17 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
+                }
                 if (this.QuadrilateralType != null)
-                    hashCode = hashCode * 59 + this.QuadrilateralType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

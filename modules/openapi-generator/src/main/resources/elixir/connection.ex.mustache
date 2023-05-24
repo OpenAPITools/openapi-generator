@@ -2,91 +2,306 @@
 defmodule {{moduleName}}.Connection do
   @moduledoc """
   Handle Tesla connections for {{moduleName}}.
+
+  Additional middleware can be set in the compile-time or runtime configuration:
+
+      config :tesla, {{moduleName}}.Connection,
+        base_url: "{{{basePath}}}",
+        adapter: Tesla.Adapter.Hackney
+
+  The default base URL can also be set as:
+
+      config {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}},
+        :base_url, "{{{basePath}}}"
   """
 
-  use Tesla
+  @default_base_url Application.compile_env(
+                      {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}},
+                      :base_url,
+                      "{{{basePath}}}"
+                    )
 
-  # Add any middleware here (authentication)
-  plug Tesla.Middleware.BaseUrl, "{{{basePath}}}"
-  plug Tesla.Middleware.Headers, [{"user-agent", "Elixir"}]
-  plug Tesla.Middleware.EncodeJson, engine: Poison
-
-  {{#hasAuthMethods}}
-  {{#authMethods}}
-  {{#isOAuth}}
-  @scopes [
+  {{#hasOAuthMethods}}
+  {{#oauthMethods}}
+  @default_scopes [
     {{#scopes}}
-    "{{scope}}"{{^-last}},{{/-last}} {{#description}}# {{.}}{{/description}}
+    {{#description}}# {{.}}{{/description}}
+    "{{scope}}"{{^-last}},{{/-last}}
     {{/scopes}}
   ]
+  {{/oauthMethods}}
+
+  @typedoc """
+  An arity-1 function or module/function tuple specification which, given
+  a list of scopes, obtains an OAuth2 token.
+  """
+  @type token_fetcher :: (scopes :: list(String.t()) -> String.t()) | {module(), atom()}
+  {{/hasOAuthMethods}}
+
+  @typedoc """
+  The list of options that can be passed to new/1.
+
+  - `base_url`: Overrides the base URL on a per-client basis.
+  - `user_agent`: Overrides the User-Agent header.
+  {{#hasOAuthMethods}}
+  - `token`: An OAuth2 token or a token fetcher function.
+  - `token_scopes`: A list of OAuth2 scope strings for use with a token
+    fetcher function.
+  {{/hasOAuthMethods}}
+  {{#hasHttpBasicMethods}}
+  - `username`: A username for basic authentication.
+  - `password`: A password for basic authentication.
+  {{/hasHttpBasicMethods}}
+  """
+  @type options :: [
+          {:base_url, String.t()},
+          {:user_agent, String.t()},
+  {{#hasOAuthMethods}}
+          {:token, String.t() | token_fetcher},
+          {:token_scopes, list(String.t())},
+  {{/hasOAuthMethods}}
+  {{#hasHttpBasicMethods}}
+          {:username, String.t() | nil},
+          {:password, String.t() | nil},
+  {{/hasHttpBasicMethods}}
+        ]
+
+  @doc "Forward requests to Tesla."
+  @spec request(Tesla.Client.t(), [Tesla.option()]) :: Tesla.Env.result()
+  defdelegate request(client, options), to: Tesla
 
   @doc """
-  Configure a client connection using a provided OAuth2 token as a Bearer token
+  Configure a client with no authentication.
 
-  ## Parameters
-
-  - token (String): Bearer token
-
-  ## Returns
+  ### Returns
 
   Tesla.Env.client
   """
-  @spec new(String.t) :: Tesla.Env.client
-  def new(token) when is_binary(token) do
-    Tesla.client([
-      {Tesla.Middleware.Headers,  [{"authorization", "Bearer #{token}"}]}
-    ])
-  end
-
-  @doc """
-  Configure a client connection using a function which yields a Bearer token.
-
-  ## Parameters
-
-  - token_fetcher (function arity of 1): Callback which provides an OAuth2 token
-    given a list of scopes
-
-  ## Returns
-
-  Tesla.Env.client
-  """
-  @spec new(((list(String.t)) -> String.t)) :: Tesla.Env.client
-  def new(token_fetcher) when is_function(token_fetcher) do
-    token_fetcher.(@scopes)
-    |> new
-  end
-  {{/isOAuth}}
-  {{#isBasic}}
-  @doc """
-  Configure a client connection using Basic authentication.
-
-  ## Parameters
-
-  - username (String): Username used for authentication
-  - password (String): Password used for authentication
-
-  # Returns
-
-  Tesla.Env.client
-  """
-  @spec new(String.t, String.t) :: Tesla.Env.client
-  def new(username, password) do
-    Tesla.client([
-      {Tesla.Middleware.BasicAuth, %{username: username, password: password}}
-    ])
-  end
-  {{/isBasic}}
-  {{/authMethods}}
-  {{/hasAuthMethods}}
-  @doc """
-  Configure an authless client connection
-
-  # Returns
-
-  Tesla.Env.client
-  """
-  @spec new() :: Tesla.Env.client
+  @spec new() :: Tesla.Env.client()
   def new do
-    Tesla.client([])
+    Tesla.client(middleware(), adapter())
+  end
+
+  @doc """
+  Configure a client that may have authentication.
+
+  ### Parameters
+
+  {{#hasOAuthMethods}}
+  The first parameter *may* be a `token` (a string, a token fetcher class,
+  or a module/function tuple) or a keyword list of `options`. They are
+  documented separately, but only *one* of them will be passed.
+
+  - `token`: a String or a function of arity one. This value, or the result
+    of the function call, will be set as a bearer token in the
+    `authorization` header.
+  {{/hasOAuthMethods}}
+  - `options`: a keyword list of OpenAPIPetstore.Connection.options.
+
+  ### Returns
+
+  Tesla.Env.client
+  """
+  {{#hasOAuthMethods}}
+  @spec new(String.t() | token_fetcher | options) :: Tesla.Env.client()
+  {{/hasOAuthMethods}}
+  {{^hasOAuthMethods}}
+  @spec new(options) :: Tesla.Env.client()
+  {{/hasOAuthMethods}}
+  {{#hasOAuthMethods}}
+  def new(token) when is_binary(token) or is_function(token, 1) or is_tuple(token) do
+    new(token: token)
+  end
+  {{/hasOAuthMethods}}
+
+  def new(options) when is_list(options) do
+    options
+    |> middleware()
+    |> Tesla.client(adapter())
+  end
+
+  {{#hasOAuthMethods}}
+  {{#hasHttpBasicMethods}}
+  @doc """
+  Configure a client using bearer authentication with scopes, or with
+  username and password for basic authentication.
+
+  ### Parameters
+
+  - `token_or_username`: a String representing a bearer token or a username,
+    depending on the type of the next parameter, or a function arity one
+    that returns a bearer token.
+  - `scopes_or_password`: a list of Strings represenging OAuth2 scopes, or
+    a single string that is the password for the username provided.
+  - `options`: a keyword list of OpenAPIPetstore.Connection.options.
+
+  ### Returns
+
+  Tesla.Env.client
+  """
+  @spec new(
+          token_or_username :: String.t() | token_fetcher,
+          scopes_or_password :: list(String.t()) | String.t(),
+          options
+        ) :: Tesla.Env.client()
+  {{/hasHttpBasicMethods}}
+  {{^hasHttpBasicMethods}}
+  @doc """
+  Configure a client using bearer authentication with scopes.
+
+  ### Parameters
+
+  - `token`: a String or a function of arity one. This value, or the result
+    of the function call, will be set as a bearer token in the
+    `authorization` header.
+  - `scopes`: a list of Strings represenging OAuth2 scopes.
+  - `options`: a keyword list of OpenAPIPetstore.Connection.options.
+
+  ### Returns
+
+  Tesla.Env.client
+  """
+  @spec new(String.t() | token_fetcher, list(String.t()), options) :: Tesla.Env.client()
+  {{/hasHttpBasicMethods}}
+  {{/hasOAuthMethods}}
+  {{^hasOAuthMethods}}
+  {{#hasHttpBasicMethods}}
+  @doc """
+  Configure a client using username and password for basic authentication.
+
+  ### Parameters
+
+  - `username`: a String representing a username.
+  - `password`: a String representing a password.
+  - `options`: a keyword list of {{moduleName}}.Connection.options.
+
+  ### Returns
+
+  Tesla.Env.client
+  """
+  @spec new(String.t(), String.t()), options) :: Tesla.Env.client()
+  {{/hasHttpBasicMethods}}
+  {{/hasOAuthMethods}}
+
+  {{#hasOAuthMethods}}
+  def new(token_or_username, scopes_or_password, options \\ [])
+
+  def new(token, scopes, options)
+      when (is_binary(token) or is_function(token, 1) or is_tuple(token)) and is_list(scopes) do
+    options
+    |> Keyword.merge(token: token, token_scopes: scopes)
+    |> new()
+  end
+  {{/hasOAuthMethods}}
+
+  {{#hasHttpBasicMethods}}
+  def new(username, password, options) when is_binary(username) and is_binary(password) do
+    options
+    |> Keyword.merge(username: username, password: password)
+    |> new()
+  end
+  {{/hasHttpBasicMethods}}
+
+  @doc """
+  Returns fully configured middleware for passing to Tesla.client/2.
+  """
+  @spec middleware(options) :: [Tesla.Client.middleware()]
+  def middleware(options \\ []) do
+    base_url =
+      Keyword.get(
+        options,
+        :base_url,
+        Application.get_env({{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, :base_url, @default_base_url)
+      )
+
+    tesla_options = Application.get_env(:tesla, __MODULE__, [])
+    middleware = Keyword.get(tesla_options, :middleware, [])
+    json_engine = Keyword.get(tesla_options, :json, Poison)
+
+    user_agent =
+      Keyword.get(
+        options,
+        :user_agent,
+        Keyword.get(
+          tesla_options,
+          :user_agent,
+          "openapi-generator - {{moduleName}} {{appVersion}} - elixir"
+        )
+      )
+
+    {{#hasHttpBasicMethods}}
+    username = Keyword.get(options, :username)
+    password = Keyword.get(options, :password)
+    middleware =
+      if username || password do
+        [{Tesla.Middleware.BasicAuth, %{username: username, password: password}} | middleware]
+      else
+        middleware
+      end
+    {{/hasHttpBasicMethods}}
+
+    {{#hasOAuthMethods}}
+    middleware =
+      if token = Keyword.get(options, :token) do
+        scopes = Keyword.get(options, :token_scopes, @default_scopes)
+        [authorization(token, scopes) | middleware]
+      else
+        middleware
+      end
+    {{/hasOAuthMethods}}
+
+    [
+      {Tesla.Middleware.BaseUrl, base_url},
+      {Tesla.Middleware.Headers, [{"user-agent", user_agent}]},
+      {Tesla.Middleware.EncodeJson, engine: json_engine}
+      | middleware
+    ]
+  end
+
+  {{#hasOAuthMethods}}
+  @doc """
+  Returns an authentication middleware tuple for a Tesla client that sets
+  the `authorization` header to the value of the provided bearer token. If
+  the token is provided as a function of arity one, it will be called with
+  a list of requested scopes that will obtain an OAuth2 token.
+
+  ### Parameters
+
+  - `token`: a String or a function of arity one. This value, or the result
+    of the function call, will be set as a bearer token in the
+    `authorization` header.
+
+  - `scopes`: an optional list of scopes for use with the token fetcher
+    function. Ignored when `token` is provided as a String. Defaults to
+    `#{inspect(@default_scopes)}`.
+
+  ### Returns
+
+  `{Tesla.Middleware.Headers, [{"authorization", TOKEN}]}`
+  """
+  @spec authorization(String.t() | token_fetcher, list(String.t())) ::
+          Tesla.Client.middleware()
+  def authorization(token, scopes \\ @default_scopes)
+
+  def authorization(token, _scopes) when is_binary(token) do
+    {Tesla.Middleware.Headers, ["authorization", token]}
+  end
+
+  def authorization({module, function}, scopes) when is_atom(module) and is_atom(function) do
+    apply(module, function, [scopes])
+  end
+
+  def authorization(token_fetcher, scopes) when is_function(token_fetcher, 1) do
+    authorization(token_fetcher.(scopes))
+  end
+  {{/hasOAuthMethods}}
+
+  @doc """
+  Returns the default adapter for this API.
+  """
+  def adapter do
+    :tesla
+    |> Application.get_env(__MODULE__, [])
+    |> Keyword.get(:adapter, nil)
   end
 end

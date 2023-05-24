@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.util.Date;
+import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -31,6 +32,7 @@ public class RFC3339DateFormat extends DateFormat {
 
   public RFC3339DateFormat() {
     this.calendar = new GregorianCalendar();
+    this.numberFormat = new DecimalFormat();
   }
 
   @Override
@@ -50,6 +52,6 @@ public class RFC3339DateFormat extends DateFormat {
 
   @Override
   public Object clone() {
-    return this;
+    return super.clone();
   }
 }

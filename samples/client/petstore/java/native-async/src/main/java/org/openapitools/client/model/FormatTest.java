@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -22,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -42,6 +43,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_NUMBER,
   FormatTest.JSON_PROPERTY_FLOAT,
   FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_DECIMAL,
   FormatTest.JSON_PROPERTY_STRING,
   FormatTest.JSON_PROPERTY_BYTE,
   FormatTest.JSON_PROPERTY_BINARY,
@@ -49,9 +51,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_DATE_TIME,
   FormatTest.JSON_PROPERTY_UUID,
   FormatTest.JSON_PROPERTY_PASSWORD,
-  FormatTest.JSON_PROPERTY_BIG_DECIMAL
+  FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
+  FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -70,6 +73,9 @@ public class FormatTest {
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
   private Double _double;
+
+  public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   private String string;
@@ -92,9 +98,14 @@ public class FormatTest {
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
-  private BigDecimal bigDecimal;
+  public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  private String patternWithDigits;
 
+  public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  private String patternWithDigitsAndDelimiter;
+
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -108,7 +119,6 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -136,7 +146,6 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -162,7 +171,6 @@ public class FormatTest {
    * @return int64
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -190,7 +198,6 @@ public class FormatTest {
    * @return number
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -218,7 +225,6 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -246,7 +252,6 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -262,6 +267,31 @@ public class FormatTest {
   }
 
 
+  public FormatTest decimal(BigDecimal decimal) {
+    this.decimal = decimal;
+    return this;
+  }
+
+   /**
+   * Get decimal
+   * @return decimal
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
+  }
+
+
   public FormatTest string(String string) {
     this.string = string;
     return this;
@@ -272,7 +302,6 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -298,7 +327,6 @@ public class FormatTest {
    * @return _byte
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -324,7 +352,6 @@ public class FormatTest {
    * @return binary
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -350,7 +377,6 @@ public class FormatTest {
    * @return date
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -376,7 +402,6 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -402,7 +427,6 @@ public class FormatTest {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -428,7 +452,6 @@ public class FormatTest {
    * @return password
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -444,29 +467,53 @@ public class FormatTest {
   }
 
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest patternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
    /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * A string that is a 10 digit number. Can have leading zeros.
+   * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  public String getPatternWithDigits() {
+    return patternWithDigits;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+   /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   * @return patternWithDigitsAndDelimiter
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
 
@@ -488,6 +535,7 @@ public class FormatTest {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -495,12 +543,13 @@ public class FormatTest {
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -513,6 +562,7 @@ public class FormatTest {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
@@ -520,7 +570,8 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -536,5 +587,119 @@ public class FormatTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `integer` to the URL query string
+    if (getInteger() != null) {
+      joiner.add(String.format("%sinteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `int32` to the URL query string
+    if (getInt32() != null) {
+      joiner.add(String.format("%sint32%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt32()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `int64` to the URL query string
+    if (getInt64() != null) {
+      joiner.add(String.format("%sint64%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt64()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `number` to the URL query string
+    if (getNumber() != null) {
+      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `float` to the URL query string
+    if (getFloat() != null) {
+      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `double` to the URL query string
+    if (getDouble() != null) {
+      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `decimal` to the URL query string
+    if (getDecimal() != null) {
+      joiner.add(String.format("%sdecimal%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDecimal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `string` to the URL query string
+    if (getString() != null) {
+      joiner.add(String.format("%sstring%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `byte` to the URL query string
+    if (getByte() != null) {
+      joiner.add(String.format("%sbyte%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getByte()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `binary` to the URL query string
+    if (getBinary() != null) {
+      joiner.add(String.format("%sbinary%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBinary()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `date` to the URL query string
+    if (getDate() != null) {
+      joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `dateTime` to the URL query string
+    if (getDateTime() != null) {
+      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `uuid` to the URL query string
+    if (getUuid() != null) {
+      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `password` to the URL query string
+    if (getPassword() != null) {
+      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `pattern_with_digits` to the URL query string
+    if (getPatternWithDigits() != null) {
+      joiner.add(String.format("%spattern_with_digits%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigits()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `pattern_with_digits_and_delimiter` to the URL query string
+    if (getPatternWithDigitsAndDelimiter() != null) {
+      joiner.add(String.format("%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigitsAndDelimiter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

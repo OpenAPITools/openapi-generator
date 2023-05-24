@@ -19,7 +19,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Requirements
 
-Dart 2.0 or later
+Dart 2.12 or later
 
 ## Installation & Usage
 
@@ -112,9 +112,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-{{^authMethods}} All endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
-{{#authMethods}}## {{{name}}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
+{{#authMethods}}
+### {{{name}}}
 
 {{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
@@ -127,6 +128,9 @@ Class | Method | HTTP request | Description
 {{#isBasicBearer}}
 - **Type**: HTTP Bearer authentication
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}

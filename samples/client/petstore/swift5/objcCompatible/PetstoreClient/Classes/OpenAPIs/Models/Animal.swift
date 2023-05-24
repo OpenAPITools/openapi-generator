@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class Animal: NSObject, Codable {
+@objcMembers public class Animal: NSObject, Codable, JSONEncodable {
 
     public var _className: String
     public var color: String? = "red"

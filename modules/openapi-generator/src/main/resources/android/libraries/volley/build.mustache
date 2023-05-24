@@ -34,27 +34,15 @@ apply plugin: 'com.github.dcendents.android-maven'
 {{/useAndroidMavenGradlePlugin}}
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
     }
     compileOptions {
-        {{#supportJava6}}
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
-        {{/supportJava6}}
-        {{^supportJava6}}
-        {{#java8}}
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        {{/java8}}
-        {{^java8}}
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-        {{/java8}}
-        {{/supportJava6}}
     }
     lintOptions {
         abortOnError false
@@ -75,10 +63,10 @@ android {
 }
 
 ext {
-    swagger_annotations_version = "1.6.2"
-    gson_version = "2.8.6"
+    swagger_annotations_version = "1.6.6"
+    gson_version = "2.8.9"
     httpmime_version = "4.5.13"
-    volley_version = "1.2.0"
+    volley_version = "1.2.1"
     junit_version = "4.13.2"
     robolectric_version = "4.5.1"
     concurrent_unit_version = "0.4.6"

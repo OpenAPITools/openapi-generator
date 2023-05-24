@@ -26,10 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.client.model.QuadrilateralInterface;
-import org.openapitools.client.model.ShapeInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -49,6 +45,8 @@ public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   private String quadrilateralType;
 
+  public ComplexQuadrilateral() { 
+  }
 
   public ComplexQuadrilateral shapeType(String shapeType) {
     this.shapeType = shapeType;
@@ -60,7 +58,6 @@ public class ComplexQuadrilateral {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -86,7 +83,6 @@ public class ComplexQuadrilateral {
    * @return quadrilateralType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -115,7 +111,7 @@ public class ComplexQuadrilateral {
   @JsonAnySetter
   public ComplexQuadrilateral putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;

@@ -10,12 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
-
+from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestArrayOfArrayOfNumberOnly(unittest.TestCase):
     """ArrayOfArrayOfNumberOnly unit test stubs"""
@@ -26,12 +28,28 @@ class TestArrayOfArrayOfNumberOnly(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test ArrayOfArrayOfNumberOnly
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.array_of_array_of_number_only.ArrayOfArrayOfNumberOnly()  # noqa: E501
+        if include_optional :
+            return ArrayOfArrayOfNumberOnly(
+                array_array_number = [
+                    [
+                        1.337
+                        ]
+                    ]
+            )
+        else :
+            return ArrayOfArrayOfNumberOnly(
+        )
+
     def testArrayOfArrayOfNumberOnly(self):
         """Test ArrayOfArrayOfNumberOnly"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = ArrayOfArrayOfNumberOnly()  # noqa: E501
-        pass
-
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

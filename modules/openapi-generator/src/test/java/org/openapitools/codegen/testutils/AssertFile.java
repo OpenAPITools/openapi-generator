@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.fail;
 
 /**
@@ -84,9 +84,10 @@ public class AssertFile {
                         Arrays.sort(actual);
                     }
 
-                    assertEquals(expected,
-                            actual,
-                            String.format(Locale.ROOT, "Directory content of '%s' and '%s' differ.", expectedDir, actualDir));
+                    // Use AssertJ as it also prints a diff
+                    assertThat(actual)
+                            .describedAs(String.format(Locale.ROOT, "Directory content of '%s' and '%s' differ.", expectedDir, actualDir))
+                            .containsExactly(expected);
 
                     return FileVisitResult.CONTINUE;
                 }
@@ -141,8 +142,8 @@ public class AssertFile {
             if (!deltas.isEmpty()) {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("files diff:\n");
-                stringBuilder.append("\tfile: '").append(expected.toAbsolutePath().toString()).append("' \n");
-                stringBuilder.append("\tfile: '").append(actual.toAbsolutePath().toString()).append("' \n");
+                stringBuilder.append("\tfile: '").append(expected.toAbsolutePath()).append("' \n");
+                stringBuilder.append("\tfile: '").append(actual.toAbsolutePath()).append("' \n");
                 stringBuilder.append("\tdiffs:\n");
 
                 for (Delta delta : deltas) {

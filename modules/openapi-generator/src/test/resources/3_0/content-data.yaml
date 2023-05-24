@@ -1,0 +1,189 @@
+openapi: 3.0.0
+info:
+  title: Tests content data in an endpoint parameter and a request body
+  description: blah
+paths:
+  /jsonQueryParams:
+    get:
+      parameters:
+        - name: coordinatesInlineSchema
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - lat
+                  - long
+                properties:
+                  lat:
+                    type: number
+                  long:
+                    type: number
+        - name: coordinatesReferencedSchema
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+        - name: stringWithMinLength
+          in: query
+          schema:
+            $ref: '#/components/schemas/stringWithMinLength'
+      responses:
+        '200':
+          description: 'OK'
+          headers:
+            X-Rate-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
+            X-Rate-Limit-Ref:
+              $ref: '#/components/headers/X-Rate-Limit'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+              examples:
+                Example Amsterdam coordinates:
+                  value:
+                    lat: 52.377956
+                    long: 4.897070
+                Example San Francisco coordinates:
+                  value:
+                    lat: 37.773972
+                    long: -122.431297
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/stringWithMinLength'
+        '201':
+          description: 'Created OK'
+          headers:
+            X-Rate-Limit-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coordinates'
+              examples:
+                Example Amsterdam coordinates:
+                  value:
+                    lat: 52.377956
+                    long: 4.897070
+                Example San Francisco coordinates:
+                  value:
+                    lat: 37.773972
+                    long: -122.431297
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/stringWithMinLength'
+  /inlineRequestBodySchemasDifferingByContentType:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - lat
+                - long
+              properties:
+                lat:
+                  type: number
+                long:
+                  type: number
+          text/plain:
+            schema:
+              type: string
+              minLength: 5
+      responses:
+        200:
+          description: OK
+  /refRequestBodySchemasDifferingByContentType:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coordinates'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/stringWithMinLength'
+      responses:
+        200:
+          description: OK
+  /requestBodyWithEncodingTypes:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                int-param:
+                  type: integer
+                explode-true:
+                  type: array
+                  items:
+                    type: string
+                explode-false:
+                  type: array
+                  items:
+                    type: string
+                no-style-no-explode:
+                  type: array
+                  items:
+                    type: string
+                style-specified:
+                  type: array
+                  items:
+                    type: string
+                style-specified-no-explode:
+                  type: array
+                  items:
+                    type: string
+            encoding:
+              int-param:
+                explode: true            # should be disregarded for non-container
+              explode-true:
+                contentType: text/plain  # should be disregarded
+                explode: true
+              explode-false:
+                contentType: text/plain  # should be disregarded
+                explode: false
+              no-style-no-explode:
+                contentType: text/plain
+              style-specified:
+                contentType: text/plain  # should be disregarded
+                style: spaceDelimited
+                explode: false
+              style-specified-no-explode:
+                contentType: text/plain  # should be disregarded
+                style: spaceDelimited
+      responses:
+        200:
+          description: OK
+components:
+  headers:
+    X-Rate-Limit:
+      description: "The number of allowed requests in the current period"
+      schema:
+        type: integer
+  schemas:
+    stringWithMinLength:
+      type: string
+      minLength: 5
+    coordinates:
+      type: object
+      required:
+        - lat
+        - long
+      properties:
+        lat:
+          type: number
+        long:
+          type: number

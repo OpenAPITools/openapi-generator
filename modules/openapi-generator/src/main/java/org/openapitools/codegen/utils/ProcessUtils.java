@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.model.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,9 @@ public class ProcessUtils {
      * @param models       List of models
      * @param initialIndex starting index to use
      */
-    public static void addIndexToProperties(List<Object> models, int initialIndex) {
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public static void addIndexToProperties(List<ModelMap> models, int initialIndex) {
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
 
             int i = initialIndex;
             for (CodegenProperty var : cm.vars) {
@@ -41,7 +41,7 @@ public class ProcessUtils {
      *
      * @param models List of models
      */
-    public static void addIndexToProperties(List<Object> models) {
+    public static void addIndexToProperties(List<ModelMap> models) {
         addIndexToProperties(models, 0);
     }
 
@@ -240,6 +240,61 @@ public class ProcessUtils {
 
         return false;
     }
+
+    /**
+     * Returns true if the specified OAS model has at least one operation with OpenIdConnect authentication.
+     *
+     * @param openAPI An instance of OpenAPI
+     * @return True if at least one operation has OpenIdConnect security scheme defined
+     */
+    public static boolean hasOpenIdConnectMethods(OpenAPI openAPI) {
+        final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
+        if (securitySchemes != null) {
+            for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
+                if (SecurityScheme.Type.OPENIDCONNECT.equals(scheme.getValue().getType())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a list of OpenIdConnect Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OpenIdConnect Codegen security objects
+     */
+    public static List<CodegenSecurity> getOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> oauthMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isOpenId)) {
+                oauthMethods.add(cs);
+            }
+        }
+
+        return oauthMethods;
+    }
+
+    /**
+     * Returns a list of OpenIdConnect Codegen security objects
+     *
+     * @param authMethods List of auth methods.
+     * @return A list of OpenIdConnect Codegen security objects
+     */
+    public static boolean hasOpenIdConnectMethods(List<CodegenSecurity> authMethods) {
+
+        for (CodegenSecurity cs : authMethods) {
+            if (Boolean.TRUE.equals(cs.isOpenId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.

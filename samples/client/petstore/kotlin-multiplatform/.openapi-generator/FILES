@@ -24,10 +24,11 @@ src/commonMain/kotlin/org/openapitools/client/infrastructure/Base64ByteArray.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/Bytes.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/HttpResponse.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/OctetByteArray.kt
+src/commonMain/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
-src/commonMain/kotlin/org/openapitools/client/models/ApiResponse.kt
 src/commonMain/kotlin/org/openapitools/client/models/Category.kt
+src/commonMain/kotlin/org/openapitools/client/models/ModelApiResponse.kt
 src/commonMain/kotlin/org/openapitools/client/models/Order.kt
 src/commonMain/kotlin/org/openapitools/client/models/Pet.kt
 src/commonMain/kotlin/org/openapitools/client/models/Tag.kt

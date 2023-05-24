@@ -1,12 +1,12 @@
 {{>header}}
 import 'package:dio/dio.dart';{{#useBuiltValue}}
 import 'package:built_value/serializer.dart';
-import 'package:{{pubName}}/src/serializers.dart';{{/useBuiltValue}}
-import 'package:{{pubName}}/src/auth/api_key_auth.dart';
-import 'package:{{pubName}}/src/auth/basic_auth.dart';
-import 'package:{{pubName}}/src/auth/bearer_auth.dart';
-import 'package:{{pubName}}/src/auth/oauth.dart';
-{{#apiInfo}}{{#apis}}import 'package:{{pubName}}/src/api/{{classFilename}}.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/serializers.dart';{{/useBuiltValue}}
+import 'package:{{pubName}}/{{sourceFolder}}/auth/api_key_auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/basic_auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/bearer_auth.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
+{{#apiInfo}}{{#apis}}import 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
 class {{clientName}} {
   static const String basePath = r'{{{basePath}}}';
@@ -25,8 +25,8 @@ class {{clientName}} {
         this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
-              connectTimeout: 5000,
-              receiveTimeout: 3000,
+              connectTimeout: const Duration(milliseconds: 5000),
+              receiveTimeout: const Duration(milliseconds: 3000),
             )) {
     if (interceptors == null) {
       this.dio.interceptors.addAll([

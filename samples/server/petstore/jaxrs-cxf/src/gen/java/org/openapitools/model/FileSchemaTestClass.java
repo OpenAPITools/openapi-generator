@@ -2,36 +2,39 @@ package org.openapitools.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.ModelFile;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class FileSchemaTestClass  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private java.io.File file;
+  private ModelFile _file;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<java.io.File> files = null;
+  private List<ModelFile> files;
  /**
-   * Get file
-   * @return file
+   * Get _file
+   * @return _file
   **/
   @JsonProperty("file")
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
 
-  public void setFile(java.io.File file) {
-    this.file = file;
+  public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
-  public FileSchemaTestClass file(java.io.File file) {
-    this.file = file;
+  public FileSchemaTestClass _file(ModelFile _file) {
+    this._file = _file;
     return this;
   }
 
@@ -40,31 +43,48 @@ public class FileSchemaTestClass  {
    * @return files
   **/
   @JsonProperty("files")
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     this.files.add(filesItem);
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
+    return Objects.equals(_file, fileSchemaTestClass._file) &&
+        Objects.equals(files, fileSchemaTestClass.files);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(_file, files);
+  }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();

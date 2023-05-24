@@ -123,7 +123,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -151,6 +151,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Model.AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -170,10 +171,10 @@ Class | Method | HTTP request | Description
  - [Model.File](docs/File.md)
  - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Model.Foo](docs/Foo.md)
+ - [Model.FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [Model.FormatTest](docs/FormatTest.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Model.HealthCheckResult](docs/HealthCheckResult.md)
- - [Model.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Model.List](docs/List.md)
  - [Model.MapTest](docs/MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -193,48 +194,19 @@ Class | Method | HTTP request | Description
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
+ - [Model.SingleRefType](docs/SingleRefType.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
 
-### api_key
-
-- **Type**: API key
-
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-
-### api_key_query
-
-- **Type**: API key
-
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-
-### bearer_test
-
-
-- **Type**: HTTP bearer authentication
-
-
-### http_basic_test
-
-
-- **Type**: HTTP basic authentication
-
-
-### http_signature_test
-
-
-
+Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
-
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -242,4 +214,32 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a id="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+<a id="api_key_query"></a>
+### api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+<a id="http_basic_test"></a>
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+<a id="bearer_test"></a>
+### bearer_test
+
+- **Type**: HTTP bearer authentication
+
+<a id="http_signature_test"></a>
+### http_signature_test
+
 

@@ -1546,7 +1546,7 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
 
-            var localVarPath = "/fake/test-query-paramters";
+            var localVarPath = "/fake/test-query-parameters";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);

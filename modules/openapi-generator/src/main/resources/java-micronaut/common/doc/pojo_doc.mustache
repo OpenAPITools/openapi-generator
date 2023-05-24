@@ -1,0 +1,46 @@
+# {{#vendorExtensions.x-is-one-of-interface}}Interface {{/vendorExtensions.x-is-one-of-interface}}{{classname}}
+{{#description}}
+
+{{{description}}}
+{{/description}}
+
+The class is defined in **[{{classname}}.java](../../{{{modelFolder}}}/{{classname}}.java)**
+{{^vendorExtensions.x-is-one-of-interface}}
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{name}}** | {{#isEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isModel}}[{{/isModel}}{{/items}}`{{baseType}}{{#items}}&lt;{{dataType}}&gt;`{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isModel}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{#isModel}}[{{/isModel}}`Map&lt;String, {{dataType}}&gt;`{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isModel}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isModel}}[{{/isModel}}`{{dataType}}`{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{#baseType}}{{baseType}}{{/baseType}}.md){{/isModel}}{{/isContainer}}{{/isEnum}} | {{description}} | {{^required}} [optional property]{{/required}}{{#isReadOnly}} [readonly property]{{/isReadOnly}}
+{{/vars}}
+{{#vars}}
+
+    {{#isEnum}}
+## {{datatypeWithEnum}}
+
+Name | Value
+---- | -----
+    {{#allowableValues}}
+        {{#enumVars}}
+{{name}} | `{{{value}}}`
+        {{/enumVars}}
+    {{/allowableValues}}
+    {{/isEnum}}
+{{/vars}}
+{{#vendorExtensions.x-implements.0}}
+
+## Implemented Interfaces
+
+    {{#vendorExtensions.x-implements}}
+* `{{{.}}}`
+    {{/vendorExtensions.x-implements}}
+{{/vendorExtensions.x-implements.0}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.x-is-one-of-interface}}
+
+## Implementing Classes
+
+    {{#oneOf}}
+* `{{{.}}}`
+    {{/oneOf}}
+{{/vendorExtensions.x-is-one-of-interface}}

@@ -41,6 +41,7 @@ router = APIRouter()
     {{#description}}
     description = "{{.}}",
     {{/description}}
+    response_model_by_alias=True,
 )
 async def {{operationId}}(
     {{#allParams}}

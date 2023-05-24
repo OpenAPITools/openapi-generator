@@ -12,12 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
 
-{{^fullJavaUtil}}
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jackson}}JacksonObjectMapper.jackson{{/jackson}};

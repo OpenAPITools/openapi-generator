@@ -1,13 +1,24 @@
 ---
-title: Config Options for aspnetcore
-sidebar_label: aspnetcore
+title: Documentation for the aspnetcore Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | aspnetcore | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | C# | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates an ASP.NET Core Web API server. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd></dl>|3.1|
+|aspnetCoreVersion|ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd><dt>**6.0**</dt><dd>ASP.NET Core 6.0</dd></dl>|3.1|
 |buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
@@ -19,7 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseUrl|The URL of the license| |http://localhost|
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
-|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.0 or newer.| |false|
+|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.| |false|
 |operationIsAsync|Set methods to async or sync (default).| |false|
 |operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
@@ -30,15 +41,17 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
 |packageVersion|C# package version.| |1.0.0|
+|pocoModels|Build POCO Models| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|swashbuckleVersion|Swashbuckle version: 3.0.0, 4.0.0, 5.0.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd></dl>|3.0.0|
+|swashbuckleVersion|Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd><dt>**6.4.0**</dt><dd>Swashbuckle 6.4.0</dd></dl>|3.0.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
+|useSeparateModelProject|Create a separate project for models| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 
 ## IMPORT MAPPING
@@ -92,6 +105,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>long</li>
 <li>long?</li>
 <li>string</li>
+<li>uint</li>
+<li>uint?</li>
+<li>ulong</li>
+<li>ulong?</li>
 </ul>
 
 ## RESERVED WORDS
@@ -227,7 +244,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -287,6 +308,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -299,6 +324,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -1,24 +1,13 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
-{{#threetenbp}}
-import org.threeten.bp.*;
-
-{{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
-{{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
-{{/java8}}
-{{#threetenbp}}
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
-{{/threetenbp}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import com.sun.jersey.api.client.Client;
@@ -32,9 +21,9 @@ import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.MediaType;
+import {{javaxPackage}}.ws.rs.core.Cookie;
+import {{javaxPackage}}.ws.rs.core.Response.Status.Family;
+import {{javaxPackage}}.ws.rs.core.MediaType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -125,16 +114,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     {{#joda}}
     objectMapper.registerModule(new JodaModule());
     {{/joda}}
-    {{#java8}}
     objectMapper.registerModule(new JavaTimeModule());
-    {{/java8}}
-    {{#threetenbp}}
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    objectMapper.registerModule(module);
-    {{/threetenbp}}
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
@@ -144,8 +124,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
     authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
     authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
     // Prevent the authentications from being modified.
@@ -212,6 +192,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
+    this.serverIndex = null;
     return this;
   }
 
@@ -280,6 +261,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token
+   * @return API client
    */
   public void setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {

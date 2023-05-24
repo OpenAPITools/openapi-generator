@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>5.1.0</version>
+    <version>6.3.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -45,8 +45,11 @@ mvn clean compile
 |--------|----------|-------------|
 | `verbose` |  `openapi.generator.maven.plugin.verbose` | verbose mode (`false` by default)
 | `inputSpec` |  `openapi.generator.maven.plugin.inputSpec` | OpenAPI Spec file path
+| `inputSpecRootDirectory` |  `openapi.generator.maven.plugin.inputSpecRootDirectory` | Local root folder with spec file(s)
+| `mergedFileName` |  `openapi.generator.maven.plugin.mergedFileName` | Name of the file that will contain all merged specs
 | `language` |  `openapi.generator.maven.plugin.language` | target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 | `generatorName` |  `openapi.generator.maven.plugin.generatorName` | target generator name
+| `cleanupOutput` |  `openapi.generator.maven.plugin.cleanupOutput` | Defines whether the output directory should be cleaned up before generating the output (`false` by default).
 | `output` |  `openapi.generator.maven.plugin.output` | target output path (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
 | `gitHost` | `openapi.generator.maven.plugin.gitHost` | The git host, e.g. gitlab.com
 | `gitUserId` |  `openapi.generator.maven.plugin.gitUserId` | sets git information of the project
@@ -55,7 +58,7 @@ mvn clean compile
 | `templateResourcePath` |  `openapi.generator.maven.plugin.templateResourcePath` | directory with mustache templates via resource path. This option will overwrite any option defined in `templateDirectory`.
 | `engine` | `openapi.generator.maven.plugin.engine` | The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
 | `auth` |  `openapi.generator.maven.plugin.auth` | adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of `name:header` with a comma separating multiple values
-| `configurationFile` |  `openapi.generator.maven.plugin.configurationFile` | Path to separate json configuration file. File content should be in a json format {"optionKey":"optionValue", "optionKey1":"optionValue1"...} Supported options can be different for each language. Run `config-help -g {generator name}` command for language specific config options
+| `configurationFile` |  `openapi.generator.maven.plugin.configurationFile` | Path to separate json configuration file. File content should be in a json format {"optionKey":"optionValue", "optionKey1":"optionValue1"...} Supported options can be different for each generator. Run `config-help -g {generator name}` command for generator-specific config options
 | `skipOverwrite` |  `openapi.generator.maven.plugin.skipOverwrite` | Specifies if the existing files should be overwritten during the generation. (`false` by default)
 | `apiPackage` |  `openapi.generator.maven.plugin.apiPackage` | the package to use for generated api objects/classes
 | `modelPackage` |  `openapi.generator.maven.plugin.modelPackage` | the package to use for generated model objects/classes
@@ -67,19 +70,24 @@ mvn clean compile
 | `library` |  `openapi.generator.maven.plugin.library` | library template (sub-template)
 | `modelNamePrefix` |  `openapi.generator.maven.plugin.modelNamePrefix` | Sets the prefix for model classes and enums
 | `modelNameSuffix` |  `openapi.generator.maven.plugin.modelNameSuffix` | Sets the suffix for model classes and enums
+| `apiNameSuffix` |  `openapi.generator.maven.plugin.apiNameSuffix` | Sets the suffix for api classes
 | `ignoreFileOverride` |  `openapi.generator.maven.plugin.ignoreFileOverride` | specifies the full path to a `.openapi-generator-ignore` used for pattern based overrides of generated outputs
 | `httpUserAgent` | `openapi.generator.maven.plugin.httpUserAgent` | Sets custom User-Agent header value
 | `removeOperationIdPrefix` |  `openapi.generator.maven.plugin.removeOperationIdPrefix` | remove operationId prefix (e.g. user_getName => getName)
 | `skipOperationExample` |  `openapi.generator.maven.plugin.skipOperationExample` | skip examples defined in the operation
-| `logToStderr` |  `openapi.generator.maven.plugin.logToStderr` | write all log messages (not just errors) to STDOUT
+| `logToStderr` |  `openapi.generator.maven.plugin.logToStderr` | write all log messages (not just errors) to STDERR
 | `enablePostProcessFile` |  `openapi.generator.maven.plugin.` | enable file post-processing hook
 | `skipValidateSpec` |  `openapi.generator.maven.plugin.skipValidateSpec` | Whether or not to skip validating the input spec prior to generation. By default, invalid specifications will result in an error.
 | `strictSpec` |  `openapi.generator.maven.plugin.strictSpec` | Whether or not to treat an input document strictly against the spec. 'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to. e.g. when false, no fixes will be applied to documents which pass validation but don't follow the spec.
+| `openapiNormalizer` |  `openapi.generator.maven.plugin.openapiNormalizer` | specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original.
 | `generateAliasAsModel` |  `openapi.generator.maven.plugin.generateAliasAsModel` | generate alias (array, map) as model
-| `configOptions` |  N/A | a **map** of language-specific parameters. To show a full list of generator-specified parameters (options), please use `configHelp` (explained below)
+| `configOptions` |  N/A | a **map** of generator-specific parameters. To show a full list of generator-specified parameters (options), please use `configHelp` (explained below)
 | `instantiationTypes` |  `openapi.generator.maven.plugin.instantiationTypes` | sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType. For example (in Java): `array=ArrayList,map=HashMap`. In other words array types will get instantiated as ArrayList in generated code. You can also have multiple occurrences of this option
 | `importMappings` |  `openapi.generator.maven.plugin.importMappings` | specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import. You can also have multiple occurrences of this option
 | `typeMappings` |  `openapi.generator.maven.plugin.typeMappings` | sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option. To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.
+| `schemaMappings` |  `openapi.generator.maven.plugin.schemaMappings` | specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
+| `inlineSchemaNameMappings` |  `openapi.generator.maven.plugin.inlineSchemaNameMappings` | specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird.
+| `inlineSchemaNameDefaults` |  `openapi.generator.maven.plugin.inlineSchemaNameDefaults` | specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
 | `languageSpecificPrimitives` |  `openapi.generator.maven.plugin.languageSpecificPrimitives` | specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: `String,boolean,Boolean,Double`. You can also have multiple occurrences of this option
 | `additionalProperties` |  `openapi.generator.maven.plugin.additionalProperties` | sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value. You can also have multiple occurrences of this option
 | `serverVariableOverrides` | `openapi.generator.maven.plugin.serverVariableOverrides` | A map of server variable overrides for specs that support server URL templating
@@ -116,26 +124,55 @@ For configuration options documented as a **map** above, the key/value options m
 ```
 
 This configuration node location will match that of the plugin configuration examples at the top of this document and in the section below. Here, `option` matches in option name in the first column in the table from the previous section.
-The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User,Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
+The `key` and `value` text are any values you'd like to provide for that option. As an example, to configure `globalProperties` to match the `--global-property models=User:Pet` example from our [Selective Generation](https://openapi-generator.tech/docs/customization#selective-generation) documentation, see below.
 
 ```xml
 <configuration>
     <globalProperties>
-       <models>User,Pet</models>
+       <models>User:Pet</models>
     </globalProperties>
 </configuration>
 ```
 
-Not that some of these environment variable options may overwrite or conflict with other options available to the maven plugin. For example, the above `globalProperties` example is equivalent to the following:
+Notice that some of these environment variable options may overwrite or conflict with other options available to the maven plugin. For example, the above `globalProperties` example is equivalent to the following:
 
 ```xml
 <configuration>
     <generateModels>true</generateModels>
-    <modelsToGenerate>User,Pet</modelsToGenerate>
+    <modelsToGenerate>User:Pet</modelsToGenerate>
 </configuration>
 ```
 
 The difference here is that you may define `generateModels` and `modelsToGenerate` as properties, while `globalProperties` may only be configured as a configuration node.
+
+### Type and import mappings
+
+To override the mappings between OpenAPI spec types and the types used in the generated code, set `typeMappings`.
+
+```xml
+<configuration>
+    <typeMappings>
+        <!-- convert Double to BigDecimal -->
+        <typeMapping>Double=java.math.BigDecimal</typeMapping>
+    </typeMappings>
+</configuration>
+```
+
+For types that are not already included in the generator configuration, you may need to add a corresponding `importMapping` too.
+
+```xml
+<configuration>
+    <!-- convert file/binary to JAX-RS StreamingOutput -->
+    <typeMappings>
+        <typeMapping>binary=StreamingOutput</typeMapping>
+        <typeMapping>file=StreamingOutput</typeMapping>
+    </typeMappings>
+    <importMappings>
+        <importMapping>StreamingOutput=javax.ws.rs.core.StreamingOutput</importMapping>
+    </importMappings>
+</configuration>
+```
+
 
 ### Custom Generator
 

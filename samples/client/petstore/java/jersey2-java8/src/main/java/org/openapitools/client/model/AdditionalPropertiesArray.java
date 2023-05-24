@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
@@ -44,6 +42,8 @@ public class AdditionalPropertiesArray {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesArray() { 
+  }
 
   public AdditionalPropertiesArray name(String name) {
     this.name = name;
@@ -55,7 +55,6 @@ public class AdditionalPropertiesArray {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -84,7 +83,7 @@ public class AdditionalPropertiesArray {
   @JsonAnySetter
   public AdditionalPropertiesArray putAdditionalProperty(String key, List value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, List>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;

@@ -17,7 +17,7 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Requirements.
 
-Python >= 3.6
+Python {{{generatorLanguageVersion}}}
 
 ## Installation & Usage
 
@@ -33,10 +33,12 @@ To be able to use it, you will need these dependencies in your own package that 
 {{#tornado}}
 * tornado>=4.2,<5
 {{/tornado}}
+* pydantic
+* aenum
 
 ## Getting Started
 
 In your own code, to use this library to connect and interact with {{{projectName}}},
 you can run the following:
 
-{{> README_common }}
+{{> common_README }}

@@ -79,7 +79,7 @@
         }
       },
       "testEndpointParameters" : {
-        "_double" : 77.14654636614235246584049686929773770316387526690959930419921875,
+        "_double" : 77.14654636614235,
         "patternWithoutDelimiter" : "^V莙샊䲎ꖣ",
         "_byte" : "/w==",
         "integer" : 70,
@@ -125,6 +125,16 @@
         "http" : [ "j1HS55g" ],
         "url" : [ "WIg2d" ],
         "context" : [ "h77kAFh84Xr" ]
+      },
+      "testBodyWithFileSchema" : {
+        "body" : {
+          "_file" : {
+            "sourceURI" : "pBPG5nH"
+          },
+          "files" : [ {
+            "sourceURI" : "Hhe7osLC9"
+          } ]
+        }
       }
     },
     "FakeClassnameTags123Api" : {
@@ -238,7 +248,8 @@
           "code" : -948139149,
           "type" : "dm3vxsNtg94DA",
           "message" : "I9pPJHHy"
-        }
+        },
+        "_file" : "D53FF1D3AA"
       },
       "uploadFileWithRequiredFile" : {
         "petId" : -3179009564025681920,

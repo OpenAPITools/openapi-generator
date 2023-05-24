@@ -769,7 +769,7 @@
       </fault>
     </operation>
     <operation name="GetPetFindbytags">
-      <documentation>Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.</documentation>
+      <documentation>Multiple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.</documentation>
       <input message="wsdl:GetPetFindbytags_RequestMessage" />
       <output message="wsdl:GetPetFindbytags_ResponseMessage">
         <documentation>successful operation</documentation>
@@ -836,7 +836,7 @@
       </output>
     </operation>
     <operation name="GetStoreOrderByOrderid">
-      <documentation>For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10.         Other values will generated exceptions</documentation>
+      <documentation>For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10.         Other values will generate exceptions</documentation>
       <input message="wsdl:GetStoreOrderByOrderid_RequestMessage" />
       <output message="wsdl:GetStoreOrderByOrderid_ResponseMessage">
         <documentation>successful operation</documentation>

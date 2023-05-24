@@ -13,22 +13,35 @@ import {{import}};
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
+{{#hasFormParamsInSpec}}
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+
+{{/hasFormParamsInSpec}}
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.http.HttpRequest;
+import java.nio.channels.Channels;
+import java.nio.channels.Pipe;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-{{/fullJavaUtil}}
+import java.util.function.Consumer;
 {{#asyncNative}}
 
 import java.util.concurrent.CompletableFuture;
@@ -91,6 +104,11 @@ public class {{classname}} {
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
+   {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
    * @deprecated
@@ -145,6 +163,11 @@ public class {{classname}} {
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
+   {{^returnType}}
+   {{#asyncNative}}
+   * @return CompletableFuture&lt;Void&gt;
+   {{/asyncNative}}
+   {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
    * @deprecated
@@ -175,8 +198,9 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -222,14 +246,46 @@ public class {{classname}} {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("{{operationId}}", localVarResponse);
-      }
-      return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("{{operationId}}", localVarResponse);
+        }
+        {{#vendorExtensions.x-java-text-plain-string}}
+        // for plain text response
+        if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
+          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          String responseBodyText = s.hasNext() ? s.next() : "";
+          return new ApiResponse<String>(
+                  localVarResponse.statusCode(),
+                  localVarResponse.headers().map(),
+                  responseBodyText
+          );
+        } else {
+            throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
+        }
+        {{/vendorExtensions.x-java-text-plain-string}}
+        {{^vendorExtensions.x-java-text-plain-string}}
+        return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}){{/returnType}}{{^returnType}}null{{/returnType}}
+          {{#returnType}}
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
+          {{/returnType}}
+          {{^returnType}}
+          null
+          {{/returnType}}
         );
+        {{/vendorExtensions.x-java-text-plain-string}}
+      } finally {
+        {{^returnType}}
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+        {{/returnType}}
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -252,11 +308,12 @@ public class {{classname}} {
             }
             {{#returnType}}
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<{{{returnType}}}>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -293,28 +350,61 @@ public class {{classname}} {
         .replace({{=<% %>=}}"{<%baseName%>}"<%={{ }}=%>, ApiClient.urlEncode({{{paramName}}}.toString())){{/pathParams}};
 
     {{#hasQueryParams}}
-    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
     {{#queryParams}}
+    localVarQueryParameterBaseName = "{{{baseName}}}";
       {{#collectionFormat}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
       {{/collectionFormat}}
       {{^collectionFormat}}
         {{#isDeepObject}}
     if ({{paramName}} != null) {
-          {{#items.vars}}
-      localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
-          {{/items.vars}}
+            {{#isArray}}
+      for (int i=0; i < {{paramName}}.size(); i++) {
+        localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+      }
+            {{/isArray}}
+            {{^isArray}}
+      localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+            {{/isArray}}
     }
         {{/isDeepObject}}
         {{^isDeepObject}}
+            {{#isExplode}}
+                {{#hasVars}}
+                    {{#vars}}
+                        {{#isArray}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                        {{^isArray}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                    {{/vars}}
+                {{/hasVars}}
+                {{^hasVars}}
+                {{#isModel}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString());
+                {{/isModel}}
+                {{^isModel}}
     localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                {{/isModel}}
+                {{/hasVars}}
+            {{/isExplode}}
+            {{^isExplode}}
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+            {{/isExplode}}
         {{/isDeepObject}}
       {{/collectionFormat}}
     {{/queryParams}}
 
-    if (!localVarQueryParams.isEmpty()) {
-      {{javaUtilPrefix}}StringJoiner queryJoiner = new StringJoiner("&");
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -330,20 +420,107 @@ public class {{classname}} {
     }
     {{/headerParams}}
     {{#bodyParam}}
-    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{mediaType}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
     {{/bodyParam}}
-    localVarRequestBuilder.header("Accept", "application/json");
+    localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
 
     {{#bodyParam}}
+    {{#isString}}
+    localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofString({{paramName}}));
+    {{/isString}}
+    {{^isString}}
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes({{paramName}});
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
     }
+    {{/isString}}
     {{/bodyParam}}
     {{^bodyParam}}
+    {{#hasFormParams}}
+    {{#isMultipart}}
+    MultipartEntityBuilder multiPartBuilder = MultipartEntityBuilder.create();
+    boolean hasFiles = false;
+    {{#formParams}}
+    {{#isArray}}
+    for (int i=0; i < {{paramName}}.size(); i++) {
+        multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+    }
+    {{/isArray}}
+    {{^isArray}}
+    {{#isFile}}
+    multiPartBuilder.addBinaryBody("{{{baseName}}}", {{paramName}});
+    hasFiles = true;
+    {{/isFile}}
+    {{^isFile}}
+    multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.toString());
+    {{/isFile}}
+    {{/isArray}}
+    {{/formParams}}
+    HttpEntity entity = multiPartBuilder.build();
+    HttpRequest.BodyPublisher formDataPublisher;
+    if (hasFiles) {
+        Pipe pipe;
+        try {
+            pipe = Pipe.open();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Thread(() -> {
+            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
+                entity.writeTo(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        formDataPublisher = HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source()));
+    } else {
+        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+        try {
+            entity.writeTo(formOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        formDataPublisher = HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("{{httpMethod}}", formDataPublisher);
+    {{/isMultipart}}
+    {{^isMultipart}}
+    List<NameValuePair> formValues = new ArrayList<>();
+    {{#formParams}}
+    {{#isArray}}
+    for (int i=0; i < {{paramName}}.size(); i++) {
+        if ({{paramName}}.get(i) != null) {
+            formValues.add(new BasicNameValuePair("{{{baseName}}}", {{paramName}}.get(i).toString()));
+        }
+    }
+    {{/isArray}}
+    {{^isArray}}
+    if ({{paramName}} != null) {
+        formValues.add(new BasicNameValuePair("{{{baseName}}}", {{paramName}}.toString()));
+    }
+    {{/isArray}}
+    {{/formParams}}
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("{{httpMethod}}", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
+    {{/isMultipart}}
+    {{/hasFormParams}}
+    {{^hasFormParams}}
     localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.noBody());
+    {{/hasFormParams}}
     {{/bodyParam}}
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);

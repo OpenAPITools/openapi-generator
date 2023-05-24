@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 {{/moshi}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -11,6 +12,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 {{#kotlinx_serialization}}
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+{{#enumUnknownDefaultCase}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/enumUnknownDefaultCase}}
 {{/kotlinx_serialization}}
 {{/multiplatform}}
 {{#multiplatform}}
@@ -22,7 +30,12 @@ import kotlinx.serialization.*
  *
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-{{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{/kotlinx_serialization}}
+{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{^multiplatform}}
+{{#moshi}}
+@JsonClass(generateAdapter = false)
+{{/moshi}}
+{{/multiplatform}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
@@ -55,7 +68,7 @@ import kotlinx.serialization.*
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
     /**
-     * Override toString() to avoid using the enum variable name as the value, and instead use
+     * Override [toString()] to avoid using the enum variable name as the value, and instead use
      * the actual value defined in the API spec file.
      *
      * This solves a problem when the variable name and its value are different, and ensures that
@@ -67,16 +80,31 @@ import kotlinx.serialization.*
         /**
          * Converts the provided [data] to a [String] on success, null otherwise.
          */
-        fun encode(data: Any?): kotlin.String? = if (data is {{classname}}) "$data" else null
+        fun encode(data: kotlin.Any?): kotlin.String? = if (data is {{classname}}) "$data" else null
 
         /**
          * Returns a valid [{{classname}}] for [data], null otherwise.
          */
-        fun decode(data: Any?): {{classname}}? = data?.let {
+        fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
           values().firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }
     }
-}
+}{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
+
+@Serializer(forClass = {{classname}}::class)
+internal object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor = {{{dataType}}}.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+        return {{classname}}.values().firstOrNull { it.value == value }
+            ?: {{classname}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+    }
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+    }
+}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}

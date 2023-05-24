@@ -1,16 +1,19 @@
+# coding: utf-8
+
 {{>partial_header}}
 
 import unittest
 
 import {{packageName}}
-from {{apiPackage}}.{{classVarName}} import {{classname}}  # noqa: E501
+from {{apiPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
+from {{packageName}}.rest import ApiException
 
 
 class {{#operations}}Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
 
     def setUp(self):
-        self.api = {{classname}}()  # noqa: E501
+        self.api = {{apiPackage}}.{{classFilename}}.{{classname}}()  # noqa: E501
 
     def tearDown(self):
         pass

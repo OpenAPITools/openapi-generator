@@ -20,13 +20,37 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.client.model.ModelFile;
 import android.os.Parcelable;
 import android.os.Parcel;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * FileSchemaTestClass
@@ -35,47 +59,45 @@ import android.os.Parcel;
 public class FileSchemaTestClass implements Parcelable {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  private java.io.File file;
+  private ModelFile _file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = null;
+  private List<ModelFile> files;
 
   public FileSchemaTestClass() {
   }
 
-  public FileSchemaTestClass file(java.io.File file) {
+  public FileSchemaTestClass _file(ModelFile _file) {
     
-    this.file = file;
+    this._file = _file;
     return this;
   }
 
    /**
-   * Get file
-   * @return file
+   * Get _file
+   * @return _file
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
 
 
-  public void setFile(java.io.File file) {
-    this.file = file;
+  public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
 
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;
@@ -86,16 +108,15 @@ public class FileSchemaTestClass implements Parcelable {
    * @return files
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
 
 
-  public void setFiles(List<java.io.File> files) {
+  public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
+
 
 
   @Override
@@ -107,20 +128,20 @@ public class FileSchemaTestClass implements Parcelable {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this.file, fileSchemaTestClass.file) &&
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
         Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, files);
+    return Objects.hash(_file, files);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -139,13 +160,13 @@ public class FileSchemaTestClass implements Parcelable {
 
 
   public void writeToParcel(Parcel out, int flags) {
-    out.writeValue(file);
+    out.writeValue(_file);
     out.writeValue(files);
   }
 
   FileSchemaTestClass(Parcel in) {
-    file = (java.io.File)in.readValue(java.io.File.class.getClassLoader());
-    files = (List<java.io.File>)in.readValue(java.io.File.class.getClassLoader());
+    _file = (ModelFile)in.readValue(ModelFile.class.getClassLoader());
+    files = (List<ModelFile>)in.readValue(ModelFile.class.getClassLoader());
   }
 
   public int describeContents() {
@@ -160,5 +181,107 @@ public class FileSchemaTestClass implements Parcelable {
       return new FileSchemaTestClass[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("file");
+    openapiFields.add("files");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to FileSchemaTestClass
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (!FileSchemaTestClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in FileSchemaTestClass is not found in the empty JSON string", FileSchemaTestClass.openapiRequiredFields.toString()));
+        }
+      }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!FileSchemaTestClass.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FileSchemaTestClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+      // validate the optional field `file`
+      if (jsonObj.get("file") != null && !jsonObj.get("file").isJsonNull()) {
+        ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
+      }
+      if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
+        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+        if (jsonArrayfiles != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("files").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `files` to be an array in the JSON string but got `%s`", jsonObj.get("files").toString()));
+          }
+
+          // validate the optional field `files` (array)
+          for (int i = 0; i < jsonArrayfiles.size(); i++) {
+            ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
+          };
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!FileSchemaTestClass.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'FileSchemaTestClass' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<FileSchemaTestClass> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(FileSchemaTestClass.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<FileSchemaTestClass>() {
+           @Override
+           public void write(JsonWriter out, FileSchemaTestClass value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public FileSchemaTestClass read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of FileSchemaTestClass given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of FileSchemaTestClass
+  * @throws IOException if the JSON string is invalid with respect to FileSchemaTestClass
+  */
+  public static FileSchemaTestClass fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, FileSchemaTestClass.class);
+  }
+
+ /**
+  * Convert an instance of FileSchemaTestClass to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

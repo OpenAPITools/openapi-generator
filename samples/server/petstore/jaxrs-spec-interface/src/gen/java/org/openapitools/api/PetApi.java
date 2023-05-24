@@ -18,7 +18,8 @@ import javax.validation.Valid;
 
 @Path("/pet")
 @Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface PetApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public interface PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })
@@ -39,10 +40,13 @@ import javax.validation.Valid;
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
+    @io.swagger.annotations.ApiImplicitParams({
+        @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
+    })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    void deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")   String apiKey);
+    void deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId);
 
     @GET
     @Path("/findByStatus")
@@ -120,5 +124,5 @@ import javax.validation.Valid;
          }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    ModelApiResponse uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream fileInputStream);
+    ModelApiResponse uploadFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId,@FormParam(value = "additionalMetadata")  String additionalMetadata, @FormParam(value = "file") InputStream _fileInputStream);
 }

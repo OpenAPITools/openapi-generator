@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
@@ -38,147 +36,147 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class ArrayTest {
-  public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  private List<String> arrayOfString = null;
+    public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
+    private List<String> arrayOfString = null;
 
-  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  private List<List<Long>> arrayArrayOfInteger = null;
+    public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
+    private List<List<Long>> arrayArrayOfInteger = null;
 
-  public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+    public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
+    private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
-  public ArrayTest arrayOfString(List<String> arrayOfString) {
-    this.arrayOfString = arrayOfString;
-    return this;
-  }
-
-  public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
-    if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<String>();
+    public ArrayTest() {
     }
-    this.arrayOfString.add(arrayOfStringItem);
-    return this;
-  }
-
-  /**
-   * Get arrayOfString
-   * @return arrayOfString
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<String> getArrayOfString() {
-    return arrayOfString;
-  }
-
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayOfString(List<String> arrayOfString) {
-    this.arrayOfString = arrayOfString;
-  }
-
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    this.arrayArrayOfInteger = arrayArrayOfInteger;
-    return this;
-  }
-
-  public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
-    if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+    public ArrayTest arrayOfString(List<String> arrayOfString) {
+        this.arrayOfString = arrayOfString;
+        return this;
     }
-    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
-    return this;
-  }
 
-  /**
-   * Get arrayArrayOfInteger
-   * @return arrayArrayOfInteger
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<List<Long>> getArrayArrayOfInteger() {
-    return arrayArrayOfInteger;
-  }
-
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    this.arrayArrayOfInteger = arrayArrayOfInteger;
-  }
-
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    this.arrayArrayOfModel = arrayArrayOfModel;
-    return this;
-  }
-
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
-    if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+    public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+        if (this.arrayOfString == null) {
+            this.arrayOfString = new ArrayList<>();
+        }
+        this.arrayOfString.add(arrayOfStringItem);
+        return this;
     }
-    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
-    return this;
-  }
 
-  /**
-   * Get arrayArrayOfModel
-   * @return arrayArrayOfModel
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
-    return arrayArrayOfModel;
-  }
-
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    this.arrayArrayOfModel = arrayArrayOfModel;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    /**
+     * Get arrayOfString
+     * @return arrayOfString
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public List<String> getArrayOfString() {
+        return arrayOfString;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setArrayOfString(List<String> arrayOfString) {
+        this.arrayOfString = arrayOfString;
     }
-    ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ArrayTest {\n");
-    sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
-    sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
-    sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+        this.arrayArrayOfInteger = arrayArrayOfInteger;
+        return this;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+        if (this.arrayArrayOfInteger == null) {
+            this.arrayArrayOfInteger = new ArrayList<>();
+        }
+        this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+        return this;
+    }
+
+    /**
+     * Get arrayArrayOfInteger
+     * @return arrayArrayOfInteger
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public List<List<Long>> getArrayArrayOfInteger() {
+        return arrayArrayOfInteger;
+    }
+
+    @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+        this.arrayArrayOfInteger = arrayArrayOfInteger;
+    }
+
+    public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+        this.arrayArrayOfModel = arrayArrayOfModel;
+        return this;
+    }
+
+    public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+        if (this.arrayArrayOfModel == null) {
+            this.arrayArrayOfModel = new ArrayList<>();
+        }
+        this.arrayArrayOfModel.add(arrayArrayOfModelItem);
+        return this;
+    }
+
+    /**
+     * Get arrayArrayOfModel
+     * @return arrayArrayOfModel
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+        return arrayArrayOfModel;
+    }
+
+    @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+        this.arrayArrayOfModel = arrayArrayOfModel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ArrayTest arrayTest = (ArrayTest) o;
+        return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+            Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+            Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ArrayTest {\n");
+        sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
+        sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
+        sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }
+

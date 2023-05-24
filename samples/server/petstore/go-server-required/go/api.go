@@ -17,10 +17,10 @@ import (
 
 
 
-// PetApiRouter defines the required methods for binding the api requests to a responses for the PetApi
-// The PetApiRouter implementation should parse necessary information from the http request,
-// pass the data to a PetApiServicer to perform the required actions, then write the service results to the http response.
-type PetApiRouter interface { 
+// PetAPIRouter defines the required methods for binding the api requests to a responses for the PetAPI
+// The PetAPIRouter implementation should parse necessary information from the http request,
+// pass the data to a PetAPIServicer to perform the required actions, then write the service results to the http response.
+type PetAPIRouter interface { 
 	AddPet(http.ResponseWriter, *http.Request)
 	DeletePet(http.ResponseWriter, *http.Request)
 	FindPetsByStatus(http.ResponseWriter, *http.Request)
@@ -31,19 +31,19 @@ type PetApiRouter interface {
 	UpdatePetWithForm(http.ResponseWriter, *http.Request)
 	UploadFile(http.ResponseWriter, *http.Request)
 }
-// StoreApiRouter defines the required methods for binding the api requests to a responses for the StoreApi
-// The StoreApiRouter implementation should parse necessary information from the http request,
-// pass the data to a StoreApiServicer to perform the required actions, then write the service results to the http response.
-type StoreApiRouter interface { 
+// StoreAPIRouter defines the required methods for binding the api requests to a responses for the StoreAPI
+// The StoreAPIRouter implementation should parse necessary information from the http request,
+// pass the data to a StoreAPIServicer to perform the required actions, then write the service results to the http response.
+type StoreAPIRouter interface { 
 	DeleteOrder(http.ResponseWriter, *http.Request)
 	GetInventory(http.ResponseWriter, *http.Request)
 	GetOrderById(http.ResponseWriter, *http.Request)
 	PlaceOrder(http.ResponseWriter, *http.Request)
 }
-// UserApiRouter defines the required methods for binding the api requests to a responses for the UserApi
-// The UserApiRouter implementation should parse necessary information from the http request,
-// pass the data to a UserApiServicer to perform the required actions, then write the service results to the http response.
-type UserApiRouter interface { 
+// UserAPIRouter defines the required methods for binding the api requests to a responses for the UserAPI
+// The UserAPIRouter implementation should parse necessary information from the http request,
+// pass the data to a UserAPIServicer to perform the required actions, then write the service results to the http response.
+type UserAPIRouter interface { 
 	CreateUser(http.ResponseWriter, *http.Request)
 	CreateUsersWithArrayInput(http.ResponseWriter, *http.Request)
 	CreateUsersWithListInput(http.ResponseWriter, *http.Request)
@@ -55,11 +55,11 @@ type UserApiRouter interface {
 }
 
 
-// PetApiServicer defines the api actions for the PetApi service
+// PetAPIServicer defines the api actions for the PetAPI service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can ignored with the .openapi-generator-ignore file
+// while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type PetApiServicer interface { 
+type PetAPIServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
 	DeletePet(context.Context, int64, string) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
@@ -72,11 +72,11 @@ type PetApiServicer interface {
 }
 
 
-// StoreApiServicer defines the api actions for the StoreApi service
+// StoreAPIServicer defines the api actions for the StoreAPI service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can ignored with the .openapi-generator-ignore file
+// while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type StoreApiServicer interface { 
+type StoreAPIServicer interface { 
 	DeleteOrder(context.Context, string) (ImplResponse, error)
 	GetInventory(context.Context) (ImplResponse, error)
 	GetOrderById(context.Context, int64) (ImplResponse, error)
@@ -84,11 +84,11 @@ type StoreApiServicer interface {
 }
 
 
-// UserApiServicer defines the api actions for the UserApi service
+// UserAPIServicer defines the api actions for the UserAPI service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can ignored with the .openapi-generator-ignore file
+// while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type UserApiServicer interface { 
+type UserAPIServicer interface { 
 	CreateUser(context.Context, User) (ImplResponse, error)
 	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)

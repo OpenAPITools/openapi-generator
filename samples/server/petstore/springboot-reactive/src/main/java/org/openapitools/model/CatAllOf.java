@@ -1,20 +1,29 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * CatAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class CatAllOf   {
-  @JsonProperty("declawed")
+
+@JsonTypeName("Cat_allOf")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class CatAllOf {
+
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {
@@ -26,9 +35,9 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
+  
   @ApiModelProperty(value = "")
-
-
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -36,7 +45,6 @@ public class CatAllOf   {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -59,7 +67,6 @@ public class CatAllOf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CatAllOf {\n");
-    
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
     return sb.toString();

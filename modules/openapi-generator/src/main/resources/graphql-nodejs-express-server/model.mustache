@@ -9,7 +9,7 @@ type {{classname}} {
   {{#description}}
   # {{{.}}}
   {{/description}}
-  {{baseName}}: {{#isEnum}}{{classname}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatypeWithEnum}}{{/isEnum}}
+  {{baseName}}: {{#isArray}}[{{/isArray}}{{datatypeWithEnum}}{{#isArray}}!]{{/isArray}}
 {{/vars}}
 }
 
@@ -18,12 +18,11 @@ input {{classname}}Input {
     {{#description}}
     # {{{.}}}
     {{/description}}
-    {{baseName}}: {{#isEnum}}{{classname}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{#isContainer}}[{{datatypeWithEnum}}{{#complexType}}Input{{/complexType}}]{{/isContainer}}{{^isContainer}}{{datatypeWithEnum}}{{#isModel}}Input{{/isModel}}{{/isContainer}}{{/isEnum}}
+    {{baseName}}: {{#isContainer}}[{{datatypeWithEnum}}{{#complexType}}Input{{/complexType}}]{{/isContainer}}{{^isContainer}}{{datatypeWithEnum}}{{#isModel}}Input{{/isModel}}{{/isContainer}}
 {{/vars}}
 }
-{{#vars}}
-{{#isEnum}}
 
+{{#isEnum}}
 {{#description}}
 # {{{.}}}
 {{/description}}
@@ -35,6 +34,5 @@ enum {{classname}}{{enumName}} {
   {{/allowableValues}}
 }
 {{/isEnum}}
-{{/vars}}
 {{/model}}
 {{/models}}

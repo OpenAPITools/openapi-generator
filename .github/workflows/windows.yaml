@@ -1,0 +1,54 @@
+name: Windows tests
+
+on:
+  push:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        java: [11, 17]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+      - name: Cache maven dependencies
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-maven-repository
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle
+            !~/.gradle/caches/*/plugin-resolution/
+            !~/.m2/repository/org/openapitools/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: ${{ matrix.java }}
+          maven-version: 3.9.0
+      - name: Run maven
+        run: mvn --no-snapshot-updates --batch-mode --quiet install
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Gradle tests
+        run: |
+          gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace

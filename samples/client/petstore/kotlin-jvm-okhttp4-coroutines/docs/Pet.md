@@ -9,10 +9,10 @@ Name | Type | Description | Notes
 **id** | **kotlin.Long** |  |  [optional]
 **category** | [**Category**](Category.md) |  |  [optional]
 **tags** | [**kotlin.collections.List&lt;Tag&gt;**](Tag.md) |  |  [optional]
-**status** | [**inline**](#StatusEnum) | pet status in the store |  [optional]
+**status** | [**inline**](#Status) | pet status in the store |  [optional]
 
 
-<a name="StatusEnum"></a>
+<a id="Status"></a>
 ## Enum: status
 Name | Value
 ---- | -----

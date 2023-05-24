@@ -168,7 +168,7 @@ $router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSeri
  * Summary: 
  * Notes: To test the collection format in query parameters
  */
-$router->put('/v2/fake/test-query-paramters', 'FakeApi@testQueryParameterCollectionFormat');
+$router->put('/v2/fake/test-query-parameters', 'FakeApi@testQueryParameterCollectionFormat');
 
 /**
  * patch testClassname
@@ -264,7 +264,7 @@ $router->delete('/v2/store/order/{order_id}', 'StoreApi@deleteOrder');
 /**
  * get getOrderById
  * Summary: Find purchase order by ID
- * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
  */
 $router->get('/v2/store/order/{order_id}', 'StoreApi@getOrderById');
 

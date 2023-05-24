@@ -20,11 +20,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.DogAllOf;
 
 /**
  * Dog
@@ -36,7 +33,7 @@ public class Dog extends Animal {
   private String breed;
 
   public Dog() {
-    this.className = this.getClass().getSimpleName();
+
   }
 
   public Dog breed(String breed) {
@@ -50,7 +47,6 @@ public class Dog extends Animal {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getBreed() {
     return breed;
@@ -61,6 +57,17 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+  @Override
+  public Dog className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Dog color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

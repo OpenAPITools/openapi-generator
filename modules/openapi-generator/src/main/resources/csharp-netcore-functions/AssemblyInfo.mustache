@@ -1,0 +1,40 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("{{packageTitle}}")]
+[assembly: AssemblyDescription("{{packageDescription}}")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("{{packageCompany}}")]
+[assembly: AssemblyProduct("{{packageProductName}}")]
+[assembly: AssemblyCopyright("{{packageCopyright}}")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// Setting ComVisible to false makes the types in this assembly not visible
+// to COM components.  If you need to access a type in this assembly from
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("{{packageVersion}}")]
+[assembly: AssemblyFileVersion("{{packageVersion}}")]
+{{^supportsAsync}}
+// Settings which don't support asynchronous operations rely on non-public constructors
+// This is due to how RestSharp requires the type constraint `where T : new()` in places it probably shouldn't.
+[assembly: InternalsVisibleTo("RestSharp")]
+[assembly: InternalsVisibleTo("NewtonSoft.Json")]
+[assembly: InternalsVisibleTo("JsonSubTypes")]
+{{/supportsAsync}}

@@ -12,7 +12,7 @@ public class OuterEnumSpec extends Specification {
     /**
      * Model tests for OuterEnum
      */
-    void "OuterEnum test"() {
+    void 'OuterEnum test'() {
         // TODO: test OuterEnum
     }
 

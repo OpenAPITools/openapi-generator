@@ -49,6 +49,9 @@ public class ProtobufSchemaCodegenTest {
 
     @Test
     public void testCodeGenWithAllOf() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -65,12 +68,14 @@ public class ProtobufSchemaCodegenTest {
 
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/pet.proto"));
 
-        output.delete();
+        output.deleteOnExit();
     }
 
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
-        String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8);
-        String expectedFile = new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8);
+        String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
+            .replace("\n", "").replace("\r", "");
+        String expectedFile = new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8)
+            .replace("\n", "").replace("\r", "");
 
         assertEquals(generatedFile, expectedFile);
     }

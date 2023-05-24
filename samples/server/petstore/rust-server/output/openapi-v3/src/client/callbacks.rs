@@ -38,12 +38,14 @@ mod paths {
     pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK: usize = 0;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK: regex::Regex =
+            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/(?P<request_query_url>.*)/callback$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK");
     }
     pub(crate) static ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: usize = 1;
     lazy_static! {
         pub static ref REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER: regex::Regex =
+            #[allow(clippy::invalid_regex)]
             regex::Regex::new(r"^/(?P<request_query_url>.*)/callback-with-header$")
                 .expect("Unable to create regex for REQUEST_QUERY_URL_CALLBACK_WITH_HEADER");
     }
@@ -112,7 +114,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
@@ -125,7 +127,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
+            marker: self.marker,
         }
     }
 }
@@ -151,15 +153,15 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => {
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => {
                 // Path parameters
-                let path: &str = &uri.path().to_string();
+                let path: &str = uri.path();
                 let path_params =
                     paths::REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER
-                    .captures(&path)
+                    .captures(path)
                     .unwrap_or_else(||
                         panic!("Path {} matched RE REQUEST_QUERY_URL_CALLBACK_WITH_HEADER in set but failed match against \"{}\"", path, paths::REGEX_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER.as_str())
                     );
@@ -193,7 +195,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -215,12 +217,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             },
 
             // CallbackCallbackPost - POST /{$request.query.url}/callback
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => {
                 // Path parameters
-                let path: &str = &uri.path().to_string();
+                let path: &str = uri.path();
                 let path_params =
                     paths::REGEX_REQUEST_QUERY_URL_CALLBACK
-                    .captures(&path)
+                    .captures(path)
                     .unwrap_or_else(||
                         panic!("Path {} matched RE REQUEST_QUERY_URL_CALLBACK in set but failed match against \"{}\"", path, paths::REGEX_REQUEST_QUERY_URL_CALLBACK.as_str())
                     );
@@ -233,7 +235,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -266,14 +268,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => Ok("CallbackCallbackWithHeaderPost"),
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => Some("CallbackCallbackWithHeaderPost"),
             // CallbackCallbackPost - POST /{$request.query.url}/callback
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => Ok("CallbackCallbackPost"),
-            _ => Err(()),
+            hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => Some("CallbackCallbackPost"),
+            _ => None,
         }
     }
 }

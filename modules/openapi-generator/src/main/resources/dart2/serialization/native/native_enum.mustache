@@ -7,7 +7,7 @@ class {{{classname}}} {
   final {{{dataType}}} value;
 
   @override
-  String toString() => value{{^isString}}.toString(){{/isString}};
+  String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
 
   {{{dataType}}} toJson() => value;
 
@@ -26,23 +26,28 @@ class {{{classname}}} {
   {{/allowableValues}}
   ];
 
-  static {{{classname}}} fromJson(dynamic value) =>
-    {{{classname}}}TypeTransformer().decode(value);
+  static {{{classname}}}? fromJson(dynamic value) => {{{classname}}}TypeTransformer().decode(value);
 
-  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <{{{classname}}}>[]
-      : json
-          .map((value) => {{{classname}}}.fromJson(value))
-          .toList(growable: true == growable);
+  static List<{{{classname}}}> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <{{{classname}}}>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = {{{classname}}}.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [{{{classname}}}] to {{{dataType}}},
 /// and [decode] dynamic data back to [{{{classname}}}].
 class {{{classname}}}TypeTransformer {
-  const {{{classname}}}TypeTransformer._();
+  factory {{{classname}}}TypeTransformer() => _instance ??= const {{{classname}}}TypeTransformer._();
 
-  factory {{{classname}}}TypeTransformer() => _instance ??= {{{classname}}}TypeTransformer._();
+  const {{{classname}}}TypeTransformer._();
 
   {{{dataType}}} encode({{{classname}}} data) => data.value;
 
@@ -54,21 +59,23 @@ class {{{classname}}}TypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  {{{classname}}} decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      {{#allowableValues}}
-        {{#enumVars}}
-      case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}.{{{name}}};
-        {{/enumVars}}
-      {{/allowableValues}}
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+  {{{classname}}}? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        {{#allowableValues}}
+          {{#enumVars}}
+        case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}.{{{name}}};
+          {{/enumVars}}
+        {{/allowableValues}}
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
 
   /// Singleton [{{{classname}}}TypeTransformer] instance.
-  static {{{classname}}}TypeTransformer _instance;
+  static {{{classname}}}TypeTransformer? _instance;
 }

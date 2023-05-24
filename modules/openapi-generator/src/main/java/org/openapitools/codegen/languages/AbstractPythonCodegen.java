@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -43,6 +44,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractPythonCodegen() {
         super();
@@ -67,6 +69,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("list");
         languageSpecificPrimitives.add("dict");
+        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Dict");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("str");
         languageSpecificPrimitives.add("datetime");
@@ -120,19 +124,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return "_" + name;
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-
-            return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
-        }
-        return super.getTypeDeclaration(p);
-    }
 
     /**
      * Return the default value of the property
@@ -188,7 +179,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // remove dollar sign
         name = name.replaceAll("$", "");
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -270,7 +261,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = pythonPostProcessFile + " " + file.toString();
+            String command = pythonPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -292,7 +283,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return toExampleValueRecursive(schema, new ArrayList<>(), 5);
     }
 
-    private String toExampleValueRecursive(Schema schema, List<String> includedSchemas, int indentation) {
+    private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation) {
+        boolean cycleFound = includedSchemas.stream().filter(s -> schema.equals(s)).count() > 1;
+        if (cycleFound) {
+            return "";
+        }
         String indentationString = "";
         for (int i = 0; i < indentation; i++) indentationString += "    ";
         String example = null;
@@ -416,13 +411,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             example = "True";
         } else if (ModelUtils.isArraySchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                includedSchemas.add(schema.getTitle());
+                includedSchemas.add(schema);
             }
             ArraySchema arrayschema = (ArraySchema) schema;
             example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                includedSchemas.add(schema.getTitle());
+                includedSchemas.add(schema);
             }
             Object additionalObject = schema.getAdditionalProperties();
             if (additionalObject instanceof Schema) {
@@ -468,13 +463,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (toExclude != null && reqs.contains(toExclude)) {
                     reqs.remove(toExclude);
                 }
-                for (String toRemove : includedSchemas) {
+                for (String toRemove : includedSchemas.stream().map(Schema::getTitle).collect(Collectors.toList())) {
                     if (reqs.contains(toRemove)) {
                         reqs.remove(toRemove);
                     }
                 }
                 if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
-                    includedSchemas.add(schema.getTitle());
+                    includedSchemas.add(schema);
                 }
                 if (null != schema.getRequired()) for (Object toAdd : schema.getRequired()) {
                     reqs.add((String) toAdd);
@@ -636,33 +631,57 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        // check if schema-mapping has a different model for this class, so we can use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
+        String sanitizedName = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
-        name = name.replaceAll("$", "");
+        sanitizedName = sanitizedName.replaceAll("$", "");
+        // remove whitespace
+        sanitizedName = sanitizedName.replaceAll("\\s+", "");
 
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
+        String nameWithPrefixSuffix = sanitizedName;
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        String camelizedName = camelize(nameWithPrefixSuffix);
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(camelizedName)) {
+            String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (camelizedName.matches("^\\d.*")) {
+            String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
+            return modelName;
+        }
+
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
@@ -679,11 +698,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toApiFilename(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_");
-
         // e.g. PhoneNumberApi.py => phone_number_api.py
-        return underscore(name + "_" + apiNameSuffix);
+        return underscore(toApiName(name));
     }
 
     @Override
@@ -698,13 +714,15 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toApiVarName(String name) {
-        if (name.length() == 0) {
-            return "default_api";
-        }
-        return underscore(name + "_" + apiNameSuffix);
+        return underscore(toApiName(name));
     }
 
     protected static String dropDots(String str) {
         return str.replaceAll("\\.", "_");
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PYTHON;
     }
 }

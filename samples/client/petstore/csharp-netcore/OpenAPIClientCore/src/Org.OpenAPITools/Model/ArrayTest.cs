@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
             sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
@@ -117,11 +117,17 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.ArrayOfString != null)
-                    hashCode = hashCode * 59 + this.ArrayOfString.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayOfString.GetHashCode();
+                }
                 if (this.ArrayArrayOfInteger != null)
-                    hashCode = hashCode * 59 + this.ArrayArrayOfInteger.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.GetHashCode();
+                }
                 if (this.ArrayArrayOfModel != null)
-                    hashCode = hashCode * 59 + this.ArrayArrayOfModel.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.GetHashCode();
+                }
                 return hashCode;
             }
         }

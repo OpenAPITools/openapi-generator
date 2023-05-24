@@ -20,11 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * ReadOnlyFirst
@@ -33,7 +34,6 @@ import javax.xml.bind.annotation.*;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@JsonTypeName("ReadOnlyFirst")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ReadOnlyFirst")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -47,13 +47,14 @@ public class ReadOnlyFirst {
   @XmlElement(name = "baz")
   private String baz;
 
+  public ReadOnlyFirst() {
+  }
 
    /**
    * Get bar
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bar")
@@ -76,7 +77,6 @@ public class ReadOnlyFirst {
    * @return baz
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "baz")
@@ -92,7 +92,6 @@ public class ReadOnlyFirst {
   public void setBaz(String baz) {
     this.baz = baz;
   }
-
 
   @Override
   public boolean equals(Object o) {

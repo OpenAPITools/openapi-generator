@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -33,23 +34,28 @@ class EnumClass {
     leftParenthesisXyzRightParenthesis,
   ];
 
-  static EnumClass fromJson(dynamic value) =>
-    EnumClassTypeTransformer().decode(value);
+  static EnumClass? fromJson(dynamic value) => EnumClassTypeTransformer().decode(value);
 
-  static List<EnumClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumClass>[]
-      : json
-          .map((value) => EnumClass.fromJson(value))
-          .toList(growable: true == growable);
+  static List<EnumClass> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <EnumClass>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = EnumClass.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [EnumClass] to String,
 /// and [decode] dynamic data back to [EnumClass].
 class EnumClassTypeTransformer {
-  const EnumClassTypeTransformer._();
+  factory EnumClassTypeTransformer() => _instance ??= const EnumClassTypeTransformer._();
 
-  factory EnumClassTypeTransformer() => _instance ??= EnumClassTypeTransformer._();
+  const EnumClassTypeTransformer._();
 
   String encode(EnumClass data) => data.value;
 
@@ -61,19 +67,22 @@ class EnumClassTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  EnumClass decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'_abc': return EnumClass.abc;
-      case r'-efg': return EnumClass.efg;
-      case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+  EnumClass? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'_abc': return EnumClass.abc;
+        case r'-efg': return EnumClass.efg;
+        case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
 
   /// Singleton [EnumClassTypeTransformer] instance.
-  static EnumClassTypeTransformer _instance;
+  static EnumClassTypeTransformer? _instance;
 }
+
