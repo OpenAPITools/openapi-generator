@@ -112,9 +112,9 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
      * version of this method to: - fix the model imports, go from model name to the
      * full import string with toModelImport + globalImportFixer
      *
-     * @param objects a map going from the model name to a object holding the model
+     * @param objs a map going from the model name to a object holding the model
      *                info
-     * @return the updated objects
+     * @return the updated objs
      */
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objects) {
