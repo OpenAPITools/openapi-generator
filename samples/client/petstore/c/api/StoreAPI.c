@@ -25,11 +25,18 @@ StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
 
     // create the path
     long sizeOfPath = strlen("/store/order/{orderId}")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/store/order/{orderId}");
+
+    if(!orderId)
+        goto end;
 
 
     // Path Params
@@ -51,6 +58,7 @@ StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId )
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "DELETE");
 
     // uncomment below to debug the error response
@@ -91,11 +99,16 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
 
     // create the path
     long sizeOfPath = strlen("/store/inventory")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/store/inventory");
+
 
 
 
@@ -108,6 +121,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -115,14 +129,17 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     //    printf("%s\n","successful operation");
     //}
     //primitive return type not simple
-    cJSON *localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    cJSON *VarJSON;
-    list_t *elementToReturn = list_createList();
-    cJSON_ArrayForEach(VarJSON, localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create(strdup(VarJSON->string), cJSON_Print(VarJSON));
-        list_addElement(elementToReturn, keyPair);
+    list_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        cJSON *VarJSON;
+        elementToReturn = list_createList();
+        cJSON_ArrayForEach(VarJSON, localVarJSON){
+            keyValuePair_t *keyPair = keyValuePair_create(strdup(VarJSON->string), cJSON_Print(VarJSON));
+            list_addElement(elementToReturn, keyPair);
+        }
+        cJSON_Delete(localVarJSON);
     }
-    cJSON_Delete(localVarJSON);
 
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
@@ -155,11 +172,16 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
 
     // create the path
     long sizeOfPath = strlen("/store/order/{orderId}")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/store/order/{orderId}");
+
 
 
     // Path Params
@@ -187,6 +209,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -202,11 +225,14 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     //    printf("%s\n","Order not found");
     //}
     //nonprimitive not container
-    cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
-    cJSON_Delete(StoreAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
+    order_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+        elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
+        cJSON_Delete(StoreAPIlocalVarJSON);
+        if(elementToReturn == NULL) {
+            // return 0;
+        }
     }
 
     //return type
@@ -240,6 +266,10 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
 
     // create the path
     long sizeOfPath = strlen("/store/order")+1;
@@ -249,13 +279,15 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
 
 
 
+
     // Body Param
     cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_body = order_convertToJSON(body);
         localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     list_addElement(localVarHeaderType,"application/xml"); //produces
     list_addElement(localVarHeaderType,"application/json"); //produces
@@ -267,6 +299,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -278,11 +311,14 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     //    printf("%s\n","Invalid Order");
     //}
     //nonprimitive not container
-    cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
-    cJSON_Delete(StoreAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
+    order_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+        elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
+        cJSON_Delete(StoreAPIlocalVarJSON);
+        if(elementToReturn == NULL) {
+            // return 0;
+        }
     }
 
     //return type

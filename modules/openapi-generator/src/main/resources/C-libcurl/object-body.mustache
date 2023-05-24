@@ -4,48 +4,42 @@
 #include "object.h"
 
 object_t *object_create() {
-    object_t *object = calloc(1, sizeof(object_t));
+    object_t *object;
 
+    object = malloc(sizeof(object_t));
+    if (!object)
+        return NULL;
+
+    object->json = cJSON_CreateObject();
+    if (!object->json)
+        goto fail;
     return object;
+
+fail:
+    free(object);
+    return NULL;
 }
 
 void object_free(object_t *object) {
-    if (!object) {
-        return ;
-    }
-
-    if (object->temporary) {
-        free(object->temporary);
-        object->temporary = NULL;
-    }
-
-    free (object);
+    if (object->json)
+        cJSON_Delete(object->json);
+    free(object);
 }
 
 cJSON *object_convertToJSON(object_t *object) {
-    if (!object) {
-        return NULL;
-    }
-
-    if (!object->temporary) {
-        return cJSON_Parse("null");
-    }
-
-    return cJSON_Parse(object->temporary);
+    return cJSON_Duplicate(object->json, 1);
 }
 
-object_t *object_parseFromJSON(cJSON *json){
-    if (!json) {
-        goto end;
-    }
+object_t *object_parseFromJSON(cJSON *json) {
+    object_t *object;
 
-    object_t *object = object_create();
-    if (!object) {
-        goto end;
+    object = malloc(sizeof(object_t));
+    if (!object)
+        return NULL;
+    object->json = cJSON_Duplicate(json, 1);
+    if (!object->json) {
+        free(object);
+        return NULL;
     }
-    object->temporary = cJSON_Print(json);
     return object;
-
-end:
-    return NULL;
 }

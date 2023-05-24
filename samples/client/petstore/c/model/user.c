@@ -5,7 +5,7 @@
 
 
 
-user_t *user_create(
+static user_t *user_create_internal(
     long id,
     char *username,
     char *first_name,
@@ -28,12 +28,38 @@ user_t *user_create(
     user_local_var->phone = phone;
     user_local_var->user_status = user_status;
 
+    user_local_var->_library_owned = 1;
     return user_local_var;
 }
 
+__attribute__((deprecated)) user_t *user_create(
+    long id,
+    char *username,
+    char *first_name,
+    char *last_name,
+    char *email,
+    char *password,
+    char *phone,
+    int user_status
+    ) {
+    return user_create_internal (
+        id,
+        username,
+        first_name,
+        last_name,
+        email,
+        password,
+        phone,
+        user_status
+        );
+}
 
 void user_free(user_t *user) {
     if(NULL == user){
+        return ;
+    }
+    if(user->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "user_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -144,6 +170,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(userJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -153,6 +182,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->username
     cJSON *username = cJSON_GetObjectItemCaseSensitive(userJSON, "username");
+    if (cJSON_IsNull(username)) {
+        username = NULL;
+    }
     if (username) { 
     if(!cJSON_IsString(username) && !cJSON_IsNull(username))
     {
@@ -162,6 +194,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->first_name
     cJSON *first_name = cJSON_GetObjectItemCaseSensitive(userJSON, "firstName");
+    if (cJSON_IsNull(first_name)) {
+        first_name = NULL;
+    }
     if (first_name) { 
     if(!cJSON_IsString(first_name) && !cJSON_IsNull(first_name))
     {
@@ -171,6 +206,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->last_name
     cJSON *last_name = cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
+    if (cJSON_IsNull(last_name)) {
+        last_name = NULL;
+    }
     if (last_name) { 
     if(!cJSON_IsString(last_name) && !cJSON_IsNull(last_name))
     {
@@ -180,6 +218,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->email
     cJSON *email = cJSON_GetObjectItemCaseSensitive(userJSON, "email");
+    if (cJSON_IsNull(email)) {
+        email = NULL;
+    }
     if (email) { 
     if(!cJSON_IsString(email) && !cJSON_IsNull(email))
     {
@@ -189,6 +230,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->password
     cJSON *password = cJSON_GetObjectItemCaseSensitive(userJSON, "password");
+    if (cJSON_IsNull(password)) {
+        password = NULL;
+    }
     if (password) { 
     if(!cJSON_IsString(password) && !cJSON_IsNull(password))
     {
@@ -198,6 +242,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->phone
     cJSON *phone = cJSON_GetObjectItemCaseSensitive(userJSON, "phone");
+    if (cJSON_IsNull(phone)) {
+        phone = NULL;
+    }
     if (phone) { 
     if(!cJSON_IsString(phone) && !cJSON_IsNull(phone))
     {
@@ -207,6 +254,9 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     // user->user_status
     cJSON *user_status = cJSON_GetObjectItemCaseSensitive(userJSON, "userStatus");
+    if (cJSON_IsNull(user_status)) {
+        user_status = NULL;
+    }
     if (user_status) { 
     if(!cJSON_IsNumber(user_status))
     {
@@ -215,7 +265,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     }
 
 
-    user_local_var = user_create (
+    user_local_var = user_create_internal (
         id ? id->valuedouble : 0,
         username && !cJSON_IsNull(username) ? strdup(username->valuestring) : NULL,
         first_name && !cJSON_IsNull(first_name) ? strdup(first_name->valuestring) : NULL,

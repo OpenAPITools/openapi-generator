@@ -18,7 +18,10 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -326,6 +329,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -347,6 +351,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // Object files in model folder
         supportingFiles.add(new SupportingFile("object-body.mustache", "model", "object.c"));
         supportingFiles.add(new SupportingFile("object-header.mustache", "model", "object.h"));
+        supportingFiles.add(new SupportingFile("any_type-header.mustache", "model", "any_type.h"));
     }
 
     @Override
@@ -905,6 +910,145 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    @Override
+    public ExtendedCodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation superOp = super.fromOperation(path, httpMethod, operation, servers);
+        ExtendedCodegenOperation op = new ExtendedCodegenOperation(superOp);
+
+        ApiResponse methodResponse = findMethodResponse(operation.getResponses());
+        if (methodResponse != null) {
+            Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+            Schema schema = null;
+            if (schemas != null) {
+                schema = schemas.get(op.returnBaseType);
+            }
+
+            Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
+            if (responseSchema != null) {
+                CodegenProperty cp = fromProperty("response", responseSchema);
+                if (cp != null) {
+                    op.returnTypeIsEnum = cp.isEnum;
+                    op.returnTypeIsBinary = cp.isBinary;
+                    op.returnTypeIsString = cp.isString;
+                    op.returnTypeIsInteger = cp.isInteger;
+                }
+            }
+        }
+
+        return op;
+    }
+
+    class ExtendedCodegenOperation extends CodegenOperation {
+        boolean returnTypeIsEnum;
+        boolean returnTypeIsBinary;
+        boolean returnTypeIsString;
+        boolean returnTypeIsInteger;
+
+        public ExtendedCodegenOperation(CodegenOperation o) {
+            super();
+
+            this.responseHeaders.addAll(o.responseHeaders);
+            this.hasAuthMethods = o.hasAuthMethods;
+            this.hasConsumes = o.hasConsumes;
+            this.hasProduces = o.hasProduces;
+            this.hasParams = o.hasParams;
+            this.hasOptionalParams = o.hasOptionalParams;
+            this.hasRequiredParams = o.hasRequiredParams;
+            this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
+            this.returnSimpleType = o.returnSimpleType;
+            this.subresourceOperation = o.subresourceOperation;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
+            this.isMultipart = o.isMultipart;
+            this.isResponseBinary = o.isResponseBinary;
+            this.isResponseFile = o.isResponseFile;
+            this.hasReference = o.hasReference;
+            this.isRestfulIndex = o.isRestfulIndex;
+            this.isRestfulShow = o.isRestfulShow;
+            this.isRestfulCreate = o.isRestfulCreate;
+            this.isRestfulUpdate = o.isRestfulUpdate;
+            this.isRestfulDestroy = o.isRestfulDestroy;
+            this.isRestful = o.isRestful;
+            this.isDeprecated = o.isDeprecated;
+            this.isCallbackRequest = o.isCallbackRequest;
+            this.uniqueItems = o.uniqueItems;
+            this.path = o.path;
+            this.operationId = o.operationId;
+            this.returnType = o.returnType;
+            this.returnFormat = o.returnFormat;
+            this.httpMethod = o.httpMethod;
+            this.returnBaseType = o.returnBaseType;
+            this.returnContainer = o.returnContainer;
+            this.summary = o.summary;
+            this.unescapedNotes = o.unescapedNotes;
+            this.notes = o.notes;
+            this.baseName = o.baseName;
+            this.defaultResponse = o.defaultResponse;
+            this.discriminator = o.discriminator;
+            this.consumes = o.consumes;
+            this.produces = o.produces;
+            this.prioritizedContentTypes = o.prioritizedContentTypes;
+            this.servers = o.servers;
+            this.bodyParam = o.bodyParam;
+            this.allParams = o.allParams;
+            this.bodyParams = o.bodyParams;
+            this.pathParams = o.pathParams;
+            this.queryParams = o.queryParams;
+            this.headerParams = o.headerParams;
+            this.formParams = o.formParams;
+            this.cookieParams = o.cookieParams;
+            this.requiredParams = o.requiredParams;
+            this.optionalParams = o.optionalParams;
+            this.authMethods = o.authMethods;
+            this.tags = o.tags;
+            this.responses = o.responses;
+            this.callbacks = o.callbacks;
+            this.imports = o.imports;
+            this.examples = o.examples;
+            this.requestBodyExamples = o.requestBodyExamples;
+            this.externalDocs = o.externalDocs;
+            this.vendorExtensions = o.vendorExtensions;
+            this.nickname = o.nickname;
+            this.operationIdOriginal = o.operationIdOriginal;
+            this.operationIdLowerCase = o.operationIdLowerCase;
+            this.operationIdCamelCase = o.operationIdCamelCase;
+            this.operationIdSnakeCase = o.operationIdSnakeCase;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null)
+                return false;
+
+            if (this.getClass() != o.getClass())
+                return false;
+
+            boolean result = super.equals(o);
+            ExtendedCodegenOperation that = (ExtendedCodegenOperation) o;
+            return result && returnTypeIsEnum == that.returnTypeIsEnum &&
+                    returnTypeIsBinary == that.returnTypeIsBinary &&
+                    returnTypeIsString == that.returnTypeIsString &&
+                    returnTypeIsInteger == that.returnTypeIsInteger;
+        }
+
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, returnTypeIsEnum, returnTypeIsBinary, returnTypeIsString, returnTypeIsInteger);
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", returnTypeIsEnum=").append(returnTypeIsEnum);
+            sb.append(", returnTypeIsBinary=").append(returnTypeIsBinary);
+            sb.append(", returnTypeIsString=").append(returnTypeIsString);
+            sb.append(", returnTypeIsInteger=").append(returnTypeIsInteger);
+            return sb.toString();
         }
     }
 
