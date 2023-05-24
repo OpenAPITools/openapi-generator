@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Issue 11242 - Path Param encoding
+  description: "White space encoding in path parameters"
+  version: "1.0.0"
+servers:
+  - url: localhost:8080
+paths:
+  /api/{someParam}:
+    parameters:
+      - in: path
+        name: someParam
+        schema:
+          type: string
+        required: true
+        description: Some parameter.
+    get:
+      operationId: GetSomeParam
+      summary: View some param
+      responses:
+        '200':
+          description: Some return value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeReturnValue'
+              example:
+                someParam: someValue
+components:
+  schemas:
+    SomeReturnValue:
+      type: object
+      required:
+        - someParam
+      properties:
+        someParam:
+          type: string

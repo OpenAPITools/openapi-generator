@@ -13,9 +13,10 @@
  */
 
 
-import { Configuration } from "./configuration";
-import { RequiredError,　RequestArgs } from "./base";
-import { AxiosInstance } from 'axios';
+import type { Configuration } from "./configuration";
+import type { RequestArgs } from "./base";
+import type { AxiosInstance, AxiosResponse } from 'axios';
+import { RequiredError } from "./base";
 
 /**
  *
@@ -83,24 +84,35 @@ export const setOAuthToObject = async function (object: any, name: string, scope
     }
 }
 
+function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
+    if (parameter == null) return;
+    if (typeof parameter === "object") {
+        if (Array.isArray(parameter)) {
+            (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
+        } 
+        else {
+            Object.keys(parameter).forEach(currentKey => 
+                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}${key !== '' ? '.' : ''}${currentKey}`)
+            );
+        }
+    } 
+    else {
+        if (urlSearchParams.has(key)) {
+            urlSearchParams.append(key, parameter);
+        } 
+        else {
+            urlSearchParams.set(key, parameter);
+        }
+    }
+}
+
 /**
  *
  * @export
  */
 export const setSearchParams = function (url: URL, ...objects: any[]) {
     const searchParams = new URLSearchParams(url.search);
-    for (const object of objects) {
-        for (const key in object) {
-            if (Array.isArray(object[key])) {
-                searchParams.delete(key);
-                for (const item of object[key]) {
-                    searchParams.append(key, item);
-                }
-            } else {
-                searchParams.set(key, object[key]);
-            }
-        }
-    }
+    setFlattenedQueryParams(searchParams, objects);
     url.search = searchParams.toString();
 }
 
@@ -131,8 +143,8 @@ export const toPathString = function (url: URL) {
  * @export
  */
 export const createRequestFunction = function (axiosArgs: RequestArgs, globalAxios: AxiosInstance, BASE_PATH: string, configuration?: Configuration) {
-    return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+    return <T = unknown, R = AxiosResponse<T>>(axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...axiosArgs.options, url: (configuration?.basePath || basePath) + axiosArgs.url};
-        return axios.request(axiosRequestArgs);
+        return axios.request<T, R>(axiosRequestArgs);
     };
 }

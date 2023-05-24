@@ -2,7 +2,7 @@
 /**
  * Pet
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -41,6 +41,7 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
+
 class Pet 
 {
         /**
@@ -49,27 +50,27 @@ class Pet
      * @Assert\Type("int")
      * @Type("int")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
-     * @var OpenAPI\Server\Model\Category|null
+     * @var Category|null
      * @SerializedName("category")
      * @Assert\Type("OpenAPI\Server\Model\Category")
      * @Type("OpenAPI\Server\Model\Category")
      */
-    protected $category;
+    protected ?Category $category = null;
 
     /**
-     * @var string
+     * @var string|null
      * @SerializedName("name")
      * @Assert\NotNull()
      * @Assert\Type("string")
      * @Type("string")
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
-     * @var string[]
+     * @var array|null
      * @SerializedName("photoUrls")
      * @Assert\NotNull()
      * @Assert\All({
@@ -77,17 +78,17 @@ class Pet
      * })
      * @Type("array<string>")
      */
-    protected $photoUrls;
+    protected ?array $photoUrls = null;
 
     /**
-     * @var OpenAPI\Server\Model\Tag[]|null
+     * @var array|null
      * @SerializedName("tags")
      * @Assert\All({
      *   @Assert\Type("OpenAPI\Server\Model\Tag")
      * })
      * @Type("array<OpenAPI\Server\Model\Tag>")
      */
-    protected $tags;
+    protected ?array $tags = null;
 
     /**
      * pet status in the store
@@ -98,20 +99,20 @@ class Pet
      * @Assert\Type("string")
      * @Type("string")
      */
-    protected $status;
+    protected ?string $status = null;
 
     /**
      * Constructor
-     * @param mixed[] $data Associated array of property values initializing the model
+     * @param array|null $data Associated array of property values initializing the model
      */
     public function __construct(array $data = null)
     {
-        $this->id = isset($data['id']) ? $data['id'] : null;
-        $this->category = isset($data['category']) ? $data['category'] : null;
-        $this->name = isset($data['name']) ? $data['name'] : null;
-        $this->photoUrls = isset($data['photoUrls']) ? $data['photoUrls'] : null;
-        $this->tags = isset($data['tags']) ? $data['tags'] : null;
-        $this->status = isset($data['status']) ? $data['status'] : null;
+        $this->id = $data['id'] ?? null;
+        $this->category = $data['category'] ?? null;
+        $this->name = $data['name'] ?? null;
+        $this->photoUrls = $data['photoUrls'] ?? null;
+        $this->tags = $data['tags'] ?? null;
+        $this->status = $data['status'] ?? null;
     }
 
     /**
@@ -119,7 +120,7 @@ class Pet
      *
      * @return int|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -131,7 +132,7 @@ class Pet
      *
      * @return $this
      */
-    public function setId($id = null)
+    public function setId(?int $id = null): self
     {
         $this->id = $id;
 
@@ -141,7 +142,7 @@ class Pet
     /**
      * Gets category.
      *
-     * @return OpenAPI\Server\Model\Category|null
+     * @return Category|null
      */
     public function getCategory(): ?Category
     {
@@ -151,11 +152,11 @@ class Pet
     /**
      * Sets category.
      *
-     * @param OpenAPI\Server\Model\Category|null $category
+     * @param Category|null $category
      *
      * @return $this
      */
-    public function setCategory(Category $category = null)
+    public function setCategory(?Category $category = null): self
     {
         $this->category = $category;
 
@@ -165,9 +166,9 @@ class Pet
     /**
      * Gets name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -175,11 +176,11 @@ class Pet
     /**
      * Sets name.
      *
-     * @param string $name
+     * @param string|null $name
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -189,9 +190,9 @@ class Pet
     /**
      * Gets photoUrls.
      *
-     * @return string[]
+     * @return array|null
      */
-    public function getPhotoUrls(): array
+    public function getPhotoUrls(): ?array
     {
         return $this->photoUrls;
     }
@@ -199,11 +200,11 @@ class Pet
     /**
      * Sets photoUrls.
      *
-     * @param string[] $photoUrls
+     * @param array|null $photoUrls
      *
      * @return $this
      */
-    public function setPhotoUrls(array $photoUrls)
+    public function setPhotoUrls(?array $photoUrls): self
     {
         $this->photoUrls = $photoUrls;
 
@@ -213,7 +214,7 @@ class Pet
     /**
      * Gets tags.
      *
-     * @return OpenAPI\Server\Model\Tag[]|null
+     * @return array|null
      */
     public function getTags(): ?array
     {
@@ -223,11 +224,11 @@ class Pet
     /**
      * Sets tags.
      *
-     * @param OpenAPI\Server\Model\Tag[]|null $tags
+     * @param array|null $tags
      *
      * @return $this
      */
-    public function setTags(array $tags = null)
+    public function setTags(?array $tags = null): self
     {
         $this->tags = $tags;
 
@@ -239,7 +240,7 @@ class Pet
      *
      * @return string|null
      */
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -251,7 +252,7 @@ class Pet
      *
      * @return $this
      */
-    public function setStatus($status = null)
+    public function setStatus(?string $status = null): self
     {
         $this->status = $status;
 

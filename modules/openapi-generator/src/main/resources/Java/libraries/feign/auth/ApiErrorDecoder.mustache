@@ -5,7 +5,7 @@ import feign.RetryableException;
 import feign.codec.ErrorDecoder;
 
 /**
- * Error decoder that makes the HTTP 401 and 403 Retryable. Sometimes the 401 or 402 may indicate an expired token
+ * Error decoder that makes the HTTP 401 and 403 Retryable. Sometimes the 401 or 403 may indicate an expired token
  * All the other HTTP status are handled by the {@link feign.codec.ErrorDecoder.Default} decoder
  */
 public class ApiErrorDecoder implements ErrorDecoder {

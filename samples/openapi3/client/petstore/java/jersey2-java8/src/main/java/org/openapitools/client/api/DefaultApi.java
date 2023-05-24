@@ -8,10 +8,11 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import org.openapitools.client.model.InlineResponseDefault;
+import org.openapitools.client.model.FooGetDefaultResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class DefaultApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +38,7 @@ public class DefaultApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -48,7 +49,7 @@ public class DefaultApi {
   /**
    * 
    * 
-   * @return InlineResponseDefault
+   * @return FooGetDefaultResponse
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -56,14 +57,14 @@ public class DefaultApi {
        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public InlineResponseDefault fooGet() throws ApiException {
+  public FooGetDefaultResponse fooGet() throws ApiException {
     return fooGetWithHttpInfo().getData();
   }
 
   /**
    * 
    * 
-   * @return ApiResponse&lt;InlineResponseDefault&gt;
+   * @return ApiResponse&lt;FooGetDefaultResponse&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -71,38 +72,12 @@ public class DefaultApi {
        <tr><td> 0 </td><td> response </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
-    
-    // create path and map variables
-    String localVarPath = "/foo";
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    GenericType<InlineResponseDefault> localVarReturnType = new GenericType<InlineResponseDefault>() {};
-
-    return apiClient.invokeAPI("DefaultApi.fooGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+  public ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo() throws ApiException {
+    String localVarAccept = apiClient.selectHeaderAccept("application/json");
+    String localVarContentType = apiClient.selectHeaderContentType();
+    GenericType<FooGetDefaultResponse> localVarReturnType = new GenericType<FooGetDefaultResponse>() {};
+    return apiClient.invokeAPI("DefaultApi.fooGet", "/foo", "GET", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
   }
 }

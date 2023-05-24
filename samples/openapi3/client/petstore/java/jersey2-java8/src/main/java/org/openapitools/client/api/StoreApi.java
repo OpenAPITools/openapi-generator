@@ -12,6 +12,7 @@ import org.openapitools.client.model.Order;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class StoreApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +38,7 @@ public class StoreApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -75,42 +76,20 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'orderId' is set
+    // Check required parameters
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
     }
-    
-    // create path and map variables
+
+    // Path parameters
     String localVarPath = "/store/order/{order_id}"
-      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+            .replaceAll("\\{order_id}", apiClient.escapeString(orderId));
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("StoreApi.deleteOrder", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType();
+    return apiClient.invokeAPI("StoreApi.deleteOrder", localVarPath, "DELETE", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * Returns pet inventories by status
@@ -139,42 +118,17 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
-    
-    // create path and map variables
-    String localVarPath = "/store/inventory";
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] { "api_key" };
-
+    String localVarAccept = apiClient.selectHeaderAccept("application/json");
+    String localVarContentType = apiClient.selectHeaderContentType();
+    String[] localVarAuthNames = new String[] {"api_key"};
     GenericType<Map<String, Integer>> localVarReturnType = new GenericType<Map<String, Integer>>() {};
-
-    return apiClient.invokeAPI("StoreApi.getInventory", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+    return apiClient.invokeAPI("StoreApi.getInventory", "/store/inventory", "GET", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
                                localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return Order
    * @throws ApiException if fails to make API call
@@ -192,7 +146,7 @@ public class StoreApi {
 
   /**
    * Find purchase order by ID
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    * @param orderId ID of pet that needs to be fetched (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
@@ -205,44 +159,21 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'orderId' is set
+    // Check required parameters
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
     }
-    
-    // create path and map variables
+
+    // Path parameters
     String localVarPath = "/store/order/{order_id}"
-      .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+            .replaceAll("\\{order_id}", apiClient.escapeString(orderId.toString()));
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/xml", "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
+    String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
+    String localVarContentType = apiClient.selectHeaderContentType();
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
-
-    return apiClient.invokeAPI("StoreApi.getOrderById", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+    return apiClient.invokeAPI("StoreApi.getOrderById", localVarPath, "GET", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
   }
   /**
    * Place an order for a pet
@@ -275,42 +206,16 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
-    Object localVarPostBody = order;
-    
-    // verify the required parameter 'order' is set
+    // Check required parameters
     if (order == null) {
       throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
     }
-    
-    // create path and map variables
-    String localVarPath = "/store/order";
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/xml", "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
+    String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
     GenericType<Order> localVarReturnType = new GenericType<Order>() {};
-
-    return apiClient.invokeAPI("StoreApi.placeOrder", localVarPath, "POST", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+    return apiClient.invokeAPI("StoreApi.placeOrder", "/store/order", "POST", new ArrayList<>(), order,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
   }
 }

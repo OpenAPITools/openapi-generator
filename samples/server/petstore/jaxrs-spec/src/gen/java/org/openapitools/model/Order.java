@@ -12,17 +12,18 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Order  implements Serializable {
-  
+@JsonTypeName("Order")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Order  implements Serializable {
   private @Valid Long id;
   private @Valid Long petId;
   private @Valid Integer quantity;
   private @Valid Date shipDate;
-
-public enum StatusEnum {
+  public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
 
@@ -43,6 +44,21 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
+    /**
+     * Convert a String into String, as specified in the
+     * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
+     */
+	public static StatusEnum fromString(String s) {
+        for (StatusEnum b : StatusEnum.values()) {
+            // using Objects.toString() to be safe if value type non-object type
+            // because types like 'int' etc. will be auto-boxed
+            if (java.util.Objects.toString(b.value).equals(s)) {
+                return b;
+            }
+        }
+        throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+	}
+	
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -57,6 +73,18 @@ public enum StatusEnum {
   private @Valid StatusEnum status;
   private @Valid Boolean complete = false;
 
+  protected Order(OrderBuilder<?, ?> b) {
+    this.id = b.id;
+    this.petId = b.petId;
+    this.quantity = b.quantity;
+    this.shipDate = b.shipDate;
+    this.status = b.status;
+    this.complete = b.complete;
+  }
+
+  public Order() {
+  }
+
   /**
    **/
   public Order id(Long id) {
@@ -65,26 +93,23 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
 
-/**
+  /**
    **/
   public Order petId(Long petId) {
     this.petId = petId;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -93,18 +118,17 @@ public enum StatusEnum {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
-/**
+  /**
    **/
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -113,18 +137,17 @@ public enum StatusEnum {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
-/**
+  /**
    **/
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -133,11 +156,12 @@ public enum StatusEnum {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
 
-/**
+  /**
    * Order Status
    **/
   public Order status(StatusEnum status) {
@@ -146,26 +170,23 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
-/**
+  /**
    **/
   public Order complete(Boolean complete) {
     this.complete = complete;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -174,6 +195,7 @@ public enum StatusEnum {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
@@ -228,5 +250,58 @@ public enum StatusEnum {
   }
 
 
+  public static OrderBuilder<?, ?> builder() {
+    return new OrderBuilderImpl();
+  }
+
+  private static final class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
+
+    @Override
+    protected OrderBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Order build() {
+      return new Order(this);
+    }
+  }
+
+  public static abstract class OrderBuilder<C extends Order, B extends OrderBuilder<C, B>>  {
+    private Long id;
+    private Long petId;
+    private Integer quantity;
+    private Date shipDate;
+    private StatusEnum status;
+    private Boolean complete = false;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B petId(Long petId) {
+      this.petId = petId;
+      return self();
+    }
+    public B quantity(Integer quantity) {
+      this.quantity = quantity;
+      return self();
+    }
+    public B shipDate(Date shipDate) {
+      this.shipDate = shipDate;
+      return self();
+    }
+    public B status(StatusEnum status) {
+      this.status = status;
+      return self();
+    }
+    public B complete(Boolean complete) {
+      this.complete = complete;
+      return self();
+    }
+  }
 }
 

@@ -6,8 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -16,8 +15,7 @@ buildscript {
 }
 
 repositories {
-    maven { url "https://repo1.maven.org/maven2" }
-    jcenter()
+    mavenCentral()
 }
 
 if(hasProperty('target') && target == 'android') {
@@ -50,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -78,14 +76,18 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'petstore-apache-httpclient'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'petstore-apache-httpclient'
+
+               from components.java
+            }
         }
     }
 
@@ -111,28 +113,26 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.22"
-    jackson_version = "2.12.1"
-    jackson_databind_version = "2.10.5.1"
-    jackson_databind_nullable_version = "0.2.1"
-    jackson_threetenbp_version = "2.9.10"
-    jersey_version = "1.19.4"
+    swagger_annotations_version = "1.6.6"
+    jackson_version = "2.14.1"
+    jackson_databind_version = "2.14.1"
+    jackson_databind_nullable_version = "0.2.6"
+    jakarta_annotation_version = "1.3.5"
+    httpclient_version = "5.1.3"
     jodatime_version = "2.9.9"
-    junit_version = "4.13.1"
+    junit_version = "4.13.2"
 }
 
 dependencies {
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
-    implementation "com.sun.jersey:jersey-client:$jersey_version"
-    implementation "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    implementation "org.apache.httpcomponents.client5:httpclient5:$httpclient_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

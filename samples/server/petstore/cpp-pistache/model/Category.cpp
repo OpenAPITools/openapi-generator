@@ -72,7 +72,7 @@ bool Category::operator!=(const Category& rhs) const
 
 void to_json(nlohmann::json& j, const Category& o)
 {
-    j = nlohmann::json();
+    j = nlohmann::json::object();
     if(o.idIsSet())
         j["id"] = o.m_Id;
     if(o.nameIsSet())

@@ -108,6 +108,10 @@ paths:
           in: header
           schema:
             type: string
+        - name: value
+          in: header
+          schema:
+            type: string
         - name: var
           in: header
           schema:
@@ -192,6 +196,8 @@ components:
           type: string
         val:
           type: string
+        value:
+          type: string
         var:
           type: string
         when:
@@ -208,7 +214,7 @@ components:
           $ref: '#/components/schemas/Linked'
 
     Linked:
-      description: Refernce links
+      description: Reference links
       type: object
       properties:
         as:
@@ -261,6 +267,8 @@ components:
           $ref: '#/components/schemas/typeof'
         val:
           $ref: '#/components/schemas/val'
+        value:
+          $ref: '#/components/schemas/value'
         var:
           $ref: '#/components/schemas/var'
         when:
@@ -467,6 +475,14 @@ components:
 
     val:
       title: Testing reserved word 'val'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    value:
+      title: Testing reserved word 'value'
       type: object
       properties:
         id:

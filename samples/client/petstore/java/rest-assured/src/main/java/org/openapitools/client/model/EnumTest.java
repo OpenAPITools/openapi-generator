@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.OuterEnum;
 import javax.validation.constraints.*;
@@ -245,6 +243,8 @@ public class EnumTest {
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     
@@ -257,7 +257,7 @@ public class EnumTest {
    * @return enumString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public EnumStringEnum getEnumString() {
     return enumString;
@@ -281,7 +281,7 @@ public class EnumTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+
 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -304,7 +304,7 @@ public class EnumTest {
    * @return enumInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -327,7 +327,7 @@ public class EnumTest {
    * @return enumNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -351,7 +351,7 @@ public class EnumTest {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public OuterEnum getOuterEnum() {
     return outerEnum;
@@ -361,7 +361,6 @@ public class EnumTest {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

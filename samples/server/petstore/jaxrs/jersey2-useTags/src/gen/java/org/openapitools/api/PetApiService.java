@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import org.openapitools.api.*;
-import org.openapitools.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
@@ -27,6 +26,6 @@ public abstract class PetApiService {
     public abstract Response getPetById(Long petId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updatePet(Pet body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updatePetWithForm(Long petId,String name,String status,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response uploadFile(Long petId,String additionalMetadata,FormDataBodyPart fileBodypart,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response uploadFile(Long petId,String additionalMetadata,FormDataBodyPart _fileBodypart,SecurityContext securityContext) throws NotFoundException;
     public abstract Response uploadFileWithRequiredFile(Long petId,FormDataBodyPart requiredFileBodypart,String additionalMetadata,SecurityContext securityContext) throws NotFoundException;
 }

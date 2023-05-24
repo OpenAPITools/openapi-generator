@@ -99,11 +99,11 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [InlineObject](docs/InlineObject.md)
+ - [OpGetRequest](docs/OpGetRequest.md)
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

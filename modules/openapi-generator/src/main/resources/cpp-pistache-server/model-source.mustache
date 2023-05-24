@@ -86,7 +86,7 @@ bool {{classname}}::operator!=(const {{classname}}& rhs) const
 
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
-    j = nlohmann::json();
+    j = nlohmann::json::object();
     {{#vars}}
     {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet(){{#isContainer}} || !o.m_{{name}}.empty(){{/isContainer}})
         j["{{baseName}}"] = o.m_{{name}};{{/required}}

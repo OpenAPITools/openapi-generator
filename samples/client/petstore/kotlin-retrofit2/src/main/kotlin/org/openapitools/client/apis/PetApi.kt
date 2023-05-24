@@ -4,8 +4,9 @@ import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
 import retrofit2.Call
 import okhttp3.RequestBody
+import com.squareup.moshi.Json
 
-import org.openapitools.client.models.ApiResponse
+import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
 import okhttp3.MultipartBody
@@ -17,7 +18,7 @@ interface PetApi {
      * Responses:
      *  - 405: Invalid input
      *
-     * @param body Pet object that needs to be added to the store 
+     * @param body Pet object that needs to be added to the store
      * @return [Call]<[Unit]>
      */
     @POST("pet")
@@ -29,12 +30,22 @@ interface PetApi {
      * Responses:
      *  - 400: Invalid pet value
      *
-     * @param petId Pet id to delete 
+     * @param petId Pet id to delete
      * @param apiKey  (optional)
      * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
     fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Call<Unit>
+
+
+    /**
+    * enum for parameter status
+    */
+    enum class StatusFindPetsByStatus(val value: kotlin.String) {
+        @Json(name = "available") available("available"),
+        @Json(name = "pending") pending("pending"),
+        @Json(name = "sold") sold("sold")
+    }
 
     /**
      * Finds Pets by status
@@ -43,7 +54,7 @@ interface PetApi {
      *  - 200: successful operation
      *  - 400: Invalid status value
      *
-     * @param status Status values that need to be considered for filter 
+     * @param status Status values that need to be considered for filter
      * @return [Call]<[kotlin.collections.List<Pet>]>
      */
     @GET("pet/findByStatus")
@@ -56,7 +67,7 @@ interface PetApi {
      *  - 200: successful operation
      *  - 400: Invalid tag value
      *
-     * @param tags Tags to filter by 
+     * @param tags Tags to filter by
      * @return [Call]<[kotlin.collections.List<Pet>]>
      */
     @Deprecated("This api was deprecated")
@@ -71,7 +82,7 @@ interface PetApi {
      *  - 400: Invalid ID supplied
      *  - 404: Pet not found
      *
-     * @param petId ID of pet to return 
+     * @param petId ID of pet to return
      * @return [Call]<[Pet]>
      */
     @GET("pet/{petId}")
@@ -85,7 +96,7 @@ interface PetApi {
      *  - 404: Pet not found
      *  - 405: Validation exception
      *
-     * @param body Pet object that needs to be added to the store 
+     * @param body Pet object that needs to be added to the store
      * @return [Call]<[Unit]>
      */
     @PUT("pet")
@@ -97,7 +108,7 @@ interface PetApi {
      * Responses:
      *  - 405: Invalid input
      *
-     * @param petId ID of pet that needs to be updated 
+     * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
      * @return [Call]<[Unit]>
@@ -112,13 +123,13 @@ interface PetApi {
      * Responses:
      *  - 200: successful operation
      *
-     * @param petId ID of pet to update 
+     * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
-     * @return [Call]<[ApiResponse]>
+     * @return [Call]<[ModelApiResponse]>
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Call<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Call<ModelApiResponse>
 
 }

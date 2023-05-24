@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -12,7 +13,7 @@ part of openapi.api;
 class Animal {
   /// Returns a new [Animal] instance.
   Animal({
-    @required this.className,
+    required this.className,
     this.color = 'red',
   });
 
@@ -27,52 +28,89 @@ class Animal {
 
   @override
   int get hashCode =>
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode);
+    // ignore: unnecessary_parenthesis
+    (className.hashCode) +
+    (color.hashCode);
 
   @override
   String toString() => 'Animal[className=$className, color=$color]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = className;
-    if (color != null) {
-      json[r'color'] = color;
-    }
+      json[r'className'] = this.className;
+      json[r'color'] = this.color;
     return json;
   }
 
   /// Returns a new [Animal] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Animal fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Animal(
-        className: json[r'className'],
-        color: json[r'color'],
-    );
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static Animal? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<Animal> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Animal>[]
-      : json.map((dynamic value) => Animal.fromJson(value)).toList(growable: true == growable);
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "Animal[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Animal[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
 
-  static Map<String, Animal> mapFromJson(Map<String, dynamic> json) {
+      return Animal(
+        className: mapValueOfType<String>(json, r'className')!,
+        color: mapValueOfType<String>(json, r'color') ?? 'red',
+      );
+    }
+    return null;
+  }
+
+  static List<Animal> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <Animal>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = Animal.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+
+  static Map<String, Animal> mapFromJson(dynamic json) {
     final map = <String, Animal>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Animal.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = Animal.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of Animal-objects as value to a dart map
-  static Map<String, List<Animal>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Animal>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Animal>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Animal.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = Animal.listFromJson(entry.value, growable: growable,);
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'className',
+  };
 }
 

@@ -17,8 +17,9 @@ open class DefaultAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func rootGet(apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, completion: @escaping ((_ data: Fruit?, _ error: Error?) -> Void)) {
-        rootGetWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
+    @discardableResult
+    open class func rootGet(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Fruit?, _ error: Error?) -> Void)) -> RequestTask {
+        return rootGetWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -34,7 +35,7 @@ open class DefaultAPI {
      */
     open class func rootGetWithRequestBuilder() -> RequestBuilder<Fruit> {
         let localVariablePath = "/"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -45,8 +46,8 @@ open class DefaultAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Fruit>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Fruit>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

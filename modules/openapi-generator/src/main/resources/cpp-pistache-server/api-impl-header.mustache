@@ -14,10 +14,10 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <memory>
+#include <optional>
 
 #include <{{classname}}.h>
 
-#include <pistache/optional.h>
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -28,7 +28,7 @@ namespace {{apiNamespace}}
 {{#hasModelImport}}
 using namespace {{modelNamespace}};{{/hasModelImport}}
 
-class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
+class {{declspec}} {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
     explicit {{classname}}Impl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     ~{{classname}}Impl() override = default;

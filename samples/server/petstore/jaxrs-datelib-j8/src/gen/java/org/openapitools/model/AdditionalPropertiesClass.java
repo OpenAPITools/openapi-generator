@@ -47,35 +47,35 @@ import javax.validation.Valid;
 public class AdditionalPropertiesClass  implements Serializable {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
-  private Map<String, Boolean> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
@@ -400,7 +400,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   public int hashCode() {
     return Objects.hash(mapString, mapNumber, mapInteger, mapBoolean, mapArrayInteger, mapArrayAnytype, mapMapString, mapMapAnytype, anytype1, anytype2, anytype3);
   }
-
 
   @Override
   public String toString() {

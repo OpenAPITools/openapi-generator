@@ -24,7 +24,7 @@
 # 
 #
 
-# For improved pattern matching in case statemets
+# For improved pattern matching in case statements
 shopt -s extglob
 
 ###############################################################################
@@ -65,7 +65,7 @@ declare -A header_arguments
 declare -A operation_parameters
 
 ##
-# Declare colors with autodection if output is terminal
+# Declare colors with autodetection if output is terminal
 if [ -t 1 ]; then
     RED="$(tput setaf 1)"
     GREEN="$(tput setaf 2)"
@@ -508,6 +508,29 @@ body_parameters_to_json() {
 
 ##############################################################################
 #
+# Converts an associative array into form urlencoded string
+#
+##############################################################################
+body_parameters_to_form_urlencoded() {
+    local body_form_urlencoded="-d '"
+    local count=0
+    for key in "${!body_parameters[@]}"; do
+        if [[ $((count++)) -gt 0 ]]; then
+            body_form_urlencoded+="&"
+        fi
+        body_form_urlencoded+="${key}=${body_parameters[${key}]}"
+    done
+    body_form_urlencoded+="'"
+
+    if [[ "${#body_parameters[@]}" -eq 0 ]]; then
+        echo ""
+    else
+        echo "${body_form_urlencoded}"
+    fi
+}
+
+##############################################################################
+#
 # Helper method for showing error because for example echo in
 # build_request_path() is evaluated as part of command line not printed on
 # output. Anyway better idea for resource clean up ;-).
@@ -611,7 +634,7 @@ build_request_path() {
                 parameter_value+="${qparam}=${qvalue}"
             done
         #
-        # Append parameters specified as 'mutli' collections i.e. param=value1&param=value2&...
+        # Append parameters specified as 'multi' collections i.e. param=value1&param=value2&...
         #
         elif [[ "${collection_type}" == "multi" ]]; then
             local vcount=0
@@ -719,18 +742,18 @@ ${BOLD}${WHITE}Usage${OFF}
 EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
-    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
-    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
-    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
-    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo -e "  - ${MAGENTA}OAuth2 (flow: implicit)${OFF}"
     echo -e "      Authorization URL: "
     echo -e "        * http://petstore.swagger.io/api/oauth/dialog"
     echo -e "      Scopes:"
     echo -e "        * write:pets - modify pets in your account"
     echo -e "        * read:pets - read your pets"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
+    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo ""
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
@@ -815,7 +838,7 @@ echo -e "              \\t\\t\\t\\t(e.g. 'https://petstore.swagger.io')"
     echo -e "         \\t\\t\\t\\trequired parameters or wrong content type"
     echo -e "  --dry-run\\t\\t\\t\\tPrint out the cURL command without"
     echo -e "           \\t\\t\\t\\texecuting it"
-    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodected"
+    echo -e "  -nc,--no-colors\\t\\t\\tEnforce print without colors, otherwise autodetected"
     echo -e "  -ac,--accept ${YELLOW}<mime-type>${OFF}\\t\\tSet the 'Accept' header in the request"
     echo -e "  -ct,--content-type ${YELLOW}<mime-type>${OFF}\\tSet the 'Content-type' header in "
     echo -e "                                \\tthe request"
@@ -1104,7 +1127,7 @@ print_testGroupParameters_help() {
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
-    echo -e "${result_color_table[${code:0:1}]}  400;Someting wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  400;Something wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1402,7 +1425,7 @@ print_getOrderById_help() {
     echo ""
     echo -e "${BOLD}${WHITE}getOrderById - Find purchase order by ID${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions" | paste -sd' ' | fold -sw 80
+    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ID of pet that needs to be fetched ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1623,7 +1646,7 @@ call_call123TestSpecialTags() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -1701,7 +1724,7 @@ call_createXmlItem() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -1781,7 +1804,7 @@ call_fakeOuterBooleanSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -1850,7 +1873,7 @@ call_fakeOuterCompositeSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -1919,7 +1942,7 @@ call_fakeOuterNumberSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -1988,7 +2011,7 @@ call_fakeOuterStringSerialize() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -2057,7 +2080,7 @@ call_testBodyWithFileSchema() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2135,7 +2158,7 @@ call_testBodyWithQueryParams() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2213,7 +2236,7 @@ call_testClientModel() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2286,10 +2309,11 @@ call_testEndpointParameters() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2322,10 +2346,11 @@ call_testEnumParameters() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2359,9 +2384,9 @@ call_testGroupParameters() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2399,7 +2424,7 @@ call_testInlineAdditionalProperties() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2472,10 +2497,11 @@ call_testJsonFormData() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2493,7 +2519,7 @@ call_testQueryParameterCollectionFormat() {
     local query_parameter_names=(pipe ioutil http url context)
     local path
 
-    if ! path=$(build_request_path "/v2/fake/test-query-paramters" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/v2/fake/test-query-parameters" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -2509,9 +2535,9 @@ call_testQueryParameterCollectionFormat() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2549,7 +2575,7 @@ call_testClassname() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
     if [[ -z $header_content_type ]]; then
         header_content_type="application/json"
@@ -2627,7 +2653,7 @@ call_addPet() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -2699,9 +2725,9 @@ call_deletePet() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2735,9 +2761,9 @@ call_findPetsByStatus() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2771,9 +2797,9 @@ call_findPetsByTags() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2807,9 +2833,9 @@ call_getPetById() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2847,7 +2873,7 @@ call_updatePet() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -2918,10 +2944,11 @@ call_updatePetWithForm() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2954,10 +2981,11 @@ call_uploadFile() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2990,10 +3018,11 @@ call_uploadFileWithRequiredFile() {
     if [[ -n $basic_auth_credential ]]; then
         basic_auth_option="-u ${basic_auth_credential}"
     fi
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3027,9 +3056,9 @@ call_deleteOrder() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3063,9 +3092,9 @@ call_getInventory() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3099,9 +3128,9 @@ call_getOrderById() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3139,7 +3168,7 @@ call_placeOrder() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -3208,7 +3237,7 @@ call_createUser() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -3277,7 +3306,7 @@ call_createUsersWithArrayInput() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -3346,7 +3375,7 @@ call_createUsersWithListInput() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -3411,9 +3440,9 @@ call_deleteUser() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3447,9 +3476,9 @@ call_getUserByName() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3483,9 +3512,9 @@ call_loginUser() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3519,9 +3548,9 @@ call_logoutUser() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3559,7 +3588,7 @@ call_updateUser() {
     #
     # Check if the user provided 'Content-type' headers in the
     # command line. If not try to set them based on the OpenAPI specification
-    # if values produces and consumes are defined unambigously
+    # if values produces and consumes are defined unambiguously
     #
 
 
@@ -3812,7 +3841,7 @@ case $key in
     ;;
     *:=*)
     # Parse body arguments and convert them into top level
-    # JSON properties passed in the body content without qoutes
+    # JSON properties passed in the body content without quotes
     if [[ "$operation" ]]; then
         # ignore error about 'sep' being unused
         # shellcheck disable=SC2034

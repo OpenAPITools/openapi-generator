@@ -50,5 +50,6 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setReadonlyProperties(Boolean.parseBoolean(Swift5OptionsProvider.READONLY_PROPERTIES_VALUE));
         verify(clientCodegen).setGenerateModelAdditionalProperties(Boolean.parseBoolean(Swift5OptionsProvider.GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE));
         verify(clientCodegen).setHashableModels(Boolean.parseBoolean(Swift5OptionsProvider.HASHABLE_MODELS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(Swift5OptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

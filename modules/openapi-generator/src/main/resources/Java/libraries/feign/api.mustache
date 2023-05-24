@@ -5,16 +5,15 @@ import {{invokerPackage}}.EncodingUtils;
 {{#legacyDates}}
 import {{invokerPackage}}.ParamExpander;
 {{/legacyDates}}
+import {{modelPackage}}.ApiResponse;
 
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 import feign.*;
 
 {{>generatedAnnotation}}
@@ -43,14 +42,45 @@ public interface {{classname}} extends ApiClient.Api {
 {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-contentType}}    "Content-Type: {{vendorExtensions.x-contentType}}",
-{{/vendorExtensions.x-contentType}}    "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}    "Content-Type: {{vendorExtensions.x-content-type}}",
+{{/vendorExtensions.x-content-type}}    "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-    {{#hasQueryParams}}
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
+  /**
+   * {{summary}}
+   * Similar to <code>{{operationId}}</code> but it also returns the http response headers .
+   * {{notes}}
+{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+{{/allParams}}
+{{#returnType}}
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+{{/returnType}}
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+{{#isDeprecated}}
+   * @deprecated
+{{/isDeprecated}}
+   */
+{{#isDeprecated}}
+  @Deprecated
+{{/isDeprecated}}
+  @RequestLine("{{httpMethod}} {{{path}}}{{#hasQueryParams}}?{{/hasQueryParams}}{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
+  @Headers({
+{{#vendorExtensions.x-content-type}}    "Content-Type: {{vendorExtensions.x-content-type}}",
+{{/vendorExtensions.x-content-type}}    "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+    "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
+    {{/-last}}{{/headerParams}}
+  })
+  ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+
+
+  {{#hasQueryParams}}
   /**
    * {{summary}}
    * {{notes}}
@@ -87,14 +117,55 @@ public interface {{classname}} extends ApiClient.Api {
   {{/isDeprecated}}
   @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
   @Headers({
-{{#vendorExtensions.x-contentType}}  "Content-Type: {{vendorExtensions.x-contentType}}",
-{{/vendorExtensions.x-contentType}}  "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+{{#vendorExtensions.x-content-type}}  "Content-Type: {{vendorExtensions.x-content-type}}",
+{{/vendorExtensions.x-content-type}}  "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
 
   /**
+  * {{summary}}
+  * {{notes}}
+  * Note, this is equivalent to the other <code>{{operationId}}</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+  {{#allParams}}
+      {{^isQueryParam}}
+              * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+      {{/isQueryParam}}
+  {{/allParams}}
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+      {{#queryParams}}
+          *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}</li>
+      {{/queryParams}}
+      *   </ul>
+  {{#returnType}}
+          * @return {{.}}
+  {{/returnType}}
+  {{#externalDocs}}
+          * {{description}}
+          * @see <a href="{{url}}">{{summary}} Documentation</a>
+  {{/externalDocs}}
+  {{#isDeprecated}}
+          * @deprecated
+  {{/isDeprecated}}
+      */
+  {{#isDeprecated}}
+          @Deprecated
+  {{/isDeprecated}}
+      @RequestLine("{{httpMethod}} {{{path}}}?{{#queryParams}}{{baseName}}={{=<% %>=}}{<%paramName%>}<%={{ }}=%>{{^-last}}&{{/-last}}{{/queryParams}}")
+      @Headers({
+  {{#vendorExtensions.x-content-type}}  "Content-Type: {{vendorExtensions.x-content-type}}",
+  {{/vendorExtensions.x-content-type}}  "Accept: {{vendorExtensions.x-accepts}}",{{#headerParams}}
+          "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
+      {{/-last}}{{/headerParams}}
+      })
+   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
+
+
+   /**
    * A convenience class for generating query parameters for the
    * <code>{{operationId}}</code> method in a fluent style.
    */

@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +43,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesNumber() { 
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     this.name = name;
@@ -56,7 +56,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -81,6 +80,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
    */
   @JsonAnySetter
   public AdditionalPropertiesNumber putAdditionalProperty(String key, BigDecimal value) {
@@ -92,7 +94,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   }
 
   /**
-   * Return the additional (undeclared) property.
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
    */
   @JsonAnyGetter
   public Map<String, BigDecimal> getAdditionalProperties() {
@@ -101,6 +104,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
    */
   public BigDecimal getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {

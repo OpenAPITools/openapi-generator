@@ -48,9 +48,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed.</param>
         /// <param name="className">className (required) (default to &quot;Dog&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
+        public Dog(string breed = default(string), string className = @"Dog", string color = @"red") : base(className, color)
         {
             this._Breed = breed;
+            if (this.Breed != null)
+            {
+                this._flagBreed = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -90,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Breed: ").Append(Breed).Append("\n");
@@ -138,9 +142,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = base.GetHashCode();
                 if (this.Breed != null)
-                    hashCode = hashCode * 59 + this.Breed.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Breed.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -162,7 +170,10 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach (var x in base.BaseValidate(validationContext))
+            {
+                yield return x;
+            }
             yield break;
         }
     }

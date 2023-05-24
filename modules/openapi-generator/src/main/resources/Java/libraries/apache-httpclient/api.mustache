@@ -1,0 +1,204 @@
+{{>licenseInfo}}
+package {{package}};
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.Configuration;
+import {{modelPackage}}.*;
+import {{invokerPackage}}.Pair;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}} {
+
+
+  private ApiClient apiClient;
+
+  public {{classname}}() {
+    this(Configuration.getDefaultApiClient());
+  }
+
+  public {{classname}}(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    {{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}Collections.emptyMap());
+  }
+
+
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   * @param additionalHeaders additionalHeaders for this call
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+    }
+    {{/required}}{{/allParams}}
+    // create path and map variables
+    String localVarPath = "{{{path}}}"{{#pathParams}}
+      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    {{#queryParams}}
+        {{#isDeepObject}}
+    localVarQueryParameterBaseName = "{{{baseName}}}";
+          {{#isArray}}
+    for (int i=0; i < {{paramName}}.size(); i++) {
+      localVarQueryStringJoiner.add({{paramName}}.get(i).toUrlQueryString(String.format("{{baseName}}[%d]", i)));
+    }
+          {{/isArray}}
+          {{^isArray}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+          {{/isArray}}
+        {{/isDeepObject}}
+        {{^isDeepObject}}
+            {{#isExplode}}
+                {{#hasVars}}
+                    {{#vars}}
+                        {{#isArray}}
+    localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                        {{^isArray}}
+    localVarQueryParams.addAll(apiClient.parameterToPair("{{baseName}}", {{paramName}}.{{getter}}()));
+                        {{/isArray}}
+                    {{/vars}}
+                {{/hasVars}}
+                {{^hasVars}}
+                {{#isModel}}
+    localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString());
+                {{/isModel}}
+                {{^isModel}}
+    {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+                {{/isModel}}
+                {{/hasVars}}
+            {{/isExplode}}
+            {{^isExplode}}
+    {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+            {{/isExplode}}
+        {{/isDeepObject}}
+    {{/queryParams}}
+    {{#headerParams}}if ({{paramName}} != null)
+      localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{/headerParams}}
+
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    {{#cookieParams}}if ({{paramName}} != null)
+      localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{/cookieParams}}
+
+    {{#formParams}}if ({{paramName}} != null)
+      localVarFormParams.put("{{baseName}}", {{paramName}});
+    {{/formParams}}
+
+    final String[] localVarAccepts = {
+      {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+
+    {{#returnType}}
+    TypeReference<{{{returnType}}}> localVarReturnType = new TypeReference<{{{returnType}}}>() {};
+    return apiClient.invokeAPI(
+    {{/returnType}}
+    {{^returnType}}
+    apiClient.invokeAPI(
+    {{/returnType}}
+        localVarPath,
+        "{{httpMethod}}",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}
+    );
+  }
+
+  {{/operation}}
+}
+{{/operations}}

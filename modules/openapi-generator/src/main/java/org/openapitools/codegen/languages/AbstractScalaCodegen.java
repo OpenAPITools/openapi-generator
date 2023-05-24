@@ -19,20 +19,29 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -42,13 +51,20 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
+    protected String appName = "OpenAPI Sample";
+    protected String appDescription = "A sample openapi server";
+    protected String infoUrl = "http://org.openapitools";
+    protected String infoEmail = "team@openapitools.org";
+    protected String licenseInfo = "All rights reserved";
+    protected String licenseUrl = "http://apache.org/licenses/LICENSE-2.0.html";
+    protected String apiVersion = "1.0";
     protected boolean stripPackageName = true;
     protected String dateLibrary = DateLibraries.java8.name();
 
     protected enum DateLibraries {
-        java8("Java 8 native JSR310 (prefered for JDK 1.8+)"),
-        joda( "Joda (for legacy app)"),
-        legacy( "Backport to http-client (deprecated)");
+        java8("Java 8 native JSR310 (preferred for JDK 1.8+)"),
+        joda("Joda (for legacy app)"),
+        legacy("Backport to http-client (deprecated)");
 
         private final String description;
 
@@ -73,13 +89,15 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "List",
                 "Seq",
                 "Map",
-                "Array"));
+                "Array",
+                "Byte"));
 
         reservedWords.addAll(Arrays.asList(
                 "abstract",
                 "case",
                 "catch",
                 "class",
+                "clone",
                 "def",
                 "do",
                 "else",
@@ -117,6 +135,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "yield"
         ));
 
+        // Scala specific openApi types mapping
+        typeMapping.put("ByteArray", "Array[Byte]");
+
+
         importMapping = new HashMap<String, String>();
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
         // although Seq is a predef, before Scala 2.13, it _could_ refer to a mutable Seq in some cases.
@@ -153,6 +175,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
+        specialCharReplacements.put("&#x3D;", "Equal");
+        specialCharReplacements.put("!&#x3D;", "Not_Equal");
+        specialCharReplacements.put("&gt;", "Greater_Than");
+        specialCharReplacements.put("&lt;", "Less_Than");
+        specialCharReplacements.put("&gt;&#x3D;", "Greater_Than_Or_Equal_To");
+        specialCharReplacements.put("&lt;&#x3D;", "Less_Than_Or_Equal_To");
+
     }
 
     @Override
@@ -163,6 +192,15 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             LOGGER.info("Environment variable SCALA_POST_PROCESS_FILE not defined so the Scala code may not be properly formatted. To define it, try 'export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
+
+        this.appName = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getTitle()).filter(t -> t != null).orElse(this.appName);
+        this.appDescription = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getDescription()).filter(d -> d != null).orElse(this.appDescription);
+        this.infoUrl = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getContact()).filter(c -> c != null).map(c -> c.getUrl()).filter(u -> u != null).orElse(this.infoUrl);
+        this.infoEmail = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getContact()).filter(c -> c != null).map(c -> c.getEmail()).filter(v -> v != null).orElse(this.infoEmail);
+        this.licenseInfo = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getLicense()).filter(l -> l != null).map(l -> l.getName()).filter(n -> n != null).orElse(this.licenseInfo);
+        this.licenseUrl = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getLicense()).filter(l -> l != null).map(l -> l.getUrl()).filter(u -> u != null).orElse(this.licenseUrl);
+
+        this.apiVersion = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getVersion()).filter(v -> v != null).orElse(this.apiVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -208,7 +246,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             this.dateLibrary = dateLibrary;
             return;
         }
-        for ( DateLibraries dateLib : DateLibraries.values()) {
+        for (DateLibraries dateLib : DateLibraries.values()) {
             if (dateLib.name().equals(dateLibrary)) {
                 this.dateLibrary = dateLibrary;
                 return;
@@ -244,7 +282,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             varName = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (!varName.matches("^[A-Z_0-9]*$")) {
             varName = getNameUsingModelPropertyNaming(varName);
         }
@@ -261,7 +299,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -325,16 +363,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-
-            return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            return getSchemaType(target) + "[" + getTypeDeclaration(items) + "]";
+        } else if (ModelUtils.isMapSchema(target)) {
+            Schema<?> inner = getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
+            return getSchemaType(target) + "[String, " + getTypeDeclaration(inner) + "]";
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(target);
     }
 
     @Override
@@ -343,17 +386,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (ModelUtils.isSet(p)) {
             openAPIType = "set";
         }
-
-        String type;
+        // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
-            }
-        } else {
-            type = openAPIType;
+            return typeMapping.get(openAPIType);
         }
-        return toModelName(type);
+        return toModelName(openAPIType);
     }
 
     @Override
@@ -364,7 +401,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return ( ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array") ) + "[" + inner + "]";
+            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -402,13 +439,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
             // test for immutable Monoids with .empty method for idiomatic defaults
             if ("List".equals(genericType) ||
-                "Set".equals(genericType) ||
-                "Seq".equals(genericType) ||
-                "Array".equals(genericType) ||
-                "Vector".equals(genericType) ||
-                "IndexedSeq".equals(genericType) ||
-                "Iterable".equals(genericType) ||
-                "ListSet".equals(genericType)
+                    "Set".equals(genericType) ||
+                    "Seq".equals(genericType) ||
+                    "Array".equals(genericType) ||
+                    "Vector".equals(genericType) ||
+                    "IndexedSeq".equals(genericType) ||
+                    "Iterable".equals(genericType) ||
+                    "ListSet".equals(genericType)
             ) {
                 return genericType + ".empty[" + inner + "] ";
             }
@@ -430,21 +467,22 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
      * @return Codegen Property object
      */
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty prop = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty prop = super.fromProperty(name, p, required);
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema as = (ArraySchema) p;
             if (ModelUtils.isSet(as)) {
                 prop.containerType = "set";
             }
         }
+
         return prop;
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // remove model imports to avoid warnings for importing class in the same package in Scala
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage() + ".";
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
@@ -492,7 +530,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     protected String formatIdentifier(String name, boolean capitalized) {
-        String identifier = camelize(sanitizeName(name), true);
+        if (specialCharReplacements.containsKey(name)) {
+            name = specialCharReplacements.get(name);
+        }
+        String identifier = camelize(sanitizeName(name), LOWERCASE_FIRST_LETTER);
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }
@@ -529,7 +570,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // only process files with scala extension
         if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = scalaPostProcessFile + " " + file.toString();
+            String command = scalaPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -553,11 +594,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
@@ -565,7 +606,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
         return operationId;
@@ -575,4 +616,36 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         this.invokerPackage = invokerPackage;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.SCALA;
+    }
+
+    protected static abstract class CustomLambda implements Mustache.Lambda {
+        @Override
+        public void execute(Template.Fragment frag, Writer out) throws IOException {
+            final StringWriter tempWriter = new StringWriter();
+            frag.execute(tempWriter);
+            out.write(formatFragment(tempWriter.toString()));
+        }
+
+        public abstract String formatFragment(String fragment);
+    }
+
+    protected static class CamelizeLambda extends CustomLambda {
+        private final CamelizeOption option;
+
+        public CamelizeLambda(boolean capitalizeFirst) {
+            if (capitalizeFirst) {
+                option = UPPERCASE_FIRST_CHAR;
+            } else {
+                option = LOWERCASE_FIRST_LETTER;
+            }
+        }
+
+        @Override
+        public String formatFragment(String fragment) {
+            return camelize(fragment, option);
+        }
+    }
 }

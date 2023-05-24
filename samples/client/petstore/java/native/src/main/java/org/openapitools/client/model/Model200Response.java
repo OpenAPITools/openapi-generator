@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -22,20 +25,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
  * Model for testing model name starting with number
  */
-@ApiModel(description = "Model for testing model name starting with number")
 @JsonPropertyOrder({
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -43,6 +43,8 @@ public class Model200Response {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
   private String propertyClass;
 
+  public Model200Response() { 
+  }
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -54,7 +56,6 @@ public class Model200Response {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -80,7 +81,6 @@ public class Model200Response {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -138,5 +138,49 @@ public class Model200Response {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `name` to the URL query string
+    if (getName() != null) {
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `class` to the URL query string
+    if (getPropertyClass() != null) {
+      joiner.add(String.format("%sclass%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPropertyClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

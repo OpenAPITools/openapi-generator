@@ -195,7 +195,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateObject(void);
 /* Create a string where valuestring references a string so
  * it will not be freed by cJSON_Delete */
 CJSON_PUBLIC(cJSON *) cJSON_CreateStringReference(const char *string);
-/* Create an object/arrray that only references it's elements so
+/* Create an object/array that only references it's elements so
  * they will not be freed by cJSON_Delete */
 CJSON_PUBLIC(cJSON *) cJSON_CreateObjectReference(const cJSON *child);
 CJSON_PUBLIC(cJSON *) cJSON_CreateArrayReference(const cJSON *child);
@@ -217,7 +217,7 @@ CJSON_PUBLIC(void) cJSON_AddItemToObjectCS(cJSON *object, const char *string, cJ
 CJSON_PUBLIC(void) cJSON_AddItemReferenceToArray(cJSON *array, cJSON *item);
 CJSON_PUBLIC(void) cJSON_AddItemReferenceToObject(cJSON *object, const char *string, cJSON *item);
 
-/* Remove/Detatch items from Arrays/Objects. */
+/* Remove/Detach items from Arrays/Objects. */
 CJSON_PUBLIC(cJSON *) cJSON_DetachItemViaPointer(cJSON *parent, cJSON * const item);
 CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromArray(cJSON *array, int which);
 CJSON_PUBLIC(void) cJSON_DeleteItemFromArray(cJSON *array, int which);

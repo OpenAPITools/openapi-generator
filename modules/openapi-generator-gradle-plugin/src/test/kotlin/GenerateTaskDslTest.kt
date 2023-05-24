@@ -4,12 +4,13 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.Test
 import java.io.File
+import java.nio.file.Files.createTempDirectory
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class GenerateTaskDslTest : TestBase() {
-    override var temp: File = createTempDir(javaClass.simpleName)
+    override var temp: File = createTempDirectory(javaClass.simpleName).toFile()
 
     private val defaultBuildGradle = """
         plugins {
@@ -27,6 +28,65 @@ class GenerateTaskDslTest : TestBase() {
             ]
         }
     """.trimIndent()
+
+    @Test
+    fun `openApiGenerate should create an expected file structure from URL config`() {
+        val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/b6b8c0db872fb4a418ae496e89c7e656e14be165/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
+        // Arrange
+        val buildContents = """
+         plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            remoteInputSpec = "$specUrl"
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+        }
+        """.trimIndent()
+        File(temp, "build.gradle").writeText(buildContents)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        listOf(
+            "build/kotlin/.openapi-generator-ignore",
+            "build/kotlin/docs/PetsApi.md",
+            "build/kotlin/docs/Error.md",
+            "build/kotlin/docs/Pet.md",
+            "build/kotlin/README.md",
+            "build/kotlin/build.gradle",
+            "build/kotlin/.openapi-generator/VERSION",
+            "build/kotlin/settings.gradle",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",
+            "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
+        ).map {
+            val f = File(temp, it)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation: $f")
+        }
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
 
     @Test
     fun `openApiGenerate should create an expected file structure from DSL config`() {
@@ -61,7 +121,141 @@ class GenerateTaskDslTest : TestBase() {
                 "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
         ).map {
             val f = File(temp, it)
-            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation.")
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation: $f")
+        }
+
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+                "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    @Test
+    fun `openApiGenerate should not cleanup outputDir by default`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(defaultBuildGradle, projectFiles)
+
+        val oldFile = File(temp, "build/kotlin/should-not-be-removed")
+        oldFile.mkdirs()
+        oldFile.createNewFile()
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        assertTrue(oldFile.exists(), "Old files should NOT have been removed")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test
+    fun `openApiGenerate should cleanup outputDir`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(
+            """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+            cleanupOutput = true
+        }
+    """.trimIndent(),
+            projectFiles
+        )
+
+        val oldFile = File(temp, "build/kotlin/should-be-removed")
+        oldFile.mkdirs()
+        oldFile.createNewFile()
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "User friendly generate notice is missing."
+        )
+
+        assertFalse(oldFile.exists(), "Old files should have been removed")
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test
+    fun `should apply prefix & suffix config parameters`() {
+        // Arrange
+        val projectFiles = mapOf(
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject("""
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "java"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/java").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            modelNamePrefix = "ModelPref"
+            modelNameSuffix = "Suff"
+            apiNameSuffix = "ApiClassSuffix"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+        }
+    """.trimIndent(), projectFiles)
+
+        // Act
+        val result = GradleRunner.create()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate")
+                .withPluginClasspath()
+                .build()
+
+        // Assert
+        assertTrue(result.output.contains("Successfully generated code to"), "User friendly generate notice is missing.")
+
+        listOf(
+                "build/java/src/main/java/org/openapitools/example/model/ModelPrefPetSuff.java",
+                "build/java/src/main/java/org/openapitools/example/model/ModelPrefErrorSuff.java",
+                "build/java/src/main/java/org/openapitools/example/api/PetsApiClassSuffix.java"
+        ).map {
+            val f = File(temp, it)
+            assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation. - $f")
         }
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
@@ -227,5 +421,41 @@ class GenerateTaskDslTest : TestBase() {
         assertTrue(result.output.contains("handlebars"), "Build should have attempted to use handlebars.")
         assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
                 "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    @Test
+    fun `openapiGenerate should attempt to set my-custom-engine (or any other) when specified as engine`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+
+        withProject("""
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            engine = "my-custom-engine"
+        }
+    """.trimIndent(), projectFiles)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .buildAndFail()
+
+        // Assert
+        // as the custom generator doesn't exist, we'll just test that the configurator has set my-custom-engine as the engine.
+        assertTrue(result.output.contains("my-custom-engine"), "Build should have attempted to use my-custom-engine.")
+        assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
+            "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 }

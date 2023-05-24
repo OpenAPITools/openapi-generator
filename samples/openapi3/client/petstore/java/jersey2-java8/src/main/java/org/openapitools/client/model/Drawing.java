@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Fruit;
@@ -63,8 +61,10 @@ public class Drawing {
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes = null;
+  private List<Shape> shapes;
 
+  public Drawing() { 
+  }
 
   public Drawing mainShape(Shape mainShape) {
     this.mainShape = mainShape;
@@ -76,7 +76,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -102,7 +101,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -128,7 +126,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -170,7 +167,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -199,7 +195,7 @@ public class Drawing {
   @JsonAnySetter
   public Drawing putAdditionalProperty(String key, Fruit value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Fruit>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -243,7 +239,7 @@ public class Drawing {
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && a.get().getClass().isArray() ? Arrays.equals((T[])a.get(), (T[])b.get()) : Objects.equals(a.get(), b.get()));
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
@@ -255,9 +251,7 @@ public class Drawing {
     if (a == null) {
       return 1;
     }
-    return a.isPresent()
-      ? (a.get().getClass().isArray() ? Arrays.hashCode((T[])a.get()) : Objects.hashCode(a.get()))
-      : 31;
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

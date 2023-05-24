@@ -28,6 +28,14 @@ impl ToString for {{{classname}}} {
         }
     }
 }
+
+impl Default for {{{classname}}} {
+    fn default() -> {{{classname}}} {
+        {{#allowableValues}}
+        Self::{{ enumVars.0.name }}
+        {{/allowableValues}}
+    }
+}
 {{/isEnum}}
 
 {{!-- for schemas that have a discriminator --}}
@@ -56,14 +64,14 @@ pub enum {{{classname}}} {
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
-    pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{#isArray}}{{#uniqueItems}}std::collections::HashSet<{{/uniqueItems}}{{^uniqueItems}}Vec<{{/uniqueItems}}{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+    #[serde(rename = "{{{baseName}}}"{{^required}}{{#isNullable}}, default, with = "::serde_with::rust::double_option"{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}, deserialize_with = "Option::deserialize"{{/isNullable}}{{/required}})]
+    pub {{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{^required}}Option<{{/required}}{{#isEnum}}{{#isArray}}{{#uniqueItems}}std::collections::HashSet<{{/uniqueItems}}{{^uniqueItems}}Vec<{{/uniqueItems}}{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^required}}>{{/required}},
 {{/vars}}
 }
 
@@ -71,10 +79,10 @@ impl {{{classname}}} {
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
+    pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{#isArray}}Vec<{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
-            {{{name}}}{{^required}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: Box::new({{{name}}}){{/isModel}}{{/required}},
+            {{{name}}}{{^required}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: {{^isNullable}}Box::new({{{name}}}){{/isNullable}}{{#isNullable}}if let Some(x) = {{{name}}} {Some(Box::new(x))} else {None}{{/isNullable}}{{/isModel}}{{/required}},
             {{/vars}}
         }
     }
@@ -94,6 +102,14 @@ pub enum {{{enumName}}} {
     {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}
+}
+
+impl Default for {{{enumName}}} {
+    fn default() -> {{{enumName}}} {
+        {{#allowableValues}}
+        Self::{{ enumVars.0.name }}
+        {{/allowableValues}}
+    }
 }
 {{/isEnum}}
 {{/vars}}

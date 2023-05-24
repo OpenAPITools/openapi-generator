@@ -23,6 +23,7 @@ lib/app/Http/Middleware/TrimStrings.php
 lib/app/Http/Middleware/TrustProxies.php
 lib/app/Http/Middleware/VerifyCsrfToken.php
 lib/app/Models/AdditionalPropertiesClass.php
+lib/app/Models/AllOfWithSingleRef.php
 lib/app/Models/Animal.php
 lib/app/Models/ApiResponse.php
 lib/app/Models/ArrayOfArrayOfNumberOnly.php
@@ -43,10 +44,10 @@ lib/app/Models/EnumTest.php
 lib/app/Models/File.php
 lib/app/Models/FileSchemaTestClass.php
 lib/app/Models/Foo.php
+lib/app/Models/FooGetDefaultResponse.php
 lib/app/Models/FormatTest.php
 lib/app/Models/HasOnlyReadOnly.php
 lib/app/Models/HealthCheckResult.php
-lib/app/Models/InlineResponseDefault.php
 lib/app/Models/MapTest.php
 lib/app/Models/MixedPropertiesAndAdditionalPropertiesClass.php
 lib/app/Models/Model200Response.php
@@ -65,6 +66,7 @@ lib/app/Models/OuterEnumIntegerDefaultValue.php
 lib/app/Models/OuterObjectWithEnumProperty.php
 lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
+lib/app/Models/SingleRefType.php
 lib/app/Models/SpecialModelName.php
 lib/app/Models/Tag.php
 lib/app/Models/User.php

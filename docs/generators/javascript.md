@@ -1,8 +1,19 @@
 ---
-title: Config Options for javascript
-sidebar_label: javascript
+title: Documentation for the javascript Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Javascript | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a JavaScript client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -13,9 +24,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |emitJSDoc|generate JSDoc comments| |true|
 |emitModelMethods|generate getters and setters for model properties| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |invokerPackage|root package for generated code| |null|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|library|library template (sub-template)|<dl><dt>**javascript**</dt><dd>JavaScript client library</dd><dt>**apollo**</dt><dd>Apollo REST DataSource</dd></dl>|javascript|
 |licenseName|name of the license the project uses (Default: using info.license.name)| |null|
 |modelPackage|package for generated models| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
@@ -28,7 +41,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|useES6|use JavaScript ES6 (ECMAScript 6). Default is ES6. (This option has been deprecated and will be removed in the 5.x release as ES5 is no longer supported)| |true|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
 |usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
 
@@ -173,7 +185,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -233,18 +249,23 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
-|OpenIDConnect|✗|OAS3
+|OpenIDConnect|✓|OAS3
 |BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✓|OAS2,OAS3
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

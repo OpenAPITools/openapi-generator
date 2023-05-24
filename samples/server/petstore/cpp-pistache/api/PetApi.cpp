@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string PetApi::base = "/v2";
 
 PetApi::PetApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 
@@ -128,11 +128,11 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
 
     // Getting the query params
     auto statusQuery = request.query().get("status");
-    Pistache::Optional<std::vector<std::string>> status;
-    if(!statusQuery.isEmpty()){
+    std::optional<std::vector<std::string>> status;
+    if(statusQuery.has_value()){
         std::vector<std::string> valueQuery_instance;
-        if(fromStringValue(statusQuery.get(), valueQuery_instance)){
-            status = Pistache::Some(valueQuery_instance);
+        if(fromStringValue(statusQuery.value(), valueQuery_instance)){
+            status = valueQuery_instance;
         }
     }
     
@@ -158,11 +158,11 @@ void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, P
 
     // Getting the query params
     auto tagsQuery = request.query().get("tags");
-    Pistache::Optional<std::vector<std::string>> tags;
-    if(!tagsQuery.isEmpty()){
+    std::optional<std::vector<std::string>> tags;
+    if(tagsQuery.has_value()){
         std::vector<std::string> valueQuery_instance;
-        if(fromStringValue(tagsQuery.get(), valueQuery_instance)){
-            tags = Pistache::Some(valueQuery_instance);
+        if(fromStringValue(tagsQuery.value(), valueQuery_instance)){
+            tags = valueQuery_instance;
         }
     }
     

@@ -23,11 +23,15 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +43,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -51,6 +57,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected String defaultDateFormat = "%Y-%m-%d";
     protected String defaultCabalVersion = "0.1.0.0";
     protected String modulePath = null;
+    protected String defaultQueryExtraUnreserved = null;
 
     protected Boolean useKatip = true;
     protected Boolean allowNonUniqueOperationIds = false;
@@ -74,6 +81,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_GENERATE_MODEL_CONSTRUCTORS = "generateModelConstructors";
     public static final String PROP_INLINE_MIME_TYPES = "inlineMimeTypes";
     public static final String PROP_MODEL_DERIVING = "modelDeriving";
+    public static final String PROP_QUERY_EXTRA_UNRESERVED = "queryExtraUnreserved";
     public static final String PROP_REQUEST_TYPE = "requestType";
     public static final String PROP_STRICT_FIELDS = "strictFields";
     public static final String PROP_USE_KATIP = "useKatip";
@@ -125,6 +133,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String X_MEDIA_IS_JSON = "x-mediaIsJson";
     static final String X_MEDIA_IS_WILDCARD = "x-mediaIsWildcard";
     static final String X_STRICT_FIELDS = "x-strictFields";
+    static final String X_PROP_QUERY_EXTRA_UNRESERVED = "x-queryExtraUnreserved";
     static final String X_ALL_UNIQUE_IMPORT_PATHS = "x-allUniqueImportPaths";
     static final String X_USE_KATIP = "x-useKatip";
     static final String X_ALLOW_NONUNIQUE_OPERATION_IDS = "x-allowNonUniqueOperationIds";
@@ -133,8 +142,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected Map<String, Map<String, Object>> uniqueParamNameTypes = new HashMap<>();
     protected Map<String, Set<String>> modelMimeTypes = new HashMap<>();
     protected Map<String, String> knownMimeDataTypes = new HashMap<>();
-    protected Set<String> typeNames = new HashSet<String>();
-    protected Set<String> modelTypeNames = new HashSet<String>();
+    protected Set<String> typeNames = new HashSet<>();
+    protected Set<String> modelTypeNames = new HashSet<>();
 
     final private static Pattern CONTAINS_JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
 
@@ -232,7 +241,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("tests/PropMime.mustache", "tests", "PropMime.hs"));
         supportingFiles.add(new SupportingFile("tests/Test.mustache", "tests", "Test.hs"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Bool",
                         "String",
@@ -308,6 +317,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATETIME_PARSE_FORMAT, "overrides the format string used to parse a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
+        cliOptions.add(CliOption.newString(PROP_QUERY_EXTRA_UNRESERVED, "Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'"));
 
         cliOptions.add(CliOption.newString(PROP_CUSTOM_TEST_INSTANCE_MODULE, "test module used to provide typeclass instances for types not known by the generator"));
 
@@ -369,6 +379,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public void setCabalVersion(String value) {
         setStringProp(PROP_CABAL_VERSION, value);
+    }
+
+    public void setQueryExtraUnreserved(String value) {
+        additionalProperties.put(X_PROP_QUERY_EXTRA_UNRESERVED, value);
     }
 
     public void setBaseModule(String value) {
@@ -505,6 +519,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         } else {
             setCabalVersion(defaultCabalVersion);
         }
+        if (additionalProperties.containsKey(PROP_QUERY_EXTRA_UNRESERVED)) {
+            setQueryExtraUnreserved(additionalProperties.get(PROP_QUERY_EXTRA_UNRESERVED).toString());
+        } else {
+            setQueryExtraUnreserved(defaultQueryExtraUnreserved);
+        }
         if (additionalProperties.containsKey(PROP_BASE_MODULE)) {
             setBaseModule(additionalProperties.get(PROP_BASE_MODULE).toString());
         }
@@ -542,7 +561,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
 
         if (!additionalProperties.containsKey(PROP_BASE_MODULE)) {
-            List<String> wordsCaps = new ArrayList<String>();
+            List<String> wordsCaps = new ArrayList<>();
             for (String word : baseTitle.split(" ")) {
                 wordsCaps.add(firstLetterToUpper(word));
             }
@@ -671,7 +690,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation op, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<CodegenOperation>();
+            opList = new ArrayList<>();
             operations.put(tag, opList);
         }
         // check for operationId uniqueness
@@ -764,7 +783,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         updateGlobalAdditionalProps();
         return super.postProcessAllModels(objs);
     }
@@ -794,26 +813,25 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> ret = super.postProcessOperationsWithModels(objs, allModels);
-        HashMap<String, Object> pathOps = (HashMap<String, Object>) ret.get("operations");
-        ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>) pathOps.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap ret = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap pathOps = ret.getOperations();
+        List<CodegenOperation> ops = pathOps.getOperation();
         if (ops.size() > 0) {
             ops.get(0).vendorExtensions.put(VENDOR_EXTENSION_X_HAS_NEW_TAG, true);
         }
 
         updateGlobalAdditionalProps();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             if (modelMimeTypes.containsKey(m.classname)) {
                 Set<String> mimeTypes = modelMimeTypes.get(m.classname);
 
                 m.vendorExtensions.put(VENDOR_EXTENSION_X_MIME_TYPES, mimeTypes);
 
                 if ((boolean) additionalProperties.get(PROP_GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
-                    Boolean hasMimeFormUrlEncoded = true;
+                    boolean hasMimeFormUrlEncoded = true;
                     for (CodegenProperty v : m.vars) {
                         if (!(v.isPrimitiveType || v.isString || v.isDate || v.isDateTime)) {
                             hasMimeFormUrlEncoded = false;
@@ -953,10 +971,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    private void SetNoContent(CodegenOperation op, String inlineExtentionName) {
+    private void SetNoContent(CodegenOperation op, String inlineExtensionName) {
         Map<String, String> m = new HashMap<>();
         m.put(X_MEDIA_DATA_TYPE, MIME_NO_CONTENT);
-        op.vendorExtensions.put(inlineExtentionName, m);
+        op.vendorExtensions.put(inlineExtensionName, m);
     }
 
     private String toDedupedModelName(String paramNameType, String dataType, Boolean appendDataType) {
@@ -1155,9 +1173,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     public String toVarName(String prefix, String name) {
-        Boolean hasPrefix = !StringUtils.isBlank(prefix);
+        boolean hasPrefix = !StringUtils.isBlank(prefix);
         name = underscore(sanitizeName(name.replaceAll("-", "_")));
-        name = camelize(name, !hasPrefix);
+        name = camelize(name, hasPrefix ? UPPERCASE_FIRST_CHAR : LOWERCASE_FIRST_LETTER);
+
         if (hasPrefix) {
             return prefix + name;
         } else {
@@ -1211,7 +1230,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
-        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), true));
+        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
         return operationId;
     }
 
@@ -1256,12 +1275,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
-
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             cm.isEnum = genEnums && cm.isEnum;
             if (cm.isAlias) {
                 String dataType = cm.dataType;
@@ -1289,13 +1305,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
-        Map<String, Object> objsEnum = super.postProcessModelsEnum(objs);
+    public ModelsMap postProcessModelsEnum(ModelsMap objs) {
+        ModelsMap objsEnum = super.postProcessModelsEnum(objs);
         if (genEnums) {
-            List<Object> models = (List<Object>) objsEnum.get("models");
-            for (Object _mo : models) {
-                Map<String, Object> mo = (Map<String, Object>) _mo;
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            for (ModelMap mo : objsEnum.getModels()) {
+                CodegenModel cm = mo.getModel();
                 if (cm.isEnum && cm.allowableValues != null) {
                     updateAllowableValuesNames(cm.classname, cm.allowableValues);
                     addEnumToUniques(cm.classname, cm.dataType, cm.allowableValues.values().toString(), cm.allowableValues, cm.description);
@@ -1418,7 +1432,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
@@ -1441,7 +1455,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file.toString();
+            String command = haskellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -1460,4 +1474,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static boolean ContainsJsonMimeType(String mime) {
             return mime != null && CONTAINS_JSON_MIME_PATTERN.matcher(mime).matches();
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
 }

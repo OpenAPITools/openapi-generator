@@ -130,7 +130,6 @@ All languages of `swagger-codegen` have been migrated to `openapi-generator`, bu
 | `lumen` | `php-lumen` |
 | `slim` | `php-slim` |
 | `ze-ph` | `php-mezzio-ph` |
-| `nancyfx` | `csharp-nancyfx` |
 
 We provide a temporary mapping in code for these old values. You'll receive a warning with instructions to migrate to the new names.
 
@@ -166,7 +165,7 @@ You don't need to rename the file manually, OpenAPI Generator will do it when yo
 
 ## Metadata folder
 
-The metatata folder (to store the `VERSION` file for example) is now called `.openapi-generator/` instead of `.swagger-codegen/`.
+The metadata folder (to store the `VERSION` file for example) is now called `.openapi-generator/` instead of `.swagger-codegen/`.
 
 
 
@@ -174,10 +173,10 @@ The metatata folder (to store the `VERSION` file for example) is now called `.op
 
 If you use a generator without specifying each parameter, you might see some differences in the generated code.
 As example the default package name used in the generated code has changed. 
-You need to have a look at the specific value, depending of your target language, but often `Swagger` îs replaced by `OpenAPITools` and `io.swagger` is replaced by `org.openapitools`.
+You need to have a look at the specific value, depending on your target language, but often `Swagger` îs replaced by `OpenAPITools` and `io.swagger` is replaced by `org.openapitools`.
 Concretely if you did not specify anything when you are generating java code, a file `org/openapitools/api/PetApi.java`  might be generated instead of `io/swagger/api/PetApi.java`.
 
-If this is a problem for you, you need to explicitly set the the parameter value in order to match with the `swagger-codgen` default value (`apiPackage` == `io.swagger` in the previous example with the java generator).
+If this is a problem for you, you need to explicitly set the parameter value in order to match with the `swagger-codegen` default value (`apiPackage` == `io.swagger` in the previous example with the java generator).
 
 
 ## New fully qualified name for the classes 

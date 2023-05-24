@@ -144,6 +144,9 @@ public class TypeHolderDefault  implements Serializable {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -184,7 +187,6 @@ public class TypeHolderDefault  implements Serializable {
   public int hashCode() {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
-
 
   @Override
   public String toString() {

@@ -28,24 +28,29 @@ import querystring from "querystring";
 * @class
 */
 class ApiClient {
-    constructor() {
+    /**
+     * The base URL against which to resolve every API call's (relative) path.
+     * Overrides the default value set in spec file if present
+     * @param {String} basePath
+     */
+    constructor(basePath = 'http://petstore.swagger.io:80/v2') {
         /**
          * The base URL against which to resolve every API call's (relative) path.
          * @type {String}
          * @default http://petstore.swagger.io:80/v2
          */
-        this.basePath = 'http://petstore.swagger.io:80/v2'.replace(/\/+$/, '');
+        this.basePath = basePath.replace(/\/+$/, '');
 
         /**
          * The authentication methods to be included for all API calls.
          * @type {Array.<String>}
          */
         this.authentications = {
+            'petstore_auth': {type: 'oauth2'},
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
-            'bearer_test': {type: 'bearer'}, // JWT
             'http_basic_test': {type: 'basic'},
-            'petstore_auth': {type: 'oauth2'}
+            'bearer_test': {type: 'bearer'}, // JWT
         }
 
         /**
@@ -463,7 +468,7 @@ class ApiClient {
         if (returnType === 'Blob') {
           request.responseType('blob');
         } else if (returnType === 'String') {
-          request.responseType('string');
+          request.responseType('text');
         }
 
         // Attach previously saved cookies, if enabled

@@ -14,7 +14,7 @@ Method | HTTP request | Description
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 > addPet(body)
 
@@ -57,10 +57,10 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
@@ -108,7 +108,7 @@ Configure petstore_auth:
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
 > kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
@@ -155,9 +155,9 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="getAllPets"></a>
+<a id="getAllPets"></a>
 # **getAllPets**
 > kotlin.collections.List&lt;Pet&gt; getAllPets(lastUpdated)
 
@@ -170,7 +170,7 @@ Get all pets
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val lastUpdated : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | When this endpoint was hit last to help indentify if the client already has the latest copy.
+val lastUpdated : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | When this endpoint was hit last to help identify if the client already has the latest copy.
 try {
     val result : kotlin.collections.List<Pet> = apiInstance.getAllPets(lastUpdated)
     println(result)
@@ -187,7 +187,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **lastUpdated** | **java.time.OffsetDateTime**| When this endpoint was hit last to help indentify if the client already has the latest copy. | [optional]
+ **lastUpdated** | **java.time.OffsetDateTime**| When this endpoint was hit last to help identify if the client already has the latest copy. | [optional]
 
 ### Return type
 
@@ -202,9 +202,9 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 > Pet getPetById(petId)
 
@@ -252,9 +252,9 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 > updatePet(body)
 
@@ -297,10 +297,10 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
@@ -350,9 +350,9 @@ Configure petstore_auth:
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
-> ApiResponse uploadFile(petId, additionalMetadata, file)
+> ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -367,7 +367,7 @@ val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 try {
-    val result : ApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
+    val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFile")
@@ -388,7 +388,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ModelApiResponse.md)
 
 ### Authorization
 

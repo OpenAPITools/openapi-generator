@@ -5,13 +5,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -47,7 +40,7 @@ public class Name  {
   /**
    * Sets the <code>name</code> property.
    */
-  public void setName(Integer name) {
+ public void setName(Integer name) {
     this.name = name;
   }
 
@@ -72,7 +65,7 @@ public class Name  {
    * Sets the <code>snakeCase</code> property.
    * <br><em>N.B. <code>snakeCase</code> is <b>read only</b>; client code should not call this method</em>.
    */
-  public void setSnakeCase(Integer snakeCase) {
+ public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
@@ -97,7 +90,7 @@ public class Name  {
   /**
    * Sets the <code>property</code> property.
    */
-  public void setProperty(String property) {
+ public void setProperty(String property) {
     this.property = property;
   }
 
@@ -122,7 +115,7 @@ public class Name  {
    * Sets the <code>_123number</code> property.
    * <br><em>N.B. <code>_123number</code> is <b>read only</b>; client code should not call this method</em>.
    */
-  public void set123number(Integer _123number) {
+ public void set123number(Integer _123number) {
     this._123number = _123number;
   }
 

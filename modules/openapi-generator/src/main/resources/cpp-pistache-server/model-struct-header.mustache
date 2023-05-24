@@ -12,26 +12,55 @@
 {{#imports}}{{{this}}}
 {{/imports}}
 #include <nlohmann/json.hpp>
-{{#hasOptional}}#include <pistache/optional.h>{{/hasOptional}}
+{{#hasOptional}}#include <optional>{{/hasOptional}}
 
 namespace {{modelNamespace}}
 {
 
-struct {{classname}}
+struct {{declspec}} {{classname}}
 {
+    {{#isEnum}}{{#allowableValues}}
+    enum e{{classname}} {
+        // To have a valid default value.
+        // Avoiding name clashes with user defined
+        // enum values
+        INVALID_VALUE_OPENAPI_GENERATED = 0,
+        {{#enumVars}}
+        {{{name}}}{{^-last}}, {{/-last}}
+        {{/enumVars}}
+    };{{/allowableValues}}{{/isEnum}}
+
     {{#vars}}
-    {{^required}}Pistache::Optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}};
+    {{^required}}std::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}};
     {{/vars}}
+    {{#isEnum}}{{classname}}::e{{classname}} value = {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}{{{this}}} m_value;{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 
     bool operator==(const {{classname}}& other) const;
     bool operator!=(const {{classname}}& other) const;
+
+    /// <summary>
+    /// Validate the current data in the model. Throws a ValidationException on failure.
+    /// </summary>
+    void validate() const;
+
+    /// <summary>
+    /// Validate the current data in the model. Returns false on error and writes an error
+    /// message into the given stringstream.
+    /// </summary>
+    bool validate(std::stringstream& msg) const;
+
+    /// <summary>
+    /// Helper overload for validate. Used when one model stores another model and calls it's validate.
+    /// Not meant to be called outside that case.
+    /// </summary>
+    bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
 
     nlohmann::json to_json() const;
     static {{classname}} from_json(const nlohmann::json& j);
 };
 
-void to_json(nlohmann::json& j, const {{classname}}& o);
-void from_json(const nlohmann::json& j, {{classname}}& o);
+{{declspec}} void to_json(nlohmann::json& j, const {{classname}}& o);
+{{declspec}} void from_json(const nlohmann::json& j, {{classname}}& o);
 
 
 } // namespace {{modelNamespace}}

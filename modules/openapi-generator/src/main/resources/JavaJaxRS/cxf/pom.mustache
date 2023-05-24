@@ -51,8 +51,8 @@
 {{#useBeanValidation}}
         <dependencies>
           <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
+              <groupId>jakarta.validation</groupId>
+              <artifactId>jakarta.validation-api</artifactId>
               <version>${beanvalidation-version}</version>
           </dependency>
         </dependencies>
@@ -127,8 +127,8 @@
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
@@ -172,20 +172,11 @@
         <version>${jackson-jaxrs-version}</version>
         <scope>compile</scope>
     </dependency>
-{{#java8}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson-jaxrs-version}</version>
     </dependency>
-{{/java8}}
-{{^java8}}
-    <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-joda</artifactId>
-        <version>${jackson-jaxrs-version}</version>
-    </dependency>
-{{/java8}}
 {{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate</groupId>
@@ -194,10 +185,15 @@
     </dependency>
 {{/useBeanValidationFeature}}
     <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>${javax-annotation-version}</version>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${jakarta-annotation-version}</version>
         <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>2.10.13</version>
     </dependency>
   </dependencies>
   <repositories>
@@ -210,20 +206,24 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+    <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
-    <junit-version>4.13.1</junit-version>
-    <logback-version>1.2.0</logback-version>
-    <servlet-api-version>2.5</servlet-api-version>
+    <junit-version>4.13.2</junit-version>
+    <logback-version>1.2.10</logback-version>
 {{#useBeanValidation}}
-    <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+    <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>
-    <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

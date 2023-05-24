@@ -4,9 +4,7 @@ import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
-{{#moshiCodeGen}}
 import com.squareup.moshi.JsonClass
-{{/moshiCodeGen}}
 {{/moshi}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -19,6 +17,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+{{#enumUnknownDefaultCase}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/enumUnknownDefaultCase}}
 {{#hasEnums}}
 {{/hasEnums}}
 {{/kotlinx_serialization}}
@@ -35,6 +40,10 @@ import kotlinx.serialization.encoding.*
 {{#serializableModel}}
 import java.io.Serializable
 {{/serializableModel}}
+{{#generateRoomModels}}
+import {{roomModelPackage}}.{{classname}}RoomModel
+import {{packageName}}.infrastructure.ITransformForStorage
+{{/generateRoomModels}}
 
 /**
  * {{{description}}}
@@ -50,14 +59,23 @@ import java.io.Serializable
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
+{{>additionalModelTypeAnnotations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
 
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 
 {{/allVars}}
-){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
+){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#generateRoomModels}}{{#parent}}, {{/parent}}{{^discriminator}}{{^parent}}:{{/parent}} ITransformForStorage<{{classname}}RoomModel>{{/discriminator}}{{/generateRoomModels}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}
+{{#generateRoomModels}}
+    companion object { }
+    {{^discriminator}}override fun toRoomModel(): {{classname}}RoomModel =
+        {{classname}}RoomModel(roomTableId = 0,
+        {{#allVars}}{{#items.isPrimitiveType}}{{#isArray}}{{#isList}}{{name}} = this.{{name}},{{/isList}}{{/isArray}}{{/items.isPrimitiveType}}{{^isEnum}}{{^isArray}}{{name}} = this.{{name}},{{/isArray}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{name}} = this.{{name}},{{/isArray}}{{/isEnum}}
+        {{/allVars}}
+        ){{/discriminator}}
+{{/generateRoomModels}}
 {{#serializableModel}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         private const val serialVersionUID: Long = 123
@@ -76,8 +94,11 @@ import java.io.Serializable
      */
     {{^multiplatform}}
     {{#kotlinx_serialization}}
-    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}
     {{/kotlinx_serialization}}
+    {{#moshi}}
+    @JsonClass(generateAdapter = false)
+    {{/moshi}}
     {{/multiplatform}}
     {{#multiplatform}}
     @Serializable
@@ -104,7 +125,22 @@ import java.io.Serializable
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-    }
+    }{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
+
+    @Serializer(forClass = {{{nameInCamelCase}}}::class)
+    internal object {{nameInCamelCase}}Serializer : KSerializer<{{nameInCamelCase}}> {
+        override val descriptor = {{{dataType}}}.serializer().descriptor
+
+        override fun deserialize(decoder: Decoder): {{nameInCamelCase}} {
+            val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+            return {{nameInCamelCase}}.values().firstOrNull { it.value == value }
+                ?: {{nameInCamelCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+        }
+
+        override fun serialize(encoder: Encoder, value: {{nameInCamelCase}}) {
+            encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+        }
+    }{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}

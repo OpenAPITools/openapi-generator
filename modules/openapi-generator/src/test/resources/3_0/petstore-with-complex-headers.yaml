@@ -36,13 +36,17 @@ paths:
         - name: header1
           in: header
           schema:
-            $ref: '#/components/requestBodies/Pet'
+            $ref: '#/components/schemas/Pet'
         - name: header2
           in: header
           schema:
             type: array
             items:
-              $ref: '#/components/requestBodies/Pet'
+              $ref: '#/components/schemas/Pet'
+        - name: Accept
+          in: header
+          schema:
+            $ref: '#/components/schemas/MediaType'
       requestBody:
         $ref: '#/components/requestBodies/Pet'
     put:
@@ -329,7 +333,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: orderId
@@ -446,7 +450,7 @@ paths:
                 type: integer
                 format: int32
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 type: string
                 format: date-time
@@ -578,6 +582,9 @@ components:
       name: api_key
       in: header
   schemas:
+    MediaType:
+        type: string
+        enum: ['application/json', 'application/xml']
     Order:
       title: Pet Order
       description: An order for a pets from the pet store

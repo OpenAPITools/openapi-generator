@@ -18,9 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,13 +122,12 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => PetStatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
@@ -146,13 +149,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> model : models) {
-                CodegenModel codegenModel = (CodegenModel) model.get("model");
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap model : entry.getModels()) {
+                CodegenModel codegenModel = model.getModel();
                 model.put("hasImports", codegenModel.imports.size() > 0);
             }
         }
@@ -197,15 +198,14 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
         // Convert List of CodegenOperation to List of ExtendedCodegenOperation
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<CodegenOperation> os = (List<CodegenOperation>) _operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+        List<CodegenOperation> os = operations.getOperations().getOperation();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         for (CodegenOperation o : os) {
             newOs.add(new ExtendedCodegenOperation(o));
         }
-        _operations.put("operation", newOs);
+        operations.getOperations().setOperation(newOs);
 
         this.addOperationModelImportInformation(operations);
         this.updateOperationParameterEnumInformation(operations);
@@ -214,23 +214,22 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         return operations;
     }
 
-    private void addOperationModelImportInformation(Map<String, Object> operations) {
+    private void addOperationModelImportInformation(OperationsMap operations) {
         // This method will add extra information to the operations.imports array.
         // The api template uses this information to import all the required
         // models for a given operation.
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
-            im.put("className", im.get("import").toString().replace("models.", ""));
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
+            im.put("className", im.get("import").replace("models.", ""));
         }
     }
 
-    private void updateOperationParameterEnumInformation(Map<String, Object> operations) {
+    private void updateOperationParameterEnumInformation(OperationsMap operations) {
         // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
         boolean hasEnums = false;
-        for (ExtendedCodegenOperation op : operationList) {
+        for (CodegenOperation _op : operations.getOperations().getOperation()) {
+            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnums = true;
@@ -250,10 +249,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         }
     }
 
-    private void addConditionalImportInformation(Map<String, Object> operations) {
+    private void addConditionalImportInformation(OperationsMap operations) {
         // This method will determine if there are required parameters and if there are list containers
-        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
-        List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
 
         boolean hasRequiredParams = false;
         boolean hasListContainers = false;
@@ -261,7 +258,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         boolean hasQueryParams = false;
         boolean hasPathParams = false;
 
-        for (ExtendedCodegenOperation op : operationList) {
+        for (CodegenOperation _op : operations.getOperations().getOperation()) {
+            ExtendedCodegenOperation op = (ExtendedCodegenOperation) _op;
             if (op.getHasRequiredParams()) {
                 hasRequiredParams = true;
             }
@@ -422,5 +420,11 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             this.hasRequiredQueryParams = false; // will be updated within addConditionalImportInformation
             this.hasOptionalQueryParams = false; // will be updated within addConditionalImportInformation
         }
+    }
+
+    @Override
+    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+        // import everything (including child schema of a composed schema)
+        addImport(model, modelName);
     }
 }

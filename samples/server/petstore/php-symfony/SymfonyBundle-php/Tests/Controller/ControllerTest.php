@@ -1,7 +1,7 @@
 <?php
 /**
  * ControllerTest
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Controller
@@ -43,21 +43,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ControllerTest extends TestCase
 {
-
     /**
      * Tests isContentTypeAllowed static method.
      *
-     * @param string $contentType
-     * @param array  $consumes
-     * @param bool   $expectedReturn
-     *
      * @covers ::isContentTypeAllowed
-     * @dataProvider provideArgumentsForIsContentTypeAllowed
+     * @dataProvider dataProviderIsContentTypeAllowed
      */
-    public function testIsContentTypeAllowed($contentType, array $consumes, $expectedReturn)
+    public function testIsContentTypeAllowed(?string $contentType, array $consumes, bool $expectedReturn): void
     {
         $request = new Request();
-        $request->headers->set('CONTENT_TYPE', $contentType, true);// last one argument overrides header
+        $request->headers->set('CONTENT_TYPE', $contentType);// last one argument overrides header
         $this->assertSame(
             $expectedReturn,
             Controller::isContentTypeAllowed($request, $consumes),
@@ -70,7 +65,7 @@ class ControllerTest extends TestCase
         );
     }
 
-    public function provideArgumentsForIsContentTypeAllowed()
+    public function dataProviderIsContentTypeAllowed(): array
     {
         return [
             'usual JSON content type' => [

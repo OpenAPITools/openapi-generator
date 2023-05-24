@@ -20,10 +20,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -38,7 +37,6 @@ import javax.validation.Valid;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@JsonTypeName("Order")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
@@ -96,6 +94,8 @@ public class Order {
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
+  public Order() {
+  }
 
   public Order id(Long id) {
     
@@ -108,7 +108,7 @@ public class Order {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -135,7 +135,7 @@ public class Order {
    * @return petId
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -162,7 +162,7 @@ public class Order {
    * @return quantity
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -190,7 +190,7 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -217,7 +217,7 @@ public class Order {
    * @return status
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Order Status")
+
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -244,7 +244,7 @@ public class Order {
    * @return complete
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -258,7 +258,6 @@ public class Order {
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(Object o) {

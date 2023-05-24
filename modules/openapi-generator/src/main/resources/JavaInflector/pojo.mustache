@@ -1,6 +1,6 @@
 {{#description}}@ApiModel(description = "{{{.}}}"){{/description}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -43,7 +43,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

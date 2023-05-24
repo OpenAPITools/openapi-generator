@@ -25,6 +25,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -54,7 +57,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -79,10 +82,10 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.html"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
     }
 
     /**
@@ -124,9 +127,9 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             for (CodegenResponse response : op.responses) {
@@ -196,7 +199,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     public String toVarName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
             return escape(name, specialCharReplacements, Arrays.asList("_"), null);
         } else {
             return name;
@@ -229,4 +232,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
                 property.unescapedDescription);
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

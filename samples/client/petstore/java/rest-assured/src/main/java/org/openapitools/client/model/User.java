@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -64,6 +62,8 @@ public class User {
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
 
+  public User() {
+  }
 
   public User id(Long id) {
     
@@ -76,7 +76,7 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Long getId() {
     return id;
@@ -99,7 +99,7 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getUsername() {
     return username;
@@ -122,7 +122,7 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getFirstName() {
     return firstName;
@@ -145,7 +145,7 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getLastName() {
     return lastName;
@@ -168,7 +168,7 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getEmail() {
     return email;
@@ -191,7 +191,7 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getPassword() {
     return password;
@@ -214,7 +214,7 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public String getPhone() {
     return phone;
@@ -237,7 +237,7 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
+
 
   public Integer getUserStatus() {
     return userStatus;
@@ -247,7 +247,6 @@ public class User {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
-
 
   @Override
   public boolean equals(Object o) {

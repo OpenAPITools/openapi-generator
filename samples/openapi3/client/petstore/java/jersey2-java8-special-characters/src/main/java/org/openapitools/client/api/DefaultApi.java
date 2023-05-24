@@ -12,6 +12,7 @@ import org.openapitools.client.model.MySchemaNameCharacters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class DefaultApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +38,7 @@ public class DefaultApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -74,37 +75,11 @@ public class DefaultApi {
      </table>
    */
   public ApiResponse<MySchemaNameCharacters> testPostWithHttpInfo(MySchemaNameCharacters mySchemaNameCharacters) throws ApiException {
-    Object localVarPostBody = mySchemaNameCharacters;
-    
-    // create path and map variables
-    String localVarPath = "/test";
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
+    String localVarAccept = apiClient.selectHeaderAccept("application/json");
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
     GenericType<MySchemaNameCharacters> localVarReturnType = new GenericType<MySchemaNameCharacters>() {};
-
-    return apiClient.invokeAPI("DefaultApi.testPost", localVarPath, "POST", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+    return apiClient.invokeAPI("DefaultApi.testPost", "/test", "POST", new ArrayList<>(), mySchemaNameCharacters,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
   }
 }

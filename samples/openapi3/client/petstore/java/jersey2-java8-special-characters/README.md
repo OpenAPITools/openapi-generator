@@ -14,7 +14,7 @@ test
 Building the API client library requires:
 
 1. Java 1.8+
-2. Maven/Gradle
+2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
 
@@ -50,7 +50,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-openapi3-jersey2-java8-special-characters:1.0.0"
+  repositories {
+    mavenCentral()     // Needed if the 'petstore-openapi3-jersey2-java8-special-characters' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-openapi3-jersey2-java8-special-characters' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "org.openapitools:petstore-openapi3-jersey2-java8-special-characters:1.0.0"
+  }
 ```
 
 ### Others
@@ -143,10 +150,11 @@ Class | Method | HTTP request | Description
  - [Parent](docs/Parent.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
-Authentication schemes defined for the API:
+Endpoints do not require authorization.
+
 
 ## Recommendation
 

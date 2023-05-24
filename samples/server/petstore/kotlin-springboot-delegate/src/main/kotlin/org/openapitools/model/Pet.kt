@@ -7,13 +7,14 @@ import org.openapitools.model.Category
 import org.openapitools.model.Tag
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * A pet for sale in the pet store
@@ -26,26 +27,26 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Pet(
 
-    @ApiModelProperty(example = "doggie", required = true, value = "")
-    @field:JsonProperty("name", required = true) val name: kotlin.String,
+    @Schema(example = "doggie", required = true, description = "")
+    @get:JsonProperty("name", required = true) val name: kotlin.String,
 
-    @ApiModelProperty(example = "null", required = true, value = "")
-    @field:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @Schema(example = "null", required = true, description = "")
+    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("id") val id: kotlin.Long? = null,
-
-    @field:Valid
-    @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("category") val category: Category? = null,
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("id") val id: kotlin.Long? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("category") val category: Category? = null,
 
-    @ApiModelProperty(example = "null", value = "pet status in the store")
+    @field:Valid
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+
+    @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
-    @field:JsonProperty("status") val status: Pet.Status? = null
+    @get:JsonProperty("status") val status: Pet.Status? = null
 ) {
 
     /**
@@ -53,13 +54,10 @@ data class Pet(
     * Values: available,pending,sold
     */
     enum class Status(val value: kotlin.String) {
-    
+
         @JsonProperty("available") available("available"),
-    
         @JsonProperty("pending") pending("pending"),
-    
-        @JsonProperty("sold") sold("sold");
-    
+        @JsonProperty("sold") sold("sold")
     }
 
 }

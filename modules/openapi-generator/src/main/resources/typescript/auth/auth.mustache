@@ -1,11 +1,4 @@
-// typings for btoa are incorrect
-{{#platforms}}
-{{#node}}
-//@ts-ignore
-import * as btoa from "btoa";
-{{/node}}
-{{/platforms}}
-import { RequestContext } from "../http/http{{extensionForDeno}}";
+import { RequestContext } from "../http/http{{importFileExtension}}";
 {{#useInversify}}
 import { injectable, inject, named } from "inversify";
 import { AbstractTokenProvider } from "../services/configuration";
@@ -92,8 +85,8 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
         context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}setQueryParam{{/isKeyInQuery}}{{#isKeyInCookie}}addCookie{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
         {{/isApiKey}}
         {{#isBasicBasic}}
-        let comb = this.username + ":" + this.password;
-        context.setHeaderParam("Authorization", "Basic " + btoa(comb));
+        let comb = Buffer.from(this.username + ":" + this.password, 'binary').toString('base64');
+        context.setHeaderParam("Authorization", "Basic " + comb);
         {{/isBasicBasic}}
         {{#isBasicBearer}}
         context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());
@@ -107,6 +100,9 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 {{/authMethods}}
 
 export type AuthMethods = {
+    {{^useInversify}}
+    "default"?: SecurityAuthentication,
+    {{/useInversify}}
     {{#authMethods}}
     "{{name}}"?: SecurityAuthentication{{^-last}},{{/-last}}
     {{/authMethods}}
@@ -114,6 +110,9 @@ export type AuthMethods = {
 {{#useInversify}}
 
 export const authMethodServices = {
+    {{^useInversify}}
+    "default"?: SecurityAuthentication,
+    {{/useInversify}}
     {{#authMethods}}
     "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{^-last}},{{/-last}}
     {{/authMethods}}
@@ -126,6 +125,9 @@ export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = { accessToken: string };
 
 export type AuthMethodsConfiguration = {
+    {{^useInversify}}
+    "default"?: SecurityAuthentication,
+    {{/useInversify}}
     {{#authMethods}}
     "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{^-last}},{{/-last}}
     {{/authMethods}}
@@ -141,6 +143,9 @@ export function configureAuthMethods(config: AuthMethodsConfiguration | undefine
     if (!config) {
         return authMethods;
     }
+    {{^useInversify}}
+    authMethods["default"] = config["default"]
+    {{/useInversify}}
 
     {{#authMethods}}
     if (config["{{name}}"]) {

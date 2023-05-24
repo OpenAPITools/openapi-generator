@@ -32,6 +32,10 @@ packages/
 **/.vs
 .factorypath
 .metals/*
+nbproject/
+nbactions.xml
+nb-configuration.xml
+.direnv/
 
 .settings
 
@@ -62,14 +66,17 @@ samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules
 
-# qt5 cpp
-*.pro.user
-samples/client/petstore/qt5cpp/PetStore/moc_*
-samples/client/petstore/qt5cpp/PetStore/*.o
-samples/client/petstore/qt5cpp/build-*
-samples/client/petstore/qt5cpp/PetStore/PetStore
-samples/client/petstore/qt5cpp/PetStore/Makefile
-samples/client/petstore/qt5cpp/PetStore/PetStore.pro.user
+# qt cpp
+samples/client/build
+samples/client/petstore/build
+samples/client/petstore/cpp-qt/PetStore/moc_*
+samples/client/petstore/cpp-qt/PetStore/*.o
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/PetStore/PetStore
+samples/client/petstore/cpp-qt/PetStore/Makefile
+samples/client/petstore/cpp-qt/PetStore/PetStore.pro.user
+samples/client/petstore/cpp-qt/CMakeLists.txt.user
 
 # cpprestsdk
 samples/client/petstore/cpp-restsdk/CMakeCache.txt
@@ -198,15 +205,11 @@ samples/server/petstore/aspnetcore/.vs/
 effective.pom
 
 # kotlin
-samples/client/petstore/kotlin/src/main/kotlin/test/
-samples/client/petstore/kotlin-threetenbp/build
-samples/client/petstore/kotlin-string/build
 samples/openapi3/client/petstore/kotlin/build
 samples/server/petstore/kotlin-server/ktor/build
 samples/server/petstore/kotlin-springboot/build
-samples/client/petstore/kotlin-multiplatform/build/
-samples/client/petstore/kotlin-okhttp3/build/
-\?
+samples/client/petstore/kotlin*/src/main/kotlin/test/
+samples/client/petstore/kotlin*/build/
 
 # haskell
 .stack-work
@@ -223,6 +226,10 @@ samples/server/petstore/haskell-yesod/stack.yaml.lock
 .Rproj.user
 samples/client/petstore/R/**/petstore.Rcheck/
 samples/client/petstore/R/**/*.tar.gz
+samples/client/petstore/R/R.Rproj
+samples/client/petstore/R/man/
+samples/client/petstore/R-httr2-wrapper/man/
+samples/client/petstore/R-httr2/man/
 
 # elixir
 samples/client/petstore/elixir/_build/
@@ -246,13 +253,11 @@ samples/server/petstore/erlang-server/rebar.lock
 **/dart*/**/pubspec.lock
 # Dart dio
 **/dart*/**/*.g.dart
-# Dart jaguar
-**/dart*/**/*.jser.dart
-**/dart*/**/*.jretro.dart
 
 # JS
 samples/client/petstore/javascript-es6/package-lock.json
 samples/client/petstore/javascript-promise-es6/package-lock.json
+samples/client/petstore/javascript-apollo/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html
@@ -267,3 +272,9 @@ samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
 
 # Crystal
 samples/client/petstore/crystal/lib
+
+# Go
+samples/openapi3/client/petstore/go/privatekey.pem
+
+## OCaml
+samples/client/petstore/ocaml/_build/

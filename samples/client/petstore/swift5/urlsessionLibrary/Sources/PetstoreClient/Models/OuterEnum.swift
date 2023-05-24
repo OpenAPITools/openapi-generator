@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.OuterEnum")
-public typealias OuterEnum = PetstoreClient.OuterEnum
+@available(*, deprecated, renamed: "PetstoreClientAPI.OuterEnum")
+public typealias OuterEnum = PetstoreClientAPI.OuterEnum
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public enum OuterEnum: String, Codable, CaseIterable {
     case placed = "placed"

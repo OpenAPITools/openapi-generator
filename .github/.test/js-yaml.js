@@ -1811,7 +1811,7 @@ function readBlockScalar(state, nodeIndent) {
         }
       }
 
-      // Break this `while` cycle and go to the funciton's epilogue.
+      // Break this `while` cycle and go to the function's epilogue.
       break;
     }
 
@@ -2862,7 +2862,7 @@ module.exports = new Schema({
 //
 // NOTE: JS-YAML does not support schema-specific tag resolution restrictions.
 // So, this schema is not such strict as defined in the YAML specification.
-// It allows numbers in binary notaion, use `Null` and `NULL` as `null`, etc.
+// It allows numbers in binary notation, use `Null` and `NULL` as `null`, etc.
 
 
 'use strict';
@@ -3222,7 +3222,7 @@ function representYamlFloat(object, style) {
   res = object.toString(10);
 
   // JS stringifier can build scientific format without dots: 5e-100,
-  // while YAML requres dot: 5.e-100. Fix it with simple hack
+  // while YAML requires dot: 5.e-100. Fix it with simple hack
 
   return SCIENTIFIC_WITHOUT_DOT.test(res) ? res.replace('e', '.e') : res;
 }
@@ -3424,7 +3424,7 @@ var esprima;
 // Browserified version does not have esprima
 //
 // 1. For node.js just require module as deps
-// 2. For browser try to require mudule via external AMD system.
+// 2. For browser try to require module via external AMD system.
 //    If not found - try to fallback to window.esprima. If not
 //    found too - then fail to parse.
 //
@@ -3881,7 +3881,7 @@ function constructYamlTimestamp(data) {
   if (match[9]) {
     tz_hour = +(match[10]);
     tz_minute = +(match[11] || 0);
-    delta = (tz_hour * 60 + tz_minute) * 60000; // delta in mili-seconds
+    delta = (tz_hour * 60 + tz_minute) * 60000; // delta in milliseconds
     if (match[9] === '-') delta = -delta;
   }
 

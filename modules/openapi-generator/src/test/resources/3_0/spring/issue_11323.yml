@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: Test Issue #11323
+  version: v1
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Address'
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        locationType:
+          type: string
+          enum:
+            - VILLAGE
+            - SMALL_TOWN
+            - BIG_CITY
+      allOf:
+        - $ref: '#/components/schemas/BasicAddress'
+
+    BasicAddress:
+      type: object
+      properties:
+        street:
+          type: string
+        housenumber:
+          type: string
+        zip:
+          type: string
+        city:
+          type: string
+        country:
+          type: string

@@ -9,11 +9,13 @@
 #define {{classname}}_H_
 
 {{{defaultInclude}}}
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 {{^hasModelImport}}#include <nlohmann/json.hpp>{{/hasModelImport}}
+#include <optional>
 #include <utility>
 
 {{#imports}}{{{import}}}
@@ -22,11 +24,11 @@
 namespace {{apiNamespace}}
 {
 
-class {{declspec}} {{classname}} {
+class {{declspec}} {{classname}} : public ApiBase {
 public:
     explicit {{classname}}(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~{{classname}}() = default;
-    void init();
+    ~{{classname}}() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -38,18 +40,16 @@ private:
     {{/operation}}
     void {{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    const std::shared_ptr<Pistache::Rest::Router> router;
-
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
-    /// May be overriden to return custom error formats. This is called inside a catch block.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleParsingException(const std::exception& ex) const noexcept;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during processing of the request in handler functions.
-    /// May be overriden to return custom error formats. This is called inside a catch block.
+    /// May be overridden to return custom error formats. This is called inside a catch block.
     /// Important: When overriding, do not call `throw ex;`, but instead use `throw;`.
     /// </summary>
     virtual std::pair<Pistache::Http::Code, std::string> handleOperationException(const std::exception& ex) const noexcept;

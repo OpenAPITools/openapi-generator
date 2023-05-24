@@ -38,9 +38,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -50,6 +50,7 @@
     </dependencies>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -61,6 +62,7 @@
         <packaging.type>usr</packaging.type>
         <app.name>${project.artifactId}</app.name>
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
     </properties>
 
     <build>

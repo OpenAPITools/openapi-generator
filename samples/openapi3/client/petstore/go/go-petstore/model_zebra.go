@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Zebra type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Zebra{}
+
 // Zebra struct for Zebra
 type Zebra struct {
 	Type *string `json:"type,omitempty"`
@@ -43,7 +46,7 @@ func NewZebraWithDefaults() *Zebra {
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Zebra) GetType() string {
-	if o == nil || o.Type == nil {
+	if o == nil || IsNil(o.Type) {
 		var ret string
 		return ret
 	}
@@ -53,7 +56,7 @@ func (o *Zebra) GetType() string {
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Zebra) GetTypeOk() (*string, bool) {
-	if o == nil || o.Type == nil {
+	if o == nil || IsNil(o.Type) {
 		return nil, false
 	}
 	return o.Type, true
@@ -61,7 +64,7 @@ func (o *Zebra) GetTypeOk() (*string, bool) {
 
 // HasType returns a boolean if a field has been set.
 func (o *Zebra) HasType() bool {
-	if o != nil && o.Type != nil {
+	if o != nil && !IsNil(o.Type) {
 		return true
 	}
 
@@ -86,7 +89,7 @@ func (o *Zebra) GetClassName() string {
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
 func (o *Zebra) GetClassNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ClassName, true
@@ -98,19 +101,25 @@ func (o *Zebra) SetClassName(v string) {
 }
 
 func (o Zebra) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Zebra) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Type != nil {
+	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
-	if true {
-		toSerialize["className"] = o.ClassName
-	}
+	toSerialize["className"] = o.ClassName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Zebra) UnmarshalJSON(bytes []byte) (err error) {

@@ -20,7 +20,7 @@ test_script:
       }
 deploy_script:
   - pwsh: |
-      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null) {
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $null -ne $env:NuGetApiKey) {
           .\Build.ps1
           try {
               Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\{{{packageName}}}\ -Confirm:$False -Verbose

@@ -186,9 +186,9 @@ public class PetApi  {
     public Response uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,
         @FormDataParam("additionalMetadata")  String additionalMetadata,
-        @FormDataParam("file") FormDataBodyPart fileBodypart,
+        @FormDataParam("file") FormDataBodyPart _fileBodypart,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(petId,additionalMetadata,fileBodypart,securityContext);
+        return delegate.uploadFile(petId,additionalMetadata,_fileBodypart,securityContext);
     }
 }

@@ -31,14 +31,16 @@ components:
     GeoJsonGeometry:
       title: GeoJsonGeometry
       description: GeoJSON geometry
-      oneOf:
-        - $ref: '#/components/schemas/Point'
-        - $ref: '#/components/schemas/GeometryCollection'
-      discriminator:
-        propertyName: type
-        mapping:
-          Point: '#/components/schemas/Point'
-          GeometryCollection: '#/components/schemas/GeometryCollection'
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - GeometryCollection
+        geometries:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoJsonGeometry'
       externalDocs:
         url: http://geojson.org/geojson-spec.html#geometry-objects
     Point:

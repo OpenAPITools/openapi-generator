@@ -34,8 +34,8 @@ public class Pet   {
   private Long id;
   private Category category;
   private String name;
-  private List<String> photoUrls = new ArrayList<String>();
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<String> photoUrls = new ArrayList<>();
+  private List<Tag> tags;
 
 
   public enum StatusEnum {

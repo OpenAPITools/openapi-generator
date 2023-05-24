@@ -21,7 +21,7 @@ import akka.http.scaladsl.model.Uri.Query
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers._
 import akka.http.scaladsl.unmarshalling.{ Unmarshal, Unmarshaller }
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import akka.stream.scaladsl.Source
 import akka.util.{ ByteString, Timeout }
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
@@ -49,7 +49,7 @@ object ApiInvoker {
     * Allows request execution without calling apiInvoker.execute(request)
     * request.response can be used to get a future of the ApiResponse generated.
     * request.result can be used to get a future of the expected ApiResponse content. If content doesn't match, a
-    * Future will failed with a ClassCastException
+    * Future will fail with a ClassCastException
     *
     * @param request the apiRequest to be executed
     */
@@ -91,7 +91,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
 
   protected val settings: ApiSettings = ApiSettings(system)
 
-  private implicit val materializer: ActorMaterializer = ActorMaterializer()
+  private implicit val materializer: Materializer = Materializer(system)
   private implicit val serialization: Serialization = jackson.Serialization
 
 
@@ -182,7 +182,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           case Some(c: String) =>
             HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString(c)))
           case _ =>
-            HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString(" ")))
+            HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString("")))
         }
       case m: HttpMethod => HttpRequest(m, uri)
     }

@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -22,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -38,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   private String smallCamel;
@@ -58,6 +59,8 @@ public class Capitalization {
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   private String ATT_NAME;
 
+  public Capitalization() { 
+  }
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -69,7 +72,6 @@ public class Capitalization {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -95,7 +97,6 @@ public class Capitalization {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -121,7 +122,6 @@ public class Capitalization {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -147,7 +147,6 @@ public class Capitalization {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -173,7 +172,6 @@ public class Capitalization {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -199,7 +197,6 @@ public class Capitalization {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -265,5 +262,69 @@ public class Capitalization {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `smallCamel` to the URL query string
+    if (getSmallCamel() != null) {
+      joiner.add(String.format("%ssmallCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `CapitalCamel` to the URL query string
+    if (getCapitalCamel() != null) {
+      joiner.add(String.format("%sCapitalCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `small_Snake` to the URL query string
+    if (getSmallSnake() != null) {
+      joiner.add(String.format("%ssmall_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `Capital_Snake` to the URL query string
+    if (getCapitalSnake() != null) {
+      joiner.add(String.format("%sCapital_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `SCA_ETH_Flow_Points` to the URL query string
+    if (getScAETHFlowPoints() != null) {
+      joiner.add(String.format("%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getScAETHFlowPoints()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `ATT_NAME` to the URL query string
+    if (getATTNAME() != null) {
+      joiner.add(String.format("%sATT_NAME%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getATTNAME()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

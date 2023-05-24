@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Animal type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Animal{}
+
 // Animal struct for Animal
 type Animal struct {
 	ClassName string `json:"className"`
@@ -58,7 +61,7 @@ func (o *Animal) GetClassName() string {
 // GetClassNameOk returns a tuple with the ClassName field value
 // and a boolean to check if the value has been set.
 func (o *Animal) GetClassNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ClassName, true
@@ -71,7 +74,7 @@ func (o *Animal) SetClassName(v string) {
 
 // GetColor returns the Color field value if set, zero value otherwise.
 func (o *Animal) GetColor() string {
-	if o == nil || o.Color == nil {
+	if o == nil || IsNil(o.Color) {
 		var ret string
 		return ret
 	}
@@ -81,7 +84,7 @@ func (o *Animal) GetColor() string {
 // GetColorOk returns a tuple with the Color field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Animal) GetColorOk() (*string, bool) {
-	if o == nil || o.Color == nil {
+	if o == nil || IsNil(o.Color) {
 		return nil, false
 	}
 	return o.Color, true
@@ -89,7 +92,7 @@ func (o *Animal) GetColorOk() (*string, bool) {
 
 // HasColor returns a boolean if a field has been set.
 func (o *Animal) HasColor() bool {
-	if o != nil && o.Color != nil {
+	if o != nil && !IsNil(o.Color) {
 		return true
 	}
 
@@ -102,11 +105,17 @@ func (o *Animal) SetColor(v string) {
 }
 
 func (o Animal) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["className"] = o.ClassName
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
-	if o.Color != nil {
+	return json.Marshal(toSerialize)
+}
+
+func (o Animal) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["className"] = o.ClassName
+	if !IsNil(o.Color) {
 		toSerialize["color"] = o.Color
 	}
 
@@ -114,7 +123,7 @@ func (o Animal) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Animal) UnmarshalJSON(bytes []byte) (err error) {

@@ -150,7 +150,7 @@ uncapitalize [] = []
 --   The @forParsing@ parameter is to distinguish between the cases in which we're using this
 --   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
 --   to replace special characters with their quoted equivalents (because we cannot have special
---   chars in identifier names), while we want to do viceversa when sending data instead.
+--   chars in identifier names), while we want to do vice versa when sending data instead.
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions
@@ -160,41 +160,43 @@ removeFieldLabelPrefix forParsing prefix =
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
     specialChars =
-      [ ("@", "'At")
-      , ("\\", "'Back_Slash")
-      , ("<=", "'Less_Than_Or_Equal_To")
-      , ("\"", "'Double_Quote")
-      , ("[", "'Left_Square_Bracket")
-      , ("]", "'Right_Square_Bracket")
+      [ ("$", "'Dollar")
       , ("^", "'Caret")
-      , ("_", "'Underscore")
-      , ("`", "'Backtick")
-      , ("!", "'Exclamation")
-      , ("#", "'Hash")
-      , ("$", "'Dollar")
-      , ("%", "'Percent")
+      , ("|", "'Pipe")
+      , ("=", "'Equal")
+      , ("*", "'Star")
+      , ("-", "'Dash")
       , ("&", "'Ampersand")
+      , ("%", "'Percent")
+      , ("#", "'Hash")
+      , ("@", "'At")
+      , ("!", "'Exclamation")
+      , ("+", "'Plus")
+      , (":", "'Colon")
+      , (";", "'Semicolon")
+      , (">", "'GreaterThan")
+      , ("<", "'LessThan")
+      , (".", "'Period")
+      , ("_", "'Underscore")
+      , ("?", "'Question_Mark")
+      , (",", "'Comma")
       , ("'", "'Quote")
+      , ("/", "'Slash")
       , ("(", "'Left_Parenthesis")
       , (")", "'Right_Parenthesis")
-      , ("*", "'Star")
-      , ("+", "'Plus")
-      , (",", "'Comma")
-      , ("-", "'Dash")
-      , (".", "'Period")
-      , ("/", "'Slash")
-      , (":", "'Colon")
       , ("{", "'Left_Curly_Bracket")
-      , ("|", "'Pipe")
-      , ("<", "'LessThan")
-      , ("!=", "'Not_Equal")
-      , ("=", "'Equal")
       , ("}", "'Right_Curly_Bracket")
-      , (">", "'GreaterThan")
+      , ("[", "'Left_Square_Bracket")
+      , ("]", "'Right_Square_Bracket")
       , ("~", "'Tilde")
-      , ("?", "'Question_Mark")
+      , ("`", "'Backtick")
+      , ("<=", "'Less_Than_Or_Equal_To")
       , (">=", "'Greater_Than_Or_Equal_To")
+      , ("!=", "'Not_Equal")
+      , ("<>", "'Not_Equal")
       , ("~=", "'Tilde_Equal")
+      , ("\\", "'Back_Slash")
+      , ("\"", "'Double_Quote")
       ]
     mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer =

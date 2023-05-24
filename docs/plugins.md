@@ -16,7 +16,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>5.1.0</version>
+    <version>6.0.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -91,19 +91,19 @@ This gives access to the following tasks:
 | ---- | ----------- |
 | openApiGenerate | Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents. |
 | openApiGenerators | Lists generators available via Open API Generators. |
-| openApiMeta  | Generates a new generator to be consumed via Open API Generator. | 
+| openApiMeta  | Generates a new generator to be consumed via Open API Generator. |
 | openApiValidate  | Validates an Open API 2.0 or 3.x specification document. |
 
 > The plugin implements the above tasks as project extensions of the same name. If you’d like to declare these tasks as dependencies to other tasks (using `dependsOn`), you’ll need a task reference. e.g.:
 > ```groovy
-> compileJava.dependsOn tasks.openApiGenerate
+> compileJava.dependsOn tasks.named("openApiGenerate")
 > ```
 
 For full details of all options, see the [plugin README](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin).
 
 ### Example
 
-An example task for generating a kotlin client:
+An example openApiGenerate task configuration for generating a kotlin client:
 
 ```groovy
 openApiGenerate {
@@ -113,8 +113,10 @@ openApiGenerate {
     apiPackage = "org.openapi.example.api"
     invokerPackage = "org.openapi.example.invoker"
     modelPackage = "org.openapi.example.model"
-    configOptions = [
+    configOptions.putAll([
         dateLibrary: "java8"
-    ]
+    ])
 }
 ```
+
+*If you want to create separate tasks (for example when you have more than one api spec and require different parameters for each), this is how to do so in Gradle 7+: `tasks.register('taskName', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) { ... }`.*

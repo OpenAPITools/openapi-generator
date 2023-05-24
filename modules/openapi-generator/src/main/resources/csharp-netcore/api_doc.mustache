@@ -3,14 +3,17 @@
 
 All URIs are relative to *{{{basePath}}}*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
-{{/operation}}{{/operations}}
+| Method | HTTP request | Description |
+|--------|--------------|-------------|
+{{#operations}}
+{{#operation}}
+| [**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}} |
+{{/operation}}
+{{/operations}}
 
 {{#operations}}
 {{#operation}}
-<a name="{{{operationIdLowerCase}}}"></a>
+<a id="{{{operationIdLowerCase}}}"></a>
 # **{{{operationId}}}**
 > {{returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
 
@@ -89,8 +92,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -98,11 +101,36 @@ namespace Example
 }
 ```
 
+#### Using the {{operationId}}WithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    {{#summary}}
+    // {{{.}}}
+    {{/summary}}
+    {{#returnType}}ApiResponse<{{{.}}}> response = {{/returnType}}apiInstance.{{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);{{/returnType}}
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling {{classname}}.{{operationId}}WithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+{{/-last}}
+{{/allParams}}
+{{#allParams}}
+| **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}} |
 {{/allParams}}
 
 ### Return type
@@ -128,7 +156,7 @@ Name | Type | Description  | Notes
 {{/responses}}
 {{/responses.0}}
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../{{#useGenericHost}}../{{/useGenericHost}}README.md#documentation-for-api-endpoints) [[Back to Model list]](../{{#useGenericHost}}../{{/useGenericHost}}README.md#documentation-for-models) [[Back to README]](../{{#useGenericHost}}../{{/useGenericHost}}README.md)
 
 {{/operation}}
 {{/operations}}

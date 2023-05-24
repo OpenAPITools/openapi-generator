@@ -20,9 +20,9 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{#-first}}
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err := json.Unmarshal(data, &jsonDict)
+	err = json.Unmarshal(data, &jsonDict)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal JSON into map for the discrimintor lookup.")
+		return fmt.Errorf("failed to unmarshal JSON into map for the discriminator lookup")
 	}
 
 	{{/-first}}
@@ -59,7 +59,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	}
 
 	{{/anyOf}}
-	return fmt.Errorf("Data failed to match schemas in anyOf({{classname}})")
+	return fmt.Errorf("data failed to match schemas in anyOf({{classname}})")
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

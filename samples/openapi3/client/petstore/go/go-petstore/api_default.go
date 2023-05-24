@@ -12,52 +12,47 @@ package petstore
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
-type DefaultApi interface {
+type DefaultAPI interface {
 
 	/*
 	FooGet Method for FooGet
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiFooGetRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiFooGetRequest
 	*/
-	FooGet(ctx _context.Context) ApiFooGetRequest
+	FooGet(ctx context.Context) ApiFooGetRequest
 
 	// FooGetExecute executes the request
-	//  @return InlineResponseDefault
-	FooGetExecute(r ApiFooGetRequest) (InlineResponseDefault, *_nethttp.Response, error)
+	//  @return FooGetDefaultResponse
+	FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultResponse, *http.Response, error)
 }
 
-// DefaultApiService DefaultApi service
-type DefaultApiService service
+// DefaultAPIService DefaultAPI service
+type DefaultAPIService service
 
 type ApiFooGetRequest struct {
-	ctx _context.Context
-	ApiService DefaultApi
+	ctx context.Context
+	ApiService DefaultAPI
 }
 
-
-func (r ApiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, error) {
+func (r ApiFooGetRequest) Execute() (*FooGetDefaultResponse, *http.Response, error) {
 	return r.ApiService.FooGetExecute(r)
 }
 
 /*
 FooGet Method for FooGet
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiFooGetRequest
 */
-func (a *DefaultApiService) FooGet(ctx _context.Context) ApiFooGetRequest {
+func (a *DefaultAPIService) FooGet(ctx context.Context) ApiFooGetRequest {
 	return ApiFooGetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -65,27 +60,25 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) ApiFooGetRequest {
 }
 
 // Execute executes the request
-//  @return InlineResponseDefault
-func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDefault, *_nethttp.Response, error) {
+//  @return FooGetDefaultResponse
+func (a *DefaultAPIService) FooGetExecute(r ApiFooGetRequest) (*FooGetDefaultResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  InlineResponseDefault
+		formFiles            []formFile
+		localVarReturnValue  *FooGetDefaultResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.FooGet")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/foo"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -104,7 +97,7 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDef
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -114,31 +107,54 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDef
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-			var v InlineResponseDefault
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v FooGetDefaultResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
+			var v FooGetDefaultResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+			var v FooGetDefaultResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

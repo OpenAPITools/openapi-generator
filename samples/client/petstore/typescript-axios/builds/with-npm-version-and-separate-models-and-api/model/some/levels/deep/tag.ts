@@ -25,12 +25,12 @@ export interface Tag {
      * @type {number}
      * @memberof Tag
      */
-    id?: number;
+    'id'?: number;
     /**
      * 
      * @type {string}
      * @memberof Tag
      */
-    name?: string;
+    'name'?: string;
 }
 

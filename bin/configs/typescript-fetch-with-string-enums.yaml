@@ -1,0 +1,6 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/with-string-enums
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/enum.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  stringEnums: true

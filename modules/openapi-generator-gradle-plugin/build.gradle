@@ -1,86 +1,59 @@
-buildscript {
-    ext.kotlin_version = '1.3.20'
-    repositories {
-        mavenLocal()
-        maven { url "https://repo1.maven.org/maven2" }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/releases/"
-        }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "gradle.plugin.org.gradle.kotlin:gradle-kotlin-dsl-plugins:1.1.3"
-        classpath "com.gradle.publish:plugin-publish-plugin:0.11.0"
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.20.0"
-        classpath "de.marcphilipp.gradle:nexus-publish-plugin:0.2.0"
-    }
+import io.github.gradlenexus.publishplugin.CloseNexusStagingRepository
+import io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id("com.gradle.plugin-publish") version "1.0.0"
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    id("java-gradle-plugin")
+    id("maven-publish")
+    id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
+    id("org.jetbrains.kotlin.jvm") version "1.7.10"
+    id("signing")
 }
 
-group 'org.openapitools'
-// Shared OpenAPI Generator version be passed via command line arg as -PopenApiGeneratorVersion=VERSION
-version "$openApiGeneratorVersion"
+group = "org.openapitools"
+version = "$openApiGeneratorVersion"
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
 description = """
-This plugin supports common functionality found in Open API Generator CLI as a gradle plugin.
+This plugin supports common functionality found in Open API Generator CLI as a Gradle plugin.
 
 This gives you the ability to generate client SDKs, documentation, new generators, and to validate Open API 2.0 and 3.x
 specifications as part of your build. Other tasks are available as command line tasks.
 """
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-apply plugin: 'com.gradle.plugin-publish'
-apply plugin: 'java-gradle-plugin'
-apply plugin: 'signing'
-apply plugin: 'kotlin'
-apply plugin: "org.gradle.kotlin.kotlin-dsl"
-apply plugin: 'io.codearte.nexus-staging'
-apply plugin: "de.marcphilipp.nexus-publish"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    withSourcesJar()
+    withJavadocJar()
+    sourceCompatibility = 1.11
+    targetCompatibility = 1.11
+}
 
 repositories {
     mavenLocal()
-    maven { url "https://repo1.maven.org/maven2" }
+    mavenCentral()
     maven {
-        url "https://oss.sonatype.org/content/repositories/releases/"
-    }
-    maven {
+        name = "Sonatype Snapshots"
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
-    jcenter()
 }
 
 dependencies {
-    compile gradleApi()
-    // Shared OpenAPI Generator version be passed via command line arg as -PopenApiGeneratorVersion=VERSION
-    compile "org.openapitools:openapi-generator:$openApiGeneratorVersion"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    testCompile 'org.testng:testng:6.9.6',
-            "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-
-    testCompile "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlin_version"
+    implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.7.10")
 }
 
-test {
+tasks.named("test", Test).configure {
     useTestNG()
-    testClassesDirs = files(project.tasks.compileTestKotlin.destinationDir)
     testLogging.showStandardStreams = false
 
     beforeTest { descriptor ->
         logger.lifecycle("Running test: " + descriptor)
     }
 
-    failFast = true
-
     onOutput { descriptor, event ->
-        // SLF4J may complain about multiple bindings dependign on how this is run.
+        // SLF4J may complain about multiple bindings depending on how this is run.
         // This is just a warning, but can make test output less readable. So we ignore it specifically.
         if (!event.message.contains("SLF4J:")) {
             logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
@@ -88,133 +61,105 @@ test {
     }
 }
 
-task javadocJar(type: Jar) {
-    from javadoc
-    classifier = 'javadoc'
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
+tasks.withType(Javadoc).configureEach {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption("html5", true)
+    }
 }
 
-artifacts {
-    archives javadocJar, sourcesJar
+tasks.withType(CloseNexusStagingRepository).configureEach {
+    onlyIf { nexusPublishing.useStaging.get() }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            pom {
-                name = 'OpenAPI-Generator Contributors'
-                description = project.description
-                url = 'https://openapi-generator.tech'
-                organization {
-                    name = 'org.openapitools'
-                    url = 'https://github.com/OpenAPITools'
-                }
-                licenses {
-                    license {
-                        name = "The Apache Software License, Version 2.0"
-                        url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
-                        distribution = "repo"
+tasks.withType(ReleaseNexusStagingRepository).configureEach {
+    onlyIf { nexusPublishing.useStaging.get() }
+}
+
+gradlePlugin {
+    website = "https://openapi-generator.tech/"
+    vcsUrl = "https://github.com/OpenAPITools/openapi-generator"
+    plugins {
+        openApiGenerator {
+            id = "org.openapi.generator"
+            description = "OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)."
+            displayName = "OpenAPI Generator Gradle Plugin"
+            implementationClass = "org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin"
+            tags.addAll("openapi-3.0", "openapi-2.0", "openapi", "swagger", "codegen", "sdk")
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username = project.properties["ossrhUsername"]
+            password = project.properties["ossrhPassword"]
+
+            // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile
+            stagingProfileId = "456297f829bbbe"
+        }
+    }
+}
+
+// Signing requires three keys to be defined: signing.keyId, signing.password, and signing.secretKeyRingFile.
+// These can be passed to the Gradle command:
+//     ./gradlew -Psigning.keyId=yourid
+// or stored as key=value pairs in ~/.gradle/gradle.properties
+// You can also apply them in CI via environment variables. See Gradle's docs for details.
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("publishPluginMavenPublicationToSonatypeRepository") }
+    sign(publishing.publications)
+}
+
+// afterEvaluate is necessary because java-gradle-plugin
+// creates its publications in an afterEvaluate callback
+afterEvaluate {
+    tasks.named("publishToSonatype").configure {
+        dependsOn("check")
+    }
+
+    publishing {
+        publications {
+            pluginMaven {
+                pom {
+                    name = "OpenAPI-Generator Contributors"
+                    description = project.description
+                    url = "https://openapi-generator.tech"
+                    organization {
+                        name = "org.openapitools"
+                        url = "https://github.com/OpenAPITools"
                     }
-                }
-                developers {
-                    developer {
-                        id = "openapitools"
-                        name = "OpenAPI-Generator Contributors"
-                        email = "team@openapitools.org"
+                    licenses {
+                        license {
+                            name = "The Apache Software License, Version 2.0"
+                            url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                            distribution = "repo"
+                        }
                     }
-                }
-                scm {
-                    url = 'https://github.com/OpenAPITools/openapi-generator'
-                    connection = 'scm:git:git://github.com/OpenAPITools/openapi-generator.git'
-                    developerConnection = 'scm:git:ssh://git@github.com:OpenAPITools/openapi-generator.git'
-                }
-                issueManagement {
-                    system = 'GitHub'
-                    url = 'https://github.com/OpenAPITools/openapi-generator/issues'
+                    developers {
+                        developer {
+                            id = "openapitools"
+                            name = "OpenAPI-Generator Contributors"
+                            email = "team@openapitools.org"
+                        }
+                    }
+                    scm {
+                        url = "https://github.com/OpenAPITools/openapi-generator"
+                        connection = "scm:git:git://github.com/OpenAPITools/openapi-generator.git"
+                        developerConnection = "scm:git:ssh://git@github.com:OpenAPITools/openapi-generator.git"
+                    }
+                    issueManagement {
+                        system = "GitHub"
+                        url = "https://github.com/OpenAPITools/openapi-generator/issues"
+                    }
                 }
             }
         }
     }
 }
-
-nexusStaging {
-    username = project.properties["ossrhUsername"]
-    password = project.properties["ossrhPassword"]
-}
-
-nexusPublishing {
-    // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile --no-daemon
-    stagingProfileId = "456297f829bbbe"
-}
-
-gradlePlugin {
-    plugins {
-        openApiGenerator {
-            id = 'org.openapi.generator'
-            implementationClass = 'org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin'
-        }
-    }
-}
-
-pluginBundle {
-    // These settings are set for the whole plugin bundle
-    website = 'https://openapi-generator.tech/'
-    vcsUrl = 'https://github.com/OpenAPITools/openapi-generator'
-    description = 'OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)'
-
-    plugins {
-        // first plugin
-        openApiGenerator {
-            id = 'org.openapi.generator'
-            displayName = 'OpenAPI Generator Gradle Plugin'
-            tags = ['openapi-3.0', 'openapi-2.0', 'openapi', 'swagger', 'codegen', 'sdk']
-            version = "$openApiGeneratorVersion"
-            group = "org.openapitools"
-        }
-    }
-}
-
-// signing will require three keys to be defined: signing.keyId, signing.password, and signing.secretKeyRingFile.
-// These can be passed to the gradle command:
-//     ./gradlew -Psigning.keyId=yourid
-// or stored as key=value pairs in ~/.gradle/gradle.properties
-// You can also apply them in CI via environment variables. See Gradle's docs for details.
-signing {
-    required { isReleaseVersion && (gradle.taskGraph.hasTask("publishPluginMavenPublicationToNexusRepository") ) }
-    sign publishing.publications.mavenJava
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
-}
-
-tasks {
-    closeRepository {
-        onlyIf { nexusPublishing.useStaging.get() }
-    }
-    releaseRepository{
-        onlyIf { nexusPublishing.useStaging.get() }
-    }
-}
-
-publishToNexus.dependsOn 'check'

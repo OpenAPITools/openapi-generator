@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """
     OpenAPI Petstore
 
@@ -8,7 +10,13 @@
 """
 
 
+from __future__ import absolute_import
+
 import unittest
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
@@ -18,55 +26,9 @@ class TestFakeApi(unittest.TestCase):
     """FakeApi unit test stubs"""
 
     def setUp(self):
-        self.api = FakeApi()  # noqa: E501
+        self.api = petstore_api.api.fake_api.FakeApi()  # noqa: E501
 
     def tearDown(self):
-        pass
-
-    def test_additional_properties_with_array_of_enums(self):
-        """Test case for additional_properties_with_array_of_enums
-
-        Additional Properties with Array of Enums  # noqa: E501
-        """
-        pass
-
-    def test_array_model(self):
-        """Test case for array_model
-
-        """
-        pass
-
-    def test_array_of_enums(self):
-        """Test case for array_of_enums
-
-        Array of Enums  # noqa: E501
-        """
-        pass
-
-    def test_boolean(self):
-        """Test case for boolean
-
-        """
-        pass
-
-    def test_composed_one_of_number_with_validations(self):
-        """Test case for composed_one_of_number_with_validations
-
-        """
-        pass
-
-    def test_download_attachment(self):
-        """Test case for download_attachment
-
-        downloads a file using Content-Disposition  # noqa: E501
-        """
-        pass
-
-    def test_enum_test(self):
-        """Test case for enum_test
-
-        Object contains enum properties and array properties containing enums  # noqa: E501
-        """
         pass
 
     def test_fake_health_get(self):
@@ -76,38 +38,33 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-    def test_get_inline_additionl_properties_ref_payload(self):
-        """Test case for get_inline_additionl_properties_ref_payload
+    def test_fake_http_signature_test(self):
+        """Test case for fake_http_signature_test
+
+        test http signature authentication  # noqa: E501
+        """
+        pass
+
+    def test_fake_outer_boolean_serialize(self):
+        """Test case for fake_outer_boolean_serialize
 
         """
         pass
 
-    def test_mammal(self):
-        """Test case for mammal
+    def test_fake_outer_composite_serialize(self):
+        """Test case for fake_outer_composite_serialize
 
         """
         pass
 
-    def test_number_with_validations(self):
-        """Test case for number_with_validations
+    def test_fake_outer_number_serialize(self):
+        """Test case for fake_outer_number_serialize
 
         """
         pass
 
-    def test_object_model_with_ref_props(self):
-        """Test case for object_model_with_ref_props
-
-        """
-        pass
-
-    def test_string(self):
-        """Test case for string
-
-        """
-        pass
-
-    def test_string_enum(self):
-        """Test case for string_enum
+    def test_fake_outer_string_serialize(self):
+        """Test case for fake_outer_string_serialize
 
         """
         pass
@@ -172,27 +129,18 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-    def test_upload_download_file(self):
-        """Test case for upload_download_file
+    def test_headers_parameter(self):
+        """Test case for the _headers are passed by the user
 
-        uploads a file and downloads a file using application/octet-stream  # noqa: E501
+        To test any optional parameter  # noqa: E501
         """
-        pass
-
-    def test_upload_file(self):
-        """Test case for upload_file
-
-        uploads a file using multipart/form-data  # noqa: E501
-        """
-        pass
-
-    def test_upload_files(self):
-        """Test case for upload_files
-
-        uploads files using multipart/form-data  # noqa: E501
-        """
-        pass
-
+        api = petstore_api.api.PetApi()
+        with patch("petstore_api.api_client.ApiClient.call_api") as mock_method:
+            value_headers = {"Header1": "value1"}
+            api.find_pets_by_status(["available"], _headers=value_headers)
+            args, _ = mock_method.call_args
+            self.assertEqual(args, ('/pet/findByStatus', 'GET', {}, [('status', ['available'])], {'Accept': 'application/json', 'Header1': 'value1'})
+)
 
 if __name__ == '__main__':
     unittest.main()

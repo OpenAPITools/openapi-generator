@@ -38,4 +38,5 @@ library
                      , http-types
                      , swagger2
                      , uuid
+                     , bytestring
   default-language:    Haskell2010

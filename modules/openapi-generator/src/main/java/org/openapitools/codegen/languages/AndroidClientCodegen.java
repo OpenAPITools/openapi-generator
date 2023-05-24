@@ -30,6 +30,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -117,7 +118,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
                         "native", "super", "while", "null")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "String",
                         "boolean",
@@ -162,7 +163,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
         supportedLibraries.put("volley", "HTTP client: Volley 1.0.19 (default)");
-        supportedLibraries.put("httpclient", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be depecreated in the next major release.");
+        supportedLibraries.put("httpclient", "HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be deprecated in the next major release.");
         CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
@@ -260,14 +261,14 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -394,11 +395,11 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }

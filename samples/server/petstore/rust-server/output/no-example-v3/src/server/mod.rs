@@ -98,7 +98,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
@@ -111,7 +111,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
+            marker: self.marker,
         }
     }
 }
@@ -137,48 +137,48 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // OpGet - GET /op
-            &hyper::Method::GET if path.matched(paths::ID_OP) => {
+            hyper::Method::GET if path.matched(paths::ID_OP) => {
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_inline_object: Option<models::InlineObject> = if !body.is_empty() {
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                let param_op_get_request: Option<models::OpGetRequest> = if !body.is_empty() {
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_inline_object) => param_inline_object,
+                                        Ok(param_op_get_request) => param_op_get_request,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from(format!("Couldn't parse body parameter InlineObject - doesn't match schema: {}", e)))
-                                                        .expect("Unable to create Bad Request response for invalid body parameter InlineObject due to schema")),
+                                                        .body(Body::from(format!("Couldn't parse body parameter OpGetRequest - doesn't match schema: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter OpGetRequest due to schema")),
                                     }
                                 } else {
                                     None
                                 };
-                                let param_inline_object = match param_inline_object {
-                                    Some(param_inline_object) => param_inline_object,
+                                let param_op_get_request = match param_op_get_request {
+                                    Some(param_op_get_request) => param_op_get_request,
                                     None => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
-                                                        .body(Body::from("Missing required body parameter InlineObject"))
-                                                        .expect("Unable to create Bad Request response for missing body parameter InlineObject")),
+                                                        .body(Body::from("Missing required body parameter OpGetRequest"))
+                                                        .expect("Unable to create Bad Request response for missing body parameter OpGetRequest")),
                                 };
 
                                 let result = api_impl.op_get(
-                                            param_inline_object,
+                                            param_op_get_request,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         if !unused_elements.is_empty() {
@@ -207,8 +207,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter InlineObject: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter InlineObject")),
+                                                .body(Body::from(format!("Couldn't read body parameter OpGetRequest: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter OpGetRequest")),
                         }
             },
 
@@ -223,12 +223,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // OpGet - GET /op
-            &hyper::Method::GET if path.matched(paths::ID_OP) => Ok("OpGet"),
-            _ => Err(()),
+            hyper::Method::GET if path.matched(paths::ID_OP) => Some("OpGet"),
+            _ => None,
         }
     }
 }

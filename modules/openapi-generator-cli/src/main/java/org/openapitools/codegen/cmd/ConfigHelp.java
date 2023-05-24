@@ -24,6 +24,7 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.GeneratorNotFoundException;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @SuppressWarnings({"unused","java:S106", "java:S1192"})
@@ -70,6 +71,21 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--import-mappings"}, title = "import mappings", description = "displays the default import mappings (types and aliases, and what imports they will pull into the template)")
     private Boolean importMappings;
 
+    @Option(name = {"--schema-mappings"}, title = "schema mappings", description = "display the schema mappings (none)")
+    private Boolean schemaMappings;
+
+    @Option(name = {"--inline-schema-name-mappings"}, title = "inline schema name mappings", description = "displays the inline schema name mappings (none)")
+    private Boolean inlineSchemaNameMappings;
+
+    @Option(name = {"--inline-schema-name-defaults"}, title = "inline schema name defaults", description = "default values used when naming inline schema name")
+    private Boolean inlineSchemaNameDefaults;
+
+    @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
+    private Boolean openapiNormalizer;
+
+    @Option(name = {"--metadata"}, title = "metadata", description = "displays the generator metadata like the help txt for the generator and generator type etc")
+    private Boolean metadata;
+
     @Option(name = {"--language-specific-primitive"}, title = "language specific primitives", description = "displays the language specific primitives (types which require no additional imports, or which may conflict with user defined model names)")
     private Boolean languageSpecificPrimitives;
 
@@ -86,7 +102,11 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             "--markdown-header"}, title = "markdown header", description = "When format=markdown, include this option to write out markdown headers (e.g. for docusaurus).")
     private Boolean markdownHeader;
 
-    @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --supporting-files)")
+    @Option(name = {
+        "--supported-vendor-extensions"}, title = "supported vendor extensions", description = "List supported vendor extensions")
+    private Boolean supportedVendorExtensions;
+
+    @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --feature-set)")
     private Boolean fullDetails;
 
     private String newline = System.lineSeparator();
@@ -104,6 +124,8 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             languageSpecificPrimitives = Boolean.TRUE;
             importMappings = Boolean.TRUE;
             featureSets = Boolean.TRUE;
+            metadata = Boolean.TRUE;
+            supportedVendorExtensions = Boolean.TRUE;
         }
 
         try {
@@ -136,8 +158,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                     parentFolder.mkdirs();
                 }
 
-                try (Writer writer = new BufferedWriter(
-                        new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8))) {
+                try (FileOutputStream fileOutputStream = new FileOutputStream(out);
+                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
+                     Writer writer = new BufferedWriter(outputStreamWriter)) {
                     writer.write(sb.toString());
                 }
             } else {
@@ -152,26 +175,8 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         }
     }
 
-    private void generateMarkdownHelp(StringBuilder sb, CodegenConfig config) {
-        if (Boolean.TRUE.equals(markdownHeader)) {
-            sb.append("---").append(newline);
-            sb.append("title: Config Options for ").append(generatorName).append(newline);
-            sb.append("sidebar_label: ").append(generatorName).append(newline);
-            sb.append("---").append(newline);
-            sb.append(newline);
-            sb.append("These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.");
-            sb.append(newline);
-        } else {
-            sb.append(newline);
-            sb.append("## CONFIG OPTIONS");
-
-            if (Boolean.TRUE.equals(namedHeader)) {
-                sb.append(" for <em>").append(generatorName).append("</em>").append(newline);
-            }
-        }
-
+    private void generateMdConfigOptions(StringBuilder sb, CodegenConfig config) {
         sb.append(newline);
-
         sb.append("| Option | Description | Values | Default |").append(newline);
         sb.append("| ------ | ----------- | ------ | ------- |").append(newline);
 
@@ -209,90 +214,185 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             // default
             sb.append(escapeHtml4(langCliOption.getDefault())).append("|").append(newline);
         });
+    }
 
+    private void generateMdSupportedVendorExtensions(StringBuilder sb, CodegenConfig config) {
+        List<VendorExtension> supportedVendorExtensions = config.getSupportedVendorExtensions();
+        if (supportedVendorExtensions.isEmpty()) {
+            return;
+        }
+
+        sb
+            .append(newline).append("## SUPPORTED VENDOR EXTENSIONS").append(newline).append(newline)
+            .append("| Extension name | Description | Applicable for | Default value |").append(newline)
+            .append("| -------------- | ----------- | -------------- | ------------- |").append(newline);
+
+        supportedVendorExtensions.forEach(
+            extension -> sb.append("|").append(extension.getName())
+                .append("|").append(extension.getDescription())
+                .append("|").append(extension.getLevels().stream().map(Objects::toString).collect(Collectors.joining(", ")))
+                .append("|").append(extension.getDefaultValue())
+                .append(newline)
+        );
+        sb.append(newline);
+    }
+
+    private void generateMdImportMappings(StringBuilder sb, CodegenConfig config) {
+        sb.append(newline).append("## IMPORT MAPPING").append(newline).append(newline);
+
+        sb.append("| Type/Alias | Imports |").append(newline);
+        sb.append("| ---------- | ------- |").append(newline);
+
+        config.importMapping()
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(kvp -> {
+                    sb.append("|").append(escapeHtml4(kvp.getKey())).append("|").append(escapeHtml4(kvp.getValue())).append("|");
+                    sb.append(newline);
+                });
+
+        sb.append(newline);
+    }
+
+    private void generateMdInstantiationTypes(StringBuilder sb, CodegenConfig config) {
+        sb.append(newline).append("## INSTANTIATION TYPES").append(newline).append(newline);
+
+        sb.append("| Type/Alias | Instantiated By |").append(newline);
+        sb.append("| ---------- | --------------- |").append(newline);
+
+        config.instantiationTypes()
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEachOrdered(kvp -> {
+                    sb.append("|").append(escapeHtml4(kvp.getKey())).append("|").append(escapeHtml4(kvp.getValue())).append("|");
+                    sb.append(newline);
+                });
+
+        sb.append(newline);
+    }
+
+    private void generateMdLanguageSpecificPrimitives(StringBuilder sb, CodegenConfig config) {
+        sb.append(newline).append("## LANGUAGE PRIMITIVES").append(newline).append(newline);
+
+        sb.append("<ul class=\"column-ul\">").append(newline);
+        config.languageSpecificPrimitives()
+                .stream()
+                .sorted(String::compareTo)
+                .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+        sb.append("</ul>").append(newline);
+    }
+
+    private void generateMdReservedWords(StringBuilder sb, CodegenConfig config) {
+        sb.append(newline).append("## RESERVED WORDS").append(newline).append(newline);
+
+        sb.append("<ul class=\"column-ul\">").append(newline);
+        config.reservedWords()
+                .stream()
+                .sorted(String::compareTo)
+                .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+        sb.append("</ul>").append(newline);
+    }
+
+    private void generateMdFeatureSets(StringBuilder sb, CodegenConfig config) {
+        sb.append(newline).append("## FEATURE SET").append(newline).append(newline);
+
+        List<FeatureSet.FeatureSetFlattened> flattened = config.getGeneratorMetadata().getFeatureSet().flatten();
+        flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
+
+        AtomicReference<String> lastCategory = new AtomicReference<>();
+        flattened.forEach(featureSet -> {
+            if (!featureSet.getFeatureCategory().equals(lastCategory.get())) {
+                lastCategory.set(featureSet.getFeatureCategory());
+
+                String[] header = StringUtils.splitByCharacterTypeCamelCase(featureSet.getFeatureCategory());
+                sb.append(newline).append("### ").append(StringUtils.join(header, " ")).append(newline);
+
+                sb.append("| Name | Supported | Defined By |").append(newline);
+                sb.append("| ---- | --------- | ---------- |").append(newline);
+            }
+
+            // Appends a ✓ or ✗ for support
+            sb.append("|").append(featureSet.getFeatureName())
+                    .append("|").append(featureSet.isSupported() ? "✓" : "✗")
+                    .append("|").append(StringUtils.join(featureSet.getSource(), ","))
+                    .append(newline);
+        });
+    }
+
+    private void generateMdConfigOptionsHeader(StringBuilder sb, CodegenConfig config) {
+        if (Boolean.TRUE.equals(markdownHeader)) {
+            sb.append("## CONFIG OPTIONS").append(newline);
+            sb.append("These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.");
+            sb.append(newline);
+        } else {
+            sb.append(newline);
+            sb.append("## CONFIG OPTIONS");
+
+            if (Boolean.TRUE.equals(namedHeader)) {
+                sb.append(" for <em>").append(generatorName).append("</em>").append(newline);
+            }
+        }
+    }
+
+    private void generateMdMetadata(StringBuilder sb, CodegenConfig config) {
+        sb.append("## METADATA").append(newline).append(newline);
+
+        sb.append("| Property | Value | Notes |").append(newline);
+        sb.append("| -------- | ----- | ----- |").append(newline);
+        sb.append("| generator name | "+config.getName()+" | pass this to the generate command after -g |").append(newline);
+        sb.append("| generator stability | "+config.getGeneratorMetadata().getStability()+" | |").append(newline);
+        sb.append("| generator type | "+config.getTag()+" | |").append(newline);
+        if (config.generatorLanguage() != null) {
+            sb.append("| generator language | "+config.generatorLanguage().toString()+" | |").append(newline);
+        }
+        if (config.generatorLanguageVersion() != null) {
+            sb.append("| generator language version | "+config.generatorLanguageVersion()+" | |").append(newline);
+        }
+        sb.append("| generator default templating engine | "+config.defaultTemplatingEngine()+" | |").append(newline);
+        sb.append("| helpTxt | "+config.getHelp()+" | |").append(newline);
+
+        sb.append(newline);
+    }
+
+    private void generateMarkdownHelp(StringBuilder sb, CodegenConfig config) {
+        if (Boolean.TRUE.equals(markdownHeader)) {
+            sb.append("---").append(newline);
+            sb.append("title: Documentation for the " + generatorName + " Generator").append(newline);
+            sb.append("---").append(newline);
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(metadata)) {
+            generateMdMetadata(sb, config);
+        }
+
+        generateMdConfigOptionsHeader(sb, config);
+        generateMdConfigOptions(sb, config);
+
+        if (Boolean.TRUE.equals(supportedVendorExtensions)) {
+            generateMdSupportedVendorExtensions(sb, config);
+        }
 
         if (Boolean.TRUE.equals(importMappings)) {
-            sb.append(newline).append("## IMPORT MAPPING").append(newline).append(newline);
-
-            sb.append("| Type/Alias | Imports |").append(newline);
-            sb.append("| ---------- | ------- |").append(newline);
-
-            config.importMapping()
-                    .entrySet()
-                    .stream()
-                    .sorted(Map.Entry.comparingByKey())
-                    .forEachOrdered(kvp -> {
-                        sb.append("|").append(escapeHtml4(kvp.getKey())).append("|").append(escapeHtml4(kvp.getValue())).append("|");
-                        sb.append(newline);
-                    });
-
-            sb.append(newline);
+            generateMdImportMappings(sb, config);
         }
 
         if (Boolean.TRUE.equals(instantiationTypes)) {
-            sb.append(newline).append("## INSTANTIATION TYPES").append(newline).append(newline);
-
-            sb.append("| Type/Alias | Instantiated By |").append(newline);
-            sb.append("| ---------- | --------------- |").append(newline);
-
-            config.instantiationTypes()
-                    .entrySet()
-                    .stream()
-                    .sorted(Map.Entry.comparingByKey())
-                    .forEachOrdered(kvp -> {
-                        sb.append("|").append(escapeHtml4(kvp.getKey())).append("|").append(escapeHtml4(kvp.getValue())).append("|");
-                        sb.append(newline);
-                    });
-
-            sb.append(newline);
+            generateMdInstantiationTypes(sb, config);
         }
 
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
-            sb.append(newline).append("## LANGUAGE PRIMITIVES").append(newline).append(newline);
-
-            sb.append("<ul class=\"column-ul\">").append(newline);
-            config.languageSpecificPrimitives()
-                    .stream()
-                    .sorted(String::compareTo)
-                    .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
-            sb.append("</ul>").append(newline);
+            generateMdLanguageSpecificPrimitives(sb, config);
         }
 
         if (Boolean.TRUE.equals(reservedWords)) {
-            sb.append(newline).append("## RESERVED WORDS").append(newline).append(newline);
-
-            sb.append("<ul class=\"column-ul\">").append(newline);
-            config.reservedWords()
-                    .stream()
-                    .sorted(String::compareTo)
-                    .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
-            sb.append("</ul>").append(newline);
+            generateMdReservedWords(sb, config);
         }
 
         if (Boolean.TRUE.equals(featureSets)) {
-            sb.append(newline).append("## FEATURE SET").append(newline).append(newline);
-
-            List<FeatureSet.FeatureSetFlattened> flattened = config.getGeneratorMetadata().getFeatureSet().flatten();
-            flattened.sort(Comparator.comparing(FeatureSet.FeatureSetFlattened::getFeatureCategory));
-
-            AtomicReference<String> lastCategory = new AtomicReference<>();
-            flattened.forEach(featureSet -> {
-                if (!featureSet.getFeatureCategory().equals(lastCategory.get())) {
-                    lastCategory.set(featureSet.getFeatureCategory());
-
-                    String[] header = StringUtils.splitByCharacterTypeCamelCase(featureSet.getFeatureCategory());
-                    sb.append(newline).append("### ").append(StringUtils.join(header, " ")).append(newline);
-
-                    sb.append("| Name | Supported | Defined By |").append(newline);
-                    sb.append("| ---- | --------- | ---------- |").append(newline);
-                }
-
-                // Appends a ✓ or ✗ for support
-                sb.append("|").append(featureSet.getFeatureName())
-                  .append("|").append(featureSet.isSupported() ? "✓" : "✗")
-                  .append("|").append(StringUtils.join(featureSet.getSource(), ","))
-                  .append(newline);
-            });
+            generateMdFeatureSets(sb, config);
         }
     }
 
@@ -358,6 +458,54 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Type/Alias", "Imports");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(schemaMappings)) {
+            sb.append(newline).append("SCHEMA MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.schemaMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Scheme", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(inlineSchemaNameMappings)) {
+            sb.append(newline).append("INLINE SCHEMA NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.inlineSchemaNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(inlineSchemaNameDefaults)) {
+            sb.append(newline).append("INLINE SCHEMA NAME DEFAULTS").append(newline).append(newline);
+            Map<String, String> map = config.inlineSchemaNameDefault()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme naming convention", "Defaulted to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(openapiNormalizer)) {
+            sb.append(newline).append("OPENAPI NORMALIZER RULES").append(newline).append(newline);
+            Map<String, String> map = config.openapiNormalizer()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "OpenAPI normalizer rule", "Set to");
             sb.append(newline);
         }
 

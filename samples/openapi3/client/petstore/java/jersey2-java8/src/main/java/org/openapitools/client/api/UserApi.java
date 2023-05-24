@@ -8,10 +8,12 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ public class UserApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +39,7 @@ public class UserApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -73,41 +75,16 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
-    Object localVarPostBody = user;
-    
-    // verify the required parameter 'user' is set
+    // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
     }
-    
-    // create path and map variables
-    String localVarPath = "/user";
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("UserApi.createUser", localVarPath, "POST", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    return apiClient.invokeAPI("UserApi.createUser", "/user", "POST", new ArrayList<>(), user,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * Creates list of users with given input array
@@ -137,41 +114,16 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
-    Object localVarPostBody = user;
-    
-    // verify the required parameter 'user' is set
+    // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
     }
-    
-    // create path and map variables
-    String localVarPath = "/user/createWithArray";
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("UserApi.createUsersWithArrayInput", localVarPath, "POST", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    return apiClient.invokeAPI("UserApi.createUsersWithArrayInput", "/user/createWithArray", "POST", new ArrayList<>(), user,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * Creates list of users with given input array
@@ -201,41 +153,16 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
-    Object localVarPostBody = user;
-    
-    // verify the required parameter 'user' is set
+    // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
     }
-    
-    // create path and map variables
-    String localVarPath = "/user/createWithList";
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("UserApi.createUsersWithListInput", localVarPath, "POST", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    return apiClient.invokeAPI("UserApi.createUsersWithListInput", "/user/createWithList", "POST", new ArrayList<>(), user,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * Delete user
@@ -267,42 +194,20 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
+    // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
-    
-    // create path and map variables
+
+    // Path parameters
     String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+            .replaceAll("\\{username}", apiClient.escapeString(username));
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("UserApi.deleteUser", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType();
+    return apiClient.invokeAPI("UserApi.deleteUser", localVarPath, "DELETE", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * Get user by user name
@@ -337,44 +242,21 @@ public class UserApi {
      </table>
    */
   public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
+    // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
     }
-    
-    // create path and map variables
+
+    // Path parameters
     String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+            .replaceAll("\\{username}", apiClient.escapeString(username));
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/xml", "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
+    String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
+    String localVarContentType = apiClient.selectHeaderContentType();
     GenericType<User> localVarReturnType = new GenericType<User>() {};
-
-    return apiClient.invokeAPI("UserApi.getUserByName", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+    return apiClient.invokeAPI("UserApi.getUserByName", localVarPath, "GET", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
   }
   /**
    * Logs user into the system
@@ -409,50 +291,26 @@ public class UserApi {
      </table>
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
-    Object localVarPostBody = null;
-    
-    // verify the required parameter 'username' is set
+    // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser");
     }
-    
-    // verify the required parameter 'password' is set
     if (password == null) {
       throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
     }
-    
-    // create path and map variables
-    String localVarPath = "/user/login";
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-    localVarQueryParams.addAll(apiClient.parameterToPairs("", "username", username));
+    // Query parameters
+    List<Pair> localVarQueryParams = new ArrayList<>(
+            apiClient.parameterToPairs("", "username", username)
+    );
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "password", password));
 
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/xml", "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
+    String localVarAccept = apiClient.selectHeaderAccept("application/xml", "application/json");
+    String localVarContentType = apiClient.selectHeaderContentType();
     GenericType<String> localVarReturnType = new GenericType<String>() {};
-
-    return apiClient.invokeAPI("UserApi.loginUser", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, false);
+    return apiClient.invokeAPI("UserApi.loginUser", "/user/login", "GET", localVarQueryParams, null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, localVarReturnType, false);
   }
   /**
    * Logs out current logged in user session
@@ -480,36 +338,11 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
-    
-    // create path and map variables
-    String localVarPath = "/user/logout";
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("UserApi.logoutUser", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType();
+    return apiClient.invokeAPI("UserApi.logoutUser", "/user/logout", "GET", new ArrayList<>(), null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
   /**
    * Updated user
@@ -543,46 +376,22 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
-    Object localVarPostBody = user;
-    
-    // verify the required parameter 'username' is set
+    // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
-    
-    // verify the required parameter 'user' is set
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
     }
-    
-    // create path and map variables
+
+    // Path parameters
     String localVarPath = "/user/{username}"
-      .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+            .replaceAll("\\{username}", apiClient.escapeString(username));
 
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      "application/json"
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    return apiClient.invokeAPI("UserApi.updateUser", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, false);
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    return apiClient.invokeAPI("UserApi.updateUser", localVarPath, "PUT", new ArrayList<>(), user,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
   }
 }

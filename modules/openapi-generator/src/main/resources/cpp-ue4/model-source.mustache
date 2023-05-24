@@ -50,11 +50,6 @@ bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::V
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const {{classname}}::Values& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
 inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::Values& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
@@ -115,11 +110,6 @@ bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::{
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{{enumName}}}& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
 inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::{{{enumName}}}& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
@@ -175,9 +165,14 @@ bool {{classname}}::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 
 	bool ParseSuccess = true;
 
-    {{#vars}}
+	{{#vars}}
+	{{#required}}
+	{{^isWriteOnly}}ParseSuccess &= {{/isWriteOnly}}TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
+	{{/required}}
+	{{^required}}
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
-    {{/vars}}
+	{{/required}}
+	{{/vars}}
 
 	return ParseSuccess;
 	{{/isString}}

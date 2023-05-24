@@ -18,9 +18,16 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.Schema;
 
 import java.io.File;
 import java.util.*;
@@ -233,11 +240,9 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
 
     // override with any special post-processing
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
 
         for (CodegenOperation op : operations) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
@@ -248,7 +253,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             }
 
             if (op.hasProduces) {
-                // need to escape */* values because they breakes current mustaches
+                // need to escape */* values because they breaks current mustaches
                 List<Map<String, String>> c = op.produces;
                 for (Map<String, String> mediaType : c) {
                     if ("*/*".equals(mediaType.get("mediaType"))) {
@@ -258,14 +263,9 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             }
         }
 
-        // sort the endpoints in ascending to avoid the route priority issure.
+        // sort the endpoints in ascending to avoid the route priority issue.
         // https://github.com/swagger-api/swagger-codegen/issues/2643
-        Collections.sort(operations, new Comparator<CodegenOperation>() {
-            @Override
-            public int compare(CodegenOperation lhs, CodegenOperation rhs) {
-                return lhs.path.compareTo(rhs.path);
-            }
-        });
+        operations.sort(Comparator.comparing(lhs -> lhs.path));
 
         return objs;
     }
@@ -276,7 +276,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -298,6 +298,98 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
+    }
+
+    @Override
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        return defaultValue;
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty property = super.fromProperty(name, p, required);
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+        //Referenced enum case:
+        if (!property.isEnum && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            property.dataType = this.getSchemaType(referencedSchema);
+            property.defaultValue = this.toDefaultValue(referencedSchema);
+            List<Object> _enum = referencedSchema.getEnum();
+
+            Map<String, Object> allowableValues = new HashMap<>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        return property;
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "false";
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isFileSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "0";
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "0";
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "\"\"";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else if (!Boolean.TRUE.equals(p.getNullable())) {
+                return "[]";
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "::" + value;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return super.toEnumVarName(value, datatype);
+        }
+
+        // number
+        if ("int".equals(datatype) || "float".equals(datatype)) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        return super.toEnumVarName(value, datatype);
     }
 }

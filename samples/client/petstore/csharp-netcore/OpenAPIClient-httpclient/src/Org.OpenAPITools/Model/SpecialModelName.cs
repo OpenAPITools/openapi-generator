@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
             sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
@@ -116,11 +116,15 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.SpecialPropertyName.GetHashCode();
+                hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
                 if (this._SpecialModelName != null)
-                    hashCode = hashCode * 59 + this._SpecialModelName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this._SpecialModelName.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

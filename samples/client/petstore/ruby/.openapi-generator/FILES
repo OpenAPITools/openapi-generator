@@ -1,4 +1,5 @@
 .gitignore
+.gitlab-ci.yml
 .rspec
 .rubocop.yml
 .travis.yml
@@ -6,6 +7,7 @@ Gemfile
 README.md
 Rakefile
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
@@ -30,10 +32,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -53,6 +55,7 @@ docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -71,6 +74,7 @@ lib/petstore/api_client.rb
 lib/petstore/api_error.rb
 lib/petstore/configuration.rb
 lib/petstore/models/additional_properties_class.rb
+lib/petstore/models/all_of_with_single_ref.rb
 lib/petstore/models/animal.rb
 lib/petstore/models/api_response.rb
 lib/petstore/models/array_of_array_of_number_only.rb
@@ -91,10 +95,10 @@ lib/petstore/models/enum_test.rb
 lib/petstore/models/file.rb
 lib/petstore/models/file_schema_test_class.rb
 lib/petstore/models/foo.rb
+lib/petstore/models/foo_get_default_response.rb
 lib/petstore/models/format_test.rb
 lib/petstore/models/has_only_read_only.rb
 lib/petstore/models/health_check_result.rb
-lib/petstore/models/inline_response_default.rb
 lib/petstore/models/list.rb
 lib/petstore/models/map_test.rb
 lib/petstore/models/mixed_properties_and_additional_properties_class.rb
@@ -113,6 +117,7 @@ lib/petstore/models/outer_enum_integer_default_value.rb
 lib/petstore/models/outer_object_with_enum_property.rb
 lib/petstore/models/pet.rb
 lib/petstore/models/read_only_first.rb
+lib/petstore/models/single_ref_type.rb
 lib/petstore/models/special_model_name.rb
 lib/petstore/models/tag.rb
 lib/petstore/models/user.rb

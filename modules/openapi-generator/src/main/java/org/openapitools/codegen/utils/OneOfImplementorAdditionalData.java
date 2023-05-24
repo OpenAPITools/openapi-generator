@@ -1,15 +1,16 @@
 package org.openapitools.codegen.utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
@@ -69,13 +70,17 @@ public class OneOfImplementorAdditionalData {
         // Add all vars defined on cm
         // a "oneOf" model (cm) by default inherits all properties from its "interfaceModels",
         // but we only want to add properties defined on cm itself
-        List<CodegenProperty> toAdd = new ArrayList<CodegenProperty>(cm.vars);
+        List<CodegenProperty> toAdd = new ArrayList<>(cm.vars);
+
         // note that we can't just toAdd.removeAll(m.vars) for every interfaceModel,
         // as they might have different value of `hasMore` and thus are not equal
-        List<String> omitAdding = new ArrayList<String>();
+        Set<String> omitAdding = new HashSet<>();
         if (cm.interfaceModels != null) {
             for (CodegenModel m : cm.interfaceModels) {
                 for (CodegenProperty v : m.vars) {
+                    omitAdding.add(v.baseName);
+                }
+                for (CodegenProperty v : m.allVars) {
                     omitAdding.add(v.baseName);
                 }
             }
@@ -89,7 +94,7 @@ public class OneOfImplementorAdditionalData {
         // Add all imports of cm
         for (Map<String, String> importMap : modelsImports) {
             // we're ok with shallow clone here, because imports are strings only
-            additionalImports.add(new HashMap<String, String>(importMap));
+            additionalImports.add(new HashMap<>(importMap));
         }
     }
 
@@ -119,10 +124,8 @@ public class OneOfImplementorAdditionalData {
         }
 
         // Add oneOf-containing models properties - we need to properly set the hasMore values to make rendering correct
-        for (int i = 0; i < additionalProps.size(); i++) {
-            CodegenProperty var = additionalProps.get(i);
-            implcm.vars.add(var);
-        }
+        implcm.vars.addAll(additionalProps);
+        implcm.hasVars = ! implcm.vars.isEmpty();
 
         // Add imports
         for (Map<String, String> oneImport : additionalImports) {

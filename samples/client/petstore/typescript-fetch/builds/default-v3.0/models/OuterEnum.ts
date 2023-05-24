@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum OuterEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
+export const OuterEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
+
 
 export function OuterEnumFromJSON(json: any): OuterEnum {
     return OuterEnumFromJSONTyped(json, false);

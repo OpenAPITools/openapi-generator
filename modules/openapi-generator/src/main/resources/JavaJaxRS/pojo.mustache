@@ -10,7 +10,10 @@
 })
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -30,12 +33,10 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
-  {{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}}{{^required}} = null{{/required}};
-  {{/isContainer}}
-  {{^isContainer}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-  {{/isContainer}}
 
   {{/vars}}
   {{#vars}}
@@ -46,11 +47,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
-    {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
   }
@@ -58,11 +57,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
-    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
@@ -95,13 +92,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
     return {{name}};
   }
 
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
   {{/vars}}
 
-{{^supportJava6}}
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -121,30 +118,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   public int hashCode() {
     return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
-
-{{/supportJava6}}
-{{#supportJava6}}
-  @Override
-  public boolean equals(Object o) {
-  if (this == o) {
-    return true;
-  }
-  if (o == null || getClass() != o.getClass()) {
-    return false;
-  }{{#hasVars}}
-    {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
-    {{/-last}}{{/vars}}{{#parent}} &&
-    super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
-  }
-
-  @Override
-  public int hashCode() {
-    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
-
-{{/supportJava6}}
 
   @Override
   public String toString() {

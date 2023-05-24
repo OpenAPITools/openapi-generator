@@ -28,3 +28,43 @@
   image: "img/companies/apideck.jpg"
   infoLink: "https://www.apideck.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   bronze: true
+-
+  caption: "PEXA"
+  image: "img/companies/pexa.png"
+  infoLink: "https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Numary"
+  image: "img/companies/numary.png"
+  infoLink: "https://www.numary.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "OneSignal"
+  image: "img/companies/onesignal.png"
+  infoLink: "https://www.onesignal.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Virtualan Software"
+  image: "img/companies/virtualansoftware.png"
+  infoLink: "https://www.virtualansoftware.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Merge"
+  image: "img/companies/mergedev.jpeg"
+  infoLink: "https://www.merge.dev/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Bürkert"
+  image: "img/companies/burkert.jpg"
+  infoLink: "https://www.burkert.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "FINBOURNE"
+  image: "img/companies/finbourne.png"
+  infoLink: "https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true
+-
+  caption: "Bump.sh"
+  image: "img/companies/bumpsh.png"
+  infoLink: "https://bump.sh/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true

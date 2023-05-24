@@ -1,93 +1,78 @@
 version: '{branch}-{build}'
-image: Visual Studio 2019
+image: Visual Studio 2022
 hosts:
   petstore.swagger.io: 127.0.0.1
 install:
-  - ps: |
-      Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\maven" )) {
-        (new-object System.Net.WebClient).DownloadFile(
-          'http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip',
-          'C:\maven-bin.zip'
-        )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
-      }
-  # install gradle
-  - ps: |
-      Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\gradle\gradle-5.6.4" )) {
-        (new-object System.Net.WebClient).DownloadFile(
-          'https://services.gradle.org/distributions/gradle-5.6.4-bin.zip',
-          'C:\gradle-bin.zip'
-        )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\gradle-bin.zip", "C:\gradle")
-      }
-  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;C:\gradle\gradle-5.6.4\bin;%JAVA_HOME%\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.8.3\bin;C:\gradle\gradle-7.6\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-Xmx4g
   - cmd: SET JAVA_OPTS=-Xmx4g
-  - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
+  - cmd: SET M2_HOME=C:\maven\apache-maven-3.8.3
   - cmd: java -version
-  - cmd: gradle -v
   - cmd: dir/w
-  - git clone https://github.com/wing328/swagger-samples --depth 1
-  - ps: Start-Process -FilePath 'C:\maven\apache-maven-3.2.5\bin\mvn' -ArgumentList 'jetty:run' -WorkingDirectory "$env:appveyor_build_folder\swagger-samples\java\java-jersey-jaxrs-ci"
-  - ps: Start-Sleep -s 15
+  - cmd: docker pull swaggerapi/petstore
+  - cmd: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore 
+  - ps: Start-Sleep -s 120
   - ps: $PSVersionTable.PSVersion
   - ps: Install-Module -Name Pester -Force -Scope CurrentUser
 build_script:
   - dotnet --info
   # build C# aspnetcore 5.0 server
-  - dotnet build samples\server\petstore\aspnetcore-5.0\Org.OpenAPITools.sln
-  # build C# aspnetcore 3.1 server
-  - dotnet build samples\server\petstore\aspnetcore-3.1\Org.OpenAPITools.sln
-  # build C# aspnetcore 3.0 server
-  - dotnet build samples\server\petstore\aspnetcore-3.0\Org.OpenAPITools.sln
-  # build C# aspnetcore 2.2 server
-  - dotnet build samples\server\petstore\aspnetcore\Org.OpenAPITools.sln
-  # build C# API client (multiple frameworks)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\Org.OpenAPITools.sln
-  # build C# API client (httpclient)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
-  # build C# API client (netcore)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
-  # build C# API client (.net framework 4.7)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
-  # build C# API client (.net 5.0)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
-  # build C# API client (.net 5.0 with ConditionalSerialization)
-  - dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
-  # build C# API client
-  - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
-  - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # build C# API client (with PropertyChanged)
-  - nuget restore samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln
-  - msbuild samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  #- dotnet build samples\server\petstore\aspnetcore-5.0\Org.OpenAPITools.sln
+  ## build C# aspnetcore 3.1 server
+  #- dotnet build samples\server\petstore\aspnetcore-3.1\Org.OpenAPITools.sln
+  ## build C# aspnetcore 3.0 server
+  #- dotnet build samples\server\petstore\aspnetcore-3.0\Org.OpenAPITools.sln
+  ## build C# aspnetcore 2.2 server
+  #- dotnet build samples\server\petstore\aspnetcore\Org.OpenAPITools.sln
+  ## build C# API client (multiple frameworks)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\Org.OpenAPITools.sln
+  ## build C# API client (httpclient)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
+  ## build C# API client (generichost)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\Org.OpenAPITools.sln
+  ## build C# API client (netcore)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
+  ## build C# API client (.net framework 4.7)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
+  ## build C# API client (.net framework 4.8)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net48\Org.OpenAPITools.sln
+  ## build C# API client (.net 5.0)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
+  ## build C# API client (.net 5.0 with ConditionalSerialization)
+  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
+
+  ## build C# API client
+  #- nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
+  #- msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  ## build C# API client (with PropertyChanged)
+  #- nuget restore samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln
+  #- msbuild samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # build C# .net standard 1.3+ API client
   #- nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
   #- msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # install openapi-generator locally
-  - mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  # run the locally installed openapi-generator-gradle-plugin
-  - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --stacktrace
 test_script:
   # test c# API client (multiple frameworks)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (httpclient)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # test c# API client (generichost)
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  #- dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.7)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # test C# API client (.net framework 4.8)
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net 5.0)
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API Client using conditional-serialization
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  # test c# API client
-  - nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
-  # test c# API client (with PropertyChanged)
-  - nunit3-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  ## test c# API client
+  #- nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  ## test c# API client (with PropertyChanged)
+  #- nunit3-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
 
 ### TODO: Execute all generators via powershell or other
   # generate all petstore clients
@@ -95,17 +80,10 @@ test_script:
   # generate all petstore clients (openapi3)
   # - .\bin\openapi3\windows\run-all-petstore.cmd
 
-  # test ps pestore
+  # test ps petstore
   - ps: |
-      $ErrorActionPreference = "Stop"
       cd samples\client\petstore\powershell\
-      .\Build.ps1
-      Import-Module -Name '.\src\PSPetstore'
-      $Result = Invoke-Pester -PassThru
-      if ($Result.FailedCount -gt 0) {
-          $host.SetShouldExit($Result.FailedCount)
-          exit $Result.FailedCount
-      }
+      .\CIRunTest.ps1
 cache:
   - C:\maven\
   - C:\gradle\

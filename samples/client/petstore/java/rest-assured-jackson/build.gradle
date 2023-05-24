@@ -6,8 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -49,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -77,14 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'petstore-rest-assured-jackson'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'petstore-rest-assured-jackson'
+               from components.java
+            }
         }
     }
 
@@ -95,12 +97,13 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.21"
-    rest_assured_version = "4.3.0"
-    junit_version = "4.13.1"
-    jackson_version = "2.10.3"
-    jackson_databind_version = "2.10.3"
-    jackson_databind_nullable_version = "0.2.1"
+    swagger_annotations_version = "1.6.6"
+    rest_assured_version = "4.5.1"
+    junit_version = "4.13.2"
+    jackson_version = "2.13.4"
+    jackson_databind_version = "2.13.4.2"
+    jackson_databind_nullable_version = "0.2.6"
+    jakarta_annotation_version = "1.3.5"
     okio_version = "1.17.5"
 }
 
@@ -115,8 +118,8 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "com.squareup.okio:okio:$okio_version"
-    implementation "javax.validation:validation-api:2.0.1.Final"
+    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     implementation "org.hibernate:hibernate-validator:6.0.19.Final"
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

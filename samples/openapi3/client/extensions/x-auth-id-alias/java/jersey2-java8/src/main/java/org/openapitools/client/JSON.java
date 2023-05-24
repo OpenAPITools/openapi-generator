@@ -1,10 +1,10 @@
 package org.openapitools.client;
 
-import org.threeten.bp.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.openapitools.jackson.nullable.JsonNullableModule;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.text.DateFormat;
 import java.util.HashMap;
@@ -19,22 +19,18 @@ public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
 
   public JSON() {
-    mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true);
-    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-    mapper.setDateFormat(new RFC3339DateFormat());
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
-    mapper.registerModule(module);
-    JsonNullableModule jnm = new JsonNullableModule();
-    mapper.registerModule(jnm);
+    mapper = JsonMapper.builder()
+            .serializationInclusion(JsonInclude.Include.NON_NULL)
+            .configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+            .configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true)
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+            .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+            .defaultDateFormat(new RFC3339DateFormat())
+            .addModule(new JavaTimeModule())
+            .addModule(new JsonNullableModule())
+            .build();
   }
 
   /**
@@ -67,7 +63,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
   public static Class<?> getClassForElement(JsonNode node, Class<?> modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
     if (cdm != null) {
-      return cdm.getClassForElement(node, new HashSet<Class<?>>());
+      return cdm.getClassForElement(node, new HashSet<>());
     }
     return null;
   }
@@ -87,7 +83,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     ClassDiscriminatorMapping(Class<?> cls, String propertyName, Map<String, Class<?>> mappings) {
       modelClass = cls;
       discriminatorName = propertyName;
-      discriminatorMappings = new HashMap<String, Class<?>>();
+      discriminatorMappings = new HashMap<>();
       if (mappings != null) {
         discriminatorMappings.putAll(mappings);
       }
@@ -196,12 +192,12 @@ public class JSON implements ContextResolver<ObjectMapper> {
   /**
    * A map of discriminators for all model classes.
    */
-  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class<?>, ClassDiscriminatorMapping>();
+  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<>();
 
   /**
    * A map of oneOf/anyOf descendants for each model class.
    */
-  private static Map<Class<?>, Map<String, GenericType>> modelDescendants = new HashMap<Class<?>, Map<String, GenericType>>();
+  private static Map<Class<?>, Map<String, GenericType>> modelDescendants = new HashMap<>();
 
   /**
     * Register a model class discriminator.

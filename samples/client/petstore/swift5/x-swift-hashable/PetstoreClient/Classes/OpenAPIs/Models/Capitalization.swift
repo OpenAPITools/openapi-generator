@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Capitalization: Codable {
+public struct Capitalization: Codable, JSONEncodable {
 
     public var smallCamel: String?
     public var capitalCamel: String?

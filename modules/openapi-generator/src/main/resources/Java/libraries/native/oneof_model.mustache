@@ -60,12 +60,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
             switch (discriminatorValue) {
-        	{{#mappedModels}}
+            {{#mappedModels}}
                 case "{{{mappingName}}}":
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
                     new{{classname}}.setActualInstance(deserialized);
                     return new{{classname}};
-        	{{/mappedModels}}
+            {{/mappedModels}}
                 default:
                     log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
             }
@@ -217,7 +217,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#oneOf}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `{{{.}}}`
@@ -228,4 +228,166 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     {{/oneOf}}
+
+{{#supportUrlQuery}}
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    {{#composedSchemas.oneOf}}
+    if (getActualInstance() instanceof {{{dataType}}}) {
+        {{#isArray}}
+        {{#items.isPrimitiveType}}
+        {{#uniqueItems}}
+        if (getActualInstance() != null) {
+          int i = 0;
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
+            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          }
+          i++;
+        }
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        if (getActualInstance() != null) {
+          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
+            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                URLEncoder.encode(String.valueOf(getActualInstance().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          }
+        }
+        {{/uniqueItems}}
+        {{/items.isPrimitiveType}}
+        {{^items.isPrimitiveType}}
+        {{#items.isModel}}
+        {{#uniqueItems}}
+        if (getActualInstance() != null) {
+          int i = 0;
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
+            if (_item != null) {
+              joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+            }
+          }
+          i++;
+        }
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        if (getActualInstance() != null) {
+          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
+            if ((({{{dataType}}})getActualInstance()).get(i) != null) {
+              joiner.add((({{{items.dataType}}})getActualInstance()).get(i).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
+            }
+          }
+        }
+        {{/uniqueItems}}
+        {{/items.isModel}}
+        {{^items.isModel}}
+        {{#uniqueItems}}
+        if (getActualInstance() != null) {
+          int i = 0;
+          for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
+            if (_item != null) {
+              joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                  URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            }
+            i++;
+          }
+        }
+        {{/uniqueItems}}
+        {{^uniqueItems}}
+        if (getActualInstance() != null) {
+          for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
+            if (getActualInstance().get(i) != null) {
+              joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+                  URLEncoder.encode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            }
+          }
+        }
+        {{/uniqueItems}}
+        {{/items.isModel}}
+        {{/items.isPrimitiveType}}
+        {{/isArray}}
+        {{^isArray}}
+        {{#isMap}}
+        {{#items.isPrimitiveType}}
+        if (getActualInstance() != null) {
+          for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
+            joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
+                getActualInstance().get(_key), URLEncoder.encode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          }
+        }
+        {{/items.isPrimitiveType}}
+        {{^items.isPrimitiveType}}
+        if (getActualInstance() != null) {
+          for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
+            if ((({{{dataType}}})getActualInstance()).get(_key) != null) {
+              joiner.add((({{{items.dataType}}})getActualInstance()).get(_key).toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
+                  "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix))));
+            }
+          }
+        }
+        {{/items.isPrimitiveType}}
+        {{/isMap}}
+        {{^isMap}}
+        {{#isPrimitiveType}}
+        if (getActualInstance() != null) {
+          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getActualInstance()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isModel}}
+        if (getActualInstance() != null) {
+          joiner.add((({{{dataType}}})getActualInstance()).toUrlQueryString(prefix + "{{{baseName}}}" + suffix));
+        }
+        {{/isModel}}
+        {{^isModel}}
+        if (getActualInstance() != null) {
+          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getActualInstance()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
+        {{/isModel}}
+        {{/isPrimitiveType}}
+        {{/isMap}}
+        {{/isArray}}
+        return joiner.toString();
+    }
+    {{/composedSchemas.oneOf}}
+    return null;
+  }
+{{/supportUrlQuery}}
+
 }

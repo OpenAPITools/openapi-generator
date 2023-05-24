@@ -1,3 +1,4 @@
-{{#swaggerAnnotations}}
-        @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}"){{/swaggerAnnotations}}
+{{#swagger2AnnotationLibrary}}
+        @get:Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}requiredMode = Schema.RequiredMode.REQUIRED, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}description = "{{{description}}}"){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
+        @get:ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}"){{/swagger1AnnotationLibrary}}
         {{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}

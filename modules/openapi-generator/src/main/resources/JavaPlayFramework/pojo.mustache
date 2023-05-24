@@ -1,13 +1,16 @@
 import java.util.Objects;
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}
  */
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -25,6 +28,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
   {{#isContainer}}
   {{#useBeanValidation}}
   {{>beanValidation}}
@@ -47,23 +53,19 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
   {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
-    if ({{name}} == null) {
-      {{name}} = {{{defaultValue}}};
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
-    {{/required}}
-    {{name}}.add({{name}}Item);
+    this.{{name}}.add({{name}}Item);
     return this;
   }
   {{/isArray}}
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
-    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
@@ -91,7 +93,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializable
     return {{name}};
   }
 
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

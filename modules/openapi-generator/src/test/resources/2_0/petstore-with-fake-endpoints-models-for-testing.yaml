@@ -329,7 +329,7 @@ paths:
       tags:
         - store
       summary: Find purchase order by ID
-      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -837,7 +837,7 @@ paths:
           description: Integer in group parameters
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1041,7 +1041,7 @@ paths:
       responses:
         '200':
           description: Success
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake

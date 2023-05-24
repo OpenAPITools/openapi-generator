@@ -55,7 +55,7 @@ public class TypeHolderDefault   {
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -143,6 +143,9 @@ public class TypeHolderDefault   {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -183,7 +186,6 @@ public class TypeHolderDefault   {
   public int hashCode() {
     return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
   }
-
 
   @Override
   public String toString() {

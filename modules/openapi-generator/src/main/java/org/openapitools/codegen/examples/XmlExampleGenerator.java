@@ -44,7 +44,7 @@ public class XmlExampleGenerator {
     }
 
     public String toXml(Schema schema) {
-        return toXml(null, schema, 0, Collections.<String>emptySet());
+        return toXml(null, schema, 0, Collections.emptySet());
     }
 
     protected String toXml(Schema schema, int indent, Collection<String> path) {
@@ -81,8 +81,9 @@ public class XmlExampleGenerator {
         // TODO: map objects will not enter this block
         Map<String, Schema> properties = schema.getProperties();
         if (properties != null && !properties.isEmpty()) {
-            for (String pName : properties.keySet()) {
-                Schema property = properties.get(pName);
+            for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
+                String pName = propertiesEntry.getKey();
+                Schema property = propertiesEntry.getValue();
                 if (property != null && property.getXml() != null && property.getXml().getAttribute() != null && property.getXml().getAttribute()) {
                     attributes.put(pName, property);
                 } else {
@@ -93,14 +94,16 @@ public class XmlExampleGenerator {
 
         sb.append(indent(indent)).append(TAG_START);
         sb.append(name);
-        for (String pName : attributes.keySet()) {
-            Schema s = attributes.get(pName);
+        for (Map.Entry<String, Schema> attributesEntry : attributes.entrySet()) {
+            String pName = attributesEntry.getKey();
+            Schema s = attributesEntry.getValue();
             sb.append(" ").append(pName).append("=").append(quote(toXml(null, s, 0, selfPath)));
         }
         sb.append(CLOSE_TAG);
         sb.append(NEWLINE);
-        for (String pName : elements.keySet()) {
-            Schema s = elements.get(pName);
+        for (Map.Entry<String, Schema> elementsEntry : elements.entrySet()) {
+            String pName = elementsEntry.getKey();
+            Schema s = elementsEntry.getValue();
             final String asXml = toXml(pName, s, indent + 1, selfPath);
             if (StringUtils.isEmpty(asXml)) {
                 continue;
@@ -152,6 +155,9 @@ public class XmlExampleGenerator {
             }
         } else if (StringUtils.isNotEmpty(schema.get$ref())) {
             Schema actualSchema = examples.get(schema.get$ref());
+            if (actualSchema == null) {
+                actualSchema = examples.get(ModelUtils.getSimpleRef(schema.get$ref()));
+            }
             sb.append(toXml(actualSchema, indent, path));
         } else {
             if (name != null) {

@@ -88,7 +88,7 @@ paths:
       parameters:
         - name: lastUpdated
           in: query
-          description: "When this endpoint was hit last to help indentify if the client already has the latest copy."
+          description: "When this endpoint was hit last to help identify if the client already has the latest copy."
           required: false
           type: "string"
           format: "date-time"
@@ -314,7 +314,7 @@ paths:
       tags:
         - store
       summary: Find purchase order by ID
-      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -455,7 +455,7 @@ paths:
             X-Expires-After:
               type: string
               format: date-time
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:

@@ -33,6 +33,21 @@ paths:
     servers:
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
+    - url: 'http://{server}.swagger.io:{port}/v2'
+      description: test server with variables
+      variables:
+        server:
+          description: target server
+          enum:
+            - 'petstore'
+            - 'qa-petstore'
+            - 'dev-petstore'
+          default: 'petstore'
+        port:
+          enum:
+            - 80
+            - 8080
+          default: 80
     post:
       tags:
         - pet
@@ -56,6 +71,7 @@ paths:
       summary: Update an existing pet
       description: ''
       operationId: updatePet
+      x-webclient-blocking: true
       responses:
         '200':
           description: Successful operation
@@ -78,6 +94,7 @@ paths:
       summary: Finds Pets by status
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
+      x-webclient-blocking: true
       parameters:
         - name: status
           in: query
@@ -124,6 +141,7 @@ paths:
         Multiple tags can be provided with comma separated strings. Use tag1,
         tag2, tag3 for testing.
       operationId: findPetsByTags
+      x-webclient-blocking: true
       parameters:
         - name: tags
           in: query
@@ -166,6 +184,7 @@ paths:
       summary: Find pet by ID
       description: Returns a single pet
       operationId: getPetById
+      x-webclient-blocking: true
       parameters:
         - name: petId
           in: path
@@ -299,6 +318,7 @@ paths:
       summary: Returns pet inventories by status
       description: Returns a map of status codes to quantities
       operationId: getInventory
+      x-webclient-blocking: false
       responses:
         '200':
           description: successful operation
@@ -344,7 +364,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -656,6 +676,12 @@ paths:
             enum:
               - 1.1
               - -1.2
+        - name: enum_query_model_array
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EnumClass'
       responses:
         '400':
           description: Invalid request
@@ -827,7 +853,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1040,7 +1066,7 @@ paths:
               format: binary
         description: image to upload
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1097,6 +1123,12 @@ paths:
             additionalProperties:
               type: string
               format: string
+        - name: allowEmpty
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
       responses:
         "200":
           description: Success
@@ -1452,6 +1484,9 @@ components:
       type: object
       discriminator:
         propertyName: className
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
       required:
         - className
       properties:
@@ -1892,3 +1927,17 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    AllOfWithSingleRef:
+      type: object
+      properties:
+        username:
+          type: string
+        SingleRefType:
+          allOf:
+            - $ref: '#/components/schemas/SingleRefType'
+    SingleRefType:
+      type: string
+      title: SingleRefType
+      enum:
+        - admin
+        - user

@@ -383,7 +383,7 @@ paths:
       x-accepts: application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -685,7 +685,7 @@ paths:
       responses:
         "400":
           content: {}
-          description: Someting wrong
+          description: Something wrong
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -1162,7 +1162,7 @@ paths:
       x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat

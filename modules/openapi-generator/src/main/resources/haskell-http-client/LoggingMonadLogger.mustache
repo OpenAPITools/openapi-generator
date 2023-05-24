@@ -15,7 +15,6 @@ import qualified Control.Monad.IO.Class as P
 import qualified Data.Text as T
 import qualified Data.Time as TI
 
-import Data.Monoid ((<>))
 import Data.Text (Text)
 
 import qualified Control.Monad.Logger as LG
@@ -23,11 +22,11 @@ import qualified Control.Monad.Logger as LG
 -- * Type Aliases (for compatibility)
 
 -- | Runs a monad-logger  block with the filter predicate
-type LogExecWithContext = forall m. P.MonadIO m =>
-                                    LogContext -> LogExec m
+type LogExecWithContext = forall m a. P.MonadIO m =>
+                                      LogContext -> LogExec m a
 
 -- | A monad-logger block
-type LogExec m = forall a. LG.LoggingT m a -> m a
+type LogExec m a = LG.LoggingT m a -> m a
 
 -- | A monad-logger filter predicate
 type LogContext = LG.LogSource -> LG.LogLevel -> Bool

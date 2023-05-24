@@ -6,8 +6,7 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -49,7 +48,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -77,13 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -94,12 +97,13 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.22"
-    jackson_version = "2.10.5"
-    jackson_databind_version = "2.10.5.1"
+    swagger_annotations_version = "1.6.3"
+    jackson_version = "2.13.4"
+    jackson_databind_version = "2.13.4.2"
     {{#openApiNullable}}
-    jackson_databind_nullable_version = "0.2.1"
+    jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
     threetenbp_version = "2.9.10"
     resteasy_version = "4.5.11.Final"
     junit_version = "4.13"
@@ -119,6 +123,6 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
 import org.openapitools.client.model.Zebra;
@@ -98,7 +97,7 @@ public class Mammal extends AbstractOpenApiSchema {
             JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             Mammal newMammal = new Mammal();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("className");
             switch (discriminatorValue) {
                 case "Pig":
@@ -216,7 +215,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public Mammal() {
         super("oneOf", Boolean.FALSE);
@@ -235,7 +234,7 @@ public class Mammal extends AbstractOpenApiSchema {
   @JsonAnySetter
   public Mammal putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -295,7 +294,7 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("Pig", Pig.class);
         mappings.put("whale", Whale.class);
         mappings.put("zebra", Zebra.class);
@@ -318,17 +317,17 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -348,7 +347,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Pig`
@@ -359,7 +358,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+     * Get the actual instance of `Whale`. If the actual instance is not `Whale`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Whale`
@@ -370,7 +369,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+     * Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Zebra`

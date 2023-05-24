@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -15,7 +16,7 @@ class HealthCheckResult {
     this.nullableMessage,
   });
 
-  String nullableMessage;
+  String? nullableMessage;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
@@ -23,49 +24,89 @@ class HealthCheckResult {
 
   @override
   int get hashCode =>
-    (nullableMessage == null ? 0 : nullableMessage.hashCode);
+    // ignore: unnecessary_parenthesis
+    (nullableMessage == null ? 0 : nullableMessage!.hashCode);
 
   @override
   String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (nullableMessage != null) {
-      json[r'NullableMessage'] = nullableMessage;
+    if (this.nullableMessage != null) {
+      json[r'NullableMessage'] = this.nullableMessage;
+    } else {
+      json[r'NullableMessage'] = null;
     }
     return json;
   }
 
   /// Returns a new [HealthCheckResult] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static HealthCheckResult fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : HealthCheckResult(
-        nullableMessage: json[r'NullableMessage'],
-    );
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static HealthCheckResult? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<HealthCheckResult> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <HealthCheckResult>[]
-      : json.map((dynamic value) => HealthCheckResult.fromJson(value)).toList(growable: true == growable);
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "HealthCheckResult[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "HealthCheckResult[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
 
-  static Map<String, HealthCheckResult> mapFromJson(Map<String, dynamic> json) {
+      return HealthCheckResult(
+        nullableMessage: mapValueOfType<String>(json, r'NullableMessage'),
+      );
+    }
+    return null;
+  }
+
+  static List<HealthCheckResult> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <HealthCheckResult>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = HealthCheckResult.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+
+  static Map<String, HealthCheckResult> mapFromJson(dynamic json) {
     final map = <String, HealthCheckResult>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = HealthCheckResult.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = HealthCheckResult.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of HealthCheckResult-objects as value to a dart map
-  static Map<String, List<HealthCheckResult>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<HealthCheckResult>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<HealthCheckResult>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = HealthCheckResult.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = HealthCheckResult.listFromJson(entry.value, growable: growable,);
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

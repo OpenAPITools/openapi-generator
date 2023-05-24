@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,19 +21,22 @@ import io.restassured.common.mapper.TypeRef;
 {{/jackson}}
 import io.restassured.http.Method;
 import io.restassured.response.Response;
+{{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
+{{/swagger1AnnotationLibrary}}
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-{{/fullJavaUtil}}
 {{#gson}}
 import {{invokerPackage}}.JSON;
 {{/gson}}
 import static io.restassured.http.Method.*;
 
+{{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}")
+{{/swagger1AnnotationLibrary}}
 public class {{classname}} {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -68,12 +70,14 @@ public class {{classname}} {
 {{#operations}}
 {{#operation}}
 
+{{#swagger1AnnotationLibrary}}
     @ApiOperation(value = "{{{summary}}}",
             notes = "{{{notes}}}",
             nickname = "{{{operationId}}}",
             tags = { {{#tags}}{{#name}}"{{{.}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
     @ApiResponses(value = { {{#responses}}
             @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
+{{/swagger1AnnotationLibrary}}
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
@@ -127,9 +131,9 @@ public class {{classname}} {
         public {{operationIdCamelCase}}Oper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
             {{#vendorExtensions}}
-            {{#x-contentType}}
-            reqSpec.setContentType("{{x-contentType}}");
-            {{/x-contentType}}
+            {{#x-content-type}}
+            reqSpec.setContentType("{{x-content-type}}");
+            {{/x-content-type}}
             {{#x-accepts}}
             reqSpec.setAccept("{{x-accepts}}");
             {{/x-accepts}}

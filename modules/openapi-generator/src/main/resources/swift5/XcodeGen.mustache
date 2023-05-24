@@ -3,7 +3,7 @@ targets:
   {{projectName}}:
     type: framework
     platform: iOS
-    deploymentTarget: "9.0"
+    deploymentTarget: "11.0"
     sources: [{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}{{/useSPMFileStructure}}{{/swiftPackagePath}}]
     info:
       path: ./Info.plist
@@ -13,6 +13,6 @@ targets:
     scheme: {}
     dependencies:
     - carthage: AnyCodable{{#useAlamofire}}
-    - carthage: Alamofire{{/useAlamofire}}{{#useRxSwift}}
-    - carthage: RxSwift{{/useRxSwift}}{{#usePromiseKit}}
-    - carthage: PromiseKit{{/usePromiseKit}}
+    - carthage: Alamofire{{/useAlamofire}}{{#usePromiseKit}}
+    - carthage: PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
+    - carthage: RxSwift{{/useRxSwift}}

@@ -22,6 +22,9 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -308,10 +311,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> os = operations.getOperation();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
@@ -321,7 +324,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
-            ArrayList<String> pathTemplateNames = new ArrayList<String>();
+            ArrayList<String> pathTemplateNames = new ArrayList<>();
             Matcher matcher = pattern.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
@@ -340,7 +343,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             eco.setPathTemplateNames(pathTemplateNames);
             newOs.add(eco);
         }
-        operations.put("operation", newOs);
+        operations.setOperation(newOs);
         return objs;
     }
 
@@ -356,7 +359,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters plus 1.
      *
      * @param os List of Codegen Parameters
-     * @return the string representation of the number of required paramters plus 1
+     * @return the string representation of the number of required parameters plus 1
      */
     String length(Object os) {
         int l = 1;
@@ -371,7 +374,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters or body parameters.
      *
      * @param os List of Codegen Parameters
-     * @return the number of required paramters or body parameters
+     * @return the number of required parameters or body parameters
      */
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
@@ -479,4 +482,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
 }

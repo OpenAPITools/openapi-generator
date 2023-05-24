@@ -22,8 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
@@ -164,7 +162,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public Fruit() {
         super("oneOf", Boolean.FALSE);
@@ -203,12 +201,12 @@ public class Fruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -228,7 +226,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+     * Get the actual instance of `Apple`. If the actual instance is not `Apple`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Apple`
@@ -239,7 +237,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+     * Get the actual instance of `Banana`. If the actual instance is not `Banana`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Banana`

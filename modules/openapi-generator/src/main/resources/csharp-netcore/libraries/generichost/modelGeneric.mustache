@@ -1,0 +1,327 @@
+    /// <summary>
+    /// {{description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    {{>visibility}} partial class {{classname}}{{#parent}} : {{{.}}}{{/parent}}{{>ImplementsIEquatable}}{{>ImplementsValidatable}}
+    {
+        {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#isNullable}}{{nrt?}}{{/isNullable}}"></param>
+        {{#composedSchemas.allOf}}
+        {{^isInherited}}
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}"></param>
+        {{/isInherited}}
+        {{/composedSchemas.allOf}}
+        {{#composedSchemas.anyOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#isNullable}}{{nrt?}}{{/isNullable}}"></param>
+        {{/composedSchemas.anyOf}}
+        {{#allVars}}
+        /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/allVars}}
+        [JsonConstructor]
+        {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{{dataType}}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.camelcase_param}}{{parent}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {
+            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            {{#composedSchemas.allOf}}
+            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            {{/composedSchemas.allOf}}
+            {{#composedSchemas.anyOf}}
+            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            {{/composedSchemas.anyOf}}
+            {{#allVars}}
+            {{^isInherited}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isInherited}}
+            {{/allVars}}
+            OnCreated();
+        }
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.oneOf}}
+        {{^composedSchemas.oneOf}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        {{#composedSchemas.allOf}}
+        {{^isInherited}}
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}"></param>
+        {{/isInherited}}
+        {{/composedSchemas.allOf}}
+        {{#composedSchemas.anyOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#isNullable}}{{nrt?}}{{/isNullable}}"></param>
+        {{/composedSchemas.anyOf}}
+        {{#allVars}}
+        /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/allVars}}
+        [JsonConstructor]
+        {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.allOf}}{{^isInherited}}{{{dataType}}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/composedSchemas.allOf}}{{#composedSchemas.anyOf}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {
+            {{#composedSchemas.allOf}}
+            {{^isInherited}}
+            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            {{/isInherited}}
+            {{/composedSchemas.allOf}}
+            {{#composedSchemas.anyOf}}
+            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}};
+            {{/composedSchemas.anyOf}}
+            {{#allVars}}
+            {{^isInherited}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isInherited}}
+            {{/allVars}}
+            OnCreated();
+        }
+
+        {{/composedSchemas.oneOf}}
+        partial void OnCreated();
+
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/isEnum}}
+        {{#isEnum}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{.}}</value>
+        {{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{#isNew}}new {{/isNew}}{{>PropertyDataType}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/isEnum}}
+        {{/vars}}
+        {{#composedSchemas.anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.anyOf}}
+        {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.oneOf}}
+        {{#composedSchemas.allOf}}
+        {{^isInherited}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{{dataType}}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/isInherited}}
+        {{/composedSchemas.allOf}}
+        {{#allVars}}
+        {{^isEnum}}
+        {{#isInherited}}
+        {{#isNew}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public new {{#isNullable}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/isNew}}
+        {{/isInherited}}
+        {{^isInherited}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{#isNullable}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/isNullable}}{{^isNullable}}{{{datatypeWithEnum}}}{{/isNullable}} {{name}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/isInherited}}
+        {{/isEnum}}
+        {{/allVars}}
+        {{#isAdditionalPropertiesTrue}}
+        {{^parentModel}}
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
+
+        {{/parentModel}}
+        {{/isAdditionalPropertiesTrue}}
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            {{#parent}}
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            {{/parent}}
+            {{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/vars}}
+            {{#isAdditionalPropertiesTrue}}
+            {{^parentModel}}
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            {{/parentModel}}
+            {{/isAdditionalPropertiesTrue}}
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+        {{#readOnlyVars}}
+        {{#-first}}
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object{{nrt?}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="input">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}}{{nrt?}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            if (input == null)
+                return false;
+
+            return {{#parent}}base.Equals(input) && {{/parent}}{{#readOnlyVars}}{{^isInherited}}{{^isContainer}}
+                (
+                    {{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}
+                    ({{name}} != null &&
+                    {{name}}.Equals(input.{{name}}))
+                    {{/vendorExtensions.x-is-value-type}}
+                    {{#vendorExtensions.x-is-value-type}}
+                    {{name}}.Equals(input.{{name}})
+                    {{/vendorExtensions.x-is-value-type}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
+                (
+                    {{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    input.{{name}} != null &&
+                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
+                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                {{/parentModel}}
+                {{/isAdditionalPropertiesTrue}}
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                {{#parent}}
+                int hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
+                int hashCode = 41;
+                {{/parent}}
+                {{#readOnlyVars}}
+                {{^isNullable}}
+                hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+                {{/isNullable}}
+                {{/readOnlyVars}}
+                {{#readOnlyVars}}
+                {{#isNullable}}
+
+                if ({{name}} != null)
+                    hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+                {{/isNullable}}
+                {{/readOnlyVars}}
+                {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                {{/parentModel}}
+                {{/isAdditionalPropertiesTrue}}
+
+                return hashCode;
+            }
+        }
+        {{/-first}}
+        {{/readOnlyVars}}
+{{#validatable}}
+{{^parentModel}}
+
+{{>validatable}}
+{{/parentModel}}
+{{/validatable}}
+    }

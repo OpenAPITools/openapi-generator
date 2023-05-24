@@ -5,12 +5,12 @@ import {{invokerPackage}}.ApiClient;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}import java.util.Collections;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;{{/fullJavaUtil}}
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 {{>generatedAnnotation}}
+{{#generateClientAsBean}}
 @Component("{{package}}.{{classname}}")
+{{/generateClientAsBean}}
 {{#operations}}
 public class {{classname}} {
     private ApiClient apiClient;
@@ -36,7 +38,9 @@ public class {{classname}} {
         this(new ApiClient());
     }
 
+    {{#generateClientAsBean}}
     @Autowired
+    {{/generateClientAsBean}}
     public {{classname}}(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -74,7 +78,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientException {
+    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{.}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{.}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientException {
         {{#returnType}}
         return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).getBody();
         {{/returnType}}
@@ -105,8 +109,8 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public ResponseEntity<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientException {
-        Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    public ResponseEntity<{{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{.}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{.}}}{{/isResponseFile}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.Resource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.Resource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientException {
+        Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}{{#required}}
         // verify the required parameter '{{paramName}}' is set
         if ({{paramName}} == null) {
@@ -117,39 +121,39 @@ public class {{classname}} {
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
         uriVariables.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase()), {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}});{{/pathParams}}{{/hasPathParams}}
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();{{#hasQueryParams}}
 
-        {{#queryParams}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{^-last}}
+        {{#queryParams}}localVarQueryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));{{^-last}}
         {{/-last}}{{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
 
         {{#headerParams}}if ({{paramName}} != null)
-        headerParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^-last}}
+        localVarHeaderParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^-last}}
         {{/-last}}{{/headerParams}}{{/hasHeaderParams}}{{#hasCookieParams}}
 
         {{#cookieParams}}if ({{paramName}} != null)
-        cookieParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^-last}}
+        localVarCookieParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^-last}}
         {{/-last}}{{/cookieParams}}{{/hasCookieParams}}{{#hasFormParams}}
 
         {{#formParams}}if ({{paramName}} != null)
-            formParams.{{^collectionFormat}}add{{/collectionFormat}}{{#collectionFormat}}addAll{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}{{#useAbstractionForFiles}}{{paramName}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}new FileSystemResource({{paramName}}){{/useAbstractionForFiles}}{{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream(){{^useAbstractionForFiles}}.map(FileSystemResource::new){{/useAbstractionForFiles}}.collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{^-last}}
+            localVarFormParams.{{^collectionFormat}}add{{/collectionFormat}}{{#collectionFormat}}addAll{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}{{#useAbstractionForFiles}}{{paramName}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}new FileSystemResource({{paramName}}){{/useAbstractionForFiles}}{{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream(){{^useAbstractionForFiles}}.map(FileSystemResource::new){{/useAbstractionForFiles}}.collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{^-last}}
         {{/-last}}{{/formParams}}{{/hasFormParams}}
 
         final String[] localVarAccepts = { {{#hasProduces}}
             {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
         {{/hasProduces}} };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { {{#hasConsumes}}
+        final String[] localVarContentTypes = { {{#hasConsumes}}
             {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
         {{/hasConsumes}} };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+        String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
 
-        {{#returnType}}ParameterizedTypeReference<{{{returnType}}}> returnType = new ParameterizedTypeReference<{{{returnType}}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
-        return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, {{#hasPathParams}}uriVariables{{/hasPathParams}}{{^hasPathParams}}Collections.<String, Object>emptyMap(){{/hasPathParams}}, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        {{#returnType}}ParameterizedTypeReference<{{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{.}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{.}}}{{/isResponseFile}}{{/returnType}}> localReturnType = new ParameterizedTypeReference<{{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{.}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{.}}}{{/isResponseFile}}{{/returnType}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, {{#hasPathParams}}uriVariables{{/hasPathParams}}{{^hasPathParams}}Collections.<String, Object>emptyMap(){{/hasPathParams}}, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     {{/operation}}
 }

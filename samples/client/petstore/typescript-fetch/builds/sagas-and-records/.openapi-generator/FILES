@@ -57,6 +57,8 @@ src/models/Pet.ts
 src/models/PetPartType.ts
 src/models/PetPartTypeRecord.ts
 src/models/PetRecord.ts
+src/models/PetRegionsResponse.ts
+src/models/PetRegionsResponseRecord.ts
 src/models/ResponseMeta.ts
 src/models/ResponseMetaRecord.ts
 src/models/Tag.ts
@@ -68,4 +70,5 @@ src/models/WarningCodeRecord.ts
 src/models/index.ts
 src/runtime.ts
 src/runtimeSagasAndRecords.ts
+tsconfig.esm.json
 tsconfig.json

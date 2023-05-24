@@ -15,6 +15,7 @@
 #include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
+#include "PFXOauth.h"
 
 #include "PFXOrder.h"
 #include <QMap>
@@ -52,9 +53,9 @@ public:
     void enableRequestCompression();
     void enableResponseCompression();
     void abortRequests();
-    QString getParamStylePrefix(QString style);
-    QString getParamStyleSuffix(QString style);
-    QString getParamStyleDelimiter(QString style, QString name, bool isExplode);
+    QString getParamStylePrefix(const QString &style);
+    QString getParamStyleSuffix(const QString &style);
+    QString getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode);
 
     /**
     * @param[in]  order_id QString [required]
@@ -70,9 +71,9 @@ public:
     void getOrderById(const qint64 &order_id);
 
     /**
-    * @param[in]  body PFXOrder [required]
+    * @param[in]  pfx_order PFXOrder [required]
     */
-    void placeOrder(const PFXOrder &body);
+    void placeOrder(const PFXOrder &pfx_order);
 
 
 private:
@@ -85,9 +86,17 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QNetworkAccessManager* _manager;
-    QMap<QString, QString> defaultHeaders;
-    bool isResponseCompressionEnabled;
-    bool isRequestCompressionEnabled;
+    QMap<QString, QString> _defaultHeaders;
+    bool _isResponseCompressionEnabled;
+    bool _isRequestCompressionEnabled;
+    PFXHttpRequestInput _latestInput;
+    PFXHttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
 
     void deleteOrderCallback(PFXHttpRequestWorker *worker);
     void getInventoryCallback(PFXHttpRequestWorker *worker);
@@ -118,6 +127,10 @@ signals:
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
 };
 
 } // namespace test_namespace

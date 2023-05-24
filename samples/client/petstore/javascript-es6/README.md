@@ -138,7 +138,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-*OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+*OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *OpenApiPetstore.PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *OpenApiPetstore.PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -171,12 +171,15 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayTest](docs/ArrayTest.md)
+ - [OpenApiPetstore.BasquePig](docs/BasquePig.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
  - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
+ - [OpenApiPetstore.Color](docs/Color.md)
+ - [OpenApiPetstore.DanishPig](docs/DanishPig.md)
  - [OpenApiPetstore.DeprecatedObject](docs/DeprecatedObject.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
  - [OpenApiPetstore.DogAllOf](docs/DogAllOf.md)
@@ -186,15 +189,17 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.File](docs/File.md)
  - [OpenApiPetstore.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [OpenApiPetstore.Foo](docs/Foo.md)
+ - [OpenApiPetstore.FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [OpenApiPetstore.FormatTest](docs/FormatTest.md)
  - [OpenApiPetstore.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [OpenApiPetstore.HealthCheckResult](docs/HealthCheckResult.md)
- - [OpenApiPetstore.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [OpenApiPetstore.List](docs/List.md)
  - [OpenApiPetstore.MapTest](docs/MapTest.md)
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [OpenApiPetstore.Model200Response](docs/Model200Response.md)
  - [OpenApiPetstore.Name](docs/Name.md)
+ - [OpenApiPetstore.NestedColor](docs/NestedColor.md)
+ - [OpenApiPetstore.NestedOneOf](docs/NestedOneOf.md)
  - [OpenApiPetstore.NullableClass](docs/NullableClass.md)
  - [OpenApiPetstore.NumberOnly](docs/NumberOnly.md)
  - [OpenApiPetstore.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
@@ -206,9 +211,11 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OpenApiPetstore.OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [OpenApiPetstore.Pet](docs/Pet.md)
+ - [OpenApiPetstore.Pig](docs/Pig.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.Return](docs/Return.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
+ - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 
@@ -216,42 +223,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-
-### api_key
-
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-
-
-### api_key_query
-
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-
-
-### bearer_test
-
-- **Type**: Bearer authentication (JWT)
-
-
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-
-
-### http_signature_test
-
-
-
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -261,4 +233,30 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+### api_key
+
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+### api_key_query
+
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+### http_signature_test
+
+- **Type**: HTTP signature authentication
 

@@ -28,7 +28,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         $matchInstance = $null
 
         {{#isNullable}}
-        # nullalble check
+        # nullable check
         if ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") {
             return [PSCustomObject]@{
                 "ActualType" = $null

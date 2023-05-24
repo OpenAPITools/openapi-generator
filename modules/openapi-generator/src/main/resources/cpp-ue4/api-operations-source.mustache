@@ -54,11 +54,6 @@ bool {{classname}}::{{operationIdCamelCase}}Request::EnumFromString(const FStrin
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
 inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
@@ -86,7 +81,7 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	{{/pathParams.0}}
 	{{#pathParams.0}}
 	TMap<FString, FStringFormatArg> PathParams = { {{#pathParams}}
-	{ TEXT("{{baseName}}"), ToStringFormatArg({{paramName}}) }{{^-last}},{{/-last}}{{/pathParams}} };
+	{ TEXT("{{baseName}}"), FStringFormatArg(ToUrlString({{paramName}})) }{{^-last}},{{/-last}}{{/pathParams}} };
 
 	FString Path = FString::Format(TEXT("{{{path}}}"), PathParams);
 
@@ -99,7 +94,12 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	QueryParams.Add(FString(TEXT("{{baseName}}=")) + ToUrlString({{paramName}}));
 	{{/collectionFormat}}
 	{{#collectionFormat}}
+	{{#isCollectionFormatMulti}}
+	QueryParams.Add(CollectionToUrlString_{{collectionFormat}}({{paramName}}, TEXT("{{baseName}}")));
+	{{/isCollectionFormatMulti}}
+	{{^isCollectionFormatMulti}}
 	QueryParams.Add(FString(TEXT("{{baseName}}=")) + CollectionToUrlString_{{collectionFormat}}({{paramName}}, TEXT("{{baseName}}")));
+	{{/isCollectionFormatMulti}}
 	{{/collectionFormat}}
 	{{/required}}
 	{{^required}}
@@ -112,7 +112,12 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	{{#collectionFormat}}
 	if({{paramName}}.IsSet())
 	{
+		{{#isCollectionFormatMulti}}
+		QueryParams.Add(CollectionToUrlString_{{collectionFormat}}({{paramName}}.GetValue(), TEXT("{{baseName}}")));
+		{{/isCollectionFormatMulti}}
+		{{^isCollectionFormatMulti}}
 		QueryParams.Add(FString(TEXT("{{baseName}}=")) + CollectionToUrlString_{{collectionFormat}}({{paramName}}.GetValue(), TEXT("{{baseName}}")));
+		{{/isCollectionFormatMulti}}
 	}
 	{{/collectionFormat}}
 	{{/required}}
@@ -146,6 +151,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 	{{/headerParams}}
 	{{/headerParams.0}}
 
+	{{#isBodyAllowed}}
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
@@ -171,11 +177,16 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 		HttpRequest->SetContentAsString(JsonBody);
 		{{/bodyParams.0}}
 		{{^bodyParams.0}}
-		// Form parameters
+		{{#formParams.0}}
+		// Form parameters added to try to generate a json body when no body parameters are specified.
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 		Writer->WriteObjectStart();
 		{{#formParams}}
+		{{#isFile}}
+		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Form parameter ({{baseName}}) was ignored, Files are not supported in json body"));
+		{{/isFile}}
+		{{^isFile}}
 		{{#required}}
 		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
 		WriteJsonValue(Writer, {{paramName}});
@@ -186,11 +197,13 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 			WriteJsonValue(Writer, {{paramName}}.GetValue());
 		}
 		{{/required}}
+		{{/isFile}}
 		{{/formParams}}
 		Writer->WriteObjectEnd();
 		Writer->Close();
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
 		HttpRequest->SetContentAsString(JsonBody);
+		{{/formParams.0}}
 		{{/bodyParams.0}}
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
@@ -281,6 +294,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 	{
 		UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
 	}
+	{{/isBodyAllowed}}
 }
 
 {{#responses.0}}

@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -30,6 +28,31 @@ import java.util.Map;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
+
 /**
  * AdditionalPropertiesClass
  */
@@ -37,35 +60,35 @@ import android.os.Parcel;
 public class AdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_NUMBER = "map_number";
   @SerializedName(SERIALIZED_NAME_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_INTEGER = "map_integer";
   @SerializedName(SERIALIZED_NAME_MAP_INTEGER)
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_BOOLEAN = "map_boolean";
   @SerializedName(SERIALIZED_NAME_MAP_BOOLEAN)
-  private Map<String, Boolean> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_INTEGER = "map_array_integer";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_INTEGER)
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_STRING = "map_map_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_STRING)
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String SERIALIZED_NAME_MAP_MAP_ANYTYPE = "map_map_anytype";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_ANYTYPE)
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String SERIALIZED_NAME_ANYTYPE1 = "anytype_1";
   @SerializedName(SERIALIZED_NAME_ANYTYPE1)
@@ -90,7 +113,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
     if (this.mapString == null) {
-      this.mapString = new HashMap<String, String>();
+      this.mapString = new HashMap<>();
     }
     this.mapString.put(key, mapStringItem);
     return this;
@@ -101,8 +124,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -121,7 +142,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
+      this.mapNumber = new HashMap<>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -132,8 +153,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -152,7 +171,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
     if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<String, Integer>();
+      this.mapInteger = new HashMap<>();
     }
     this.mapInteger.put(key, mapIntegerItem);
     return this;
@@ -163,8 +182,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -183,7 +200,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
     if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<String, Boolean>();
+      this.mapBoolean = new HashMap<>();
     }
     this.mapBoolean.put(key, mapBooleanItem);
     return this;
@@ -194,8 +211,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -214,7 +229,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
     if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<String, List<Integer>>();
+      this.mapArrayInteger = new HashMap<>();
     }
     this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
@@ -225,8 +240,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -245,7 +258,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<String, List<Object>>();
+      this.mapArrayAnytype = new HashMap<>();
     }
     this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
@@ -256,8 +269,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -276,7 +287,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
     if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<String, Map<String, String>>();
+      this.mapMapString = new HashMap<>();
     }
     this.mapMapString.put(key, mapMapStringItem);
     return this;
@@ -287,8 +298,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -307,7 +316,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
     if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<String, Map<String, Object>>();
+      this.mapMapAnytype = new HashMap<>();
     }
     this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;
@@ -318,8 +327,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -341,8 +348,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Object getAnytype1() {
     return anytype1;
   }
@@ -364,8 +369,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype2
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Object getAnytype2() {
     return anytype2;
   }
@@ -387,8 +390,6 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype3
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Object getAnytype3() {
     return anytype3;
   }
@@ -397,6 +398,7 @@ public class AdditionalPropertiesClass implements Parcelable {
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }
+
 
 
   @Override
@@ -497,5 +499,98 @@ public class AdditionalPropertiesClass implements Parcelable {
       return new AdditionalPropertiesClass[size];
     }
   };
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("map_string");
+    openapiFields.add("map_number");
+    openapiFields.add("map_integer");
+    openapiFields.add("map_boolean");
+    openapiFields.add("map_array_integer");
+    openapiFields.add("map_array_anytype");
+    openapiFields.add("map_map_string");
+    openapiFields.add("map_map_anytype");
+    openapiFields.add("anytype_1");
+    openapiFields.add("anytype_2");
+    openapiFields.add("anytype_3");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to AdditionalPropertiesClass
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
+        }
+      }
+
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!AdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!AdditionalPropertiesClass.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'AdditionalPropertiesClass' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<AdditionalPropertiesClass> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(AdditionalPropertiesClass.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<AdditionalPropertiesClass>() {
+           @Override
+           public void write(JsonWriter out, AdditionalPropertiesClass value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public AdditionalPropertiesClass read(JsonReader in) throws IOException {
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
+           }
+
+       }.nullSafe();
+    }
+  }
+
+ /**
+  * Create an instance of AdditionalPropertiesClass given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of AdditionalPropertiesClass
+  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesClass
+  */
+  public static AdditionalPropertiesClass fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, AdditionalPropertiesClass.class);
+  }
+
+ /**
+  * Convert an instance of AdditionalPropertiesClass to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

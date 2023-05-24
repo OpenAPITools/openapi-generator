@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct MixedPropertiesAndAdditionalPropertiesClass: Codable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Codable, JSONEncodable {
 
     public var uuid: UUID?
     public var dateTime: Date?

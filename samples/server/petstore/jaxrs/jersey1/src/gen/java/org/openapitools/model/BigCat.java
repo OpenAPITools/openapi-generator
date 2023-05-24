@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
@@ -110,7 +109,6 @@ public class BigCat extends Cat  {
   public int hashCode() {
     return Objects.hash(kind, super.hashCode());
   }
-
 
   @Override
   public String toString() {

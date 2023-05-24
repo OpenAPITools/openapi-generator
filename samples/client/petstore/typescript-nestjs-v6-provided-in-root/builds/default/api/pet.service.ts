@@ -23,7 +23,7 @@ import { Configuration } from '../configuration';
 export class PetService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
@@ -54,7 +54,7 @@ export class PetService {
             throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -107,7 +107,7 @@ export class PetService {
         }
 
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
         if (apiKey !== undefined && apiKey !== null) {
             headers['api_key'] = String(apiKey);
         }
@@ -152,12 +152,12 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = {};
-        if (status !== undefined && status !== null) {
-            queryParameters['status'] = <any>status;
+        let queryParameters = new URLSearchParams();
+        if (status) {
+            queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -202,12 +202,12 @@ export class PetService {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = {};
-        if (tags !== undefined && tags !== null) {
-            queryParameters['tags'] = <any>tags;
+        let queryParameters = new URLSearchParams();
+        if (tags) {
+            queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -252,7 +252,7 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
         if (this.configuration.apiKeys["api_key"]) {
@@ -293,7 +293,7 @@ export class PetService {
             throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -348,7 +348,7 @@ export class PetService {
 
 
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {
@@ -416,7 +416,7 @@ export class PetService {
 
 
 
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 
         // authentication (petstore_auth) required
         if (this.configuration.accessToken) {

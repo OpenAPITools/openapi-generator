@@ -1,23 +1,29 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * AdditionalPropertiesNumber
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
-  @JsonProperty("name")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
+
   private String name;
 
   public AdditionalPropertiesNumber name(String name) {
@@ -29,9 +35,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
    * Get name
    * @return name
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -39,7 +45,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

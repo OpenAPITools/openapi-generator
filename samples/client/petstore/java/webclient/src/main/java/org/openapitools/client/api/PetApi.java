@@ -97,9 +97,30 @@ public class PetApi {
         return addPetRequestCreation(pet).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Add a new pet to the store
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param pet Pet object that needs to be added to the store
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Void>> addPetWithHttpInfo(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return addPetRequestCreation(pet).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Add a new pet to the store
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param pet Pet object that needs to be added to the store
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec addPetWithResponseSpec(Pet pet) throws WebClientResponseException {
+        return addPetRequestCreation(pet);
     }
     /**
      * Deletes a pet
@@ -153,9 +174,32 @@ public class PetApi {
         return deletePetRequestCreation(petId, apiKey).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Deletes a pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid pet value
+     * @param petId Pet id to delete
+     * @param apiKey The apiKey parameter
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deletePetRequestCreation(petId, apiKey).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Deletes a pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid pet value
+     * @param petId Pet id to delete
+     * @param apiKey The apiKey parameter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {
+        return deletePetRequestCreation(petId, apiKey);
     }
     /**
      * Finds Pets by status
@@ -204,14 +248,36 @@ public class PetApi {
      * @return List&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Flux<Pet> findPetsByStatus(List<String> status) throws WebClientResponseException {
+    public List<Pet> findPetsByStatus(List<String> status) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByStatusRequestCreation(status).bodyToFlux(localVarReturnType);
+        return findPetsByStatusRequestCreation(status).bodyToFlux(localVarReturnType).collectList().block();
     }
 
-    public Mono<ResponseEntity<List<Pet>>> findPetsByStatusWithHttpInfo(List<String> status) throws WebClientResponseException {
+    /**
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid status value
+     * @param status Status values that need to be considered for filter
+     * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByStatusRequestCreation(status).toEntityList(localVarReturnType);
+        return findPetsByStatusRequestCreation(status).toEntityList(localVarReturnType).block();
+    }
+
+    /**
+     * Finds Pets by status
+     * Multiple status values can be provided with comma separated strings
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid status value
+     * @param status Status values that need to be considered for filter
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec findPetsByStatusWithResponseSpec(List<String> status) throws WebClientResponseException {
+        return findPetsByStatusRequestCreation(status);
     }
     /**
      * Finds Pets by tags
@@ -262,14 +328,36 @@ public class PetApi {
      * @return Set&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Flux<Pet> findPetsByTags(Set<String> tags) throws WebClientResponseException {
+    public Set<Pet> findPetsByTags(Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByTagsRequestCreation(tags).bodyToFlux(localVarReturnType);
+        return findPetsByTagsRequestCreation(tags).bodyToFlux(localVarReturnType).collect(Collectors.toSet()).block();
     }
 
-    public Mono<ResponseEntity<List<Pet>>> findPetsByTagsWithHttpInfo(Set<String> tags) throws WebClientResponseException {
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid tag value
+     * @param tags Tags to filter by
+     * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return findPetsByTagsRequestCreation(tags).toEntityList(localVarReturnType);
+        return findPetsByTagsRequestCreation(tags).toEntityList(localVarReturnType).block();
+    }
+
+    /**
+     * Finds Pets by tags
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid tag value
+     * @param tags Tags to filter by
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec findPetsByTagsWithResponseSpec(Set<String> tags) throws WebClientResponseException {
+        return findPetsByTagsRequestCreation(tags);
     }
     /**
      * Find pet by ID
@@ -320,14 +408,38 @@ public class PetApi {
      * @return Pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Pet> getPetById(Long petId) throws WebClientResponseException {
+    public Pet getPetById(Long petId) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return getPetByIdRequestCreation(petId).bodyToMono(localVarReturnType);
+        return getPetByIdRequestCreation(petId).bodyToMono(localVarReturnType).block();
     }
 
-    public Mono<ResponseEntity<Pet>> getPetByIdWithHttpInfo(Long petId) throws WebClientResponseException {
+    /**
+     * Find pet by ID
+     * Returns a single pet
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Pet not found
+     * @param petId ID of pet to return
+     * @return ResponseEntity&lt;Pet&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Pet> getPetByIdWithHttpInfo(Long petId) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
-        return getPetByIdRequestCreation(petId).toEntity(localVarReturnType);
+        return getPetByIdRequestCreation(petId).toEntity(localVarReturnType).block();
+    }
+
+    /**
+     * Find pet by ID
+     * Returns a single pet
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Pet not found
+     * @param petId ID of pet to return
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec getPetByIdWithResponseSpec(Long petId) throws WebClientResponseException {
+        return getPetByIdRequestCreation(petId);
     }
     /**
      * Update an existing pet
@@ -376,14 +488,39 @@ public class PetApi {
      * @param pet Pet object that needs to be added to the store
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updatePet(Pet pet) throws WebClientResponseException {
+    public void updatePet(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updatePetRequestCreation(pet).bodyToMono(localVarReturnType);
+        updatePetRequestCreation(pet).bodyToMono(localVarReturnType).block();
     }
 
-    public Mono<ResponseEntity<Void>> updatePetWithHttpInfo(Pet pet) throws WebClientResponseException {
+    /**
+     * Update an existing pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Pet not found
+     * <p><b>405</b> - Validation exception
+     * @param pet Pet object that needs to be added to the store
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> updatePetWithHttpInfo(Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return updatePetRequestCreation(pet).toEntity(localVarReturnType);
+        return updatePetRequestCreation(pet).toEntity(localVarReturnType).block();
+    }
+
+    /**
+     * Update an existing pet
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>400</b> - Invalid ID supplied
+     * <p><b>404</b> - Pet not found
+     * <p><b>405</b> - Validation exception
+     * @param pet Pet object that needs to be added to the store
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updatePetWithResponseSpec(Pet pet) throws WebClientResponseException {
+        return updatePetRequestCreation(pet);
     }
     /**
      * Updates a pet in the store with form data
@@ -444,9 +581,34 @@ public class PetApi {
         return updatePetWithFormRequestCreation(petId, name, status).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<Void>> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return updatePetWithFormRequestCreation(petId, name, status).toEntity(localVarReturnType);
+    }
+
+    /**
+     * Updates a pet in the store with form data
+     * 
+     * <p><b>200</b> - Successful operation
+     * <p><b>405</b> - Invalid input
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updatePetWithFormWithResponseSpec(Long petId, String name, String status) throws WebClientResponseException {
+        return updatePetWithFormRequestCreation(petId, name, status);
     }
     /**
      * uploads an image
@@ -454,11 +616,11 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param _file file to upload
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec uploadFileRequestCreation(Long petId, String additionalMetadata, File file) throws WebClientResponseException {
+    private ResponseSpec uploadFileRequestCreation(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -476,8 +638,8 @@ public class PetApi {
 
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
-        if (file != null)
-            formParams.add("file", new FileSystemResource(file));
+        if (_file != null)
+            formParams.add("file", new FileSystemResource(_file));
 
         final String[] localVarAccepts = { 
             "application/json"
@@ -500,18 +662,42 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
-     * @param file file to upload
+     * @param _file file to upload
      * @return ModelApiResponse
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File file) throws WebClientResponseException {
+    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
-        return uploadFileRequestCreation(petId, additionalMetadata, file).bodyToMono(localVarReturnType);
+        return uploadFileRequestCreation(petId, additionalMetadata, _file).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws WebClientResponseException {
+    /**
+     * uploads an image
+     * 
+     * <p><b>200</b> - successful operation
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param _file file to upload
+     * @return ResponseEntity&lt;ModelApiResponse&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
-        return uploadFileRequestCreation(petId, additionalMetadata, file).toEntity(localVarReturnType);
+        return uploadFileRequestCreation(petId, additionalMetadata, _file).toEntity(localVarReturnType);
+    }
+
+    /**
+     * uploads an image
+     * 
+     * <p><b>200</b> - successful operation
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param _file file to upload
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec uploadFileWithResponseSpec(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
+        return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
     /**
      * uploads an image (required)
@@ -578,8 +764,32 @@ public class PetApi {
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata).bodyToMono(localVarReturnType);
     }
 
+    /**
+     * uploads an image (required)
+     * 
+     * <p><b>200</b> - successful operation
+     * @param petId ID of pet to update
+     * @param requiredFile file to upload
+     * @param additionalMetadata Additional data to pass to server
+     * @return ResponseEntity&lt;ModelApiResponse&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
     public Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws WebClientResponseException {
         ParameterizedTypeReference<ModelApiResponse> localVarReturnType = new ParameterizedTypeReference<ModelApiResponse>() {};
         return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata).toEntity(localVarReturnType);
+    }
+
+    /**
+     * uploads an image (required)
+     * 
+     * <p><b>200</b> - successful operation
+     * @param petId ID of pet to update
+     * @param requiredFile file to upload
+     * @param additionalMetadata Additional data to pass to server
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec uploadFileWithRequiredFileWithResponseSpec(Long petId, File requiredFile, String additionalMetadata) throws WebClientResponseException {
+        return uploadFileWithRequiredFileRequestCreation(petId, requiredFile, additionalMetadata);
     }
 }

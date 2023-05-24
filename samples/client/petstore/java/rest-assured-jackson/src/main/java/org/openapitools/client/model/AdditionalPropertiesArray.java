@@ -20,12 +20,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -36,12 +35,14 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   AdditionalPropertiesArray.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesArray")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesArray extends HashMap<String, List> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
+  public AdditionalPropertiesArray() {
+
+  }
 
   public AdditionalPropertiesArray name(String name) {
     
@@ -54,7 +55,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -68,7 +69,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

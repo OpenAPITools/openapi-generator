@@ -3,24 +3,29 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.ws.rs.core.Response;
 
 {{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
+{{#supportAsync}}
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
+{{/supportAsync}}
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-{{#useBeanValidation}}import javax.validation.constraints.*;
-import javax.validation.Valid;{{/useBeanValidation}}
+{{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 
 @Path("{{commonPath}}"){{#useSwaggerAnnotations}}
 @Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
-{{>generatedAnnotation}}public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
+{{>generatedAnnotation}}
+public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
 {{#operations}}
 {{#operation}}
 

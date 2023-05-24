@@ -59,11 +59,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations-version}</version>
-        </dependency>
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -82,12 +77,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-            <version>${spring-web-version}</version>
+            <version>${spring-boot-version}</version>
         </dependency>
 
         <dependency>
-            <groupId>io.projectreactor.ipc</groupId>
-            <artifactId>reactor-netty</artifactId>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty-http</artifactId>
             <version>${reactor-netty-version}</version>
         </dependency>
 
@@ -109,9 +104,9 @@
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -125,14 +120,14 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.6.2</swagger-annotations-version>
-        <spring-web-version>2.4.3</spring-web-version>
-        <jackson-version>2.11.3</jackson-version>
-        <jackson-databind-version>2.11.3</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
-        <junit-version>4.13.1</junit-version>
+        <swagger-annotations-version>1.6.6</swagger-annotations-version>
+        <jackson-version>2.13.4</jackson-version>
+        <jackson-databind-version>2.13.4.2</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        <spring-boot-version>2.6.6</spring-boot-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <reactor-version>3.4.3</reactor-version>
-        <reactor-netty-version>0.7.15.RELEASE</reactor-netty-version>
+        <reactor-netty-version>1.0.4</reactor-netty-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>

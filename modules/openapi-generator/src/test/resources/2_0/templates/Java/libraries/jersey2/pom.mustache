@@ -344,16 +344,16 @@
         {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
             <scope>provided</scope>
         </dependency>
         {{/useBeanValidation}}
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -379,8 +379,16 @@
         {{#threetenbp}}
         <threetenbp-version>2.9.10</threetenbp-version>
         {{/threetenbp}}
-        <javax-annotation-version>1.3.2</javax-annotation-version>
-        <junit-version>4.13.1</junit-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
+{{#useBeanValidation}}
+		<beanvalidation-version>2.0.2</beanvalidation-version>
+{{/useBeanValidation}}
+        <junit-version>4.13.2</junit-version>
         {{#hasHttpSignatureMethods}}
         <http-signature-version>1.5</http-signature-version>
         {{/hasHttpSignatureMethods}}

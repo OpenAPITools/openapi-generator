@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name = '{{projectName}}'{{#projectDescription}}
   s.summary = '{{.}}'{{/projectDescription}}
-  s.ios.deployment_target = '9.0'
-  s.osx.deployment_target = '10.11'
-  s.tvos.deployment_target = '9.0'
-  s.watchos.deployment_target = '3.0'
+  s.ios.deployment_target = '11.0'
+  s.osx.deployment_target = '10.13'
+  s.tvos.deployment_target = '11.0'
+  s.watchos.deployment_target = '4.0'
   s.version = '{{podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}'
   s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}' }{{/podSource}}
   {{#podAuthors}}
@@ -26,14 +26,14 @@ Pod::Spec.new do |s|
   s.documentation_url = '{{.}}'
   {{/podDocumentationURL}}
   s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
+  s.dependency 'AnyCodable-FlightSchool', '~> 0.6'
+  {{#useAlamofire}}
+  s.dependency 'Alamofire', '~> 5.4'
+  {{/useAlamofire}}
   {{#usePromiseKit}}
-  s.dependency 'PromiseKit/CorePromise', '~> 6.15.3'
+  s.dependency 'PromiseKit/CorePromise', '~> 6.15'
   {{/usePromiseKit}}
   {{#useRxSwift}}
-  s.dependency 'RxSwift', '~> 6.2.0'
+  s.dependency 'RxSwift', '~> 6.2'
   {{/useRxSwift}}
-  {{#useAlamofire}}
-  s.dependency 'Alamofire', '~> 4.9.1'
-  {{/useAlamofire}}
-  s.dependency 'AnyCodable-FlightSchool', '~> 0.6.1'
 end

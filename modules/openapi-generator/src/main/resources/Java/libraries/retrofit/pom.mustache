@@ -144,28 +144,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                {{#java8}}
                     <source>1.8</source>
                     <target>1.8</target>
-                {{/java8}}
-                {{^java8}}
-                    <source>1.7</source>
-                    <target>1.7</target>
-                {{/java8}}
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.2</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#java8}}
-                        <source>1.8</source>
-                    {{/java8}}
-                    {{^java8}}
-                        <source>1.7</source>
-                    {{/java8}}
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -217,11 +206,13 @@
     </profiles>
 
     <dependencies>
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swagger1AnnotationLibrary}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -248,13 +239,6 @@
             <artifactId>joda-time</artifactId>
             <version>${jodatime-version}</version>
         </dependency>
-        {{#threetenbp}}
-        <dependency>
-            <groupId>org.threeten</groupId>
-            <artifactId>threetenbp</artifactId>
-            <version>${threetenbp-version}</version>
-        </dependency>
-        {{/threetenbp}}
         {{#parcelableModel}}
         <!-- Needed for Parcelable support-->
         <dependency>
@@ -265,9 +249,9 @@
         </dependency>
         {{/parcelableModel}}
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -280,16 +264,18 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <swagger-annotations-version>1.6.6</swagger-annotations-version>
         <retrofit-version>1.9.0</retrofit-version>
         <okhttp-version>2.7.5</okhttp-version>
         <jodatime-version>2.9.9</jodatime-version>
-        {{#threetenbp}}
-        <threetenbp-version>1.4.0</threetenbp-version>
-        {{/threetenbp}}
         <oltu-version>1.0.1</oltu-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.13.1</junit-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>

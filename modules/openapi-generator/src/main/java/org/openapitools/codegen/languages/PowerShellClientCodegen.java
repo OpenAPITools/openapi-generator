@@ -19,12 +19,16 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -66,6 +70,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelsCmdletVerb = "Initialize";
     protected boolean useClassNameInModelsExamples = true;
 
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
      */
@@ -97,7 +103,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 .stability(Stability.BETA)
                 .build();
 
-        outputFolder = "generated-code" + File.separator + "powershell-expiermental";
+        outputFolder = "generated-code" + File.separator + "powershell-experimental";
         modelTemplateFiles.put("model.mustache", ".ps1");
         apiTemplateFiles.put("api.mustache", ".ps1");
         modelTestTemplateFiles.put("model_test.mustache", ".ps1");
@@ -109,7 +115,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         modelPackage = packageName + File.separator + "Model";
 
         // https://blogs.msdn.microsoft.com/powershell/2010/01/07/how-objects-are-sent-to-and-from-remote-sessions/
-        languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
+        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "Byte",
                 "SByte",
                 "Byte[]",
@@ -136,9 +142,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Version"
         ));
 
-        commonVerbs = new HashMap<String, String>();
+        commonVerbs = new HashMap<>();
 
-        Map<String, List<String>> verbMappings = new HashMap<String, List<String>>();
+        Map<String, List<String>> verbMappings = new HashMap<>();
 
         // common
         verbMappings.put("Add", Arrays.asList("Append", "Attach", "Concatenate", "Insert"));
@@ -266,7 +272,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        powershellVerbs = new HashSet<String>(Arrays.asList(
+        powershellVerbs = new HashSet<>(Arrays.asList(
                 "Add",
                 "Clear",
                 "Close",
@@ -368,9 +374,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Use"
         ));
 
-        methodNames = new HashSet<String>();
+        methodNames = new HashSet<>();
 
-        nullablePrimitives = new HashSet<String>(Arrays.asList(
+        nullablePrimitives = new HashSet<>(Arrays.asList(
                 "System.Nullable[Byte]",
                 "System.Nullable[SByte]",
                 "System.Nullable[Int16]",
@@ -386,7 +392,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         ));
 
         // list of reserved words - must be in lower case
-        reservedWords = new HashSet<String>(Arrays.asList(
+        reservedWords = new HashSet<>(Arrays.asList(
                 // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
                 "begin",
                 "break",
@@ -456,7 +462,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "true"
         ));
 
-        paramNameReservedWords = new HashSet<String>(Arrays.asList(
+        paramNameReservedWords = new HashSet<>(Arrays.asList(
                 "args",
                 "error",
                 "executioncontext",
@@ -480,7 +486,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "true"
         ));
 
-        defaultIncludes = new HashSet<String>(Arrays.asList(
+        defaultIncludes = new HashSet<>(Arrays.asList(
                 "Byte",
                 "SByte",
                 "Byte[]",
@@ -507,7 +513,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 "Version"
         ));
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("integer", "Int32");
@@ -515,6 +521,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("long", "Int64");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Decimal");
+        typeMapping.put("decimal", "Decimal");
         typeMapping.put("object", "System.Collections.Hashtable");
         typeMapping.put("file", "System.IO.FileInfo");
         typeMapping.put("ByteArray", "System.Byte[]");
@@ -825,7 +832,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
@@ -902,6 +909,18 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String toModelName(String name) {
+        // check if schema-mapping has a different model for this class, so we can use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -927,6 +946,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                     camelize("model_" + name));
             name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
         }
+
+        schemaKeyToModelNameCache.put(origName, name);
 
         return name;
     }
@@ -1009,18 +1030,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             int index = 0;
             for (CodegenParameter p : op.allParams) {
@@ -1061,7 +1081,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        // check if return type is oneOf/anyeOf model
+        // check if return type is oneOf/anyOf model
         for (CodegenOperation op : operationList) {
             if (op.returnType != null) {
                 // look up the model to see if it's anyOf/oneOf
@@ -1085,15 +1105,14 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) objs.get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        List<ModelMap> models = objs.getModels();
         // add x-index to properties
         ProcessUtils.addIndexToProperties(models);
 
         // add x-data-type to store powershell type
-        for (Object _mo : models) {
-            Map<String, Object> _model = (Map<String, Object>) _mo;
-            CodegenModel model = (CodegenModel) _model.get("model");
+        for (ModelMap _model : models) {
+            CodegenModel model = _model.getModel();
             CodegenProperty lastWritableProperty = null;
 
             for (CodegenProperty cp : model.allVars) {
@@ -1122,7 +1141,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override
@@ -1181,13 +1201,15 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
             }
         } else if (codegenParameter.isMap) {
-            if (codegenParameter.items.isModel) {
+            if (codegenParameter.items == null) {
+                example.append("@{ key_example = ... }");
+            } else if (codegenParameter.items.isModel) {
                 String modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
-                example.append("$" + codegenParameter.paramName + " = @{ key_example = $" + codegenParameter.items.dataType + " }");
+                example.append("$").append(codegenParameter.paramName).append(" = @{ key_example = $").append(codegenParameter.items.dataType).append(" }");
             } else {
                 example.append("@{ key_example = ");
                 example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
@@ -1229,7 +1251,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
         } else if (codegenProperty.isMap) {
             example.append("@{ key_example = ");
-            example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
+            if (codegenProperty.items != null) {
+                example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
+            } else {
+                example.append(" ... ");
+            }
             example.append(" }");
         } else if (codegenProperty.isEnum || (codegenProperty.allowableValues != null && !codegenProperty.allowableValues.isEmpty())) {
             example.append(constructEnumExample(codegenProperty.allowableValues));
@@ -1279,7 +1305,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             if (codegenProperty.isModel) {
                 String modelExample = constructExampleCode(codegenProperty, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.dataType);
@@ -1292,26 +1318,26 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 }
 
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.complexType);
             } else if (codegenProperty.isArray && codegenProperty.items.isString) {
                 if (codegenProperty.items.isEnum || (codegenProperty.items.allowableValues != null && !codegenProperty.items.allowableValues.isEmpty())) {
                     example.append(constructEnumExample(codegenProperty.items.allowableValues));
-                    propertyExamples.add("-" + codegenProperty.name + " " + example.toString());
+                    propertyExamples.add("-" + codegenProperty.name + " " + example);
                 } else {
                     StringBuilder stringArrayPropertyValue = new StringBuilder();
                     String genericStringExample = codegenProperty.items.name + "_example";
 
                     stringArrayPropertyValue.append(constructStringExample(codegenProperty.name, codegenProperty.items.example, genericStringExample));
 
-                    propertyExamples.add("-" + codegenProperty.name + " " + stringArrayPropertyValue.toString());
+                    propertyExamples.add("-" + codegenProperty.name + " " + stringArrayPropertyValue);
                 }
             } else if (codegenProperty.isMap && codegenProperty.items.isModel) {
                 String modelExample = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "@{ key_example = " + "$" + codegenProperty.complexType + " }");
@@ -1326,7 +1352,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         } else {
             example.append(codegenModel.name);
         }
-        example.append(" = " + this.modelsCmdletVerb + "-");
+        example.append(" = ").append(this.modelsCmdletVerb).append("-");
         if (this.useClassNameInModelsExamples) {
             example.append(codegenModel.classname);
         } else {
@@ -1352,7 +1378,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             codegenExample.equals("null") ||
             codegenExample.equals(genericStringExample)
         ) {
-            example.append("My" + codegenName);
+            example.append("My").append(codegenName);
         } else {
             example.append(codegenExample);
         }
@@ -1368,7 +1394,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         example.append("\"");
 
         List<Object> enumValues = (List<Object>) allowableValues.get("values");
-        example.append(String.valueOf(enumValues.get(0)));
+        example.append(enumValues.get(0));
 
         example.append("\"");
 
@@ -1473,7 +1499,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with ps extension
         if ("ps".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = powershellPostProcessFile + " " + file.toString();
+            String command = powershellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -1532,5 +1558,34 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
         System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if (name.length() == 0) {
+            return "EMPTY";
+        }
+
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return (getSymbolName(name)).toUpperCase(Locale.ROOT);
+        }
+
+        // number
+        if ("Int16".equals(datatype) ||  "Int32".equals(datatype)  || "Int64".equals(datatype) ||
+            "UInt16".equals(datatype) ||  "UInt32".equals(datatype)  || "UInt64".equals(datatype) ||
+            "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
+            String varName = name;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return "NUMBER_" + varName;
+        }
+
+        // remove special character
+        return sanitizeName(name);
     }
 }

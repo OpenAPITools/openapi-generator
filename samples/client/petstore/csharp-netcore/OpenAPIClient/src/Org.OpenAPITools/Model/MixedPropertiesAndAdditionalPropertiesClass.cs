@@ -35,16 +35,24 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
         /// </summary>
+        /// <param name="uuidWithPattern">uuidWithPattern.</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default(Guid), Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
+            this.UuidWithPattern = uuidWithPattern;
             this.Uuid = uuid;
             this.DateTime = dateTime;
             this.Map = map;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets UuidWithPattern
+        /// </summary>
+        [DataMember(Name = "uuid_with_pattern", EmitDefaultValue = false)]
+        public Guid UuidWithPattern { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
@@ -76,8 +84,9 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
+            sb.Append("  UuidWithPattern: ").Append(UuidWithPattern).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Map: ").Append(Map).Append("\n");
@@ -124,14 +133,26 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
+                if (this.UuidWithPattern != null)
+                {
+                    hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
+                }
                 if (this.Uuid != null)
-                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
                 if (this.DateTime != null)
-                    hashCode = hashCode * 59 + this.DateTime.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                }
                 if (this.Map != null)
-                    hashCode = hashCode * 59 + this.Map.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Map.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -143,6 +164,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+            // UuidWithPattern (Guid) pattern
+            Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
+            if (false == regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
+            }
+
             yield break;
         }
     }

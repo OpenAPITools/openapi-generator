@@ -11,7 +11,7 @@
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-) {{/discriminator}}{{#parent}}: {{{.}}}(){{/parent}}{
+) {{/discriminator}}{{#parent}}: {{{.}}}{{/parent}}{
 {{#discriminator}}
     {{#requiredVars}}
         {{>interfaceReqVar}}
@@ -25,10 +25,9 @@
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{nameInCamelCase}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
-    {{#allowableValues}}{{#enumVars}}
-        @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-    {{/enumVars}}{{/allowableValues}}
+    enum class {{{nameInCamelCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
+{{#allowableValues}}{{#enumVars}}
+        @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     }
 {{/isEnum}}{{/vars}}{{/hasEnums}}
 }

@@ -1,0 +1,73 @@
+import com.fasterxml.jackson.annotation.JsonProperty
+{{#kotlinx_serialization}}
+import {{#serializableModel}}kotlinx.serialization.Serializable as KSerializable{{/serializableModel}}{{^serializableModel}}kotlinx.serialization.Serializable{{/serializableModel}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
+{{#hasEnums}}
+{{/hasEnums}}
+{{/kotlinx_serialization}}
+{{#parcelizeModels}}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+{{/parcelizeModels}}
+{{#serializableModel}}
+import java.io.Serializable
+{{/serializableModel}}
+/**
+ * {{{description}}}
+ *
+{{#allVars}}
+ * @param {{{name}}} {{{description}}}
+{{/allVars}}
+ */
+{{#parcelizeModels}}
+@Parcelize
+{{/parcelizeModels}}
+{{#multiplatform}}{{^discriminator}}@Serializable{{/discriminator}}{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{#isDeprecated}}
+@Deprecated(message = "This schema is deprecated.")
+{{/isDeprecated}}
+{{>additionalModelTypeAnnotations}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
+
+{{#allVars}}
+{{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+
+{{/allVars}}
+){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
+{{/vendorExtensions.x-has-data-class-body}}
+{{#serializableModel}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+        private const val serialVersionUID: Long = 123
+    }
+{{/serializableModel}}
+{{#discriminator}}{{#vars}}{{#required}}
+{{>interface_req_var}}{{/required}}{{^required}}
+{{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+    /**
+     * {{{description}}}
+     *
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+     */
+    {{#kotlinx_serialization}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}
+    {{/kotlinx_serialization}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{#allowableValues}}
+    {{#enumVars}}
+        @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{#kotlinx_serialization}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/kotlinx_serialization}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{#vendorExtensions.x-has-data-class-body}}
+}
+{{/vendorExtensions.x-has-data-class-body}}

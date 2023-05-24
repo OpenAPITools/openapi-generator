@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         /// <param name="petType">petType (required) (default to &quot;ParentPet&quot;).</param>
-        public ParentPet(string petType = "ParentPet") : base(petType)
+        public ParentPet(string petType = @"ParentPet") : base(petType)
         {
         }
 
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ParentPet {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
@@ -120,7 +120,10 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach (var x in base.BaseValidate(validationContext))
+            {
+                yield return x;
+            }
             yield break;
         }
     }

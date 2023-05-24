@@ -12,8 +12,8 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}}).
 
 ### Requirements
 
-PHP 7.3 and later.
-Should also work with PHP 8.0 but has not been tested.
+PHP 7.4 and later.
+Should also work with PHP 8.0.
 
 ### Composer
 
@@ -86,11 +86,9 @@ Class | Method | HTTP request | Description
 {{/models}}
 
 ## Authorization
-{{^authMethods}}
-All endpoints do not require authorization.
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-{{#last}} Authentication schemes defined for the API:{{/last}}
 ### {{{name}}}
 {{#isApiKey}}
 
@@ -108,6 +106,10 @@ All endpoints do not require authorization.
 
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
 

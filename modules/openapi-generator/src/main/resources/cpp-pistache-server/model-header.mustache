@@ -27,7 +27,7 @@ public:
 {{#isEnum}}{{#allowableValues}}
     enum class e{{classname}} {
     // To have a valid default value.
-    // Avoiding nameclashes with user defined
+    // Avoiding name clashes with user defined
     // enum values
     INVALID_VALUE_OPENAPI_GENERATED = 0,
     {{#enumVars}}
@@ -75,10 +75,10 @@ public:
     void setValue({{{this}}} value);
     {{{this}}}::e{{{this}}} getEnumValue() const;
     void setEnumValue({{{this}}}::e{{{this}}} value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
-    friend void to_json(nlohmann::json& j, const {{classname}}& o);
-    friend void from_json(const nlohmann::json& j, {{classname}}& o);{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
-    friend void to_json(nlohmann::json& j, const {{{this}}}& o);
-    friend void from_json(const nlohmann::json& j, {{{this}}}& o);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+    friend {{declspec}} void to_json(nlohmann::json& j, const {{classname}}& o);
+    friend {{declspec}} void from_json(const nlohmann::json& j, {{classname}}& o);{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
+    friend {{declspec}} void to_json(nlohmann::json& j, const {{{this}}}& o);
+    friend {{declspec}} void from_json(const nlohmann::json& j, {{{this}}}& o);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
 protected:
     {{#vars}}
     {{{dataType}}} m_{{name}};

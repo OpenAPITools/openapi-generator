@@ -1,8 +1,19 @@
 ---
-title: Config Options for typescript-angular
-sidebar_label: typescript-angular
+title: Documentation for the typescript-angular Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | typescript-angular | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | Typescript | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a TypeScript Angular (9.x - 15.x) client library. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -14,20 +25,20 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
-|ngVersion|The version of Angular. (At least 6.0.0)| |11.0.0|
+|ngVersion|The version of Angular. (At least 9.0.0)| |15.0.3|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
 |nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |paramNaming|Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|providedIn|Use this property to provide Injectables in wanted level (it is only valid in angular version greater or equal to 9.0.0).|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn (same as providedInRoot=false)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>|root|
-|providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0). IMPORTANT: Deprecated for angular version greater or equal to 9.0.0, use **providedIn** instead.| |false|
+|providedIn|Use this property to provide Injectables in wanted level.|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>|root|
 |queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| |dot|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |serviceSuffix|The suffix of the generated service.| |Service|
@@ -179,7 +190,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -217,7 +232,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
 |ParameterizedServer|✗|OAS3
-|ParameterStyling|✗|OAS3
+|ParameterStyling|✓|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
 
@@ -239,6 +254,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -251,6 +270,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

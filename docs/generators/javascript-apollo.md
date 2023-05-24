@@ -1,8 +1,19 @@
 ---
-title: Config Options for javascript-apollo
-sidebar_label: javascript-apollo
+title: Documentation for the javascript-apollo Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | javascript-apollo | pass this to the generate command after -g |
+| generator stability | DEPRECATED | |
+| generator type | CLIENT | |
+| generator language | Javascript | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a JavaScript client library (beta) using Apollo RESTDatasource. | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -11,7 +22,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiPackage|package for generated api classes| |null|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |emitJSDoc|generate JSDoc comments| |true|
+|emitModelMethods|generate getters and setters for model properties| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |invokerPackage|root package for generated code| |null|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
@@ -28,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
+|usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
 
 ## IMPORT MAPPING
 
@@ -42,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |array|Array|
 |list|Array|
 |map|Object|
+|set|Array|
 
 
 ## LANGUAGE PRIMITIVES
@@ -60,9 +75,16 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>Array</li>
+<li>Date</li>
+<li>Infinity</li>
+<li>Math</li>
+<li>NaN</li>
+<li>Number</li>
+<li>Object</li>
+<li>String</li>
 <li>abstract</li>
 <li>arguments</li>
-<li>array</li>
 <li>boolean</li>
 <li>break</li>
 <li>byte</li>
@@ -72,7 +94,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>class</li>
 <li>const</li>
 <li>continue</li>
-<li>date</li>
 <li>debugger</li>
 <li>default</li>
 <li>delete</li>
@@ -90,27 +111,22 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>for</li>
 <li>function</li>
 <li>goto</li>
-<li>hasownproperty</li>
+<li>hasOwnProperty</li>
 <li>if</li>
 <li>implements</li>
 <li>import</li>
 <li>in</li>
-<li>infinity</li>
 <li>instanceof</li>
 <li>int</li>
 <li>interface</li>
-<li>isfinite</li>
-<li>isnan</li>
-<li>isprototypeof</li>
+<li>isFinite</li>
+<li>isNaN</li>
+<li>isPrototypeOf</li>
 <li>let</li>
 <li>long</li>
-<li>math</li>
-<li>nan</li>
 <li>native</li>
 <li>new</li>
 <li>null</li>
-<li>number</li>
-<li>object</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
@@ -119,20 +135,19 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>return</li>
 <li>short</li>
 <li>static</li>
-<li>string</li>
 <li>super</li>
 <li>switch</li>
 <li>synchronized</li>
 <li>this</li>
 <li>throw</li>
 <li>throws</li>
-<li>tostring</li>
+<li>toString</li>
 <li>transient</li>
 <li>true</li>
 <li>try</li>
 <li>typeof</li>
 <li>undefined</li>
-<li>valueof</li>
+<li>valueOf</li>
 <li>var</li>
 <li>void</li>
 <li>volatile</li>
@@ -169,7 +184,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -229,6 +248,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -241,6 +264,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✓|OAS2,OAS3
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

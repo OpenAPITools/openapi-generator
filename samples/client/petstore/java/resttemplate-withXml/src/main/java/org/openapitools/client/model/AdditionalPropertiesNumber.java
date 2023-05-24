@@ -20,14 +20,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * AdditionalPropertiesNumber
@@ -35,7 +36,6 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   AdditionalPropertiesNumber.JSON_PROPERTY_NAME
 })
-@JsonTypeName("AdditionalPropertiesNumber")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesNumber")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,6 +45,9 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesNumber() {
+
+  }
 
   public AdditionalPropertiesNumber name(String name) {
     
@@ -57,7 +60,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
@@ -73,7 +75,6 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

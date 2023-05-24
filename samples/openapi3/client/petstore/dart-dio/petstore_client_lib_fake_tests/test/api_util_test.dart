@@ -1,13 +1,131 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
-import 'package:openapi/api_util.dart';
-import 'package:openapi/model/cat.dart';
-import 'package:openapi/serializers.dart';
+import 'package:openapi/openapi.dart';
+import 'package:openapi/src/api_util.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('api_utils', () {
+    group('encodeQueryParameter should encode', () {
+      group('String enum', () {
+        test('empty String for null', () {
+          expect(
+            encodeQueryParameter(
+              standardSerializers,
+              null,
+              const FullType(ModelEnumClass),
+            ),
+            '',
+          );
+        });
+
+        test('correct String for value', () {
+          expect(
+            encodeQueryParameter(
+              standardSerializers,
+              ModelEnumClass.leftParenthesisXyzRightParenthesis,
+              const FullType(ModelEnumClass),
+            ),
+            '(xyz)',
+          );
+        });
+      });
+
+      group('int enum', () {
+        test('empty String for null', () {
+          expect(
+            encodeQueryParameter(
+              standardSerializers,
+              null,
+              const FullType(EnumTestEnumIntegerEnum),
+            ),
+            '',
+          );
+        });
+
+        test('correct int for value', () {
+          expect(
+            encodeQueryParameter(
+              standardSerializers,
+              EnumTestEnumIntegerEnum.numberNegative1,
+              const FullType(EnumTestEnumIntegerEnum),
+            ),
+            -1,
+          );
+        });
+      });
+    });
+
+    group('encodeCollectionQueryParameter should encode', () {
+      final serializers = (standardSerializers.toBuilder()
+            ..addBuilderFactory(
+              const FullType(BuiltList, [FullType(ModelEnumClass)]),
+              () => ListBuilder<ModelEnumClass>(),
+            )
+            ..addBuilderFactory(
+              const FullType(BuiltList, [FullType(EnumTestEnumIntegerEnum)]),
+              () => ListBuilder<EnumTestEnumIntegerEnum>(),
+            ))
+          .build();
+
+      group('String enum', () {
+        test('empty ListParam for empty list', () {
+          final param = encodeCollectionQueryParameter(
+            serializers,
+            <ModelEnumClass>[].build(),
+            const FullType(BuiltList, [FullType(ModelEnumClass)]),
+          );
+
+          expect(param.value, isEmpty);
+          expect(param.format, ListFormat.multi);
+        });
+
+        test('correct ListParam for value', () {
+          final param = encodeCollectionQueryParameter(
+            serializers,
+            <ModelEnumClass>[
+              ModelEnumClass.leftParenthesisXyzRightParenthesis,
+              ModelEnumClass.efg,
+            ].build(),
+            const FullType(BuiltList, [FullType(ModelEnumClass)]),
+          );
+
+          expect(param.value, hasLength(2));
+          expect(param.value, containsAll(['-efg', '(xyz)']));
+          expect(param.format, ListFormat.multi);
+        });
+      });
+
+      group('int enum', () {
+        test('empty ListParam for empty list', () {
+          final param = encodeCollectionQueryParameter(
+            serializers,
+            <EnumTestEnumIntegerEnum>[].build(),
+            const FullType(BuiltList, [FullType(EnumTestEnumIntegerEnum)]),
+          );
+
+          expect(param.value, isEmpty);
+          expect(param.format, ListFormat.multi);
+        });
+
+        test('correct ListParam for value', () {
+          final param = encodeCollectionQueryParameter(
+            serializers,
+            <EnumTestEnumIntegerEnum>[
+              EnumTestEnumIntegerEnum.number1,
+              EnumTestEnumIntegerEnum.numberNegative1,
+            ].build(),
+            const FullType(BuiltList, [FullType(EnumTestEnumIntegerEnum)]),
+          );
+
+          expect(param.value, hasLength(2));
+          expect(param.value, containsAll([1, -1]));
+          expect(param.format, ListFormat.multi);
+        });
+      });
+    });
+
     group('encodeFormParameter should return', () {
       test('empty String for null', () {
         expect(
@@ -205,15 +323,15 @@ void main() {
           <MapEntry<String, String>>[
             MapEntry('null', ''),
             MapEntry('empty', ''),
-            MapEntry('string_list[]', 'foo'),
-            MapEntry('string_list[]', 'bar'),
-            MapEntry('string_list[]', 'baz'),
-            MapEntry('num_list[]', '0'),
-            MapEntry('num_list[]', '1'),
-            MapEntry('num_list[]', '2'),
-            MapEntry('num_list[]', '3'),
-            MapEntry('num_list[]', '4.5'),
-            MapEntry('num_list[]', '-123.456'),
+            MapEntry('string_list', 'foo'),
+            MapEntry('string_list', 'bar'),
+            MapEntry('string_list', 'baz'),
+            MapEntry('num_list', '0'),
+            MapEntry('num_list', '1'),
+            MapEntry('num_list', '2'),
+            MapEntry('num_list', '3'),
+            MapEntry('num_list', '4.5'),
+            MapEntry('num_list', '-123.456'),
             MapEntry('string_map[foo]', 'foo-value'),
             MapEntry('string_map[bar]', 'bar-value'),
             MapEntry('string_map[baz]', 'baz-value'),

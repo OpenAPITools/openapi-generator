@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Apple {\n");
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
             sb.Append("  Origin: ").Append(Origin).Append("\n");
@@ -108,9 +108,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
+                }
                 if (this.Origin != null)
-                    hashCode = hashCode * 59 + this.Origin.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Origin.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -123,14 +127,14 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Cultivar (string) pattern
-            Regex regexCultivar = new Regex(@"^[a-zA-Z\\s]*$", RegexOptions.CultureInvariant);
+            Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
             if (false == regexCultivar.Match(this.Cultivar).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
             }
 
             // Origin (string) pattern
-            Regex regexOrigin = new Regex(@"^[A-Z\\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexOrigin.Match(this.Origin).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });

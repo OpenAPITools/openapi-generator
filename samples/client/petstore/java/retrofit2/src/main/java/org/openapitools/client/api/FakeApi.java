@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface FakeApi {
   /**
@@ -223,7 +224,7 @@ public interface FakeApi {
    * @param context  (required)
    * @return Call&lt;Void&gt;
    */
-  @PUT("fake/test-query-paramters")
+  @PUT("fake/test-query-parameters")
   Call<Void> testQueryParameterCollectionFormat(
     @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SSVParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
   );

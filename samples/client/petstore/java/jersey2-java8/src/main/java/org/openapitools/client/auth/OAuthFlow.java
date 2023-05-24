@@ -13,6 +13,12 @@
 
 package org.openapitools.client.auth;
 
+/**
+ * OAuth flows that are supported by this client
+ */
 public enum OAuthFlow {
-    accessCode, implicit, password, application
+    ACCESS_CODE,
+    IMPLICIT,
+    PASSWORD,
+    APPLICATION
 }

@@ -19,7 +19,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>5.3.0-SNAPSHOT</version>
+                <version>7.0.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>
@@ -59,8 +59,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <proc>none</proc>
                 </configuration>
             </plugin>
@@ -81,7 +81,7 @@
           <version>${swagger-annotations-version}</version>
         </dependency>
 
-        <!-- You can find the dependencies for the library configuation you chose by looking in JavaClientCodegen.
+        <!-- You can find the dependencies for the library configuration you chose by looking in JavaClientCodegen.
              Then find the corresponding dependency on Maven Central, and set the versions in the property section below -->
 
         <!-- HTTP client: jersey-client -->
@@ -135,6 +135,11 @@
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
@@ -142,7 +147,7 @@
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
-            <version>6.9.0</version>
+            <version>8.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.tomitribe</groupId>

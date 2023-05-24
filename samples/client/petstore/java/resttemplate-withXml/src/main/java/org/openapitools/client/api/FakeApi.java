@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -34,7 +34,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.FakeApi")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -42,7 +41,6 @@ public class FakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -75,7 +73,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> createXmlItemWithHttpInfo(XmlItem xmlItem) throws RestClientException {
-        Object postBody = xmlItem;
+        Object localVarPostBody = xmlItem;
         
         // verify the required parameter 'xmlItem' is set
         if (xmlItem == null) {
@@ -83,22 +81,22 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake/create_xml_item", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/create_xml_item", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -121,25 +119,25 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "*/*"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Boolean> returnType = new ParameterizedTypeReference<Boolean>() {};
-        return apiClient.invokeAPI("/fake/outer/boolean", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Boolean> localReturnType = new ParameterizedTypeReference<Boolean>() {};
+        return apiClient.invokeAPI("/fake/outer/boolean", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -162,25 +160,25 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "*/*"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<OuterComposite> returnType = new ParameterizedTypeReference<OuterComposite>() {};
-        return apiClient.invokeAPI("/fake/outer/composite", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<OuterComposite> localReturnType = new ParameterizedTypeReference<OuterComposite>() {};
+        return apiClient.invokeAPI("/fake/outer/composite", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -203,25 +201,25 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "*/*"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<BigDecimal> returnType = new ParameterizedTypeReference<BigDecimal>() {};
-        return apiClient.invokeAPI("/fake/outer/number", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<BigDecimal> localReturnType = new ParameterizedTypeReference<BigDecimal>() {};
+        return apiClient.invokeAPI("/fake/outer/number", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -244,25 +242,25 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(String body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "*/*"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<String> returnType = new ParameterizedTypeReference<String>() {};
-        return apiClient.invokeAPI("/fake/outer/string", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI("/fake/outer/string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -284,7 +282,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -292,22 +290,22 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/json"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake/body-with-file-schema", HttpMethod.PUT, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/body-with-file-schema", HttpMethod.PUT, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -331,7 +329,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
         // verify the required parameter 'query' is set
         if (query == null) {
@@ -344,24 +342,24 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/json"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake/body-with-query-params", HttpMethod.PUT, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/body-with-query-params", HttpMethod.PUT, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * To test \&quot;client\&quot; model
@@ -384,7 +382,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Client> testClientModelWithHttpInfo(Client body) throws RestClientException {
-        Object postBody = body;
+        Object localVarPostBody = body;
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -392,24 +390,24 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = { 
             "application/json"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/json"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.PATCH, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Client> localReturnType = new ParameterizedTypeReference<Client>() {};
+        return apiClient.invokeAPI("/fake", HttpMethod.PATCH, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -459,7 +457,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
         // verify the required parameter 'number' is set
         if (number == null) {
@@ -482,51 +480,51 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         if (integer != null)
-            formParams.add("integer", integer);
+            localVarFormParams.add("integer", integer);
         if (int32 != null)
-            formParams.add("int32", int32);
+            localVarFormParams.add("int32", int32);
         if (int64 != null)
-            formParams.add("int64", int64);
+            localVarFormParams.add("int64", int64);
         if (number != null)
-            formParams.add("number", number);
+            localVarFormParams.add("number", number);
         if (_float != null)
-            formParams.add("float", _float);
+            localVarFormParams.add("float", _float);
         if (_double != null)
-            formParams.add("double", _double);
+            localVarFormParams.add("double", _double);
         if (string != null)
-            formParams.add("string", string);
+            localVarFormParams.add("string", string);
         if (patternWithoutDelimiter != null)
-            formParams.add("pattern_without_delimiter", patternWithoutDelimiter);
+            localVarFormParams.add("pattern_without_delimiter", patternWithoutDelimiter);
         if (_byte != null)
-            formParams.add("byte", _byte);
+            localVarFormParams.add("byte", _byte);
         if (binary != null)
-            formParams.add("binary", new FileSystemResource(binary));
+            localVarFormParams.add("binary", new FileSystemResource(binary));
         if (date != null)
-            formParams.add("date", date);
+            localVarFormParams.add("date", date);
         if (dateTime != null)
-            formParams.add("dateTime", dateTime);
+            localVarFormParams.add("dateTime", dateTime);
         if (password != null)
-            formParams.add("password", password);
+            localVarFormParams.add("password", password);
         if (paramCallback != null)
-            formParams.add("callback", paramCallback);
+            localVarFormParams.add("callback", paramCallback);
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/x-www-form-urlencoded"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] { "http_basic_test" };
+        String[] localVarAuthNames = new String[] { "http_basic_test" };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * To test enum parameters
@@ -564,45 +562,45 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "enum_query_string_array", enumQueryStringArray));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_string", enumQueryString));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
 
         if (enumHeaderStringArray != null)
-        headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
+        localVarHeaderParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
         if (enumHeaderString != null)
-        headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
+        localVarHeaderParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
 
         if (enumFormStringArray != null)
-            formParams.addAll("enum_form_string_array", enumFormStringArray);
+            localVarFormParams.addAll("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
-            formParams.add("enum_form_string", enumFormString);
+            localVarFormParams.add("enum_form_string", enumFormString);
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/x-www-form-urlencoded"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
-     * <p><b>400</b> - Someting wrong
+     * <p><b>400</b> - Something wrong
      * @param requiredStringGroup Required String in group parameters (required)
      * @param requiredBooleanGroup Required Boolean in group parameters (required)
      * @param requiredInt64Group Required Integer in group parameters (required)
@@ -618,7 +616,7 @@ public class FakeApi {
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
-     * <p><b>400</b> - Someting wrong
+     * <p><b>400</b> - Something wrong
      * @param requiredStringGroup Required String in group parameters (required)
      * @param requiredBooleanGroup Required Boolean in group parameters (required)
      * @param requiredInt64Group Required Integer in group parameters (required)
@@ -629,7 +627,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
@@ -647,30 +645,30 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
 
         if (requiredBooleanGroup != null)
-        headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+        localVarHeaderParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
         if (booleanGroup != null)
-        headerParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+        localVarHeaderParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake", HttpMethod.DELETE, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake", HttpMethod.DELETE, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * test inline additionalProperties
@@ -692,7 +690,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws RestClientException {
-        Object postBody = param;
+        Object localVarPostBody = param;
         
         // verify the required parameter 'param' is set
         if (param == null) {
@@ -700,22 +698,22 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/json"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake/inline-additionalProperties", HttpMethod.POST, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/inline-additionalProperties", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * test json serialization of form data
@@ -739,7 +737,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
         // verify the required parameter 'param' is set
         if (param == null) {
@@ -752,27 +750,27 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         if (param != null)
-            formParams.add("param", param);
+            localVarFormParams.add("param", param);
         if (param2 != null)
-            formParams.add("param2", param2);
+            localVarFormParams.add("param2", param2);
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = { 
+        final String[] localVarContentTypes = { 
             "application/x-www-form-urlencoded"
          };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake/jsonFormData", HttpMethod.GET, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/jsonFormData", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
      * 
@@ -802,7 +800,7 @@ public class FakeApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ResponseEntity<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws RestClientException {
-        Object postBody = null;
+        Object localVarPostBody = null;
         
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
@@ -830,25 +828,25 @@ public class FakeApi {
         }
         
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "pipe", pipe));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("ssv".toUpperCase(Locale.ROOT)), "http", http));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "pipe", pipe));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "ioutil", ioutil));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("ssv".toUpperCase(Locale.ROOT)), "http", http));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] contentTypes = {  };
-        final MediaType localVarContentType = apiClient.selectHeaderContentType(contentTypes);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] authNames = new String[] {  };
+        String[] localVarAuthNames = new String[] {  };
 
-        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
-        return apiClient.invokeAPI("/fake/test-query-paramters", HttpMethod.PUT, Collections.<String, Object>emptyMap(), queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, authNames, returnType);
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/test-query-parameters", HttpMethod.PUT, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 }

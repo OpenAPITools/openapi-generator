@@ -1,5 +1,5 @@
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.GenericType;
+import {{javaxPackage}}.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +60,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
             {{classname}} new{{classname}} = new {{classname}}();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
             switch (discriminatorValue) {
             {{#mappedModels}}
@@ -132,7 +132,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -167,7 +167,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         {{#mappedModels}}
         mappings.put("{{mappingName}}", {{modelName}}.class);
         {{/mappedModels}}
@@ -199,7 +199,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
         {{/isNullable}}
         {{#oneOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -221,7 +221,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#oneOf}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `{{{.}}}`

@@ -7,9 +7,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Order;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneOffset;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -91,7 +91,7 @@ public class StoreApiTest {
   /**
    * Find purchase order by ID
    * <p>
-   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
    */
   @Test
   void getOrderByIdTest() {

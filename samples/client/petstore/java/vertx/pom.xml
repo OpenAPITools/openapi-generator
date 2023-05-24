@@ -144,10 +144,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.2</version>
                 <configuration>
                     <doclint>none</doclint>
-                        <source>1.8</source>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -199,11 +199,6 @@
     </profiles>
 
     <dependencies>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations-version}</version>
-        </dependency>
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -251,9 +246,9 @@
                 <version>${jackson-version}</version>
             </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -274,12 +269,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vertx-version>3.4.2</vertx-version>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <jackson-version>2.10.5</jackson-version>
-        <jackson-databind>2.10.5.1</jackson-databind>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
-        <junit-version>4.13.1</junit-version>
+        <vertx-version>3.5.2</vertx-version>
+        <swagger-annotations-version>1.6.6</swagger-annotations-version>
+        <jackson-version>2.13.4</jackson-version>
+        <jackson-databind>2.13.4.2</jackson-databind>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>

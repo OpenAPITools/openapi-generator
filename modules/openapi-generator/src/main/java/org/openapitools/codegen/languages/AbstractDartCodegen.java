@@ -1,9 +1,9 @@
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -11,6 +11,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +25,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
 
     protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(
             "application/json", "application/x-www-form-urlencoded", "multipart/form-data");
@@ -38,6 +44,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_AUTHOR = "pubAuthor";
     public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
     public static final String PUB_HOMEPAGE = "pubHomepage";
+    public static final String PUB_REPOSITORY = "pubRepository";
+    public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
 
     protected String pubLibrary = "openapi.api";
@@ -47,8 +55,11 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String pubAuthor = "Author";
     protected String pubAuthorEmail = "author@homepage";
     protected String pubHomepage = "homepage";
+    protected String pubRepository = null;
+    protected String pubPublishTo = null;
     protected boolean useEnumExtension = false;
-    protected String sourceFolder = "";
+    protected String sourceFolder = "src";
+    protected String libPath = "lib" + File.separator;
     protected String apiDocPath = "doc" + File.separator;
     protected String modelDocPath = "doc" + File.separator;
     protected String apiTestPath = "test" + File.separator;
@@ -93,8 +104,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
         embeddedTemplateDir = templateDir = "dart2";
-        apiPackage = "lib.api";
-        modelPackage = "lib.model";
+        apiPackage = "api";
+        modelPackage = "model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
@@ -102,7 +113,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
         final List<String> reservedWordsList = new ArrayList<>();
-        try(BufferedReader reader = new BufferedReader(
+        try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
                         StandardCharsets.UTF_8))) {
             while (reader.ready()) {
@@ -176,15 +187,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         imports.put("Object", "dart:core");
         imports.put("MultipartFile", "package:http/http.dart");
 
-        cliOptions.add(new CliOption(PUB_LIBRARY, "Library name in generated code"));
-        cliOptions.add(new CliOption(PUB_NAME, "Name in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_VERSION, "Version in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_AUTHOR, "Author name in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec"));
-        cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
-        cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
+        addOption(PUB_LIBRARY, "Library name in generated code", pubLibrary);
+        addOption(PUB_NAME, "Name in generated pubspec", pubName);
+        addOption(PUB_VERSION, "Version in generated pubspec", pubVersion);
+        addOption(PUB_DESCRIPTION, "Description in generated pubspec", pubDescription);
+        addOption(PUB_AUTHOR, "Author name in generated pubspec", pubAuthor);
+        addOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec", pubAuthorEmail);
+        addOption(PUB_HOMEPAGE, "Homepage in generated pubspec", pubHomepage);
+        addOption(PUB_REPOSITORY, "Repository in generated pubspec", pubRepository);
+        addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
+        addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
+        addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
 
     @Override
@@ -205,6 +218,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // Fix a couple Java notation properties
+        modelPackage = modelPackage.replace('.', '/');
+        apiPackage = apiPackage.replace('.', '/');
+        // And overwrite them in the additional properties
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
@@ -260,6 +280,20 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             additionalProperties.put(PUB_HOMEPAGE, pubHomepage);
         }
 
+        if (additionalProperties.containsKey(PUB_REPOSITORY)) {
+            this.setPubRepository((String) additionalProperties.get(PUB_REPOSITORY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_REPOSITORY, pubRepository);
+        }
+
+        if (additionalProperties.containsKey(PUB_PUBLISH_TO)) {
+            this.setPubPublishTo((String) additionalProperties.get(PUB_PUBLISH_TO));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_PUBLISH_TO, pubPublishTo);
+        }
+
         if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
             this.setUseEnumExtension(convertPropertyToBooleanAndWriteBack(USE_ENUM_EXTENSION));
         } else {
@@ -268,8 +302,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+            String srcFolder = (String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER);
+            this.setSourceFolder(srcFolder.replace('/', File.separatorChar));
         }
+        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -289,44 +325,49 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     protected boolean isReservedWord(String word) {
-        // consider everything as reserved that is either a keyword,
-        // a default included type, or a type include through some library
-        return super.isReservedWord(word) || defaultIncludes().contains(word);
+        // consider everything as reserved that is
+        // * a keyword
+        // * a word that has been mapped in the reservedWordsMappings
+        // * a default included type or a type include through some library
+        return super.isReservedWord(word) || reservedWordsMappings().containsKey(word) || defaultIncludes().contains(word);
     }
 
     @Override
     public String escapeReservedWord(String name) {
+        if (reservedWordsMappings().containsKey(name)) {
+            return reservedWordsMappings().get(name);
+        }
         return name + "_";
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + libPath + sourceFolder + File.separator + apiPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + libPath + sourceFolder + File.separator + modelPackage()).replace('/', File.separatorChar);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + apiTestPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiTestPath;
     }
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + modelTestPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelTestPath;
     }
 
     @Override
     public String apiDocFileFolder() {
-        return outputFolder + File.separator + apiDocPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiDocPath;
     }
 
     @Override
     public String modelDocFileFolder() {
-        return outputFolder + File.separator + modelDocPath.replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelDocPath;
     }
 
     @Override
@@ -344,15 +385,15 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
-        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
-            name = escape(name, specialCharReplacements, Lists.newArrayList("_"), "_");
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
+            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
         }
         // remove the rest
         name = sanitizeName(name);
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -424,7 +465,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         return underscore(toModelName(name));
     }
 
-    @Override public String toModelDocFilename(String name) {
+    @Override
+    public String toModelDocFilename(String name) {
         return toModelName(name);
     }
 
@@ -467,7 +509,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -500,16 +542,16 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         return postProcessModelsEnum(objs);
     }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.isEnum && property.isEnum) {
+        if (!model.isEnum && property.isEnum && property.getComposedSchemas() == null) {
             // These are inner enums, enums which do not exist as models, just as properties.
-            // They are handled via the enum_inline template and and are generated in the
+            // They are handled via the enum_inline template and are generated in the
             // same file as the containing class. To prevent name clashes the inline enum classes
             // are prefix with the classname of the containing class in the template.
             // Here the datatypeWithEnum template variable gets updated to match that scheme.
@@ -530,12 +572,43 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        final CodegenProperty property = super.fromProperty(name, p, required);
+
+        // Handle composed properties and it's NOT allOf with a single ref only
+        if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
+            ComposedSchema composed = (ComposedSchema) p;
+
+            // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
+            long count = Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                    .filter(list -> list != null && list.size() == 1).count();
+
+            if (count == 1) {
+                // Continue only if there is one element that matches
+                // and basically treat it as simple property.
+                Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                        .filter(list -> list != null && list.size() == 1)
+                        .findFirst()
+                        .map(list -> list.get(0).get$ref())
+                        .map(ModelUtils::getSimpleRef)
+                        .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
+                        .ifPresent(schema -> {
+                            property.isEnum = schema.getEnum() != null;
+                            property.isModel = true;
+                        });
+
+            }
+        }
+        return property;
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {
-            // By default only set types are automatically added to operation imports, not sure why.
+            // By default, only set types are automatically added to operation imports, not sure why.
             // Add all container type imports here, by default 'dart:core' imports are skipped
-            // but other sub classes may required specific container type imports.
+            // but other sub-classes may require specific container type imports.
             if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
                 final String value = typeMapping().get(r.containerType);
                 if (needToImport(value)) {
@@ -559,11 +632,11 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation op : ops) {
                 if (op.hasConsumes) {
                     if (!op.formParams.isEmpty() || op.isMultipart) {
@@ -611,13 +684,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
         return prioritizedContentTypes;
-    }
-
-    private static boolean isMultipartType(String mediaType) {
-        if (mediaType != null) {
-            return "multipart/form-data".equals(mediaType);
-        }
-        return false;
     }
 
     @Override
@@ -675,18 +741,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId);
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             operationId = newOperationId;
         }
@@ -720,6 +786,14 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     public void setPubHomepage(String pubHomepage) {
         this.pubHomepage = pubHomepage;
+    }
+
+    public void setPubRepository(String pubRepository) {
+        this.pubRepository = pubRepository;
+    }
+
+    public void setPubPublishTo(String pubPublishTo) {
+        this.pubPublishTo = pubPublishTo;
     }
 
     public void setUseEnumExtension(boolean useEnumExtension) {
@@ -756,7 +830,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file.toString();
+            String command = dartPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -771,5 +845,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.DART;
     }
 }

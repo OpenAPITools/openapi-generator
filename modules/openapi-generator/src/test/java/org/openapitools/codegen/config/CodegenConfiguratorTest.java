@@ -36,7 +36,7 @@ public class CodegenConfiguratorTest {
     }
 
     @Test
-    public void shouldSetConfiglProperties() throws IOException {
+    public void shouldSetConfigProperties() throws IOException {
         // This tests that properties we set on CodegenConfigurator make it down into generator properties,
         // limiting to those managed in DefaultCodegen.
         Map<String, Object> properties = new HashMap<String, Object>() {{

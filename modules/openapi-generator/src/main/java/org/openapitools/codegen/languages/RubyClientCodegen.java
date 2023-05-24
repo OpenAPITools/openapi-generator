@@ -21,6 +21,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +45,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
     public static final String FARADAY = "faraday";
     public static final String TYPHOEUS = "typhoeus";
+    public static final String USE_AUTOLOAD = "useAutoload";
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
@@ -58,6 +63,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean useAutoload = false;
+
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public RubyClientCodegen() {
         super();
@@ -141,10 +149,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 1.9"));
+                defaultValue(">= 2.4"));
 
         cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
-                defaultValue("http://org.openapitools"));
+                defaultValue("https://openapi-generator.tech"));
 
         cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
                 defaultValue("A ruby wrapper for the REST APIs"));
@@ -152,14 +160,17 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
                 defaultValue("This gem maps to a REST API"));
 
-        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
+        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported).").defaultValue("OpenAPI-Generator"));
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
-        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
+        cliOptions.add(CliOption.newBoolean(USE_AUTOLOAD, "Use autoload instead of require to load modules.").
+                defaultValue(Boolean.FALSE.toString()));
+
+        supportedLibraries.put(FARADAY, "Faraday >= 1.0.1 (https://github.com/lostisland/faraday)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
@@ -228,6 +239,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(USE_AUTOLOAD)) {
+            setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
+        }
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -247,6 +262,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
         supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
@@ -290,8 +306,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby module name from the gem name, e.g. use "OpenAPIClient" for "openapi_client".
      *
      * @param gemName Ruby gem name
-     *
-     * @return Ruby module naame
+     * @return Ruby module name
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
@@ -301,8 +316,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     /**
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
-     * @param moduleName Ruby module naame
-     *
+     * @param moduleName Ruby module name
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -362,6 +376,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         String modelName;
         modelName = sanitizeName(name);
 
@@ -377,6 +403,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
@@ -389,7 +416,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(modelName);
+        String camelizedName = camelize(modelName);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
@@ -486,7 +515,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -561,6 +590,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         this.gemAuthorEmail = gemAuthorEmail;
     }
 
+    public void setUseAutoload(boolean useAutoload) {
+        this.useAutoload = useAutoload;
+    }
+
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         final Schema additionalProperties = getAdditionalProperties(schema);
@@ -571,19 +604,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        OperationMap operations = objs.getOperations();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-ruby-example", constructExampleCode(p, modelMaps, processedModelMaps));
@@ -614,6 +646,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (codegenParameter.isArray) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "]";
         } else if (codegenParameter.isMap) {
+            if (codegenParameter.items == null) {
+                return "{ ... }";
+            }
             return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
@@ -672,9 +707,19 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
+            if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                String value = codegenProperty.example;
+                value = value.replaceAll(",", ", ");
+                value = value.replaceAll(":", ": ");
+                return value;
+            }
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
-            return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            if (codegenProperty.items != null) {
+                return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            } else {
+                return "{ ... }";
+            }
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isEnum) {
                 // When inline enum, set example to first allowable value

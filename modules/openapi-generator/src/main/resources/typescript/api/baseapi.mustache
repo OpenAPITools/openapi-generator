@@ -1,4 +1,4 @@
-import { Configuration } from '../configuration{{extensionForDeno}}'
+import { Configuration } from '../configuration{{importFileExtension}}'
 {{#useInversify}}
 import { injectable, inject } from "inversify";
 import { AbstractConfiguration } from "../services/configuration";
@@ -38,7 +38,7 @@ export class BaseAPIRequestFactory {
  */
 export class RequiredError extends Error {
     name: "RequiredError" = "RequiredError";
-    constructor(public field: string, msg?: string) {
-        super(msg);
+    constructor(public api: string, public method: string, public field: string) {
+        super("Required parameter " + field + " was null or undefined when calling " + api + "." + method + ".");
     }
 }

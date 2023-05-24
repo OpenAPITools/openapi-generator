@@ -20,13 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ObjectWithDeprecatedFields
@@ -37,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@JsonTypeName("ObjectWithDeprecatedFields")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
@@ -50,8 +48,10 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars = null;
+  private List<String> bars;
 
+  public ObjectWithDeprecatedFields() {
+  }
 
   public ObjectWithDeprecatedFields uuid(String uuid) {
     
@@ -64,7 +64,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -93,7 +92,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -122,7 +120,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -146,7 +143,7 @@ public class ObjectWithDeprecatedFields {
 
   public ObjectWithDeprecatedFields addBarsItem(String barsItem) {
     if (this.bars == null) {
-      this.bars = new ArrayList<String>();
+      this.bars = new ArrayList<>();
     }
     this.bars.add(barsItem);
     return this;
@@ -159,7 +156,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -173,7 +169,6 @@ public class ObjectWithDeprecatedFields {
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
-
 
   @Override
   public boolean equals(Object o) {

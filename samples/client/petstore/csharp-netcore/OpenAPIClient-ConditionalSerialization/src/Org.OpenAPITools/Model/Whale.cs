@@ -49,9 +49,21 @@ namespace Org.OpenAPITools.Model
         public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
-            this._ClassName = className ?? throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            if (className == null)
+            {
+                throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            }
+            this._ClassName = className;
             this._HasBaleen = hasBaleen;
+            if (this.HasBaleen != null)
+            {
+                this._flagHasBaleen = true;
+            }
             this._HasTeeth = hasTeeth;
+            if (this.HasTeeth != null)
+            {
+                this._flagHasTeeth = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -106,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = true)]
         public string ClassName
         {
             get{ return _ClassName;}
@@ -139,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
             sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
             sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
@@ -187,12 +199,16 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.HasBaleen.GetHashCode();
-                hashCode = hashCode * 59 + this.HasTeeth.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
                 if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

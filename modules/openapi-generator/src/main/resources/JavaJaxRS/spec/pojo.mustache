@@ -5,20 +5,54 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
  **/{{/description}}
-{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}
-{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
-  {{#vars}}{{#isEnum}}{{^isContainer}}
+{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+@org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useMicroProfileOpenAPIAnnotations}}
+@JsonTypeName("{{name}}")
+{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+  {{#vars}}
+  {{#isEnum}}
+  {{^isContainer}}
+  {{>enumClass}}
+  {{/isContainer}}
+  {{#isContainer}}
+  {{#mostInnerItems}}
+  {{>enumClass}}
+  {{/mostInnerItems}}
+  {{/isContainer}}
+  {{/isEnum}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/vars}}
+  {{#generateBuilders}}
+  {{^additionalProperties}}
 
-{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
+  protected {{classname}}({{classname}}Builder<?, ?> b) {
+    {{#parent}}
+    super(b);
+    {{/parent}}
+    {{#vars}}
+    this.{{name}} = b.{{name}};
+    {{/vars}}
+  }
 
-{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
+  public {{classname}}() {
+  }
+  {{/additionalProperties}}
+  {{/generateBuilders}}
 
-  {{#vars}}/**
+  {{#vars}}
+  /**
    {{#description}}
    * {{.}}
    {{/description}}
@@ -34,27 +68,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return this;
   }
 
-  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vars}}) {
-    {{#vars}}
-    this.{{name}} = {{name}};
-    {{/vars}}
-  }{{/generateBuilders}}
-
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
-  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+  @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useMicroProfileOpenAPIAnnotations}}
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>beanValidatedType}} {{getter}}() {
     return {{name}};
   }
 
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  @JsonProperty("{{baseName}}")
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
-  {{#isListContainer}}
+  {{#isArray}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
 
     this.{{name}}.add({{name}}Item);
@@ -68,11 +99,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
 
     this.{{name}}.put(key, {{name}}Item);
@@ -86,7 +117,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
   {{/vars}}
 
   @Override
@@ -98,7 +129,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
         {{/-last}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
@@ -106,7 +137,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
   @Override
@@ -130,36 +161,39 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return o.toString().replace("\n", "\n    ");
   }
 
-  {{#generateBuilders}}
-  public static Builder builder() {
-    return new Builder();
+{{#generateBuilders}}{{^additionalProperties}}
+  public static {{classname}}Builder<?, ?> builder() {
+    return new {{classname}}BuilderImpl();
   }
 
-  public static class Builder {
+  private static final class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
+
+    @Override
+    protected {{classname}}BuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public {{classname}} build() {
+      return new {{classname}}(this);
+    }
+  }
+
+  public static abstract class {{classname}}Builder<C extends {{classname}}, B extends {{classname}}Builder<C, B>> {{#parent}}extends {{{.}}}Builder<C, B>{{/parent}} {
     {{#vars}}
     private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
+  {{^parent}}
+    protected abstract B self();
+
+    public abstract C build();
+    {{/parent}}
 
     {{#vars}}
-    /**
-      {{#description}}
-      * {{.}}
-      {{/description}}
-      {{#minimum}}
-      * minimum: {{.}}
-      {{/minimum}}
-      {{#maximum}}
-      * maximum: {{.}}
-      {{/maximum}}
-      **/
-    public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public B {{name}}({{{datatypeWithEnum}}} {{name}}) {
       this.{{name}} = {{name}};
-      return this;
+      return self();
     }
     {{/vars}}
-
-    public {{classname}} build() {
-      return new {{classname}}({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
-    }
-  }{{/generateBuilders}}
+  }{{/additionalProperties}}{{/generateBuilders}}
 }

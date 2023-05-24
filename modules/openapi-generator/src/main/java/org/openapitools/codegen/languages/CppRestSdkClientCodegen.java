@@ -27,6 +27,10 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
@@ -38,10 +42,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
     public static final String GENERATE_GMOCKS_FOR_APIS = "generateGMocksForApis";
+    public static final String DEFAULT_PACKAGE_NAME = "CppRestOpenAPIClient";
 
+    protected String packageName = "";
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
     protected String defaultInclude = "";
+    protected String apiDirName = "api";
+    protected String modelDirName = "model";
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
@@ -119,6 +127,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         cliOptions.clear();
 
         // CLI options
+        addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
@@ -139,32 +148,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
                 Boolean.toString(this.variableNameFirstCharacterUppercase));
 
-        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
-        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
-        supportingFiles.add(new SupportingFile("object-header.mustache", "", "Object.h"));
-        supportingFiles.add(new SupportingFile("object-source.mustache", "", "Object.cpp"));
-        supportingFiles.add(new SupportingFile("apiclient-header.mustache", "", "ApiClient.h"));
-        supportingFiles.add(new SupportingFile("apiclient-source.mustache", "", "ApiClient.cpp"));
-        supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", "", "ApiConfiguration.h"));
-        supportingFiles.add(new SupportingFile("apiconfiguration-source.mustache", "", "ApiConfiguration.cpp"));
-        supportingFiles.add(new SupportingFile("apiexception-header.mustache", "", "ApiException.h"));
-        supportingFiles.add(new SupportingFile("apiexception-source.mustache", "", "ApiException.cpp"));
-        supportingFiles.add(new SupportingFile("ihttpbody-header.mustache", "", "IHttpBody.h"));
-        supportingFiles.add(new SupportingFile("jsonbody-header.mustache", "", "JsonBody.h"));
-        supportingFiles.add(new SupportingFile("jsonbody-source.mustache", "", "JsonBody.cpp"));
-        supportingFiles.add(new SupportingFile("httpcontent-header.mustache", "", "HttpContent.h"));
-        supportingFiles.add(new SupportingFile("httpcontent-source.mustache", "", "HttpContent.cpp"));
-        supportingFiles.add(new SupportingFile("multipart-header.mustache", "", "MultipartFormData.h"));
-        supportingFiles.add(new SupportingFile("multipart-source.mustache", "", "MultipartFormData.cpp"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("date", "utility::datetime");
         typeMapping.put("DateTime", "utility::datetime");
         typeMapping.put("string", "utility::string_t");
@@ -181,7 +168,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("URI", "utility::string_t");
         typeMapping.put("ByteArray", "utility::string_t");
 
-        super.importMapping = new HashMap<String, String>();
+        super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
@@ -194,6 +181,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        packageName = (String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
 
         if (additionalProperties.containsKey(DECLSPEC)) {
             declspec = additionalProperties.get(DECLSPEC).toString();
@@ -212,6 +201,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             additionalProperties.put("gmockApis", "true");
         }
 
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
@@ -221,24 +211,54 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
         additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
+
+        importMapping.put("HttpContent", "#include \"" + packageName + "/" + "HttpContent.h\"");
+        importMapping.put("Object", "#include \"" + packageName + "/" + "Object.h\"");
+
+        supportingFiles.add(new SupportingFile("modelbase-header.mustache", getHeaderFolder(), "ModelBase.h"));
+        supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
+        supportingFiles.add(new SupportingFile("object-header.mustache", getHeaderFolder(), "Object.h"));
+        supportingFiles.add(new SupportingFile("object-source.mustache", getSourceFolder(), "Object.cpp"));
+        supportingFiles.add(new SupportingFile("apiclient-header.mustache", getHeaderFolder(), "ApiClient.h"));
+        supportingFiles.add(new SupportingFile("apiclient-source.mustache", getSourceFolder(), "ApiClient.cpp"));
+        supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", getHeaderFolder(), "ApiConfiguration.h"));
+        supportingFiles.add(new SupportingFile("apiconfiguration-source.mustache", getSourceFolder(), "ApiConfiguration.cpp"));
+        supportingFiles.add(new SupportingFile("apiexception-header.mustache", getHeaderFolder(), "ApiException.h"));
+        supportingFiles.add(new SupportingFile("apiexception-source.mustache", getSourceFolder(), "ApiException.cpp"));
+        supportingFiles.add(new SupportingFile("ihttpbody-header.mustache", getHeaderFolder(), "IHttpBody.h"));
+        supportingFiles.add(new SupportingFile("jsonbody-header.mustache", getHeaderFolder(), "JsonBody.h"));
+        supportingFiles.add(new SupportingFile("jsonbody-source.mustache", getSourceFolder(), "JsonBody.cpp"));
+        supportingFiles.add(new SupportingFile("httpcontent-header.mustache", getHeaderFolder(), "HttpContent.h"));
+        supportingFiles.add(new SupportingFile("httpcontent-source.mustache", getSourceFolder(), "HttpContent.cpp"));
+        supportingFiles.add(new SupportingFile("multipart-header.mustache", getHeaderFolder(), "MultipartFormData.h"));
+        supportingFiles.add(new SupportingFile("multipart-source.mustache", getSourceFolder(), "MultipartFormData.cpp"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
-    /**
-     * Location to write model files. You can use the modelPackage() as defined
-     * when the class is instantiated
-     */
-    @Override
-    public String modelFileFolder() {
-        return outputFolder + "/model";
+    protected String getHeaderFolder() {
+        return "include/" + packageName;
     }
 
-    /**
-     * Location to write api files. You can use the apiPackage() as defined when
-     * the class is instantiated
-     */
+    protected String getSourceFolder() {
+        return "src";
+    }
+
     @Override
-    public String apiFileFolder() {
-        return outputFolder + "/api";
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        String targetOutDir = suffix.equals(".h") ? getHeaderFolder() : getSourceFolder();
+        return outputFolder + "/" + targetOutDir + "/" + apiDirName + "/" + toApiFilename(tag) + suffix;
+    }
+
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        String targetOutDir = suffix.equals(".h") ? getHeaderFolder() : getSourceFolder();
+        return outputFolder + "/" + targetOutDir + "/" + modelDirName + "/" + toModelFilename(modelName) + suffix;
     }
 
     @Override
@@ -246,7 +266,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + toModelFilename(name) + ".h\"";
+            return "#include \"" + packageName + "/" + modelDirName + "/" + toModelFilename(name) + ".h\"";
         }
     }
 
@@ -255,7 +275,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
-        codegenModel.imports = new HashSet<String>();
+        codegenModel.imports = new HashSet<>();
         for (String imp : oldImports) {
             String newImp = toModelImport(imp);
             if (!newImp.isEmpty()) {
@@ -275,9 +295,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = ModelUtils.unaliasSchema(this.openAPI, response, importMapping);
+                response = unaliasSchema(response);
                 if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response);
+                    CodegenProperty cm = fromProperty("response", response, false);
                     op.vendorExtensions.put("x-codegen-response", cm);
                     if ("std::shared_ptr<HttpContent>".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
@@ -304,11 +324,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     // override with any special post-processing
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (String hdr : op.imports) {
                 if (importMapping.containsKey(hdr)) {
@@ -441,13 +460,13 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
-        final Map<String, Object> processed = super.postProcessAllModels(models);
+    public Map<String, ModelsMap> postProcessAllModels(final Map<String, ModelsMap> models) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(models);
         postProcessParentModels(models);
         return processed;
     }
 
-    private void postProcessParentModels(final Map<String, Object> models) {
+    private void postProcessParentModels(final Map<String, ModelsMap> models) {
         for (final String parent : parentModels) {
             final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
             final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);

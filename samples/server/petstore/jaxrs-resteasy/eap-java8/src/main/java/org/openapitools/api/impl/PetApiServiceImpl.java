@@ -22,7 +22,7 @@ public class PetApiServiceImpl implements PetApi {
       // do some magic!
       return Response.ok().build();
   }
-      public Response deletePet(Long petId,String apiKey,SecurityContext securityContext) {
+      public Response deletePet(Long petId,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

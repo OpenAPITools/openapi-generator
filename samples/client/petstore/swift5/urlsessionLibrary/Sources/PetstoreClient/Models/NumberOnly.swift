@@ -10,12 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.NumberOnly")
-public typealias NumberOnly = PetstoreClient.NumberOnly
+@available(*, deprecated, renamed: "PetstoreClientAPI.NumberOnly")
+public typealias NumberOnly = PetstoreClientAPI.NumberOnly
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
-public final class NumberOnly: Codable, Hashable {
+public final class NumberOnly: Codable, JSONEncodable, Hashable {
 
     public var justNumber: Double?
 

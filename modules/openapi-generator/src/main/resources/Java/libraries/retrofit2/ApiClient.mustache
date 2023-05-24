@@ -14,14 +14,8 @@ import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuil
 {{#joda}}
 import org.joda.time.format.DateTimeFormatter;
 {{/joda}}
-{{#threetenbp}}
-import org.threeten.bp.format.DateTimeFormatter;
-{{/threetenbp}}
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-{{#useRxJava}}
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-{{/useRxJava}}
 {{#useRxJava2}}
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 {{/useRxJava2}}
@@ -43,9 +37,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
-{{#java8}}
 import java.time.format.DateTimeFormatter;
-{{/java8}}
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;
@@ -78,14 +70,16 @@ public class ApiClient {
       {{#authMethods}}if ("{{name}}".equals(authName)) {
         {{#isBasic}}{{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasicBasic}}{{^isBasicBasic}}
+        {{/isBasicBasic}}{{^isBasicBasic}}{{#isBasicBearer}}
         auth = new HttpBearerAuth("{{scheme}}");
-        {{/isBasicBasic}}{{/isBasic}}
+        {{/isBasicBearer}}{{^isBasicBearer}}
+        throw new RuntimeException("auth name \"" + authName + "\" does not have a supported http scheme type");
+        {{/isBasicBearer}}{{/isBasicBasic}}{{/isBasic}}
         {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
         {{/isApiKey}}
         {{#isOAuth}}
-        auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
+        auth = new OAuth(OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, "{{{authorizationUrl}}}", "{{{tokenUrl}}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
         {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -157,9 +151,6 @@ public class ApiClient {
     adapterBuilder = new Retrofit
       .Builder()
       .baseUrl(baseUrl)
-      {{#useRxJava}}
-      .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-      {{/useRxJava}}
       {{#useRxJava2}}
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       {{/useRxJava2}}

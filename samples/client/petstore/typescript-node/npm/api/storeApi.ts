@@ -39,8 +39,8 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -209,8 +209,8 @@ export class StoreApi {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "{ [key: string]: number; }");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "{ [key: string]: number; }");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -221,7 +221,7 @@ export class StoreApi {
         });
     }
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
@@ -278,8 +278,8 @@ export class StoreApi {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "Order");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Order");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -347,8 +347,8 @@ export class StoreApi {
                     if (error) {
                         reject(error);
                     } else {
-                        body = ObjectSerializer.deserialize(body, "Order");
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            body = ObjectSerializer.deserialize(body, "Order");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));

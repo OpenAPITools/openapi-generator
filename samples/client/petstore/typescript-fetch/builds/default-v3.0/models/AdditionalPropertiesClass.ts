@@ -33,6 +33,15 @@ export interface AdditionalPropertiesClass {
     mapOfMapProperty?: { [key: string]: { [key: string]: string; }; };
 }
 
+/**
+ * Check if a given object implements the AdditionalPropertiesClass interface.
+ */
+export function instanceOfAdditionalPropertiesClass(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function AdditionalPropertiesClassFromJSON(json: any): AdditionalPropertiesClass {
     return AdditionalPropertiesClassFromJSONTyped(json, false);
 }

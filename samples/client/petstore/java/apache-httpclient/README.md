@@ -84,9 +84,9 @@ public class AnotherFakeApiExample {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(body);
+            Client result = apiInstance.call123testSpecialTags(client);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -107,20 +107,24 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+*DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**fakeHttpSignatureTest**](docs/FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -147,76 +151,62 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
+ - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
- - [BigCat](docs/BigCat.md)
- - [BigCatAllOf](docs/BigCatAllOf.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Foo](docs/Foo.md)
+ - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HealthCheckResult](docs/HealthCheckResult.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelFile](docs/ModelFile.md)
+ - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
+ - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [SingleRefType](docs/SingleRefType.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
- - [TypeHolderDefault](docs/TypeHolderDefault.md)
- - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
- - [XmlItem](docs/XmlItem.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
-### api_key
-
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-### api_key_query
-
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-### http_basic_test
-
-
-- **Type**: HTTP basic authentication
-
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 
@@ -226,6 +216,40 @@ Authentication schemes defined for the API:
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a id="api_key"></a>
+### api_key
+
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+<a id="api_key_query"></a>
+### api_key_query
+
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+<a id="http_basic_test"></a>
+### http_basic_test
+
+
+- **Type**: HTTP basic authentication
+
+<a id="bearer_test"></a>
+### bearer_test
+
+
+- **Type**: HTTP Bearer Token authentication (JWT)
+
+<a id="http_signature_test"></a>
+### http_signature_test
+
+
+- **Type**: HTTP signature authentication
 
 
 ## Recommendation

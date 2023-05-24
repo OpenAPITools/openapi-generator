@@ -24,7 +24,7 @@ feature -- Change Element
    			-- <Precursor>.
 		do
 			if attached access_token as l_access_token then
-					-- TODO check if this convertion is ok.
+					-- TODO check if this conversion is ok.
 				a_header_params.force ("Bearer " + l_access_token.to_string_8,"Authorization" )
 			end
 		end

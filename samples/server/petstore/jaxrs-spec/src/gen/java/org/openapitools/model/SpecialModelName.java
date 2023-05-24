@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
@@ -11,12 +12,21 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class SpecialModelName  implements Serializable {
-  
+@JsonTypeName("$special[model.name]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class SpecialModelName  implements Serializable {
   private @Valid Long $specialPropertyName;
+
+  protected SpecialModelName(SpecialModelNameBuilder<?, ?> b) {
+    this.$specialPropertyName = b.$specialPropertyName;
+  }
+
+  public SpecialModelName() {
+  }
 
   /**
    **/
@@ -26,14 +36,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
+  @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
@@ -78,5 +87,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static SpecialModelNameBuilder<?, ?> builder() {
+    return new SpecialModelNameBuilderImpl();
+  }
+
+  private static final class SpecialModelNameBuilderImpl extends SpecialModelNameBuilder<SpecialModelName, SpecialModelNameBuilderImpl> {
+
+    @Override
+    protected SpecialModelNameBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public SpecialModelName build() {
+      return new SpecialModelName(this);
+    }
+  }
+
+  public static abstract class SpecialModelNameBuilder<C extends SpecialModelName, B extends SpecialModelNameBuilder<C, B>>  {
+    private Long $specialPropertyName;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B $specialPropertyName(Long $specialPropertyName) {
+      this.$specialPropertyName = $specialPropertyName;
+      return self();
+    }
+  }
 }
 

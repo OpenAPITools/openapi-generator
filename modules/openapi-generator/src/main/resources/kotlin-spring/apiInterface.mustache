@@ -7,7 +7,14 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-{{#swaggerAnnotations}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.*
+import io.swagger.v3.oas.annotations.enums.*
+import io.swagger.v3.oas.annotations.media.*
+import io.swagger.v3.oas.annotations.responses.*
+import io.swagger.v3.oas.annotations.security.*
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -15,7 +22,7 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import io.swagger.annotations.Authorization
 import io.swagger.annotations.AuthorizationScope
-{{/swaggerAnnotations}}
+{{/swagger1AnnotationLibrary}}
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -28,18 +35,19 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
 
 {{#useBeanValidation}}
-import javax.validation.Valid
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
+import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 
 {{#reactive}}
-import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.Flow
 {{/reactive}}
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -47,9 +55,9 @@ import kotlin.collections.Map
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
-{{#swaggerAnnotations}}
+{{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
-{{/swaggerAnnotations}}
+{{/swagger1AnnotationLibrary}}
 {{=<% %>=}}
 @RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
@@ -61,7 +69,16 @@ interface {{classname}} {
 {{/isDelegate}}
 {{#operation}}
 
-    {{#swaggerAnnotations}}
+    {{#swagger2AnnotationLibrary}}
+    @Operation(
+        summary = "{{{summary}}}",
+        operationId = "{{{operationId}}}",
+        description = """{{{unescapedNotes}}}""",
+        responses = [{{#responses}}
+            ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content(schema = Schema(implementation = {{{baseType}}}::class))]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
+        ]{{#hasAuthMethods}},
+        security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
+    ){{/swagger2AnnotationLibrary}}{{#swagger1AnnotationLibrary}}
     @ApiOperation(
         value = "{{{summary}}}",
         nickname = "{{{operationId}}}",
@@ -70,23 +87,23 @@ interface {{classname}} {
         responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
         authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}]{{/hasAuthMethods}})
     @ApiResponses(
-        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}]){{/swaggerAnnotations}}
+        value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}}, {{/-last}}{{/responses}}]){{/swagger1AnnotationLibrary}}
     @RequestMapping(
             method = [RequestMethod.{{httpMethod}}],
             value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"]{{#singleContentTypes}}{{#hasProduces}},
             produces = "{{{vendorExtensions.x-accepts}}}"{{/hasProduces}}{{#hasConsumes}},
-            consumes = "{{{vendorExtensions.x-contentType}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
+            consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
             produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
             consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
         {{/isDelegate}}
-    }
+    }{{/skipDefaultInterface}}
 {{/operation}}
 }
 {{/operations}}

@@ -60,7 +60,7 @@ public class TypeHolderExample   {
 
   public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -168,6 +168,9 @@ public class TypeHolderExample   {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -209,7 +212,6 @@ public class TypeHolderExample   {
   public int hashCode() {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
-
 
   @Override
   public String toString() {

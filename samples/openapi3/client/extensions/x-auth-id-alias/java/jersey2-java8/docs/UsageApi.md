@@ -2,12 +2,12 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**anyKey**](UsageApi.md#anyKey) | **GET** /any | Use any API key
-[**bothKeys**](UsageApi.md#bothKeys) | **GET** /both | Use both API keys
-[**keyInHeader**](UsageApi.md#keyInHeader) | **GET** /header | Use API key in header
-[**keyInQuery**](UsageApi.md#keyInQuery) | **GET** /query | Use API key in query
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**anyKey**](UsageApi.md#anyKey) | **GET** /any | Use any API key |
+| [**bothKeys**](UsageApi.md#bothKeys) | **GET** /both | Use both API keys |
+| [**keyInHeader**](UsageApi.md#keyInHeader) | **GET** /header | Use API key in header |
+| [**keyInQuery**](UsageApi.md#keyInQuery) | **GET** /query | Use API key in query |
 
 
 

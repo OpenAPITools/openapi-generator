@@ -11,13 +11,23 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Category  implements Serializable {
-  
+@JsonTypeName("Category")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Category  implements Serializable {
   private @Valid Long id;
   private @Valid String name = "default-name";
+
+  protected Category(CategoryBuilder<?, ?> b) {
+    this.id = b.id;
+    this.name = b.name;
+  }
+
+  public Category() {
+  }
 
   /**
    **/
@@ -27,26 +37,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
 
-/**
+  /**
    **/
   public Category name(String name) {
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -56,6 +63,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -102,5 +110,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static CategoryBuilder<?, ?> builder() {
+    return new CategoryBuilderImpl();
+  }
+
+  private static final class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
+
+    @Override
+    protected CategoryBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Category build() {
+      return new Category(this);
+    }
+  }
+
+  public static abstract class CategoryBuilder<C extends Category, B extends CategoryBuilder<C, B>>  {
+    private Long id;
+    private String name = "default-name";
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B id(Long id) {
+      this.id = id;
+      return self();
+    }
+    public B name(String name) {
+      this.name = name;
+      return self();
+    }
+  }
 }
 

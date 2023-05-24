@@ -1,21 +1,23 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::pin::Pin;
 #[allow(unused_imports)]
 use std::option::Option;
 
 use hyper;
-use serde_json;
 use futures::Future;
 
 use super::{Error, configuration};
 use super::request as __internal_request;
 
-pub struct {{{classname}}}Client<C: hyper::client::Connect> {
+pub struct {{{classname}}}Client<C: hyper::client::connect::Connect>
+    where C: Clone + std::marker::Send + Sync + 'static {
     configuration: Rc<configuration::Configuration<C>>,
 }
 
-impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
+impl<C: hyper::client::connect::Connect> {{{classname}}}Client<C>
+    where C: Clone + std::marker::Send + Sync {
     pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
         {{{classname}}}Client {
             configuration,
@@ -26,16 +28,18 @@ impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{{returnType}}}, Error = Error<serde_json::Value>>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{^isUuid}}&str{{/isUuid}}{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Pin<Box<dyn Future<Output = Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>>>>;
 {{/operation}}
 {{/operations}}
 }
 
-impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
-{{#operations}}
-{{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Box<dyn Future<Item = {{^returnType}}(){{/returnType}}{{{returnType}}}, Error = Error<serde_json::Value>>> {
-        let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
+impl<C: hyper::client::connect::Connect>{{{classname}}} for {{{classname}}}Client<C>
+    where C: Clone + std::marker::Send + Sync {
+ {{#operations}}
+ {{#operation}}
+    #[allow(unused_mut)]
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{^isUuid}}&str{{/isUuid}}{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Pin<Box<dyn Future<Output = Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error>>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod.toUpperCase}}}, "{{{path}}}".to_string())
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isApiKey}}
@@ -45,9 +49,9 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
                 param_name: "{{{keyParamName}}}".to_owned(),
             }))
         {{/isApiKey}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
             .with_auth(__internal_request::Auth::Basic)
-        {{/isBasic}}
+        {{/isBasicBasic}}
         {{#isOAuth}}
             .with_auth(__internal_request::Auth::Oauth)
         {{/isOAuth}}
@@ -68,7 +72,8 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{/required}}
         {{^required}}
         if let Some(ref s) = {{{paramName}}} {
-            req = req.with_query_param("{{{baseName}}}".to_string(), s{{#isArray}}.join(","){{/isArray}}.to_string());
+            let query_value = {{#isArray}}s.iter().map(|s| s.to_string()).collect::<Vec<String>>().join(","){{/isArray}}{{^isArray}}s.to_string(){{/isArray}};
+            req = req.with_query_param("{{{baseName}}}".to_string(), query_value);
         }
         {{/required}}
         {{/queryParams}}

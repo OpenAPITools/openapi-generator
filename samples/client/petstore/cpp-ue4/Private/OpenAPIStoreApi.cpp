@@ -56,7 +56,7 @@ bool OpenAPIStoreApi::IsValid() const
 
 void OpenAPIStoreApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
 {
-	if(RetryManager != &GetHttpRetryManager())
+	if (RetryManager != &InRetryManager)
 	{
 		DefaultRetryManager.Reset();
 		RetryManager = &InRetryManager;
@@ -65,6 +65,7 @@ void OpenAPIStoreApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryMan
 
 FHttpRetrySystem::FManager& OpenAPIStoreApi::GetHttpRetryManager()
 {
+	checkf(RetryManager, TEXT("OpenAPIStoreApi: RetryManager is null.  You may have meant to set it with SetHttpRetryManager first, or you may not be using a custom RetryManager at all."))
 	return *RetryManager;
 }
 

@@ -1,21 +1,30 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.virtualan.model.OuterEnum;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class EnumTest   {
+
+@JsonTypeName("Enum_Test")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class EnumTest {
+
   /**
    * Gets or Sets enumString
    */
@@ -53,7 +62,6 @@ public class EnumTest   {
     }
   }
 
-  @JsonProperty("enum_string")
   private EnumStringEnum enumString;
 
   /**
@@ -93,7 +101,6 @@ public class EnumTest   {
     }
   }
 
-  @JsonProperty("enum_string_required")
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -131,7 +138,6 @@ public class EnumTest   {
     }
   }
 
-  @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -169,11 +175,20 @@ public class EnumTest   {
     }
   }
 
-  @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber;
 
-  @JsonProperty("outerEnum")
   private OuterEnum outerEnum;
+
+  public EnumTest() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public EnumTest(EnumStringRequiredEnum enumStringRequired) {
+    this.enumStringRequired = enumStringRequired;
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -184,9 +199,9 @@ public class EnumTest   {
    * Get enumString
    * @return enumString
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -204,10 +219,9 @@ public class EnumTest   {
    * Get enumStringRequired
    * @return enumStringRequired
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
+  @NotNull 
+  @Schema(name = "enum_string_required", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -225,9 +239,9 @@ public class EnumTest   {
    * Get enumInteger
    * @return enumInteger
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "enum_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -245,9 +259,9 @@ public class EnumTest   {
    * Get enumNumber
    * @return enumNumber
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "enum_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -265,10 +279,9 @@ public class EnumTest   {
    * Get outerEnum
    * @return outerEnum
   */
-  @ApiModelProperty(value = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "outerEnum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -276,7 +289,6 @@ public class EnumTest   {
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -303,7 +315,6 @@ public class EnumTest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumTest {\n");
-    
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");

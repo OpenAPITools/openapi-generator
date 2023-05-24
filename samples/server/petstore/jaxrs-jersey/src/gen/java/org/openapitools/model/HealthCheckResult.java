@@ -73,7 +73,6 @@ public class HealthCheckResult   {
     return Objects.hash(nullableMessage);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

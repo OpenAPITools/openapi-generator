@@ -37,15 +37,15 @@ import javax.validation.Valid;
 public class ArrayTest   {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -54,7 +54,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<String>();
+      this.arrayOfString = new ArrayList<>();
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -82,7 +82,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -110,7 +110,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+      this.arrayArrayOfModel = new ArrayList<>();
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
@@ -150,7 +150,6 @@ public class ArrayTest   {
   public int hashCode() {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
-
 
   @Override
   public String toString() {

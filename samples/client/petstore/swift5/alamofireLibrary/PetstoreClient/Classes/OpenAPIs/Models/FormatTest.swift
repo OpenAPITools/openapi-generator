@@ -10,8 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct FormatTest: Codable, Hashable {
+public struct FormatTest: Codable, JSONEncodable, Hashable {
 
+    static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
+    static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
+    static let numberRule = NumericRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
+    static let floatRule = NumericRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
+    static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
+    static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
+    static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
     public var integer: Int?
     public var int32: Int?
     public var int64: Int64?
@@ -21,12 +28,12 @@ public struct FormatTest: Codable, Hashable {
     public var string: String?
     public var byte: Data
     public var binary: URL?
-    public var date: Date
+    public var date: OpenAPIDateWithoutTime
     public var dateTime: Date?
     public var uuid: UUID?
     public var password: String
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
+    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: OpenAPIDateWithoutTime, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64

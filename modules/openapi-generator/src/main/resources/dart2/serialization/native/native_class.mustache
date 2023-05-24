@@ -1,21 +1,40 @@
 class {{{classname}}} {
 {{>dart_constructor}}
-
-  {{#vars}}
+{{#vars}}
   {{#description}}
   /// {{{.}}}
   {{/description}}
   {{^isEnum}}
     {{#minimum}}
-  // minimum: {{{.}}}
+      {{#description}}
+  ///
+      {{/description}}
+  /// Minimum value: {{{.}}}
     {{/minimum}}
     {{#maximum}}
-  // maximum: {{{.}}}
+      {{#description}}
+        {{^minimum}}
+  ///
+        {{/minimum}}
+      {{/description}}
+  /// Maximum value: {{{.}}}
     {{/maximum}}
+    {{^isNullable}}
+      {{^required}}
+        {{^defaultValue}}
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+        {{/defaultValue}}
+      {{/required}}
+    {{/isNullable}}
   {{/isEnum}}
-  {{{datatypeWithEnum}}} {{{name}}};
+  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isNullable}} {{{name}}};
 
-  {{/vars}}
+{{/vars}}
   @override
   bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
   {{#vars}}
@@ -24,8 +43,9 @@ class {{{classname}}} {
 
   @override
   int get hashCode =>
+    // ignore: unnecessary_parenthesis
   {{#vars}}
-    ({{{name}}} == null ? 0 : {{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+    ({{#isNullable}}{{{name}}} == null ? 0 : {{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}{{{name}}} == null ? 0 : {{/defaultValue}}{{/required}}{{/isNullable}}{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
   @override
@@ -34,193 +54,237 @@ class {{{classname}}} {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
   {{#vars}}
-    {{^required}}
-    if ({{{name}}} != null) {
-    {{/required}}
+    {{#isNullable}}
+    if (this.{{{name}}} != null) {
+    {{/isNullable}}
+    {{^isNullable}}
+      {{^required}}
+        {{^defaultValue}}
+    if (this.{{{name}}} != null) {
+        {{/defaultValue}}
+      {{/required}}
+    {{/isNullable}}
     {{#isDateTime}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
-        ? {{{name}}}.millisecondsSinceEpoch
-        : {{{name}}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+        ? this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.millisecondsSinceEpoch
+        : this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc().toIso8601String();
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc().toIso8601String();
       {{/pattern}}
     {{/isDateTime}}
     {{#isDate}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
-        ? {{{name}}}.millisecondsSinceEpoch
-        : _dateFormatter.format({{{name}}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+        ? this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.millisecondsSinceEpoch
+        : _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateFormatter.format({{{name}}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateFormatter.format(this.{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}};
+      json[r'{{{baseName}}}'] = this.{{{name}}}{{#isArray}}{{#uniqueItems}}{{#isNullable}}!{{/isNullable}}.toList(growable: false){{/uniqueItems}}{{/isArray}};
       {{/isDate}}
     {{/isDateTime}}
-    {{^required}}
+    {{#isNullable}}
+    } else {
+      json[r'{{{baseName}}}'] = null;
     }
-    {{/required}}
+    {{/isNullable}}
+    {{^isNullable}}
+      {{^required}}
+        {{^defaultValue}}
+    } else {
+      json[r'{{{baseName}}}'] = null;
+    }
+        {{/defaultValue}}
+      {{/required}}
+    {{/isNullable}}
   {{/vars}}
     return json;
   }
 
   /// Returns a new [{{{classname}}}] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static {{{classname}}} fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : {{{classname}}}(
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static {{{classname}}}? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "{{{classname}}}[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "{{{classname}}}[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return {{{classname}}}(
   {{#vars}}
-  {{#isDateTime}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
-    {{#pattern}}
-          : _dateEpochMarker == '{{{pattern}}}'
-            ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json[r'{{{baseName}}}']),
-    {{/pattern}}
-    {{^pattern}}
-          : DateTime.parse(json[r'{{{baseName}}}']),
-    {{/pattern}}
-  {{/isDateTime}}
-  {{#isDate}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
-    {{#pattern}}
-          : _dateEpochMarker == '{{{pattern}}}'
-            ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json[r'{{{baseName}}}']),
-    {{/pattern}}
-    {{^pattern}}
-          : DateTime.parse(json[r'{{{baseName}}}']),
-    {{/pattern}}
-  {{/isDate}}
-  {{^isDateTime}}
-  {{^isDate}}
-    {{#complexType}}
-      {{#isArray}}
-        {{#items.isArray}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
-          : (json[r'{{{baseName}}}'] as List).map(
-      {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'])
-      {{/items.complexType}}
-      {{^items.complexType}}
-              (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
-      {{/items.complexType}}
-            ).toList(growable: false),
-        {{/items.isArray}}
-        {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']),
-        {{/items.isArray}}
-      {{/isArray}}
-      {{^isArray}}
-        {{#isMap}}
-          {{#items.isArray}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
+    {{#isDateTime}}
+        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+    {{/isDateTime}}
+    {{#isDate}}
+        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+    {{/isDate}}
+    {{^isDateTime}}
+      {{^isDate}}
+        {{#complexType}}
+          {{#isArray}}
+            {{#items.isArray}}
+        {{{name}}}: json[r'{{{baseName}}}'] is List
+          ? (json[r'{{{baseName}}}'] as List).map((e) =>
               {{#items.complexType}}
-          : {{items.complexType}}.mapListFromJson(json[r'{{{baseName}}}']),
+              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}}
               {{/items.complexType}}
               {{^items.complexType}}
-          : (json[r'{{{baseName}}}'] as Map).cast<String, List>(),
+              e == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const  <{{items.items.dataType}}>[]{{/items.isNullable}} : (e as List).cast<{{items.items.dataType}}>()
               {{/items.complexType}}
-          {{/items.isArray}}
-          {{^items.isArray}}
-              {{#items.isMap}}
+            ).toList()
+          :  {{#isNullable}}null{{/isNullable}}{{^isNullable}}const []{{/isNullable}},
+            {{/items.isArray}}
+            {{^items.isArray}}
+        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}},
+            {{/items.isArray}}
+          {{/isArray}}
+          {{^isArray}}
+            {{#isMap}}
+              {{#items.isArray}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
-            {{#items.complexType}}
-          : {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
-            {{/items.complexType}}
-            {{^items.complexType}}
-          : (json[r'{{{baseName}}}'] as Map).cast<String, Map>(),
-            {{/items.complexType}}
-          {{/items.isMap}}
-          {{^items.isMap}}
-            {{{name}}}: json[r'{{{baseName}}}']
-          {{/items.isMap}}
-          {{/items.isArray}}
-        {{/isMap}}
-        {{^isMap}}
-            {{#isBinary}}
+          ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                {{#items.complexType}}
+            : {{items.complexType}}.mapListFromJson(json[r'{{{baseName}}}']),
+                {{/items.complexType}}
+                {{^items.complexType}}
+            : mapCastOfType<String, List>(json, r'{{{baseName}}}'),
+                {{/items.complexType}}
+              {{/items.isArray}}
+              {{^items.isArray}}
+                {{#items.isMap}}
+                  {{#items.complexType}}
+        {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
+                  {{/items.complexType}}
+                  {{^items.complexType}}
+        {{{name}}}: mapCastOfType<String, dynamic>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                  {{/items.complexType}}
+                {{/items.isMap}}
+                {{^items.isMap}}
+                  {{#items.complexType}}
+        {{{name}}}: {{{items.complexType}}}.mapFromJson(json[r'{{{baseName}}}']),
+                  {{/items.complexType}}
+                  {{^items.complexType}}
+        {{{name}}}: mapCastOfType<String, {{items.dataType}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                  {{/items.complexType}}
+                {{/items.isMap}}
+              {{/items.isArray}}
+            {{/isMap}}
+            {{^isMap}}
+              {{#isBinary}}
         {{{name}}}: null, // No support for decoding binary content from JSON
-            {{/isBinary}}
-            {{^isBinary}}
-        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']),
-            {{/isBinary}}
-        {{/isMap}}
-      {{/isArray}}
-    {{/complexType}}
-    {{^complexType}}
-      {{#isArray}}
-        {{#isEnum}}
-        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
-        {{/isEnum}}
-        {{^isEnum}}
+              {{/isBinary}}
+              {{^isBinary}}
+        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+              {{/isBinary}}
+            {{/isMap}}
+          {{/isArray}}
+        {{/complexType}}
+        {{^complexType}}
+          {{#isArray}}
+            {{#isEnum}}
+        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}},
+            {{/isEnum}}
+            {{^isEnum}}
+        {{{name}}}: json[r'{{{baseName}}}'] is Iterable
+            ? (json[r'{{{baseName}}}'] as Iterable).cast<{{{items.datatype}}}>().{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}}
+            : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}},
+            {{/isEnum}}
+          {{/isArray}}
+          {{^isArray}}
+            {{#isMap}}
+        {{{name}}}: mapCastOfType<String, {{{items.datatype}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+            {{/isMap}}
+            {{^isMap}}
+              {{#isNumber}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
-          : (json[r'{{{baseName}}}'] as {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}).cast<{{{items.datatype}}}>(),
-        {{/isEnum}}
-      {{/isArray}}
-      {{^isArray}}
-        {{#isMap}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null ?
-          null :
-          (json[r'{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
-        {{/isMap}}
-        {{^isMap}}
-          {{#isNumber}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null ?
-          null :
-          json[r'{{{baseName}}}'].toDouble(),
-          {{/isNumber}}
-          {{^isNumber}}
-    {{^isEnum}}
-        {{{name}}}: json[r'{{{baseName}}}'],
-    {{/isEnum}}
-    {{#isEnum}}
-        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
-    {{/isEnum}}
-          {{/isNumber}}
-        {{/isMap}}
-      {{/isArray}}
-    {{/complexType}}
-  {{/isDate}}
-  {{/isDateTime}}
+            ? {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+            : {{{datatypeWithEnum}}}.parse(json[r'{{{baseName}}}'].toString()),
+              {{/isNumber}}
+              {{^isNumber}}
+                {{^isEnum}}
+        {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                {{/isEnum}}
+                {{#isEnum}}
+        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+                {{/isEnum}}
+              {{/isNumber}}
+            {{/isMap}}
+          {{/isArray}}
+        {{/complexType}}
+      {{/isDate}}
+    {{/isDateTime}}
   {{/vars}}
-    );
+      );
+    }
+    return null;
+  }
 
-  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <{{{classname}}}>[]
-      : json.map((dynamic value) => {{{classname}}}.fromJson(value)).toList(growable: true == growable);
+  static List<{{{classname}}}> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <{{{classname}}}>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = {{{classname}}}.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
-  static Map<String, {{{classname}}}> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, {{{classname}}}> mapFromJson(dynamic json) {
     final map = <String, {{{classname}}}>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = {{{classname}}}.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = {{{classname}}}.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of {{{classname}}}-objects as value to a dart map
-  static Map<String, List<{{{classname}}}>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<{{{classname}}}>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<{{{classname}}}>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = {{{classname}}}.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = {{{classname}}}.listFromJson(entry.value, growable: growable,);
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+{{#vars}}
+  {{#required}}
+    '{{{baseName}}}',
+  {{/required}}
+{{/vars}}
+  };
 }
 {{#vars}}
+    {{^isModel}}
     {{#isEnum}}
         {{^isContainer}}
 
@@ -233,4 +297,5 @@ class {{{classname}}} {
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
+    {{/isModel}}
 {{/vars}}

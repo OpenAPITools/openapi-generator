@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -22,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -31,13 +32,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * SpecialModelName
  */
 @JsonPropertyOrder({
-  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
+  SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME,
+  SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;
 
+  public static final String JSON_PROPERTY_SPECIAL_MODEL_NAME = "_special_model.name_";
+  private String specialModelName;
+
+  public SpecialModelName() { 
+  }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -49,7 +56,6 @@ public class SpecialModelName {
    * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -65,8 +71,33 @@ public class SpecialModelName {
   }
 
 
+  public SpecialModelName specialModelName(String specialModelName) {
+    this.specialModelName = specialModelName;
+    return this;
+  }
+
+   /**
+   * Get specialModelName
+   * @return specialModelName
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getSpecialModelName() {
+    return specialModelName;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSpecialModelName(String specialModelName) {
+    this.specialModelName = specialModelName;
+  }
+
+
   /**
-   * Return true if this $special[model.name] object is equal to o.
+   * Return true if this _special_model.name_ object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -76,13 +107,14 @@ public class SpecialModelName {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
+        Objects.equals(this.specialModelName, specialModelName.specialModelName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash($specialPropertyName, specialModelName);
   }
 
   @Override
@@ -90,6 +122,7 @@ public class SpecialModelName {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    specialModelName: ").append(toIndentedString(specialModelName)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -105,5 +138,49 @@ public class SpecialModelName {
     return o.toString().replace("\n", "\n    ");
   }
 
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
+    }
+
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `$special[property.name]` to the URL query string
+    if (get$SpecialPropertyName() != null) {
+      joiner.add(String.format("%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get$SpecialPropertyName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `_special_model.name_` to the URL query string
+    if (getSpecialModelName() != null) {
+      joiner.add(String.format("%s_special_model.name_%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSpecialModelName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    return joiner.toString();
+  }
 }
 

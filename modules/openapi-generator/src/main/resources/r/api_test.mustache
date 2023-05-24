@@ -3,10 +3,10 @@
 
 context("Test {{{classname}}}")
 
-api.instance <- {{{classname}}}$new()
-
+api_instance <- {{{classname}}}$new()
 {{#operations}}
 {{#operation}}
+
 test_that("{{{operationId}}}", {
   # tests for {{operationId}}
   # base path: {{{basePath}}}
@@ -24,6 +24,5 @@ test_that("{{{operationId}}}", {
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
-
 {{/operation}}
 {{/operations}}

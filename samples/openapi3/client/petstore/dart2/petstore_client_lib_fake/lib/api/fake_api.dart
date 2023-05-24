@@ -1,17 +1,18 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
 
 
 class FakeApi {
-  FakeApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  FakeApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -19,33 +20,32 @@ class FakeApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> fakeHealthGetWithHttpInfo() async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/health';
 
-    Object postBody;
+    // ignore: prefer_final_locals
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
   /// Health check endpoint
-  Future<HealthCheckResult> fakeHealthGet() async {
+  Future<HealthCheckResult?> fakeHealthGet() async {
     final response = await fakeHealthGetWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -53,10 +53,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
-        }
-    return Future<HealthCheckResult>.value(null);
+    
+    }
+    return null;
   }
 
   /// test http signature authentication
@@ -73,42 +74,36 @@ class FakeApi {
   ///
   /// * [String] header1:
   ///   header parameter
-  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String query1, String header1 }) async {
-    // Verify required params are set.
-    if (pet == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
-    }
-
+  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String? query1, String? header1, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/http-signature-test';
 
-    Object postBody = pet;
+    // ignore: prefer_final_locals
+    Object? postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
     if (query1 != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'query_1', query1));
+      queryParams.addAll(_queryParams('', 'query_1', query1));
     }
 
     if (header1 != null) {
       headerParams[r'header_1'] = parameterToString(header1);
     }
 
-    final contentTypes = <String>['application/json', 'application/xml'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['http_signature_test'];
+    const contentTypes = <String>['application/json', 'application/xml'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -124,8 +119,8 @@ class FakeApi {
   ///
   /// * [String] header1:
   ///   header parameter
-  Future<void> fakeHttpSignatureTest(Pet pet, { String query1, String header1 }) async {
-    final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1 );
+  Future<void> fakeHttpSignatureTest(Pet pet, { String? query1, String? header1, }) async {
+    final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -139,31 +134,28 @@ class FakeApi {
   ///
   /// * [bool] body:
   ///   Input boolean as post body
-  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
-    // Verify required params are set.
-
+  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool? body, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/boolean';
 
-    Object postBody = body;
+    // ignore: prefer_final_locals
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -173,18 +165,19 @@ class FakeApi {
   ///
   /// * [bool] body:
   ///   Input boolean as post body
-  Future<bool> fakeOuterBooleanSerialize({ bool body }) async {
-    final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body );
+  Future<bool?> fakeOuterBooleanSerialize({ bool? body, }) async {
+    final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
-        }
-    return Future<bool>.value(null);
+    
+    }
+    return null;
   }
 
   /// Test serialization of object with outer number type
@@ -195,31 +188,28 @@ class FakeApi {
   ///
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
-    // Verify required params are set.
-
+  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite? outerComposite, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/composite';
 
-    Object postBody = outerComposite;
+    // ignore: prefer_final_locals
+    Object? postBody = outerComposite;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -229,18 +219,19 @@ class FakeApi {
   ///
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<OuterComposite> fakeOuterCompositeSerialize({ OuterComposite outerComposite }) async {
-    final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite );
+  Future<OuterComposite?> fakeOuterCompositeSerialize({ OuterComposite? outerComposite, }) async {
+    final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
-        }
-    return Future<OuterComposite>.value(null);
+    
+    }
+    return null;
   }
 
   /// Test serialization of outer number types
@@ -251,31 +242,28 @@ class FakeApi {
   ///
   /// * [num] body:
   ///   Input number as post body
-  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
-    // Verify required params are set.
-
+  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num? body, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/number';
 
-    Object postBody = body;
+    // ignore: prefer_final_locals
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -285,18 +273,19 @@ class FakeApi {
   ///
   /// * [num] body:
   ///   Input number as post body
-  Future<num> fakeOuterNumberSerialize({ num body }) async {
-    final response = await fakeOuterNumberSerializeWithHttpInfo( body: body );
+  Future<num?> fakeOuterNumberSerialize({ num? body, }) async {
+    final response = await fakeOuterNumberSerializeWithHttpInfo( body: body, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
-        }
-    return Future<num>.value(null);
+    
+    }
+    return null;
   }
 
   /// Test serialization of outer string types
@@ -307,31 +296,28 @@ class FakeApi {
   ///
   /// * [String] body:
   ///   Input string as post body
-  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
-    // Verify required params are set.
-
+  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String? body, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/string';
 
-    Object postBody = body;
+    // ignore: prefer_final_locals
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -341,18 +327,19 @@ class FakeApi {
   ///
   /// * [String] body:
   ///   Input string as post body
-  Future<String> fakeOuterStringSerialize({ String body }) async {
-    final response = await fakeOuterStringSerializeWithHttpInfo( body: body );
+  Future<String?> fakeOuterStringSerialize({ String? body, }) async {
+    final response = await fakeOuterStringSerializeWithHttpInfo( body: body, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
-        }
-    return Future<String>.value(null);
+    
+    }
+    return null;
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -363,34 +350,28 @@ class FakeApi {
   ///
   /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
-    // Verify required params are set.
-    if (outerObjectWithEnumProperty == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
-    }
-
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/property/enum-int';
 
-    Object postBody = outerObjectWithEnumProperty;
+    // ignore: prefer_final_locals
+    Object? postBody = outerObjectWithEnumProperty;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -400,18 +381,19 @@ class FakeApi {
   ///
   /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
-    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+  Future<OuterObjectWithEnumProperty?> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
-        }
-    return Future<OuterObjectWithEnumProperty>.value(null);
+    
+    }
+    return null;
   }
 
   /// For this test, the body has to be a binary file.
@@ -422,34 +404,28 @@ class FakeApi {
   ///
   /// * [MultipartFile] body (required):
   ///   image to upload
-  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body) async {
-    // Verify required params are set.
-    if (body == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
-    }
-
+  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/body-with-binary';
 
-    Object postBody = body;
+    // ignore: prefer_final_locals
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['image/png'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['image/png'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -459,8 +435,8 @@ class FakeApi {
   ///
   /// * [MultipartFile] body (required):
   ///   image to upload
-  Future<void> testBodyWithBinary(MultipartFile body) async {
-    final response = await testBodyWithBinaryWithHttpInfo(body);
+  Future<void> testBodyWithBinary(MultipartFile body,) async {
+    final response = await testBodyWithBinaryWithHttpInfo(body,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -473,34 +449,28 @@ class FakeApi {
   /// Parameters:
   ///
   /// * [FileSchemaTestClass] fileSchemaTestClass (required):
-  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) async {
-    // Verify required params are set.
-    if (fileSchemaTestClass == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
-    }
-
+  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/body-with-file-schema';
 
-    Object postBody = fileSchemaTestClass;
+    // ignore: prefer_final_locals
+    Object? postBody = fileSchemaTestClass;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -509,8 +479,8 @@ class FakeApi {
   /// Parameters:
   ///
   /// * [FileSchemaTestClass] fileSchemaTestClass (required):
-  Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async {
-    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
+  Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,) async {
+    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -522,39 +492,30 @@ class FakeApi {
   /// * [String] query (required):
   ///
   /// * [User] user (required):
-  Future<Response> testBodyWithQueryParamsWithHttpInfo(String query, User user) async {
-    // Verify required params are set.
-    if (query == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: query');
-    }
-    if (user == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
-    }
-
+  Future<Response> testBodyWithQueryParamsWithHttpInfo(String query, User user,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/body-with-query-params';
 
-    Object postBody = user;
+    // ignore: prefer_final_locals
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'query', query));
+      queryParams.addAll(_queryParams('', 'query', query));
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -563,8 +524,8 @@ class FakeApi {
   /// * [String] query (required):
   ///
   /// * [User] user (required):
-  Future<void> testBodyWithQueryParams(String query, User user) async {
-    final response = await testBodyWithQueryParamsWithHttpInfo(query, user);
+  Future<void> testBodyWithQueryParams(String query, User user,) async {
+    final response = await testBodyWithQueryParamsWithHttpInfo(query, user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -580,34 +541,28 @@ class FakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient) async {
-    // Verify required params are set.
-    if (modelClient == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
-    }
-
+  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
-    Object postBody = modelClient;
+    // ignore: prefer_final_locals
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PATCH',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -619,18 +574,19 @@ class FakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<ModelClient> testClientModel(ModelClient modelClient) async {
-    final response = await testClientModelWithHttpInfo(modelClient);
+  Future<ModelClient?> testClientModel(ModelClient modelClient,) async {
+    final response = await testClientModelWithHttpInfo(modelClient,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
-        }
-    return Future<ModelClient>.value(null);
+    
+    }
+    return null;
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -682,32 +638,18 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
-    // Verify required params are set.
-    if (number == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: number');
-    }
-    if (double_ == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: double_');
-    }
-    if (patternWithoutDelimiter == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: patternWithoutDelimiter');
-    }
-    if (byte == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: byte');
-    }
-
+  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
-    Object postBody;
+    // ignore: prefer_final_locals
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/x-www-form-urlencoded'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['http_basic_test'];
+    const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (integer != null) {
       formParams[r'integer'] = parameterToString(integer);
@@ -749,15 +691,14 @@ class FakeApi {
       formParams[r'callback'] = parameterToString(callback);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -808,8 +749,8 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
-    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback );
+  Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
+    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -841,33 +782,38 @@ class FakeApi {
   /// * [double] enumQueryDouble:
   ///   Query parameter enum test (double)
   ///
+  /// * [List<EnumClass>] enumQueryModelArray:
+  ///
   /// * [List<String>] enumFormStringArray:
   ///   Form parameter enum test (string array)
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
-    // Verify required params are set.
-
+  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
-    Object postBody;
+    // ignore: prefer_final_locals
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
     if (enumQueryStringArray != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'enum_query_string_array', enumQueryStringArray));
+      queryParams.addAll(_queryParams('multi', 'enum_query_string_array', enumQueryStringArray));
     }
     if (enumQueryString != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_string', enumQueryString));
+      queryParams.addAll(_queryParams('', 'enum_query_string', enumQueryString));
     }
     if (enumQueryInteger != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_integer', enumQueryInteger));
+      queryParams.addAll(_queryParams('', 'enum_query_integer', enumQueryInteger));
     }
     if (enumQueryDouble != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_double', enumQueryDouble));
+      queryParams.addAll(_queryParams('', 'enum_query_double', enumQueryDouble));
+    }
+    if (enumQueryModelArray != null) {
+      queryParams.addAll(_queryParams('multi', 'enum_query_model_array', enumQueryModelArray));
     }
 
     if (enumHeaderStringArray != null) {
@@ -877,9 +823,7 @@ class FakeApi {
       headerParams[r'enum_header_string'] = parameterToString(enumHeaderString);
     }
 
-    final contentTypes = <String>['application/x-www-form-urlencoded'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (enumFormStringArray != null) {
       formParams[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
@@ -888,15 +832,14 @@ class FakeApi {
       formParams[r'enum_form_string'] = parameterToString(enumFormString);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -924,13 +867,15 @@ class FakeApi {
   /// * [double] enumQueryDouble:
   ///   Query parameter enum test (double)
   ///
+  /// * [List<EnumClass>] enumQueryModelArray:
+  ///
   /// * [List<String>] enumFormStringArray:
   ///   Form parameter enum test (string array)
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<void> testEnumParameters({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
-    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString );
+  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumQueryModelArray: enumQueryModelArray, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -961,33 +906,24 @@ class FakeApi {
   ///
   /// * [int] int64Group:
   ///   Integer in group parameters
-  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async {
-    // Verify required params are set.
-    if (requiredStringGroup == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredStringGroup');
-    }
-    if (requiredBooleanGroup == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredBooleanGroup');
-    }
-    if (requiredInt64Group == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredInt64Group');
-    }
-
+  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, }) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
-    Object postBody;
+    // ignore: prefer_final_locals
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'required_string_group', requiredStringGroup));
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'required_int64_group', requiredInt64Group));
+      queryParams.addAll(_queryParams('', 'required_string_group', requiredStringGroup));
+      queryParams.addAll(_queryParams('', 'required_int64_group', requiredInt64Group));
     if (stringGroup != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'string_group', stringGroup));
+      queryParams.addAll(_queryParams('', 'string_group', stringGroup));
     }
     if (int64Group != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'int64_group', int64Group));
+      queryParams.addAll(_queryParams('', 'int64_group', int64Group));
     }
 
     headerParams[r'required_boolean_group'] = parameterToString(requiredBooleanGroup);
@@ -995,20 +931,17 @@ class FakeApi {
       headerParams[r'boolean_group'] = parameterToString(booleanGroup);
     }
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['bearer_test'];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -1035,14 +968,16 @@ class FakeApi {
   ///
   /// * [int] int64Group:
   ///   Integer in group parameters
-  Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async {
-    final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group );
+  Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, }) async {
+    final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
   /// test inline additionalProperties
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1050,51 +985,49 @@ class FakeApi {
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<Response> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) async {
-    // Verify required params are set.
-    if (requestBody == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
-    }
-
+  Future<Response> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/inline-additionalProperties';
 
-    Object postBody = requestBody;
+    // ignore: prefer_final_locals
+    Object? postBody = requestBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
   /// test inline additionalProperties
   ///
+  /// 
+  ///
   /// Parameters:
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<void> testInlineAdditionalProperties(Map<String, String> requestBody) async {
-    final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody);
+  Future<void> testInlineAdditionalProperties(Map<String, String> requestBody,) async {
+    final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
   /// test json serialization of form data
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1105,26 +1038,18 @@ class FakeApi {
   ///
   /// * [String] param2 (required):
   ///   field2
-  Future<Response> testJsonFormDataWithHttpInfo(String param, String param2) async {
-    // Verify required params are set.
-    if (param == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: param');
-    }
-    if (param2 == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: param2');
-    }
-
+  Future<Response> testJsonFormDataWithHttpInfo(String param, String param2,) async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/jsonFormData';
 
-    Object postBody;
+    // ignore: prefer_final_locals
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/x-www-form-urlencoded'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (param != null) {
       formParams[r'param'] = parameterToString(param);
@@ -1133,19 +1058,20 @@ class FakeApi {
       formParams[r'param2'] = parameterToString(param2);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
   /// test json serialization of form data
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -1154,8 +1080,8 @@ class FakeApi {
   ///
   /// * [String] param2 (required):
   ///   field2
-  Future<void> testJsonFormData(String param, String param2) async {
-    final response = await testJsonFormDataWithHttpInfo(param, param2);
+  Future<void> testJsonFormData(String param, String param2,) async {
+    final response = await testJsonFormDataWithHttpInfo(param, param2,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1177,56 +1103,41 @@ class FakeApi {
   ///
   /// * [List<String>] context (required):
   ///
+  /// * [String] allowEmpty (required):
+  ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
-    // Verify required params are set.
-    if (pipe == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: pipe');
-    }
-    if (ioutil == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: ioutil');
-    }
-    if (http == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: http');
-    }
-    if (url == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: url');
-    }
-    if (context == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
-    }
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/test-query-parameters';
 
-    final path = r'/fake/test-query-paramters';
-
-    Object postBody;
+    // ignore: prefer_final_locals
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('pipes', 'pipe', pipe));
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'ioutil', ioutil));
-      queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'context', context));
+      queryParams.addAll(_queryParams('pipes', 'pipe', pipe));
+      queryParams.addAll(_queryParams('csv', 'ioutil', ioutil));
+      queryParams.addAll(_queryParams('ssv', 'http', http));
+      queryParams.addAll(_queryParams('csv', 'url', url));
+      queryParams.addAll(_queryParams('multi', 'context', context));
     if (language != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'language', language));
+      queryParams.addAll(_queryParams('', 'language', language));
     }
+      queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
-      authNames,
+      contentTypes.isEmpty ? null : contentTypes.first,
     );
   }
 
@@ -1244,9 +1155,11 @@ class FakeApi {
   ///
   /// * [List<String>] context (required):
   ///
+  /// * [String] allowEmpty (required):
+  ///
   /// * [Map<String, String>] language:
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context,  language: language );
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

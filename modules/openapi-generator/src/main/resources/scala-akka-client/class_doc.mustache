@@ -1,0 +1,32 @@
+# {{#vendorExtensions.x-is-one-of-interface}}Trait {{/vendorExtensions.x-is-one-of-interface}}{{classname}}
+
+{{#description}}{{&description}}
+{{/description}}
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{name}}** | {{#isEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isModel}}[{{/isModel}}{{/items}}**{{baseType}}{{#items}}&lt;{{dataType}}&gt;**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{#isModel}}[{{/isModel}}**Map&lt;String, {{dataType}}&gt;**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isModel}}[{{/isModel}}**{{dataType}}**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/isContainer}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}
+{{/vars}}
+{{#vars}}{{#isEnum}}
+
+## Enum: {{datatypeWithEnum}}
+Allowed values: {{#allowableValues}}[{{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+
+{{/isEnum}}{{/vars}}
+{{#vendorExtensions.x-implements.0}}
+
+## Implemented Interfaces
+
+{{#vendorExtensions.x-implements}}
+* {{{.}}}
+{{/vendorExtensions.x-implements}}
+{{/vendorExtensions.x-implements.0}}
+{{#vendorExtensions.x-is-one-of-interface}}
+## Implementing Classes
+
+{{#oneOf}}
+* {{{.}}}
+{{/oneOf}}
+{{/vendorExtensions.x-is-one-of-interface}}

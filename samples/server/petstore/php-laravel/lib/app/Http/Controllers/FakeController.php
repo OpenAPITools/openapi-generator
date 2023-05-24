@@ -181,6 +181,8 @@ class FakeController extends Controller
 
         $enumQueryDouble = $input['enumQueryDouble'];
 
+        $enumQueryModelArray = $input['enumQueryModelArray'];
+
         $enumFormStringArray = $input['enumFormStringArray'];
 
         $enumFormString = $input['enumFormString'];
@@ -553,6 +555,11 @@ class FakeController extends Controller
             throw new \InvalidArgumentException('Missing the required parameter $context when calling testQueryParameterCollectionFormat');
         }
         $context = $input['context'];
+
+        if (!isset($input['allowEmpty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $allowEmpty when calling testQueryParameterCollectionFormat');
+        }
+        $allowEmpty = $input['allowEmpty'];
 
         $language = $input['language'];
 

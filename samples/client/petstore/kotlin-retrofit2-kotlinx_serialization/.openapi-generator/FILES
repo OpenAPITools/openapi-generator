@@ -28,9 +28,7 @@ src/main/kotlin/org/openapitools/client/infrastructure/AtomicIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/AtomicLongAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
-src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/CollectionFormats.kt
-src/main/kotlin/org/openapitools/client/infrastructure/DateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
@@ -40,8 +38,8 @@ src/main/kotlin/org/openapitools/client/infrastructure/StringBuilderAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URLAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
-src/main/kotlin/org/openapitools/client/models/ApiResponse.kt
 src/main/kotlin/org/openapitools/client/models/Category.kt
+src/main/kotlin/org/openapitools/client/models/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/client/models/Order.kt
 src/main/kotlin/org/openapitools/client/models/Pet.kt
 src/main/kotlin/org/openapitools/client/models/Tag.kt

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -7,19 +8,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class MapTest   {
-  @JsonProperty("map_map_of_string")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class MapTest {
+
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -56,17 +62,14 @@ public class MapTest   {
     }
   }
 
-  @JsonProperty("map_of_enum_string")
   @Valid
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @JsonProperty("direct_map")
   @Valid
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
-  @JsonProperty("indirect_map")
   @Valid
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -75,7 +78,7 @@ public class MapTest   {
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
-      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+      this.mapMapOfString = new HashMap<>();
     }
     this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
@@ -85,10 +88,9 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
+  @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -104,7 +106,7 @@ public class MapTest   {
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
-      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+      this.mapOfEnumString = new HashMap<>();
     }
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
@@ -114,9 +116,9 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   */
+  
   @ApiModelProperty(value = "")
-
-
+  @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -132,7 +134,7 @@ public class MapTest   {
 
   public MapTest putDirectMapItem(String key, Boolean directMapItem) {
     if (this.directMap == null) {
-      this.directMap = new HashMap<String, Boolean>();
+      this.directMap = new HashMap<>();
     }
     this.directMap.put(key, directMapItem);
     return this;
@@ -142,9 +144,9 @@ public class MapTest   {
    * Get directMap
    * @return directMap
   */
+  
   @ApiModelProperty(value = "")
-
-
+  @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -160,7 +162,7 @@ public class MapTest   {
 
   public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
     if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<String, Boolean>();
+      this.indirectMap = new HashMap<>();
     }
     this.indirectMap.put(key, indirectMapItem);
     return this;
@@ -170,9 +172,9 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   */
+  
   @ApiModelProperty(value = "")
-
-
+  @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
@@ -180,7 +182,6 @@ public class MapTest   {
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -206,7 +207,6 @@ public class MapTest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MapTest {\n");
-    
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
     sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");

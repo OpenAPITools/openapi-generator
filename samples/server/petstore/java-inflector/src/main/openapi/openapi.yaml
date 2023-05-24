@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake
-    endpoints, models. Please do not use this for any other purpose. Special characters:
-    " \'
+  description: "This spec is mainly for testing Petstore server and contains fake\
+    \ endpoints, models. Please do not use this for any other purpose. Special characters:\
+    \ \" \\"
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -131,8 +131,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -383,7 +383,7 @@ paths:
       x-accepts: application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -685,7 +685,7 @@ paths:
       responses:
         "400":
           content: {}
-          description: Someting wrong
+          description: Something wrong
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -862,11 +862,11 @@ paths:
                   type: number
                 string:
                   description: None
-                  pattern: /[a-z]/i
+                  pattern: "/[a-z]/i"
                   type: string
                 pattern_without_delimiter:
                   description: None
-                  pattern: ^[A-Z].*
+                  pattern: "^[A-Z].*"
                   type: string
                 byte:
                   description: None
@@ -1144,8 +1144,8 @@ paths:
       x-accepts: application/json
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request much reference a schema
-        named `File`.
+      description: "For this test, the body for this request much reference a schema\
+        \ named `File`."
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1162,7 +1162,7 @@ paths:
       x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1432,7 +1432,7 @@ components:
           type: integer
       type: object
       xml:
-        name: $special[model.name]
+        name: "$special[model.name]"
     Return:
       description: Model for testing reserved words
       properties:
@@ -1510,13 +1510,13 @@ components:
     format_test:
       properties:
         integer:
-          maximum: 1E+2
-          minimum: 1E+1
+          maximum: 100
+          minimum: 10
           type: integer
         int32:
           format: int32
-          maximum: 2E+2
-          minimum: 2E+1
+          maximum: 200
+          minimum: 20
           type: integer
         int64:
           format: int64
@@ -1536,11 +1536,11 @@ components:
           minimum: 67.8
           type: number
         string:
-          pattern: /[a-z]/i
+          pattern: "/[a-z]/i"
           type: string
         byte:
           format: byte
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
           type: string
         binary:
           format: binary
@@ -2151,10 +2151,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
     BigCat_allOf:
       properties:
         kind:
@@ -2164,6 +2166,7 @@ components:
           - leopards
           - jaguars
           type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -2184,3 +2187,4 @@ components:
     http_basic_test:
       scheme: basic
       type: http
+x-original-swagger-version: "2.0"

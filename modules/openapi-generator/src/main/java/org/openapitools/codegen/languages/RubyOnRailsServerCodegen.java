@@ -136,7 +136,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         } else if ("mysql".equals(databaseAdapter)) {
             additionalProperties.put("isDBMySQL", Boolean.TRUE);
         } else {
-            LOGGER.warn("Unknown database {}. Defaul to 'sqlite'.", databaseAdapter);
+            LOGGER.warn("Unknown database {}. Default to 'sqlite'.", databaseAdapter);
             additionalProperties.put("isDBSQLite", Boolean.TRUE);
         }
 

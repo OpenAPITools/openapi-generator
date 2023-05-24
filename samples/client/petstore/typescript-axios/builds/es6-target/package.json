@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "OpenAPI client for @openapitools/typescript-axios-petstore",
   "author": "OpenAPI-Generator Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+  },
   "keywords": [
     "axios",
     "typescript",
@@ -13,16 +17,18 @@
   "license": "Unlicense",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc --outDir dist/",
-    "prepublishOnly": "npm run build"
+    "build": "tsc && tsc -p tsconfig.esm.json",
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.27.2"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",
-    "typescript": "^3.6.4"
+    "typescript": "^4.0"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

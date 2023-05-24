@@ -18,19 +18,23 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
@@ -44,6 +48,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String WRAP_CALLS = "wrapCalls";
     public static final String USE_SWAGGER_UI = "useSwaggerUI";
     public static final String SUPPORT_ASYNC = "supportAsync";
+
+    private static final String X_JWKS_URL = "x-jwksUrl";
+    private static final String X_TOKEN_INTROSPECT_URL = "x-tokenIntrospectUrl";
+
 
     protected String title = "openapi-java-playframework";
     protected String configPackage = "org.openapitools.configuration";
@@ -74,7 +82,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         projectTestFolder = projectFolder + "/test";
         testFolder = projectTestFolder;
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
@@ -197,6 +205,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             supportingFiles.add(new SupportingFile("module.mustache", "app", "Module.java"));
         }
         supportingFiles.add(new SupportingFile("openapiUtils.mustache", "app/openapitools", "OpenAPIUtils.java"));
+        supportingFiles.add(new SupportingFile("securityApiUtils.mustache", "app/openapitools", "SecurityAPIUtils.java"));
         if (this.handleExceptions) {
             supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/openapitools", "ErrorHandler.java"));
         }
@@ -299,11 +308,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
 
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
 
                 for (CodegenParameter param : operation.allParams) {
@@ -322,7 +331,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                 Matcher match = pathVariableMatcher.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
-                    String replacement = ":" + camelize(match.group(1), true);
+                    String replacement = ":" + camelize(match.group(1), LOWERCASE_FIRST_LETTER);
                     operation.path = operation.path.replace(completeMatch, replacement);
                 }
 
@@ -375,5 +384,81 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<? extends CodegenSecurity> securities = super.fromSecurity(securitySchemeMap);
+        List<CodegenSecurity> extendedSecurities = new ArrayList<>();
+
+        for (CodegenSecurity codegenSecurity : securities) {
+            ExtendedCodegenSecurity extendedCodegenSecurity = new ExtendedCodegenSecurity(codegenSecurity);
+            extendedSecurities.add(extendedCodegenSecurity);
+        }
+
+        return extendedSecurities;
+    }
+
+
+    class ExtendedCodegenSecurity extends CodegenSecurity {
+        public String jwksUrl;
+        public String tokenIntrospectUrl;
+
+        public ExtendedCodegenSecurity(CodegenSecurity cm) {
+            super(cm);
+
+            Object cmJwksUrl = cm.vendorExtensions.get(X_JWKS_URL);
+            if (cmJwksUrl instanceof String) {
+                this.jwksUrl = (String) cmJwksUrl;
+            }
+
+            Object cmTokenIntrospectUrl = cm.vendorExtensions.get(X_TOKEN_INTROSPECT_URL);
+            if (cmTokenIntrospectUrl instanceof String) {
+                this.tokenIntrospectUrl = (String) cmTokenIntrospectUrl;
+            }
+        }
+
+        @Override
+        public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
+            CodegenSecurity codegenSecurity = super.filterByScopeNames(filterScopes);
+            ExtendedCodegenSecurity extendedCodegenSecurity =  new ExtendedCodegenSecurity(codegenSecurity);
+            extendedCodegenSecurity.jwksUrl = this.jwksUrl;
+            extendedCodegenSecurity.tokenIntrospectUrl = this.tokenIntrospectUrl;
+            return extendedCodegenSecurity;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null) {
+                return false;
+            }
+
+            if (this.getClass() != o.getClass()) {
+                return false;
+            }
+
+            boolean result = super.equals(o);
+            JavaPlayFrameworkCodegen.ExtendedCodegenSecurity that = (JavaPlayFrameworkCodegen.ExtendedCodegenSecurity) o;
+            return result &&
+                    Objects.equals(jwksUrl, that.jwksUrl) &&
+                    Objects.equals(tokenIntrospectUrl, that.tokenIntrospectUrl);
+
+        }
+
+        @Override
+        public int hashCode() {
+            int superHash = super.hashCode();
+            return Objects.hash(superHash, tokenIntrospectUrl, jwksUrl);
+        }
+
+        @Override
+        public String toString() {
+            String superString = super.toString();
+            final StringBuilder sb = new StringBuilder(superString);
+            sb.append(", jwksUrl='").append(jwksUrl).append('\'');
+            sb.append(", tokenIntrospectUrl='").append(tokenIntrospectUrl).append('\'');
+            return sb.toString();
+        }
+
     }
 }

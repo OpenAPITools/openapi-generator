@@ -1,33 +1,67 @@
 [package]
 name = "{{{packageName}}}"
-version = "{{{packageVersion}}}"
+version = "{{#lambdaVersion}}{{{packageVersion}}}{{/lambdaVersion}}"
+{{#infoEmail}}
+authors = ["{{{.}}}"]
+{{/infoEmail}}
+{{^infoEmail}}
 authors = ["OpenAPI Generator team and contributors"]
+{{/infoEmail}}
+{{#appDescription}}
+description = "{{{.}}}"
+{{/appDescription}}
+{{#licenseInfo}}
+license = "{{.}}"
+{{/licenseInfo}}
+{{^licenseInfo}}
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+{{/licenseInfo}}
 edition = "2018"
+{{#publishRustRegistry}}
+publish = ["{{.}}"]
+{{/publishRustRegistry}}
+{{#repositoryUrl}}
+repository = "{{.}}"
+{{/repositoryUrl}}
+{{#documentationUrl}}
+documentation = "{{.}}"
+{{/documentationUrl}}
+{{#homePageUrl}}
+homepage = "{{.}}
+{{/homePageUrl}}
 
 [dependencies]
 serde = "^1.0"
 serde_derive = "^1.0"
+{{#serdeWith}}
+serde_with = "^2.0"
+{{/serdeWith}}
 serde_json = "^1.0"
 url = "^2.2"
+uuid = { version = "^1.0", features = ["serde"] }
 {{#hyper}}
-hyper = "~0.11"
-serde_yaml = "0.7"
+hyper = { version = "~0.14", features = ["full"] }
+hyper-tls = "~0.5"
+http = "~0.2"
 base64 = "~0.7.0"
-futures = "0.1.23"
+futures = "^0.3"
 {{/hyper}}
+{{#withAWSV4Signature}}
+aws-sigv4 = "0.3.0"
+http = "0.2.5"
+secrecy = "0.8.0"
+{{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
 reqwest = "~0.9"
 {{/supportAsync}}
 {{#supportAsync}}
+{{#supportMiddleware}}
+reqwest-middleware = "0.2.0"
+{{/supportMiddleware}}
 [dependencies.reqwest]
 version = "^0.11"
-default-features = false
 features = ["json", "multipart"]
 {{/supportAsync}}
 {{/reqwest}}
-
-[dev-dependencies]
-{{#hyper}}
-tokio-core = "*"
-{{/hyper}}

@@ -12,7 +12,7 @@ import AnyCodable
 
 /** An order for a pets from the pet store */
 @available(*, deprecated, message: "This schema is deprecated.")
-public struct Order: Codable, Hashable {
+public struct Order: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"

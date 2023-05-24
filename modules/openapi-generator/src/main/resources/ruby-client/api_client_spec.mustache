@@ -83,6 +83,43 @@ describe {{moduleName}}::ApiClient do
   end
 
 {{/isFaraday}}
+
+{{#isFaraday}}
+  describe 'proxy in #build_connection' do
+    let(:config) { {{moduleName}}::Configuration.new }
+    let(:api_client) { {{moduleName}}::ApiClient.new(config) }
+    let(:proxy_uri) { URI('http://example.org:8080') }
+
+    it 'defaults to nil' do
+      expect({{moduleName}}::Configuration.default.proxy).to be_nil
+      expect(config.proxy).to be_nil
+
+      connection = api_client.build_connection
+      expect(connection.proxy_for_request('/test')).to be_nil
+    end
+
+    it 'can be customized with a string' do
+      config.proxy = proxy_uri.to_s
+
+      connection = api_client.build_connection
+      configured_proxy = connection.proxy_for_request('/test')
+
+      expect(configured_proxy).not_to be_nil
+      expect(configured_proxy.uri.to_s).to eq proxy_uri.to_s
+    end
+
+    it 'can be customized with a hash' do
+      config.proxy = { uri: proxy_uri }
+
+      connection = api_client.build_connection
+      configured_proxy = connection.proxy_for_request('/test')
+
+      expect(configured_proxy).not_to be_nil
+      expect(configured_proxy.uri).to eq proxy_uri
+    end
+  end
+{{/isFaraday}}
+
   describe '#deserialize' do
     it "handles Array<Integer>" do
       api_client = {{moduleName}}::ApiClient.new
@@ -191,8 +228,8 @@ describe {{moduleName}}::ApiClient do
     let(:api_client) { {{moduleName}}::ApiClient.new }
 
     it 'works' do
-      expect(api_client.select_header_content_type(nil)).to eq('application/json')
-      expect(api_client.select_header_content_type([])).to eq('application/json')
+      expect(api_client.select_header_content_type(nil)).to be_nil
+      expect(api_client.select_header_content_type([])).to be_nil
 
       expect(api_client.select_header_content_type(['application/json'])).to eq('application/json')
       expect(api_client.select_header_content_type(['application/xml', 'application/json; charset=UTF8'])).to eq('application/json; charset=UTF8')

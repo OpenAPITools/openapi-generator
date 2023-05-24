@@ -4,17 +4,17 @@
     <AssemblyName>{{testPackageName}}</AssemblyName>
     <RootNamespace>{{testPackageName}}</RootNamespace>
     <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{testTargetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
-    <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>{{#nrt}}
+    <Nullable>{{#useGenericHost}}enable{{/useGenericHost}}{{^useGenericHost}}annotations{{/useGenericHost}}</Nullable>{{/nrt}}
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.2" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="{{^netStandard}}17.5.0{{/netStandard}}{{#netStandard}}15.9.2{{/netStandard}}" />
+    <PackageReference Include="xunit" Version="{{^netStandard}}2.4.2{{/netStandard}}{{#netStandard}}2.4.2{{/netStandard}}" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="{{^netStandard}}2.4.5{{/netStandard}}{{#netStandard}}2.4.5{{/netStandard}}" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\{{packageName}}\{{packageName}}.csproj" />
   </ItemGroup>
-
-</Project>
+{{>netcore_testproject.additions}}</Project>

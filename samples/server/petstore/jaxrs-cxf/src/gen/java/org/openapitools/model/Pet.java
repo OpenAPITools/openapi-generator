@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -12,7 +13,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Pet  {
   
@@ -27,11 +30,11 @@ public class Pet  {
   private String name;
 
   @ApiModelProperty(required = true, value = "")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<Tag> tags = null;
+  private List<Tag> tags;
 
 public enum StatusEnum {
 
@@ -135,6 +138,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     return photoUrls;
   }
 
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -193,6 +197,27 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Pet pet = (Pet) o;
+    return Objects.equals(id, pet.id) &&
+        Objects.equals(category, pet.category) &&
+        Objects.equals(name, pet.name) &&
+        Objects.equals(photoUrls, pet.photoUrls) &&
+        Objects.equals(tags, pet.tags) &&
+        Objects.equals(status, pet.status);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, category, name, photoUrls, tags, status);
+  }
 
   @Override
   public String toString() {

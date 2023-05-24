@@ -19,13 +19,12 @@ namespace {{packageName}}.Attributes
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             // Per https://blog.markvincze.com/how-to-validate-action-parameters-with-dataannotation-attributes/
-            var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if (descriptor != null)
+            if (context.ActionDescriptor is ControllerActionDescriptor descriptor)
             {
                 foreach (var parameter in descriptor.MethodInfo.GetParameters())
                 {
-                    object args = null;
-                    if (context.ActionArguments.ContainsKey(parameter.Name))
+                    object{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} args = null;
+                    if ({{#nullableReferenceTypes}}parameter.Name != null && {{/nullableReferenceTypes}}context.ActionArguments.ContainsKey(parameter.Name))
                     {
                         args = context.ActionArguments[parameter.Name];
                     }
@@ -40,17 +39,16 @@ namespace {{packageName}}.Attributes
             }
         }
 
-        private void ValidateAttributes(ParameterInfo parameter, object args, ModelStateDictionary modelState)
+        private void ValidateAttributes(ParameterInfo parameter, object{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} args, ModelStateDictionary modelState)
         {
             foreach (var attributeData in parameter.CustomAttributes)
             {
                 var attributeInstance = parameter.GetCustomAttribute(attributeData.AttributeType);
 
-                var validationAttribute = attributeInstance as ValidationAttribute;
-                if (validationAttribute != null)
+                if (attributeInstance is ValidationAttribute validationAttribute)
                 {
                     var isValid = validationAttribute.IsValid(args);
-                    if (!isValid)
+                    if (!isValid{{#nullableReferenceTypes}} && parameter.Name != null{{/nullableReferenceTypes}})
                     {
                         modelState.AddModelError(parameter.Name, validationAttribute.FormatErrorMessage(parameter.Name));
                     }

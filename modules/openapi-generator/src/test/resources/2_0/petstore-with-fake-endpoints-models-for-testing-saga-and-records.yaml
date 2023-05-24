@@ -295,6 +295,46 @@ paths:
             - 'write:pets'
             - 'read:pets'
       deprecated: true
+  '/pet/{petId}/regions':
+    get:
+      tags:
+        - pet
+      summary: Gets regions for a single pet.
+      operationId: getPetRegions
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PetRegionsResponse"
+    put:
+      tags:
+        - pet
+      summary: Updates the pet regions.
+      operationId: updatePetRegions
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: new-regions
+          required: true
+          schema:
+            $ref: "#/definitions/PetRegions"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PetRegionsResponse"
   '/pet/{petId}':
     get:
       tags:
@@ -471,7 +511,7 @@ paths:
       tags:
         - store
       summary: Find purchase order by ID
-      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -612,7 +652,7 @@ paths:
             X-Expires-After:
               type: string
               format: date-time
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -902,6 +942,8 @@ definitions:
           - pending
           - sold
         default: pending
+      regions:
+        $ref: "#/definitions/PetRegions"
     xml:
       name: Pet
   ApiResponse:
@@ -1127,6 +1169,15 @@ definitions:
       - Long
     description: "Type of pet part"
     example: Linear
+  PetRegionsResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/PetRegions"
   GetMatchingPartsResponse:
     type: object
     required:
@@ -1173,3 +1224,14 @@ definitions:
   StringBooleanMap:
     additionalProperties:
       type: boolean
+  PetRegions:
+    type: array
+    description: "An array of all 15-minute time slots in 24 hours."
+    items:
+      type: array
+      items:
+        description: "array of values entity id or null."
+        x-nullable: true
+        x-isUniqueId: true
+        type: integer
+        format: int64

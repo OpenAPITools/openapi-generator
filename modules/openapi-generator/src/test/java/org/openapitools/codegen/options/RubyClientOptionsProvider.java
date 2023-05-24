@@ -24,8 +24,8 @@ import org.openapitools.codegen.languages.RubyClientCodegen;
 import java.util.Map;
 
 public class RubyClientOptionsProvider implements OptionsProvider {
-    public static final String GEM_NAME_VALUE = "swagger_client_ruby";
-    public static final String MODULE_NAME_VALUE = "SwaggerClientRuby";
+    public static final String GEM_NAME_VALUE = "openapi_client_ruby";
+    public static final String MODULE_NAME_VALUE = "OpenApiClientRuby";
     public static final String GEM_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String SORT_PARAMS_VALUE = "false";
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
@@ -35,11 +35,13 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_HOMEPAGE_VALUE = "homepage";
     public static final String GEM_SUMMARY_VALUE = "summary";
     public static final String GEM_DESCRIPTION_VALUE = "description";
-    public static final String GEM_AUTHOR_VALUE =  "foo";
+    public static final String GEM_AUTHOR_VALUE = "foo";
     public static final String GEM_AUTHOR_EMAIL_VALUE = "foo";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String LIBRARY = "typhoeus";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String USE_AUTOLOAD_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -68,6 +70,8 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LIBRARY, LIBRARY)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(RubyClientCodegen.USE_AUTOLOAD, USE_AUTOLOAD_VALUE)
                 .build();
     }
 

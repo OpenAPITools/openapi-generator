@@ -1,0 +1,58 @@
+{{>common/licenseInfo}}
+package {{package}};
+
+{{#useReflectionEqualsHashCode}}
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+{{/useReflectionEqualsHashCode}}
+import java.util.Objects;
+import java.util.Arrays;
+{{#useOptional}}
+import java.util.Optional;
+{{/useOptional}}
+{{#imports}}
+import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+import com.fasterxml.jackson.annotation.*;
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import com.fasterxml.jackson.annotation.*;
+{{/withXml}}
+{{#withXml}}
+import {{javaxPackage}}.xml.bind.annotation.*;
+{{/withXml}}
+{{#parcelableModel}}
+import android.os.Parcelable;
+import android.os.Parcel;
+{{/parcelableModel}}{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+import io.micronaut.core.annotation.*;
+import {{javaxPackage}}.annotation.Generated;
+{{#generateSwagger1Annotations}}
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+{{/generateSwagger1Annotations}}
+{{#generateSwagger2Annotations}}
+import io.swagger.v3.oas.annotations.media.Schema;
+{{/generateSwagger2Annotations}}
+
+{{#models}}
+    {{#model}}
+        {{#isEnum}}
+{{>common/model/modelEnum}}
+        {{/isEnum}}
+        {{^isEnum}}
+            {{#vendorExtensions.x-is-one-of-interface}}
+{{>common/model/oneof_interface}}
+            {{/vendorExtensions.x-is-one-of-interface}}
+            {{^vendorExtensions.x-is-one-of-interface}}
+{{>common/model/pojo}}
+            {{/vendorExtensions.x-is-one-of-interface}}
+        {{/isEnum}}
+    {{/model}}
+{{/models}}

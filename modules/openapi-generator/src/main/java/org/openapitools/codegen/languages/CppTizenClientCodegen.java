@@ -32,6 +32,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppTizenClientCodegen extends AbstractCppCodegen implements CodegenConfig {
@@ -71,7 +72,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         embeddedTemplateDir = templateDir = "cpp-tizen-client";
         modelPackage = "";
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "int",
@@ -79,7 +80,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
                         "double",
                         "float")
         );
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "int",
@@ -105,7 +106,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
                         "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
                 ));
 
-        super.typeMapping = new HashMap<String, String>();
+        super.typeMapping = new HashMap<>();
 
         //typeMapping.put("Date", "DateTime");
         //typeMapping.put("DateTime", "DateTime");
@@ -128,7 +129,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("UUID", "std::string");
         typeMapping.put("URI", "std::string");
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, "Helpers.h"));
@@ -175,7 +176,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(name)) {
             return name;
         } else {
-            return name + "";
+            return super.getTypeDeclaration(name);
         }
     }
 
@@ -200,7 +201,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         } else {
-            return openAPIType + "";
+            return openAPIType;
         }
     }
 
@@ -295,7 +296,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (isReservedWord(paramName)) {
             return escapeReservedWord(paramName);
         }
-        return "" + paramName;
+        return paramName;
     }
 
     @Override
@@ -311,7 +312,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         }
 
         // add_pet_by_id => addPetById
-        return camelize(operationId, true);
+        return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
     /**
      * Output the Getter name for boolean property, e.g. getActive

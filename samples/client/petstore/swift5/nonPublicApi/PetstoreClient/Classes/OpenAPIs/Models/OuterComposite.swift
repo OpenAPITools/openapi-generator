@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct OuterComposite: Codable, Hashable {
+internal struct OuterComposite: Codable, JSONEncodable, Hashable {
 
     internal var myNumber: Double?
     internal var myString: String?

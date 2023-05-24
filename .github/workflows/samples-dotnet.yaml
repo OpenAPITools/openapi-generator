@@ -1,0 +1,52 @@
+name: Samples C# .Net 6
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/csharp-netcore/**net6.0**/'
+      - 'samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore**/'
+      - 'samples/server/petstore/aspnetcore-6.0/**'
+      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useNewtonsoft/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/csharp-netcore/**net6.0**/'
+      - 'samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore**/'
+      - 'samples/server/petstore/aspnetcore-6.0/**'
+      - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
+      - 'samples/server/petstore/aspnetcore-6.0-project4Models/**'
+      - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
+      - 'samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse/**'
+      - 'samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes/**'
+jobs:
+  build:
+    name: Build .Net projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-net6.0-nrt
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore-latest-allOf
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore-latest-oneOf
+          - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netcore-latest-anyOf
+          - samples/server/petstore/aspnetcore-6.0
+          - samples/server/petstore/aspnetcore-6.0-pocoModels
+          - samples/server/petstore/aspnetcore-6.0-project4Models
+          - samples/server/petstore/aspnetcore-6.0-useSwashBuckle
+          - samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse
+          - samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: '7.0.x'
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: dotnet build Org.OpenAPITools.sln
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: dotnet test Org.OpenAPITools.sln

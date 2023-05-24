@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 library openapi.api;
@@ -35,6 +36,7 @@ part 'api/store_api.dart';
 part 'api/user_api.dart';
 
 part 'model/additional_properties_class.dart';
+part 'model/all_of_with_single_ref.dart';
 part 'model/animal.dart';
 part 'model/api_response.dart';
 part 'model/array_of_array_of_number_only.dart';
@@ -53,10 +55,10 @@ part 'model/enum_class.dart';
 part 'model/enum_test.dart';
 part 'model/file_schema_test_class.dart';
 part 'model/foo.dart';
+part 'model/foo_get_default_response.dart';
 part 'model/format_test.dart';
 part 'model/has_only_read_only.dart';
 part 'model/health_check_result.dart';
-part 'model/inline_response_default.dart';
 part 'model/map_test.dart';
 part 'model/mixed_properties_and_additional_properties_class.dart';
 part 'model/model200_response.dart';
@@ -77,6 +79,7 @@ part 'model/outer_enum_integer_default_value.dart';
 part 'model/outer_object_with_enum_property.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
+part 'model/single_ref_type.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
 part 'model/user.dart';

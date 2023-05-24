@@ -832,7 +832,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         }
         
         // create path and map variables
-        String localVarPath = "/fake/test-query-paramters";
+        String localVarPath = "/fake/test-query-parameters";
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();

@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
-    OuterEnumInteger,
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
-} from './';
+} from './OuterEnumInteger';
 
 /**
  * 
@@ -32,6 +32,16 @@ export interface OuterObjectWithEnumProperty {
      * @memberof OuterObjectWithEnumProperty
      */
     value: OuterEnumInteger;
+}
+
+/**
+ * Check if a given object implements the OuterObjectWithEnumProperty interface.
+ */
+export function instanceOfOuterObjectWithEnumProperty(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "value" in value;
+
+    return isInstance;
 }
 
 export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithEnumProperty {

@@ -11,13 +11,11 @@ import javax.ws.rs.core.GenericType;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-{{/fullJavaUtil}}
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
@@ -32,7 +30,7 @@ public class {{classname}} {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -41,7 +39,7 @@ public class {{classname}} {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -128,10 +126,10 @@ public class {{classname}} {
       .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
     // query params
-    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     {{#queryParams}}
     localVarQueryParams.addAll(apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));

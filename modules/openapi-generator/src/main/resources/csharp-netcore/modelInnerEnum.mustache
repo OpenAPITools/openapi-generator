@@ -6,7 +6,9 @@
         /// <value>{{.}}</value>
         {{/description}}
         {{#isString}}
+        {{^useGenericHost}}
         [JsonConverter(typeof(StringEnumConverter))]
+        {{/useGenericHost}}
         {{/isString}}
         {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
         {
@@ -15,12 +17,63 @@
             /// <summary>
             /// Enum {{name}} for value: {{value}}
             /// </summary>
+            {{^useGenericHost}}
             {{#isString}}
             [EnumMember(Value = "{{{value}}}")]
             {{/isString}}
-            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},{{/-last}}
+            {{/useGenericHost}}
+            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}}{{^vendorExtensions.x-zero-based-enum}} = {{-index}}{{/vendorExtensions.x-zero-based-enum}}{{/isString}}{{^-last}},{{/-last}}
+            {{^-last}}
 
+            {{/-last}}
             {{/enumVars}}
             {{/allowableValues}}
         }
+        {{#useGenericHost}}
+
+        /// <summary>
+        /// Returns a {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isNullable}}?{{/isNullable}} {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}FromString(string value)
+        {
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{^isString}}({{{value}}}).ToString(){{/isString}}{{#isString}}"{{{value}}}"{{/isString}})
+                return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
+
+            {{/enumVars}}
+            {{/allowableValues}}
+            {{#isNullable}}
+            return null;
+            {{/isNullable}}
+            {{^isNullable}}
+            throw new NotImplementedException($"Could not convert value to type {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}: '{value}'");
+            {{/isNullable}}
+        }
+
+        /// <summary>
+        /// Returns equivalent json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static {{>EnumValueDataType}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
+        {
+            {{^isString}}
+            return (int) value;
+            {{/isString}}
+            {{#isString}}
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}})
+                return {{^isNumeric}}"{{/isNumeric}}{{{value}}}{{^isNumeric}}"{{/isNumeric}};
+
+            {{/enumVars}}
+            {{/allowableValues}}
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+            {{/isString}}
+        }
+        {{/useGenericHost}}
         {{/isContainer}}

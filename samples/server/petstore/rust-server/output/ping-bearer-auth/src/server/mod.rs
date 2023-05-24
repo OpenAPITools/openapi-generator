@@ -98,7 +98,7 @@ impl<T, C> Service<T, C> where
 {
     pub fn new(api_impl: T) -> Self {
         Service {
-            api_impl: api_impl,
+            api_impl,
             marker: PhantomData
         }
     }
@@ -111,7 +111,7 @@ impl<T, C> Clone for Service<T, C> where
     fn clone(&self) -> Self {
         Service {
             api_impl: self.api_impl.clone(),
-            marker: self.marker.clone(),
+            marker: self.marker,
         }
     }
 }
@@ -137,14 +137,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
         let (method, uri, headers) = (parts.method, parts.uri, parts.headers);
         let path = paths::GLOBAL_REGEX_SET.matches(uri.path());
 
-        match &method {
+        match method {
 
             // PingGet - GET /ping
-            &hyper::Method::GET if path.matched(paths::ID_PING) => {
+            hyper::Method::GET if path.matched(paths::ID_PING) => {
                 {
-                    let authorization = match (&context as &dyn Has<Option<Authorization>>).get() {
-                        &Some(ref authorization) => authorization,
-                        &None => return Ok(Response::builder()
+                    let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
+                        Some(ref authorization) => authorization,
+                        None => return Ok(Response::builder()
                                                 .status(StatusCode::FORBIDDEN)
                                                 .body(Body::from("Unauthenticated"))
                                                 .expect("Unable to create Authentication Forbidden response")),
@@ -157,7 +157,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut response = Response::new(Body::empty());
                                 response.headers_mut().insert(
                                             HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
                                         match result {
@@ -189,12 +189,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
             // PingGet - GET /ping
-            &hyper::Method::GET if path.matched(paths::ID_PING) => Ok("PingGet"),
-            _ => Err(()),
+            hyper::Method::GET if path.matched(paths::ID_PING) => Some("PingGet"),
+            _ => None,
         }
     }
 }

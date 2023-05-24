@@ -12,7 +12,8 @@ const (
 	{{/allowableValues}}
 )
 
-var allowed{{{classname}}}EnumValues = []{{{classname}}}{
+// All allowed values of {{{classname}}} enum
+var Allowed{{{classname}}}EnumValues = []{{{classname}}}{
 	{{#allowableValues}}
 	{{#enumVars}}
 	{{{value}}},
@@ -27,7 +28,7 @@ func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := {{{classname}}}(value)
-	for _, existing := range allowed{{{classname}}}EnumValues {
+	for _, existing := range Allowed{{{classname}}}EnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -44,13 +45,13 @@ func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, allowed{{{classname}}}EnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v {{{classname}}}) IsValid() bool {
-	for _, existing := range allowed{{{classname}}}EnumValues {
+	for _, existing := range Allowed{{{classname}}}EnumValues {
 		if existing == v {
 			return true
 		}

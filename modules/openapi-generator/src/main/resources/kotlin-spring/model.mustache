@@ -4,18 +4,22 @@ import java.util.Objects
 {{#imports}}import {{import}}
 {{/imports}}
 {{#useBeanValidation}}
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
-import javax.validation.Valid
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
+import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
-{{#swaggerAnnotations}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.media.Schema
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.ApiModelProperty
-{{/swaggerAnnotations}}
+{{/swagger1AnnotationLibrary}}
 
 {{#models}}
 {{#model}}

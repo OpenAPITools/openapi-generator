@@ -36,10 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
-        public Foo(string bar = "bar")
+        public Foo(string bar = @"bar")
         {
             // use default value if no "bar" provided
-            this.Bar = bar ?? "bar";
+            this.Bar = bar ?? @"bar";
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Foo {\n");
             sb.Append("  Bar: ").Append(Bar).Append("\n");
             sb.Append("}\n");
@@ -100,7 +100,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Bar != null)
-                    hashCode = hashCode * 59 + this.Bar.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                }
                 return hashCode;
             }
         }

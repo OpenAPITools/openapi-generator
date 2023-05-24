@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **fooGet**
-> InlineResponseDefault fooGet()
+> FooGetDefaultResponse fooGet()
 
 
 
@@ -36,7 +36,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](InlineResponseDefault.md)
+[**FooGetDefaultResponse**](FooGetDefaultResponse.md)
 
 ### Authorization
 

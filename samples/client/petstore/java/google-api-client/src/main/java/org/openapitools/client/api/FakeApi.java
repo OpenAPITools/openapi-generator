@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -970,7 +970,7 @@ public class FakeApi {
   /**
     * Fake endpoint to test group parameters (optional)
     * Fake endpoint to test group parameters (optional)
-    * <p><b>400</b> - Someting wrong
+    * <p><b>400</b> - Something wrong
     * @param requiredStringGroup Required String in group parameters
     * @param requiredBooleanGroup Required Boolean in group parameters
     * @param requiredInt64Group Required Integer in group parameters
@@ -986,7 +986,7 @@ public class FakeApi {
   /**
     * Fake endpoint to test group parameters (optional)
     * Fake endpoint to test group parameters (optional)
-    * <p><b>400</b> - Someting wrong
+    * <p><b>400</b> - Something wrong
     * @param requiredStringGroup Required String in group parameters
     * @param requiredBooleanGroup Required Boolean in group parameters
     * @param requiredInt64Group Required Integer in group parameters
@@ -1307,7 +1307,7 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-parameters");
         if (pipe != null) {
             String key = "pipe";
             Object value = pipe;
@@ -1384,7 +1384,7 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-parameters");
 
         // Copy the params argument if present, to allow passing in immutable maps
         Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);

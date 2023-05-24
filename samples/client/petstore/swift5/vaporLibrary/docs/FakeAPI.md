@@ -17,12 +17,12 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeAPI.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeAPI.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeAPI.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeAPI.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 # **createXmlItem**
 ```swift
-    open class func createXmlItem(xmlItem: XmlItem, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateXmlItem>
+    open class func createXmlItem(xmlItem: XmlItem, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateXmlItem>
 ```
 
 creates an XmlItem
@@ -81,7 +81,7 @@ No authorization required
 
 # **fakeOuterBooleanSerialize**
 ```swift
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterBooleanSerialize>
+    open class func fakeOuterBooleanSerialize(body: Bool? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterBooleanSerialize>
 ```
 
 
@@ -139,7 +139,7 @@ No authorization required
 
 # **fakeOuterCompositeSerialize**
 ```swift
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterCompositeSerialize>
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterCompositeSerialize>
 ```
 
 
@@ -197,7 +197,7 @@ No authorization required
 
 # **fakeOuterNumberSerialize**
 ```swift
-    open class func fakeOuterNumberSerialize(body: Double? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterNumberSerialize>
+    open class func fakeOuterNumberSerialize(body: Double? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterNumberSerialize>
 ```
 
 
@@ -255,7 +255,7 @@ No authorization required
 
 # **fakeOuterStringSerialize**
 ```swift
-    open class func fakeOuterStringSerialize(body: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterStringSerialize>
+    open class func fakeOuterStringSerialize(body: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterStringSerialize>
 ```
 
 
@@ -313,7 +313,7 @@ No authorization required
 
 # **testBodyWithFileSchema**
 ```swift
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestBodyWithFileSchema>
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestBodyWithFileSchema>
 ```
 
 
@@ -371,7 +371,7 @@ No authorization required
 
 # **testBodyWithQueryParams**
 ```swift
-    open class func testBodyWithQueryParams(query: String, body: User, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestBodyWithQueryParams>
+    open class func testBodyWithQueryParams(query: String, body: User, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestBodyWithQueryParams>
 ```
 
 
@@ -429,7 +429,7 @@ No authorization required
 
 # **testClientModel**
 ```swift
-    open class func testClientModel(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestClientModel>
+    open class func testClientModel(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestClientModel>
 ```
 
 To test \"client\" model
@@ -488,7 +488,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestEndpointParameters>
+    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestEndpointParameters>
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -575,7 +575,7 @@ public enum TestEndpointParameters {
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestEnumParameters>
+    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestEnumParameters>
 ```
 
 To test enum parameters
@@ -650,7 +650,7 @@ No authorization required
 
 # **testGroupParameters**
 ```swift
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestGroupParameters>
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestGroupParameters>
 ```
 
 Fake endpoint to test group parameters (optional)
@@ -719,7 +719,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties(param: [String: String], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestInlineAdditionalProperties>
+    open class func testInlineAdditionalProperties(param: [String: String], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestInlineAdditionalProperties>
 ```
 
 test inline additionalProperties
@@ -776,7 +776,7 @@ No authorization required
 
 # **testJsonFormData**
 ```swift
-    open class func testJsonFormData(param: String, param2: String, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestJsonFormData>
+    open class func testJsonFormData(param: String, param2: String, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestJsonFormData>
 ```
 
 test json serialization of form data
@@ -835,7 +835,7 @@ No authorization required
 
 # **testQueryParameterCollectionFormat**
 ```swift
-    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestQueryParameterCollectionFormat>
+    open class func testQueryParameterCollectionFormat(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<TestQueryParameterCollectionFormat>
 ```
 
 

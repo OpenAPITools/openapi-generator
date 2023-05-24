@@ -44,11 +44,11 @@
       def build(data)
       {{#discriminator}}
         discriminator_value = data[openapi_discriminator_name]
-        return nil unless discriminator_value
+        return nil if discriminator_value.nil?
       {{#mappedModels}}
       {{#-first}}
 
-        klass = openapi_discriminator_mapping[discriminator_value.to_sym]
+        klass = openapi_discriminator_mapping[discriminator_value.to_s.to_sym]
         return nil unless klass
 
         {{moduleName}}.const_get(klass).build_from_hash(data)
@@ -64,7 +64,7 @@
         # - We do not attempt to check whether exactly one item matches.
         # - No advanced validation of types in some cases (e.g. "x: { type: string }" will happily match { x: 123 })
         #   due to the way the deserialization is made in the base_object template (it just casts without verifying).
-        # - TODO: scalar values are defacto behaving as if they were nullable.
+        # - TODO: scalar values are de facto behaving as if they were nullable.
         # - TODO: logging when debugging is set.
         openapi_one_of.each do |klass|
           begin

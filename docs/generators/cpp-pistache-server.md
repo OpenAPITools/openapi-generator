@@ -1,8 +1,19 @@
 ---
-title: Config Options for cpp-pistache-server
-sidebar_label: cpp-pistache-server
+title: Documentation for the cpp-pistache-server Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | cpp-pistache-server | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | SERVER | |
+| generator language | C++ | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a C++ API server (based on Pistache) | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
@@ -18,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Type/Alias | Imports |
 | ---------- | ------- |
 |Object|#include &quot;Object.h&quot;|
+|nlohmann::json|#include &lt;nlohmann/json.hpp&gt;|
 |std::map|#include &lt;map&gt;|
 |std::string|#include &lt;string&gt;|
 |std::vector|#include &lt;vector&gt;|
@@ -162,7 +174,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -222,6 +238,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -234,6 +254,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

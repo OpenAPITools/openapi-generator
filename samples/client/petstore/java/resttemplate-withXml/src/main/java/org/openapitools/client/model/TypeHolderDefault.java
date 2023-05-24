@@ -20,14 +20,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * TypeHolderDefault
@@ -39,7 +40,6 @@ import javax.xml.bind.annotation.*;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@JsonTypeName("TypeHolderDefault")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "TypeHolderDefault")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -68,6 +68,8 @@ public class TypeHolderDefault {
   @XmlElement(name = "arrayItem")
   private List<Integer> arrayItem = new ArrayList<>();
 
+  public TypeHolderDefault() {
+  }
 
   public TypeHolderDefault stringItem(String stringItem) {
     
@@ -80,7 +82,6 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "string_item")
@@ -109,7 +110,6 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "number_item")
@@ -138,7 +138,6 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "integer_item")
@@ -167,7 +166,6 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "bool_item")
@@ -192,6 +190,9 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -201,7 +202,6 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -215,7 +215,6 @@ public class TypeHolderDefault {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

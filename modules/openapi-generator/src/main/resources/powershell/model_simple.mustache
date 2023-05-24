@@ -34,11 +34,11 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#pattern}}
         [ValidatePattern("{{{.}}}")]
         {{/pattern}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         {{#allowableValues}}
         [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
         {{/allowableValues}}
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
@@ -52,11 +52,11 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#pattern}}
         [ValidatePattern("{{{.}}}")]
         {{/pattern}}
-        {{#isEnum}}
+        {{#isEnumOrRef}}
         {{#allowableValues}}
         [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
         {{/allowableValues}}
-        {{/isEnum}}
+        {{/isEnumOrRef}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
         ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^-last%>,<%/-last%>
@@ -73,7 +73,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{#vars}}
         {{^isNullable}}
         {{#required}}
-        if (${{{name}}} -eq $null) {
+        if ($null -eq ${{{name}}}) {
             throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
         }
 

@@ -18,7 +18,7 @@
 #ifdef __linux__
 void catchUnixSignals(QList<int> quitSignals) {
     auto handler = [](int sig) -> void {
-        // blocking and not aysnc-signal-safe func are valid
+        // blocking and not async-signal-safe func are valid
         qDebug() << "\nquit the application by signal " << sig;
         QCoreApplication::quit();
     };

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.openapitools.model.ModelFile;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -13,54 +14,78 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
-  
-  private @Valid java.io.File file;
-  private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
+@JsonTypeName("FileSchemaTestClass")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class FileSchemaTestClass  implements Serializable {
+  private @Valid ModelFile _file;
+  private @Valid List<ModelFile> files;
+
+  protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
+    this._file = b._file;
+    this.files = b.files;
+  }
+
+  public FileSchemaTestClass() {
+  }
 
   /**
    **/
-  public FileSchemaTestClass file(java.io.File file) {
-    this.file = file;
+  public FileSchemaTestClass _file(ModelFile _file) {
+    this._file = _file;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public java.io.File getFile() {
-    return file;
+  public ModelFile getFile() {
+    return _file;
   }
 
-  public void setFile(java.io.File file) {
-    this.file = file;
+  @JsonProperty("file")
+  public void setFile(ModelFile _file) {
+    this._file = _file;
   }
 
-/**
+  /**
    **/
-  public FileSchemaTestClass files(List<java.io.File> files) {
+  public FileSchemaTestClass files(List<ModelFile> files) {
     this.files = files;
     return this;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<java.io.File> getFiles() {
+  public List<ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<java.io.File> files) {
+  @JsonProperty("files")
+  public void setFiles(List<ModelFile> files) {
     this.files = files;
   }
 
+  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
+    if (this.files == null) {
+      this.files = new ArrayList<>();
+    }
+
+    this.files.add(filesItem);
+    return this;
+  }
+
+  public FileSchemaTestClass removeFilesItem(ModelFile filesItem) {
+    if (filesItem != null && this.files != null) {
+      this.files.remove(filesItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -71,13 +96,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this.file, fileSchemaTestClass.file) &&
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
         Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, files);
+    return Objects.hash(_file, files);
   }
 
   @Override
@@ -85,7 +110,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -103,5 +128,38 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }
 
 
+  public static FileSchemaTestClassBuilder<?, ?> builder() {
+    return new FileSchemaTestClassBuilderImpl();
+  }
+
+  private static final class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
+
+    @Override
+    protected FileSchemaTestClassBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public FileSchemaTestClass build() {
+      return new FileSchemaTestClass(this);
+    }
+  }
+
+  public static abstract class FileSchemaTestClassBuilder<C extends FileSchemaTestClass, B extends FileSchemaTestClassBuilder<C, B>>  {
+    private ModelFile _file;
+    private List<ModelFile> files;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B _file(ModelFile _file) {
+      this._file = _file;
+      return self();
+    }
+    public B files(List<ModelFile> files) {
+      this.files = files;
+      return self();
+    }
+  }
 }
 

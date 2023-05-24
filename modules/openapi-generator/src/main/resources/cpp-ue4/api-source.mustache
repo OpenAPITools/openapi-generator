@@ -47,7 +47,7 @@ bool {{classname}}::IsValid() const
 
 void {{classname}}::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
 {
-	if(RetryManager != &GetHttpRetryManager())
+	if (RetryManager != &InRetryManager)
 	{
 		DefaultRetryManager.Reset();
 		RetryManager = &InRetryManager;
@@ -56,6 +56,7 @@ void {{classname}}::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManag
 
 FHttpRetrySystem::FManager& {{classname}}::GetHttpRetryManager()
 {
+	checkf(RetryManager, TEXT("{{classname}}: RetryManager is null.  You may have meant to set it with SetHttpRetryManager first, or you may not be using a custom RetryManager at all."))
 	return *RetryManager;
 }
 

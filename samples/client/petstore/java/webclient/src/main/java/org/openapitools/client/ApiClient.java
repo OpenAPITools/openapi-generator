@@ -147,12 +147,11 @@ public class ApiClient extends JavaTimeFormatter {
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
+        authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         authentications.put("http_basic_test", new HttpBasicAuth());
-        authentications.put("http_signature_test", new HttpBearerAuth("signature"));
-        authentications.put("petstore_auth", new OAuth());
+        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -444,6 +443,15 @@ public class ApiClient extends JavaTimeFormatter {
             collectionFormat = CollectionFormat.CSV;
         }
 
+        if (value instanceof Map) {
+            @SuppressWarnings("unchecked")
+            final Map<String, Object> valuesMap = (Map<String, Object>) value;
+            for (final Entry<String, Object> entry : valuesMap.entrySet()) {
+                params.add(entry.getKey(), parameterToString(entry.getValue()));
+            }
+            return params;
+        }
+
         Collection<?> valueCollection = null;
         if (value instanceof Collection) {
             valueCollection = (Collection<?>) value;
@@ -500,7 +508,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return boolean true if the MediaType represents JSON, false otherwise
      */
     public boolean isJsonMime(MediaType mediaType) {
-        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*\\+json[;]?\\s*$"));
+        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*(\\+json|ndjson)[;]?\\s*$"));
     }
 
     /**
@@ -602,7 +610,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Include queryParams in uriParams taking into account the paramName
-     * @param queryParam The query parameters
+     * @param queryParams The query parameters
      * @param uriParams The path parameters
      * return templatized query string
      */
@@ -641,7 +649,7 @@ public class ApiClient extends JavaTimeFormatter {
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
 
         String finalUri = builder.build(false).toUriString();
-        Map<String, Object> uriParams = new HashMap();
+        Map<String, Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         if (queryParams != null && !queryParams.isEmpty()) {
@@ -711,7 +719,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param headerParams The header parameters
      * @param cookieParams the cookie parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
+    protected void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {

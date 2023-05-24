@@ -1,14 +1,24 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.*;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 public class TypeScriptNodeClientCodegenTest {
 
     private TypeScriptNodeClientCodegen codegen;
@@ -139,39 +149,117 @@ public class TypeScriptNodeClientCodegenTest {
     @Test(description = "correctly produces imports without import mapping")
     public void postProcessOperationsWithModelsTestWithoutImportMapping() {
         final String importName = "../model/pet";
-        Map<String, Object> operations = createPostProcessOperationsMapWithImportName(importName);
+        OperationsMap operations = createPostProcessOperationsMapWithImportName(importName);
 
         codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
-        List<Map<String, Object>> extractedImports = (List<Map<String, Object>>) operations.get("imports");
+        List<Map<String, String>> extractedImports = operations.getImports();
         Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
     }
 
     @Test(description = "correctly produces imports with import mapping")
     public void postProcessOperationsWithModelsTestWithImportMapping() {
         final String importName = "@namespace/dir/category";
-        Map<String, Object> operations = createPostProcessOperationsMapWithImportName(importName);
+        OperationsMap operations = createPostProcessOperationsMapWithImportName(importName);
 
         codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
-        List<Map<String, Object>> extractedImports = (List<Map<String, Object>>) operations.get("imports");
+        List<Map<String, String>> extractedImports = operations.getImports();
 
         Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
     }
 
-    private Map<String, Object> createPostProcessOperationsMapWithImportName(String importName) {
-        Map<String, Object> operations = new HashMap<String, Object>() {{
-            put("operation", Collections.emptyList());
-            put("classname", "Pet");
-        }};
+    @Test(description = "correctly produces imports with model name suffix")
+    public void postProcessOperationsWithModelsTestWithModelNameSuffix() {
+        final OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema rootSchema = new ObjectSchema()
+            .addProperties("child", new Schema().$ref("Child"));
+        final Schema childSchema = new ObjectSchema()
+            .addProperties("key", new StringSchema());
 
-        Map<String, Object> importList = new HashMap<String, Object>() {{
+        openAPI.getComponents()
+            .addSchemas("Root", rootSchema)
+            .addSchemas("Child", childSchema);
+
+        final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setModelNameSuffix("Suffix");
+
+        final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
+            codegen.fromModel("Root", rootSchema),
+            codegen.fromModel("Child", childSchema)
+        );
+        final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
+        final List<ModelMap> rootModelMaps = results.get("Root")
+            .getModels();
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
+            .get("tsImports");
+
+        Assert.assertEquals(tsImports.size(), 1);
+        Assert.assertEquals(tsImports.get(0).get("filename"), "./childSuffix");
+    }
+
+    @Test(description = "correctly produces imports with model name prefix")
+    public void postProcessOperationsWithModelsTestWithModelNamePrefix() {
+        final OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema rootSchema = new ObjectSchema()
+            .addProperties("child", new Schema().$ref("Child"));
+        final Schema childSchema = new ObjectSchema()
+            .addProperties("key", new StringSchema());
+
+        openAPI.getComponents()
+            .addSchemas("Root", rootSchema)
+            .addSchemas("Child", childSchema);
+
+        final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setModelNamePrefix("Prefix");
+
+        final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
+            codegen.fromModel("Root", rootSchema),
+            codegen.fromModel("Child", childSchema)
+        );
+        final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
+        final List<ModelMap> rootModelMaps = results.get("Root")
+            .getModels();
+        final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
+            .get("tsImports");
+
+        Assert.assertEquals(tsImports.size(), 1);
+        Assert.assertEquals(tsImports.get(0).get("filename"), "./prefixChild");
+    }
+
+    private OperationsMap createPostProcessOperationsMapWithImportName(String importName) {
+        OperationMap operations = new OperationMap();
+        operations.setClassname("Pet");
+        operations.setOperation(new ArrayList<>());
+
+        Map<String, String> importList = new HashMap<String, String>() {{
             put("import", importName);
             put("classname", "Pet");
         }};
-        List<Map<String, Object>> imports = new ArrayList<>();
+        List<Map<String, String>> imports = new ArrayList<>();
         imports.add(importList);
-        return new HashMap<String, Object>() {{
-            put("operations", operations);
-            put("imports", imports);
+
+        OperationsMap operationsMap = new OperationsMap();
+        operationsMap.setImports(imports);
+        operationsMap.setOperation(operations);
+        return operationsMap;
+    }
+
+    private HashMap<String, ModelsMap> createParameterForPostProcessAllModels(CodegenModel root, CodegenModel child) {
+        final ModelsMap rootModelsMap = new ModelsMap();
+        final ModelMap rootModelMap = new ModelMap();
+        rootModelMap.setModel(root);
+        rootModelsMap.setModels(Collections.singletonList(rootModelMap));
+        rootModelsMap.setImports(Collections.singletonList(Collections.singletonMap("import", "../model/Child")));
+
+        final ModelsMap childModelsMap = new ModelsMap();
+        final ModelMap childModelMap = new ModelMap();
+        childModelMap.setModel(child);
+        childModelsMap.setModels(Collections.singletonList(childModelMap));
+
+        return new HashMap<String, ModelsMap>() {{
+            put("Child", childModelsMap);
+            put("Root", rootModelsMap);
         }};
     }
 }

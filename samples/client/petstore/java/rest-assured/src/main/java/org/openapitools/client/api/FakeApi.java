@@ -18,8 +18,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -34,7 +34,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -43,7 +42,6 @@ import java.util.function.Supplier;
 import org.openapitools.client.JSON;
 import static io.restassured.http.Method.*;
 
-@Api(value = "Fake")
 public class FakeApi {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -84,144 +82,58 @@ public class FakeApi {
         );
     }
 
-    @ApiOperation(value = "creates an XmlItem",
-            notes = "this route creates an XmlItem",
-            nickname = "createXmlItem",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public CreateXmlItemOper createXmlItem() {
         return new CreateXmlItemOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "Test serialization of outer boolean types",
-            nickname = "fakeOuterBooleanSerialize",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Output boolean")  })
     public FakeOuterBooleanSerializeOper fakeOuterBooleanSerialize() {
         return new FakeOuterBooleanSerializeOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "Test serialization of object with outer number type",
-            nickname = "fakeOuterCompositeSerialize",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Output composite")  })
     public FakeOuterCompositeSerializeOper fakeOuterCompositeSerialize() {
         return new FakeOuterCompositeSerializeOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "Test serialization of outer number types",
-            nickname = "fakeOuterNumberSerialize",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Output number")  })
     public FakeOuterNumberSerializeOper fakeOuterNumberSerialize() {
         return new FakeOuterNumberSerializeOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "Test serialization of outer string types",
-            nickname = "fakeOuterStringSerialize",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Output string")  })
     public FakeOuterStringSerializeOper fakeOuterStringSerialize() {
         return new FakeOuterStringSerializeOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "For this test, the body for this request much reference a schema named `File`.",
-            nickname = "testBodyWithFileSchema",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithFileSchemaOper testBodyWithFileSchema() {
         return new TestBodyWithFileSchemaOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "",
-            nickname = "testBodyWithQueryParams",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithQueryParamsOper testBodyWithQueryParams() {
         return new TestBodyWithQueryParamsOper(createReqSpec());
     }
 
-    @ApiOperation(value = "To test \"client\" model",
-            notes = "To test \"client\" model",
-            nickname = "testClientModel",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public TestClientModelOper testClientModel() {
         return new TestClientModelOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
-            notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
-            nickname = "testEndpointParameters",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 400, message = "Invalid username supplied") ,
-            @ApiResponse(code = 404, message = "User not found")  })
     public TestEndpointParametersOper testEndpointParameters() {
         return new TestEndpointParametersOper(createReqSpec());
     }
 
-    @ApiOperation(value = "To test enum parameters",
-            notes = "To test enum parameters",
-            nickname = "testEnumParameters",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 400, message = "Invalid request") ,
-            @ApiResponse(code = 404, message = "Not found")  })
     public TestEnumParametersOper testEnumParameters() {
         return new TestEnumParametersOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Fake endpoint to test group parameters (optional)",
-            notes = "Fake endpoint to test group parameters (optional)",
-            nickname = "testGroupParameters",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 400, message = "Someting wrong")  })
     public TestGroupParametersOper testGroupParameters() {
         return new TestGroupParametersOper(createReqSpec());
     }
 
-    @ApiOperation(value = "test inline additionalProperties",
-            notes = "",
-            nickname = "testInlineAdditionalProperties",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public TestInlineAdditionalPropertiesOper testInlineAdditionalProperties() {
         return new TestInlineAdditionalPropertiesOper(createReqSpec());
     }
 
-    @ApiOperation(value = "test json serialization of form data",
-            notes = "",
-            nickname = "testJsonFormData",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public TestJsonFormDataOper testJsonFormData() {
         return new TestJsonFormDataOper(createReqSpec());
     }
 
-    @ApiOperation(value = "",
-            notes = "To test the collection format in query parameters",
-            nickname = "testQueryParameterCollectionFormat",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "Success")  })
     public TestQueryParameterCollectionFormatOper testQueryParameterCollectionFormat() {
         return new TestQueryParameterCollectionFormatOper(createReqSpec());
     }
@@ -1428,7 +1340,7 @@ public class FakeApi {
     public static class TestQueryParameterCollectionFormatOper implements Oper {
 
         public static final Method REQ_METHOD = PUT;
-        public static final String REQ_URI = "/fake/test-query-paramters";
+        public static final String REQ_URI = "/fake/test-query-parameters";
 
         private RequestSpecBuilder reqSpec;
         private ResponseSpecBuilder respSpec;
@@ -1440,7 +1352,7 @@ public class FakeApi {
         }
 
         /**
-         * PUT /fake/test-query-paramters
+         * PUT /fake/test-query-parameters
          * @param handler handler
          * @param <T> type
          * @return type

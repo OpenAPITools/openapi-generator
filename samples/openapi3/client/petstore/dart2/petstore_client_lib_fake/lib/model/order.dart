@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -20,16 +21,40 @@ class Order {
     this.complete = false,
   });
 
-  int id;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? id;
 
-  int petId;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? petId;
 
-  int quantity;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? quantity;
 
-  DateTime shipDate;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? shipDate;
 
   /// Order Status
-  OrderStatusEnum status;
+  OrderStatusEnum? status;
 
   bool complete;
 
@@ -44,77 +69,121 @@ class Order {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (petId == null ? 0 : petId.hashCode) +
-    (quantity == null ? 0 : quantity.hashCode) +
-    (shipDate == null ? 0 : shipDate.hashCode) +
-    (status == null ? 0 : status.hashCode) +
-    (complete == null ? 0 : complete.hashCode);
+    // ignore: unnecessary_parenthesis
+    (id == null ? 0 : id!.hashCode) +
+    (petId == null ? 0 : petId!.hashCode) +
+    (quantity == null ? 0 : quantity!.hashCode) +
+    (shipDate == null ? 0 : shipDate!.hashCode) +
+    (status == null ? 0 : status!.hashCode) +
+    (complete.hashCode);
 
   @override
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (petId != null) {
-      json[r'petId'] = petId;
+    if (this.petId != null) {
+      json[r'petId'] = this.petId;
+    } else {
+      json[r'petId'] = null;
     }
-    if (quantity != null) {
-      json[r'quantity'] = quantity;
+    if (this.quantity != null) {
+      json[r'quantity'] = this.quantity;
+    } else {
+      json[r'quantity'] = null;
     }
-    if (shipDate != null) {
-      json[r'shipDate'] = shipDate.toUtc().toIso8601String();
+    if (this.shipDate != null) {
+      json[r'shipDate'] = this.shipDate!.toUtc().toIso8601String();
+    } else {
+      json[r'shipDate'] = null;
     }
-    if (status != null) {
-      json[r'status'] = status;
+    if (this.status != null) {
+      json[r'status'] = this.status;
+    } else {
+      json[r'status'] = null;
     }
-    if (complete != null) {
-      json[r'complete'] = complete;
-    }
+      json[r'complete'] = this.complete;
     return json;
   }
 
   /// Returns a new [Order] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static Order fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : Order(
-        id: json[r'id'],
-        petId: json[r'petId'],
-        quantity: json[r'quantity'],
-        shipDate: json[r'shipDate'] == null
-          ? null
-          : DateTime.parse(json[r'shipDate']),
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static Order? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "Order[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Order[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return Order(
+        id: mapValueOfType<int>(json, r'id'),
+        petId: mapValueOfType<int>(json, r'petId'),
+        quantity: mapValueOfType<int>(json, r'quantity'),
+        shipDate: mapDateTime(json, r'shipDate', ''),
         status: OrderStatusEnum.fromJson(json[r'status']),
-        complete: json[r'complete'],
-    );
+        complete: mapValueOfType<bool>(json, r'complete') ?? false,
+      );
+    }
+    return null;
+  }
 
-  static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <Order>[]
-      : json.map((dynamic value) => Order.fromJson(value)).toList(growable: true == growable);
+  static List<Order> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <Order>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = Order.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
-  static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, Order> mapFromJson(dynamic json) {
     final map = <String, Order>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Order.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = Order.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of Order-objects as value to a dart map
-  static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Order>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Order>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Order.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = Order.listFromJson(entry.value, growable: growable,);
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 
 /// Order Status
@@ -141,23 +210,28 @@ class OrderStatusEnum {
     delivered,
   ];
 
-  static OrderStatusEnum fromJson(dynamic value) =>
-    OrderStatusEnumTypeTransformer().decode(value);
+  static OrderStatusEnum? fromJson(dynamic value) => OrderStatusEnumTypeTransformer().decode(value);
 
-  static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OrderStatusEnum>[]
-      : json
-          .map((value) => OrderStatusEnum.fromJson(value))
-          .toList(growable: true == growable);
+  static List<OrderStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OrderStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OrderStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [OrderStatusEnum] to String,
 /// and [decode] dynamic data back to [OrderStatusEnum].
 class OrderStatusEnumTypeTransformer {
-  const OrderStatusEnumTypeTransformer._();
+  factory OrderStatusEnumTypeTransformer() => _instance ??= const OrderStatusEnumTypeTransformer._();
 
-  factory OrderStatusEnumTypeTransformer() => _instance ??= OrderStatusEnumTypeTransformer._();
+  const OrderStatusEnumTypeTransformer._();
 
   String encode(OrderStatusEnum data) => data.value;
 
@@ -169,20 +243,23 @@ class OrderStatusEnumTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'placed': return OrderStatusEnum.placed;
-      case r'approved': return OrderStatusEnum.approved;
-      case r'delivered': return OrderStatusEnum.delivered;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+  OrderStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'placed': return OrderStatusEnum.placed;
+        case r'approved': return OrderStatusEnum.approved;
+        case r'delivered': return OrderStatusEnum.delivered;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
 
   /// Singleton [OrderStatusEnumTypeTransformer] instance.
-  static OrderStatusEnumTypeTransformer _instance;
+  static OrderStatusEnumTypeTransformer? _instance;
 }
+
 

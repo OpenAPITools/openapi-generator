@@ -52,7 +52,7 @@ public class CSharpModelTest {
     }
 
     public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + Integer.toString(openApiVersion) + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + openApiVersion + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         codegen.setNullableReferenceTypes(nullableReferenceTypes);
         codegen.setOpenAPI(openAPI);
         Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");

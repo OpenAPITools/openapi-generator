@@ -6,17 +6,17 @@
         "repositoryURL": "https://github.com/Flight-School/AnyCodable",
         "state": {
           "branch": null,
-          "revision": "876d162385e9862ae8b3c8d65dc301312b040005",
-          "version": "0.6.0"
+          "revision": "56901f2af3625b38924d488b612e95fe8846ee9b",
+          "version": "0.6.6"
         }
       },
       {
         "package": "PromiseKit",
-        "repositoryURL": "https://github.com/mxcl/PromiseKit.git",
+        "repositoryURL": "https://github.com/mxcl/PromiseKit",
         "state": {
           "branch": null,
-          "revision": "d2f7ba14bcdc45e18f4f60ad9df883fb9055f081",
-          "version": "6.15.3"
+          "revision": "43772616c46a44a9977e41924ae01d0e55f2f9ca",
+          "version": "6.18.1"
         }
       }
     ]

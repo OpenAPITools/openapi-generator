@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 
@@ -36,123 +34,123 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class OuterComposite {
-  public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
-  private BigDecimal myNumber;
+    public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+    private BigDecimal myNumber;
 
-  public static final String JSON_PROPERTY_MY_STRING = "my_string";
-  private String myString;
+    public static final String JSON_PROPERTY_MY_STRING = "my_string";
+    private String myString;
 
-  public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
-  private Boolean myBoolean;
+    public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+    private Boolean myBoolean;
 
-  public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = myNumber;
-    return this;
-  }
-
-  /**
-   * Get myNumber
-   * @return myNumber
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public BigDecimal getMyNumber() {
-    return myNumber;
-  }
-
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyNumber(BigDecimal myNumber) {
-    this.myNumber = myNumber;
-  }
-
-  public OuterComposite myString(String myString) {
-    this.myString = myString;
-    return this;
-  }
-
-  /**
-   * Get myString
-   * @return myString
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getMyString() {
-    return myString;
-  }
-
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyString(String myString) {
-    this.myString = myString;
-  }
-
-  public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = myBoolean;
-    return this;
-  }
-
-  /**
-   * Get myBoolean
-   * @return myBoolean
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public Boolean getMyBoolean() {
-    return myBoolean;
-  }
-
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMyBoolean(Boolean myBoolean) {
-    this.myBoolean = myBoolean;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public OuterComposite() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public OuterComposite myNumber(BigDecimal myNumber) {
+        this.myNumber = myNumber;
+        return this;
     }
-    OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
-        Objects.equals(this.myString, outerComposite.myString) &&
-        Objects.equals(this.myBoolean, outerComposite.myBoolean);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(myNumber, myString, myBoolean);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class OuterComposite {\n");
-    sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
-    sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
-    sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     * Get myNumber
+     * @return myNumber
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public BigDecimal getMyNumber() {
+        return myNumber;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setMyNumber(BigDecimal myNumber) {
+        this.myNumber = myNumber;
+    }
+
+    public OuterComposite myString(String myString) {
+        this.myString = myString;
+        return this;
+    }
+
+    /**
+     * Get myString
+     * @return myString
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_MY_STRING)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public String getMyString() {
+        return myString;
+    }
+
+    @JsonProperty(JSON_PROPERTY_MY_STRING)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setMyString(String myString) {
+        this.myString = myString;
+    }
+
+    public OuterComposite myBoolean(Boolean myBoolean) {
+        this.myBoolean = myBoolean;
+        return this;
+    }
+
+    /**
+     * Get myBoolean
+     * @return myBoolean
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public Boolean getMyBoolean() {
+        return myBoolean;
+    }
+
+    @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setMyBoolean(Boolean myBoolean) {
+        this.myBoolean = myBoolean;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        OuterComposite outerComposite = (OuterComposite) o;
+        return Objects.equals(this.myNumber, outerComposite.myNumber) &&
+            Objects.equals(this.myString, outerComposite.myString) &&
+            Objects.equals(this.myBoolean, outerComposite.myBoolean);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(myNumber, myString, myBoolean);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class OuterComposite {\n");
+        sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
+        sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
+        sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }
+

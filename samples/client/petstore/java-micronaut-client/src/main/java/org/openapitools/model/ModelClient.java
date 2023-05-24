@@ -14,8 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -33,67 +32,69 @@ import javax.annotation.Generated;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Introspected
 public class ModelClient {
-  public static final String JSON_PROPERTY_CLIENT = "client";
-  private String _client;
+    public static final String JSON_PROPERTY_CLIENT = "client";
+    private String _client;
 
-  public ModelClient _client(String _client) {
-    this._client = _client;
-    return this;
-  }
-
-  /**
-   * Get _client
-   * @return _client
-   **/
-  @Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_CLIENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public String getClient() {
-    return _client;
-  }
-
-  @JsonProperty(JSON_PROPERTY_CLIENT)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setClient(String _client) {
-    this._client = _client;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public ModelClient() {
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+    public ModelClient _client(String _client) {
+        this._client = _client;
+        return this;
     }
-    ModelClient _client = (ModelClient) o;
-    return Objects.equals(this._client, _client._client);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(_client);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ModelClient {\n");
-    sb.append("    _client: ").append(toIndentedString(_client)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     * Get _client
+     * @return _client
+     **/
+    @Nullable
+    @JsonProperty(JSON_PROPERTY_CLIENT)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public String getClient() {
+        return _client;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    @JsonProperty(JSON_PROPERTY_CLIENT)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    public void setClient(String _client) {
+        this._client = _client;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ModelClient _client = (ModelClient) o;
+        return Objects.equals(this._client, _client._client);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_client);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ModelClient {\n");
+        sb.append("    _client: ").append(toIndentedString(_client)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 
 }
+

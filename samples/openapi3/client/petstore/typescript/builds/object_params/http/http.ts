@@ -1,9 +1,8 @@
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
-import { URLSearchParams } from 'url';
-// typings of url-parse are incorrect...
-// @ts-ignore
-import * as URLParse from "url-parse";
+import { URL, URLSearchParams } from 'url';
+import * as http from 'http';
+import * as https from 'https';
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -31,7 +30,6 @@ export type HttpFile = {
     name: string
 };
 
-
 export class HttpException extends Error {
     public constructor(msg: string) {
         super(msg);
@@ -49,7 +47,8 @@ export type RequestBody = undefined | string | FormData | URLSearchParams;
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: URLParse;
+    private url: URL;
+    private agent: http.Agent | https.Agent | undefined = undefined;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -58,7 +57,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(url);
     }
 
     /*
@@ -66,7 +65,9 @@ export class RequestContext {
      *
      */
     public getUrl(): string {
-        return this.url.toString();
+        return this.url.toString().endsWith("/") ?
+            this.url.toString().slice(0, -1)
+            : this.url.toString();
     }
 
     /**
@@ -74,7 +75,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(url);
     }
 
     /**
@@ -103,9 +104,7 @@ export class RequestContext {
     }
 
     public setQueryParam(name: string, value: string) {
-        let queryObj = this.url.query;
-        queryObj[name] = value;
-        this.url.set("query", queryObj);
+        this.url.searchParams.set(name, value);
     }
 
     /**
@@ -121,6 +120,14 @@ export class RequestContext {
 
     public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
+    }
+    
+    public setAgent(agent: http.Agent | https.Agent) {
+        this.agent = agent;
+    }
+
+    public getAgent(): http.Agent | https.Agent | undefined {
+        return this.agent;
     }
 }
 
@@ -186,6 +193,22 @@ export class ResponseContext {
         const data = await this.body.binary();
         const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
         return { data, name: fileName };
+    }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | Buffer | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
     }
 }
 

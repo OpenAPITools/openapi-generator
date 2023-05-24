@@ -89,6 +89,6 @@ int main() {
 	list_ForEach(listEntry, elementToReturn) {
 		keyValuePair_free(listEntry->data);
 	}
-	list_free(elementToReturn);
+	list_freeList(elementToReturn);
 
 }

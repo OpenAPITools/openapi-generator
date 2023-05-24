@@ -194,6 +194,10 @@ QJsonValue toJsonValue(const PFXHttpFileElement &value) {
     return value.asJsonValue();
 }
 
+QJsonValue toJsonValue(const QJsonValue &value) {
+    return value;
+}
+
 bool fromStringValue(const QString &inStr, QString &value) {
     value.clear();
     value.append(inStr);
@@ -229,7 +233,7 @@ bool fromStringValue(const QString &inStr, QByteArray &value) {
     } else {
         value.clear();
         value.append(inStr.toUtf8());
-        return value.count() > 0;
+        return value.size() > 0;
     }
 }
 
@@ -421,6 +425,11 @@ bool fromJsonValue(PFXEnum &value, const QJsonValue &jval) {
 
 bool fromJsonValue(PFXHttpFileElement &value, const QJsonValue &jval) {
     return value.fromJsonValue(jval);
+}
+
+bool fromJsonValue(QJsonValue &value, const QJsonValue &jval) {
+    value = jval;
+    return true;
 }
 
 } // namespace test_namespace

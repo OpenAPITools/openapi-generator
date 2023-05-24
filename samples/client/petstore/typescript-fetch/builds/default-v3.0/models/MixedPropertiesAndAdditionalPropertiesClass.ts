@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Animal } from './Animal';
 import {
-    Animal,
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
-} from './';
+} from './Animal';
 
 /**
  * 
@@ -44,6 +44,15 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
      * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
     map?: { [key: string]: Animal; };
+}
+
+/**
+ * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
+ */
+export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {

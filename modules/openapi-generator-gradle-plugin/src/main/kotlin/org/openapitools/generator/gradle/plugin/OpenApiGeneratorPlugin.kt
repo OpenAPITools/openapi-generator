@@ -37,27 +37,27 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             val meta = extensions.create(
-                    "openApiMeta",
-                    OpenApiGeneratorMetaExtension::class.java,
-                    project
+                "openApiMeta",
+                OpenApiGeneratorMetaExtension::class.java,
+                project
             )
 
             val validate = extensions.create(
-                    "openApiValidate",
-                    OpenApiGeneratorValidateExtension::class.java,
-                    project
+                "openApiValidate",
+                OpenApiGeneratorValidateExtension::class.java,
+                project
             )
 
             val generate = extensions.create(
-                    "openApiGenerate",
-                    OpenApiGeneratorGenerateExtension::class.java,
-                    project
+                "openApiGenerate",
+                OpenApiGeneratorGenerateExtension::class.java,
+                project
             )
 
             val generators = extensions.create(
-                    "openApiGenerators",
-                    OpenApiGeneratorGeneratorsExtension::class.java,
-                    project
+                "openApiGenerators",
+                OpenApiGeneratorGeneratorsExtension::class.java,
+                project
             )
 
             generate.outputDir.set("$buildDir/generate-resources/main")
@@ -89,13 +89,16 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
 
                 register("openApiGenerate", GenerateTask::class.java).configure {
                     group = pluginGroup
-                    description = "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
+                    description =
+                        "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
                     validateSpec.set(generate.validateSpec)
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
+                    inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
+                    remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)
@@ -106,12 +109,17 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     modelPackage.set(generate.modelPackage)
                     modelNamePrefix.set(generate.modelNamePrefix)
                     modelNameSuffix.set(generate.modelNameSuffix)
+                    apiNameSuffix.set(generate.apiNameSuffix)
                     instantiationTypes.set(generate.instantiationTypes)
                     typeMappings.set(generate.typeMappings)
                     additionalProperties.set(generate.additionalProperties)
                     serverVariables.set(generate.serverVariables)
                     languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
                     importMappings.set(generate.importMappings)
+                    schemaMappings.set(generate.schemaMappings)
+                    inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
+                    inlineSchemaNameDefaults.set(generate.inlineSchemaNameDefaults)
+                    openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
                     id.set(generate.id)
@@ -140,6 +148,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     skipValidateSpec.set(generate.skipValidateSpec)
                     generateAliasAsModel.set(generate.generateAliasAsModel)
                     engine.set(generate.engine)
+                    cleanupOutput.set(generate.cleanupOutput)
                 }
             }
         }

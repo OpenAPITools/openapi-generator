@@ -1,0 +1,1 @@
+{{#isNullable}}?{{/isNullable}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{#defaultvalue}} = {{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}{{#isNullable}} = null{{/isNullable}}{{^required}}{{^isNullable}} = null{{/isNullable}}{{/required}}{{/defaultvalue}}

@@ -1,9 +1,10 @@
 README.md
 pom.xml
-src/main/java/org/openapitools/OpenAPI2SpringBoot.java
+src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
+src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
-src/main/java/org/openapitools/configuration/OpenAPIDocumentationConfig.java
+src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApi.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApiController.java
 src/main/java/org/openapitools/virtualan/api/ApiUtil.java
@@ -37,11 +38,13 @@ src/main/java/org/openapitools/virtualan/model/CatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Category.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
+src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
 src/main/java/org/openapitools/virtualan/model/Dog.java
 src/main/java/org/openapitools/virtualan/model/DogAllOf.java
 src/main/java/org/openapitools/virtualan/model/EnumArrays.java
 src/main/java/org/openapitools/virtualan/model/EnumClass.java
 src/main/java/org/openapitools/virtualan/model/EnumTest.java
+src/main/java/org/openapitools/virtualan/model/File.java
 src/main/java/org/openapitools/virtualan/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/virtualan/model/FormatTest.java
 src/main/java/org/openapitools/virtualan/model/HasOnlyReadOnly.java
@@ -49,6 +52,7 @@ src/main/java/org/openapitools/virtualan/model/MapTest.java
 src/main/java/org/openapitools/virtualan/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/virtualan/model/Model200Response.java
 src/main/java/org/openapitools/virtualan/model/ModelApiResponse.java
+src/main/java/org/openapitools/virtualan/model/ModelList.java
 src/main/java/org/openapitools/virtualan/model/ModelReturn.java
 src/main/java/org/openapitools/virtualan/model/Name.java
 src/main/java/org/openapitools/virtualan/model/NumberOnly.java
@@ -57,6 +61,7 @@ src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java
 src/main/java/org/openapitools/virtualan/model/Pet.java
 src/main/java/org/openapitools/virtualan/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/virtualan/model/ResponseObjectWithDifferentFieldNames.java
 src/main/java/org/openapitools/virtualan/model/SpecialModelName.java
 src/main/java/org/openapitools/virtualan/model/Tag.java
 src/main/java/org/openapitools/virtualan/model/TypeHolderDefault.java
@@ -64,3 +69,5 @@ src/main/java/org/openapitools/virtualan/model/TypeHolderExample.java
 src/main/java/org/openapitools/virtualan/model/User.java
 src/main/java/org/openapitools/virtualan/model/XmlItem.java
 src/main/resources/application.properties
+src/main/resources/openapi.yaml
+src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java

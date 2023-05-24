@@ -1,27 +1,31 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class OuterComposite   {
-  @JsonProperty("my_number")
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class OuterComposite {
+
   private BigDecimal myNumber;
 
-  @JsonProperty("my_string")
   private String myString;
 
-  @JsonProperty("my_boolean")
   private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -33,10 +37,9 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   */
-  @ApiModelProperty(value = "")
-
-  @Valid
-
+  @Valid 
+  @Schema(name = "my_number", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -54,9 +57,9 @@ public class OuterComposite   {
    * Get myString
    * @return myString
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "my_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
@@ -74,9 +77,9 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
   */
-  @ApiModelProperty(value = "")
-
-
+  
+  @Schema(name = "my_boolean", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }
@@ -84,7 +87,6 @@ public class OuterComposite   {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -109,7 +111,6 @@ public class OuterComposite   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OuterComposite {\n");
-    
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
     sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
     sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");

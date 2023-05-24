@@ -1,40 +1,44 @@
 openapi: 3.0.1
 info:
-  title: 'Buggy Api'
-  version: '1.0'
+  title: Buggy Api
+  version: "1.0"
+servers:
+  - url: /
 paths:
   /foo/bar:
     post:
       responses:
-        '200':
-          description: ok
+        "200":
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/inline_response_200'
-
+                $ref: '#/components/schemas/_foo_bar_post_200_response'
+          description: ok
   /foo/bar2:
     post:
       responses:
-        '200':
-          description: ok
+        "200":
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/bar2'
+          description: ok
 components:
   schemas:
     bar2:
-      type: object
-      example: { n: 4.56 }
+      example:
+        "n": 4.56
       properties:
-        n:
-          type: number
+        "n":
           example: 4.56
-    inline_response_200:
-      type: object
-      example: { n: 1.23 }
-      properties:
-        n:
           type: number
+      type: object
+    _foo_bar_post_200_response:
+      example:
+        "n": 1.23
+      properties:
+        "n":
           example: 1.23
+          type: number
+      type: object
+x-original-swagger-version: "2.0"

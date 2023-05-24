@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +33,9 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+  public AdditionalPropertiesAnyType() {
+
+  }
 
   public AdditionalPropertiesAnyType name(String name) {
     
@@ -47,7 +48,6 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String getName() {
     return name;
@@ -57,7 +57,6 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(Object o) {

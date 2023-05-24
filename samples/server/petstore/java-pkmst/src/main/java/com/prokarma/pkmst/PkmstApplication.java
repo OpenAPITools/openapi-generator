@@ -16,8 +16,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  
 @SpringBootApplication
 @EnableSwagger2
-@EnableCircuitBreaker
-@EnableHystrixDashboard
 public class PkmstApplication {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PkmstApplication.class);

@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the HealthCheckResult type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &HealthCheckResult{}
+
 // HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
 	NullableMessage NullableString `json:"NullableMessage,omitempty"`
@@ -41,7 +44,7 @@ func NewHealthCheckResultWithDefaults() *HealthCheckResult {
 
 // GetNullableMessage returns the NullableMessage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *HealthCheckResult) GetNullableMessage() string {
-	if o == nil || o.NullableMessage.Get() == nil {
+	if o == nil || IsNil(o.NullableMessage.Get()) {
 		var ret string
 		return ret
 	}
@@ -52,7 +55,7 @@ func (o *HealthCheckResult) GetNullableMessage() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *HealthCheckResult) GetNullableMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.NullableMessage.Get(), o.NullableMessage.IsSet()
@@ -82,6 +85,14 @@ func (o *HealthCheckResult) UnsetNullableMessage() {
 }
 
 func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o HealthCheckResult) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	if o.NullableMessage.IsSet() {
 		toSerialize["NullableMessage"] = o.NullableMessage.Get()
@@ -91,7 +102,7 @@ func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *HealthCheckResult) UnmarshalJSON(bytes []byte) (err error) {

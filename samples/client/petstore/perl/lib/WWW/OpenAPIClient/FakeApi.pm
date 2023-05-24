@@ -759,8 +759,8 @@ sub test_client_model {
 # @param double $float None (optional)
 # @param string $string None (optional)
 # @param string $binary None (optional)
-# @param DateTime $date None (optional)
-# @param DateTime $date_time None (optional)
+# @param DATE $date None (optional)
+# @param DATE_TIME $date_time None (optional)
 # @param string $password None (optional)
 # @param string $callback None (optional)
 {
@@ -816,12 +816,12 @@ sub test_client_model {
         required => '0',
     },
     'date' => {
-        data_type => 'DateTime',
+        data_type => 'DATE',
         description => 'None',
         required => '0',
     },
     'date_time' => {
-        data_type => 'DateTime',
+        data_type => 'DATE_TIME',
         description => 'None',
         required => '0',
     },
@@ -975,6 +975,7 @@ sub test_endpoint_parameters {
 # @param string $enum_query_string Query parameter enum test (string) (optional, default to '-efg')
 # @param int $enum_query_integer Query parameter enum test (double) (optional)
 # @param double $enum_query_double Query parameter enum test (double) (optional)
+# @param ARRAY[EnumClass] $enum_query_model_array  (optional)
 # @param ARRAY[string] $enum_form_string_array Form parameter enum test (string array) (optional, default to '$')
 # @param string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
 {
@@ -1007,6 +1008,11 @@ sub test_endpoint_parameters {
     'enum_query_double' => {
         data_type => 'double',
         description => 'Query parameter enum test (double)',
+        required => '0',
+    },
+    'enum_query_model_array' => {
+        data_type => 'ARRAY[EnumClass]',
+        description => '',
         required => '0',
     },
     'enum_form_string_array' => {
@@ -1064,6 +1070,11 @@ sub test_enum_parameters {
     # query params
     if ( exists $args{'enum_query_double'}) {
         $query_params->{'enum_query_double'} = $self->{api_client}->to_query_value($args{'enum_query_double'});
+    }
+
+    # query params
+    if ( exists $args{'enum_query_model_array'}) {
+        $query_params->{'enum_query_model_array'} = $self->{api_client}->to_query_value($args{'enum_query_model_array'});
     }
 
     # header params
@@ -1371,6 +1382,7 @@ sub test_json_form_data {
 # @param ARRAY[string] $http  (required)
 # @param ARRAY[string] $url  (required)
 # @param ARRAY[string] $context  (required)
+# @param string $allow_empty  (required)
 # @param HASH[string,string] $language  (optional)
 {
     my $params = {
@@ -1396,6 +1408,11 @@ sub test_json_form_data {
     },
     'context' => {
         data_type => 'ARRAY[string]',
+        description => '',
+        required => '1',
+    },
+    'allow_empty' => {
+        data_type => 'string',
         description => '',
         required => '1',
     },
@@ -1441,8 +1458,13 @@ sub test_query_parameter_collection_format {
       croak("Missing the required parameter 'context' when calling test_query_parameter_collection_format");
     }
 
+    # verify the required parameter 'allow_empty' is set
+    unless (exists $args{'allow_empty'}) {
+      croak("Missing the required parameter 'allow_empty' when calling test_query_parameter_collection_format");
+    }
+
     # parse inputs
-    my $_resource_path = '/fake/test-query-paramters';
+    my $_resource_path = '/fake/test-query-parameters';
 
     my $_method = 'PUT';
     my $query_params = {};
@@ -1484,6 +1506,11 @@ sub test_query_parameter_collection_format {
     # query params
     if ( exists $args{'language'}) {
         $query_params->{'language'} = $self->{api_client}->to_query_value($args{'language'});
+    }
+
+    # query params
+    if ( exists $args{'allow_empty'}) {
+        $query_params->{'allowEmpty'} = $self->{api_client}->to_query_value($args{'allow_empty'});
     }
 
     my $_body_data;

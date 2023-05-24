@@ -2,10 +2,10 @@ FROM alpine:3.12.0
 
 RUN apk add --update --no-cache curl ca-certificates bash bash-completion zsh curl git vim ncurses util-linux
 
-ADD {{scriptName}} /usr/bin/{{scriptName}}
-ADD _{{scriptName}} /usr/local/share/zsh/site-functions/_{{scriptName}}
-ADD {{scriptName}}.bash-completion /etc/bash-completion.d/{{scriptName}}
-RUN chmod 755 /usr/bin/{{scriptName}}
+ADD {{x-codegen-script-name}} /usr/bin/{{x-codegen-script-name}}
+ADD _{{x-codegen-script-name}} /usr/local/share/zsh/site-functions/_{{x-codegen-script-name}}
+ADD {{x-codegen-script-name}}.bash-completion /etc/bash-completion.d/{{x-codegen-script-name}}
+RUN chmod 755 /usr/bin/{{x-codegen-script-name}}
 
 #
 # Install oh-my-zsh
@@ -17,7 +17,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh
 #
 RUN echo '\n\
 . /etc/bash_completion\n\
-source /etc/bash-completion.d/{{scriptName}}\n\
+source /etc/bash-completion.d/{{x-codegen-script-name}}\n\
 ' >> ~/.bashrc
 
 #
@@ -39,9 +39,9 @@ For convenience, you can export the following environment variables:\n\
 {{#x-codegen-host-env}}$(tput setaf 3){{x-codegen-host-env}}$(tput sgr0) - server URL, e.g. https://example.com:8080\n\{{/x-codegen-host-env}}
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 {{#x-codegen-basicauth-env}}$(tput setaf 3){{x-codegen-basicauth-env}}$(tput sgr0) - basic authentication credentials, e.g.: "username:password"\n\{{/x-codegen-basicauth-env}}
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 {{#x-codegen-apikey-env}}$(tput setaf 3){{x-codegen-apikey-env}}$(tput sgr0) - access token, e.g. "ASDASHJDG63456asdASSD"\n\{{/x-codegen-apikey-env}}
 {{/isApiKey}}
@@ -51,13 +51,13 @@ For convenience, you can export the following environment variables:\n\
 $(tput setaf 7)Basic usage:$(tput sgr0)\n\
 \n\
 $(tput setaf 3)Print the list of operations available on the service$(tput sgr0)\n\
-$ {{scriptName}} -h\n\
+$ {{x-codegen-script-name}} -h\n\
 \n\
 $(tput setaf 3)Print the service description$(tput sgr0)\n\
-$ {{scriptName}} --about\n\
+$ {{x-codegen-script-name}} --about\n\
 \n\
 $(tput setaf 3)Print detailed information about specific operation$(tput sgr0)\n\
-$ {{scriptName}} <operationId> -h\n\
+$ {{x-codegen-script-name}} <operationId> -h\n\
 \n\
 By default you are logged into Zsh with full autocompletion for your REST API,\n\
 but you can switch to Bash, where basic autocompletion is also supported.\n\

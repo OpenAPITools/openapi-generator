@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>5.3.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -36,6 +36,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -78,14 +79,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>net.revelc.code</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <configuration>
-                    <!-- Point at the eclipse-formatter.xml in the parent project directory -->
-                    <configFile>${project.basedir}${file.separator}${project.parent.relativePath}${file.separator}eclipse-formatter.xml</configFile>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -132,7 +125,7 @@
         <dependency>
             <groupId>io.airlift</groupId>
             <artifactId>airline</artifactId>
-            <version>0.8</version>
+            <version>0.9</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.lambdaj</groupId>
@@ -142,23 +135,23 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.11</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.9</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-<!--             <version>${testng-version}</version> -->
+            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>${mockito-version}</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -15,7 +15,6 @@ package org.openapitools.api;
 import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
-import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import org.openapitools.model.ModelClient;
@@ -24,25 +23,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface AnotherFakeApi {
+    /**
+     * To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param _body client model (required)
+     * @return ModelClient
+     */
+    @Patch(uri="/another-fake/dummy")
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    Mono<ModelClient> call123testSpecialTags(
+        @Body @NotNull @Valid ModelClient _body
+    );
 
-  /**
-   * To test special tags
-   * To test special tags and operation ID starting with number
-   *
-   * @param _body client model (required)
-   * @return ModelClient
-   */
-  @Patch(uri="/another-fake/dummy")
-  @Produces(value={"application/json"})
-  @Consumes(value={"application/json"})
-  Mono<ModelClient> call123testSpecialTags(
-        @Body @Valid @NotNull ModelClient _body
-  );
 }

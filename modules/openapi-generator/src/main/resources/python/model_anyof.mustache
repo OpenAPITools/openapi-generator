@@ -1,0 +1,170 @@
+from __future__ import annotations
+from inspect import getfullargspec
+import json
+import pprint
+import re  # noqa: F401
+{{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
+{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
+{{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
+{{#vendorExtensions.x-py-model-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-model-imports}}
+from typing import Any, List
+from pydantic import StrictStr, Field
+
+{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
+
+class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
+    """
+    {{{description}}}{{^description}}{{{classname}}}{{/description}}
+    """
+
+{{#composedSchemas.anyOf}}
+    # data type: {{{dataType}}}
+    {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
+{{/composedSchemas.anyOf}}
+    actual_instance: Any
+    any_of_schemas: List[str] = Field({{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS, const=True)
+
+    class Config:
+        validate_assignment = True
+{{#discriminator}}
+
+    discriminator_value_class_map = {
+{{#children}}
+        '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
+{{/children}}
+    }
+{{/discriminator}}
+
+    def __init__(self, *args, **kwargs):
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
+    @validator('actual_instance')
+    def actual_instance_must_validate_anyof(cls, v):
+        {{#isNullable}}
+        if v is None:
+            return v
+
+        {{/isNullable}}
+        instance = {{{classname}}}.construct()
+        error_messages = []
+        {{#composedSchemas.anyOf}}
+        # validate data type: {{{dataType}}}
+        {{#isContainer}}
+        try:
+            instance.{{vendorExtensions.x-py-name}} = v
+            return v
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        try:
+            instance.{{vendorExtensions.x-py-name}} = v
+            return v
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        if not isinstance(v, {{{dataType}}}):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `{{{dataType}}}`")
+        else:
+            return v
+
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{/composedSchemas.anyOf}}
+        if error_messages:
+            # no match
+            raise ValueError("No match found when setting the actual_instance in {{{classname}}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: " + ", ".join(error_messages))
+        else:
+            return v
+
+    @classmethod
+    def from_dict(cls, obj: dict) -> {{{classname}}}:
+        return cls.from_json(json.dumps(obj))
+
+    @classmethod
+    def from_json(cls, json_str: str) -> {{{classname}}}:
+        """Returns the object represented by the json string"""
+        instance = {{{classname}}}.construct()
+        {{#isNullable}}
+        if json_str is None:
+            return instance
+
+        {{/isNullable}}
+        error_messages = []
+        {{#composedSchemas.anyOf}}
+        {{#isContainer}}
+        # deserialize data into {{{dataType}}}
+        try:
+            # validation
+            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
+            return instance
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        # deserialize data into {{{dataType}}}
+        try:
+            # validation
+            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
+            return instance
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        # {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
+        try:
+            instance.actual_instance = {{{dataType}}}.from_json(json_str)
+            return instance
+        except (ValidationError, ValueError) as e:
+             error_messages.append(str(e))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{/composedSchemas.anyOf}}
+
+        if error_messages:
+            # no match
+            raise ValueError("No match found when deserializing the JSON string into {{{classname}}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. Details: " + ", ".join(error_messages))
+        else:
+            return instance
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
+            return self.actual_instance.to_json()
+        else:
+            return json.dumps(self.actual_instance)
+
+    def to_dict(self) -> dict:
+        """Returns the dict representation of the actual instance"""
+        if self.actual_instance is None:
+            return "null"
+
+        to_json = getattr(self.actual_instance, "to_json", None)
+        if callable(to_json):
+            return self.actual_instance.to_dict()
+        else:
+            return json.dumps(self.actual_instance)
+
+    def to_str(self) -> str:
+        """Returns the string representation of the actual instance"""
+        return pprint.pformat(self.dict())

@@ -29,7 +29,7 @@ data class Order(
     val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     val status: Order.Status? = null,
-    val complete: kotlin.Boolean? = null
+    val complete: kotlin.Boolean? = false
 ) : Serializable 
 {
     companion object {

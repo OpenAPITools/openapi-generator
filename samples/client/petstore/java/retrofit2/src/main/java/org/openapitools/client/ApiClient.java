@@ -9,7 +9,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
-import org.threeten.bp.format.DateTimeFormatter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;
@@ -53,7 +53,10 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       Interceptor auth;
-      if ("api_key".equals(authName)) {
+      if ("petstore_auth".equals(authName)) {
+        
+        auth = new OAuth(OAuthFlow.IMPLICIT, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+      } else if ("api_key".equals(authName)) {
         
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
@@ -63,9 +66,6 @@ public class ApiClient {
         
         auth = new HttpBasicAuth();
         
-      } else if ("petstore_auth".equals(authName)) {
-        
-        auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }

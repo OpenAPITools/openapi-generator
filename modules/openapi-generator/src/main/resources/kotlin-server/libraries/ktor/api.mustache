@@ -2,23 +2,26 @@
 package {{apiPackage}}
 
 import com.google.gson.Gson
-import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.http.*
-import io.ktor.response.*
-{{#featureLocations}}
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
+{{#featureResources}}
 import {{packageName}}.Paths
-import io.ktor.locations.*
-{{/featureLocations}}
-import io.ktor.routing.*
+import io.ktor.server.resources.options
+import io.ktor.server.resources.get
+import io.ktor.server.resources.post
+import io.ktor.server.resources.put
+import io.ktor.server.resources.delete
+import io.ktor.server.resources.head
+import io.ktor.server.resources.patch
+{{/featureResources}}
+import io.ktor.server.routing.*
 import {{packageName}}.infrastructure.ApiPrincipal
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{#operations}}
-{{#featureLocations}}
-@KtorExperimentalLocationsAPI
-{{/featureLocations}}
 fun Route.{{classname}}() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
@@ -29,18 +32,18 @@ fun Route.{{classname}}() {
     authenticate("{{{name}}}") {
         {{/authMethods}}
     {{/hasAuthMethods}}
-    {{^featureLocations}}
+    {{^featureResources}}
     route("{{path}}") {
         {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {
             {{#lambda.indented_12}}{{>libraries/ktor/_api_body}}{{/lambda.indented_12}}
         }
     }
-    {{/featureLocations}}
-    {{#featureLocations}}
+    {{/featureResources}}
+    {{#featureResources}}
     {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {
         {{#lambda.indented_8}}{{>libraries/ktor/_api_body}}{{/lambda.indented_8}}
     }
-    {{/featureLocations}}
+    {{/featureResources}}
     {{#hasAuthMethods}}
     }
     {{/hasAuthMethods}}

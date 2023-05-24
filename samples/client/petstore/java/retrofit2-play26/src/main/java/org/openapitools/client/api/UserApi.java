@@ -2,8 +2,6 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.CollectionFormats.*;
 
-
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -11,6 +9,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;

@@ -14,12 +14,12 @@
 
     <properties>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
-        <jersey-version>2.27</jersey-version>
-        <jackson-version>2.9.10</jackson-version>
-        <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
+        <jersey-version>2.35</jersey-version>
+        <jackson-version>2.13.0</jackson-version>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.8.1</junit-version>
+        <junit-version>4.13.2</junit-version>
         <http-signature-version>1.4</http-signature-version>
     </properties>
 </project>

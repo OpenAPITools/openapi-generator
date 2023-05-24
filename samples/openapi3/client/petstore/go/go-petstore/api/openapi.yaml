@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  description: 'This spec is mainly for testing Petstore server and contains fake
-    endpoints, models. Please do not use this for any other purpose. Special characters:
-    " \'
+  description: "This spec is mainly for testing Petstore server and contains fake\
+    \ endpoints, models. Please do not use this for any other purpose. Special characters:\
+    \ \" \\"
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -10,7 +10,7 @@ info:
   version: 1.0.0
 servers:
 - description: petstore server
-  url: http://{server}.swagger.io:{port}/v2
+  url: "http://{server}.swagger.io:{port}/v2"
   variables:
     server:
       default: petstore
@@ -24,7 +24,7 @@ servers:
       - "80"
       - "8080"
 - description: The local server
-  url: https://localhost:8080/{version}
+  url: "https://localhost:8080/{version}"
   variables:
     version:
       default: v2
@@ -48,10 +48,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/_foo_get_default_response'
           description: response
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_foo_get_default_response'
+          description: client error
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_foo_get_default_response'
+          description: not found
   /pet:
     post:
+      description: ""
       operationId: addPet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -67,6 +80,7 @@ paths:
       tags:
       - pet
     put:
+      description: ""
       operationId: updatePet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -136,8 +150,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -176,6 +190,7 @@ paths:
       - pet
   /pet/{petId}:
     delete:
+      description: ""
       operationId: deletePet
       parameters:
       - explode: false
@@ -237,6 +252,7 @@ paths:
       tags:
       - pet
     post:
+      description: ""
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
@@ -249,18 +265,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
           description: Invalid input
@@ -273,6 +281,7 @@ paths:
       - pet
   /pet/{petId}/uploadImage:
     post:
+      description: ""
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
@@ -285,19 +294,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -333,6 +333,7 @@ paths:
       - store
   /store/order:
     post:
+      description: ""
       operationId: placeOrder
       requestBody:
         content:
@@ -380,7 +381,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -430,6 +431,7 @@ paths:
       - user
   /user/createWithArray:
     post:
+      description: ""
       operationId: createUsersWithArrayInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -441,6 +443,7 @@ paths:
       - user
   /user/createWithList:
     post:
+      description: ""
       operationId: createUsersWithListInput
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
@@ -452,6 +455,7 @@ paths:
       - user
   /user/login:
     get:
+      description: ""
       operationId: loginUser
       parameters:
       - description: The user name for login
@@ -502,6 +506,7 @@ paths:
       - user
   /user/logout:
     get:
+      description: ""
       operationId: logoutUser
       responses:
         default:
@@ -531,6 +536,7 @@ paths:
       tags:
       - user
     get:
+      description: ""
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
@@ -660,7 +666,13 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
@@ -750,29 +762,10 @@ paths:
           type: number
         style: form
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_2'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  items:
-                    default: $
-                    enum:
-                    - '>'
-                    - $
-                    type: string
-                  type: array
-                enum_form_string:
-                  default: -efg
-                  description: Form parameter enum test (string)
-                  enum:
-                  - _abc
-                  - -efg
-                  - (xyz)
-                  type: string
-              type: object
+              $ref: '#/components/schemas/testEnumParameters_request'
       responses:
         "400":
           description: Invalid request
@@ -804,81 +797,10 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_3'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                integer:
-                  description: None
-                  maximum: 100
-                  minimum: 10
-                  type: integer
-                int32:
-                  description: None
-                  format: int32
-                  maximum: 200
-                  minimum: 20
-                  type: integer
-                int64:
-                  description: None
-                  format: int64
-                  type: integer
-                number:
-                  description: None
-                  maximum: 543.2
-                  minimum: 32.1
-                  type: number
-                float:
-                  description: None
-                  format: float
-                  maximum: 987.6
-                  type: number
-                double:
-                  description: None
-                  format: double
-                  maximum: 123.4
-                  minimum: 67.8
-                  type: number
-                string:
-                  description: None
-                  pattern: /[a-z]/i
-                  type: string
-                pattern_without_delimiter:
-                  description: None
-                  pattern: ^[A-Z].*
-                  type: string
-                byte:
-                  description: None
-                  format: byte
-                  type: string
-                binary:
-                  description: None
-                  format: binary
-                  type: string
-                date:
-                  description: None
-                  format: date
-                  type: string
-                dateTime:
-                  description: None
-                  format: date-time
-                  type: string
-                password:
-                  description: None
-                  format: password
-                  maxLength: 64
-                  minLength: 10
-                  type: string
-                callback:
-                  description: None
-                  type: string
-              required:
-              - byte
-              - double
-              - number
-              - pattern_without_delimiter
-              type: object
+              $ref: '#/components/schemas/testEndpointParameters_request'
       responses:
         "400":
           description: Invalid username supplied
@@ -971,23 +893,13 @@ paths:
       - fake
   /fake/jsonFormData:
     get:
+      description: ""
       operationId: testJsonFormData
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_4'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                param:
-                  description: field1
-                  type: string
-                param2:
-                  description: field2
-                  type: string
-              required:
-              - param
-              - param2
-              type: object
+              $ref: '#/components/schemas/testJsonFormData_request'
       responses:
         "200":
           description: successful operation
@@ -996,6 +908,7 @@ paths:
       - fake
   /fake/inline-additionalProperties:
     post:
+      description: ""
       operationId: testInlineAdditionalProperties
       requestBody:
         content:
@@ -1052,8 +965,8 @@ paths:
       - $another-fake?
   /fake/body-with-file-schema:
     put:
-      description: For this test, the body for this request much reference a schema
-        named `File`.
+      description: "For this test, the body for this request much reference a schema\
+        \ named `File`."
       operationId: testBodyWithFileSchema
       requestBody:
         content:
@@ -1066,7 +979,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1121,7 +1034,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-unique-paramters:
+  /fake/test-unique-parameters:
     put:
       description: To test unique items in header and query parameters
       operationId: testUniqueItemsHeaderAndQueryParameterCollectionFormat
@@ -1160,6 +1073,7 @@ paths:
       - fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
+      description: ""
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update
@@ -1172,21 +1086,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_5'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                requiredFile:
-                  description: file to upload
-                  format: binary
-                  type: string
-              required:
-              - requiredFile
-              type: object
+              $ref: '#/components/schemas/uploadFileWithRequiredFile_request'
       responses:
         "200":
           content:
@@ -1211,6 +1114,29 @@ paths:
                 $ref: '#/components/schemas/HealthCheckResult'
           description: The instance started successfully
       summary: Health check endpoint
+      tags:
+      - fake
+  /fake/deep_object_test:
+    get:
+      operationId: test_query_deep_object
+      parameters:
+      - explode: true
+        in: query
+        name: test_pet
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      - explode: true
+        in: query
+        name: inputOptions
+        required: false
+        schema:
+          $ref: '#/components/schemas/Category'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
       tags:
       - fake
 components:
@@ -1241,36 +1167,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
-    inline_object_2:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_2'
-    inline_object_3:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_3'
-    inline_object_4:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_4'
-    inline_object_5:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_5'
   schemas:
     Foo:
       example:
@@ -1343,9 +1239,9 @@ components:
         arbitraryNullableTypeValue: ""
         phone: phone
         id: 0
-        arbitraryObject: '{}'
+        arbitraryObject: "{}"
         email: email
-        arbitraryNullableObject: '{}'
+        arbitraryNullableObject: "{}"
         username: username
       properties:
         id:
@@ -1378,11 +1274,11 @@ components:
           nullable: true
           type: object
         arbitraryTypeValue:
-          description: test code generation for any type Value can be any type - string,
-            number, boolean, array or object.
+          description: "test code generation for any type Value can be any type -\
+            \ string, number, boolean, array or object."
         arbitraryNullableTypeValue:
-          description: test code generation for any type Value can be any type - string,
-            number, boolean, array, object or the 'null' value.
+          description: "test code generation for any type Value can be any type -\
+            \ string, number, boolean, array, object or the 'null' value."
           nullable: true
       type: object
       xml:
@@ -1568,7 +1464,7 @@ components:
           minimum: 67.8
           type: number
         string:
-          pattern: /[a-z]/i
+          pattern: "/[a-z]/i"
           type: string
         byte:
           format: byte
@@ -1593,12 +1489,12 @@ components:
           type: string
         pattern_with_digits:
           description: A string that is a 10 digit number. Can have leading zeros.
-          pattern: ^\d{10}$
+          pattern: "^\\d{10}$"
           type: string
         pattern_with_digits_and_delimiter:
           description: A string starting with 'image_' (case insensitive) and one
             to three digits following i.e. Image_01.
-          pattern: /^image_\d{1,3}$/i
+          pattern: "/^image_\\d{1,3}$/i"
           type: string
       required:
       - byte
@@ -1884,7 +1780,7 @@ components:
           format: int64
           type: integer
       xml:
-        name: $special[model.name]
+        name: "$special[model.name]"
     HealthCheckResult:
       description: Just a string to inform instance is up and running. Make it nullable
         in hope to get it as pointer in generated model.
@@ -2034,7 +1930,94 @@ components:
       required:
       - lengthCm
       type: object
-    inline_response_default:
+    ReadOnlyWithDefault:
+      properties:
+        prop1:
+          readOnly: true
+          type: string
+        prop2:
+          default: defaultProp2
+          readOnly: true
+          type: string
+        prop3:
+          default: defaultProp3
+          type: string
+        boolProp1:
+          default: false
+          readOnly: true
+          type: boolean
+        boolProp2:
+          default: true
+          type: boolean
+        intProp1:
+          default: 100
+          readOnly: true
+          type: number
+        intProp2:
+          default: 120
+          type: number
+      type: object
+    NullableAllOfChild:
+      properties:
+        name:
+          type: string
+      type: object
+    NullableAllOf:
+      properties:
+        child:
+          allOf:
+          - $ref: '#/components/schemas/NullableAllOfChild'
+          nullable: true
+      type: object
+    OneOfPrimitiveType:
+      oneOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - format: int32
+        type: integer
+      - $ref: '#/components/schemas/OneOfArrayOfString'
+    OneOfPrimitiveTypeChild:
+      properties:
+        name:
+          type: string
+      type: object
+    OneOfArrayOfString:
+      items:
+        type: string
+      type: array
+    DuplicatedPropChild:
+      allOf:
+      - $ref: '#/components/schemas/DuplicatedPropParent'
+      - $ref: '#/components/schemas/DuplicatedPropChild_allOf'
+    DuplicatedPropParent:
+      description: parent model with duplicated property
+      discriminator:
+        propertyName: dup-prop
+      properties:
+        dup-prop:
+          description: A discriminator value
+          type: string
+      required:
+      - dup-prop
+      type: object
+    MapOfFileTest:
+      description: test map of file in a property
+      properties:
+        prop_test:
+          additionalProperties:
+            format: binary
+            type: string
+          description: a property to test map of file
+          type: object
+      type: object
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - $ref: '#/components/schemas/AllOfPrimitiveTypes_allOf'
+    _foo_get_default_response:
       example:
         string:
           bar: bar
@@ -2042,7 +2025,7 @@ components:
         string:
           $ref: '#/components/schemas/Foo'
       type: object
-    inline_object:
+    updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
@@ -2051,7 +2034,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2061,7 +2044,7 @@ components:
           format: binary
           type: string
       type: object
-    inline_object_2:
+    testEnumParameters_request:
       properties:
         enum_form_string_array:
           description: Form parameter enum test (string array)
@@ -2081,7 +2064,7 @@ components:
           - (xyz)
           type: string
       type: object
-    inline_object_3:
+    testEndpointParameters_request:
       properties:
         integer:
           description: None
@@ -2116,11 +2099,11 @@ components:
           type: number
         string:
           description: None
-          pattern: /[a-z]/i
+          pattern: "/[a-z]/i"
           type: string
         pattern_without_delimiter:
           description: None
-          pattern: ^[A-Z].*
+          pattern: "^[A-Z].*"
           type: string
         byte:
           description: None
@@ -2153,7 +2136,7 @@ components:
       - number
       - pattern_without_delimiter
       type: object
-    inline_object_4:
+    testJsonFormData_request:
       properties:
         param:
           description: field1
@@ -2165,7 +2148,7 @@ components:
       - param
       - param2
       type: object
-    inline_object_5:
+    uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2182,11 +2165,27 @@ components:
         breed:
           type: string
       type: object
+      example: null
     Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
+      example: null
+    DuplicatedPropChild_allOf:
+      properties:
+        dup-prop:
+          description: A discriminator value
+          type: string
+      type: object
+      example: null
+    AllOfPrimitiveTypes_allOf:
+      properties:
+        test:
+          format: date-time
+          type: string
+      type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:

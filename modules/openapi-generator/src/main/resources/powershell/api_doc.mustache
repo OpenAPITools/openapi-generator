@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-<a name="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
+<a id="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
 # **{{{vendorExtensions.x-powershell-method-name}}}**
 > {{{returnType}}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}<br>
 {{#allParams}}
@@ -27,11 +27,11 @@ Method | HTTP request | Description
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 $Configuration.Username = "YOUR_USERNAME"
 $Configuration.Password = "YOUR_PASSWORD"
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
 $Configuration.ApiKey.{{{keyParamName}}} = "YOUR_API_KEY"
@@ -80,7 +80,7 @@ ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | 
 try {
     $Result = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
 } catch {
-    Write-Host ("Exception occured when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```

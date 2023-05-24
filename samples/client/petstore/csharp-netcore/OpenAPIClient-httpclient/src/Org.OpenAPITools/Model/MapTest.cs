@@ -50,16 +50,8 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2
-
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
-        public Dictionary<string, InnerEnum> MapOfEnumString { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -81,6 +73,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_map_of_string", EmitDefaultValue = false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets DirectMap
@@ -106,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class MapTest {\n");
             sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
             sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
@@ -156,14 +154,25 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.MapMapOfString != null)
-                    hashCode = hashCode * 59 + this.MapMapOfString.GetHashCode();
-                hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
+                }
+                if (this.MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                }
                 if (this.DirectMap != null)
-                    hashCode = hashCode * 59 + this.DirectMap.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();
+                }
                 if (this.IndirectMap != null)
-                    hashCode = hashCode * 59 + this.IndirectMap.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.IndirectMap.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

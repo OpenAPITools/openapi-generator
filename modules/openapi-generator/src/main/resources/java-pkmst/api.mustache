@@ -28,8 +28,8 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{/async}}
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 /**
  * Provides the info about api methods
@@ -50,16 +50,16 @@ public interface {{classname}} {
         {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}} })
-    {{#implicitHeaders}}
+    {{#implicitHeadersParams.0}}
     @ApiImplicitParams({
-    {{#headerParams}}{{>implicitHeader}}{{/headerParams}}
+    {{#implicitHeadersParams}}{{>implicitHeader}}{{/implicitHeadersParams}}
     })
-    {{/implicitHeaders}}
+    {{/implicitHeadersParams.0}}
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}},
         produces = "{{{vendorExtensions.x-accepts}}}",
-        consumes = "{{{vendorExtensions.x-contentType}}}"{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
+        consumes = "{{{vendorExtensions.x-content-type}}}"{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}
     )

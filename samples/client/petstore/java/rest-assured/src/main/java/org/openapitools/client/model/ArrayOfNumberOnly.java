@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -37,8 +35,10 @@ import org.hibernate.validator.constraints.*;
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber;
 
+  public ArrayOfNumberOnly() {
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
@@ -48,7 +48,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -60,7 +60,7 @@ public class ArrayOfNumberOnly {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -70,7 +70,6 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {

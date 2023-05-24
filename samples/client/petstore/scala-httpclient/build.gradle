@@ -6,7 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -15,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -23,7 +23,7 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
     apply plugin: 'com.github.dcendents.android-maven'
-    
+
     android {
         compileSdkVersion 23
         buildToolsVersion '23.0.2'
@@ -35,7 +35,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
         }
-    
+
         // Rename the aar correctly
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
@@ -51,7 +51,7 @@ if(hasProperty('target') && target == 'android') {
             provided 'javax.annotation:jsr250-api:1.0'
         }
     }
-    
+
     afterEvaluate {
         android.libraryVariants.all { variant ->
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
@@ -63,12 +63,12 @@ if(hasProperty('target') && target == 'android') {
             artifacts.add('archives', task);
         }
     }
-    
+
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
         classifier = 'sources'
     }
-    
+
     artifacts {
         archives sourcesJar
     }
@@ -77,17 +77,20 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'scala'
     apply plugin: 'java'
-    apply plugin: 'maven'
-    
+    apply plugin: 'maven-publish'
+
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
-    
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'openapi-scala-client'
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'openapi-scala-client'
+               from components.java
+            }
         }
     }
-    
+
     task execute(type:JavaExec) {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
@@ -113,15 +116,15 @@ repositories {
 }
 
 dependencies {
-    compile "com.fasterxml.jackson.module:jackson-module-scala_2.10:$jackson_version"
-    compile "com.sun.jersey:jersey-client:$jersey_version"
-    compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
-    compile "org.jfarcand:jersey-ahc-client:$jersey_async_version"
-    compile "org.scala-lang:scala-library:$scala_version"
-    compile "io.swagger:swagger-core:$swagger_core_version"
-    testCompile "org.scalatest:scalatest_2.10:$scala_test_version"
-    testCompile "junit:junit:$junit_version"
-    compile "joda-time:joda-time:$jodatime_version"
-    compile "org.joda:joda-convert:$joda_version"
-    compile "com.wordnik.swagger:swagger-async-httpclient_2.10:$swagger_async_httpclient_version"
+    compileOnly "com.fasterxml.jackson.module:jackson-module-scala_2.10:$jackson_version"
+    compileOnly "com.sun.jersey:jersey-client:$jersey_version"
+    compileOnly "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    compileOnly "org.jfarcand:jersey-ahc-client:$jersey_async_version"
+    compileOnly "org.scala-lang:scala-library:$scala_version"
+    compileOnly "io.swagger:swagger-core:$swagger_core_version"
+    testCompileOnly "org.scalatest:scalatest_2.10:$scala_test_version"
+    testCompileOnly "junit:junit:$junit_version"
+    compileOnly "joda-time:joda-time:$jodatime_version"
+    compileOnly "org.joda:joda-convert:$joda_version"
+    compileOnly "com.wordnik.swagger:swagger-async-httpclient_2.10:$swagger_async_httpclient_version"
 }

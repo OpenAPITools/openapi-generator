@@ -3,4 +3,5 @@
 @JacksonXmlRootElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{classname}}{{/xmlName}}")
 {{/jackson}}
 @XmlRootElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{classname}}{{/xmlName}}")
-@XmlAccessorType(XmlAccessType.FIELD){{/withXml}}
+@XmlAccessorType(XmlAccessType.FIELD)
+{{/withXml}}

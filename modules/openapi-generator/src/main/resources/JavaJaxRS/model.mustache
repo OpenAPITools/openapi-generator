@@ -2,12 +2,7 @@
 
 package {{package}};
 
-{{^supportJava6}}
 import java.util.Objects;
-{{/supportJava6}}
-{{#supportJava6}}
-import org.apache.commons.lang3.ObjectUtils;
-{{/supportJava6}}
 {{#imports}}import {{import}};
 {{/imports}}
 {{#jackson}}
@@ -17,8 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 {{/serializableModel}}
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 {{#models}}

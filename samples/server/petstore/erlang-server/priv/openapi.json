@@ -29,6 +29,7 @@
   "paths" : {
     "/pet" : {
       "post" : {
+        "description" : "",
         "operationId" : "addPet",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/Pet"
@@ -60,6 +61,11 @@
         "tags" : [ "pet" ]
       },
       "put" : {
+        "description" : "",
+        "externalDocs" : {
+          "description" : "API documentation for the updatePet operation",
+          "url" : "http://petstore.swagger.io/v2/doc/updatePet"
+        },
         "operationId" : "updatePet",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/Pet"
@@ -205,6 +211,7 @@
     },
     "/pet/{petId}" : {
       "delete" : {
+        "description" : "",
         "operationId" : "deletePet",
         "parameters" : [ {
           "explode" : false,
@@ -283,6 +290,7 @@
         "tags" : [ "pet" ]
       },
       "post" : {
+        "description" : "",
         "operationId" : "updatePetWithForm",
         "parameters" : [ {
           "description" : "ID of pet that needs to be updated",
@@ -297,21 +305,10 @@
           "style" : "simple"
         } ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/inline_object",
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "name" : {
-                    "description" : "Updated name of the pet",
-                    "type" : "string"
-                  },
-                  "status" : {
-                    "description" : "Updated status of the pet",
-                    "type" : "string"
-                  }
-                },
-                "type" : "object"
+                "$ref" : "#/components/schemas/updatePetWithForm_request"
               }
             }
           }
@@ -330,6 +327,7 @@
     },
     "/pet/{petId}/uploadImage" : {
       "post" : {
+        "description" : "",
         "operationId" : "uploadFile",
         "parameters" : [ {
           "description" : "ID of pet to update",
@@ -344,22 +342,10 @@
           "style" : "simple"
         } ],
         "requestBody" : {
-          "$ref" : "#/components/requestBodies/inline_object_1",
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "description" : "Additional data to pass to server",
-                    "type" : "string"
-                  },
-                  "file" : {
-                    "description" : "file to upload",
-                    "format" : "binary",
-                    "type" : "string"
-                  }
-                },
-                "type" : "object"
+                "$ref" : "#/components/schemas/uploadFile_request"
               }
             }
           }
@@ -412,6 +398,7 @@
     },
     "/store/order" : {
       "post" : {
+        "description" : "",
         "operationId" : "placeOrder",
         "requestBody" : {
           "content" : {
@@ -475,7 +462,7 @@
         "tags" : [ "store" ]
       },
       "get" : {
-        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         "operationId" : "getOrderById",
         "parameters" : [ {
           "description" : "ID of pet that needs to be fetched",
@@ -547,6 +534,7 @@
     },
     "/user/createWithArray" : {
       "post" : {
+        "description" : "",
         "operationId" : "createUsersWithArrayInput",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/UserArray"
@@ -565,6 +553,7 @@
     },
     "/user/createWithList" : {
       "post" : {
+        "description" : "",
         "operationId" : "createUsersWithListInput",
         "requestBody" : {
           "$ref" : "#/components/requestBodies/UserArray"
@@ -583,6 +572,7 @@
     },
     "/user/login" : {
       "get" : {
+        "description" : "",
         "operationId" : "loginUser",
         "parameters" : [ {
           "description" : "The user name for login",
@@ -641,7 +631,7 @@
                 "style" : "simple"
               },
               "X-Expires-After" : {
-                "description" : "date in UTC when toekn expires",
+                "description" : "date in UTC when token expires",
                 "explode" : false,
                 "schema" : {
                   "format" : "date-time",
@@ -661,6 +651,7 @@
     },
     "/user/logout" : {
       "get" : {
+        "description" : "",
         "operationId" : "logoutUser",
         "responses" : {
           "default" : {
@@ -704,6 +695,7 @@
         "tags" : [ "user" ]
       },
       "get" : {
+        "description" : "",
         "operationId" : "getUserByName",
         "parameters" : [ {
           "description" : "The name that needs to be fetched. Use user1 for testing.",
@@ -814,24 +806,6 @@
         },
         "description" : "Pet object that needs to be added to the store",
         "required" : true
-      },
-      "inline_object" : {
-        "content" : {
-          "application/x-www-form-urlencoded" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/inline_object"
-            }
-          }
-        }
-      },
-      "inline_object_1" : {
-        "content" : {
-          "multipart/form-data" : {
-            "schema" : {
-              "$ref" : "#/components/schemas/inline_object_1"
-            }
-          }
-        }
       }
     },
     "schemas" : {
@@ -1055,7 +1029,7 @@
         "title" : "An uploaded response",
         "type" : "object"
       },
-      "inline_object" : {
+      "updatePetWithForm_request" : {
         "properties" : {
           "name" : {
             "description" : "Updated name of the pet",
@@ -1068,7 +1042,7 @@
         },
         "type" : "object"
       },
-      "inline_object_1" : {
+      "uploadFile_request" : {
         "properties" : {
           "additionalMetadata" : {
             "description" : "Additional data to pass to server",

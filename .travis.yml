@@ -1,7 +1,7 @@
 sudo: required
 language: java
 jdk:
-  - openjdk8
+  - openjdk11
 
 # See https://docs.travis-ci.com/user/languages/java/#caching
 before_cache:
@@ -21,31 +21,15 @@ cache:
   - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
   - $HOME/samples/client/petstore/ruby/vendor/bundle
   - $HOME/samples/client/petstore/python/.venv/
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/default/node_modules
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/jquery/node_modules
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/object_params/node_modules
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/inversify/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/typings/
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
-  - $HOME/samples/client/petstore/typescript-angular/node_modules
-  - $HOME/samples/client/petstore/typescript-angular/typings
   - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
   - $HOME/.cargo
   - $HOME/.pub-cache
   - $HOME/samples/server/petstore/cpp-pistache/pistache
-  - $HOME/.npm  
   - $HOME/.rvm/gems/ruby-2.4.1
   - $HOME/website/node_modules/
   - $HOME/.cache/deno
+  - $HOME/.phpenv/versions/8.1.4
 
 services:
   - docker
@@ -66,34 +50,31 @@ before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge"
   - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  #- sudo apt-get install -qqy --no-install-recommends google-chrome-stable
+  #- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - mkdir -vp ~/.docker/cli-plugins/
   - curl --silent -L "https://github.com/docker/buildx/releases/download/v0.3.0/buildx-v0.3.0.linux-amd64" > ~/.docker/cli-plugins/docker-buildx
   - chmod a+x ~/.docker/cli-plugins/docker-buildx
   # to run petstore server locally via docker
-  - echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin || true
-  - docker pull swaggerapi/petstore
-  - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-  - docker ps -a
+  #- echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin || true
+  #- docker pull swaggerapi/petstore
+  #- docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+  #- docker ps -a
+  # comment out crystal installation as the tests will run on circleci or github action instead
   # install crystal
-  - echo 'deb http://download.opensuse.org/repositories/devel:/languages:/crystal/xUbuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/devel:languages:crystal.list
-  - curl -fsSL https://download.opensuse.org/repositories/devel:languages:crystal/xUbuntu_16.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/devel_languages_crystal.gpg > /dev/null
-  - sudo apt update
-  - sudo apt install crystal
-  - crystal --version
+  #- echo 'deb http://download.opensuse.org/repositories/devel:/languages:/crystal/xUbuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/devel:languages:crystal.list
+  #- curl -fsSL https://download.opensuse.org/repositories/devel:languages:crystal/xUbuntu_16.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/devel_languages_crystal.gpg > /dev/null
+  #- sudo apt update
+  #- sudo apt install crystal
+  #- crystal --version
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
   - export PATH="$HOME/.yarn/bin:$PATH"
   # install rust
-  - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
-  # required when sudo: required for the Ruby petstore tests
-  - gem install bundler
-  - nvm install 12.20.0
-  - nvm use 12.20.0
-  - npm install -g typescript
-  - npm install -g npm
-  - npm config set registry http://registry.npmjs.org/
-  # set python 3.6.3 as default
-  - source ~/virtualenv/python3.6/bin/activate
+  #- curl https://sh.rustup.rs -sSf | sh -s -- -y -v
+  ## required when sudo: required for the Ruby petstore tests
+  #- gem install bundler -v 2.3.26
+  ## set python 3.6.3 as default
+  #- source ~/virtualenv/python3.6/bin/activate
   # -- skip bash test to shorten build time
   # Add bats test framework and cURL for Bash script integration tests
   #- sudo add-apt-repository ppa:duggan/bats --yes
@@ -108,26 +89,34 @@ before_install:
   #- sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
   #- sudo apt-get update
   #- sudo apt-get install dart
-  # switch to php7
-  - phpenv versions
-  - phpenv global 7.2.15
-  - php -v
+  # switch to php8
+  #- sudo apt-get install -f libonig-dev libzip-dev
+  #- git clone https://github.com/php-build/php-build $(phpenv root)/plugins/php-build
+  #- git clone https://github.com/ngyuki/phpenv-composer.git $(phpenv root)/plugins/phpenv-composer
+  #- if [ $(ls -A "$HOME/.phpenv/versions/8.1.4" | wc -l) -eq 0 ]; then
+  #    phpenv install 8.1.4;
+  #  fi;
+  #- phpenv rehash
+  #- phpenv versions
+  ##- phpenv global 7.2.15
+  #- phpenv global 8.1.4
+  #- php -v
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
   # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
   # - Rely on `kerl` for [pre-compiled versions available](https://docs.travis-ci.com/user/languages/erlang#Choosing-OTP-releases-to-test-against). Rely on installation path chosen by [`travis-erlang-builder`](https://github.com/travis-ci/travis-erlang-builder/blob/e6d016b1a91ca7ecac5a5a46395bde917ea13d36/bin/compile#L18).
   # - . ~/otp/18.2.1/activate && erl -version
   #- curl -f -L -o ./rebar3 https://s3.amazonaws.com/rebar3/rebar3 && chmod +x ./rebar3 && ./rebar3 version && export PATH="${TRAVIS_BUILD_DIR}:$PATH"
-  # install C++ tools 
-  - sudo apt install -y --no-install-recommends valgrind cmake build-essential 
+  # install C++ tools
+  #- sudo apt install -y --no-install-recommends valgrind cmake build-essential
+  #- cmake --version
   # install Qt5
-  - sudo apt install -y --no-install-recommends qt5-default 
-  - cmake --version
-  # -- skip perl test to shorten build time
+  #- sudo apt install -y --no-install-recommends qt5-default
+  # install boost
+  #- sudo apt install -y --no-install-recommends libboost-all-dev
   # perl dep
   #- cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-  #- cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Igorned failure from cpanm"
-  # -- skip perl test end
+  #- cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Ignored failure from cpanm"
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
   # show java version
@@ -139,8 +128,8 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - sh -s v1.6.2 < ./CI/deno_install.sh
-  - export PATH="$HOME/.deno/bin:$PATH"
+  #- sh -s v1.6.2 < ./CI/deno_install.sh
+  #- export PATH="$HOME/.deno/bin:$PATH"
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -159,47 +148,38 @@ script:
   - set -e
   # show docker buildx version
   - docker buildx version
-  # fail if the template files contains tabs
-  - /bin/bash ./bin/utils/detect_tab_in_templates.sh
-  # fail if the test files have changes
-  - bin/utils/detect_test_file_changes.rb bin/utils/test_file_list.yaml
-  # fail if templates/generators contain carriage return '\r'
-  - /bin/bash ./bin/utils/detect_carriage_return.sh
-  # fail if generators contain merge conflicts
-  - /bin/bash ./bin/utils/detect_merge_conflict.sh
-  # fail if generators contain tab '\t'
-  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # show "error" only to reduce the log size
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -DskipTests -Dmaven.javadoc.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error 2>&1 | grep -i error
+  #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
+        mvn clean deploy --quiet -DskipTests=true -B -U -P release --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishMavenJavaPublicationToNexusRepository closeAndReleaseRepository --no-daemon;
-        echo "Finished ./gradlew publishPluginMavenPublicationToNexusRepository closeAndReleaseRepository";
+        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
+        echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
         popd;
       elif [ -z $TRAVIS_TAG ] && [[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy --settings CI/settings.xml;
+        mvn clean deploy --quiet --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToNexusRepository closeAndReleaseRepository --no-daemon;
-        echo "Finished ./gradlew publishPluginMavenPublicationToNexusRepository closeAndReleaseRepository";
+        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository;
+        echo "Finished ./gradlew publishPluginMavenPublicationToSonatypeRepository closeAndReleaseSonatypeStagingRepository";
         popd;
       fi;
       if [ -n $TRAVIS_TAG ] && [[ "$TRAVIS_TAG" =~ ^[v][0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         echo "Publishing the gradle plugin to Gradle Portal on tag $TRAVIS_TAG (only)";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" publishPlugins -Dgradle.publish.key=$GRADLE_PUBLISH_KEY -Dgradle.publish.secret=$GRADLE_PUBLISH_SECRET --no-daemon;
+        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" publishPlugins -Dgradle.publish.key=$GRADLE_PUBLISH_KEY -Dgradle.publish.secret=$GRADLE_PUBLISH_SECRET;
         echo "Finished ./gradlew publishPlugins (plugin portal)";
         popd;
       fi;
@@ -211,7 +191,7 @@ after_success:
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
       docker buildx create --use;
       if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME:latest -t $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_GENERATOR_IMAGE_NAME -t $DOCKER_GENERATOR_IMAGE_NAME:latest-release ./modules/openapi-generator-online;
           echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
       fi;
       if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
@@ -228,7 +208,7 @@ after_success:
       docker buildx create --use;
       docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
       if [ ! -z "$TRAVIS_TAG" ]; then
-          docker buildx build --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+          docker buildx build --push --platform linux/amd64,linux/arm64 --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-cli --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG -t $DOCKER_CODEGEN_CLI_IMAGE_NAME -t $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest-release ./modules/openapi-generator-cli;
           echo "Built and tagged $DOCKER_GENERATOR_IMAGE_NAME";
       fi;
       if [ -z "$TRAVIS_TAG" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
@@ -236,15 +216,15 @@ after_success:
           echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
       fi;
     fi;
-  ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
-  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      cd website;
-      git config --global user.name "${GH_NAME}";
-      git config --global user.email "${GH_EMAIL}";
-      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
-      yarn install;
-      GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
-    fi;
+  # publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
+  #- if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  #    cd website;
+  #    git config --global user.name "${GH_NAME}";
+  #    git config --global user.email "${GH_EMAIL}";
+  #    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
+  #    yarn install;
+  #    GIT_USER="${GH_NAME}" yarn run publish-gh-pages;
+  #  fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test CC=gcc-5 CXX=g++-5

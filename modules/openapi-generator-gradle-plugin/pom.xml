@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>5.3.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -17,14 +17,15 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>5.6.4</gradleVersion>
+        <gradleVersion>7.6</gradleVersion>
+        <gradle-tooling.version>7.3-20210825160000+0000</gradle-tooling.version>
     </properties>
 
     <pluginRepositories>
         <pluginRepository>
             <id>Gradle Releases</id>
             <name>Gradle Releases repository</name>
-            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+            <url>https://repo.gradle.org/gradle/libs-releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -77,6 +78,17 @@
                 <groupId>org.fortasoft</groupId>
                 <artifactId>gradle-maven-plugin</artifactId>
                 <version>1.0.8</version>
+
+                <!-- The plugin is no longer supported, so dependency has to be overridden -->
+                <!-- https://github.com/LendingClub/gradle-maven-plugin/issues/39 -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.gradle</groupId>
+                        <artifactId>gradle-tooling-api</artifactId>
+                        <version>${gradle-tooling.version}</version>
+                    </dependency>
+                </dependencies>
+
                 <configuration>
                     <gradleVersion>${gradleVersion}</gradleVersion>
                     <args>
@@ -85,7 +97,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>compile</phase>
                         <goals>
                             <!-- goal must be "invoke" -->
                             <goal>invoke</goal>
@@ -94,21 +106,12 @@
                             <tasks>
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
-                                <task>check</task>
-                                <task>assemble</task>
+                                <task>build</task>
                                 <task>publishToMavenLocal</task>
-                                <task>publishPluginMavenPublicationToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.gradle</groupId>
-                        <artifactId>gradle-tooling-api</artifactId>
-                        <version>${gradleVersion}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

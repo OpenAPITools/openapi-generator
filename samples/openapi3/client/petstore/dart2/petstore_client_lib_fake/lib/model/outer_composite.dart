@@ -1,10 +1,11 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -17,11 +18,29 @@ class OuterComposite {
     this.myBoolean,
   });
 
-  num myNumber;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? myNumber;
 
-  String myString;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? myString;
 
-  bool myBoolean;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? myBoolean;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
@@ -31,61 +50,105 @@ class OuterComposite {
 
   @override
   int get hashCode =>
-    (myNumber == null ? 0 : myNumber.hashCode) +
-    (myString == null ? 0 : myString.hashCode) +
-    (myBoolean == null ? 0 : myBoolean.hashCode);
+    // ignore: unnecessary_parenthesis
+    (myNumber == null ? 0 : myNumber!.hashCode) +
+    (myString == null ? 0 : myString!.hashCode) +
+    (myBoolean == null ? 0 : myBoolean!.hashCode);
 
   @override
   String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (myNumber != null) {
-      json[r'my_number'] = myNumber;
+    if (this.myNumber != null) {
+      json[r'my_number'] = this.myNumber;
+    } else {
+      json[r'my_number'] = null;
     }
-    if (myString != null) {
-      json[r'my_string'] = myString;
+    if (this.myString != null) {
+      json[r'my_string'] = this.myString;
+    } else {
+      json[r'my_string'] = null;
     }
-    if (myBoolean != null) {
-      json[r'my_boolean'] = myBoolean;
+    if (this.myBoolean != null) {
+      json[r'my_boolean'] = this.myBoolean;
+    } else {
+      json[r'my_boolean'] = null;
     }
     return json;
   }
 
   /// Returns a new [OuterComposite] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static OuterComposite fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : OuterComposite(
-        myNumber: json[r'my_number'] == null ?
-          null :
-          json[r'my_number'].toDouble(),
-        myString: json[r'my_string'],
-        myBoolean: json[r'my_boolean'],
-    );
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static OuterComposite? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<OuterComposite> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterComposite>[]
-      : json.map((dynamic value) => OuterComposite.fromJson(value)).toList(growable: true == growable);
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "OuterComposite[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "OuterComposite[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
 
-  static Map<String, OuterComposite> mapFromJson(Map<String, dynamic> json) {
+      return OuterComposite(
+        myNumber: json[r'my_number'] == null
+            ? null
+            : num.parse(json[r'my_number'].toString()),
+        myString: mapValueOfType<String>(json, r'my_string'),
+        myBoolean: mapValueOfType<bool>(json, r'my_boolean'),
+      );
+    }
+    return null;
+  }
+
+  static List<OuterComposite> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OuterComposite>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OuterComposite.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+
+  static Map<String, OuterComposite> mapFromJson(dynamic json) {
     final map = <String, OuterComposite>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = OuterComposite.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = OuterComposite.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of OuterComposite-objects as value to a dart map
-  static Map<String, List<OuterComposite>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<OuterComposite>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<OuterComposite>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = OuterComposite.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = OuterComposite.listFromJson(entry.value, growable: growable,);
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 
