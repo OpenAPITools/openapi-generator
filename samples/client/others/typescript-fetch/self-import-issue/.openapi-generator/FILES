@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 index.ts
 models/AbstractUserDto.ts
 models/BranchDto.ts

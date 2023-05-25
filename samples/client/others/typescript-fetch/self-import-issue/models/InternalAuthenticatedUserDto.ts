@@ -26,9 +26,6 @@ import {
     BranchDtoToJSON,
 } from './BranchDto';
 
-import {
-} from './';
-
 /**
  * 
  * @export
