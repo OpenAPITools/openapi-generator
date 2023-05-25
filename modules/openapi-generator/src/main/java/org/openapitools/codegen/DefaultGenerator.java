@@ -107,6 +107,11 @@ public class DefaultGenerator implements Generator {
         LOGGER.info("Generating with dryRun={}", this.dryRun);
     }
 
+    @Override
+    public String getName() {
+        return "default";
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public Generator opts(ClientOptInput opts) {
