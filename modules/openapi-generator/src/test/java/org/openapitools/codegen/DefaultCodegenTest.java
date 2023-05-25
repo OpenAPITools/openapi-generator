@@ -862,8 +862,10 @@ public class DefaultCodegenTest {
         Operation operation2 = openAPI.getPaths().get("/example1/plural").getGet();
         CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter2, operation2.getParameters().get(0));
-
         Assert.assertEquals(codegenParameter2.example, "An example1 value");
+        // verify examples are available
+        codegen.setParameterExamples(codegenParameter2, operation2.getParameters().get(0));
+        Assert.assertEquals(codegenParameter2.examples.size(), 1);
     }
 
     @Test
