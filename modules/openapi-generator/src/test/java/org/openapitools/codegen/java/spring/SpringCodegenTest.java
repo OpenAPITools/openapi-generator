@@ -2666,4 +2666,30 @@ public class SpringCodegenTest {
                 .bodyContainsLines("if (b.value.equals(value)) {");
     }
 
+
+
+    @Test
+    public void multiLineOperationDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        String expectedDescription = "# Multi-line descriptions  This is an example of a multi-line description.  It: - has multiple lines - uses Markdown (CommonMark) for rich text representation";
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains(expectedDescription);
+    }
+
+    @Test
+    public void multiLineTagDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+    }
 }

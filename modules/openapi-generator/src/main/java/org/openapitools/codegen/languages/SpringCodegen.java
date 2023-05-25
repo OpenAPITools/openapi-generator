@@ -858,7 +858,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             final String firstTagName = firstTag.getName();
             // But use a sensible tag name if there is none
             objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
-            objs.put("tagDescription", firstTag.getDescription());
+            objs.put("tagDescription", escapeText(firstTag.getDescription()));
         }
 
         return objs;
