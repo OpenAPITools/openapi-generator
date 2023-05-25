@@ -19,15 +19,25 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
-import org.springframework.util.MultiValueMap
-import org.springframework.web.util.UriComponentsBuilder
+import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
 
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
 class UserApi(client: WebClient) : ApiClient(client) {
+
+    constructor(baseUrl: String) : this(WebClient.builder()
+        .baseUrl(baseUrl)
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
+        .build()
+    )
 
 
     @Throws(WebClientResponseException::class)
@@ -279,13 +289,4 @@ class UserApi(client: WebClient) : ApiClient(client) {
         )
     }
 
-    private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
-        UriComponentsBuilder.newInstance()
-            .scheme("http")
-            .host("localhost")
-            .pathSegment(uriComponent)
-            .build()
-            .encode()
-            .pathSegments
-            .first()
 }

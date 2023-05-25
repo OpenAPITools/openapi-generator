@@ -12,12 +12,8 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.http.codec.json.Jackson2JsonEncoder
 {{/jackson}}
 import org.springframework.http.ResponseEntity
-import org.springframework.util.MultiValueMap
-import org.springframework.web.util.UriComponentsBuilder
-import org.springframework.web.util.UriUtils
+import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets.UTF_8
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -141,7 +137,5 @@ import {{packageName}}.infrastructure.*
     }
 
     {{/operation}}
-    private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
-        UriUtils.encodeFragment(uriComponent, Charset.defaultCharset())
 }
 {{/operations}}
