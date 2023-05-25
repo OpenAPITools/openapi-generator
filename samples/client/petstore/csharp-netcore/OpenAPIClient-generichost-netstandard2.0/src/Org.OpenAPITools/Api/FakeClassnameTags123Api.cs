@@ -37,7 +37,18 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// To test class name in snake case
+        /// </summary>
+        /// <remarks>
+        /// To test class name in snake case
+        /// </remarks>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;&gt;</returns>
+        Task<ApiResponse<ModelClient>> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -158,11 +169,29 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// To test class name in snake case To test class name in snake case
         /// </summary>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
+        public async Task<ApiResponse<ModelClient>> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestClassnameAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// To test class name in snake case To test class name in snake case
+        /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -217,7 +246,7 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake_classname_test", uriBuilderLocalVar.Path));
 

@@ -468,6 +468,11 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.name, "MINUS_EFG")
         self.assertEqual(a, "-efg")
 
+    def test_nullable_property_pattern(self):
+        a = petstore_api.NullableProperty(id=12, name=None)
+        self.assertEqual(a.id, 12)
+        self.assertEqual(a.name, None)
+
     def test_int_or_string_oneof(self):
         a = petstore_api.IntOrString("-efg")
         self.assertEqual(a.actual_instance, "-efg")

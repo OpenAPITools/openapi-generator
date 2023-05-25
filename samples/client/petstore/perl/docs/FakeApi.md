@@ -79,7 +79,6 @@ use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
-    # Configure HTTP basic authorization: http_signature_test
     
 );
 
@@ -679,7 +678,6 @@ use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
-    # Configure HTTP basic authorization: bearer_test
     # Configure bearer access token for authorization: bearer_test
     access_token => 'YOUR_BEARER_TOKEN',
     

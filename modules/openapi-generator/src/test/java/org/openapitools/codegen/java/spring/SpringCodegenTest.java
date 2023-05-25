@@ -1652,7 +1652,6 @@ public class SpringCodegenTest {
     @Test
     public void testResponseWithArray_issue11897() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -1678,7 +1677,6 @@ public class SpringCodegenTest {
     @Test
     public void shouldGenerateMethodsWithoutUsingResponseEntityAndWithoutDelegation_issue11537() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -1710,7 +1708,6 @@ public class SpringCodegenTest {
     @Test
     public void shouldGenerateMethodsWithoutUsingResponseEntityAndDelegation_issue11537() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
@@ -1794,7 +1791,6 @@ public class SpringCodegenTest {
     @Test
     public void shouldSetDefaultValueForMultipleArrayItems() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -2702,4 +2698,29 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
     }
 
+    @Test
+    public void multiLineOperationDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        String expectedDescription = "# Multi-line descriptions  This is an example of a multi-line description.  It: - has multiple lines - uses Markdown (CommonMark) for rich text representation";
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains(expectedDescription);
+    }
+
+    @Test
+    public void multiLineTagDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+    }
+  
 }

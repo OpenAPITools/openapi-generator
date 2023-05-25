@@ -226,5 +226,6 @@ Class | Method | HTTP request | Description
 
 ## http_basic_test
 
+
 - **Type**: HTTP basic authentication
 

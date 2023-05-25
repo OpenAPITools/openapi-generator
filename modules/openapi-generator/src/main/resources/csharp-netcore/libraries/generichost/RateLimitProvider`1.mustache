@@ -40,9 +40,8 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
             for (int i = 0; i < _tokens.Length; i++)
                 _tokens[i].TokenBecameAvailable += ((sender) => AvailableTokens.Writer.TryWrite((TTokenBase) sender));
         }
-
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null) 
-            => await AvailableTokens.Reader.ReadAsync(cancellation.GetValueOrDefault()).ConfigureAwait(false);
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
+            => await AvailableTokens.Reader.ReadAsync(cancellation).ConfigureAwait(false);
     }
 } {{/netStandard}}{{#netStandard}}
 {
@@ -77,7 +76,7 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
             }
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null)
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -105,4 +104,4 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
             }
         }
     }
-} {{/netStandard}}
+}{{/netStandard}}

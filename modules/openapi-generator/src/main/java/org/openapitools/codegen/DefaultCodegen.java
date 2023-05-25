@@ -3998,6 +3998,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (p.getWriteOnly() != null) {
                 property.isWriteOnly = p.getWriteOnly();
             }
+            if (original.getExtensions() != null) {
+                property.getVendorExtensions().putAll(original.getExtensions());
+            }
         }
 
         // set the default value

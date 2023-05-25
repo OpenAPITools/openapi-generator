@@ -25,7 +25,7 @@
 
   <ItemGroup>
     {{#useCompareNetObjects}}
-    <PackageReference Include="CompareNETObjects" Version="4.79.0" />
+    <PackageReference Include="CompareNETObjects" Version="4.61.0" />{{! leave at this version until this is fixed https://github.com/GregFinzer/Compare-Net-Objects/issues/282 }}
     {{/useCompareNetObjects}}
     {{^useGenericHost}}
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
@@ -38,14 +38,16 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="{{^netStandard}}7.0.0{{/netStandard}}{{#netStandard}}5.0.0{{/netStandard}}" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{^netStandard}}7.0.1{{/netStandard}}{{#netStandard}}5.0.0{{/netStandard}}" />
       {{#supportsRetry}}
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{^netStandard}}7.0.4{{/netStandard}}{{#netStandard}}5.0.1{{/netStandard}}" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{^netStandard}}7.0.5{{/netStandard}}{{#netStandard}}5.0.1{{/netStandard}}" />
       {{/supportsRetry}}
       {{/useGenericHost}}
       {{#supportsRetry}}
     <PackageReference Include="Polly" Version="{{^netStandard}}7.2.3{{/netStandard}}{{#netStandard}}7.2.3{{/netStandard}}" />
       {{/supportsRetry}}
     {{#validatable}}
+    {{^net60OrLater}}
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    {{/net60OrLater}}
     {{/validatable}}
   </ItemGroup>
 

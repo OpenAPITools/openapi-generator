@@ -92,9 +92,9 @@ type UserAPIServicer interface {
 	CreateUser(context.Context, User) (ImplResponse, error)
 	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
-	DeleteUser(context.Context, string) (ImplResponse, error)
+	DeleteUser(context.Context, string, bool) (ImplResponse, error)
 	GetUserByName(context.Context, string) (ImplResponse, error)
-	LoginUser(context.Context, string, string) (ImplResponse, error)
+	LoginUser(context.Context, string, string, bool) (ImplResponse, error)
 	LogoutUser(context.Context) (ImplResponse, error)
 	UpdateUser(context.Context, string, User) (ImplResponse, error)
 }
