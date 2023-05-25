@@ -26,7 +26,7 @@ namespace OpenAPI
 FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
+	{ TEXT("orderId"), FStringFormatArg(ToUrlString(OrderId)) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
 
@@ -95,7 +95,7 @@ bool OpenAPIStoreApi::GetInventoryResponse::FromJson(const TSharedPtr<FJsonValue
 FString OpenAPIStoreApi::GetOrderByIdRequest::ComputePath() const
 {
 	TMap<FString, FStringFormatArg> PathParams = { 
-	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
+	{ TEXT("orderId"), FStringFormatArg(ToUrlString(OrderId)) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
 

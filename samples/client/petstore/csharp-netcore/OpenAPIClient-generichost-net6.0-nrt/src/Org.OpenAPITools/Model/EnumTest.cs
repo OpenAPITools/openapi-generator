@@ -54,7 +54,10 @@ namespace Org.OpenAPITools.Model
             OuterEnumInteger = outerEnumInteger;
             OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
             OuterEnum = outerEnum;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines EnumInteger
@@ -70,7 +73,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
             NUMBER_MINUS_1 = -1
-
         }
 
         /// <summary>
@@ -120,7 +122,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
             NUMBER_MINUS_2 = -2
-
         }
 
         /// <summary>
@@ -170,7 +171,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1_DOT_2 for value: -1.2
             /// </summary>
             NUMBER_MINUS_1_DOT_2 = 2
-
         }
 
         /// <summary>
@@ -231,7 +231,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             Empty = 3
-
         }
 
         /// <summary>
@@ -298,7 +297,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             Empty = 3
-
         }
 
         /// <summary>
@@ -397,12 +395,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -28,11 +28,6 @@ public class Pasta extends Entity {
 
   private String vendor;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pasta#Pasta(String)}
-   */
-  @Deprecated
   public Pasta() {
     super();
   }

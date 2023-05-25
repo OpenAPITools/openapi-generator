@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Client
             }
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null)
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default)
         {
             await _semaphore.WaitAsync().ConfigureAwait(false);
 
@@ -75,4 +75,4 @@ namespace Org.OpenAPITools.Client
             }
         }
     }
-} 
+}

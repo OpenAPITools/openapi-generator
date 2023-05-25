@@ -40,6 +40,7 @@ class ObjectWithDeprecatedFields {
 
 
 
+  @Deprecated('id has been deprecated')
   @JsonKey(
     
     name: r'id',
@@ -52,6 +53,7 @@ class ObjectWithDeprecatedFields {
 
 
 
+  @Deprecated('deprecatedRef has been deprecated')
   @JsonKey(
     
     name: r'deprecatedRef',
@@ -64,6 +66,7 @@ class ObjectWithDeprecatedFields {
 
 
 
+  @Deprecated('bars has been deprecated')
   @JsonKey(
     
     name: r'bars',

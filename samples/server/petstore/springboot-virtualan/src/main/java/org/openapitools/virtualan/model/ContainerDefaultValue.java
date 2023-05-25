@@ -38,11 +38,6 @@ public class ContainerDefaultValue {
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ContainerDefaultValue#ContainerDefaultValue(List<String>, List<String>)}
-   */
-  @Deprecated
   public ContainerDefaultValue() {
     super();
   }

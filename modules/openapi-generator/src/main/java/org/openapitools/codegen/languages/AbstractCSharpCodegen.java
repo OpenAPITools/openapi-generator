@@ -91,6 +91,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     // true if support nullable type
     protected boolean supportNullable = Boolean.FALSE;
 
+    protected Boolean zeroBasedEnums = null;
+    protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
+
     // nullable type
     protected Set<String> nullableType = new HashSet<>();
 
@@ -408,6 +411,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
         }
 
+        String zeroBasedEnums = "zeroBasedEnums";
+        if (additionalProperties.containsKey(zeroBasedEnums)) {
+            setZeroBasedEnums(convertPropertyToBooleanAndWriteBack(zeroBasedEnums));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
@@ -459,6 +467,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
             property.dataType = property.datatypeWithEnum;
         }
+
+        if (property.isEnum && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+            if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
+                property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+            } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                if (property.allowableValues.containsKey("values")){
+                    final List<Object> allowableValues = (List<Object>) property.allowableValues.get("values");
+                    boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                    property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                }
+            }
+        }
+
         if (property.isMap || property.isContainer) {
             // maps of enums will be marked both isMap and isEnum, correct that now
             property.isEnum = false;
@@ -477,6 +498,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // if found, prepend with _ to workaround the limitation
                 if (var.name.equalsIgnoreCase(cm.classname)) {
                     var.name = "_" + var.name;
+                }
+            }
+
+            if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+                if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
+                    cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+                } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                    if (cm.allowableValues.containsKey("values")){
+                        final List<Object> allowableValues = (List<Object>) cm.allowableValues.get("values");
+                        boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                        cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                    }
                 }
             }
         }
@@ -506,40 +539,40 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
             // fixing allVars should suffice instead of patching every collection
-            for (CodegenProperty property : model.allVars){
+            for (CodegenProperty property : model.allVars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.vars){
+            for (CodegenProperty property : model.vars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.readWriteVars){
+            for (CodegenProperty property : model.readWriteVars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.optionalVars){
+            for (CodegenProperty property : model.optionalVars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.parentVars){
+            for (CodegenProperty property : model.parentVars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.requiredVars){
+            for (CodegenProperty property : model.requiredVars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.readOnlyVars){
+            for (CodegenProperty property : model.readOnlyVars) {
                 patchProperty(model, property);
             }
-            for (CodegenProperty property : model.nonNullableVars){
+            for (CodegenProperty property : model.nonNullableVars) {
                 patchProperty(model, property);
             }
         }
         return processed;
     }
 
-    private void patchProperty(CodegenModel model, CodegenProperty property){
+    private void patchProperty(CodegenModel model, CodegenProperty property) {
         /**
-        * Hotfix for this issue
-        * https://github.com/OpenAPITools/openapi-generator/issues/12155
-        */
-        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null){
+         * Hotfix for this issue
+         * https://github.com/OpenAPITools/openapi-generator/issues/12155
+         */
+        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null) {
             List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
             if (composedSchemas.size() == 0) {
                 return;
@@ -567,26 +600,28 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */
+    /**
+     * Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709
+     */
     private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
         cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
         cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
         cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
 
         CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
-        if (composedSchemas != null){
+        if (composedSchemas != null) {
             List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
             if (anyOf != null) {
                 anyOf.removeIf(p -> p.dataType.equals(cm.classname));
             }
 
             List<CodegenProperty> oneOf = composedSchemas.getOneOf();
-            if (oneOf != null){
+            if (oneOf != null) {
                 oneOf.removeIf(p -> p.dataType.equals(cm.classname));
             }
 
             List<CodegenProperty> allOf = composedSchemas.getAllOf();
-            if (allOf != null){
+            if (allOf != null) {
                 allOf.removeIf(p -> p.dataType.equals(cm.classname));
             }
         }
@@ -599,7 +634,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // this is needed for enumRefs like OuterEnum marked as nullable and also have string values
         // keep isString true so that the index will be used as the enum value instead of a string
         // this is inline with C# enums with string values
-        if ("string?".equals(dataType)){
+        if ("string?".equals(dataType)) {
             enumVars.forEach((enumVar) -> {
                 enumVar.put("isString", true);
             });
@@ -1086,6 +1121,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -1272,9 +1308,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-    public void setLicenseUrl(String licenseUrl) {this.licenseUrl = licenseUrl;}
+    public void setLicenseUrl(String licenseUrl) {
+        this.licenseUrl = licenseUrl;
+    }
 
-    public void setLicenseName(String licenseName) {this.licenseName = licenseName;}
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
+    }
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -1328,12 +1368,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return interfacePrefix;
     }
 
-    public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag){
+    public void setZeroBasedEnums(final Boolean zeroBasedEnums) {
+        this.zeroBasedEnums = zeroBasedEnums;
+    }
+
+    public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag) {
         this.nullReferenceTypesFlag = nullReferenceTypesFlag;
         additionalProperties.put("nullableReferenceTypes", nullReferenceTypesFlag);
         additionalProperties.put("nrt", nullReferenceTypesFlag);
 
-        if (nullReferenceTypesFlag){
+        if (nullReferenceTypesFlag) {
             additionalProperties.put("nrt?", "?");
             additionalProperties.put("nrt!", "!");
         } else {
@@ -1342,7 +1386,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    public boolean getNullableReferencesTypes(){
+    public boolean getNullableReferencesTypes() {
         return this.nullReferenceTypesFlag;
     }
 
@@ -1442,7 +1486,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
 
     protected boolean isValueType(CodegenProperty var) {
-        return (valueTypes.contains(var.dataType) || var.isEnum ) ;
+        return (valueTypes.contains(var.dataType) || var.isEnum);
     }
 
     @Override
@@ -1581,8 +1625,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
         if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType.endsWith("?")
-                ? parameter.dataType
-                : parameter.dataType + "?";
+                    ? parameter.dataType
+                    : parameter.dataType + "?";
         }
     }
 
@@ -1617,5 +1661,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_SHARP; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.C_SHARP;
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            return "/" + pattern + "/";
+        }
+
+        return pattern;
+    }
+
 }

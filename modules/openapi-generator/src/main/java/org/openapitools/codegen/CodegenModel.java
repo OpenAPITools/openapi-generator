@@ -101,6 +101,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean hasChildren;
     public boolean isMap;
     public boolean isNull;
+    public boolean isVoid = false;
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -878,6 +879,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setIsNull(boolean isNull) {
         this.isNull = isNull;
+    }
+
+    @Override
+    public boolean getIsVoid() {
+        return isVoid;
+    }
+
+    @Override
+    public void setIsVoid(boolean isVoid) {
+        this.isVoid = isVoid;
     }
 
     @Override

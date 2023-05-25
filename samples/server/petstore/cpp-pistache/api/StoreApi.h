@@ -19,6 +19,8 @@
 #define StoreApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -33,11 +35,11 @@
 namespace org::openapitools::server::api
 {
 
-class  StoreApi {
+class  StoreApi : public ApiBase {
 public:
     explicit StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~StoreApi() = default;
-    void init();
+    ~StoreApi() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -49,8 +51,6 @@ private:
     void get_order_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
-
-    const std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.

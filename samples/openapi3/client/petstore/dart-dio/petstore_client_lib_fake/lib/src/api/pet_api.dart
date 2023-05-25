@@ -162,7 +162,7 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
-    required BuiltList<String> status,
+    @Deprecated('status is deprecated') required BuiltList<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -201,13 +201,13 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    BuiltList<Pet> _responseData;
+    BuiltList<Pet>? _responseData;
 
     try {
-      const _responseType = FullType(BuiltList, [FullType(Pet)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BuiltList, [FullType(Pet)]),
       ) as BuiltList<Pet>;
 
     } catch (error, stackTrace) {
@@ -287,13 +287,13 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    BuiltSet<Pet> _responseData;
+    BuiltSet<Pet>? _responseData;
 
     try {
-      const _responseType = FullType(BuiltSet, [FullType(Pet)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(BuiltSet, [FullType(Pet)]),
       ) as BuiltSet<Pet>;
 
     } catch (error, stackTrace) {
@@ -369,13 +369,13 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Pet _responseData;
+    Pet? _responseData;
 
     try {
-      const _responseType = FullType(Pet);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Pet),
       ) as Pet;
 
     } catch (error, stackTrace) {
@@ -625,13 +625,13 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ApiResponse _responseData;
+    ApiResponse? _responseData;
 
     try {
-      const _responseType = FullType(ApiResponse);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ApiResponse),
       ) as ApiResponse;
 
     } catch (error, stackTrace) {
@@ -731,13 +731,13 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ApiResponse _responseData;
+    ApiResponse? _responseData;
 
     try {
-      const _responseType = FullType(ApiResponse);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(ApiResponse),
       ) as ApiResponse;
 
     } catch (error, stackTrace) {

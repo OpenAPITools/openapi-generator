@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string UserApi::base = "/v2";
 
 UserApi::UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 

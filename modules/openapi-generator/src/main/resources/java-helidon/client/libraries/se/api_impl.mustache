@@ -85,7 +85,7 @@ public class {{classname}}Impl implements {{classname}} {
             .method("{{httpMethod}}");
 
     {{#hasQueryParams}}
-    {{javaUtilPrefix}}List<Pair> queryParams = new {{javaUtilPrefix}}ArrayList<>();
+    List<Pair> queryParams = new ArrayList<>();
         {{#queryParams}}
             {{#collectionFormat}}
     queryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));

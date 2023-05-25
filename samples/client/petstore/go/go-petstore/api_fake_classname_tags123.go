@@ -19,7 +19,7 @@ import (
 )
 
 
-type FakeClassnameTags123Api interface {
+type FakeClassnameTags123API interface {
 
 	/*
 	TestClassname To test class name in snake case
@@ -36,12 +36,12 @@ type FakeClassnameTags123Api interface {
 	TestClassnameExecute(r ApiTestClassnameRequest) (*Client, *http.Response, error)
 }
 
-// FakeClassnameTags123ApiService FakeClassnameTags123Api service
-type FakeClassnameTags123ApiService service
+// FakeClassnameTags123APIService FakeClassnameTags123API service
+type FakeClassnameTags123APIService service
 
 type ApiTestClassnameRequest struct {
 	ctx context.Context
-	ApiService FakeClassnameTags123Api
+	ApiService FakeClassnameTags123API
 	body *Client
 }
 
@@ -63,7 +63,7 @@ To test class name in snake case
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTestClassnameRequest
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context) ApiTestClassnameRequest {
+func (a *FakeClassnameTags123APIService) TestClassname(ctx context.Context) ApiTestClassnameRequest {
 	return ApiTestClassnameRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -72,7 +72,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context) ApiT
 
 // Execute executes the request
 //  @return Client
-func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassnameRequest) (*Client, *http.Response, error) {
+func (a *FakeClassnameTags123APIService) TestClassnameExecute(r ApiTestClassnameRequest) (*Client, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -80,7 +80,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 		localVarReturnValue  *Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123APIService.TestClassname")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

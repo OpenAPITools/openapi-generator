@@ -40,6 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             Apple = apple;
             Color = color;
+            OnCreated();
         }
 
         /// <summary>
@@ -52,7 +53,10 @@ namespace Org.OpenAPITools.Model
         {
             Banana = banana;
             Color = color;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Apple
@@ -82,12 +86,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -174,11 +179,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Apple, jsonSerializerOptions);
 
-            writer.WriteString("color", fruit.Color);
+            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Banana, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

@@ -81,6 +81,7 @@ org.openapitools.codegen.languages.K6ClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
+org.openapitools.codegen.languages.N4jsClientCodegen
 org.openapitools.codegen.languages.NimClientCodegen
 org.openapitools.codegen.languages.NodeJSExpressServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
@@ -97,13 +98,11 @@ org.openapitools.codegen.languages.PhpSlim4ServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpMezzioPathHandlerServerCodegen
 org.openapitools.codegen.languages.PhpDataTransferClientCodegen
+org.openapitools.codegen.languages.PostmanCollectionCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
-org.openapitools.codegen.languages.PythonLegacyClientCodegen
-org.openapitools.codegen.languages.PythonNextgenClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonFastAPIServerCodegen
-org.openapitools.codegen.languages.PythonPriorClientCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
@@ -117,7 +116,6 @@ org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
 org.openapitools.codegen.languages.ScalaAkkaHttpServerCodegen
 org.openapitools.codegen.languages.ScalaFinchServerCodegen
-org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
 org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
@@ -140,3 +138,4 @@ org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
+org.openapitools.codegen.languages.XojoClientCodegen

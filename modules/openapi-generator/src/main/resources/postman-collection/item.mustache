@@ -1,0 +1,60 @@
+{
+    "name": "{{path}}{{#isDeprecated}} (DEPRECATED){{/isDeprecated}}",
+                "description": "{{{notes}}}",
+                 "item": [
+                        {{#vendorExtensions.postmanRequests}}
+                            {
+                                "name": "{{name}}",
+                                "request": {
+                                    "method": "{{httpMethod}}",
+                                    "header": [
+                                    {{#headerParams}}
+                                        {
+                                            "key": "{{paramName}}",
+                                            "value": "{{schema.defaultValue}}"
+                                        }{{^-last}},{{/-last}}
+                                    {{/headerParams}}
+                                    ],
+                                    "body": {
+                                        "mode": "raw",
+                                        "raw": "{{{body}}}",
+                                        "options": {
+                                            "raw": {
+                                                "language": "json"
+                                            }
+                                        }
+                                    },
+                                    "url": {
+                                        "raw": "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>{{path}}",
+                                        "host": [
+                                            "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>"
+                                        ],
+                                        "path": [
+                                            {{#vendorExtensions.pathSegments}}
+                                            "{{.}}"{{^-last}},{{/-last}}
+                                            {{/vendorExtensions.pathSegments}}
+                                        ],
+                                        "variable": [
+                                            {{#pathParams}}
+                                            {
+                                                "key": "{{paramName}}",
+                                                "value": "",
+                                                "description": "{{description}}"
+                                            }{{^-last}},{{/-last}}
+                                        {{/pathParams}}
+                                        ],
+                                        "query": [
+                                            {{#queryParams}}
+                                            {
+                                                "key": "{{paramName}}",
+                                                "value": "{{example}}"
+                                            }{{^-last}},{{/-last}}
+                                            {{/queryParams}}
+                                        ]
+                                    },
+                                    "description": "{{{notes}}}"
+                                }
+                            }{{^-last}},{{/-last}}
+                        {{/vendorExtensions.postmanRequests}}
+                            ]
+                        }

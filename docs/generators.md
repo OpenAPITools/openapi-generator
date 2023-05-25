@@ -44,6 +44,7 @@ The following generators are available:
 * [k6 (beta)](generators/k6.md)  
 * [kotlin](generators/kotlin.md)  
 * [lua (beta)](generators/lua.md)  
+* [n4js (beta)](generators/n4js.md)  
 * [nim (beta)](generators/nim.md)  
 * [objc](generators/objc.md)  
 * [ocaml](generators/ocaml.md)  
@@ -52,15 +53,11 @@ The following generators are available:
 * [php-dt (beta)](generators/php-dt.md)  
 * [powershell (beta)](generators/powershell.md)  
 * [python](generators/python.md)  
-* [python-legacy](generators/python-legacy.md)  
-* [python-nextgen (beta)](generators/python-nextgen.md)  
-* [python-prior](generators/python-prior.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
 * [rust](generators/rust.md)  
 * [scala-akka](generators/scala-akka.md)  
 * [scala-gatling](generators/scala-gatling.md)  
-* [scala-httpclient-deprecated (deprecated)](generators/scala-httpclient-deprecated.md)  
 * [scala-sttp (beta)](generators/scala-sttp.md)  
 * [scalaz](generators/scalaz.md)  
 * [swift5](generators/swift5.md)  
@@ -75,6 +72,7 @@ The following generators are available:
 * [typescript-node](generators/typescript-node.md)  
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
+* [xojo-client](generators/xojo-client.md)  
 
 
 ## SERVER generators
@@ -154,6 +152,7 @@ The following generators are available:
 * [graphql-schema](generators/graphql-schema.md)  
 * [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
+* [postman-collection (beta)](generators/postman-collection.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 * [wsdl-schema (beta)](generators/wsdl-schema.md)  
 

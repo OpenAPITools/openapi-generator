@@ -52,7 +52,10 @@ namespace Org.OpenAPITools.Model
             MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
             MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
             Anytype1 = anytype1;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
@@ -129,12 +132,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

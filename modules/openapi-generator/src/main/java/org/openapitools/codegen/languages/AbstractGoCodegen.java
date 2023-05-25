@@ -145,7 +145,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "float32", "float64")
         );
 
-        importMapping = new HashMap<>();
+        apiNameSuffix = "API";
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
@@ -225,7 +225,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word);
+        return word != null && (reservedWords.contains(word) || reservedWordsMappings().containsKey(word));
     }
 
     @Override
@@ -407,7 +407,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String ref = p.get$ref();
-        String type = null;
+        String type;
 
         if (ref != null && !ref.isEmpty()) {
             type = toModelName(openAPIType);

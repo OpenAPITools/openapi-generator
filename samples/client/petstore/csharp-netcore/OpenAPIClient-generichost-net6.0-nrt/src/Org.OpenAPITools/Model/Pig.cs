@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         internal Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
+            OnCreated();
         }
 
         /// <summary>
@@ -48,7 +49,10 @@ namespace Org.OpenAPITools.Model
         internal Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets BasquePig
@@ -78,12 +82,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -167,10 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, pig.BasquePig, jsonSerializerOptions);
 
+            System.Text.Json.JsonSerializer.Serialize(writer, pig.DanishPig, jsonSerializerOptions);
 
-            writer.WriteEndObject();
         }
     }
 }

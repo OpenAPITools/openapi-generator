@@ -132,6 +132,7 @@ public class OpenAPINormalizerTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertNull(schema3.getAnyOf());
         assertTrue(schema3 instanceof StringSchema);
+        assertTrue(schema3.getEnum().size() > 0);
     }
 
     @Test
@@ -151,6 +152,9 @@ public class OpenAPINormalizerTest {
         assertEquals(schema5.getOneOf().size(), 3);
         assertNull(schema5.getNullable());
 
+        Schema schema7 = openAPI.getComponents().getSchemas().get("Parent");
+        assertEquals(((Schema) schema7.getProperties().get("number")).getAnyOf().size(), 1);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -168,6 +172,9 @@ public class OpenAPINormalizerTest {
         Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
         assertEquals(schema6.getOneOf().size(), 2);
         assertTrue(schema6.getNullable());
+
+        Schema schema8 = openAPI.getComponents().getSchemas().get("Parent");
+        assertEquals(((Schema) schema8.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
     }
 
     @Test
@@ -261,7 +268,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testOpenAPINormalizerConvertEnumNullToNullable_test() {
+    public void testOpenAPINormalizerConvertEnumNullToNullable() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
@@ -277,6 +284,47 @@ public class OpenAPINormalizerTest {
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertEquals(schema3.getAnyOf().size(), 2);
         assertTrue(schema3.getNullable());
+    }
+
+    @Test
+    public void testOpenAPINormalizerDefaultRules() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema.getAnyOf().size(), 3);
+        assertNull(schema.getNullable());
+
+        Map<String, String> options = new HashMap<>();
+        // SIMPLIFY_ONEOF_ANYOF is switched on by default as part of v7.0.0 release
+        //options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema3.getAnyOf().size(), 2);
+        assertTrue(schema3.getNullable());
+    }
+
+    @Test
+    public void testOpenAPINormalizerDisableAll() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF, which now also covers CONVERT_ENUM_NULL_TO_NULLABLE (removed)
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
+
+        // before test
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema.getAnyOf().size(), 3);
+        assertNull(schema.getNullable());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("DISABLE_ALL", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // checks should be the same after test
+        Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertEquals(schema3.getAnyOf().size(), 3);
+        assertNull(schema3.getNullable());
     }
 
     @Test

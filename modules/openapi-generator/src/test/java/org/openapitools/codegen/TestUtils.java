@@ -347,6 +347,11 @@ public class TestUtils {
                     .containsWithName("javax.persistence.Transient")
                     .toProperty()
                 .toType();
+
+        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/CompanyDto.java"))
+            .hasProperty("priceCategory")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("IgnoreForRoles", ImmutableMap.of("value", "\"MEDIA_ADMIN\""));
     }
 
     public static ModelsMap createCodegenModelWrapper(CodegenModel cm) {

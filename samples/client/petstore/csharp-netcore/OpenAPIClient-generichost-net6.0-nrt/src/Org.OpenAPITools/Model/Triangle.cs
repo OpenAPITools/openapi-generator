@@ -42,6 +42,7 @@ namespace Org.OpenAPITools.Model
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
+            OnCreated();
         }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace Org.OpenAPITools.Model
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
+            OnCreated();
         }
 
         /// <summary>
@@ -70,7 +72,10 @@ namespace Org.OpenAPITools.Model
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
             TriangleType = triangleType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets EquilateralTriangle
@@ -119,12 +124,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -234,12 +240,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteStartObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
 
-            writer.WriteString("shapeType", triangle.ShapeType);
-            writer.WriteString("triangleType", triangle.TriangleType);
+            System.Text.Json.JsonSerializer.Serialize(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
 
-            writer.WriteEndObject();
+            System.Text.Json.JsonSerializer.Serialize(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
+
         }
     }
 }

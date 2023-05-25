@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**operation**](DefaultApi.md#operation) | **GET** / | 
 
 
-<a name="operation"></a>
+<a id="operation"></a>
 # **operation**
 > ModelWithEnumPropertyHavingDefault operation()
 

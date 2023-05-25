@@ -320,4 +320,18 @@ public class AbstractKotlinCodegenTest {
             .fromModel("MapSchema", mapSchema);
         Assert.assertTrue(mapSchemaModel.isMap);
     }
+
+    @Test
+    public void handleUseJakartaEeTrue() {
+        codegen.additionalProperties().put("useJakartaEe", true);
+        codegen.processOpts();
+        assertEquals(codegen.additionalProperties().get("javaxPackage"), "jakarta");
+    }
+
+    @Test
+    public void handleUseJakartaEeFalse() {
+        codegen.additionalProperties().put("useJakartaEe", false);
+        codegen.processOpts();
+        assertEquals(codegen.additionalProperties().get("javaxPackage"), "javax");
+    }
 }

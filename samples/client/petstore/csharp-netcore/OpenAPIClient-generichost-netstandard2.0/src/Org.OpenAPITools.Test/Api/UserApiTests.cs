@@ -99,7 +99,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             string username = default;
             var response = await _instance.GetUserByNameAsync(username);
-            Assert.IsType<User>(response);
+            var model = response.ToModel();
+            Assert.IsType<User>(model);
         }
 
         /// <summary>
@@ -111,7 +112,8 @@ namespace Org.OpenAPITools.Test.Api
             string username = default;
             string password = default;
             var response = await _instance.LoginUserAsync(username, password);
-            Assert.IsType<string>(response);
+            var model = response.ToModel();
+            Assert.IsType<string>(model);
         }
 
         /// <summary>

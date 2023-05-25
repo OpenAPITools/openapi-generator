@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Function;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
@@ -235,7 +234,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder.toString(), "RFC3339DateFormat.java"));
                 break;
             case SERIALIZATION_LIBRARY_JSONB:
-                openApiNullable = false;        // for Jackson only
+                openApiNullable = false;
+                additionalProperties.put(OPENAPI_NULLABLE, false);
                 additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
                 break;
@@ -445,7 +445,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<>();
-                    imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
                     imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {

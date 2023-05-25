@@ -34,6 +34,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -73,7 +77,6 @@ public class Animal implements Parcelable {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }
@@ -95,7 +98,6 @@ public class Animal implements Parcelable {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }

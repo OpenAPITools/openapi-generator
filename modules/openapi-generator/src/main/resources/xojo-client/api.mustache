@@ -1,0 +1,461 @@
+{{#operations}}#tag Class
+Protected Class {{classname}}
+{{#operation}}	#tag Method, Flags = &h{{^nonPublicApi}}0{{/nonPublicApi}}{{#nonPublicApi}}1{{/nonPublicApi}}
+		{{#deprecated}}Attributes( Deprecated ) {{/deprecated}}{{#nonPublicApi}}Protected {{/nonPublicApi}}{{^supportsAsync}}Function{{/supportsAsync}}{{#supportsAsync}}Sub{{/supportsAsync}} {{operationId}}({{^supportsAsync}}ByRef localOutStatus As {{> nameException}}{{/supportsAsync}}{{#returnProperty}}{{^supportsAsync}}, {{/supportsAsync}}{{#isBinary}}downloadToFile As FolderItem{{/isBinary}}{{^isBinary}}{{^supportsAsync}}{{^isArray}}ByRef {{/isArray}}localOutData{{#isArray}}(){{/isArray}} As {{> inlineModelParameterDatatype}}{{/supportsAsync}}{{/isBinary}}{{/returnProperty}}{{#hasParams}}, {{/hasParams}}{{#allParams}}{{^required}}{{^isEnum}}{{^isEnumRef}}{{^isArray}}Optional {{/isArray}}{{/isEnumRef}}{{/isEnum}}{{/required}}{{paramName}}{{#isArray}}(){{/isArray}} As {{#isArray}}{{#items}}{{#isModel}}{{> prefixModel}}{{/isModel}}{{/items}}{{/isArray}}{{#isModel}}{{> prefixModel}}{{/isModel}}{{> inlineNameOperationEnum}}{{^isEnum}}{{> prefixXosonOptional}}{{#schema}}{{#isEnumRef}}{{> prefixModel}}{{/isEnumRef}}{{/schema}}{{{dataType}}}{{^required}}{{#schema}}{{#isEnumRef}}{{> suffixOptionalEnum}}{{/isEnumRef}}{{/schema}}{{/required}}{{/isEnum}}{{^-last}}, {{/-last}}{{/allParams}}){{^supportsAsync}} As Boolean{{/supportsAsync}}
+		  // Operation {{{operationIdOriginal}}}{{#summary}}
+		  // {{{.}}}{{/summary}}{{^supportsAsync}}
+		  // - parameter localOutStatus: Information on whether the operation succeeded.{{/supportsAsync}}{{#returnProperty}}
+		  // - {{#isBinary}}parameter downloadToFile: The writable, non-existing path in the filesystem where the response body should be stored.{{/isBinary}}{{^isBinary}}{{^supportsAsync}}parameter localOutData: On success, contains the data returned by the API.{{/supportsAsync}}{{/isBinary}}{{/returnProperty}}{{#allParams}}
+		  // - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
+		  //
+		  // {{#supportsAsync}}Invokes {{classname}}CallbackHandler.{{operationId}}Callback({{{returnType}}}) on completion.{{#isResponseOptional}} Note that the response is optional.{{/isResponseOptional}} {{/supportsAsync}}{{description}}
+		  //
+		  // - {{httpMethod}} {{{path}}}{{#notes}}
+		  // - {{{.}}}{{/notes}}{{#subresourceOperation}}
+		  // - subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
+		  // - defaultResponse: {{.}}{{/defaultResponse}}
+		  //{{#authMethods}}
+		  // - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+		  //   - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
+		  //   - name: {{name}}{{/authMethods}}
+		  //{{#hasResponseHeaders}}
+		  // - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]{{/hasResponseHeaders}}
+		  
+		  Dim localVarHTTPSocket As New HTTPSecureSocket
+		  Me.PrivateFuncPrepareSocket(localVarHTTPSocket)
+		  {{#hasFormParams}}
+		  Dim localVarFormParams As New Dictionary
+		  {{#formParams}}{{> inlineCodeParamCheckNil}}localVarFormParams.Value("{{baseName}}") = {{> inlineCodeParamSerialize}}
+		  {{/formParams}}
+		  If localVarFormParams.Count > 0 Then localVarHTTPSocket.SetFormData(localVarFormParams)
+		  {{/hasFormParams}}
+		  {{#bodyParam}}localVarHTTPSocket.SetRequestContent({{> inlineCodeParamSerialize}}, "application/json"){{/bodyParam}}
+		  {{#hasQueryParams}}Dim localVarQueryParams As String = "?"{{#queryParams}}
+		  {{^isArray}}{{> inlineCodeParamCheckNil}}localVarQueryParams = localVarQueryParams{{^-first}} + "&"{{/-first}} + EncodeURLComponent("{{baseName}}") + "=" + EncodeURLComponent({{> inlineCodeParamSerialize}}){{/isArray}}
+		  {{#isArray}}{{#items}}Dim localVarQueryStrings{{paramName}}() As String
+		  For Each localVarItem{{paramName}} As {{> inlineNameOperationEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} in {{paramName}}
+		    Dim encodedParameter As String = EncodeURLComponent({{> inlineCodeParamSerializeArray}})
+		    {{^isExplode}}localVarQueryStrings{{paramName}}.Append(encodedParameter){{/isExplode}}{{#isExplode}}Select Case "{{{style}}}"
+		      Case "form"
+		        localVarQueryStrings{{paramName}}.Append("{{baseName}}=" + encodedParameter)
+		      Case "spaceDelimited"
+		        localVarQueryStrings{{paramName}}.Append("{{baseName}}=" + encodedParameter)
+		      Case "pipeDelimited"
+		        localVarQueryStrings{{paramName}}.Append("{{baseName}}=" + encodedParameter)
+		      Case "deepObject"
+		        Raise New {{> nameException}}(kErrorUnsupportedFeature, "deepObject query parameters are not supported")
+		    End Select{{/isExplode}}
+		  Next
+		  
+		  Dim localVarQueryString{{paramName}} As String
+		  {{#isExplode}}localVarQueryString{{paramName}} = Join(localVarQueryStrings{{paramName}}, "&"){{/isExplode}}{{^isExplode}}Select Case "{{{style}}}"
+		    Case "form"
+			  localVarQueryString{{paramName}} = "{{baseName}}=" + Join(localVarQueryStrings{{paramName}}, ",")
+		    Case "spaceDelimited"
+		      localVarQueryString{{paramName}} = "{{baseName}}=" + Join(localVarQueryStrings{{paramName}}, " ")
+		    Case "pipeDelimited"
+		      localVarQueryString{{paramName}} = "{{baseName}}=" + Join(localVarQueryStrings{{paramName}}, "|")
+		    Case "deepObject"
+		      Raise New {{> nameException}}(kErrorUnsupportedFeature, "deepObject query parameters are not supported")
+		  End Select
+		  If localVarQueryStrings{{paramName}}.Ubound() > -1 Then localVarQueryParams = localVarQueryParams{{^-first}} + "&" {{/-first}} + EncodeURLComponent("{{baseName}}") + "=" + EncodeURLComponent(localVarQueryString{{paramName}}){{/isExplode}}{{/items}}{{/isArray}}{{/queryParams}}
+		  {{/hasQueryParams}}
+		  {{#headerParams}}
+		  {{^isArray}}{{> inlineCodeParamCheckNil}}localVarHTTPSocket.SetRequestHeader(EncodeURLComponent("{{baseName}}"), EncodeURLComponent({{> inlineCodeParamSerialize}})){{/isArray}}
+		  {{#isArray}}{{#items}}Dim localVarHeaderStrings{{paramName}}() As String
+		  For Each localVarItem{{paramName}} As {{> inlineNameOperationEnum}}{{^isEnum}}{{{baseName}}}{{/isEnum}} in {{paramName}}
+		    Dim encodedParameter As String = EncodeURLComponent({{> inlineCodeParamSerializeArray}})
+		    localVarHeaderStrings{{paramName}}.Append(encodedParameter)
+		  Next
+		  
+		  If localVarHeaderStrings{{paramName}}.Ubound() > -1 Then localVarHTTPSocket.SetRequestHeader(EncodeURLComponent("{{baseName}}"), Join(localVarHeaderStrings{{paramName}}, ","))){{/items}}{{/isArray}}{{/headerParams}}
+		  {{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}If me.ApiKey{{{name}}} = "" Then Raise New {{> nameException}}(kErrorCannotAuthenticate, "API key is unset. Please assign a value to `{{classname}}.ApiKey{{{name}}}` before invoking `{{classname}}.{{operationId}}()`.")
+		  {{#isKeyInQuery}}If localVarQueryParams = "" then
+		    localVarQueryParams = "?"
+		  Else
+		    localVarQueryParams = localVarQueryParams + "&"
+		  End If
+		  localVarQueryParams = localVarQueryParams + "{{keyParamName}}=" + Me.ApiKey{{{name}}}{{/isKeyInQuery}}
+		  {{#isKeyInHeader}}localVarHTTPSocket.SetRequestHeader(EncodeURLComponent("{{keyParamName}}"), EncodeURLComponent(me.ApiKey{{{name}}})){{/isKeyInHeader}}{{/isApiKey}}
+		  {{#isBasic}}AddHandler localVarHTTPSocket.AuthenticationRequired, addressof Me.AuthenticationRequired{{/isBasic}}{{/authMethods}}{{/hasAuthMethods}}
+		  {{#hasCookieParams}}
+		  Dim localVarCookies() As String
+		  {{#cookieParams}}
+		  {{^isArray}}{{> inlineCodeParamCheckNil}}localVarCookies.Append(EncodeURLComponent("{{baseName}}") + "=" + EncodeURLComponent({{> inlineCodeParamSerialize}}){{/isArray}}
+		  {{#isArray}}{{#items}}Dim localVarCookieStrings{{paramName}}() As String
+		  For Each localVarItem{{paramName}} As {{> inlineNameOperationEnum}}{{^isEnum}}{{{baseName}}}{{/isEnum}} in {{paramName}}
+		    Dim encodedParameter As String = EncodeURLComponent({{> inlineCodeParamSerializeArray}})
+		    localVarCookieStrings{{paramName}}.Append(encodedParameter)
+		  Next
+		  If localVarCookieStrings{{paramName}}.UBound() > -1 Then localVarCookies.Append(EncodeURLComponent("{{baseName}}") + "=" + Join(localVarCookieStrings{{paramName}}, ",")){{/items}}{{/isArray}}{{/cookieParams}}
+		  If localVarCookies.UBound() > -1 Then s.SetRequestHeader("Cookie", Join(localVarCookies, "; "))){{/hasCookieParams}}
+
+		  Dim localVarPath As String = "{{{path}}}"
+		  {{#hasPathParams}}{{#pathParams}}
+		  {{^isArray}}Dim localVarPathString{{paramName}} As String = {{> inlineCodeParamSerialize}}{{/isArray}}
+		  {{#isArray}}{{#items}}Dim localVarPathStrings{{paramName}}() As String
+		  For Each localVarItem{{paramName}} As {{> inlineNameOperationEnum}}{{^isEnum}}{{{baseName}}}{{/isEnum}} in {{paramName}}
+		    Dim encodedParameter As String = EncodeURLComponent({{> inlineCodeParamSerializeArray}})
+		    {{^isExplode}}localVarPathStrings{{paramName}}.Append(encodedParameter){{/isExplode}}
+		    {{#isExplode}}Select Case "{{{style}}}"
+		      Case "simple"
+		        localVarPathStrings{{paramName}}.Append(encodedParameter)
+		      Case "label"
+		        localVarPathStrings{{paramName}}.Append("." + encodedParameter)
+		      Case "matrix"
+		        localVarPathStrings{{paramName}}.Append(";" + "{{baseName}}=" + encodedParameter)
+		    End Select{{/isExplode}}
+		  Next
+		  
+		  Dim localVarPathString{{paramName}} As String
+		  {{#isExplode}}localVarPathString{{paramName}} = Join(localVarPathStrings{{paramName}}, ","){{/isExplode}}{{^isExplode}}Select Case "{{{style}}}"
+		    Case "simple"
+		      localVarPathString{{paramName}} = Join(localVarPathStrings{{paramName}}, ",")
+		    Case "label"
+		      localVarPathString{{paramName}} = "." + Join(localVarPathStrings{{paramName}}, ",")
+		    Case "matrix"
+		      localVarPathString{{paramName}} = ";" + "{{baseName}}=" + Join(localVarPathStrings{{paramName}}, ",")
+		  End Select{{/isExplode}}{{/items}}{{/isArray}}
+		  localVarPath = localVarPath.ReplaceAllB("{{=< >=}}{<baseName>}<={{ }}=>", localVarPathString{{paramName}}){{/pathParams}}{{/hasPathParams}}
+		  
+		  {{#supportsAsync}}{{#returnProperty}}{{#isBinary}}AddHandler localVarHTTPSocket.DownloadComplete, addressof me.{{operationId}}_handler
+		  AddHandler localVarHTTPSocket.ReceiveProgress, addressof Me.{{operationId}}_progress{{/isBinary}}
+		  {{^isBinary}}AddHandler localVarHTTPSocket.PageReceived, addressof me.{{operationId}}_handler
+		  AddHandler localVarHTTPSocket.Error, addressof Me.{{operationId}}_error{{/isBinary}}{{/returnProperty}}
+		  {{^returnProperty}}AddHandler localVarHTTPSocket.PageReceived, addressof Me.{{operationId}}_handler
+		  AddHandler localVarHTTPSocket.Error, addressof Me.{{operationId}}_error{{/returnProperty}}
+		  
+		  localVarHTTPSocket.SendRequest("{{httpMethod}}", Me.BasePath + localVarPath{{#hasQueryParams}} + localVarQueryParams{{/hasQueryParams}}{{#returnProperty}}{{#isBinary}}, downloadToFile{{/isBinary}}{{/returnProperty}})
+		  if localVarHTTPSocket.LastErrorCode <> 0 then
+		    Dim localVarException As New {{> nameException}}(localVarHTTPSocket.LastErrorCode)
+			Raise localVarException
+		  end if{{/supportsAsync}}
+		  {{^supportsAsync}}localVarHTTPSocket.Yield = True 'recommended in synchronous mode
+		  {{#returnProperty}}{{#isBinary}}Dim localVarSuccessful As Boolean{{/isBinary}}{{^isBinary}}Dim localVarContent As String{{/isBinary}}{{/returnProperty}}{{^returnProperty}}Dim localVarContent As String{{/returnProperty}} = localVarHTTPSocket.SendRequest("{{httpMethod}}", Me.BasePath + localVarPath{{#hasQueryParams}} + localVarQueryParams{{/hasQueryParams}}{{#returnProperty}}{{#isBinary}}, downloadToFile{{/isBinary}}{{/returnProperty}}, {{{projectName}}}.kAPITimeoutSeconds){{^returnProperty}}
+		  #Pragma Unused localVarContent{{/returnProperty}}
+		  
+		  Dim localVarSocketError As Integer = localVarHTTPSocket.ErrorCode
+		  If {{#returnProperty}}{{#isBinary}}Not localVarSuccessful Or {{/isBinary}}{{/returnProperty}}localVarSocketError <> 0 Then
+		    localVarHTTPSocket.Close
+		    localOutStatus = New {{> nameException}}(localVarSocketError)
+		    Return False
+		  End If
+		  
+		  Dim localVarHttpStatus As Integer = localVarHTTPSocket.HTTPStatusCode{{#returnProperty}}{{^isBinary}}
+		  Dim localVarHeaders As InternetHeaders = localVarHTTPSocket.PageHeaders{{/isBinary}}{{/returnProperty}}
+		  
+		  localOutStatus = New {{> nameException}}(localVarHttpStatus, "", {{#returnProperty}}{{^isBinary}}localVarContent{{/isBinary}}{{#isBinary}}""{{/isBinary}}{{/returnProperty}}{{^returnProperty}}""{{/returnProperty}})
+
+		  localVarHTTPSocket.Close
+		  
+		  {{^returnProperty}}Return True{{/returnProperty}}{{#returnProperty}}{{#isBinary}}Return True{{/isBinary}}{{^isBinary}}Return {{operationId}}PrivateFuncDeserializeResponse(localVarHTTPStatus, localVarHeaders, localOutStatus, localVarContent, localOutData){{/isBinary}}{{/returnProperty}}{{/supportsAsync}}
+		End {{^supportsAsync}}Function{{/supportsAsync}}{{#supportsAsync}}Sub{{/supportsAsync}}
+	#tag EndMethod
+
+{{#returnProperty}}{{^isBinary}}	#tag Method, Flags = &h21
+		Private Function {{operationId}}PrivateFuncDeserializeResponse(HTTPStatus As Integer, Headers As InternetHeaders, error As {{> nameException}}, Content As String, {{^isArray}}ByRef {{/isArray}}outData{{#isArray}}(){{/isArray}} As {{> inlineModelParameterDatatype}}) As Boolean
+		  Dim contentType As String = Headers.Value("Content-Type")
+		  Dim contentEncoding As TextEncoding = {{{projectName}}}.EncodingFromContentType(contentType){{^isBinary}}
+		  Content = DefineEncoding(Content, contentEncoding){{/isBinary}}
+		  
+		  If HTTPStatus > 199 and HTTPStatus < 300 then
+		    {{^isBinary}}If contentType.LeftB(16) = "application/json" then
+		      {{^isArray}}{{#isInteger}}outData = Val(Content){{/isInteger}}{{#isNumber}}outData = Val(Content){{/isNumber}}{{#isBoolean}}outData = BoolFromString(Content){{/isBoolean}}{{#isByteArray}}outData = DecodeBase64(Content){{/isByteArray}}{{#isString}}outData = Content{{/isString}}{{^isByteArray}}{{^isString}}{{^isBoolean}}{{^isInteger}}{{^isNumber}}
+			  {{^isFreeFormObject}}outData = New {{> inlineModelParameterDatatype}}{{/isFreeFormObject}}
+			  Try
+		        {{^isMap}}{{^isFreeFormObject}}Xoson.fromJSON(outData, Content.toText()){{/isFreeFormObject}}{{/isMap}}{{#isMap}}outData = ParseJSON(Content){{/isMap}}{{#isFreeFormObject}}outData = ParseJSON(Content){{/isFreeFormObject}}
+
+		      Catch e As JSONException
+		        error.Message = error.Message + " with JSON parse exception: " + e.Message
+		        error.ErrorNumber = kErrorInvalidJSON
+		        Return False
+		        
+		      Catch e As Xojo.Data.InvalidJSONException
+		        error.Message = error.Message + " with Xojo.Data.JSON parse exception: " + e.Message
+		        error.ErrorNumber = kErrorInvalidJSON
+		        Return False
+		        
+		      Catch e As Xoson.XosonException
+		        error.Message = error.Message + " with Xoson parse exception: " + e.Message
+		        error.ErrorNumber = kErrorXosonProblem
+		        Return False
+
+		      End Try{{/isNumber}}{{/isInteger}}{{/isBoolean}}{{/isString}}{{/isByteArray}}{{/isArray}}
+		      {{#isArray}}Try
+		        {{^isMap}}{{^isFreeFormObject}}Xoson.fromJSON(outData, Content.toText()){{/isFreeFormObject}}{{/isMap}}{{#isMap}}outData = ParseJSON(Content){{/isMap}}{{#isFreeFormObject}}outData = ParseJSON(Content){{/isFreeFormObject}}
+
+		      Catch e As JSONException
+		        error.Message = error.Message + " with JSON parse exception: " + e.Message
+		        error.ErrorNumber = kErrorInvalidJSON
+		        Return False
+		        
+		      Catch e As Xojo.Data.InvalidJSONException
+		        error.Message = error.Message + " with Xojo.Data.JSON parse exception: " + e.Message
+		        error.ErrorNumber = kErrorInvalidJSON
+		        Return False
+		        
+		      Catch e As Xoson.XosonException
+		        error.Message = error.Message + " with Xoson parse exception: " + e.Message
+		        error.ErrorNumber = kErrorXosonProblem
+		        Return False
+
+		      End Try{{/isArray}}
+		      
+		    ElseIf contentType.LeftB(19) = "multipart/form-data" then
+		      error.Message = "Unsupported media type: " + contentType
+		      error.ErrorNumber = kErrorUnsupportedMediaType
+		      Return False
+
+		    ElseIf contentType.LeftB(33) = "application/x-www-form-urlencoded" then
+		      error.Message = "Unsupported media type: " + contentType
+		      error.ErrorNumber = kErrorUnsupportedMediaType
+		      Return False
+
+		    Else
+		      error.Message = "Unsupported media type: " + contentType
+		      error.ErrorNumber = kErrorUnsupportedMediaType
+		      Return False
+
+		    End If
+		    {{/isBinary}}
+		  Else
+		    error.Message = error.Message{{^isBinary}} + ". " + Content{{/isBinary}}
+			error.ErrorNumber = kErrorHTTPFail
+		    Return False
+		  End If
+		  
+		  Return True
+		End Function
+	#tag EndMethod
+{{/isBinary}}{{/returnProperty}}
+{{#supportsAsync}}	#tag Method, Flags = &h21
+		Private Sub {{operationId}}_error(sender As HTTPSecureSocket, Code As Integer)
+		  If sender <> nil Then sender.Close()
+
+		  Dim error As New {{> nameException}}(Code)
+		  {{#returnProperty}}Dim {{#isBinary}}file As FolderItem{{/isBinary}}{{^isBinary}}data{{#isArray}}(){{/isArray}} As {{> inlineModelParameterDatatype}}{{/isBinary}}
+		  {{/returnProperty}}CallbackHandler.{{operationId}}Callback(error{{#returnProperty}}, {{^isBinary}}data{{/isBinary}}{{#isBinary}}file{{/isBinary}}{{/returnProperty}})
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub {{operationId}}_handler(sender As HTTPSecureSocket, URL As String, HTTPStatus As Integer, Headers As InternetHeaders, {{#returnProperty}}{{#isBinary}}File As FolderItem{{/isBinary}}{{^isBinary}}Content As String{{/isBinary}}{{/returnProperty}}{{^returnProperty}}Content As String{{/returnProperty}})
+		  #Pragma Unused URL
+		  {{^returnProperty}}#Pragma Unused Headers
+		  #Pragma Unused Content{{/returnProperty}}{{#returnProperty}}{{#isBinary}}#Pragma Unused Headers{{/isBinary}}{{/returnProperty}}
+
+		  If sender <> nil Then sender.Close()
+		  
+		  Dim error As New {{> nameException}}(HTTPStatus, "", {{#returnProperty}}{{^isBinary}}Content{{/isBinary}}{{#isBinary}}""{{/isBinary}}{{/returnProperty}}{{^returnProperty}}""{{/returnProperty}})
+		  
+		  {{#returnProperty}}{{^isBinary}}Dim data{{#isArray}}(){{/isArray}} As {{> inlineModelParameterDatatype}}
+		  Call {{operationId}}PrivateFuncDeserializeResponse(HTTPStatus, Headers, error, Content, data){{/isBinary}}{{/returnProperty}}
+		  
+		  CallbackHandler.{{operationId}}Callback(error{{#returnProperty}}, {{^isBinary}}data{{/isBinary}}{{#isBinary}}File{{/isBinary}}{{/returnProperty}})
+		End Sub
+	#tag EndMethod
+
+{{#returnProperty}}{{#isBinary}}	#tag Method, Flags = &h21
+		Private Sub {{operationId}}_progress(sender As HTTPSecureSocket, BytesReceived As Integer, TotalBytes As Integer, NewData As String)
+		  CallbackHandler.{{operationId}}DownloadProgress(BytesReceived, TotalBytes)
+		End Sub
+	#tag EndMethod{{/isBinary}}{{/returnProperty}}{{/supportsAsync}}
+
+{{#allParams}}{{#isEnum}}{{^isInteger}}	#tag Method, Flags = &h21
+		Private Function {{> inlineNameOperationEnum}}ToString(value As {{> inlineNameOperationEnum}}) As String
+		  Select Case value
+		    {{#allowableValues}}{{#enumVars}}
+		    Case {{> inlineNameOperationEnum}}.{{{name}}}
+		      Return {{{value}}}{{/enumVars}}{{/allowableValues}}
+		    {{#enumUnknownDefaultCase}}Case {{{enumUnknownDefaultCaseName}}}
+		      Return "{{{enumUnknownDefaultCaseName}}}"{{/enumUnknownDefaultCase}}
+		  End Select
+		  Return ""
+		End Function
+	#tag EndMethod
+{{/isInteger}}{{/isEnum}}{{/allParams}}
+{{/operation}}{{/operations}}
+
+	#tag Method, Flags = &h21
+		Private Function AuthenticationRequired(Realm As String, Headers As InternetHeaders, ByRef Name As String, ByRef Password As String) As Boolean
+		  #Pragma Unused Realm
+		  #Pragma Unused Headers
+		  Name = Me.BasicAuthUser
+		  Password = Me.BasicAuthPassword
+		  Return True
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h21
+		Private Sub PrivateFuncPrepareSocket(socket As HTTPSecureSocket)
+		  socket.Secure = Me.useHTTPS
+		  socket.ConnectionType = SSLSocket.TLSv12
+		  socket.Port = Me.Port
+		  socket.RequestHeaders.Delete("Accept")
+		  socket.RequestHeaders.AppendHeader("Accept", "text/plain")
+		  socket.RequestHeaders.AppendHeader("Accept", "application/json")
+		  socket.RequestHeaders.AppendHeader("Content-Type", "application/json")
+
+		  If Me.AdditionalHeaders <> Nil Then
+		    For Each HeaderName As Variant In Me.AdditionalHeaders.Keys
+		      Dim headerValueS As Variant = additionalHeaders.Value(HeaderName)
+		      If headerValueS.IsArray Then
+		        If headerValueS.ArrayElementType = Variant.TypeString Then
+		          Dim values() As String = headerValueS
+		          For Each value As String In values
+		            socket.RequestHeaders.AppendHeader(HeaderName, value)
+		          Next
+		        Else
+		          Raise New {{> nameException}}(kErrorInternal, "AdditionalHeaders only support Strings and String arrays as values.")
+		        End If
+		      Else
+		        socket.RequestHeaders.AppendHeader(HeaderName, headerValueS.StringValue)
+		      End If
+		    Next
+		  End If
+		End Sub
+	#tag EndMethod
+
+
+{{#description}}	#tag Note, Name = Description
+		{{{.}}}
+		
+	#tag EndNote
+{{/description}}
+
+	#tag Property, Flags = &h0
+		AdditionalHeaders As Dictionary
+	#tag EndProperty
+
+{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}	#tag Property, Flags = &h0
+		ApiKey{{{name}}} As String
+	#tag EndProperty
+
+{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}	#tag Property, Flags = &h0
+		BasePath As String = "{{{basePath}}}"
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		BasicAuthPassword As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		BasicAuthUser As String
+	#tag EndProperty
+
+{{#supportsAsync}}	#tag Property, Flags = &h0
+		CallbackHandler As {{{projectName}}}.{{{apiPackage}}}.{{classname}}CallbackHandler
+	#tag EndProperty
+
+{{/supportsAsync}}	#tag Property, Flags = &h0
+		Host As String = "{{{host}}}"
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		Port As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		UseHTTPS As Boolean = true
+	#tag EndProperty
+
+{{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}	#tag Enum, Name = {{> inlineNameOperationEnum}}, Type = Integer, Flags = &h{{^nonPublicApi}}0{{/nonPublicApi}}{{#nonPublicApi}}1{{/nonPublicApi}}
+		{{#allowableValues}}{{#enumVars}}
+        {{{name}}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{/enumVars}}{{/allowableValues}}
+		{{#enumUnknownDefaultCase}}{{{enumUnknownDefaultCaseName}}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{/enumUnknownDefaultCase}}
+	#tag EndEnum
+
+{{/isEnum}}
+{{/allParams}}{{/operation}}{{/operations}}
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Name"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="BasePath"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="BasicAuthUser"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="BasicAuthPassword"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="UseHTTPS"
+			Visible=false
+			Group="Behavior"
+			InitialValue="true"
+			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Port"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Host"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+	#tag EndViewBehavior
+End Class
+#tag EndClass

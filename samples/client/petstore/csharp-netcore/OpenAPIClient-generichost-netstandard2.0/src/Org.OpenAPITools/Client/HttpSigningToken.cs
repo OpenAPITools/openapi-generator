@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="request"></param>
         /// <param name="requestBody"></param>
         /// <param name="cancellationToken"></param>
-        public void UseInHeader(System.Net.Http.HttpRequestMessage request, string requestBody, CancellationToken? cancellationToken = null)
+        public void UseInHeader(System.Net.Http.HttpRequestMessage request, string requestBody, CancellationToken cancellationToken = default)
         {
             var signedHeaders = _configuration.GetHttpSignedHeader(request, requestBody, cancellationToken);
 

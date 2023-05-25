@@ -68,6 +68,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
+    protected static final String NET_STANDARD_14_OR_LATER = "netstandard14OrLater";
+    protected static final String NET_STANDARD_15_OR_LATER = "netstandard15OrLater";
+    protected static final String NET_STANDARD_16_OR_LATER = "netstandard16OrLater";
+    protected static final String NET_STANDARD_20_OR_LATER = "netstandard20OrLater";
+    protected static final String NET_STANDARD_21_OR_LATER = "netstandard21OrLater";
+    protected static final String NET_47_OR_LATER = "net47OrLater";
+    protected static final String NET_48_OR_LATER = "net48OrLater";
+    protected static final String NET_60_OR_LATER = "net60OrLater";
+    protected static final String NET_70_OR_LATER = "net70OrLater";
+
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
@@ -77,7 +87,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
             FrameworkStrategy.NETSTANDARD_2_1,
-            FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_6_0,
@@ -116,10 +125,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
-
-    // skip generation of getter for oneOf/anyOf sub-schemas to avoid duplicate getter
-    // when the subschemas are of the same type but with different constraints (e.g. array of string)
-    protected boolean skipOneOfAnyOfGetter = false;
 
     public CSharpNetCoreClientCodegen() {
         super();
@@ -231,6 +236,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 "The default DateTime format (only `generichost` library supports this option).",
                 this.dateTimeFormat);
 
+        addOption("zeroBasedEnums",
+                "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
+                null);
+
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
                 CodegenConstants.DOTNET_FRAMEWORK_DESC
@@ -330,10 +339,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
-
-        addSwitch(CodegenConstants.SKIP_ONEOF_ANYOF_GETTER,
-                CodegenConstants.SKIP_ONEOF_ANYOF_GETTER_DESC,
-                this.skipOneOfAnyOfGetter);
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -779,7 +784,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setNetCoreProjectFileFlag(true);
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
-                            s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_8) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
@@ -806,7 +810,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
-        syncBooleanProperty(additionalProperties, CodegenConstants.SKIP_ONEOF_ANYOF_GETTER, this::setSkipOneOfAnyOfGetter, this.skipOneOfAnyOfGetter);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
 
         final String testPackageName = testPackageName();
@@ -1187,14 +1190,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         return this.useOneOfDiscriminatorLookup;
     }
 
-    public void setSkipOneOfAnyOfGetter(boolean skipOneOfAnyOfGetter) {
-        this.skipOneOfAnyOfGetter = skipOneOfAnyOfGetter;
-    }
-
-    public boolean getSkipOneOfAnyOfGetter() {
-        return this.skipOneOfAnyOfGetter;
-    }
-
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (value.length() == 0) {
@@ -1325,27 +1320,25 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
 
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1", "net7.0") {
         };
-        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible (End of Support 13 Dec 2022)", "netcoreapp3.1", Boolean.FALSE) {
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7", "net47", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
+        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8", "net48", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8 compatible", "net48", Boolean.FALSE) {
+        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 (End of Support 12 November 2024)", "net6.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 compatible", "net6.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0 compatible", "net7.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
@@ -1413,6 +1406,66 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
+        }
+
+        if (strategies.stream().anyMatch(p -> Boolean.FALSE.equals(p.name == "netstandard1.3"))) {
+            if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.4"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.5"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.6"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.0"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.1"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net47"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net48"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net6.0"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net7.0"))){
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+            } else {
+                throw new RuntimeException("Unhanlded case");
+            }
         }
     }
 

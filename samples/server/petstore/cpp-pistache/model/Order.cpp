@@ -92,7 +92,7 @@ bool Order::operator!=(const Order& rhs) const
 
 void to_json(nlohmann::json& j, const Order& o)
 {
-    j = nlohmann::json();
+    j = nlohmann::json::object();
     if(o.idIsSet())
         j["id"] = o.m_Id;
     if(o.petIdIsSet())

@@ -56,6 +56,8 @@ jobs:
           - samples/client/petstore/kotlin-jvm-vertx-jackson
           - samples/client/petstore/kotlin-jvm-vertx-jackson-coroutines
           - samples/client/petstore/kotlin-jvm-vertx-moshi
+          - samples/client/petstore/kotlin-jvm-spring-webclient
+          - samples/client/petstore/kotlin-spring-cloud
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3

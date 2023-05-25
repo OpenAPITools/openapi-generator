@@ -48,11 +48,6 @@ public class Entity {
 
   private String atType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Entity#Entity(String)}
-   */
-  @Deprecated
   public Entity() {
     super();
   }

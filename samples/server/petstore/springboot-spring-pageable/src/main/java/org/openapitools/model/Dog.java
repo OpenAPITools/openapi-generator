@@ -29,11 +29,6 @@ public class Dog extends Animal {
 
   private String breed;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Dog#Dog(String)}
-   */
-  @Deprecated
   public Dog() {
     super();
   }

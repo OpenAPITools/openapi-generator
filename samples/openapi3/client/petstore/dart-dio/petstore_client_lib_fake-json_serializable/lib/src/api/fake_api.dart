@@ -66,10 +66,11 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    HealthCheckResult _responseData;
+    HealthCheckResult? _responseData;
 
     try {
-_responseData = deserialize<HealthCheckResult, HealthCheckResult>(_response.data!, 'HealthCheckResult', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCheckResult>(rawData, 'HealthCheckResult', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -236,10 +237,11 @@ _bodyData=jsonEncode(body);
       onReceiveProgress: onReceiveProgress,
     );
 
-    bool _responseData;
+    bool? _responseData;
 
     try {
-_responseData = deserialize<bool, bool>(_response.data!, 'bool', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -324,10 +326,11 @@ _bodyData=jsonEncode(outerComposite);
       onReceiveProgress: onReceiveProgress,
     );
 
-    OuterComposite _responseData;
+    OuterComposite? _responseData;
 
     try {
-_responseData = deserialize<OuterComposite, OuterComposite>(_response.data!, 'OuterComposite', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<OuterComposite, OuterComposite>(rawData, 'OuterComposite', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -412,10 +415,11 @@ _bodyData=jsonEncode(body);
       onReceiveProgress: onReceiveProgress,
     );
 
-    num _responseData;
+    num? _responseData;
 
     try {
-_responseData = deserialize<num, num>(_response.data!, 'num', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -500,10 +504,11 @@ _bodyData=jsonEncode(body);
       onReceiveProgress: onReceiveProgress,
     );
 
-    String _responseData;
+    String? _responseData;
 
     try {
-_responseData = deserialize<String, String>(_response.data!, 'String', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<String, String>(rawData, 'String', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -588,10 +593,11 @@ _bodyData=jsonEncode(outerObjectWithEnumProperty);
       onReceiveProgress: onReceiveProgress,
     );
 
-    OuterObjectWithEnumProperty _responseData;
+    OuterObjectWithEnumProperty? _responseData;
 
     try {
-_responseData = deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProperty>(_response.data!, 'OuterObjectWithEnumProperty', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProperty>(rawData, 'OuterObjectWithEnumProperty', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -879,10 +885,11 @@ _bodyData=jsonEncode(modelClient);
       onReceiveProgress: onReceiveProgress,
     );
 
-    ModelClient _responseData;
+    ModelClient? _responseData;
 
     try {
-_responseData = deserialize<ModelClient, ModelClient>(_response.data!, 'ModelClient', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,

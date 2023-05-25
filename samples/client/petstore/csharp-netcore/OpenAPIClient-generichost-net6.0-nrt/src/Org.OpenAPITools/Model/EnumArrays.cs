@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             ArrayEnum = arrayEnum;
             JustSymbol = justSymbol;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines ArrayEnum
@@ -56,7 +59,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Crab for value: crab
             /// </summary>
             Crab = 2
-
         }
 
         /// <summary>
@@ -106,7 +108,6 @@ namespace Org.OpenAPITools.Model
             /// Enum Dollar for value: $
             /// </summary>
             Dollar = 2
-
         }
 
         /// <summary>
@@ -174,12 +175,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

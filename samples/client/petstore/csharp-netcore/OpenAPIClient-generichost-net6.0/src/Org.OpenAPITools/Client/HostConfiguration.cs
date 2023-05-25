@@ -102,6 +102,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new NullableShapeJsonConverter());
             _jsonOptions.Converters.Add(new NumberOnlyJsonConverter());
             _jsonOptions.Converters.Add(new ObjectWithDeprecatedFieldsJsonConverter());
+            _jsonOptions.Converters.Add(new OneOfStringJsonConverter());
             _jsonOptions.Converters.Add(new OrderJsonConverter());
             _jsonOptions.Converters.Add(new OuterCompositeJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumConverter());
@@ -134,6 +135,9 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new UserJsonConverter());
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());
+            _jsonOptions.Converters.Add(new ZeroBasedEnumConverter());
+            _jsonOptions.Converters.Add(new ZeroBasedEnumNullableConverter());
+            _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddTransient<TAnotherFakeApi, TAnotherFakeApi>();

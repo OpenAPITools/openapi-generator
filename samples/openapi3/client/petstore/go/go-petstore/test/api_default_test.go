@@ -1,7 +1,7 @@
 /*
 OpenAPI Petstore
 
-Testing DefaultApiService
+Testing DefaultAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
-func Test_petstore_DefaultApiService(t *testing.T) {
+func Test_petstore_DefaultAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test DefaultApiService FooGet", func(t *testing.T) {
+	t.Run("Test DefaultAPIService FooGet", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.DefaultApi.FooGet(context.Background()).Execute()
+		resp, httpRes, err := apiClient.DefaultAPI.FooGet(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

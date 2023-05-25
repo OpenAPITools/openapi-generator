@@ -33,6 +33,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -75,7 +79,6 @@ public class DataQueryAllOf {
    * @return suffix
   **/
   @javax.annotation.Nullable
-
   public String getSuffix() {
     return suffix;
   }
@@ -97,7 +100,6 @@ public class DataQueryAllOf {
    * @return text
   **/
   @javax.annotation.Nullable
-
   public String getText() {
     return text;
   }
@@ -119,7 +121,6 @@ public class DataQueryAllOf {
    * @return date
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDate() {
     return date;
   }
