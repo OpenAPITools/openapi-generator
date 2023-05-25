@@ -32,11 +32,6 @@ import {
     RemoteAuthenticatedUserDtoToJSON,
 } from './RemoteAuthenticatedUserDto';
 
-import {
-     InternalAuthenticatedUserDtoFromJSONTyped,
-     RemoteAuthenticatedUserDtoFromJSONTyped
-} from './';
-
 /**
  * 
  * @export
