@@ -54,10 +54,6 @@ components:
   schemas:
     Pageable:
       type: object
-      example:
-        page: 0
-        taille: 10
-        tri: [ ]
       properties:
         page:
           type: integer
