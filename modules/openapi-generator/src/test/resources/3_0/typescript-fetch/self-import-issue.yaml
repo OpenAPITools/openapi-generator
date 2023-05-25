@@ -1,0 +1,34 @@
+openapi: "3.0.1"
+info:
+  title: Example
+  version: "1"
+paths: {}
+components:
+  schemas:
+    BranchDto:
+      type: object
+      properties:
+        name:
+          type: string
+    AbstractUserDto:
+      type: object
+      properties:
+        username:
+          type: string
+        branch:
+          "$ref": "#/components/schemas/BranchDto"
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          internal-authenticated: "#/components/schemas/InternalAuthenticatedUserDto"
+          remote-authenticated: "#/components/schemas/RemoteAuthenticatedUserDto"
+    InternalAuthenticatedUserDto:
+      type: object
+      allOf:
+        - "$ref": "#/components/schemas/AbstractUserDto"
+    RemoteAuthenticatedUserDto:
+      type: object
+      allOf:
+        - "$ref": "#/components/schemas/AbstractUserDto"
