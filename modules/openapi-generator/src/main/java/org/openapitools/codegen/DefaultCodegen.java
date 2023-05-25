@@ -2024,6 +2024,18 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the examples of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    public void setParameterExamples(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            codegenParameter.examples = parameter.getExamples();
+        }
+    }
+
+    /**
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
@@ -4880,6 +4892,8 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, parameter);
+        // set the parameter examples (if available)
+        setParameterExamples(codegenParameter, parameter);
 
         postProcessParameter(codegenParameter);
         LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);
