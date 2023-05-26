@@ -197,7 +197,7 @@ public class GrandparentAnimal {
         case "ParentPet":
           ParentPet.validateJsonObject(jsonObj);
           break;
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }
