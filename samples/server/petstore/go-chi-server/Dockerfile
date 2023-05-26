@@ -6,9 +6,8 @@ COPY go.sum .
 COPY go.mod .
 
 ENV CGO_ENABLED=0
-RUN go install
 
-RUN go build -a -installsuffix cgo -o petstoreserver .
+RUN go build -o petstoreserver .
 
 FROM scratch AS runtime
 COPY --from=build /go/src/petstoreserver ./
