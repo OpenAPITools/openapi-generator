@@ -95,7 +95,6 @@ func delete_pet(
 	# Pet id to delete
 	petId: float,
 	# apiKey: String = ""   Eg: apiKey_example
-	# 
 	apiKey = "",
 	on_success: Callable = Callable(),  # func(response: DemoApiResponse)
 	on_failure: Callable = Callable(),  # func(error: DemoApiError)
@@ -133,7 +132,6 @@ func delete_pet_threaded(
 	# Pet id to delete
 	petId: float,
 	# apiKey: String = ""   Eg: apiKey_example
-	# 
 	apiKey = "",
 	on_success: Callable = Callable(),  # func(response: DemoApiResponse)
 	on_failure: Callable = Callable(),  # func(error: DemoApiError)

@@ -98,7 +98,6 @@ api.delete_pet(
 	# Pet id to delete
 	petId,
 	# apiKey: String = ""   Eg: apiKey_example
-	# 
 	apiKey,
 	# On Success
 	func(response):

@@ -25,8 +25,9 @@ var {{paramName}} = {{dataType}}.new()
 api.{{{operationIdSnakeCase}}}(
 {{#each allParams}}
 	# {{paramName}}{{#if dataType}}: {{dataType}}{{/if}}{{#if defaultValue}} = {{{defaultValue}}}{{/if}}{{#if example}}   Eg: {{{example}}}{{/if}}
-	# {{{description}}}
-	{{! `example` is not available here, not sure why }}
+    {{~#if description}}
+
+	# {{{description}}}{{/if}}
 	{{paramName}},
 {{/each}}
 	# On Success
