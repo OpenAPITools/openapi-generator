@@ -32,10 +32,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     @SuppressWarnings("FieldCanBeLocal")
     private final Logger LOGGER = LoggerFactory.getLogger(GdscriptClientCodegen.class);
 
-    // Perhaps an IDE issue but it can't find the module
-    //protected String coreNamePrefix = org.openapitools.codegen.options.GdscriptClientCodegenOptionsProvider.CORE_NAME_PREFIX_VALUE;
-    protected String coreNamePrefix = "";
-    protected String coreNameSuffix = "";
+    protected String coreNamePrefix = CORE_NAME_PREFIX_VALUE;
+    protected String coreNameSuffix = CORE_NAME_SUFFIX_VALUE;
 
     protected String anticollisionPrefix = ANTICOLLISION_PREFIX_VALUE;
     protected String anticollisionSuffix = ANTICOLLISION_SUFFIX_VALUE;
