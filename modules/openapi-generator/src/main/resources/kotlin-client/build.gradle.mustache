@@ -83,13 +83,12 @@ idea {
 }
 {{/idea}}
 {{#jvm-spring-webclient}}{{#useSpringBoot3}}
-
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-}{{/useSpringBoot3}}{{/jvm-spring-webclient}}
-
+}
+{{/useSpringBoot3}}{{/jvm-spring-webclient}}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
