@@ -66,8 +66,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_VERTX = "jvm-vertx";
     protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
 
-    public static final String USE_RX_JAVA = "useRxJava";
-    public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
@@ -236,8 +234,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
 
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead."));
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
@@ -276,30 +272,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         this.generateRoomModels = generateRoomModels;
     }
 
-    public void setUseRxJava(boolean useRxJava) {
-        if (useRxJava) {
-            this.useRxJava2 = false;
-            this.useRxJava3 = false;
-            this.doNotUseRxAndCoroutines = false;
-            this.useCoroutines = false;
-        }
-        this.useRxJava = useRxJava;
-    }
-
-    public void setUseRxJava2(boolean useRxJava2) {
-        if (useRxJava2) {
-            this.useRxJava = false;
-            this.useRxJava3 = false;
-            this.doNotUseRxAndCoroutines = false;
-            this.useCoroutines = false;
-        }
-        this.useRxJava2 = useRxJava2;
-    }
-
     public void setUseRxJava3(boolean useRxJava3) {
         if (useRxJava3) {
-            this.useRxJava = false;
-            this.useRxJava2 = false;
             this.doNotUseRxAndCoroutines = false;
             this.useCoroutines = false;
         }
@@ -308,8 +282,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setDoNotUseRxAndCoroutines(boolean doNotUseRxAndCoroutines) {
         if (doNotUseRxAndCoroutines) {
-            this.useRxJava = false;
-            this.useRxJava2 = false;
             this.useRxJava3 = false;
             this.useCoroutines = false;
         }
@@ -318,8 +290,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setUseCoroutines(boolean useCoroutines) {
         if (useCoroutines) {
-            this.useRxJava = false;
-            this.useRxJava2 = false;
             this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
         }
@@ -381,17 +351,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         super.processOpts();
 
-        boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
-        boolean hasRx2 = additionalProperties.containsKey(USE_RX_JAVA2);
         boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
         boolean hasCoroutines = additionalProperties.containsKey(USE_COROUTINES);
         int optionCount = 0;
-        if (hasRx) {
-            optionCount++;
-        }
-        if (hasRx2) {
-            optionCount++;
-        }
         if (hasRx3) {
             optionCount++;
         }
@@ -403,17 +365,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // RxJava & Coroutines
         if (hasConflict) {
             LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
-        } else if (hasRx) {
-            this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
-        } else if (hasRx2) {
-            this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
         } else if (hasRx3) {
             this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
             this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
-        if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
+        if (!hasRx3 && !hasCoroutines) {
             setDoNotUseRxAndCoroutines(true);
             additionalProperties.put(DO_NOT_USE_RX_AND_COROUTINES, true);
         }
