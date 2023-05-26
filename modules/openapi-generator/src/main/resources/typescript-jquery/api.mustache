@@ -176,13 +176,13 @@ export class {{classname}} {
 
 {{/isKeyInQuery}}
 {{/isApiKey}}
-{{#isBasic}}
+{{#isBasicBasic}}
         // http basic authentication required
         if (this.configuration.username || this.configuration.password) {
             headerParams['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
         }
 
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isOAuth}}
         // oauth required
         if (this.configuration.accessToken) {
