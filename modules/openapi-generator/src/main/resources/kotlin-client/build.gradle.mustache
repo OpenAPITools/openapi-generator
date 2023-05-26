@@ -28,6 +28,10 @@ buildscript {
     {{#jvm-vertx}}
     ext.vertx_version = "4.3.3"
     {{/jvm-vertx}}
+    {{#jvm-spring-webclient}}
+    ext.spring_boot_version = "2.7.11"
+    ext.reactor_version = "3.5.6"
+    {{/jvm-spring-webclient}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -122,6 +126,10 @@ dependencies {
     {{#jvm-okhttp4}}
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
     {{/jvm-okhttp4}}
+    {{#jvm-spring-webclient}}
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
+    implementation "io.projectreactor:reactor-core:$reactor_version"
+    {{/jvm-spring-webclient}}
     {{#threetenbp}}
     implementation "org.threeten:threetenbp:1.5.1"
     {{/threetenbp}}

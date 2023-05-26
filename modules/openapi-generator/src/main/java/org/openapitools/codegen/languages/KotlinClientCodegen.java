@@ -64,6 +64,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String MULTIPLATFORM = "multiplatform";
     protected static final String JVM_VOLLEY = "jvm-volley";
     protected static final String JVM_VERTX = "jvm-vertx";
+    protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
@@ -215,6 +216,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 WebClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
@@ -454,6 +456,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 break;
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
+                break;
+            case JVM_SPRING_WEBCLIENT:
+                processJVMSpringWebClientLibrary(infrastructureFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -724,6 +729,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
     }
 
+    private void processJVMSpringWebClientLibrary(final String infrastructureFolder) {
+        if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
+            throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
+        }
+
+        commonJvmMultiplatformSupportingFiles(infrastructureFolder);
+        addSupportingSerializerAdapters(infrastructureFolder);
+
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_SPRING_WEBCLIENT, true);
+    }
+
     private void processMultiplatformLibrary(final String infrastructureFolder) {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         additionalProperties.put(MULTIPLATFORM, true);
@@ -865,22 +882,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         // match on first part in mediaTypes like 'application/json; charset=utf-8'
                         int endIndex = mediaTypeValue.indexOf(';');
                         String mediaType = (endIndex == -1
-                            ? mediaTypeValue
-                            : mediaTypeValue.substring(0, endIndex)
+                                ? mediaTypeValue
+                                : mediaTypeValue.substring(0, endIndex)
                         ).trim();
                         return "multipart/form-data".equals(mediaType)
-                            || "application/x-www-form-urlencoded".equals(mediaType)
-                            || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
+                                || "application/x-www-form-urlencoded".equals(mediaType)
+                                || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
                     };
                     operation.consumes = operation.consumes == null ? null : operation.consumes.stream()
-                        .filter(isSerializable)
-                        .limit(1)
-                        .collect(Collectors.toList());
+                            .filter(isSerializable)
+                            .limit(1)
+                            .collect(Collectors.toList());
                     operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
 
                     operation.produces = operation.produces == null ? null : operation.produces.stream()
-                        .filter(isSerializable)
-                        .collect(Collectors.toList());
+                            .filter(isSerializable)
+                            .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
                 }
 

@@ -133,6 +133,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.", useCoroutines));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax", useJakartaEe));
     }
 
     public Boolean getAutoHeadFeatureEnabled() {

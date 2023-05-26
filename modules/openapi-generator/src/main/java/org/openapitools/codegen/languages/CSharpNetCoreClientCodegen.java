@@ -73,7 +73,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_STANDARD_16_OR_LATER = "netstandard16OrLater";
     protected static final String NET_STANDARD_20_OR_LATER = "netstandard20OrLater";
     protected static final String NET_STANDARD_21_OR_LATER = "netstandard21OrLater";
-    protected static final String NET_CORE_APP_31_OR_LATER = "netcoreapp31OrLater";
     protected static final String NET_47_OR_LATER = "net47OrLater";
     protected static final String NET_48_OR_LATER = "net48OrLater";
     protected static final String NET_60_OR_LATER = "net60OrLater";
@@ -88,7 +87,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
             FrameworkStrategy.NETSTANDARD_2_1,
-            FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_6_0,
@@ -786,7 +784,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setNetCoreProjectFileFlag(true);
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
-                            s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_8) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
@@ -1323,27 +1320,25 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
 
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1", "net7.0") {
         };
-        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible (End of Support 13 Dec 2022)", "netcoreapp3.1", Boolean.FALSE) {
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7", "net47", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
+        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8", "net48", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8 compatible", "net48", Boolean.FALSE) {
+        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 (End of Support 12 November 2024)", "net6.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 compatible", "net6.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0 compatible", "net7.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
@@ -1434,20 +1429,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netcoreapp3.1"))) {
-                properties.put(NET_STANDARD_14_OR_LATER, true);
-                properties.put(NET_STANDARD_15_OR_LATER, true);
-                properties.put(NET_STANDARD_16_OR_LATER, true);
-                properties.put(NET_STANDARD_20_OR_LATER, true);
-                properties.put(NET_STANDARD_21_OR_LATER, true);
-                properties.put(NET_CORE_APP_31_OR_LATER, true);
             } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net47"))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
-                properties.put(NET_CORE_APP_31_OR_LATER, true);
                 properties.put(NET_47_OR_LATER, true);
             } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net48"))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
@@ -1455,7 +1442,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
-                properties.put(NET_CORE_APP_31_OR_LATER, true);
                 properties.put(NET_47_OR_LATER, true);
                 properties.put(NET_48_OR_LATER, true);
             } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net6.0"))) {
@@ -1464,7 +1450,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
-                properties.put(NET_CORE_APP_31_OR_LATER, true);
                 properties.put(NET_47_OR_LATER, true);
                 properties.put(NET_48_OR_LATER, true);
                 properties.put(NET_60_OR_LATER, true);
@@ -1474,7 +1459,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
-                properties.put(NET_CORE_APP_31_OR_LATER, true);
                 properties.put(NET_47_OR_LATER, true);
                 properties.put(NET_48_OR_LATER, true);
                 properties.put(NET_60_OR_LATER, true);
