@@ -7531,9 +7531,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void addOption(String key, String description, String defaultValue) {
+        addOption(key, description, defaultValue, null);
+    }
+
+    protected void addOption(String key, String description, String defaultValue, Map<String, String> enumValues) {
         CliOption option = new CliOption(key, description);
         if (defaultValue != null)
             option.defaultValue(defaultValue);
+        if (enumValues != null)
+            option.setEnum(enumValues);
         cliOptions.add(option);
     }
 
