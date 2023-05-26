@@ -19,7 +19,7 @@ jobs:
           - samples/client/petstore/csharp-netcore/OpenAPIClient-generichost-netstandard2.0
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.0.3
+      - uses: actions/setup-dotnet@v3.1.0
         with:
           dotnet-version: 3.1.*
       - name: Build
