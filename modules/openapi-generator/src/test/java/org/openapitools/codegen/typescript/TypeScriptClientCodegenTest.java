@@ -119,7 +119,7 @@ public class TypeScriptClientCodegenTest {
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
-        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse".replace("/", File.separator));
+        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse");
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
 
@@ -140,5 +140,22 @@ public class TypeScriptClientCodegenTest {
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
         Assert.assertEquals(tsImports.get(0).get("filename"), mappedName);
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
+    }
+
+    @Test
+    public void testCompilePattern() {
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        final StringSchema prop = new StringSchema();
+        prop.setPattern("[A-Z]{3}");
+        final Schema root = new ObjectSchema().addProperty("stringPattern", prop);
+        final OpenAPI openApi = TestUtils.createOpenAPIWithOneSchema("sample", root);
+        codegen.setOpenAPI(openApi);
+
+        try {
+            final CodegenModel model = codegen.fromModel("sample", root);
+            Assert.assertEquals(model.getAllVars().get(0).getPattern(), "/[A-Z]{3}/");
+        } catch (Exception ex) {
+            Assert.fail("Exception was thrown.");
+        }
     }
 }

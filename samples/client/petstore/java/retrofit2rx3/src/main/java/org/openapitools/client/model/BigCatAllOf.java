@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
@@ -98,7 +96,6 @@ public class BigCatAllOf {
    * @return kind
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public KindEnum getKind() {
     return kind;
@@ -108,7 +105,6 @@ public class BigCatAllOf {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
+import org.openapitools.virtualan.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.virtualan.model.User;
 import org.openapitools.virtualan.model.XmlItem;
 
@@ -38,6 +39,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class FakeApiController implements FakeApi {
 
     private final NativeWebRequest request;

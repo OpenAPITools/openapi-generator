@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
-import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.Pet;
+import org.openapitools.model.ApiResponseDto;
+import org.openapitools.model.PetDto;
 import java.util.Set;
 
 
@@ -30,6 +30,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class PetApiController implements PetApi {
 
     private final NativeWebRequest request;

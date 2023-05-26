@@ -10,14 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.read_only_first import ReadOnlyFirst
-globals()['ReadOnlyFirst'] = ReadOnlyFirst
-from petstore_api.model.array_test import ArrayTest
-
+from petstore_api.models.array_test import ArrayTest  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestArrayTest(unittest.TestCase):
     """ArrayTest unit test stubs"""
@@ -28,12 +28,38 @@ class TestArrayTest(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test ArrayTest
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.array_test.ArrayTest()  # noqa: E501
+        if include_optional :
+            return ArrayTest(
+                array_of_string = [
+                    ''
+                    ], 
+                array_array_of_integer = [
+                    [
+                        56
+                        ]
+                    ], 
+                array_array_of_model = [
+                    [
+                        petstore_api.models.read_only_first.ReadOnlyFirst(
+                            bar = '', 
+                            baz = '', )
+                        ]
+                    ]
+            )
+        else :
+            return ArrayTest(
+        )
+
     def testArrayTest(self):
         """Test ArrayTest"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = ArrayTest()  # noqa: E501
-        pass
-
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

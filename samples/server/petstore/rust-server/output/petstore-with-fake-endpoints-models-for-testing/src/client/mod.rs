@@ -1088,7 +1088,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
                 query_string.append_pair("query",
-                    &param_query.to_string());
+                    &param_query);
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -1315,8 +1315,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Basic(ref basic_header) => {
                     let auth = swagger::auth::Header(basic_header.clone());
@@ -1392,7 +1394,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             if let Some(param_enum_query_string) = param_enum_query_string {
                 query_string.append_pair("enum_query_string",
-                    &param_enum_query_string.to_string());
+                    &param_enum_query_string);
             }
             if let Some(param_enum_query_integer) = param_enum_query_integer {
                 query_string.append_pair("enum_query_integer",
@@ -1440,10 +1442,12 @@ impl<S, C> Api<C> for Client<S, C> where
         });
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_enum_header_string_array {
             Some(param_enum_header_string_array) => {
         request.headers_mut().append(
             HeaderName::from_static("enum_header_string_array"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_enum_header_string_array.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1455,10 +1459,12 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
+        #[allow(clippy::single_match)]
         match param_enum_header_string {
             Some(param_enum_header_string) => {
         request.headers_mut().append(
             HeaderName::from_static("enum_header_string"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_enum_header_string.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1677,10 +1683,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            if let Some(auth_data) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
-                if let AuthData::ApiKey(ref api_key) = *auth_data {
-                    query_string.append_pair("api_key_query", api_key);
-                }
+            if let Some(AuthData::ApiKey(ref api_key)) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
+                query_string.append_pair("api_key_query", api_key);
             }
             query_string.finish()
         };
@@ -1719,8 +1723,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
             }
@@ -1799,7 +1805,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Body parameter
-        let body = param_body.to_xml();
+        let body = param_body.as_xml();
                 *request.body_mut() = Body::from(body);
 
         let header = "application/json";
@@ -1813,8 +1819,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -1901,8 +1909,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -1919,10 +1929,12 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_api_key {
             Some(param_api_key) => {
         request.headers_mut().append(
             HeaderName::from_static("api_key"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_api_key.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -2005,8 +2017,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2108,8 +2122,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2210,8 +2226,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
             }
@@ -2300,7 +2318,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_body.to_xml();
+        let body = param_body.as_xml();
                 *request.body_mut() = Body::from(body);
 
         let header = "application/json";
@@ -2314,8 +2332,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2425,8 +2445,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2569,8 +2591,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2738,8 +2762,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
             }
@@ -3380,9 +3406,9 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
                 query_string.append_pair("username",
-                    &param_username.to_string());
+                    &param_username);
                 query_string.append_pair("password",
-                    &param_password.to_string());
+                    &param_password);
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -3423,8 +3449,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)));
                             },
                         };
-                        let response_x_rate_limit = response_x_rate_limit.0;
-                        Some(response_x_rate_limit)
+                        Some(response_x_rate_limit.0)
                         },
                     None => None,
                 };
@@ -3438,8 +3463,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)));
                             },
                         };
-                        let response_x_expires_after = response_x_expires_after.0;
-                        Some(response_x_expires_after)
+                        Some(response_x_expires_after.0)
                         },
                     None => None,
                 };
@@ -3456,7 +3480,7 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
                 Ok(LoginUserResponse::SuccessfulOperation
                     {
-                        body: body,
+                        body,
                         x_rate_limit: response_x_rate_limit,
                         x_expires_after: response_x_expires_after,
                     }

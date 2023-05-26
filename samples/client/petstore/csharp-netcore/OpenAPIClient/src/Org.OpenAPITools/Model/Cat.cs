@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = "Cat", string color = "red") : base(className, color)
+        public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
         {
             this.Declawed = declawed;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }

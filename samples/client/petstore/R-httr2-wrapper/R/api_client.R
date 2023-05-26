@@ -163,7 +163,7 @@ ApiClient  <- R6::R6Class(
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
     #' @param file_params The form parameters to upload files.
-    #' @param accepts The HTTP accpet headers.
+    #' @param accepts The HTTP accept headers.
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
     #' @param is_oauth True if the endpoints required OAuth authentication.
@@ -194,7 +194,7 @@ ApiClient  <- R6::R6Class(
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
     #' @param file_params The form parameters for uploading files.
-    #' @param accepts The HTTP accpet headers.
+    #' @param accepts The HTTP accept headers.
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
     #' @param is_oauth True if the endpoints required OAuth authentication.
@@ -226,7 +226,16 @@ ApiClient  <- R6::R6Class(
       }
 
       ## add query parameters
-      req <- req %>% req_url_query(!!!query_params)
+      for (query_param in names(query_params)) {
+        if (typeof(query_params[[query_param]]) == "list") {
+          # for explode, e.g. a=1,a=2,a=3
+          req <- req %>% req_url_query(!!!query_params[[query_param]])
+        } else { # for non-explode, e.g. a=1,2,3
+          tmp <- list()
+          tmp[[query_param]] <- query_params[[query_param]]
+          req <- req %>% req_url_query(!!!tmp)
+        }
+      }
 
       # has file upload?
       if (!is.null(file_params) && length(file_params) != 0) {
@@ -370,9 +379,23 @@ ApiClient  <- R6::R6Class(
           }
         }
       } else if (exists(return_type, pkg_env) && !(c(return_type) %in% primitive_types)) {
-        # To handle model objects which are not array or map containers. Ex:"Pet"
+        # To handle model objects which are not array or map containers (e.g. Pet)
         return_type <- get(return_type, envir = as.environment(pkg_env))
         return_obj <- return_type$new()
+        # check if discriminator is defined
+        if (!is.null(return_obj$`_discriminator_property_name`)) {
+          data_type <- return_obj$`_discriminator_property_name`
+          # use discriminator mapping if provided
+          if (!is.null(return_obj$`_discriminator_mapping_name`)) {
+            data_type <- (return_obj$`_discriminator_mapping_name`)[[obj[[data_type]]]]
+          } else {
+            # no mapping provided, use the value directly
+            data_type <- obj[[data_type]]
+          }
+          # create an object of the mapped type (e.g. Cat)
+          return_type <- get(data_type, envir = as.environment(pkg_env))
+          return_obj <- return_type$new()
+        }
         return_obj$fromJSON(
           jsonlite::toJSON(obj, digits = NA, auto_unbox = TRUE)
         )
@@ -382,10 +405,10 @@ ApiClient  <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a propery header (for accept or content-type).
+    #' Return a property header (for accept or content-type).
     #'
     #' @description
-    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
+    #' Return a property header (for accept or content-type). If JSON-related MIME is found,
     #' return it. Otherwise, return the first one, if any.
     #'
     #' @param headers A list of headers

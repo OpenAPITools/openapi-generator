@@ -62,7 +62,7 @@ Returns a map of status codes to quantities
 }
 
 \strong{ GetOrderById } \emph{ Find purchase order by ID }
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 \itemize{
 \item \emph{ @param } order_id integer

@@ -18,17 +18,17 @@
 -spec {{operationId}}(ctx:ctx(){{#allParams}}{{#required}}, {{{dataType}}}{{/required}}{{/allParams}}, maps:map()) -> {ok, {{{returnType}}}{{^returnType}}[]{{/returnType}}, {{packageName}}_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), {{packageName}}_utils:response_info()}.
 {{operationId}}(Ctx{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}}, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+    Cfg = maps:get(cfg, Optional, application:get_env({{packageName}}_api, config, #{})),
 
     Method = {{httpMethod}},
-    Path = [<<"{{{replacedPathName}}}">>],
+    Path = [?BASE_URL, "{{{replacedPathName}}}"],
     QS = {{#queryParams.isEmpty}}[]{{/queryParams.isEmpty}}{{^queryParams.isEmpty}}lists:flatten([{{#joinWithComma}}{{#queryParams}}{{#required}}{{#qsEncode}}{{this}}{{/qsEncode}}  {{/required}}{{/queryParams}}{{/joinWithComma}}])++{{packageName}}_utils:optional_params([{{#joinWithComma}}{{#queryParams}}{{^required}}  '{{baseName}}'{{/required}}{{/queryParams}}{{/joinWithComma}}], _OptionalParams){{/queryParams.isEmpty}},
     Headers = {{#headerParams.isEmpty}}[]{{/headerParams.isEmpty}}{{^headerParams.isEmpty}}[{{#headerParams}}{{#required}}  {<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/headerParams}}]++{{packageName}}_utils:optional_params([{{#joinWithComma}}{{#headerParams}}{{^required}}  '{{baseName}}'{{/required}}{{/headerParams}}{{/joinWithComma}}], _OptionalParams){{/headerParams.isEmpty}},
     Body1 = {{^formParams.isEmpty}}{form, [{{#joinWithComma}}{{#formParams}}{{#required}}  {<<"{{baseName}}">>, {{paramName}}}{{/required}}{{/formParams}}{{/joinWithComma}}]++{{packageName}}_utils:optional_params([{{#joinWithComma}}{{#formParams}}{{^required}}  '{{baseName}}'{{/required}}{{/formParams}}{{/joinWithComma}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
     ContentTypeHeader = {{packageName}}_utils:select_header_content_type([{{#consumes}}{{^-first}}, {{/-first}}<<"{{mediaType}}">>{{/consumes}}]),
     Opts = maps:get(hackney_opts, Optional, []),
 
-    {{packageName}}_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+    {{packageName}}_utils:request(Ctx, Method, Path, QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
     {{/operation}}
 

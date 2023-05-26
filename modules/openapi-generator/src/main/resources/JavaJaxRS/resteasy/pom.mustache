@@ -202,7 +202,12 @@
         <slf4j-version>1.6.3</slf4j-version>
         <junit-version>4.13.2</junit-version>
         <servlet-api-version>4.0.4</servlet-api-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
 {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}

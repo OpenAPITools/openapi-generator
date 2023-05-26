@@ -14,6 +14,7 @@ docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfInlineAllOf.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md
+docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
@@ -137,6 +138,7 @@ src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInner.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.java
+src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
 src/main/java/org/openapitools/client/model/Banana.java

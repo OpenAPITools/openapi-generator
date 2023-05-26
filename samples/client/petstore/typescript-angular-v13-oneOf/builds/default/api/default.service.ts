@@ -132,7 +132,7 @@ export class DefaultService {
         }
 
         let localVarPath = `/`;
-        return this.httpClient.get<Fruit>(`${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Fruit>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -194,10 +194,10 @@ export class DefaultService {
         }
 
         let localVarPath = `/`;
-        return this.httpClient.put<any>(`${this.configuration.basePath}${localVarPath}`,
-            body,
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: body,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

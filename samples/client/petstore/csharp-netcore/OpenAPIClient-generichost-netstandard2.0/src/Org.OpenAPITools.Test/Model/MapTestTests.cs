@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,22 +55,6 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'MapMapOfString'
-        /// </summary>
-        [Fact]
-        public void MapMapOfStringTest()
-        {
-            // TODO unit test for the property 'MapMapOfString'
-        }
-        /// <summary>
-        /// Test the property 'MapOfEnumString'
-        /// </summary>
-        [Fact]
-        public void MapOfEnumStringTest()
-        {
-            // TODO unit test for the property 'MapOfEnumString'
-        }
-        /// <summary>
         /// Test the property 'DirectMap'
         /// </summary>
         [Fact]
@@ -87,6 +69,22 @@ namespace Org.OpenAPITools.Test.Model
         public void IndirectMapTest()
         {
             // TODO unit test for the property 'IndirectMap'
+        }
+        /// <summary>
+        /// Test the property 'MapMapOfString'
+        /// </summary>
+        [Fact]
+        public void MapMapOfStringTest()
+        {
+            // TODO unit test for the property 'MapMapOfString'
+        }
+        /// <summary>
+        /// Test the property 'MapOfEnumString'
+        /// </summary>
+        [Fact]
+        public void MapOfEnumStringTest()
+        {
+            // TODO unit test for the property 'MapOfEnumString'
         }
 
     }

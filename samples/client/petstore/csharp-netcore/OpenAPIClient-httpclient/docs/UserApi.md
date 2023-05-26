@@ -13,7 +13,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**LogoutUser**](UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session |
 | [**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user |
 
-<a name="createuser"></a>
+<a id="createuser"></a>
 # **CreateUser**
 > void CreateUser (User user)
 
@@ -104,7 +104,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="createuserswitharrayinput"></a>
+<a id="createuserswitharrayinput"></a>
 # **CreateUsersWithArrayInput**
 > void CreateUsersWithArrayInput (List<User> user)
 
@@ -193,7 +193,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="createuserswithlistinput"></a>
+<a id="createuserswithlistinput"></a>
 # **CreateUsersWithListInput**
 > void CreateUsersWithListInput (List<User> user)
 
@@ -282,7 +282,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deleteuser"></a>
+<a id="deleteuser"></a>
 # **DeleteUser**
 > void DeleteUser (string username)
 
@@ -374,7 +374,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getuserbyname"></a>
+<a id="getuserbyname"></a>
 # **GetUserByName**
 > User GetUserByName (string username)
 
@@ -469,7 +469,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="loginuser"></a>
+<a id="loginuser"></a>
 # **LoginUser**
 > string LoginUser (string username, string password)
 
@@ -565,7 +565,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="logoutuser"></a>
+<a id="logoutuser"></a>
 # **LogoutUser**
 > void LogoutUser ()
 
@@ -649,7 +649,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updateuser"></a>
+<a id="updateuser"></a>
 # **UpdateUser**
 > void UpdateUser (string username, User user)
 

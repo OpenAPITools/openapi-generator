@@ -1,0 +1,178 @@
+
+{{#models}}{{#model}}{{#emitJSDoc}}/**
+ * The {{classname}} model module.
+ * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
+ * @version {{projectVersion}}
+ */{{/emitJSDoc}}
+class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}extends Array {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{
+    {{#emitJSDoc}}/**
+     * Constructs a new <code>{{classname}}</code>.{{#description}}
+     * {{.}}{{/description}}
+     * @alias module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
+     * @extends {{#parentModel}}module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
+     * @implements module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+     * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{{description}}}{{/vendorExtensions.x-all-required}}
+     */{{/emitJSDoc}}
+    constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) { {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}
+        super();
+        {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{{#useInheritance}}
+        {{#interfaceModels}}{{classname}}.initialize(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/interfaceModels}}{{/useInheritance}}
+        {{classname}}.initialize(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
+    }
+
+    {{#emitJSDoc}}/**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */{{/emitJSDoc}}
+    static initialize(obj{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}}) { {{#vars}}{{#required}}
+        {{#defaultValue}}obj['{{baseName}}'] = {{name}} || {{{defaultValue}}};{{/defaultValue}}{{^defaultValue}}obj['{{baseName}}'] = {{name}};{{/defaultValue}}{{/required}}{{/vars}}
+    }
+
+    {{#emitJSDoc}}/**
+     * Constructs a <code>{{classname}}</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
+     * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
+     */{{/emitJSDoc}}
+    static constructFromObject(data, obj) {
+        if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
+            obj = obj || new {{classname}}();{{#parent}}{{^parentModel}}
+
+            ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-item-type}}');
+            {{/parentModel}}{{/parent}}{{#useInheritance}}{{#parentModel}}
+            {{classname}}.constructFromObject(data, obj);{{/parentModel}}{{#interfaces}}
+            {{.}}.constructFromObject(data, obj);{{/interfaces}}{{/useInheritance}}
+
+            {{#vars}}
+            if (data.hasOwnProperty('{{baseName}}')) {
+                obj['{{baseName}}']{{{defaultValueWithParam}}}
+            }
+            {{/vars}}
+        }
+        return obj;
+    }
+
+    {{#emitJSDoc}}/**
+     * Validates the JSON data with respect to <code>{{classname}}</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>{{classname}}</code>.
+     */{{/emitJSDoc}}
+    static validateJSON(data) {
+        {{#requiredVars}}
+        {{#-first}}
+        // check to make sure all required properties are present in the JSON string
+        for (const property of {{classname}}.RequiredProperties) {
+            if (!data[property]) {
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
+            }
+        }
+        {{/-first}}
+        {{/requiredVars}}
+        {{#vars}}
+        {{#isArray}}
+        {{#items.isModel}}
+        {{#isRequired}}
+        // ensure the json data is an array
+        if (!Array.isArray(data['{{{baseName}}}'])) {
+            throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
+        }
+        // validate the required field `{{{baseName}}}` (array)
+        for (const item of data['{{{baseName}}}']) {
+            {{{items.dataType}}}.validateJSON(item);
+        };
+        {{/isRequired}}
+        {{^isRequired}}
+        if (data['{{{baseName}}}']) { // data not null
+            // ensure the json data is an array
+            if (!Array.isArray(data['{{{baseName}}}'])) {
+                throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
+            }
+            // validate the optional field `{{{baseName}}}` (array)
+            for (const item of data['{{{baseName}}}']) {
+                {{{items.dataType}}}.validateJSON(item);
+            };
+        }
+        {{/isRequired}}
+        {{/items.isModel}}
+        {{^items.isModel}}
+        // ensure the json data is an array
+        if (!Array.isArray(data['{{{baseName}}}'])) {
+            throw new Error("Expected the field `{{{baseName}}}` to be an array in the JSON data but got " + data['{{{baseName}}}']);
+        }
+        {{/items.isModel}}
+        {{/isArray}}
+        {{^isContainer}}
+        {{#isString}}
+        // ensure the json data is a string
+        if ({{^isRequired}}data['{{{baseName}}}']{{/isRequired}} && !(typeof data['{{{baseName}}}'] === 'string' || data['{{{baseName}}}'] instanceof String)) {
+            throw new Error("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got " + data['{{{baseName}}}']);
+        }
+        {{/isString}}
+        {{#isModel}}
+        {{#isRequired}}
+        // validate the required field `{{{baseName}}}`
+        {{{dataType}}}.validateJSON(data['{{{baseName}}}']);
+        {{/isRequired}}
+        {{^isRequired}}
+        // validate the optional field `{{{baseName}}}`
+        if (data['{{{baseName}}}']) { // data not null
+          {{{dataType}}}.validateJSON(data['{{{baseName}}}']);
+        }
+        {{/isRequired}}
+        {{/isModel}}
+        {{/isContainer}}
+        {{/vars}}
+
+        return true;
+    }
+
+{{#emitModelMethods}}{{#vars}}{{#emitJSDoc}}/**{{#description}}
+     * Returns {{{.}}}{{/description}}{{#minimum}}
+     * minimum: {{.}}{{/minimum}}{{#maximum}}
+     * maximum: {{.}}{{/maximum}}
+     * @return {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>
+     */{{/emitJSDoc}}
+    {{getter}}() {
+        return this.{{baseName}};
+    }
+
+    {{#emitJSDoc}}/**{{#description}}
+     * Sets {{{.}}}{{/description}}
+     * @param {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{name}}{{#description}} {{{.}}}{{/description}}
+     */{{/emitJSDoc}}
+    {{setter}}({{name}}) {
+        this['{{baseName}}'] = {{name}};
+    }
+{{/vars}}{{/emitModelMethods}}{{/model}}
+}
+
+{{#requiredVars}}{{#-first}}{{classname}}.RequiredProperties = [{{/-first}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{#-last}}];{{/-last}}{{/requiredVars}}
+
+{{#vars}}{{#emitJSDoc}}/**{{#description}}
+ * {{{.}}}{{/description}}
+ * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
+ * @default {{{.}}}{{/defaultValue}}
+ */{{/emitJSDoc}}
+{{classname}}.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
+
+{{/vars}}
+
+{{#useInheritance}}{{#interfaceModels}}// Implement {{classname}} interface:
+{{#allVars}}{{#emitJSDoc}}/**{{#description}}
+ * {{{.}}}{{/description}}
+ * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
+ * @default {{{.}}}{{/defaultValue}}
+ */{{/emitJSDoc}}
+{{classname}}.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
+{{/allVars}}{{/interfaceModels}}{{/useInheritance}}
+
+{{#vars}}{{#isEnum}}{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}{{/isEnum}}{{#items.isEnum}}{{#items}}{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}{{/items}}{{/items.isEnum}}{{/vars}}
+
+export default {{classname}};
+{{/models}}

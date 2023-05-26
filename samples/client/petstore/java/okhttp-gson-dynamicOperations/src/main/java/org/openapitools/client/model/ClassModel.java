@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -34,10 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -47,7 +50,6 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-@ApiModel(description = "Model for testing model with \"_class\" property")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ClassModel {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
@@ -68,8 +70,6 @@ public class ClassModel {
    * @return propertyClass
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getPropertyClass() {
     return propertyClass;
   }
@@ -139,9 +139,7 @@ public class ClassModel {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (ClassModel.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!ClassModel.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in ClassModel is not found in the empty JSON string", ClassModel.openapiRequiredFields.toString()));
         }
       }

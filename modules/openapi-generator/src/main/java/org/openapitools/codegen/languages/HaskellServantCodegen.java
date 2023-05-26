@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
@@ -577,6 +578,25 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             returnType = "(" + returnType + ")";
         }
 
+        List<CodegenProperty> headers = new ArrayList<>();
+        for (CodegenResponse r : op.responses) {
+            headers.addAll(r.headers);
+        }
+        if (!headers.isEmpty()) {
+            List<String> headerContents = new ArrayList<>();
+            for (CodegenProperty h : headers) {
+                // Because headers is a Map multiple Set-Cookie headers are currently not possible. If someone
+                // uses the workaround with null bytes, remove them and add add each header to the list:
+                // https://github.com/OAI/OpenAPI-Specification/issues/1237#issuecomment-906603675
+                String headerName = h.baseName.replaceAll("\0", "");
+                String headerType = h.dataType;
+                headerContents.add("Header \"" + headerName + "\" " + headerType);
+            }
+            String headerContent = String.join(", ", headerContents);
+
+            returnType = "(Headers '[" + headerContent + "] " + returnType + ")";
+        }
+
         String code = "200";
         for (CodegenResponse r : op.responses) {
             if (r.code.matches("2[0-9][0-9]")) {
@@ -592,7 +612,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         op.vendorExtensions.put("x-client-type", joinStrings(" -> ", type));
         op.vendorExtensions.put("x-form-name", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-form-prefix", camelize(op.operationId, true));
+            param.vendorExtensions.put("x-form-prefix", camelize(op.operationId, LOWERCASE_FIRST_LETTER));
         }
         return op;
     }
@@ -658,7 +678,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = camelize(model.classname, true);
+        String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }

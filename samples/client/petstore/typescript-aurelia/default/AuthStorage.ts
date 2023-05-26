@@ -21,31 +21,6 @@ export class AuthStorage {
   }
 
   /**
-   * Sets the api_key auth method value.
-   *
-   * @param value The new value to set for api_key.
-   */
-  setapi_key(value: string): this {
-    this.storage.set('api_key', value);
-    return this;
-  }
-
-  /**
-   * Removes the api_key auth method value.
-   */
-  removeapi_key(): this {
-    this.storage.delete('api_key');
-    return this;
-  }
-
-  /**
-   * Gets the api_key auth method value.
-   */
-  getapi_key(): null | string {
-    return this.storage.get('api_key') || null;
-  }
-
-  /**
    * Sets the petstore_auth auth method value.
    *
    * @param value The new value to set for petstore_auth.
@@ -68,5 +43,30 @@ export class AuthStorage {
    */
   getpetstore_auth(): null | string {
     return this.storage.get('petstore_auth') || null;
+  }
+
+  /**
+   * Sets the api_key auth method value.
+   *
+   * @param value The new value to set for api_key.
+   */
+  setapi_key(value: string): this {
+    this.storage.set('api_key', value);
+    return this;
+  }
+
+  /**
+   * Removes the api_key auth method value.
+   */
+  removeapi_key(): this {
+    this.storage.delete('api_key');
+    return this;
+  }
+
+  /**
+   * Gets the api_key auth method value.
+   */
+  getapi_key(): null | string {
+    return this.storage.get('api_key') || null;
   }
 }

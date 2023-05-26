@@ -62,7 +62,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
-import javax.annotation.Nullable;
+import {{javaxPackage}}.annotation.Nullable;
 
 {{#jsr310}}
 import java.time.OffsetDateTime;
@@ -155,8 +155,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -517,7 +517,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return boolean true if the MediaType represents JSON, false otherwise
      */
     public boolean isJsonMime(MediaType mediaType) {
-        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*\\+json[;]?\\s*$"));
+        return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*(\\+json|ndjson)[;]?\\s*$"));
     }
 
     /**

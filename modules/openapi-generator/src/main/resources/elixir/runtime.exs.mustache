@@ -7,6 +7,6 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
-if env = System.get_env("{{#env_var}}{{appName}}{{/env_var}}_BASE_URI") do
-  config :{{#underscored}}{{appName}}{{/underscored}}, base_url: env
+if base_url = System.get_env("{{#env_var}}{{packageName}}{{/env_var}}_BASE_URI") do
+  config {{#atom}}{{#underscored}}{{packageName}}{{/underscored}}{{/atom}}, base_url: base_url
 end

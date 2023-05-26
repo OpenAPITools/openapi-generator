@@ -147,6 +147,8 @@ public interface CodegenConfig {
 
     Map<String, String> inlineSchemaNameDefault();
 
+    Map<String, String> openapiNormalizer();
+
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();
@@ -328,4 +330,9 @@ public interface CodegenConfig {
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
+
+    boolean getAddSuffixToDuplicateOperationNicknames();
+
+    boolean getUseOpenAPINormalizer();
+
 }

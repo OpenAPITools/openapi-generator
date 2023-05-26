@@ -63,9 +63,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
     protected static final String JVM_VOLLEY = "jvm-volley";
+    protected static final String JVM_VERTX = "jvm-vertx";
+    protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
 
-    public static final String USE_RX_JAVA = "useRxJava";
-    public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
@@ -73,6 +73,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
     public static final String OMIT_GRADLE_PLUGIN_VERSIONS = "omitGradlePluginVersions";
     public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
+    public static final String USE_SETTINGS_GRADLE = "useSettingsGradle";
     public static final String IDEA = "idea";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -100,9 +101,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
     protected String roomModelPackage = "";
-
+    protected boolean omitGradleWrapper = false;
 
     protected String authFolder;
+
 
     public enum DateLibrary {
         STRING("string"),
@@ -215,9 +217,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 WebClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
+        supportedLibraries.put(JVM_VERTX, "Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -233,12 +237,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
 
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead."));
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
+        cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
         cliOptions.add(CliOption.newBoolean(IDEA, "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
 
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
@@ -266,34 +269,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return generateRoomModels;
     }
 
+    public boolean getOmitGradleWrapper() {
+        return omitGradleWrapper;
+    }
+
     public void setGenerateRoomModels(Boolean generateRoomModels) {
         this.generateRoomModels = generateRoomModels;
     }
 
-    public void setUseRxJava(boolean useRxJava) {
-        if (useRxJava) {
-            this.useRxJava2 = false;
-            this.useRxJava3 = false;
-            this.doNotUseRxAndCoroutines = false;
-            this.useCoroutines = false;
-        }
-        this.useRxJava = useRxJava;
-    }
-
-    public void setUseRxJava2(boolean useRxJava2) {
-        if (useRxJava2) {
-            this.useRxJava = false;
-            this.useRxJava3 = false;
-            this.doNotUseRxAndCoroutines = false;
-            this.useCoroutines = false;
-        }
-        this.useRxJava2 = useRxJava2;
-    }
-
     public void setUseRxJava3(boolean useRxJava3) {
         if (useRxJava3) {
-            this.useRxJava = false;
-            this.useRxJava2 = false;
             this.doNotUseRxAndCoroutines = false;
             this.useCoroutines = false;
         }
@@ -302,8 +287,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setDoNotUseRxAndCoroutines(boolean doNotUseRxAndCoroutines) {
         if (doNotUseRxAndCoroutines) {
-            this.useRxJava = false;
-            this.useRxJava2 = false;
             this.useRxJava3 = false;
             this.useCoroutines = false;
         }
@@ -312,8 +295,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setUseCoroutines(boolean useCoroutines) {
         if (useCoroutines) {
-            this.useRxJava = false;
-            this.useRxJava2 = false;
             this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
         }
@@ -343,6 +324,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setGenerateCustomJSONDeserializers(boolean generateCustomJSONDeserializers) {
         this.generateCustomJSONDeserializers = generateCustomJSONDeserializers;
+
+    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
+        this.omitGradleWrapper = omitGradleWrapper;
     }
 
     @Override
@@ -379,17 +363,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         super.processOpts();
 
-        boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
-        boolean hasRx2 = additionalProperties.containsKey(USE_RX_JAVA2);
         boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
         boolean hasCoroutines = additionalProperties.containsKey(USE_COROUTINES);
         int optionCount = 0;
-        if (hasRx) {
-            optionCount++;
-        }
-        if (hasRx2) {
-            optionCount++;
-        }
         if (hasRx3) {
             optionCount++;
         }
@@ -401,17 +377,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // RxJava & Coroutines
         if (hasConflict) {
             LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
-        } else if (hasRx) {
-            this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
-        } else if (hasRx2) {
-            this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
         } else if (hasRx3) {
             this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
             this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
-        if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
+        if (!hasRx3 && !hasCoroutines) {
             setDoNotUseRxAndCoroutines(true);
             additionalProperties.put(DO_NOT_USE_RX_AND_COROUTINES, true);
         }
@@ -435,6 +407,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
         }
 
+        if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
+            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
+        }
+
         commonSupportingFiles();
 
         switch (getLibrary()) {
@@ -451,8 +427,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
+            case JVM_SPRING_WEBCLIENT:
+                processJVMSpringWebClientLibrary(infrastructureFolder);
+                break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
+                break;
+            case JVM_VERTX:
+                processJVMVertXLibrary(infrastructureFolder);
                 break;
             default:
                 break;
@@ -691,6 +673,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
     }
 
+    /**
+     * Process Vert.x client options
+     *
+     * @param infrastructureFolder infrastructure destination folder
+     */
+    private void processJVMVertXLibrary(final String infrastructureFolder) {
+        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
+        addSupportingSerializerAdapters(infrastructureFolder);
+
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_VERTX, true);
+    }
+
     private void processJVMOkHttpLibrary(final String infrastructureFolder) {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         addSupportingSerializerAdapters(infrastructureFolder);
@@ -711,6 +709,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
+    }
+
+    private void processJVMSpringWebClientLibrary(final String infrastructureFolder) {
+        if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
+            throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
+        }
+
+        commonJvmMultiplatformSupportingFiles(infrastructureFolder);
+        addSupportingSerializerAdapters(infrastructureFolder);
+
+        additionalProperties.put(JVM, true);
+        additionalProperties.put(JVM_SPRING_WEBCLIENT, true);
     }
 
     private void processMultiplatformLibrary(final String infrastructureFolder) {
@@ -789,10 +799,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         // gradle wrapper supporting files
-        supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
-        supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        if (!getOmitGradleWrapper()) {
+            supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+            supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
+            supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+        }
     }
 
     @Override
@@ -852,22 +864,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         // match on first part in mediaTypes like 'application/json; charset=utf-8'
                         int endIndex = mediaTypeValue.indexOf(';');
                         String mediaType = (endIndex == -1
-                            ? mediaTypeValue
-                            : mediaTypeValue.substring(0, endIndex)
+                                ? mediaTypeValue
+                                : mediaTypeValue.substring(0, endIndex)
                         ).trim();
                         return "multipart/form-data".equals(mediaType)
-                            || "application/x-www-form-urlencoded".equals(mediaType)
-                            || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
+                                || "application/x-www-form-urlencoded".equals(mediaType)
+                                || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
                     };
                     operation.consumes = operation.consumes == null ? null : operation.consumes.stream()
-                        .filter(isSerializable)
-                        .limit(1)
-                        .collect(Collectors.toList());
+                            .filter(isSerializable)
+                            .limit(1)
+                            .collect(Collectors.toList());
                     operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
 
                     operation.produces = operation.produces == null ? null : operation.produces.stream()
-                        .filter(isSerializable)
-                        .collect(Collectors.toList());
+                            .filter(isSerializable)
+                            .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
                 }
 

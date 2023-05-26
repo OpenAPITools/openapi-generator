@@ -18,11 +18,12 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -43,18 +45,17 @@ public class FakeApiTest {
 
     
     /**
-     * creates an XmlItem
+     * Health check endpoint
      *
-     * this route creates an XmlItem
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void createXmlItemTest() throws ApiException {
-        XmlItem xmlItem = null;
-        
-        CompletableFuture<Void> response = api.createXmlItem(xmlItem);
+    public void fakeHealthGetTest() throws ApiException {
+        CompletableFuture<HealthCheckResult> response = 
+        api.fakeHealthGet();
         
         // TODO: test validations
     }
@@ -86,9 +87,9 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() throws ApiException {
-        OuterComposite body = null;
+        OuterComposite outerComposite = null;
         CompletableFuture<OuterComposite> response = 
-        api.fakeOuterCompositeSerialize(body);
+        api.fakeOuterCompositeSerialize(outerComposite);
         
         // TODO: test validations
     }
@@ -128,6 +129,22 @@ public class FakeApiTest {
     }
     
     /**
+     * Array of Enums
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getArrayOfEnumsTest() throws ApiException {
+        CompletableFuture<List<OuterEnum>> response = 
+        api.getArrayOfEnums();
+        
+        // TODO: test validations
+    }
+    
+    /**
      * 
      *
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -137,9 +154,9 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithFileSchemaTest() throws ApiException {
-        FileSchemaTestClass body = null;
+        FileSchemaTestClass fileSchemaTestClass = null;
         
-        CompletableFuture<Void> response = api.testBodyWithFileSchema(body);
+        CompletableFuture<Void> response = api.testBodyWithFileSchema(fileSchemaTestClass);
         
         // TODO: test validations
     }
@@ -155,9 +172,9 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() throws ApiException {
         String query = null;
-        User body = null;
+        User user = null;
         
-        CompletableFuture<Void> response = api.testBodyWithQueryParams(query, body);
+        CompletableFuture<Void> response = api.testBodyWithQueryParams(query, user);
         
         // TODO: test validations
     }
@@ -172,17 +189,17 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() throws ApiException {
-        Client body = null;
+        Client client = null;
         CompletableFuture<Client> response = 
-        api.testClientModel(body);
+        api.testClientModel(client);
         
         // TODO: test validations
     }
     
     /**
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -274,9 +291,9 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() throws ApiException {
-        Map<String, String> param = null;
+        Map<String, String> requestBody = null;
         
-        CompletableFuture<Void> response = api.testInlineAdditionalProperties(param);
+        CompletableFuture<Void> response = api.testInlineAdditionalProperties(requestBody);
         
         // TODO: test validations
     }

@@ -50,7 +50,7 @@
   describe('ObjectWithDeprecatedFields', function() {
     it('should create an instance of ObjectWithDeprecatedFields', function() {
       // uncomment below and update the code to test ObjectWithDeprecatedFields
-      //var instane = new OpenApiPetstore.ObjectWithDeprecatedFields();
+      //var instance = new OpenApiPetstore.ObjectWithDeprecatedFields();
       //expect(instance).to.be.a(OpenApiPetstore.ObjectWithDeprecatedFields);
     });
 

@@ -1,7 +1,0 @@
-from unit_test_api.paths.response_body_post_additionalproperties_allows_a_schema_which_should_validate_response_body_for_content_types.post import ApiForpost
-
-
-class ResponseBodyPostAdditionalpropertiesAllowsASchemaWhichShouldValidateResponseBodyForContentTypes(
-    ApiForpost,
-):
-    pass

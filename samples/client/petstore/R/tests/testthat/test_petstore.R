@@ -12,9 +12,20 @@ pet <- Pet$new("name_test",
   status = "available"
 )
 
-pet_api$api_client$username <- ""
-pet_api$api_client$password <- ""
+# no need to set uasername, password and there should be no error
+# since the endpoint can support multi auth schema
+#pet_api$api_client$username <- ""
+#pet_api$api_client$password <- ""
 result <- pet_api$AddPet(pet)
+
+test_that("Test discriminator and mapping", {
+  d <- '{"breed": "bulldog","color":"white","className":"Dog"}'
+  dog <- ApiClient$new()$deserialize(d, "Animal", loadNamespace("petstore"))
+  expect_equal(class(dog)[1], "Dog")
+  expect_equal(dog$breed, "bulldog")
+  expect_equal(dog$color, "white")
+  expect_equal(dog$className, "Dog")
+})
 
 test_that("Test toJSONString", {
   expect_equal(pet_id, 123321)
@@ -248,13 +259,13 @@ test_that("Tests oneOf", {
   expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
-  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
   # class name test
   expect_equal(get(class(basque_pig$actual_instance)[[1]], pos = -1)$classname, "BasquePig")
 
-  # test contructors
+  # test constructors
   pig2 <- Pig$new(instance = basque_pig$actual_instance)
   expect_equal(pig2$actual_type, "BasquePig")
   expect_equal(pig2$actual_instance$color, "red")
@@ -317,8 +328,8 @@ test_that("Tests anyOf", {
   expect_equal(basque_pig$toJSONString(), original_basque_pig$toJSONString())
 
   # test exception when no matche found
-  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
-  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details:  The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\., The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$fromJSON('{}'), 'No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
+  expect_error(pig$validateJSON('{}'), 'No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >> The JSON input ` \\{\\} ` is invalid for BasquePig: the required field `className` is missing\\. >> The JSON input ` \\{\\} ` is invalid for DanishPig: the required field `className` is missing\\.')
 
 })
 

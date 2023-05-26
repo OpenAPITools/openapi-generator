@@ -44,7 +44,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
     public static final String MODEL_POCOMODE = "pocoModels";
-    public static final String USE_MODEL_SEPERATEPROJECT = "useSeperateModelProject";
+    public static final String USE_MODEL_SEPERATEPROJECT = "useSeparateModelProject";
     public static final String ASPNET_CORE_VERSION = "aspnetCoreVersion";
     public static final String SWASHBUCKLE_VERSION = "swashbuckleVersion";
     public static final String CLASS_MODIFIER = "classModifier";
@@ -73,7 +73,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private boolean useSwashbuckle = true;
     private boolean pocoModels = false;
-    private boolean useSeperateModelProject = false;
+    private boolean useSeparateModelProject = false;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0");
@@ -247,8 +247,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 pocoModels);
 
         addSwitch(USE_MODEL_SEPERATEPROJECT,
-                "Create a seperate project for models",
-                useSeperateModelProject);
+                "Create a separate project for models",
+                useSeparateModelProject);
 
         addSwitch(IS_LIBRARY,
                 "Is the build a library",
@@ -373,7 +373,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setOperationModifier();
         setModelClassModifier();
         setPocoModels();
-        setUseSeperateModelProject();
+        setUseSeparateModelProject();
         setUseSwashbuckle();
         setOperationIsAsync();
 
@@ -400,28 +400,25 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
-       
+
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
-        
-        if (useSeperateModelProject)
-        {
-            supportingFiles.add(new SupportingFile("typeConverter.mustache", sourceFolder + File.separator + modelPackage + File.separator + "Converters", "CustomEnumConverter.cs"));
+
+        if (useSeparateModelProject) {
+            String separateModelSeparator = sourceFolder + File.separator + modelPackage;
+            supportingFiles.add(new SupportingFile("gitignore", separateModelSeparator, ".gitignore"));
+            supportingFiles.add(new SupportingFile("typeConverter.mustache", separateModelSeparator + File.separator + "Converters", "CustomEnumConverter.cs"));
+            supportingFiles.add(new SupportingFile("ModelsProject.csproj.mustache", separateModelSeparator, modelPackage + ".csproj"));
         } else {
             supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         }
 
         if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {
             supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
-        }
-
-        if (useSeperateModelProject)
-        {
-            supportingFiles.add(new SupportingFile("ModelsProject.csproj.mustache", sourceFolder + File.separator + modelPackage, modelPackage + ".csproj"));
         }
 
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
@@ -465,8 +462,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String modelFileFolder() {
-        if (!useSeperateModelProject)
-        {
+        if (!useSeparateModelProject) {
             return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
         } else {
             return outputFolder + File.separator + sourceFolder + File.separator + modelPackage;
@@ -696,15 +692,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    private void setUseSeperateModelProject() {
+    private void setUseSeparateModelProject() {
         if (additionalProperties.containsKey(USE_MODEL_SEPERATEPROJECT)) {
-            useSeperateModelProject = convertPropertyToBooleanAndWriteBack(USE_MODEL_SEPERATEPROJECT);
-            if (useSeperateModelProject)
-            {
-                LOGGER.info("Using seperate model project");
+            useSeparateModelProject = convertPropertyToBooleanAndWriteBack(USE_MODEL_SEPERATEPROJECT);
+            if (useSeparateModelProject) {
+                LOGGER.info("Using separate model project");
             }
         } else {
-            additionalProperties.put(USE_MODEL_SEPERATEPROJECT, useSeperateModelProject);
+            additionalProperties.put(USE_MODEL_SEPERATEPROJECT, useSeparateModelProject);
         }
     }
 

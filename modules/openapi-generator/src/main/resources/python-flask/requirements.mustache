@@ -1,9 +1,6 @@
 connexion[swagger-ui] >= 2.6.0; python_version>="3.6"
 # 2.3 is the last version that supports python 3.4-3.5
 connexion[swagger-ui] <= 2.3.0; python_version=="3.5" or python_version=="3.4"
-{{#supportPython2}}
-connexion[swagger-ui] == 2.4.0; python_version<="2.7"
-{{/supportPython2}}
 # connexion requires werkzeug but connexion < 2.4.0 does not install werkzeug
 # we must peg werkzeug versions below to fix connexion
 # https://github.com/zalando/connexion/pull/1044
@@ -14,12 +11,5 @@ python_dateutil >= 2.6.0
 # should support both Python 2 and Python 3
 flask-cors >= 3.0.10
 {{/featureCORS}}
-{{#supportPython2}}
-typing >= 3.5.2.2
-# For specs with timestamps, pyyaml 5.3 broke connexion's spec parsing in python 2.
-# Connexion uses copy.deepcopy() on the spec, thus hitting this bug:
-# https://github.com/yaml/pyyaml/issues/387
-pyyaml < 5.3; python_version<="2.7"
-{{/supportPython2}}
 setuptools >= 21.0.0
-Flask == 1.1.2
+Flask == 2.1.1

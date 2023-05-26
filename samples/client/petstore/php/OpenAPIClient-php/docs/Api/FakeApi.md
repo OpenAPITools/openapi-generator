@@ -664,7 +664,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     $config
 );
 $number = 3.4; // float | None
-$double = 3.4; // double | None
+$double = 3.4; // float | None
 $pattern_without_delimiter = 'pattern_without_delimiter_example'; // string | None
 $byte = 'byte_example'; // string | None
 $integer = 56; // int | None
@@ -690,7 +690,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **number** | **float**| None | |
-| **double** | **double**| None | |
+| **double** | **float**| None | |
 | **pattern_without_delimiter** | **string**| None | |
 | **byte** | **string**| None | |
 | **integer** | **int**| None | [optional] |
@@ -749,7 +749,7 @@ $enum_header_string = '-efg'; // string | Header parameter enum test (string)
 $enum_query_string_array = array('enum_query_string_array_example'); // string[] | Query parameter enum test (string array)
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
-$enum_query_double = 3.4; // double | Query parameter enum test (double)
+$enum_query_double = 3.4; // float | Query parameter enum test (double)
 $enum_query_model_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[]
 $enum_form_string_array = array('$'); // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
@@ -770,7 +770,7 @@ try {
 | **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional] |
 | **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
 | **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] |
-| **enum_query_double** | **double**| Query parameter enum test (double) | [optional] |
+| **enum_query_double** | **float**| Query parameter enum test (double) | [optional] |
 | **enum_query_model_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)|  | [optional] |
 | **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;] |
 | **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |

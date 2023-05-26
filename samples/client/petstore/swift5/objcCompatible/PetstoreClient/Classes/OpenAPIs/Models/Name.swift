@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model name same as property name */
-@objc public class Name: NSObject, Codable, JSONEncodable {
+@objcMembers public class Name: NSObject, Codable, JSONEncodable {
 
     public var name: Int
     public var snakeCase: NullEncodable<Int> = .encodeValue(11033)

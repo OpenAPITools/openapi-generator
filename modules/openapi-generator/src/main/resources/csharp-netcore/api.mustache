@@ -333,7 +333,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{#items.vars}}
                 if ({{paramName}}.{{name}} != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{paramName}}[{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}]", {{paramName}}.{{name}}));
                 }
                 {{/items.vars}}
                 {{^items}}
@@ -361,13 +361,17 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isFile}}
             {{#isArray}}
+            {{#supportsFileParameters}}
             foreach (var file in {{paramName}})
             {
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
             }
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{^isArray}}
+            {{#supportsFileParameters}}
             localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{/isFile}}
             {{^isFile}}
@@ -379,13 +383,17 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 {{#isFile}}
                 {{#isArray}}
+                {{#supportsFileParameters}}
                 foreach (var file in {{paramName}})
                 {
                     localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
                 }
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{^isArray}}
+                {{#supportsFileParameters}}
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{/isFile}}
                 {{^isFile}}
@@ -602,13 +610,17 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isFile}}
             {{#isArray}}
+            {{#supportsFileParameters}}
             foreach (var file in {{paramName}})
             {
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
             }
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{^isArray}}
+            {{#supportsFileParameters}}
             localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{/isFile}}
             {{^isFile}}
@@ -620,13 +632,17 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 {{#isFile}}
                 {{#isArray}}
+                {{#supportsFileParameters}}
                 foreach (var file in {{paramName}})
                 {
                     localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
                 }
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{^isArray}}
+                {{#supportsFileParameters}}
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{/isFile}}
                 {{^isFile}}

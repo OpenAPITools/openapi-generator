@@ -14,15 +14,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArrayTest  {
   
   @ApiModelProperty(value = "")
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
  /**
    * Get arrayOfString
    * @return arrayOfString

@@ -155,14 +155,12 @@ Method | HTTP request | Description
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [AnyOfGet202Response](docs/AnyOfGet202Response.md)
  - [AnyOfObject](docs/AnyOfObject.md)
- - [AnyOfObjectAnyOf](docs/AnyOfObjectAnyOf.md)
  - [AnyOfProperty](docs/AnyOfProperty.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
  - [EnumWithStarObject](docs/EnumWithStarObject.md)
  - [Err](docs/Err.md)
  - [Error](docs/Error.md)
  - [Model12345AnyOfObject](docs/Model12345AnyOfObject.md)
- - [Model12345AnyOfObjectAnyOf](docs/Model12345AnyOfObjectAnyOf.md)
  - [MultigetGet201Response](docs/MultigetGet201Response.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
@@ -186,7 +184,8 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-## authScheme
+Authentication schemes defined for the API:
+### authScheme
 - **Type**: OAuth
 - **Flow**: accessCode
 - **Authorization URL**: http://example.org

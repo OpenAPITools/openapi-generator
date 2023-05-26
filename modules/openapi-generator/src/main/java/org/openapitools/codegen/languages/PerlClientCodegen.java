@@ -663,6 +663,40 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("################################################################################");
     }
 
+    /**
+     * Convert OAS Model object to Codegen Model object
+     * A custom version is made for this method to ensure that
+     * model.format remains empty string
+     *
+     * @param name the name of the model
+     * @param sc   OAS Model object
+     * @return Codegen Model object
+     */
+    @Override
+    public CodegenModel fromModel(String name, Schema sc) {
+        CodegenModel cm = super.fromModel(name, sc);
+        cm.setFormat("");
+        return cm;
+    }
+
+    /**
+     * Convert OAS Property object to Codegen Property object
+     * A custom version is made for this method to ensure that
+     * property.format remains empty string
+     *
+     * @param name name of the property
+     * @param p OAS property schema
+     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
+     * @return Codegen Property object
+     */
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        property.setFormat("");
+        return property;
+    }
+
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PERL; }
 }

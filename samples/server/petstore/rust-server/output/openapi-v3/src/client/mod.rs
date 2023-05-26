@@ -532,7 +532,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
                 query_string.append_pair("url",
-                    &param_url.to_string());
+                    &param_url);
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -850,6 +850,7 @@ impl<S, C> Api<C> for Client<S, C> where
         // Header parameters
         request.headers_mut().append(
             HeaderName::from_static("x-header"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_x_header.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1159,8 +1160,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -1481,8 +1484,10 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -1542,7 +1547,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
                 query_string.append_pair("url",
-                    &param_url.to_string());
+                    &param_url);
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -1728,8 +1733,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header Success-Info for response 200 - {}", e)));
                             },
                         };
-                        let response_success_info = response_success_info.0;
-                        response_success_info
+                        response_success_info.0
                         },
                     None => return Err(ApiError(String::from("Required response header Success-Info for response 200 was not found."))),
                 };
@@ -1743,8 +1747,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header Bool-Header for response 200 - {}", e)));
                             },
                         };
-                        let response_bool_header = response_bool_header.0;
-                        Some(response_bool_header)
+                        Some(response_bool_header.0)
                         },
                     None => None,
                 };
@@ -1758,8 +1761,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header Object-Header for response 200 - {}", e)));
                             },
                         };
-                        let response_object_header = response_object_header.0;
-                        Some(response_object_header)
+                        Some(response_object_header.0)
                         },
                     None => None,
                 };
@@ -1775,7 +1777,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 })?;
                 Ok(ResponsesWithHeadersGetResponse::Success
                     {
-                        body: body,
+                        body,
                         success_info: response_success_info,
                         bool_header: response_bool_header,
                         object_header: response_object_header,
@@ -1792,8 +1794,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header Further-Info for response 412 - {}", e)));
                             },
                         };
-                        let response_further_info = response_further_info.0;
-                        Some(response_further_info)
+                        Some(response_further_info.0)
                         },
                     None => None,
                 };
@@ -1807,8 +1808,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header Failure-Info for response 412 - {}", e)));
                             },
                         };
-                        let response_failure_info = response_failure_info.0;
-                        Some(response_failure_info)
+                        Some(response_failure_info.0)
                         },
                     None => None,
                 };
@@ -2140,7 +2140,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         let body = param_duplicate_xml_object.map(|ref body| {
-            body.to_xml()
+            body.as_xml()
         });
         if let Some(body) = body {
                 *request.body_mut() = Body::from(body);
@@ -2226,7 +2226,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         let body = param_another_xml_object.map(|ref body| {
-            body.to_xml()
+            body.as_xml()
         });
         if let Some(body) = body {
                 *request.body_mut() = Body::from(body);
@@ -2322,7 +2322,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         let body = param_another_xml_array.map(|ref body| {
-            body.to_xml()
+            body.as_xml()
         });
         if let Some(body) = body {
                 *request.body_mut() = Body::from(body);
@@ -2408,7 +2408,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         let body = param_xml_array.map(|ref body| {
-            body.to_xml()
+            body.as_xml()
         });
         if let Some(body) = body {
                 *request.body_mut() = Body::from(body);
@@ -2494,7 +2494,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         let body = param_xml_object.map(|ref body| {
-            body.to_xml()
+            body.as_xml()
         });
 
         if let Some(body) = body {

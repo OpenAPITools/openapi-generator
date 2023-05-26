@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,16 +26,20 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// CatAllOf
     /// </summary>
-    public partial class CatAllOf : IEquatable<CatAllOf>, IValidatableObject
+    public partial class CatAllOf : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CatAllOf" /> class.
         /// </summary>
         /// <param name="declawed">declawed</param>
-        public CatAllOf(bool declawed = default)
+        [JsonConstructor]
+        public CatAllOf(bool declawed)
         {
             Declawed = declawed;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Declawed
@@ -48,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -65,52 +68,91 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as CatAllOf).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if CatAllOf instances are equal
-        /// </summary>
-        /// <param name="input">Instance of CatAllOf to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(CatAllOf input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
-        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
+    /// <summary>
+    /// A Json converter for type CatAllOf
+    /// </summary>
+    public class CatAllOfJsonConverter : JsonConverter<CatAllOf>
+    {
+        /// <summary>
+        /// A Json reader.
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override CatAllOf Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            bool declawed = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "declawed":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                declawed = utf8JsonReader.GetBoolean();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (declawed == null)
+                throw new ArgumentNullException(nameof(declawed), "Property is required for class CatAllOf.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            return new CatAllOf(declawed);
+        }
+
+        /// <summary>
+        /// A Json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="catAllOf"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, CatAllOf catAllOf, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteBoolean("declawed", catAllOf.Declawed);
+
+            writer.WriteEndObject();
+        }
+    }
 }

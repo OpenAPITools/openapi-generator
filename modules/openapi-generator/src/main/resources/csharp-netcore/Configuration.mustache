@@ -145,7 +145,7 @@ namespace {{packageName}}.Client
                                 {
                                     "{{{name}}}", new Dictionary<string, object> {
                                         {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
-                                        {"default_value", "{{{defaultValue}}}"},
+                                        {"default_value", {{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}"{{{defaultValue}}}"},
                                         {{#enumValues}}
                                         {{#-first}}
                                         {
@@ -544,7 +544,7 @@ namespace {{packageName}}.Client
         /// <return>The operation server URL.</return>
         public string GetOperationServerUrl(string operation, int index, Dictionary<string, string> inputVariables)
         {
-            if (OperationServers.TryGetValue(operation, out var operationServer))
+            if (operation != null && OperationServers.TryGetValue(operation, out var operationServer))
             {
                 return GetServerUrl(operationServer, index, inputVariables);
             }

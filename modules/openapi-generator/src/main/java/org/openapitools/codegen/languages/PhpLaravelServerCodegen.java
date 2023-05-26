@@ -276,7 +276,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -298,7 +298,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     @Override
@@ -382,7 +382,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         }
 
         // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");

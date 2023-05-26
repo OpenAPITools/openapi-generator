@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,17 +26,19 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Fruit
     /// </summary>
-    public partial class Fruit : IEquatable<Fruit>, IValidatableObject
+    public partial class Fruit : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, string color = default)
+        [JsonConstructor]
+        public Fruit(Apple apple, string color)
         {
             Apple = apple;
             Color = color;
+            OnCreated();
         }
 
         /// <summary>
@@ -45,11 +46,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, string color = default)
+        [JsonConstructor]
+        public Fruit(Banana banana, string color)
         {
             Banana = banana;
             Color = color;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Apple
@@ -81,48 +86,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Fruit).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Fruit instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Fruit to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Fruit input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.Color != null)
-                {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
-        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -134,53 +102,62 @@ namespace Org.OpenAPITools.Model
     public class FruitJsonConverter : JsonConverter<Fruit>
     {
         /// <summary>
-        /// Returns a boolean if the type is compatible with this converter.
-        /// </summary>
-        /// <param name="typeToConvert"></param>
-        /// <returns></returns>
-        public override bool CanConvert(Type typeToConvert) => typeof(Fruit).IsAssignableFrom(typeToConvert);
-
-        /// <summary>
         /// A Json reader.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         /// <exception cref="JsonException"></exception>
-        public override Fruit Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Fruit Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
         {
-            int currentDepth = reader.CurrentDepth;
+            int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException();
 
-            Utf8JsonReader appleReader = reader;
-            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, options, out Apple apple);
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader bananaReader = reader;
-            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, options, out Banana banana);
+            Utf8JsonReader appleReader = utf8JsonReader;
+            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple apple);
+
+            Utf8JsonReader bananaReader = utf8JsonReader;
+            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana banana);
 
             string color = default;
 
-            while (reader.Read())
+            while (utf8JsonReader.Read())
             {
-                if (reader.TokenType == JsonTokenType.EndObject && currentDepth == reader.CurrentDepth)
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = reader.GetString();
-                    reader.Read();
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
 
                     switch (propertyName)
                     {
                         case "color":
-                            color = reader.GetString();
+                            color = utf8JsonReader.GetString();
+                            break;
+                        default:
                             break;
                     }
                 }
             }
+
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
+
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (appleDeserialized)
                 return new Fruit(apple, color);
@@ -196,8 +173,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fruit"></param>
-        /// <param name="options"></param>
+        /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions options) => throw new NotImplementedException();
+        public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
+        {
+            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Apple, jsonSerializerOptions);
+
+            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Banana, jsonSerializerOptions);
+
+        }
     }
 }

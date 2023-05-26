@@ -137,7 +137,7 @@ export class StoreService {
         }
 
         let localVarPath = `/store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.delete<any>(`${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -199,7 +199,7 @@ export class StoreService {
         }
 
         let localVarPath = `/store/inventory`;
-        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<{ [key: string]: number; }>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -213,7 +213,7 @@ export class StoreService {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -259,7 +259,7 @@ export class StoreService {
         }
 
         let localVarPath = `/store/order/${this.configuration.encodeParam({name: "orderId", value: orderId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.get<Order>(`${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Order>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -328,10 +328,10 @@ export class StoreService {
         }
 
         let localVarPath = `/store/order`;
-        return this.httpClient.post<Order>(`${this.configuration.basePath}${localVarPath}`,
-            order,
+        return this.httpClient.request<Order>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: order,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

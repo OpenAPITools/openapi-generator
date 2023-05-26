@@ -51,7 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
-|useSeperateModelProject|Create a seperate project for models| |false|
+|useSeparateModelProject|Create a separate project for models| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 
 ## IMPORT MAPPING
@@ -105,6 +105,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>long</li>
 <li>long?</li>
 <li>string</li>
+<li>uint</li>
+<li>uint?</li>
+<li>ulong</li>
+<li>ulong?</li>
 </ul>
 
 ## RESERVED WORDS
@@ -320,6 +324,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |
