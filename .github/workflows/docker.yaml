@@ -24,7 +24,9 @@ jobs:
 
       - name: Test run-in-docker.sh
         shell: bash
-        run: ./run-in-docker.sh mvn clean install
+        run: |
+          sed -i 's/ -it / /g' run-in-docker.sh
+          ./run-in-docker.sh mvn clean install
 
       - name: Build Dockerfile
         shell: bash
