@@ -52,6 +52,7 @@ docs/Model200Response.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
+docs/NullableProperty.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
 docs/OneOfEnumString.md
@@ -139,6 +140,7 @@ petstore_api/models/model200_response.py
 petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py
+petstore_api/models/nullable_property.py
 petstore_api/models/number_only.py
 petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/one_of_enum_string.py

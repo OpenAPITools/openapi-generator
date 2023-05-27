@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Org.OpenAPITools.Test</AssemblyName>
     <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
-    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <TargetFrameworks>net7.0;net47</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

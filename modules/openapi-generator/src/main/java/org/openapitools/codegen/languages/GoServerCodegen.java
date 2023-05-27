@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -327,7 +328,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
             Boolean importErrors = false;
 
             for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
-                if (param.isNumeric && ((param.minimum != null && param.minimum != "") || (param.maximum != null && param.maximum != ""))) {
+                if (param.isNumeric && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
                     importErrors = true;
                 }
             }

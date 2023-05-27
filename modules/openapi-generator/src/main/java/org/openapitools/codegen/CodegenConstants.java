@@ -420,4 +420,6 @@ public class CodegenConstants {
                     "setting this to true. You can do that by:<ul>" +
                     "<li>defining the propertyName as an enum with only one value in the schemas that are in your discriminator map</li>" +
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
+
+    public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 }
