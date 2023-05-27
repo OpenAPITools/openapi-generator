@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader adultAllOfReader = utf8JsonReader;
             bool adultAllOfDeserialized = Client.ClientUtils.TryDeserialize<AdultAllOf>(ref utf8JsonReader, jsonSerializerOptions, out AdultAllOf? adultAllOf);
 
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {

@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader childCatAllOfReader = utf8JsonReader;
             bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref utf8JsonReader, jsonSerializerOptions, out ChildCatAllOf? childCatAllOf);
 
-            string petType = default;
+            string? petType = default;
 
             while (utf8JsonReader.Read())
             {

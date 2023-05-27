@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string sourceURI = default;
+            string? sourceURI = default;
 
             while (utf8JsonReader.Read())
             {

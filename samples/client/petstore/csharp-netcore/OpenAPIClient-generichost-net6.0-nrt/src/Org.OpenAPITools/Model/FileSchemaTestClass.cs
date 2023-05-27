@@ -111,8 +111,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            File file = default;
-            List<File> files = default;
+            File? file = default;
+            List<File>? files = default;
 
             while (utf8JsonReader.Read())
             {

@@ -89,8 +89,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader dogAllOfReader = utf8JsonReader;
             bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref utf8JsonReader, jsonSerializerOptions, out DogAllOf? dogAllOf);
 
-            string className = default;
-            string color = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {

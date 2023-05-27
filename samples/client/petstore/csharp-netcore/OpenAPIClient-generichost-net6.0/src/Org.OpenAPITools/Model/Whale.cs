@@ -119,8 +119,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string className = default;
-            bool hasBaleen = default;
-            bool hasTeeth = default;
+            bool? hasBaleen = default;
+            bool? hasTeeth = default;
 
             while (utf8JsonReader.Read())
             {
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new Whale(className, hasBaleen, hasTeeth);
+            return new Whale(className, hasBaleen.Value, hasTeeth.Value);
         }
 
         /// <summary>

@@ -392,25 +392,25 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            System.IO.Stream binary = default;
-            byte[] byteProperty = default;
-            DateTime date = default;
-            DateTime dateTime = default;
-            decimal decimalProperty = default;
-            double doubleProperty = default;
-            float floatProperty = default;
-            int int32 = default;
-            long int64 = default;
-            int integer = default;
-            decimal number = default;
-            string password = default;
-            string patternWithBackslash = default;
-            string patternWithDigits = default;
-            string patternWithDigitsAndDelimiter = default;
-            string stringProperty = default;
-            uint unsignedInteger = default;
-            ulong unsignedLong = default;
-            Guid uuid = default;
+            System.IO.Stream? binary = default;
+            byte[]? byteProperty = default;
+            DateTime? date = default;
+            DateTime? dateTime = default;
+            decimal? decimalProperty = default;
+            double? doubleProperty = default;
+            float? floatProperty = default;
+            int? int32 = default;
+            long? int64 = default;
+            int? integer = default;
+            decimal? number = default;
+            string? password = default;
+            string? patternWithBackslash = default;
+            string? patternWithDigits = default;
+            string? patternWithDigitsAndDelimiter = default;
+            string? stringProperty = default;
+            uint? unsignedInteger = default;
+            ulong? unsignedLong = default;
+            Guid? uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -567,7 +567,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new FormatTest(binary, byteProperty, date, dateTime, decimalProperty, doubleProperty, floatProperty, int32, int64, integer, number, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(binary, byteProperty, date.Value, dateTime.Value, decimalProperty.Value, doubleProperty.Value, floatProperty.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
         }
 
         /// <summary>

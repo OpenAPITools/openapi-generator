@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string breed = default;
+            string? breed = default;
 
             while (utf8JsonReader.Read())
             {
