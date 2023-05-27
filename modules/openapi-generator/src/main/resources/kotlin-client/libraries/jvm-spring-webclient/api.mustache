@@ -7,9 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
+{{#jackson}}
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
+{{/jackson}}
 import org.springframework.http.ResponseEntity
-import org.springframework.util.MultiValueMap
-import org.springframework.web.util.UriComponentsBuilder
+import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
 
 {{#imports}}import {{import}}
@@ -18,6 +21,17 @@ import {{packageName}}.infrastructure.*
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(client: WebClient) : ApiClient(client) {
+
+    {{#jackson}}
+    constructor(baseUrl: String) : this(WebClient.builder()
+        .baseUrl(baseUrl)
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
+        .build()
+    )
+    {{/jackson}}
 
     {{#operation}}
     {{#allParams}}
@@ -123,14 +137,5 @@ import {{packageName}}.infrastructure.*
     }
 
     {{/operation}}
-    private fun encodeURIComponent(uriComponent: kotlin.String): kotlin.String =
-        UriComponentsBuilder.newInstance()
-            .scheme("http")
-            .host("localhost")
-            .pathSegment(uriComponent)
-            .build()
-            .encode()
-            .pathSegments
-            .first()
 }
 {{/operations}}

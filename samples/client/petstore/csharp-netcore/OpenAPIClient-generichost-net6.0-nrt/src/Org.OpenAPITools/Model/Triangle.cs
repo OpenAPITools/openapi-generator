@@ -177,8 +177,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader scaleneTriangleReader = utf8JsonReader;
             bool scaleneTriangleDeserialized = Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, jsonSerializerOptions, out ScaleneTriangle? scaleneTriangle);
 
-            string shapeType = default;
-            string triangleType = default;
+            string? shapeType = default;
+            string? triangleType = default;
 
             while (utf8JsonReader.Read())
             {

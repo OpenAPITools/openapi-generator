@@ -44,7 +44,7 @@ jobs:
           java-version: ${{ matrix.java }}
           maven-version: 3.9.0
       - name: Run maven
-        run: mvn --no-snapshot-updates --batch-mode --quiet install
+        run: mvn clean --no-snapshot-updates --batch-mode --quiet install
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Setup Gradle

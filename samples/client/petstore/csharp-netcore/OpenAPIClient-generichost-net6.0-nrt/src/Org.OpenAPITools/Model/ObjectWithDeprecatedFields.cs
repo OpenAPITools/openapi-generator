@@ -132,10 +132,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<string> bars = default;
-            DeprecatedObject deprecatedRef = default;
-            decimal id = default;
-            string uuid = default;
+            List<string>? bars = default;
+            DeprecatedObject? deprecatedRef = default;
+            decimal? id = default;
+            string? uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
+            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }
 
         /// <summary>

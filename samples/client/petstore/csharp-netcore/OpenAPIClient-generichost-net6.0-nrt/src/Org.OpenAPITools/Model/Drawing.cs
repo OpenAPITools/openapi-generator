@@ -123,10 +123,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Shape mainShape = default;
-            ShapeOrNull shapeOrNull = default;
-            List<Shape> shapes = default;
-            NullableShape nullableShape = default;
+            Shape? mainShape = default;
+            ShapeOrNull? shapeOrNull = default;
+            List<Shape>? shapes = default;
+            NullableShape? nullableShape = default;
 
             while (utf8JsonReader.Read())
             {

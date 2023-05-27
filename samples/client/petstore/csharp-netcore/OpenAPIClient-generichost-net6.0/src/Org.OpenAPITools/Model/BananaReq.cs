@@ -102,8 +102,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal lengthCm = default;
-            bool sweet = default;
+            decimal? lengthCm = default;
+            bool? sweet = default;
 
             while (utf8JsonReader.Read())
             {
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new BananaReq(lengthCm, sweet);
+            return new BananaReq(lengthCm.Value, sweet.Value);
         }
 
         /// <summary>

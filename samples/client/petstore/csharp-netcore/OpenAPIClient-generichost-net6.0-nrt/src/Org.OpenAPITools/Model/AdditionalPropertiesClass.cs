@@ -166,14 +166,14 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Object emptyMap = default;
-            Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default;
-            Dictionary<string, string> mapProperty = default;
-            Object mapWithUndeclaredPropertiesAnytype1 = default;
-            Object mapWithUndeclaredPropertiesAnytype2 = default;
-            Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default;
-            Dictionary<string, string> mapWithUndeclaredPropertiesString = default;
-            Object anytype1 = default;
+            Object? emptyMap = default;
+            Dictionary<string, Dictionary<string, string>>? mapOfMapProperty = default;
+            Dictionary<string, string>? mapProperty = default;
+            Object? mapWithUndeclaredPropertiesAnytype1 = default;
+            Object? mapWithUndeclaredPropertiesAnytype2 = default;
+            Dictionary<string, Object>? mapWithUndeclaredPropertiesAnytype3 = default;
+            Dictionary<string, string>? mapWithUndeclaredPropertiesString = default;
+            Object? anytype1 = default;
 
             while (utf8JsonReader.Read())
             {

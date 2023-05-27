@@ -205,18 +205,18 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<Object> arrayItemsNullable = default;
-            Dictionary<string, Object> objectItemsNullable = default;
-            List<Object> arrayAndItemsNullableProp = default;
-            List<Object> arrayNullableProp = default;
+            List<Object>? arrayItemsNullable = default;
+            Dictionary<string, Object>? objectItemsNullable = default;
+            List<Object>? arrayAndItemsNullableProp = default;
+            List<Object>? arrayNullableProp = default;
             bool? booleanProp = default;
             DateTime? dateProp = default;
             DateTime? datetimeProp = default;
             int? integerProp = default;
             decimal? numberProp = default;
-            Dictionary<string, Object> objectAndItemsNullableProp = default;
-            Dictionary<string, Object> objectNullableProp = default;
-            string stringProp = default;
+            Dictionary<string, Object>? objectAndItemsNullableProp = default;
+            Dictionary<string, Object>? objectNullableProp = default;
+            string? stringProp = default;
 
             while (utf8JsonReader.Read())
             {

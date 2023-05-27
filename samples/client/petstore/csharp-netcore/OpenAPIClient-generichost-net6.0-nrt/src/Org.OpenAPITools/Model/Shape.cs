@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader quadrilateralReader = utf8JsonReader;
             bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral? quadrilateral);
 
-            string quadrilateralType = default;
+            string? quadrilateralType = default;
 
             while (utf8JsonReader.Read())
             {

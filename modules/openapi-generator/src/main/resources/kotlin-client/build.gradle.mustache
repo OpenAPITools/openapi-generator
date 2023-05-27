@@ -29,7 +29,12 @@ buildscript {
     ext.vertx_version = "4.3.3"
     {{/jvm-vertx}}
     {{#jvm-spring-webclient}}
-    ext.spring_boot_version = "2.7.11"
+    {{#useSpringBoot3}}
+    ext.spring_boot_version = "3.1.0"
+    {{/useSpringBoot3}}
+    {{^useSpringBoot3}}
+    ext.spring_boot_version = "2.7.12"
+    {{/useSpringBoot3}}
     ext.reactor_version = "3.5.6"
     {{/jvm-spring-webclient}}
 
@@ -77,7 +82,13 @@ idea {
     }
 }
 {{/idea}}
-
+{{#jvm-spring-webclient}}{{#useSpringBoot3}}
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/useSpringBoot3}}{{/jvm-spring-webclient}}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}

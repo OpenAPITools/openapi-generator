@@ -111,8 +111,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string escapedLiteralString = default;
-            string unescapedLiteralString = default;
+            string? escapedLiteralString = default;
+            string? unescapedLiteralString = default;
 
             while (utf8JsonReader.Read())
             {

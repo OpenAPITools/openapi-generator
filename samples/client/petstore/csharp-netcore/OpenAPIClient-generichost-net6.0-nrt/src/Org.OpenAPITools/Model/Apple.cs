@@ -125,8 +125,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string cultivar = default;
-            string origin = default;
+            string? cultivar = default;
+            string? origin = default;
 
             while (utf8JsonReader.Read())
             {

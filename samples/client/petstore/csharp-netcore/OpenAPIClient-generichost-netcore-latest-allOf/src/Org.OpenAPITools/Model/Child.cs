@@ -99,10 +99,10 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader childAllOfReader = utf8JsonReader;
             bool childAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildAllOf>(ref utf8JsonReader, jsonSerializerOptions, out ChildAllOf? childAllOf);
 
-            bool boosterSeat = default;
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            bool? boosterSeat = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new Child(childAllOf, boosterSeat, firstName, lastName, type);
+            return new Child(childAllOf, boosterSeat.Value, firstName, lastName, type);
         }
 
         /// <summary>
