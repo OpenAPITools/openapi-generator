@@ -107,13 +107,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader appleReqReader = utf8JsonReader;
-            bool appleReqDeserialized = Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, jsonSerializerOptions, out AppleReq appleReq);
-
-            Utf8JsonReader bananaReqReader = utf8JsonReader;
-            bool bananaReqDeserialized = Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, jsonSerializerOptions, out BananaReq bananaReq);
-
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -135,10 +128,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (appleReqDeserialized)
+            Utf8JsonReader appleReqReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, jsonSerializerOptions, out AppleReq appleReq))
                 return new FruitReq(appleReq);
 
-            if (bananaReqDeserialized)
+            Utf8JsonReader bananaReqReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, jsonSerializerOptions, out BananaReq bananaReq))
                 return new FruitReq(bananaReq);
 
             throw new JsonException();

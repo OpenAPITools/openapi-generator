@@ -126,13 +126,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader basquePigReader = utf8JsonReader;
-            bool basquePigDeserialized = Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig? basquePig);
-
-            Utf8JsonReader danishPigReader = utf8JsonReader;
-            bool danishPigDeserialized = Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig? danishPig);
-
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -154,10 +147,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (basquePigDeserialized)
+            Utf8JsonReader basquePigReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig? basquePig))
                 return new Pig(basquePig);
 
-            if (danishPigDeserialized)
+            Utf8JsonReader danishPigReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig? danishPig))
                 return new Pig(danishPig);
 
             throw new JsonException();
