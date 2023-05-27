@@ -35,18 +35,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="classProperty">classProperty.</param>
-        public ClassModel(string classProperty = default(string))
+        /// <param name="varClass">varClass.</param>
+        public ClassModel(string varClass = default(string))
         {
-            this.ClassProperty = classProperty;
+            this.VarClass = varClass;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets ClassProperty
+        /// Gets or Sets VarClass
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string ClassProperty { get; set; }
+        public string VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
+            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassProperty != null)
+                if (this.VarClass != null)
                 {
-                    hashCode = (hashCode * 59) + this.ClassProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClass.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

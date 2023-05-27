@@ -33,12 +33,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
-        /// <param name="specialModelNameProperty">specialModelNameProperty</param>
+        /// <param name="varSpecialModelName">varSpecialModelName</param>
         /// <param name="specialPropertyName">specialPropertyName</param>
         [JsonConstructor]
-        public SpecialModelName(string specialModelNameProperty, long specialPropertyName)
+        public SpecialModelName(string varSpecialModelName, long specialPropertyName)
         {
-            SpecialModelNameProperty = specialModelNameProperty;
+            VarSpecialModelName = varSpecialModelName;
             SpecialPropertyName = specialPropertyName;
             OnCreated();
         }
@@ -46,10 +46,10 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets SpecialModelNameProperty
+        /// Gets or Sets VarSpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string SpecialModelNameProperty { get; set; }
+        public string VarSpecialModelName { get; set; }
 
         /// <summary>
         /// Gets or Sets SpecialPropertyName
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
-            sb.Append("  SpecialModelNameProperty: ").Append(SpecialModelNameProperty).Append("\n");
+            sb.Append("  VarSpecialModelName: ").Append(VarSpecialModelName).Append("\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? specialModelNameProperty = default;
+            string? varSpecialModelName = default;
             long? specialPropertyName = default;
 
             while (utf8JsonReader.Read())
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "_special_model.name_":
-                            specialModelNameProperty = utf8JsonReader.GetString();
+                            varSpecialModelName = utf8JsonReader.GetString();
                             break;
                         case "$special[property.name]":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -148,13 +148,13 @@ namespace Org.OpenAPITools.Model
             if (specialPropertyName == null)
                 throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
 
-            if (specialModelNameProperty == null)
-                throw new ArgumentNullException(nameof(specialModelNameProperty), "Property is required for class SpecialModelName.");
+            if (varSpecialModelName == null)
+                throw new ArgumentNullException(nameof(varSpecialModelName), "Property is required for class SpecialModelName.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new SpecialModelName(specialModelNameProperty, specialPropertyName.Value);
+            return new SpecialModelName(varSpecialModelName, specialPropertyName.Value);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("_special_model.name_", specialModelName.SpecialModelNameProperty);
+            writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
             writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
 
             writer.WriteEndObject();

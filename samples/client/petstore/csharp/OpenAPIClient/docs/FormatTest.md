@@ -9,11 +9,11 @@ Name | Type | Description | Notes
 **Int32** | **int** |  | [optional] 
 **Int64** | **long** |  | [optional] 
 **Number** | **decimal** |  | 
-**FloatProperty** | **float** |  | [optional] 
-**DoubleProperty** | **double** |  | [optional] 
-**DecimalProperty** | **decimal** |  | [optional] 
-**StringProperty** | **string** |  | [optional] 
-**ByteProperty** | **byte[]** |  | 
+**VarFloat** | **float** |  | [optional] 
+**VarDouble** | **double** |  | [optional] 
+**VarDecimal** | **decimal** |  | [optional] 
+**VarString** | **string** |  | [optional] 
+**VarByte** | **byte[]** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 
 **Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 

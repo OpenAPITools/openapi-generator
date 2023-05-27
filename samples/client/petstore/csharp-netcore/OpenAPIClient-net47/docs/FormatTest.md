@@ -10,11 +10,11 @@ Name | Type | Description | Notes
 **Int64** | **long** |  | [optional] 
 **UnsignedLong** | **ulong** |  | [optional] 
 **Number** | **decimal** |  | 
-**FloatProperty** | **float** |  | [optional] 
-**DoubleProperty** | **double** |  | [optional] 
-**DecimalProperty** | **decimal** |  | [optional] 
-**StringProperty** | **string** |  | [optional] 
-**ByteProperty** | **byte[]** |  | 
+**VarFloat** | **float** |  | [optional] 
+**VarDouble** | **double** |  | [optional] 
+**VarDecimal** | **decimal** |  | [optional] 
+**VarString** | **string** |  | [optional] 
+**VarByte** | **byte[]** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 
 **Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 

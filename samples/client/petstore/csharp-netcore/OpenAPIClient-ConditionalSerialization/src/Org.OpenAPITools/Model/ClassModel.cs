@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="classProperty">classProperty.</param>
-        public ClassModel(string classProperty = default(string))
+        /// <param name="varClass">varClass.</param>
+        public ClassModel(string varClass = default(string))
         {
-            this._ClassProperty = classProperty;
-            if (this.ClassProperty != null)
+            this._VarClass = varClass;
+            if (this.VarClass != null)
             {
-                this._flagClassProperty = true;
+                this._flagVarClass = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets ClassProperty
+        /// Gets or Sets VarClass
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string ClassProperty
+        public string VarClass
         {
-            get{ return _ClassProperty;}
+            get{ return _VarClass;}
             set
             {
-                _ClassProperty = value;
-                _flagClassProperty = true;
+                _VarClass = value;
+                _flagVarClass = true;
             }
         }
-        private string _ClassProperty;
-        private bool _flagClassProperty;
+        private string _VarClass;
+        private bool _flagVarClass;
 
         /// <summary>
-        /// Returns false as ClassProperty should not be serialized given that it's read-only.
+        /// Returns false as VarClass should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeClassProperty()
+        public bool ShouldSerializeVarClass()
         {
-            return _flagClassProperty;
+            return _flagVarClass;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
+            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassProperty != null)
+                if (this.VarClass != null)
                 {
-                    hashCode = (hashCode * 59) + this.ClassProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClass.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

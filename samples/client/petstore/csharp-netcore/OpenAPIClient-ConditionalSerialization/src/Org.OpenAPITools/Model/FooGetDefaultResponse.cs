@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="stringProperty">stringProperty.</param>
-        public FooGetDefaultResponse(Foo stringProperty = default(Foo))
+        /// <param name="varString">varString.</param>
+        public FooGetDefaultResponse(Foo varString = default(Foo))
         {
-            this._StringProperty = stringProperty;
-            if (this.StringProperty != null)
+            this._VarString = varString;
+            if (this.VarString != null)
             {
-                this._flagStringProperty = true;
+                this._flagVarString = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets StringProperty
+        /// Gets or Sets VarString
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo StringProperty
+        public Foo VarString
         {
-            get{ return _StringProperty;}
+            get{ return _VarString;}
             set
             {
-                _StringProperty = value;
-                _flagStringProperty = true;
+                _VarString = value;
+                _flagVarString = true;
             }
         }
-        private Foo _StringProperty;
-        private bool _flagStringProperty;
+        private Foo _VarString;
+        private bool _flagVarString;
 
         /// <summary>
-        /// Returns false as StringProperty should not be serialized given that it's read-only.
+        /// Returns false as VarString should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeStringProperty()
+        public bool ShouldSerializeVarString()
         {
-            return _flagStringProperty;
+            return _flagVarString;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.StringProperty != null)
+                if (this.VarString != null)
                 {
-                    hashCode = (hashCode * 59) + this.StringProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

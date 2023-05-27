@@ -33,21 +33,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="stringProperty">stringProperty</param>
+        /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo stringProperty)
+        public FooGetDefaultResponse(Foo varString)
         {
-            StringProperty = stringProperty;
+            VarString = varString;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets StringProperty
+        /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo StringProperty { get; set; }
+        public Foo VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Foo? stringProperty = default;
+            Foo? varString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                stringProperty = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
+                                varString = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -132,13 +132,13 @@ namespace Org.OpenAPITools.Model
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (stringProperty == null)
-                throw new ArgumentNullException(nameof(stringProperty), "Property is required for class FooGetDefaultResponse.");
+            if (varString == null)
+                throw new ArgumentNullException(nameof(varString), "Property is required for class FooGetDefaultResponse.");
 
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new FooGetDefaultResponse(stringProperty);
+            return new FooGetDefaultResponse(varString);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WritePropertyName("string");
-            JsonSerializer.Serialize(writer, fooGetDefaultResponse.StringProperty, jsonSerializerOptions);
+            JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
 
             writer.WriteEndObject();
         }

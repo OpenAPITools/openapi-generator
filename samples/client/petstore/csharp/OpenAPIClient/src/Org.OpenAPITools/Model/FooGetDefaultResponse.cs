@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="stringProperty">stringProperty.</param>
-        public FooGetDefaultResponse(Foo stringProperty = default(Foo))
+        /// <param name="varString">varString.</param>
+        public FooGetDefaultResponse(Foo varString = default(Foo))
         {
-            this.StringProperty = stringProperty;
+            this.VarString = varString;
         }
 
         /// <summary>
-        /// Gets or Sets StringProperty
+        /// Gets or Sets VarString
         /// </summary>
         [DataMember(Name="string", EmitDefaultValue=false)]
-        public Foo StringProperty { get; set; }
+        public Foo VarString { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.StringProperty == input.StringProperty ||
-                    (this.StringProperty != null &&
-                    this.StringProperty.Equals(input.StringProperty))
+                    this.VarString == input.VarString ||
+                    (this.VarString != null &&
+                    this.VarString.Equals(input.VarString))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.StringProperty != null)
-                    hashCode = hashCode * 59 + this.StringProperty.GetHashCode();
+                if (this.VarString != null)
+                    hashCode = hashCode * 59 + this.VarString.GetHashCode();
                 return hashCode;
             }
         }

@@ -243,23 +243,23 @@ namespace Org.OpenAPITools.IApi
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string? _string = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string? varString = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -267,23 +267,23 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </remarks>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> TestEndpointParametersOrDefaultAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string? _string = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<object>?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string? varString = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -1622,34 +1622,34 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="_byte"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
-        /// <param name="_double"></param>
+        /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="date"></param>
         /// <param name="binary"></param>
-        /// <param name="_float"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        protected virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream?, float?, int?, int?, long?, string?, string?, string?, DateTime?) OnTestEndpointParameters(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? _float, int? integer, int? int32, long? int64, string? _string, string? password, string? callback, DateTime? dateTime)
+        protected virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream?, float?, int?, int?, long?, string?, string?, string?, DateTime?) OnTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? varFloat, int? integer, int? int32, long? int64, string? varString, string? password, string? callback, DateTime? dateTime)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (_byte == null)
-                throw new ArgumentNullException(nameof(_byte));
+            if (varByte == null)
+                throw new ArgumentNullException(nameof(varByte));
 
             if (number == null)
                 throw new ArgumentNullException(nameof(number));
 
-            if (_double == null)
-                throw new ArgumentNullException(nameof(_double));
+            if (varDouble == null)
+                throw new ArgumentNullException(nameof(varDouble));
 
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
@@ -1657,28 +1657,28 @@ namespace Org.OpenAPITools.Api
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return (_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+            return (varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="_byte"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
-        /// <param name="_double"></param>
+        /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="date"></param>
         /// <param name="binary"></param>
-        /// <param name="_float"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? _float, int? integer, int? int32, long? int64, string? _string, string? password, string? callback, DateTime? dateTime)
+        protected virtual void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? varFloat, int? integer, int? int32, long? int64, string? varString, string? password, string? callback, DateTime? dateTime)
         {
         }
 
@@ -1688,21 +1688,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="_byte"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
-        /// <param name="_double"></param>
+        /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="date"></param>
         /// <param name="binary"></param>
-        /// <param name="_float"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? _float, int? integer, int? int32, long? int64, string? _string, string? password, string? callback, DateTime? dateTime)
+        protected virtual void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? varFloat, int? integer, int? int32, long? int64, string? varString, string? password, string? callback, DateTime? dateTime)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -1710,27 +1710,27 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> TestEndpointParametersOrDefaultAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string? _string = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<object>?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string? varString = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestEndpointParametersAsync(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
+                return await TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1742,40 +1742,40 @@ namespace Org.OpenAPITools.Api
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string? _string = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream? binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string? varString = null, string? password = null, string? callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestEndpointParameters(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
-                _byte = validatedParameterLocalVars.Item1;
+                var validatedParameterLocalVars = OnTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+                varByte = validatedParameterLocalVars.Item1;
                 number = validatedParameterLocalVars.Item2;
-                _double = validatedParameterLocalVars.Item3;
+                varDouble = validatedParameterLocalVars.Item3;
                 patternWithoutDelimiter = validatedParameterLocalVars.Item4;
                 date = validatedParameterLocalVars.Item5;
                 binary = validatedParameterLocalVars.Item6;
-                _float = validatedParameterLocalVars.Item7;
+                varFloat = validatedParameterLocalVars.Item7;
                 integer = validatedParameterLocalVars.Item8;
                 int32 = validatedParameterLocalVars.Item9;
                 int64 = validatedParameterLocalVars.Item10;
-                _string = validatedParameterLocalVars.Item11;
+                varString = validatedParameterLocalVars.Item11;
                 password = validatedParameterLocalVars.Item12;
                 callback = validatedParameterLocalVars.Item13;
                 dateTime = validatedParameterLocalVars.Item14;
@@ -1795,7 +1795,7 @@ namespace Org.OpenAPITools.Api
 
                     multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
 
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("byte", ClientUtils.ParameterToString(_byte)));
+                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("byte", ClientUtils.ParameterToString(varByte)));
 
 
 
@@ -1803,7 +1803,7 @@ namespace Org.OpenAPITools.Api
 
 
 
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("double", ClientUtils.ParameterToString(_double)));
+                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("double", ClientUtils.ParameterToString(varDouble)));
 
 
 
@@ -1815,8 +1815,8 @@ namespace Org.OpenAPITools.Api
                     if (binary != null)
                         multipartContentLocalVar.Add(new StreamContent(binary));
 
-                    if (_float != null)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("float", ClientUtils.ParameterToString(_float)));
+                    if (varFloat != null)
+                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("float", ClientUtils.ParameterToString(varFloat)));
 
                     if (integer != null)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("integer", ClientUtils.ParameterToString(integer)));
@@ -1827,8 +1827,8 @@ namespace Org.OpenAPITools.Api
                     if (int64 != null)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("int64", ClientUtils.ParameterToString(int64)));
 
-                    if (_string != null)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("string", ClientUtils.ParameterToString(_string)));
+                    if (varString != null)
+                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("string", ClientUtils.ParameterToString(varString)));
 
                     if (password != null)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("password", ClientUtils.ParameterToString(password)));
@@ -1872,7 +1872,7 @@ namespace Org.OpenAPITools.Api
 
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
-                        AfterTestEndpointParameters(apiResponseLocalVar, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+                        AfterTestEndpointParameters(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1884,7 +1884,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEndpointParameters(e, "/fake", uriBuilderLocalVar.Path, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+                OnErrorTestEndpointParameters(e, "/fake", uriBuilderLocalVar.Path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
                 throw;
             }
         }

@@ -49,11 +49,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="int64">int64.</param>
         /// <param name="unsignedLong">unsignedLong.</param>
         /// <param name="number">number (required).</param>
-        /// <param name="floatProperty">floatProperty.</param>
-        /// <param name="doubleProperty">doubleProperty.</param>
-        /// <param name="decimalProperty">decimalProperty.</param>
-        /// <param name="stringProperty">stringProperty.</param>
-        /// <param name="byteProperty">byteProperty (required).</param>
+        /// <param name="varFloat">varFloat.</param>
+        /// <param name="varDouble">varDouble.</param>
+        /// <param name="varDecimal">varDecimal.</param>
+        /// <param name="varString">varString.</param>
+        /// <param name="varByte">varByte (required).</param>
         /// <param name="binary">binary.</param>
         /// <param name="date">date (required).</param>
         /// <param name="dateTime">dateTime.</param>
@@ -62,15 +62,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this._Number = number;
-            // to ensure "byteProperty" is required (not null)
-            if (byteProperty == null)
+            // to ensure "varByte" is required (not null)
+            if (varByte == null)
             {
-                throw new ArgumentNullException("byteProperty is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
-            this._ByteProperty = byteProperty;
+            this._VarByte = varByte;
             this._Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
@@ -103,25 +103,25 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagUnsignedLong = true;
             }
-            this._Float = _float;
-            if (this.Float != null)
+            this._VarFloat = varFloat;
+            if (this.VarFloat != null)
             {
-                this._flagFloatProperty = true;
+                this._flagVarFloat = true;
             }
-            this._DoubleProperty = doubleProperty;
-            if (this.DoubleProperty != null)
+            this._VarDouble = varDouble;
+            if (this.VarDouble != null)
             {
-                this._flagDoubleProperty = true;
+                this._flagVarDouble = true;
             }
-            this._DecimalProperty = decimalProperty;
-            if (this.DecimalProperty != null)
+            this._VarDecimal = varDecimal;
+            if (this.VarDecimal != null)
             {
-                this._flagDecimalProperty = true;
+                this._flagVarDecimal = true;
             }
-            this._StringProperty = stringProperty;
-            if (this.StringProperty != null)
+            this._VarString = varString;
+            if (this.VarString != null)
             {
-                this._flagStringProperty = true;
+                this._flagVarString = true;
             }
             this._Binary = binary;
             if (this.Binary != null)
@@ -301,124 +301,124 @@ namespace Org.OpenAPITools.Model
             return _flagNumber;
         }
         /// <summary>
-        /// Gets or Sets FloatProperty
+        /// Gets or Sets VarFloat
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float FloatProperty
+        public float VarFloat
         {
-            get{ return _FloatProperty;}
+            get{ return _VarFloat;}
             set
             {
-                _FloatProperty = value;
-                _flagFloatProperty = true;
+                _VarFloat = value;
+                _flagVarFloat = true;
             }
         }
-        private float _FloatProperty;
-        private bool _flagFloatProperty;
+        private float _VarFloat;
+        private bool _flagVarFloat;
 
         /// <summary>
-        /// Returns false as FloatProperty should not be serialized given that it's read-only.
+        /// Returns false as VarFloat should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeFloatProperty()
+        public bool ShouldSerializeVarFloat()
         {
-            return _flagFloatProperty;
+            return _flagVarFloat;
         }
         /// <summary>
-        /// Gets or Sets DoubleProperty
+        /// Gets or Sets VarDouble
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double DoubleProperty
+        public double VarDouble
         {
-            get{ return _DoubleProperty;}
+            get{ return _VarDouble;}
             set
             {
-                _DoubleProperty = value;
-                _flagDoubleProperty = true;
+                _VarDouble = value;
+                _flagVarDouble = true;
             }
         }
-        private double _DoubleProperty;
-        private bool _flagDoubleProperty;
+        private double _VarDouble;
+        private bool _flagVarDouble;
 
         /// <summary>
-        /// Returns false as DoubleProperty should not be serialized given that it's read-only.
+        /// Returns false as VarDouble should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeDoubleProperty()
+        public bool ShouldSerializeVarDouble()
         {
-            return _flagDoubleProperty;
+            return _flagVarDouble;
         }
         /// <summary>
-        /// Gets or Sets DecimalProperty
+        /// Gets or Sets VarDecimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal DecimalProperty
+        public decimal VarDecimal
         {
-            get{ return _DecimalProperty;}
+            get{ return _VarDecimal;}
             set
             {
-                _DecimalProperty = value;
-                _flagDecimalProperty = true;
+                _VarDecimal = value;
+                _flagVarDecimal = true;
             }
         }
-        private decimal _DecimalProperty;
-        private bool _flagDecimalProperty;
+        private decimal _VarDecimal;
+        private bool _flagVarDecimal;
 
         /// <summary>
-        /// Returns false as DecimalProperty should not be serialized given that it's read-only.
+        /// Returns false as VarDecimal should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeDecimalProperty()
+        public bool ShouldSerializeVarDecimal()
         {
-            return _flagDecimalProperty;
+            return _flagVarDecimal;
         }
         /// <summary>
-        /// Gets or Sets StringProperty
+        /// Gets or Sets VarString
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string StringProperty
+        public string VarString
         {
-            get{ return _StringProperty;}
+            get{ return _VarString;}
             set
             {
-                _StringProperty = value;
-                _flagStringProperty = true;
+                _VarString = value;
+                _flagVarString = true;
             }
         }
-        private string _StringProperty;
-        private bool _flagStringProperty;
+        private string _VarString;
+        private bool _flagVarString;
 
         /// <summary>
-        /// Returns false as StringProperty should not be serialized given that it's read-only.
+        /// Returns false as VarString should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeStringProperty()
+        public bool ShouldSerializeVarString()
         {
-            return _flagStringProperty;
+            return _flagVarString;
         }
         /// <summary>
-        /// Gets or Sets ByteProperty
+        /// Gets or Sets VarByte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
-        public byte[] ByteProperty
+        public byte[] VarByte
         {
-            get{ return _ByteProperty;}
+            get{ return _VarByte;}
             set
             {
-                _ByteProperty = value;
-                _flagByteProperty = true;
+                _VarByte = value;
+                _flagVarByte = true;
             }
         }
-        private byte[] _ByteProperty;
-        private bool _flagByteProperty;
+        private byte[] _VarByte;
+        private bool _flagVarByte;
 
         /// <summary>
-        /// Returns false as ByteProperty should not be serialized given that it's read-only.
+        /// Returns false as VarByte should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeByteProperty()
+        public bool ShouldSerializeVarByte()
         {
-            return _flagByteProperty;
+            return _flagVarByte;
         }
         /// <summary>
         /// Gets or Sets Binary
@@ -639,11 +639,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  FloatProperty: ").Append(FloatProperty).Append("\n");
-            sb.Append("  DoubleProperty: ").Append(DoubleProperty).Append("\n");
-            sb.Append("  DecimalProperty: ").Append(DecimalProperty).Append("\n");
-            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
-            sb.Append("  ByteProperty: ").Append(ByteProperty).Append("\n");
+            sb.Append("  VarFloat: ").Append(VarFloat).Append("\n");
+            sb.Append("  VarDouble: ").Append(VarDouble).Append("\n");
+            sb.Append("  VarDecimal: ").Append(VarDecimal).Append("\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
+            sb.Append("  VarByte: ").Append(VarByte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
@@ -701,16 +701,16 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.FloatProperty.GetHashCode();
-                hashCode = (hashCode * 59) + this.DoubleProperty.GetHashCode();
-                hashCode = (hashCode * 59) + this.DecimalProperty.GetHashCode();
-                if (this.StringProperty != null)
+                hashCode = (hashCode * 59) + this.VarFloat.GetHashCode();
+                hashCode = (hashCode * 59) + this.VarDouble.GetHashCode();
+                hashCode = (hashCode * 59) + this.VarDecimal.GetHashCode();
+                if (this.VarString != null)
                 {
-                    hashCode = (hashCode * 59) + this.StringProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
                 }
-                if (this.ByteProperty != null)
+                if (this.VarByte != null)
                 {
-                    hashCode = (hashCode * 59) + this.ByteProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarByte.GetHashCode();
                 }
                 if (this.Binary != null)
                 {
@@ -807,35 +807,35 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-            // FloatProperty (float) maximum
-            if (this.FloatProperty > (float)987.6)
+            // VarFloat (float) maximum
+            if (this.VarFloat > (float)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FloatProperty, must be a value less than or equal to 987.6.", new [] { "FloatProperty" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
             }
 
-            // FloatProperty (float) minimum
-            if (this.FloatProperty < (float)54.3)
+            // VarFloat (float) minimum
+            if (this.VarFloat < (float)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for FloatProperty, must be a value greater than or equal to 54.3.", new [] { "FloatProperty" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
             }
 
-            // DoubleProperty (double) maximum
-            if (this.DoubleProperty > (double)123.4)
+            // VarDouble (double) maximum
+            if (this.VarDouble > (double)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DoubleProperty, must be a value less than or equal to 123.4.", new [] { "DoubleProperty" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
             }
 
-            // DoubleProperty (double) minimum
-            if (this.DoubleProperty < (double)67.8)
+            // VarDouble (double) minimum
+            if (this.VarDouble < (double)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for DoubleProperty, must be a value greater than or equal to 67.8.", new [] { "DoubleProperty" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
             }
 
-            // StringProperty (string) pattern
-            Regex regexStringProperty = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regexStringProperty.Match(this.StringProperty).Success)
+            // VarString (string) pattern
+            Regex regexVarString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexVarString.Match(this.VarString).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for StringProperty, must match a pattern of " + regexStringProperty, new [] { "StringProperty" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
             }
 
             // Password (string) maxLength

@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="returnProperty">returnProperty.</param>
-        public Return(int returnProperty = default(int))
+        /// <param name="varReturn">varReturn.</param>
+        public Return(int varReturn = default(int))
         {
-            this.ReturnProperty = returnProperty;
+            this.VarReturn = varReturn;
         }
 
         /// <summary>
-        /// Gets or Sets ReturnProperty
+        /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name="return", EmitDefaultValue=false)]
-        public int ReturnProperty { get; set; }
+        public int VarReturn { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  ReturnProperty: ").Append(ReturnProperty).Append("\n");
+            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this.ReturnProperty == input.ReturnProperty ||
-                    (this.ReturnProperty != null &&
-                    this.ReturnProperty.Equals(input.ReturnProperty))
+                    this.VarReturn == input.VarReturn ||
+                    (this.VarReturn != null &&
+                    this.VarReturn.Equals(input.VarReturn))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ReturnProperty != null)
-                    hashCode = hashCode * 59 + this.ReturnProperty.GetHashCode();
+                if (this.VarReturn != null)
+                    hashCode = hashCode * 59 + this.VarReturn.GetHashCode();
                 return hashCode;
             }
         }
