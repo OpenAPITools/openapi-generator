@@ -3616,6 +3616,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updatePropertyForMap(CodegenProperty property, Schema p) {
+        // throw exception if additionalProperties is false
+        if (p.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(p.getAdditionalProperties())) {
+            throw new RuntimeException("additionalProperties cannot be false in updatePropertyForMap.");
+        }
         property.isContainer = true;
         property.containerType = "map";
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
