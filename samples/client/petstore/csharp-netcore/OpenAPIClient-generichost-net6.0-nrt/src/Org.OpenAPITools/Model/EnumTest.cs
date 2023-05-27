@@ -429,14 +429,14 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            EnumTest.EnumIntegerEnum enumInteger = default;
-            EnumTest.EnumIntegerOnlyEnum enumIntegerOnly = default;
-            EnumTest.EnumNumberEnum enumNumber = default;
-            EnumTest.EnumStringEnum enumString = default;
-            EnumTest.EnumStringRequiredEnum enumStringRequired = default;
-            OuterEnumDefaultValue outerEnumDefaultValue = default;
-            OuterEnumInteger outerEnumInteger = default;
-            OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = default;
+            EnumTest.EnumIntegerEnum? enumInteger = default;
+            EnumTest.EnumIntegerOnlyEnum? enumIntegerOnly = default;
+            EnumTest.EnumNumberEnum? enumNumber = default;
+            EnumTest.EnumStringEnum? enumString = default;
+            EnumTest.EnumStringRequiredEnum? enumStringRequired = default;
+            OuterEnumDefaultValue? outerEnumDefaultValue = default;
+            OuterEnumInteger? outerEnumInteger = default;
+            OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default;
             OuterEnum? outerEnum = default;
 
             while (utf8JsonReader.Read())
@@ -526,7 +526,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new EnumTest(enumInteger, enumIntegerOnly, enumNumber, enumString, enumStringRequired, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum);
+            return new EnumTest(enumInteger.Value, enumIntegerOnly.Value, enumNumber.Value, enumString.Value, enumStringRequired.Value, outerEnumDefaultValue.Value, outerEnumInteger.Value, outerEnumIntegerDefaultValue.Value, outerEnum.Value);
         }
 
         /// <summary>

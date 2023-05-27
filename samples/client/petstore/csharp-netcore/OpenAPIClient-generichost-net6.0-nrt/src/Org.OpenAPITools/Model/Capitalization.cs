@@ -148,12 +148,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string aTTNAME = default;
-            string capitalCamel = default;
-            string capitalSnake = default;
-            string sCAETHFlowPoints = default;
-            string smallCamel = default;
-            string smallSnake = default;
+            string? aTTNAME = default;
+            string? capitalCamel = default;
+            string? capitalSnake = default;
+            string? sCAETHFlowPoints = default;
+            string? smallCamel = default;
+            string? smallSnake = default;
 
             while (utf8JsonReader.Read())
             {

@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<decimal>> arrayArrayNumber = default;
+            List<List<decimal>>? arrayArrayNumber = default;
 
             while (utf8JsonReader.Read())
             {

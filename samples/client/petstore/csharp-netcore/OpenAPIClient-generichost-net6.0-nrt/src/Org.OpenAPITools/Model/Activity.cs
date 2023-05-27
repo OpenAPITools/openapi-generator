@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default;
+            Dictionary<string, List<ActivityOutputElementRepresentation>>? activityOutputs = default;
 
             while (utf8JsonReader.Read())
             {

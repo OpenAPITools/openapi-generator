@@ -126,7 +126,7 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader bananaReader = utf8JsonReader;
             bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana? banana);
 
-            string color = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {

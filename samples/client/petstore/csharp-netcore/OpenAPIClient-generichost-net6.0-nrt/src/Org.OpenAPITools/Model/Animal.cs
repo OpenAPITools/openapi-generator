@@ -121,8 +121,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string className = default;
-            string color = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {

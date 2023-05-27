@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default;
+            List<TestCollectionEndingWithWordList>? testCollectionEndingWithWordList = default;
 
             while (utf8JsonReader.Read())
             {

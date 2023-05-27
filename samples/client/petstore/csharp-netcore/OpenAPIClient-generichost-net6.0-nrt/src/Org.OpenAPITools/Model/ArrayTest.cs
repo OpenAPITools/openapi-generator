@@ -120,9 +120,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<long>> arrayArrayOfInteger = default;
-            List<List<ReadOnlyFirst>> arrayArrayOfModel = default;
-            List<string> arrayOfString = default;
+            List<List<long>>? arrayArrayOfInteger = default;
+            List<List<ReadOnlyFirst>>? arrayArrayOfModel = default;
+            List<string>? arrayOfString = default;
 
             while (utf8JsonReader.Read())
             {

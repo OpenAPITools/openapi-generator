@@ -178,10 +178,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Dictionary<string, bool> directMap = default;
-            Dictionary<string, bool> indirectMap = default;
-            Dictionary<string, Dictionary<string, string>> mapMapOfString = default;
-            Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default;
+            Dictionary<string, bool>? directMap = default;
+            Dictionary<string, bool>? indirectMap = default;
+            Dictionary<string, Dictionary<string, string>>? mapMapOfString = default;
+            Dictionary<string, MapTest.InnerEnum>? mapOfEnumString = default;
 
             while (utf8JsonReader.Read())
             {

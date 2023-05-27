@@ -164,10 +164,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int nameProperty = default;
+            int? nameProperty = default;
             string property = default;
-            int snakeCase = default;
-            int _123number = default;
+            int? snakeCase = default;
+            int? _123number = default;
 
             while (utf8JsonReader.Read())
             {
@@ -223,7 +223,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new Name(nameProperty, property, snakeCase, _123number);
+            return new Name(nameProperty.Value, property, snakeCase.Value, _123number.Value);
         }
 
         /// <summary>

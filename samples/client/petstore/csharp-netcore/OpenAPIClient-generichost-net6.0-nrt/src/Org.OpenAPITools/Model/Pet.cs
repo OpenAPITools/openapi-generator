@@ -210,12 +210,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Category category = default;
-            long id = default;
-            string name = default;
-            List<string> photoUrls = default;
-            Pet.StatusEnum status = default;
-            List<Tag> tags = default;
+            Category? category = default;
+            long? id = default;
+            string? name = default;
+            List<string>? photoUrls = default;
+            Pet.StatusEnum? status = default;
+            List<Tag>? tags = default;
 
             while (utf8JsonReader.Read())
             {
@@ -285,7 +285,7 @@ namespace Org.OpenAPITools.Model
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            return new Pet(category, id, name, photoUrls, status, tags);
+            return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
         }
 
         /// <summary>
