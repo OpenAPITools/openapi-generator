@@ -1408,35 +1408,35 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
         }
 
-        if (strategies.stream().anyMatch(p -> Boolean.FALSE.equals(p.name == "netstandard1.3"))) {
-            if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.4"))) {
+        if (strategies.stream().anyMatch(p -> !"netstandard1.3".equals(p.name))) {
+            if (strategies.stream().anyMatch(p -> "netstandard1.4".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.5"))) {
+            } else if (strategies.stream().anyMatch(p -> "netstandard1.5".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.6"))) {
+            } else if (strategies.stream().anyMatch(p -> "netstandard1.6".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.0"))) {
+            } else if (strategies.stream().anyMatch(p -> "netstandard2.0".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.1"))) {
+            } else if (strategies.stream().anyMatch(p -> "netstandard2.1".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net47"))) {
+            } else if (strategies.stream().anyMatch(p -> "net47".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
                 properties.put(NET_STANDARD_20_OR_LATER, true);
                 properties.put(NET_STANDARD_21_OR_LATER, true);
                 properties.put(NET_47_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net48"))) {
+            } else if (strategies.stream().anyMatch(p -> "net48".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
@@ -1444,7 +1444,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_STANDARD_21_OR_LATER, true);
                 properties.put(NET_47_OR_LATER, true);
                 properties.put(NET_48_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net6.0"))) {
+            } else if (strategies.stream().anyMatch(p -> "net6.0".equals(p.name))) {
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);
@@ -1453,7 +1453,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_47_OR_LATER, true);
                 properties.put(NET_48_OR_LATER, true);
                 properties.put(NET_60_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net7.0"))){
+            } else if (strategies.stream().anyMatch(p -> "net7.0".equals(p.name))){
                 properties.put(NET_STANDARD_14_OR_LATER, true);
                 properties.put(NET_STANDARD_15_OR_LATER, true);
                 properties.put(NET_STANDARD_16_OR_LATER, true);

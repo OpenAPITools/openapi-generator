@@ -471,7 +471,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (property.isEnum && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
             if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                 property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
-            } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+            } else {
                 if (property.allowableValues.containsKey("values")){
                     final List<Object> allowableValues = (List<Object>) property.allowableValues.get("values");
                     boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
@@ -504,7 +504,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
-                } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                } else {
                     if (cm.allowableValues.containsKey("values")){
                         final List<Object> allowableValues = (List<Object>) cm.allowableValues.get("values");
                         boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
