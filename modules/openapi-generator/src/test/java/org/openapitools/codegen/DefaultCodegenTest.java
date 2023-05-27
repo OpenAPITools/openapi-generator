@@ -337,10 +337,11 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
-        Assert.assertNull(map_with_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
-        Assert.assertNull(addProps);
-        Assert.assertNull(map_with_additional_properties_cp.getAdditionalProperties());
+        Assert.assertEquals(addProps, new Schema());
+        Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
         // map_without_additional_properties
         // This property has the following inline schema.
@@ -349,7 +350,8 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
-        Assert.assertNull(map_without_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertFalse((Boolean) map_without_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
         Assert.assertNull(addProps);
         Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
@@ -426,9 +428,10 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
-        Assert.assertNull(map_with_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
-        Assert.assertNull(addProps);
+        Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
         // map_without_additional_properties
@@ -438,10 +441,11 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
-        Assert.assertNull(map_without_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertFalse((Boolean) map_without_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
-        Assert.assertNull(addProps);
-        Assert.assertNotNull(map_without_additional_properties_cp.getAdditionalProperties());
+        Assert.assertEquals(addProps, null);
+        Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
 
         // check of composed schema model
         String schemaName = "Parent";
@@ -2386,7 +2390,7 @@ public class DefaultCodegenTest {
         assertTrue(names.contains("password"));
         assertTrue(names.contains("passwordConfirmation"));
         assertTrue(names.contains("oldPassword"));
-        
+
         Optional<CodegenParameter> passwordParameter = operation.formParams.stream().filter(p -> "password".equals(p.paramName)).findFirst();
         assertTrue(passwordParameter.isPresent());
         assertTrue(passwordParameter.get().isPassword);
@@ -4277,7 +4281,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()),8, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 8, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'string'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'string'. Ignoring!", logsList.get(1)
@@ -4324,7 +4328,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()),8, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 8, logsList.size());
         assertEquals("Validation 'minItems' has no effect on schema 'integer'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'integer'. Ignoring!", logsList.get(1)
@@ -4371,7 +4375,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()),0, logsList.size());
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
     }
 
     @Test
