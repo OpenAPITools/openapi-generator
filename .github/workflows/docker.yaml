@@ -32,6 +32,6 @@ jobs:
         shell: bash
         run: docker build .
 
-      - name: Build modules/openapi-generator-online/Dockerfile
+      - name: Build modules/openapi-generator-online
         shell: bash
-        run: docker build modules/openapi-generator-online/Dockerfile
+        run: docker build modules/openapi-generator-online/
