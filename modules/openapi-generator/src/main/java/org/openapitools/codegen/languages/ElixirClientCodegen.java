@@ -88,6 +88,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType
+                )
         );
 
         // set the output folder here
@@ -188,10 +191,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "List",
                         "Atom",
                         "Map",
+                        "AnyType",
                         "Tuple",
                         "PID",
                         "DateTime",
-                        "map()" // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
+                        "map()", // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
+                        "any()"
                 )
         );
 
@@ -575,6 +580,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
             return "String.t";
+        } else if (p.getType() == null) {
+            return "any()";
         }
         return super.getTypeDeclaration(p);
     }
@@ -785,8 +792,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         returnEntry.append(moduleName);
                         returnEntry.append(".Model.");
                     }
-                    returnEntry.append(exResponse.baseType);
-                    returnEntry.append(".t");
+
+                    if (exResponse.baseType.equals("AnyType")) {
+                        returnEntry.append("any()");
+                    }else {
+                        returnEntry.append(exResponse.baseType);
+                        returnEntry.append(".t");
+                    }
                 } else {
                     if (exResponse.containerType.equals("array") ||
                             exResponse.containerType.equals("set")) {
@@ -795,8 +807,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
                             returnEntry.append(moduleName);
                             returnEntry.append(".Model.");
                         }
-                        returnEntry.append(exResponse.baseType);
-                        returnEntry.append(".t)");
+
+                        if (exResponse.baseType.equals("AnyType")) {
+                            returnEntry.append("any())");
+                        }else {
+                            returnEntry.append(exResponse.baseType);
+                            returnEntry.append(".t)");
+                        }
                     } else if (exResponse.containerType.equals("map")) {
                         returnEntry.append("map()");
                     }

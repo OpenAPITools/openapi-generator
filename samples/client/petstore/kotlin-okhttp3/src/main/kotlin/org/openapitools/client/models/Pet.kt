@@ -19,6 +19,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * A pet for sale in the pet store
@@ -30,6 +31,7 @@ import com.squareup.moshi.Json
  * @param tags 
  * @param status pet status in the store
  */
+
 
 data class Pet (
 
@@ -59,6 +61,7 @@ data class Pet (
      *
      * Values: available,pending,sold,unknownDefaultOpenApi
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),

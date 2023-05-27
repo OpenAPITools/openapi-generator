@@ -115,6 +115,7 @@ Class | Method | HTTP request | Description
  - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
+ - [FormatTest](docs/FormatTest.md)
  - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)
@@ -133,19 +134,14 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-### BearerToken
-
-- **Type**: Bearer authentication
-
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
+Authentication schemes defined for the API:
 ### http_auth
 
 - **Type**: HTTP basic authentication
+
+### BearerToken
+
+- **Type**: Bearer authentication
 
 ### petstore_auth
 
@@ -155,5 +151,11 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - `write:pets`: modify pets in your account
   - `read:pets`: read your pets
+
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
 

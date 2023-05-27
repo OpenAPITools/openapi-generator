@@ -17,6 +17,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * 
@@ -28,6 +29,7 @@ import com.squareup.moshi.Json
  * @param fepa 
  * @param gepa 
  */
+
 
 data class Apa (
 

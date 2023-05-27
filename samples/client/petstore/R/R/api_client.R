@@ -392,10 +392,10 @@ ApiClient <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a propery header (for accept or content-type).
+    #' Return a property header (for accept or content-type).
     #'
     #' @description
-    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
+    #' Return a property header (for accept or content-type). If JSON-related MIME is found,
     #' return it. Otherwise, return the first one, if any.
     #'
     #' @param headers A list of headers

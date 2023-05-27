@@ -41,6 +41,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
@@ -59,6 +60,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
@@ -98,11 +100,26 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
+    @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
+    private boolean cleanupOutput;
+
     /**
      * Location of the OpenAPI spec, as URL or file.
      */
     @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
     private String inputSpec;
+
+    /**
+     * Local root folder with spec files
+     */
+    @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
+    private String inputSpecRootDirectory;
+
+    /**
+     * Name of the file that will contain all merged specs
+     */
+    @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
+    private String mergedFileName;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -316,6 +333,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaNameDefaults;
 
     /**
+     * A set of rules for OpenAPI normalizer
+     */
+    @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
+    private List<String> openapiNormalizer;
+
+    /**
      * A map of swagger spec types and the generated code types to use for them
      */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
@@ -462,6 +485,12 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
+                .buildMergedSpec();
+            LOGGER.info("Merge input spec would be used - {}", inputSpec);
+        }
+
         File inputSpecFile = new File(inputSpec);
 
         if (output == null) {
@@ -469,6 +498,16 @@ public class CodeGenMojo extends AbstractMojo {
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
+
+        if (cleanupOutput) {
+            try {
+                FileUtils.deleteDirectory(output);
+                LOGGER.info("Previous run output is removed from {}", output);
+            } catch (IOException e) {
+                LOGGER.warn("Failed to clean-up output directory {}", output, e);
+            }
+        }
+
         addCompileSourceRootIfConfigured();
 
         try {
@@ -700,6 +739,12 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> openapi-normalizer
+                if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
+                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
+                            configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                     applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
@@ -751,6 +796,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Inline Schema Name Defaults
             if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
                 applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+            }
+
+            // Apply OpenAPI normalizer rules
+            if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
+                applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings

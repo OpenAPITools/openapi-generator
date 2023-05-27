@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
@@ -44,6 +44,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_AUTHOR = "pubAuthor";
     public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
     public static final String PUB_HOMEPAGE = "pubHomepage";
+    public static final String PUB_REPOSITORY = "pubRepository";
+    public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
 
     protected String pubLibrary = "openapi.api";
@@ -53,6 +55,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected String pubAuthor = "Author";
     protected String pubAuthorEmail = "author@homepage";
     protected String pubHomepage = "homepage";
+    protected String pubRepository = null;
+    protected String pubPublishTo = null;
     protected boolean useEnumExtension = false;
     protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
@@ -190,6 +194,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         addOption(PUB_AUTHOR, "Author name in generated pubspec", pubAuthor);
         addOption(PUB_AUTHOR_EMAIL, "Email address of the author in generated pubspec", pubAuthorEmail);
         addOption(PUB_HOMEPAGE, "Homepage in generated pubspec", pubHomepage);
+        addOption(PUB_REPOSITORY, "Repository in generated pubspec", pubRepository);
+        addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
@@ -272,6 +278,20 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         } else {
             //not set, use to be passed to template
             additionalProperties.put(PUB_HOMEPAGE, pubHomepage);
+        }
+
+        if (additionalProperties.containsKey(PUB_REPOSITORY)) {
+            this.setPubRepository((String) additionalProperties.get(PUB_REPOSITORY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_REPOSITORY, pubRepository);
+        }
+
+        if (additionalProperties.containsKey(PUB_PUBLISH_TO)) {
+            this.setPubPublishTo((String) additionalProperties.get(PUB_PUBLISH_TO));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_PUBLISH_TO, pubPublishTo);
         }
 
         if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
@@ -373,7 +393,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -555,8 +575,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         final CodegenProperty property = super.fromProperty(name, p, required);
 
-        // Handle composed properties
-        if (ModelUtils.isComposedSchema(p)) {
+        // Handle composed properties and it's NOT allOf with a single ref only
+        if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
             ComposedSchema composed = (ComposedSchema) p;
 
             // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
@@ -721,18 +741,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public String toOperationId(String operationId) {
         operationId = super.toOperationId(operationId);
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             operationId = newOperationId;
         }
@@ -766,6 +786,14 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     public void setPubHomepage(String pubHomepage) {
         this.pubHomepage = pubHomepage;
+    }
+
+    public void setPubRepository(String pubRepository) {
+        this.pubRepository = pubRepository;
+    }
+
+    public void setPubPublishTo(String pubPublishTo) {
+        this.pubPublishTo = pubPublishTo;
     }
 
     public void setUseEnumExtension(boolean useEnumExtension) {

@@ -21,10 +21,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Tag(
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("id") var id: kotlin.Long? = null,
+    @get:JsonProperty("id") var id: kotlin.Long? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("name") var name: kotlin.String? = null
+    @get:JsonProperty("name") var name: kotlin.String? = null
 ) {
 
 }

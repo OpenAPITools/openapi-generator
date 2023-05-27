@@ -34,7 +34,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.FakeApi")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -42,7 +41,6 @@ public class FakeApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -602,7 +600,7 @@ public class FakeApi {
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
-     * <p><b>400</b> - Someting wrong
+     * <p><b>400</b> - Something wrong
      * @param requiredStringGroup Required String in group parameters (required)
      * @param requiredBooleanGroup Required Boolean in group parameters (required)
      * @param requiredInt64Group Required Integer in group parameters (required)
@@ -618,7 +616,7 @@ public class FakeApi {
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
-     * <p><b>400</b> - Someting wrong
+     * <p><b>400</b> - Something wrong
      * @param requiredStringGroup Required String in group parameters (required)
      * @param requiredBooleanGroup Required Boolean in group parameters (required)
      * @param requiredInt64Group Required Integer in group parameters (required)

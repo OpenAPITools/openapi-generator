@@ -59,22 +59,23 @@ class DefaultApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Example _responseData;
+    Example? _responseData;
 
     try {
-      const _responseType = FullType(Example);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Example),
       ) as Example;
 
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<Example>(

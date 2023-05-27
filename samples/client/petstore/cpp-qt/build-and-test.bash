@@ -8,14 +8,14 @@ cd build
 
 cmake ..
 
-make
+cmake --build .
 
 if [[ -z "${RUN_VALGRIND_TESTS}" ]]; then
-    echo "Running Qt5 Petstore Tests"
-    ./cpp-qt5-petstore
+    echo "Running Qt Petstore Tests"
+    ctest
 else
-  echo "Running Qt5 Petstore Tests with Valgrind"
-  valgrind --leak-check=full ./cpp-qt5-petstore |& tee result.log || exit 1
+  echo "Running Qt Petstore Tests with Valgrind"
+  valgrind --leak-check=full ./cpp-qt-petstore |& tee result.log || exit 1
   testCount=$(cat result.log | grep 'Finished testing of' | wc -l)
   if [ $testCount == 3 ]
   then
@@ -35,7 +35,7 @@ else
     exit 1
   fi
 
-  echo "Check if no memory leaks occured:"
+  echo "Check if no memory leaks occurred:"
   leakCount=$(cat result.log | grep 'lost: 0 bytes in 0 blocks' | wc -l)
   if [ $leakCount == 3 ]
   then

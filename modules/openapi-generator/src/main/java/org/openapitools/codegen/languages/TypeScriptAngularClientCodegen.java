@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -70,7 +71,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "14.0.5";
+    protected String ngVersion = "15.0.3";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -149,7 +150,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (9.x - 14.x) client library.";
+        return "Generates a TypeScript Angular (9.x - 15.x) client library.";
     }
 
     @Override
@@ -279,7 +280,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("14.0.0")) {
+        if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.8.2 <4.10.0");
+        } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("tsVersion", ">=4.6.0 <=4.8.0");
         } else if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("tsVersion", ">=4.4.2 <4.5.0");
@@ -296,7 +299,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("14.0.0")) {
+        if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.5.5");
+        } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("rxjsVersion", "7.5.5");
         } else  if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("rxjsVersion", "7.4.0");
@@ -309,7 +314,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("14.0.0")) {
+        if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "15.0.2");
+            // tsTickle is not required and there is no available version compatible with
+            // versions of TypeScript compatible with Angular 15.
+        } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("ngPackagrVersion", "14.0.2");
             additionalProperties.put("tsickleVersion", "0.46.3");
         } else if (ngVersion.atLeast("13.0.0")) {
@@ -330,7 +339,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("14.0.0")) {
+        if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.11.5");
+        } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.5");
         } else if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.4");
@@ -596,7 +607,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(removeModelPrefixSuffix(name)).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
@@ -731,7 +742,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if ("kebab-case".equals(fileNaming)) {
             name = dashize(underscore(name));
         } else {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
         }
         return name;
     }

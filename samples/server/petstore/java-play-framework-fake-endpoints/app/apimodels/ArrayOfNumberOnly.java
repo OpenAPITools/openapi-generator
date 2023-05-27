@@ -25,10 +25,10 @@ public class ArrayOfNumberOnly   {
   }
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
-    if (arrayNumber == null) {
-      arrayNumber = new ArrayList<>();
+    if (this.arrayNumber == null) {
+      this.arrayNumber = new ArrayList<>();
     }
-    arrayNumber.add(arrayNumberItem);
+    this.arrayNumber.add(arrayNumberItem);
     return this;
   }
 

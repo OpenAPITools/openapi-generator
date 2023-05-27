@@ -26,8 +26,18 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pasta extends Entity {
 
-  @JsonProperty("vendor")
   private String vendor;
+
+  public Pasta() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Pasta(String atType) {
+    super(atType);
+  }
 
   public Pasta vendor(String vendor) {
     this.vendor = vendor;
@@ -39,7 +49,8 @@ public class Pasta extends Entity {
    * @return vendor
   */
   
-  @Schema(name = "vendor", required = false)
+  @Schema(name = "vendor", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("vendor")
   public String getVendor() {
     return vendor;
   }

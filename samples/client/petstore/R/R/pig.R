@@ -64,10 +64,10 @@ Pig <- R6::R6Class(
       error_messages <- list()
       instance <- NULL
 
-      BasquePig_result <- tryCatch({
-          BasquePig$public_methods$validateJSON(input)
-          BasquePig_instance <- BasquePig$new()
-          instance <- BasquePig_instance$fromJSON(input)
+      `BasquePig_result` <- tryCatch({
+          `BasquePig`$public_methods$validateJSON(input)
+          `BasquePig_instance` <- `BasquePig`$new()
+          instance <- `BasquePig_instance`$fromJSON(input)
           instance_type <- "BasquePig"
           matched_schemas <- append(matched_schemas, "BasquePig")
           matched <- matched + 1
@@ -75,14 +75,14 @@ Pig <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(BasquePig_result["error"])) {
-        error_messages <- append(error_messages, BasquePig_result["message"])
+      if (!is.null(`BasquePig_result`["error"])) {
+        error_messages <- append(error_messages, `BasquePig_result`["message"])
       }
 
-      DanishPig_result <- tryCatch({
-          DanishPig$public_methods$validateJSON(input)
-          DanishPig_instance <- DanishPig$new()
-          instance <- DanishPig_instance$fromJSON(input)
+      `DanishPig_result` <- tryCatch({
+          `DanishPig`$public_methods$validateJSON(input)
+          `DanishPig_instance` <- `DanishPig`$new()
+          instance <- `DanishPig_instance`$fromJSON(input)
           instance_type <- "DanishPig"
           matched_schemas <- append(matched_schemas, "DanishPig")
           matched <- matched + 1
@@ -90,8 +90,8 @@ Pig <- R6::R6Class(
         error = function(err) err
       )
 
-      if (!is.null(DanishPig_result["error"])) {
-        error_messages <- append(error_messages, DanishPig_result["message"])
+      if (!is.null(`DanishPig_result`["error"])) {
+        error_messages <- append(error_messages, `DanishPig_result`["message"])
       }
 
       if (matched == 1) {
@@ -100,11 +100,12 @@ Pig <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop("Multiple matches found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig.")
+        stop(paste("Multiple matches found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Matched schemas: ",
+                   paste(matched_schemas, collapse = ", ")))
       } else {
         # no match
-        stop(paste("No match found when deserializing the payload into Pig with oneOf schemas BasquePig, DanishPig. Details: ",
-                   paste(error_messages, collapse = ", ")))
+        stop(paste("No match found when deserializing the input into Pig with oneOf schemas BasquePig, DanishPig. Details: >>",
+                   paste(error_messages, collapse = " >> ")))
       }
 
       self
@@ -190,7 +191,7 @@ Pig <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 #Pig$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 #Pig$set("public", "print", function(...) {
 #  print(jsonlite::prettify(self$toJSONString()))
 #  invisible(self)

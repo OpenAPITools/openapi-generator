@@ -70,8 +70,8 @@ val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
 The above constructor for each api allows the following to be customized
 - A custom context, so either a singleton request queue or different scope can be created - see
 https://developer.android.com/training/volley/requestqueue#singleton
-- An overrideable request queue - which in turn can have a custom http url stack passed to it
-- An overrideable request factory constructor call, or a request factory that can be overridden by a custom template, with
+- An overridable request queue - which in turn can have a custom http url stack passed to it
+- An overridable request factory constructor call, or a request factory that can be overridden by a custom template, with
 custom header factory, request post processors and custom gson adapters injected.
 
 #### Overriding request generation
@@ -168,7 +168,7 @@ Then, run:
 
 This runs all tests and packages the library.
 
-<a name="documentation-for-api-endpoints"></a>
+<a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://localhost*
@@ -178,12 +178,13 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**idsGet**](docs/DefaultApi.md#idsget) | **GET** /{ids} | 
 
 
-<a name="documentation-for-models"></a>
+<a id="documentation-for-models"></a>
 ## Documentation for Models
 
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
+Endpoints do not require authorization.
+

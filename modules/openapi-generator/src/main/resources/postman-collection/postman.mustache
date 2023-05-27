@@ -1,0 +1,74 @@
+{
+	"info": {
+		"name": "{{{appName}}}",
+		"description": {
+		    "content": "{{{formattedDescription}}}",
+		    "type": "text/markdown"
+		},
+		"version": "{{{appVersion}}}",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+	{{#codegenOperationsByTag}}
+	{{#entrySet}}
+	        {
+	            "name": "{{key}}",
+	            "item": [{{#value}}
+	                        {{>item}}{{^-last}},{{/-last}}{{/value}}
+	                    ]
+	        }{{^-last}},{{/-last}}
+	{{/entrySet}}
+    {{/codegenOperationsByTag}}
+	{{#codegenOperationsList}}
+        {{>item}}{{^-last}},{{/-last}}
+	{{/codegenOperationsList}}
+    ],
+    {{#authMethods}}{{#-first}}{{#isApiKey}}"auth": {
+    		"type": "apikey",
+    		"apikey": [
+    			{
+    				"key": "value",
+    				"value": "{{=<% %>=}}{{<%={{ }}=%>{{keyParamName}}{{=<% %>=}}}}<%={{ }}=%>",
+    				"type": "string"
+    			},
+    			{
+    				"key": "key",
+    				"value": "{{keyParamName}}",
+    				"type": "string"
+    			}
+    		]
+    	},{{/isApiKey}}{{#isBasic}}"auth": {
+            		"type": "basic",
+            		"basic": [
+            			{
+            				"key": "username",
+            				"value": "{{=<% %>=}}{{<%={{ }}=%>USERNAME{{=<% %>=}}}}<%={{ }}=%>",
+            				"type": "string"
+            			},
+            			{
+            				"key": "password",
+            				"value": "{{=<% %>=}}{{<%={{ }}=%>PASSWORD{{=<% %>=}}}}<%={{ }}=%>",
+            				"type": "string"
+            			}
+            		]
+            	},{{/isBasic}}{{/-first}}{{/authMethods}}
+	"variable": [{{#servers}}{{#-first}}
+		{
+			"key": "baseUrl",
+			"value": "{{url}}",
+			"type": "string"
+        }{{/-first}}{{/servers}}{{#authMethods}}{{#isApiKey}},
+        {
+            "key": "{{keyParamName}}",
+            "value": "",
+            "type": "string"
+        }{{/isApiKey}}{{/authMethods}}{{#apiInfo}}{{#apis}}{{#vendorExtensions}}{{#-first}}{{#variables}}{{#-first}},{{/-first}}
+		{
+	        {{! use first element in vendorExtensions }}
+			"key": "{{name}}",
+			"value": "{{example}}",
+			"type": "{{type}}"
+		}{{^-last}},{{/-last}}{{/variables}}{{/-first}}{{/vendorExtensions}}{{/apis}}{{/apiInfo}}
+	]
+}
+

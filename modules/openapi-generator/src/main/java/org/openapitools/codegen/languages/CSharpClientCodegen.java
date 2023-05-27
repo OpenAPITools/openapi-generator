@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -122,8 +123,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
         typeMapping.put("long", "long");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
         typeMapping.put("decimal", "decimal");
@@ -788,7 +791,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if (datatype.startsWith("int") || datatype.startsWith("long") ||
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("ulong") || datatype.startsWith("long") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
@@ -835,7 +839,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:

@@ -478,13 +478,20 @@ components:
       - requiredAnyOf
     AnyOfObject:
       anyOf:
-      - $ref: '#/components/schemas/AnyOfObject_anyOf'
+      - enum:
+        - FOO
+        - BAR
+        type: string
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf
     "12345AnyOfObject":
       anyOf:
-      - $ref: '#/components/schemas/_12345AnyOfObject_anyOf'
+      - enum:
+        - FOO
+        - BAR
+        - '*'
+        type: string
       - description: Alternate option
         type: string
       description: Test a model containing an anyOf that starts with a number
@@ -678,19 +685,6 @@ components:
       anyOf:
       - $ref: '#/components/schemas/StringObject'
       - $ref: '#/components/schemas/UuidObject'
-    AnyOfObject_anyOf:
-      enum:
-      - FOO
-      - BAR
-      type: string
-      example: null
-    _12345AnyOfObject_anyOf:
-      enum:
-      - FOO
-      - BAR
-      - '*'
-      type: string
-      example: null
   securitySchemes:
     authScheme:
       flows:

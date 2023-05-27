@@ -26,6 +26,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
+  public BarRef() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public BarRef(String atType) {
+    super(atType);
+  }
+
   public BarRef name(String name) {
     super.setName(name);
     return this;

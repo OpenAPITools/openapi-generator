@@ -31,6 +31,7 @@ import com.google.gson.annotations.SerializedName
  * @param status pet status in the store
  */
 
+
 data class Pet (
 
     @SerializedName("name")

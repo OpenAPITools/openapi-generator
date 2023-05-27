@@ -657,22 +657,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -687,6 +671,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -762,22 +762,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -792,6 +776,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -1038,22 +1038,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1068,6 +1052,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -1144,22 +1144,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByStatus";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1174,6 +1158,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -1250,22 +1250,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1280,6 +1264,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -1358,22 +1358,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.FindPetsByTags";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1388,6 +1372,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -1605,22 +1605,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1635,6 +1619,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 
@@ -1710,22 +1710,6 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
 
-            // authentication (http_signature_test) required
-            if (this.Configuration.HttpSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
             // authentication (petstore_auth) required
             // oauth required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1740,6 +1724,22 @@ namespace Org.OpenAPITools.Api
                          this.Configuration.OAuthFlow != null)
                 {
                     localVarRequestOptions.OAuth = true;
+                }
+            }
+            // authentication (http_signature_test) required
+            if (this.Configuration.HttpSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HttpSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
                 }
             }
 

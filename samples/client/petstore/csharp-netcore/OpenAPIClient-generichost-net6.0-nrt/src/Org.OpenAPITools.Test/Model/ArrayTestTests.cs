@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,14 +55,6 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'ArrayOfString'
-        /// </summary>
-        [Fact]
-        public void ArrayOfStringTest()
-        {
-            // TODO unit test for the property 'ArrayOfString'
-        }
-        /// <summary>
         /// Test the property 'ArrayArrayOfInteger'
         /// </summary>
         [Fact]
@@ -79,6 +69,14 @@ namespace Org.OpenAPITools.Test.Model
         public void ArrayArrayOfModelTest()
         {
             // TODO unit test for the property 'ArrayArrayOfModel'
+        }
+        /// <summary>
+        /// Test the property 'ArrayOfString'
+        /// </summary>
+        [Fact]
+        public void ArrayOfStringTest()
+        {
+            // TODO unit test for the property 'ArrayOfString'
         }
 
     }

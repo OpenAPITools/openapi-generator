@@ -30,6 +30,7 @@ import com.squareup.moshi.JsonClass
  * @param complete 
  */
 @JsonClass(generateAdapter = true)
+
 data class Order (
 
     @Json(name = "id")
@@ -58,6 +59,7 @@ data class Order (
      *
      * Values: placed,approved,delivered
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
         @Json(name = "placed") placed("placed"),
         @Json(name = "approved") approved("approved"),

@@ -32,6 +32,7 @@ import com.squareup.moshi.JsonClass
  * @param status pet status in the store
  */
 @JsonClass(generateAdapter = true)
+
 data class Pet (
 
     @Json(name = "name")
@@ -60,6 +61,7 @@ data class Pet (
      *
      * Values: available,pending,sold
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
         @Json(name = "available") available("available"),
         @Json(name = "pending") pending("pending"),

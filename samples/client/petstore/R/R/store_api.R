@@ -54,7 +54,7 @@
 #' }
 #'
 #' \strong{ GetOrderById } \emph{ Find purchase order by ID }
-#' For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+#' For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 #'
 #' \itemize{
 #' \item \emph{ @param } order_id integer
@@ -211,7 +211,7 @@
 #' ####################  PlaceOrder  ####################
 #'
 #' library(petstore)
-#' var_order <- Order$new() # Order | order placed for purchasing the pet
+#' var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
 #' api_instance <- StoreApi$new()

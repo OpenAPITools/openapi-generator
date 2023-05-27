@@ -18,9 +18,19 @@
             {{/isXmlWrapped}}
         {{/isContainer}}
     {{/withXml}}
-    {{#isDateTime}}
+    {{#jackson}}
+        {{#isDateTime}}
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "{{{datetimeFormat}}}")
-    {{/isDateTime}}
-    {{#isDate}}
+        {{/isDateTime}}
+        {{#isDate}}
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "{{{dateFormat}}}")
-    {{/isDate}}
+        {{/isDate}}
+    {{/jackson}}
+    {{#micronaut_serde_jackson}}
+        {{#isDateTime}}
+    @JsonFormat(pattern = "{{{datetimeFormat}}}")
+        {{/isDateTime}}
+        {{#isDate}}
+    @JsonFormat(pattern = "{{{dateFormat}}}")
+        {{/isDate}}
+    {{/micronaut_serde_jackson}}

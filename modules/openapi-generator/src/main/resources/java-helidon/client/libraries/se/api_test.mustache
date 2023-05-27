@@ -1,0 +1,70 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiResponse;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import io.helidon.common.reactive.Single;
+import io.helidon.webclient.WebClientResponse;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+/**
+ * {{#appName}}
+ * {{{.}}} Test
+ *
+ * {{/appName}}
+ * API tests for {{classname}}
+ */
+public class {{classname}}Test {
+
+    private static ApiClient apiClient;
+    private static {{classname}} api;
+    private static final String baseUrl = "http://localhost:8080";
+
+    @BeforeAll
+    public static void setup() {
+        apiClient = ApiClient.builder().build();
+        api = {{classname}}Impl.create(apiClient);
+    }
+
+    {{#operations}}
+    {{#operation}}
+   /**
+    * {{summary}}
+    {{#notes}}
+    * {{.}}
+    {{/notes}}
+    */
+    @Test
+    public void {{operationId}}Test() {
+        {{#allParams}}
+        // TODO - assign values to the input arguments.
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+
+        // TODO - uncomment the following two lines to invoke the service with valid parameters.
+        //ApiResponse<{{>operationResponseTypeDecl}}> response = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //response.webClientResponse().await();
+        // TODO - check for appropriate return status
+        // assertThat("Return status", response.get().status().code(), is(expectedStatus));
+
+        // TODO: test validations
+    }
+
+    {{/operation}}
+    {{/operations}}
+}

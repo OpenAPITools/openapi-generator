@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -39,10 +37,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -138,8 +141,6 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Integer getInteger() {
     return integer;
   }
@@ -163,8 +164,6 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Integer getInt32() {
     return int32;
   }
@@ -186,8 +185,6 @@ public class FormatTest {
    * @return int64
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Long getInt64() {
     return int64;
   }
@@ -211,8 +208,6 @@ public class FormatTest {
    * @return number
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -236,8 +231,6 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Float getFloat() {
     return _float;
   }
@@ -261,8 +254,6 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Double getDouble() {
     return _double;
   }
@@ -284,8 +275,6 @@ public class FormatTest {
    * @return decimal
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public BigDecimal getDecimal() {
     return decimal;
   }
@@ -307,8 +296,6 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getString() {
     return string;
   }
@@ -330,8 +317,6 @@ public class FormatTest {
    * @return _byte
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public byte[] getByte() {
     return _byte;
   }
@@ -353,8 +338,6 @@ public class FormatTest {
    * @return binary
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public File getBinary() {
     return binary;
   }
@@ -376,8 +359,6 @@ public class FormatTest {
    * @return date
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
-
   public LocalDate getDate() {
     return date;
   }
@@ -399,8 +380,6 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "2007-12-03T10:15:30+01:00", value = "")
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -422,8 +401,6 @@ public class FormatTest {
    * @return uuid
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
-
   public UUID getUuid() {
     return uuid;
   }
@@ -445,8 +422,6 @@ public class FormatTest {
    * @return uuidWithDefault
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public UUID getUuidWithDefault() {
     return uuidWithDefault;
   }
@@ -468,8 +443,6 @@ public class FormatTest {
    * @return password
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public String getPassword() {
     return password;
   }
@@ -491,8 +464,6 @@ public class FormatTest {
    * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
-
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
@@ -514,8 +485,6 @@ public class FormatTest {
    * @return patternWithDigitsAndDelimiter
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
-
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
@@ -535,6 +504,10 @@ public class FormatTest {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the FormatTest instance itself
    */
   public FormatTest putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -546,6 +519,8 @@ public class FormatTest {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -553,6 +528,9 @@ public class FormatTest {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -721,7 +699,7 @@ public class FormatTest {
            public void write(JsonWriter out, FormatTest value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -757,8 +735,10 @@ public class FormatTest {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

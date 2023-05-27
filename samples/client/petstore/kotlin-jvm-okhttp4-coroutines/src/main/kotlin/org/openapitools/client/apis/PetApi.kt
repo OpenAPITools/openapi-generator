@@ -112,6 +112,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -183,6 +184,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -190,7 +192,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     /**
      * enum for parameter status
      */
-     enum class Status_findPetsByStatus(val value: kotlin.String) {
+     enum class StatusFindPetsByStatus(val value: kotlin.String) {
          @SerializedName(value = "available") available("available"),
          @SerializedName(value = "pending") pending("pending"),
          @SerializedName(value = "sold") sold("sold")
@@ -209,7 +211,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : kotlin.collections.List<Pet> = withContext(Dispatchers.IO) {
+    suspend fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : kotlin.collections.List<Pet> = withContext(Dispatchers.IO) {
         val localVarResponse = findPetsByStatusWithHttpInfo(status = status)
 
         return@withContext when (localVarResponse.responseType) {
@@ -237,7 +239,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
+    suspend fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
         return@withContext request<Unit, kotlin.collections.List<Pet>>(
@@ -251,7 +253,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      * @param status Status values that need to be considered for filter
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<Status_findPetsByStatus>) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<StatusFindPetsByStatus>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -265,6 +267,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet/findByStatus",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -343,6 +346,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet/findByTags",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -413,6 +417,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -481,6 +486,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet",
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -556,6 +562,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -634,6 +641,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }

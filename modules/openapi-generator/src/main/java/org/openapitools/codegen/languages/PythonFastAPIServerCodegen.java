@@ -65,12 +65,15 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     protected String sourceFolder;
 
+    private static final String BASE_CLASS_SUFFIX = "base";
     private static final String SERVER_PORT = "serverPort";
     private static final String NAME = "python-fastapi";
     private static final int DEFAULT_SERVER_PORT = 8080;
     private static final String DEFAULT_PACKAGE_NAME = "openapi_server";
     private static final String DEFAULT_SOURCE_FOLDER = "src";
     private static final String DEFAULT_PACKAGE_VERSION = "1.0.0";
+
+    private String implPackage;
 
     @Override
     public CodegenType getTag() {
@@ -99,8 +102,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("serverPort", DEFAULT_SERVER_PORT);
+        additionalProperties.put("baseSuffix", BASE_CLASS_SUFFIX);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, DEFAULT_SOURCE_FOLDER);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
+        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_PACKAGE_NAME.concat(".impl"));
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
@@ -110,10 +115,12 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         outputFolder = "generated-code" + File.separator + NAME;
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
+        apiTemplateFiles.put("base_api.mustache", "_".concat(BASE_CLASS_SUFFIX).concat(".py"));
         embeddedTemplateDir = templateDir = NAME;
         apiPackage = "apis";
         modelPackage = "models";
         testPackage = "tests";
+        implPackage = DEFAULT_PACKAGE_NAME.concat(".impl");
         apiTestTemplateFiles().put("api_test.mustache", ".py");
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
@@ -124,6 +131,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 .defaultValue(String.valueOf(DEFAULT_SERVER_PORT)));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code")
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
+        cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
+                .defaultValue(DEFAULT_PACKAGE_NAME.concat(".impl")));
 
     }
 
@@ -137,6 +146,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.sourceFolder = ((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE)) {
+            this.implPackage = ((String) additionalProperties.get(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE));
         }
 
         modelPackage = packageName + "." + modelPackage;

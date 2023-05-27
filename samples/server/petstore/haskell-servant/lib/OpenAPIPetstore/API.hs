@@ -163,7 +163,7 @@ type OpenAPIPetstoreAPI
     :<|> "user" :> "createWithList" :> ReqBody '[JSON] [User] :> Verb 'POST 200 '[JSON] NoContent -- 'createUsersWithListInput' route
     :<|> "user" :> Capture "username" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deleteUser' route
     :<|> "user" :> Capture "username" Text :> Verb 'GET 200 '[JSON] User -- 'getUserByName' route
-    :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] Text -- 'loginUser' route
+    :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] (Headers '[Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text) -- 'loginUser' route
     :<|> "user" :> "logout" :> Verb 'GET 200 '[JSON] NoContent -- 'logoutUser' route
     :<|> "user" :> Capture "username" Text :> ReqBody '[JSON] User :> Verb 'PUT 200 '[JSON] NoContent -- 'updateUser' route
     :<|> Raw
@@ -196,14 +196,14 @@ data OpenAPIPetstoreBackend a m = OpenAPIPetstoreBackend
   , uploadFile :: a -> Integer -> FormUploadFile -> m ApiResponse{- ^  -}
   , deleteOrder :: Text -> m NoContent{- ^ For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors -}
   , getInventory :: a -> m ((Map.Map String Int)){- ^ Returns a map of status codes to quantities -}
-  , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions -}
+  , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions -}
   , placeOrder :: Order -> m Order{- ^  -}
   , createUser :: User -> m NoContent{- ^ This can only be done by the logged in user. -}
   , createUsersWithArrayInput :: [User] -> m NoContent{- ^  -}
   , createUsersWithListInput :: [User] -> m NoContent{- ^  -}
   , deleteUser :: Text -> m NoContent{- ^ This can only be done by the logged in user. -}
   , getUserByName :: Text -> m User{- ^  -}
-  , loginUser :: Maybe Text -> Maybe Text -> m Text{- ^  -}
+  , loginUser :: Maybe Text -> Maybe Text -> m (Headers '[Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text){- ^  -}
   , logoutUser :: m NoContent{- ^  -}
   , updateUser :: Text -> User -> m NoContent{- ^ This can only be done by the logged in user. -}
   }

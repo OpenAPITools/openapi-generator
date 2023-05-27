@@ -143,6 +143,7 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](docs/Model/ApiResponse.md)
  - [Category](docs/Model/Category.md)
+ - [EnumStringModel](docs/Model/EnumStringModel.md)
  - [Order](docs/Model/Order.md)
  - [Pet](docs/Model/Pet.md)
  - [Tag](docs/Model/Tag.md)
@@ -152,13 +153,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-## petstore_auth
+Authentication schemes defined for the API:
+### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -166,6 +162,12 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
+
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
 
 ## Author

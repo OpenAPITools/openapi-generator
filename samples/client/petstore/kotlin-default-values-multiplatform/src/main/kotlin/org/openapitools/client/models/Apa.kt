@@ -29,6 +29,7 @@ import kotlinx.serialization.encoding.*
  * @param n1 
  */
 @Serializable
+
 data class Apa (
 
     @SerialName(value = "i0") @Required val i0: kotlin.Int,

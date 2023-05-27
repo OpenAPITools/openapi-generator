@@ -4,8 +4,8 @@ package {{modelPackage}}
 {{#imports}}import {{import}}
 {{/imports}}
 {{#useBeanValidation}}
-import javax.validation.constraints.*
-import javax.validation.Valid
+import {{javaxPackage}}.validation.constraints.*
+import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 {{#models}}
 {{#model}}

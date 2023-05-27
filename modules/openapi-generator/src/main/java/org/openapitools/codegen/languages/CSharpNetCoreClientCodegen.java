@@ -42,6 +42,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -60,11 +61,22 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String RESTSHARP = "restsharp";
     protected static final String HTTPCLIENT = "httpclient";
     protected static final String GENERICHOST = "generichost";
+    protected static final String UNITY_WEB_REQUEST = "unityWebRequest";
 
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
+
+    protected static final String NET_STANDARD_14_OR_LATER = "netstandard14OrLater";
+    protected static final String NET_STANDARD_15_OR_LATER = "netstandard15OrLater";
+    protected static final String NET_STANDARD_16_OR_LATER = "netstandard16OrLater";
+    protected static final String NET_STANDARD_20_OR_LATER = "netstandard20OrLater";
+    protected static final String NET_STANDARD_21_OR_LATER = "netstandard21OrLater";
+    protected static final String NET_47_OR_LATER = "net47OrLater";
+    protected static final String NET_48_OR_LATER = "net48OrLater";
+    protected static final String NET_60_OR_LATER = "net60OrLater";
+    protected static final String NET_70_OR_LATER = "net70OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -75,19 +87,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
             FrameworkStrategy.NETSTANDARD_2_1,
-            FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
-            FrameworkStrategy.NET_5_0,
-            FrameworkStrategy.NET_6_0
+            FrameworkStrategy.NET_6_0,
+            FrameworkStrategy.NET_7_0
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-    protected String clientPackage = "Org.OpenAPITools.Client";
+    protected String clientPackage = "Client";
     protected String authFolder = "Auth";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String apiDocPath = "docs" + File.separator;
+    protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = defaultFramework.name;
@@ -99,6 +110,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
+    protected boolean supportsFileParameters = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
@@ -150,8 +162,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
         typeMapping.put("long", "long");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
         typeMapping.put("decimal", "decimal");
@@ -213,6 +227,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.PACKAGE_TAGS,
                 CodegenConstants.PACKAGE_TAGS_DESC,
                 this.packageTags);
+
+        addOption(DATE_FORMAT,
+                "The default Date format (only `generichost` library supports this option).",
+                this.dateFormat);
+
+        addOption(DATETIME_FORMAT,
+                "The default DateTime format (only `generichost` library supports this option).",
+                this.dateTimeFormat);
+
+        addOption("zeroBasedEnums",
+                "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
+                null);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -308,7 +334,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         addSwitch(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
                 CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC,
-                this.caseInsensitiveResponseHeaders);
+                this.useOneOfDiscriminatorLookup);
 
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
@@ -323,6 +349,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+                + "(Experimental. Subject to breaking changes without notice.)");
+        supportedLibraries.put(UNITY_WEB_REQUEST, "UnityWebRequest (...) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
 
@@ -399,18 +427,34 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         // avoid breaking changes
         if (GENERICHOST.equals(getLibrary())) {
-            Comparator<CodegenProperty> comparatorByRequiredAndDefault = propertyComparatorByRequired.thenComparing(propertyComparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.allVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.requiredVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.optionalVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.readOnlyVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.readWriteVars, comparatorByRequiredAndDefault);
-            Collections.sort(codegenModel.parentVars, comparatorByRequiredAndDefault);
+
+            Collections.sort(codegenModel.vars, propertyComparatorByName);
+            Collections.sort(codegenModel.allVars, propertyComparatorByName);
+            Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+            Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+            Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+            Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+
+            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparator);
+            Collections.sort(codegenModel.allVars, comparator);
+            Collections.sort(codegenModel.requiredVars, comparator);
+            Collections.sort(codegenModel.optionalVars, comparator);
+            Collections.sort(codegenModel.readOnlyVars, comparator);
+            Collections.sort(codegenModel.readWriteVars, comparator);
+            Collections.sort(codegenModel.parentVars, comparator);
         }
 
         return codegenModel;
     }
+
+    public static Comparator<CodegenProperty> propertyComparatorByName = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            return one.name.compareTo(another.name);
+        }
+    };
 
     public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
         @Override
@@ -424,15 +468,22 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByRequired = new Comparator<CodegenProperty>() {
+    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.required == another.required)
+            if (one.isNullable == another.isNullable)
                 return 0;
-            else if (Boolean.TRUE.equals(one.required))
+            else if (Boolean.FALSE.equals(one.isNullable))
                 return -1;
             else
                 return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            return one.dataType.compareTo(another.dataType);
         }
     };
 
@@ -490,7 +541,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -546,6 +597,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
+
+        // remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
+        if (GENERICHOST.equals(getLibrary())) {
+            // all c# libraries should want this, but avoid breaking changes for now
+            // a class cannot contain a property with the same name
+            if (property.name.equals(model.classname)) {
+                property.name = property.name + "Property";
+            }
+        }
+
         super.postProcessModelProperty(model, property);
     }
 
@@ -655,8 +716,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setModelPackage("Model");
         }
 
-        clientPackage = "Client";
-
         if (GENERICHOST.equals(getLibrary())) {
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
@@ -669,8 +728,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setLibrary(HTTPCLIENT);
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
+        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            setLibrary(UNITY_WEB_REQUEST);
+            additionalProperties.put("useUnityWebRequest", true);
+            needsUriBuilder = true;
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
 
         String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
@@ -721,8 +784,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setNetCoreProjectFileFlag(true);
 
             if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
-                            s.equals(FrameworkStrategy.NETCOREAPP_3_1) ||
-                            s.equals(FrameworkStrategy.NET_5_0) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_8) ||
                             s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
                 // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
@@ -733,7 +794,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
         syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
 
-        syncStringProperty(additionalProperties, "clientPackage", (s) -> { }, clientPackage);
+        syncStringProperty(additionalProperties, "clientPackage", this::setClientPackage, clientPackage);
 
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
@@ -749,6 +810,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
+        syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -785,6 +847,20 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
             additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
+        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            additionalProperties.put(CodegenConstants.VALIDATABLE, false);
+            setValidatable(false);
+            setSupportsRetry(false);
+            setSupportsAsync(true);
+            // Some consoles and tvOS do not support either Application.persistentDataPath or will refuse to
+            // compile/link if you even reference GetTempPath as well.
+            additionalProperties.put("supportsFileParameters", false);
+            setSupportsFileParameters(false);
+
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+
+            supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
+            supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
         } else { //restsharp
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
@@ -797,7 +873,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        addTestInstructions();
+        // include the spec in the output
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+
+    }
+
+    public void setClientPackage(String clientPackage) {
+        this.clientPackage = clientPackage;
     }
 
     @Override
@@ -811,43 +893,32 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-        Comparator<CodegenParameter> comparatorByRequiredAndDefault = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
-        Collections.sort(op.allParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.bodyParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.pathParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.queryParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.headerParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.implicitHeadersParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.formParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.cookieParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.requiredParams, comparatorByRequiredAndDefault);
-        Collections.sort(op.optionalParams, comparatorByRequiredAndDefault);
+        Collections.sort(op.allParams, parameterComparatorByDataType);
+        Collections.sort(op.bodyParams, parameterComparatorByDataType);
+        Collections.sort(op.pathParams, parameterComparatorByDataType);
+        Collections.sort(op.queryParams, parameterComparatorByDataType);
+        Collections.sort(op.headerParams, parameterComparatorByDataType);
+        Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
+        Collections.sort(op.formParams, parameterComparatorByDataType);
+        Collections.sort(op.cookieParams, parameterComparatorByDataType);
+        Collections.sort(op.requiredParams, parameterComparatorByDataType);
+        Collections.sort(op.optionalParams, parameterComparatorByDataType);
+        Collections.sort(op.requiredAndNotNullableParams, parameterComparatorByDataType);
+
+        Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+        Collections.sort(op.allParams, comparator);
+        Collections.sort(op.bodyParams, comparator);
+        Collections.sort(op.pathParams, comparator);
+        Collections.sort(op.queryParams, comparator);
+        Collections.sort(op.headerParams, comparator);
+        Collections.sort(op.implicitHeadersParams, comparator);
+        Collections.sort(op.formParams, comparator);
+        Collections.sort(op.cookieParams, comparator);
+        Collections.sort(op.requiredParams, comparator);
+        Collections.sort(op.optionalParams, comparator);
+        Collections.sort(op.requiredAndNotNullableParams, comparator);
 
         return op;
-    }
-
-    private void addTestInstructions() {
-        if (GENERICHOST.equals(getLibrary())) {
-            additionalProperties.put("testInstructions",
-                    "/* *********************************************************************************" +
-                            "\n*              Follow these manual steps to construct tests." +
-                            "\n*              This file will not be overwritten." +
-                            "\n*  *********************************************************************************" +
-                            "\n* 1. Navigate to ApiTests.Base.cs and ensure any tokens are being created correctly." +
-                            "\n*    Take care not to commit credentials to any repository." +
-                            "\n*" +
-                            "\n* 2. Mocking is coordinated by ApiTestsBase#AddApiHttpClients." +
-                            "\n*    To mock the client, use the generic AddApiHttpClients." +
-                            "\n*    To mock the server, change the client's BaseAddress." +
-                            "\n*" +
-                            "\n* 3. Locate the test you want below" +
-                            "\n*      - remove the skip property from the Fact attribute" +
-                            "\n*      - set the value of any variables if necessary" +
-                            "\n*" +
-                            "\n* 4. Run the tests and ensure they work." +
-                            "\n*" +
-                            "\n*/");
-        }
     }
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
@@ -889,19 +960,44 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-
-        if (Boolean.FALSE.equals(excludeTests.get())) {
-            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+        if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("asmdef.mustache", packageFolder, packageName + ".asmdef"));
+        } else {
+            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+            supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
         }
 
-        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("asmdef_test.mustache", testPackageFolder, testPackageName + ".asmdef"));
+            } else {
+                supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            }
+        }
+
+        if (!UNITY_WEB_REQUEST.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        }
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
     }
 
-    public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageFolder,
-            final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir) {
+    public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageDir,
+            final AtomicReference<Boolean> excludeTests, final String testPackageDir, final String testPackageName, final String modelPackageDir) {
+        supportingFiles.add(new SupportingFile("README.test.mustache", testPackageDir, "README.md"));
+
+        supportingFiles.add(new SupportingFile("README.solution.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
+        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
+
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageDir, packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("README.client.mustache", packageDir, "README.md"));
+
+        // client directory
         supportingFiles.add(new SupportingFile("TokenProvider`1.mustache", clientPackageDir, "TokenProvider`1.cs"));
         supportingFiles.add(new SupportingFile("RateLimitProvider`1.mustache", clientPackageDir, "RateLimitProvider`1.cs"));
         supportingFiles.add(new SupportingFile("TokenContainer`1.mustache", clientPackageDir, "TokenContainer`1.cs"));
@@ -910,23 +1006,24 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
-        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
-        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateJsonConverter.cs"));
+        supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
+        supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
+        supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
-        supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
+        supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
+
+        supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
+
+        // extensions
+        String extensionsFolder = sourceFolder + File.separator + packageName + File.separator + "Extensions";
+        supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));
+        supportingFiles.add(new SupportingFile("IHostBuilderExtensions.mustache", extensionsFolder, "IHostBuilderExtensions.cs"));
+        supportingFiles.add(new SupportingFile("IServiceCollectionExtensions.mustache", extensionsFolder, "IServiceCollectionExtensions.cs"));
 
         String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
-
         if (Boolean.FALSE.equals(excludeTests.get())) {
-            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageDir, testPackageName + ".csproj"));
             supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", apiTestFolder, "DependencyInjectionTests.cs"));
 
             // do not overwrite test file that already exists
@@ -1008,6 +1105,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsAsync(Boolean supportsAsync) {
         this.supportsAsync = supportsAsync;
+    }
+
+    public void setSupportsFileParameters(Boolean supportsFileParameters) {
+        this.supportsFileParameters = supportsFileParameters;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {
@@ -1101,7 +1202,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if (datatype.startsWith("int") || datatype.startsWith("long") ||
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("long") || datatype.startsWith("ulong") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
@@ -1218,27 +1320,25 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
 
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0", "net7.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.1") {
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1", "net7.0") {
         };
-        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7", "net47", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
+        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8", "net48", Boolean.FALSE) {
         };
-        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8 compatible", "net48", Boolean.FALSE) {
+        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 (End of Support 12 November 2024)", "net6.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 compatible", "net6.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
@@ -1306,6 +1406,66 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
+        }
+
+        if (strategies.stream().anyMatch(p -> Boolean.FALSE.equals(p.name == "netstandard1.3"))) {
+            if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.4"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.5"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard1.6"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.0"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "netstandard2.1"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net47"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net48"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net6.0"))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.name == "net7.0"))){
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+            } else {
+                throw new RuntimeException("Unhanlded case");
+            }
         }
     }
 
@@ -1397,8 +1557,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
     */
-    private void EnsureInheritedPropertiesArePresent(CodegenModel derivedModel) {
-        // every c# generator should definetly want this, or we should fix the issue
+    private void ensureInheritedPropertiesArePresent(CodegenModel derivedModel) {
+        // every c# generator should definitely want this, or we should fix the issue
         // still, lets avoid breaking changes :(
         if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))){
             return;
@@ -1417,7 +1577,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        EnsureInheritedPropertiesArePresent(derivedModel.parentModel);
+        ensureInheritedPropertiesArePresent(derivedModel.parentModel);
     }
 
     /**
@@ -1454,10 +1614,44 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 });
             }
 
-            EnsureInheritedPropertiesArePresent(cm);
+            ensureInheritedPropertiesArePresent(cm);
+
+            for (CodegenProperty property : cm.allVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.vars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.readWriteVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.optionalVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.parentVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.requiredVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.readOnlyVars){
+                fixInvalidPropertyName(cm, property);
+            }
+            for (CodegenProperty property : cm.nonNullableVars){
+                fixInvalidPropertyName(cm, property);
+            }
         }
 
         return objs;
+    }
+
+    private void fixInvalidPropertyName(CodegenModel model, CodegenProperty property){
+        // TODO: remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
+        if (property.name.equalsIgnoreCase(model.classname) ||
+                    reservedWords().contains(property.name) ||
+                    reservedWords().contains(camelize(sanitizeName(property.name), LOWERCASE_FIRST_LETTER))) {
+            property.name = property.name + "Property";
+        }
     }
 
     /**
@@ -1520,5 +1714,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateYAMLSpecFile(objs);
+        return objs;
     }
 }

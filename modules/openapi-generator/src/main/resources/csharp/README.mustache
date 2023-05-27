@@ -191,37 +191,29 @@ Class | Method | HTTP request | Description
 No model defined in this package
 {{/modelPackage}}
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-{{^authMethods}}
-All endpoints do not require authorization.
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-{{#last}}
-Authentication schemes defined for the API:
-{{/last}}
-{{/authMethods}}
-{{#authMethods}}
-
+<a id="{{name}}"></a>
 ### {{name}}
 
-{{#isApiKey}}- **Type**: API key
-
+{{#isApiKey}}
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBasic}}
-
 - **Type**: HTTP basic authentication
 {{/isBasicBasic}}
 {{#isBasicBearer}}
-
 - **Type**: HTTP bearer authentication
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-
 - **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}

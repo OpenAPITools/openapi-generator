@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  license:
+    name: MIT
+  title: Example
+  version: 1.0.0
+servers:
+- url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      operationId: list
+      parameters:
+      - description: The id of the person to retrieve
+        explode: false
+        in: path
+        name: personId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: OK
+components:
+  schemas:
+    Person:
+      discriminator:
+        mapping:
+          a: '#/components/schemas/Adult'
+          c: Child
+        propertyName: $_type
+      example:
+        lastName: lastName
+        firstName: firstName
+        $_type: $_type
+      properties:
+        $_type:
+          type: string
+        lastName:
+          type: string
+        firstName:
+          type: string
+      type: object
+    Adult:
+      allOf:
+      - $ref: '#/components/schemas/Person'
+      - $ref: '#/components/schemas/Adult_allOf'
+      description: A representation of an adult
+    Child:
+      allOf:
+      - $ref: '#/components/schemas/Child_allOf'
+      - $ref: '#/components/schemas/Person'
+      description: A representation of a child
+      properties:
+        boosterSeat:
+          type: boolean
+    Adult_allOf:
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/Child'
+          type: array
+      type: object
+      example: null
+    Child_allOf:
+      properties:
+        age:
+          format: int32
+          type: integer
+      type: object
+      example: null
+

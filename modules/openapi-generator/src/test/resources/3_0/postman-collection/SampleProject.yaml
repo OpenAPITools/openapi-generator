@@ -1,0 +1,310 @@
+openapi: 3.0.0
+info:
+  title: Sample project
+  version: '1.0'
+  description: 'Sample API Check "API Key" '
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+servers:
+  - url: 'http://localhost:{port}/{version}'
+    description: dev server
+    variables:
+      port:
+        description: Port number
+        enum:
+          - '5000'
+          - '8080'
+        default: '5000'
+      version:
+        default: v1
+        description: API version
+  - url: 'http://localhost:{port}/{version}'
+    description: test server
+    variables:
+      port:
+        description: Port number
+        enum:
+          - '5000'
+          - '8080'
+        default: '5000'
+      version:
+        default: v1
+        description: API version
+paths:
+  '/users/':
+    get:
+      summary: Get User Info by Query Param
+      operationId: get-users-query-id
+      description: Retrieve the information of the user with the matching user ID.
+      tags:
+        - basic
+      parameters:
+        - description: Query Id.
+          name: pUserId
+          in: query
+          required: true
+          schema:
+            type: string
+            example: 888
+
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+                example:
+                  id: schema-example
+                  firstName: Alice
+                  lastName: Smith333
+                  email: alice.smith@gmail.com
+                  dateOfBirth: '1997-10-31'
+                  emailVerified: true
+                  signUpDate: '2019-08-24'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+                Get User Phil Smith:
+                  value:
+                    id: 143
+                    firstName: Phil
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        examples:
+          a:
+            value: a
+            summary: a summary
+          b:
+            value: b
+            summary: b summary
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user.
+      - schema:
+          type: string
+          default: code_one
+        name: strCode
+        in: header
+        description: Code as header
+      - schema:
+          type: string
+        name: strCode2
+        in: header
+        description: Code as header2
+    get:
+      summary: Get User Info by User ID
+      tags:
+        - advanced
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+                example:
+                  id: 9998
+                  firstName: Alice9998 resp example
+                  lastName: Smith9998
+                  email: alice.smith@gmail.com
+                  dateOfBirth: '1997-10-31'
+                  emailVerified: true
+                  createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+    patch:
+      summary: Update User Information
+      deprecated: true
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Updated User Rebecca Baker:
+                  value:
+                    id: 13
+                    firstName: Rebecca
+                    lastName: Baker
+                    email: rebecca@gmail.com
+                    dateOfBirth: '1985-10-02'
+                    emailVerified: false
+                    createDate: '2019-08-24'
+        '404':
+          description: User Not Found
+        '409':
+          description: Email Already Taken
+      description: Update the information of an existing user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                  description: >-
+                    If a new email is given, the user's email verified property
+                    will be set to false.
+                dateOfBirth:
+                  type: string
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: '1985-10-02'
+        description: Patch user properties to update.
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                basic:
+                  $ref: '#/components/examples/get-user-basic'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                dateOfBirth:
+                  type: string
+                  format: date
+              required:
+                - firstName
+                - lastName
+                - email
+                - dateOfBirth
+            examples:
+                basic:
+                    $ref: '#/components/examples/get-user-basic'
+        description: Post the necessary fields for the API to create a new user.
+      description: Create a new user.
+      tags:
+        - basic
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      name: X-API-Key
+      in: header
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      example:
+        id: 999
+        firstName: Alice9 schema example
+        lastName: Smith9
+        email: alice.smith@gmail.com
+        dateOfBirth: '1997-10-31'
+        emailVerified: true
+        createDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          example: 0
+        firstName:
+          type: string
+          example: Alix
+        lastName:
+          type: string
+          example: Smith
+        email:
+          type: string
+          format: email
+          example: alix.smith@gmail.com
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+          example: true
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+          example: '2019-08-24'
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+  examples:
+    get-user-basic:
+      summary: Example request for Get User
+      value:
+        id: 777
+        firstName: Alotta
+        lastName: Rotta
+        email: alotta.rotta@gmail.com
+        dateOfBirth: '1997-10-31'
+        emailVerified: true
+        createDate: '2019-08-24'
+tags:
+  - name: basic
+    description: Basic tag
+  - name: advanced
+    description: Advanced tag

@@ -215,6 +215,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.Return](docs/Return.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
+ - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 
@@ -222,42 +223,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-
-### api_key
-
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-
-
-### api_key_query
-
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-
-
-### bearer_test
-
-- **Type**: Bearer authentication (JWT)
-
-
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-
-
-### http_signature_test
-
-
-
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -267,4 +233,30 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+### api_key
+
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+### api_key_query
+
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+### http_signature_test
+
+- **Type**: HTTP signature authentication
 

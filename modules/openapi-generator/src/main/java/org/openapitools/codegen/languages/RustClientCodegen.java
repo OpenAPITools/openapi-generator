@@ -48,6 +48,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     private boolean useSingleRequestParameter = false;
     private boolean supportAsync = true;
+    private boolean supportMiddleware = false;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
     private boolean preferUnsignedInt = false;
@@ -58,6 +59,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
     public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
@@ -175,6 +177,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
@@ -237,7 +241,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         discriminatorVars.add(mas);
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
-                    String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
+                    String vendorExtensionTagName = cm.discriminator.getPropertyName();
                     cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
                     cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
@@ -281,6 +285,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
         }
         writePropertyBack(SUPPORT_ASYNC, getSupportAsync());
+
+        if (additionalProperties.containsKey(SUPPORT_MIDDLEWARE)) {
+            this.setSupportMiddleware(convertPropertyToBoolean(SUPPORT_MIDDLEWARE));
+        }
+        writePropertyBack(SUPPORT_MIDDLEWARE, getSupportMiddleware());
 
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
@@ -353,6 +362,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         this.supportAsync = supportAsync;
     }
 
+    private boolean getSupportMiddleware() {
+        return supportMiddleware;
+    }
+
+    private void setSupportMiddleware(boolean supportMiddleware) {
+        this.supportMiddleware = supportMiddleware;
+    }
+
     public boolean getSupportMultipleReturns() {
         return supportMultipleResponses;
     }
@@ -407,8 +424,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
+        Schema unaliasSchema = unaliasSchema(p);
+        if (ModelUtils.isArraySchema(unaliasSchema)) {
+            ArraySchema ap = (ArraySchema) unaliasSchema;
             Schema inner = ap.getItems();
             if (inner == null) {
                 LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
@@ -416,10 +434,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(unaliasSchema)) {
+            Schema inner = getAdditionalProperties(unaliasSchema);
             if (inner == null) {
-                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
+                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", unaliasSchema.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
@@ -427,7 +445,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
-        String schemaType = getSchemaType(p);
+        String schemaType = getSchemaType(unaliasSchema);
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
         }
@@ -450,6 +468,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         String schemaType = super.getSchemaType(p);
         String type = typeMapping.getOrDefault(schemaType, schemaType);
 
+        // Implement integer type fitting (when property is enabled)
         if (Objects.equals(p.getType(), "integer")) {
             boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
             boolean preferUnsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
@@ -481,6 +500,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return type;
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        // If a property is both nullable and non-required then we represent this using a double Option
+        // which requires the `serde_with` extension crate for deserialization.
+        // See: https://docs.rs/serde_with/latest/serde_with/rust/double_option/index.html
+        if (property.isNullable && !property.required) {
+            additionalProperties.put("serdeWith", true);
+        }
     }
 
     @Override
