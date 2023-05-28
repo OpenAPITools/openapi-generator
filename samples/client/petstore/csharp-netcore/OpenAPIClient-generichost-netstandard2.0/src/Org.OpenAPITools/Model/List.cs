@@ -31,21 +31,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123list">_123list</param>
+        /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(string _123list)
+        public List(string var123List)
         {
-            _123List = _123list;
+            var123List = var123List;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets _123List
+        /// Gets or Sets var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string _123List { get; set; }
+        public string var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  _123List: ").Append(_123List).Append("\n");
+            sb.Append("  var123List: ").Append(var123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string _123list = default;
+            string var123List = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "123-list":
-                            _123list = utf8JsonReader.GetString();
+                            var123List = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -126,10 +126,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (_123list == null)
-                throw new ArgumentNullException(nameof(_123list), "Property is required for class List.");
+            if (var123List == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
 
-            return new List(_123list);
+            return new List(var123List);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("123-list", list._123List);
+            writer.WriteString("123-list", list.var123List);
 
             writer.WriteEndObject();
         }

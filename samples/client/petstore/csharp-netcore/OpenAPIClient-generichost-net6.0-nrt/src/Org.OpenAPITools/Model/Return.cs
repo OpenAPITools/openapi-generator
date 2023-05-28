@@ -33,21 +33,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="returnProperty">returnProperty</param>
+        /// <param name="varReturn">varReturn</param>
         [JsonConstructor]
-        public Return(int returnProperty)
+        public Return(int varReturn)
         {
-            ReturnProperty = returnProperty;
+            VarReturn = varReturn;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets ReturnProperty
+        /// Gets or Sets VarReturn
         /// </summary>
         [JsonPropertyName("return")]
-        public int ReturnProperty { get; set; }
+        public int VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  ReturnProperty: ").Append(ReturnProperty).Append("\n");
+            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int? returnProperty = default;
+            int? varReturn = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "return":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                returnProperty = utf8JsonReader.GetInt32();
+                                varReturn = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;
@@ -129,24 +129,24 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (returnProperty == null)
-                throw new ArgumentNullException(nameof(returnProperty), "Property is required for class Return.");
+            if (varReturn == null)
+                throw new ArgumentNullException(nameof(varReturn), "Property is required for class Return.");
 
-            return new Return(returnProperty.Value);
+            return new Return(varReturn.Value);
         }
 
         /// <summary>
         /// A Json writer
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="_return"></param>
+        /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Return _return, JsonSerializerOptions jsonSerializerOptions)
+        public override void Write(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("return", _return.ReturnProperty);
+            writer.WriteNumber("return", varReturn.VarReturn);
 
             writer.WriteEndObject();
         }

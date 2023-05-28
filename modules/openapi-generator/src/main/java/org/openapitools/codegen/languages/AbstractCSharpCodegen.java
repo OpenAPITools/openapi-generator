@@ -492,14 +492,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
-            for (CodegenProperty var : cm.vars) {
-                // check to see if model name is same as the property name
-                // which will result in compilation error
-                // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.classname)) {
-                    var.name = "_" + var.name;
-                }
-            }
 
             if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
@@ -568,6 +560,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     private void patchProperty(CodegenModel model, CodegenProperty property) {
+        String tmpPropertyName = escapeReservedWord(model, property.name);
+        if (property.name != tmpPropertyName) {
+            // the casing will be wrong if we just set the name to escapeReservedWord
+            // if we try to fix it with camelize, underscores get stripped out
+            // so test if the name was escaped and then replace var with Var
+            property.name = tmpPropertyName;
+            String firstCharacter = property.name.substring(0, 1);
+            property.name = property.name.substring(1);
+            property.name = firstCharacter.toUpperCase(Locale.ROOT) + property.name;
+        }
+
         /**
          * Hotfix for this issue
          * https://github.com/OpenAPITools/openapi-generator/issues/12155
@@ -915,6 +918,54 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
+                    for (ModelMap modelHashMap : allModels) {
+                        CodegenModel codegenModel = modelHashMap.getModel();
+
+                        for (CodegenParameter parameter : operation.allParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.bodyParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.cookieParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.formParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.headerParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.implicitHeadersParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.optionalParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.pathParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.queryParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.requiredAndNotNullableParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.requiredParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+                    }
+
                     if (!isSupportNullable()) {
                         for (CodegenParameter parameter : operation.allParams) {
                             CodegenModel model = null;
@@ -1070,20 +1121,27 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
         return name;
+    }
+
+    public String escapeReservedWord(CodegenModel model, String name) {
+        name = this.escapeReservedWord(name);
+
+        return name.equalsIgnoreCase(model.getClassname())
+            ? "var" + camelize(name)
+            : name;
     }
 
     @Override
     public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
+        if (reservedWords().contains(name) ||
+                reservedWords().contains(name.toLowerCase(Locale.ROOT)) ||
+                reservedWords().contains(camelize(sanitizeName(name))) ||
+                isReservedWord(name) ||
+                name.matches("^\\d.*")) {
+            name = "var" + camelize(name);
         }
-        return "_" + name;
+        return name;
     }
 
     /**

@@ -37,11 +37,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="_class">_class.</param>
-        public Model200Response(int name = default(int), string _class = default(string))
+        /// <param name="varClass">varClass.</param>
+        public Model200Response(int name = default(int), string varClass = default(string))
         {
             this.Name = name;
-            this.Class = _class;
+            this.VarClass = varClass;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -52,10 +52,10 @@ namespace Org.OpenAPITools.Model
         public int Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Class
+        /// Gets or Sets VarClass
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string Class { get; set; }
+        public string VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -117,9 +117,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.Class != null)
+                if (this.VarClass != null)
                 {
-                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClass.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
