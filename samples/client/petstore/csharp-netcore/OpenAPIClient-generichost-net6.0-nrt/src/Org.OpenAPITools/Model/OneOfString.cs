@@ -121,9 +121,9 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            Utf8JsonReader _stringReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string? _string))
-                return new OneOfString(_string);
+            Utf8JsonReader varStringReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string? varString))
+                return new OneOfString(varString);
 
             throw new JsonException();
         }

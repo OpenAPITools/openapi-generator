@@ -169,17 +169,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            Utf8JsonReader _boolReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<bool>(ref _boolReader, jsonSerializerOptions, out bool _bool))
-                return new PolymorphicProperty(_bool);
+            Utf8JsonReader varBoolReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<bool>(ref varBoolReader, jsonSerializerOptions, out bool varBool))
+                return new PolymorphicProperty(varBool);
 
-            Utf8JsonReader _stringReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string? _string))
-                return new PolymorphicProperty(_string);
+            Utf8JsonReader varStringReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string? varString))
+                return new PolymorphicProperty(varString);
 
-            Utf8JsonReader _objectReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Object>(ref _objectReader, jsonSerializerOptions, out Object? _object))
-                return new PolymorphicProperty(_object);
+            Utf8JsonReader varObjectReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Object>(ref varObjectReader, jsonSerializerOptions, out Object? varObject))
+                return new PolymorphicProperty(varObject);
 
             Utf8JsonReader liststringReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<List<string>>(ref liststringReader, jsonSerializerOptions, out List<string>? liststring))

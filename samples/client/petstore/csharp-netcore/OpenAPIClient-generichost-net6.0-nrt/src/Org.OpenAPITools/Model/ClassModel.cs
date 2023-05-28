@@ -128,10 +128,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (classProperty == null)
-                throw new ArgumentNullException(nameof(classProperty), "Property is required for class ClassModel.");
+            if (varClass == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is required for class ClassModel.");
 
-            return new ClassModel(classProperty);
+            return new ClassModel(varClass);
         }
 
         /// <summary>

@@ -128,10 +128,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (clientProperty == null)
-                throw new ArgumentNullException(nameof(clientProperty), "Property is required for class ModelClient.");
+            if (varClient == null)
+                throw new ArgumentNullException(nameof(varClient), "Property is required for class ModelClient.");
 
-            return new ModelClient(clientProperty);
+            return new ModelClient(varClient);
         }
 
         /// <summary>

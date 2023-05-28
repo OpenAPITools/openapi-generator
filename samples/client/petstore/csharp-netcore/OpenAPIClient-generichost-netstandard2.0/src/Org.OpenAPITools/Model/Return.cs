@@ -127,10 +127,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (returnProperty == null)
-                throw new ArgumentNullException(nameof(returnProperty), "Property is required for class Return.");
+            if (varReturn == null)
+                throw new ArgumentNullException(nameof(varReturn), "Property is required for class Return.");
 
-            return new Return(returnProperty.Value);
+            return new Return(varReturn.Value);
         }
 
         /// <summary>

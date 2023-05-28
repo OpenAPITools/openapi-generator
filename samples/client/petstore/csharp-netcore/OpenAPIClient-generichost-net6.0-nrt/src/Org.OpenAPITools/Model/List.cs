@@ -128,10 +128,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (_123list == null)
-                throw new ArgumentNullException(nameof(_123list), "Property is required for class List.");
+            if (var123List == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
 
-            return new List(_123list);
+            return new List(var123List);
         }
 
         /// <summary>

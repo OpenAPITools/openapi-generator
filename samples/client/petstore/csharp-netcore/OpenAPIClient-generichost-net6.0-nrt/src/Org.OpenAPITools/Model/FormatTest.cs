@@ -561,7 +561,7 @@ namespace Org.OpenAPITools.Model
             if (patternWithBackslash == null)
                 throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
 
-            return new FormatTest(binary, byteProperty, date.Value, dateTime.Value, decimalProperty.Value, doubleProperty.Value, floatProperty.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
+            return new FormatTest(binary, varByte, date.Value, dateTime.Value, varDecimal.Value, varDouble.Value, varFloat.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
         }
 
         /// <summary>

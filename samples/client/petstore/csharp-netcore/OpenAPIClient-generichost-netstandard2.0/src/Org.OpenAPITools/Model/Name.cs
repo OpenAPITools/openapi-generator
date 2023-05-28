@@ -205,8 +205,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (nameProperty == null)
-                throw new ArgumentNullException(nameof(nameProperty), "Property is required for class Name.");
+            if (varName == null)
+                throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
 
             if (snakeCase == null)
                 throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Model
             if (var123Number == null)
                 throw new ArgumentNullException(nameof(var123Number), "Property is required for class Name.");
 
-            return new Name(nameProperty.Value, property, snakeCase.Value, _123number.Value);
+            return new Name(varName.Value, property, snakeCase.Value, var123Number.Value);
         }
 
         /// <summary>

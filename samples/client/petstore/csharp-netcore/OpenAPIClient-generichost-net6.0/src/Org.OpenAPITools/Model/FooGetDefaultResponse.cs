@@ -127,10 +127,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (stringProperty == null)
-                throw new ArgumentNullException(nameof(stringProperty), "Property is required for class FooGetDefaultResponse.");
+            if (varString == null)
+                throw new ArgumentNullException(nameof(varString), "Property is required for class FooGetDefaultResponse.");
 
-            return new FooGetDefaultResponse(stringProperty);
+            return new FooGetDefaultResponse(varString);
         }
 
         /// <summary>
