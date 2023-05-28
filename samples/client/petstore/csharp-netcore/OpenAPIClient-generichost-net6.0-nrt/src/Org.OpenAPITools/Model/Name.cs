@@ -207,11 +207,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (varName == null)
-                throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
+            if (nameProperty == null)
+                throw new ArgumentNullException(nameof(nameProperty), "Property is required for class Name.");
 
             if (snakeCase == null)
                 throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
@@ -222,10 +219,7 @@ namespace Org.OpenAPITools.Model
             if (var123Number == null)
                 throw new ArgumentNullException(nameof(var123Number), "Property is required for class Name.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new Name(varName.Value, property, snakeCase.Value, var123Number.Value);
+            return new Name(nameProperty.Value, property, snakeCase.Value, _123number.Value);
         }
 
         /// <summary>

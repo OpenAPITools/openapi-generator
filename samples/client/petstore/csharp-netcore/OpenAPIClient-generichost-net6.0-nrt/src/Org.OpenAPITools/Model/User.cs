@@ -282,9 +282,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (id == null)
                 throw new ArgumentNullException(nameof(id), "Property is required for class User.");
 
@@ -311,9 +308,6 @@ namespace Org.OpenAPITools.Model
 
             if (objectWithNoDeclaredProps == null)
                 throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is required for class User.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new User(email, firstName, id.Value, lastName, objectWithNoDeclaredProps, password, phone, userStatus.Value, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
         }

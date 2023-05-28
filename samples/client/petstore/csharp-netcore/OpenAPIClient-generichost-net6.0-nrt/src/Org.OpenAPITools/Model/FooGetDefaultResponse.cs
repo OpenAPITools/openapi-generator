@@ -129,16 +129,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (stringProperty == null)
+                throw new ArgumentNullException(nameof(stringProperty), "Property is required for class FooGetDefaultResponse.");
 
-            if (varString == null)
-                throw new ArgumentNullException(nameof(varString), "Property is required for class FooGetDefaultResponse.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new FooGetDefaultResponse(varString);
+            return new FooGetDefaultResponse(stringProperty);
         }
 
         /// <summary>

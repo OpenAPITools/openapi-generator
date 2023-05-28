@@ -98,10 +98,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader varStringReader = utf8JsonReader;
-            bool varStringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string varString);
-
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -123,8 +119,9 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varStringDeserialized)
-                return new OneOfString(varString);
+            Utf8JsonReader _stringReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string _string))
+                return new OneOfString(_string);
 
             throw new JsonException();
         }

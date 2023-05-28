@@ -140,17 +140,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (prop1 == null)
                 throw new ArgumentNullException(nameof(prop1), "Property is required for class ActivityOutputElementRepresentation.");
 
             if (prop2 == null)
                 throw new ArgumentNullException(nameof(prop2), "Property is required for class ActivityOutputElementRepresentation.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ActivityOutputElementRepresentation(prop1, prop2);
         }

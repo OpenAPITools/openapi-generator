@@ -124,13 +124,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader simpleQuadrilateralReader = utf8JsonReader;
-            bool simpleQuadrilateralDeserialized = Client.ClientUtils.TryDeserialize<SimpleQuadrilateral>(ref simpleQuadrilateralReader, jsonSerializerOptions, out SimpleQuadrilateral simpleQuadrilateral);
-
-            Utf8JsonReader complexQuadrilateralReader = utf8JsonReader;
-            bool complexQuadrilateralDeserialized = Client.ClientUtils.TryDeserialize<ComplexQuadrilateral>(ref complexQuadrilateralReader, jsonSerializerOptions, out ComplexQuadrilateral complexQuadrilateral);
-
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -152,10 +145,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (simpleQuadrilateralDeserialized)
+            Utf8JsonReader simpleQuadrilateralReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<SimpleQuadrilateral>(ref simpleQuadrilateralReader, jsonSerializerOptions, out SimpleQuadrilateral simpleQuadrilateral))
                 return new Quadrilateral(simpleQuadrilateral);
 
-            if (complexQuadrilateralDeserialized)
+            Utf8JsonReader complexQuadrilateralReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<ComplexQuadrilateral>(ref complexQuadrilateralReader, jsonSerializerOptions, out ComplexQuadrilateral complexQuadrilateral))
                 return new Quadrilateral(complexQuadrilateral);
 
             throw new JsonException();

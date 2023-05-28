@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
+        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "uuid", EmitDefaultValue = true)]
         public Guid? Uuid { get; set; }
 

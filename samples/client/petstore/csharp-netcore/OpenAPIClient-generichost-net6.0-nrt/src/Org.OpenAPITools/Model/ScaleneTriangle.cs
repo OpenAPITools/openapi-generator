@@ -113,7 +113,6 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader triangleInterfaceReader = utf8JsonReader;
             bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref utf8JsonReader, jsonSerializerOptions, out TriangleInterface? triangleInterface);
 
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
