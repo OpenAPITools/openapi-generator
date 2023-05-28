@@ -62,7 +62,7 @@ namespace YourProject
             var host = CreateHostBuilder(args).Build();
             var api = host.Services.GetRequiredService<IAnotherFakeApi>();
             ApiResponse<ModelClient> response = await api.Call123TestSpecialTagsAsync("todo");
-            ModelClient model = response.ToModel();
+            ModelClient model = response.AsModel();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
