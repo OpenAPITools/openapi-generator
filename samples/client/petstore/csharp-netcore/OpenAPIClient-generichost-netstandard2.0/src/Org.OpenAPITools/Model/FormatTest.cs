@@ -502,9 +502,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (integer == null)
                 throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
 
@@ -561,9 +558,6 @@ namespace Org.OpenAPITools.Model
 
             if (patternWithBackslash == null)
                 throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new FormatTest(binary, byteProperty, date.Value, dateTime.Value, decimalProperty.Value, doubleProperty.Value, floatProperty.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, stringProperty, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
         }

@@ -173,9 +173,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (uuid == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
@@ -187,9 +184,6 @@ namespace Org.OpenAPITools.Model
 
             if (bars == null)
                 throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }

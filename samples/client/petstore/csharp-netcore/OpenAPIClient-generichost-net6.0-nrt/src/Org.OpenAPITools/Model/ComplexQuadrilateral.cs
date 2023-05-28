@@ -113,7 +113,6 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader quadrilateralInterfaceReader = utf8JsonReader;
             bool quadrilateralInterfaceDeserialized = Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref utf8JsonReader, jsonSerializerOptions, out QuadrilateralInterface? quadrilateralInterface);
 
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
