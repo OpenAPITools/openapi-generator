@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        /// <example>&quot;doggie&quot;</example>
+        /// <example>doggie</example>
         [JsonPropertyName("name")]
         public string Name { get; set; }
 

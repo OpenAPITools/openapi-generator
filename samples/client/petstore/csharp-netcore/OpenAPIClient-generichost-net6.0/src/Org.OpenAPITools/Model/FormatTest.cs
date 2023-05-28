@@ -92,14 +92,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>&quot;Sun Feb 02 00:00:00 UTC 2020&quot;</example>
+        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        /// <example>&quot;2007-12-03T10:15:30+01:00&quot;</example>
+        /// <example>2007-12-03T10:15:30+01:00</example>
         [JsonPropertyName("dateTime")]
         public DateTime DateTime { get; set; }
 
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
+        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
         public Guid Uuid { get; set; }
 

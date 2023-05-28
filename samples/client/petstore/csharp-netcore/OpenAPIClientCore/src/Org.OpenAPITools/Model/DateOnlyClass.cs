@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>&quot;Fri Jul 21 00:00:00 UTC 2017&quot;</example>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime DateOnlyProperty { get; set; }
