@@ -59,7 +59,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     String supportedElixirVersion = "1.10";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.4\"}",
+            "{:tesla, \"~> 1.7\"}",
             "{:poison, \"~> 3.0\"}",
             "{:ex_doc, \"~> 0.28\", only: :dev, runtime: false}"
     );
