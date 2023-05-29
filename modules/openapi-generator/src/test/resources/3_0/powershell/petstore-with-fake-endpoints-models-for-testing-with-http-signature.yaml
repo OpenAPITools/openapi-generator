@@ -338,7 +338,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -823,7 +823,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1740,26 +1740,26 @@ components:
         - placed
         - approved
         - delivered
-    #OuterEnumInteger:
-    #  type: integer
-    #  enum:
-    #  - 0
-    #  - 1
-    #  - 2
-    #OuterEnumDefaultValue:
-    #  type: string
-    #  enum:
-    #  - placed
-    #  - approved
-    #  - delivered
-    #  default: placed
-    #OuterEnumIntegerDefaultValue:
-    #  type: integer
-    #  enum:
-    #  - 0
-    #  - 1
-    #  - 2
-    #  default: 0
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
     OuterComposite:
       type: object
       properties:

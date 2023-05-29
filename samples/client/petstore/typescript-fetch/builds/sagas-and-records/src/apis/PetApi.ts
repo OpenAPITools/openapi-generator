@@ -14,23 +14,25 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Category,
+  FindPetsByStatusResponse,
+  FindPetsByUserResponse,
+  ModelApiResponse,
+  Pet,
+  PetRegionsResponse,
+} from '../models';
 import {
-    Category,
     CategoryFromJSON,
     CategoryToJSON,
-    FindPetsByStatusResponse,
     FindPetsByStatusResponseFromJSON,
     FindPetsByStatusResponseToJSON,
-    FindPetsByUserResponse,
     FindPetsByUserResponseFromJSON,
     FindPetsByUserResponseToJSON,
-    ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
-    Pet,
     PetFromJSON,
     PetToJSON,
-    PetRegionsResponse,
     PetRegionsResponseFromJSON,
     PetRegionsResponseToJSON,
 } from '../models';

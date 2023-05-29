@@ -49,7 +49,7 @@
   describe('EnumClass', function() {
     it('should create an instance of EnumClass', function() {
       // uncomment below and update the code to test EnumClass
-      //var instane = new OpenApiPetstore.EnumClass();
+      //var instance = new OpenApiPetstore.EnumClass();
       //expect(instance).to.be.a(OpenApiPetstore.EnumClass);
     });
 

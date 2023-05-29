@@ -21,5 +21,5 @@ public interface StoreApiService {
       public Response deleteOrder(String orderId, SecurityContext securityContext);
       public Response getInventory(SecurityContext securityContext);
       public Response getOrderById(Long orderId, SecurityContext securityContext);
-      public Response placeOrder(Order body, SecurityContext securityContext);
+      public Response placeOrder(Order order, SecurityContext securityContext);
 }

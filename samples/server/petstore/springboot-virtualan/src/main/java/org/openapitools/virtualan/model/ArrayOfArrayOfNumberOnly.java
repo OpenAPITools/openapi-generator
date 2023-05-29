@@ -24,9 +24,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayOfArrayOfNumberOnly {
 
-  @JsonProperty("ArrayArrayNumber")
   @Valid
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -46,7 +45,8 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   */
   @Valid 
-  @Schema(name = "ArrayArrayNumber", required = false)
+  @Schema(name = "ArrayArrayNumber", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("ArrayArrayNumber")
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

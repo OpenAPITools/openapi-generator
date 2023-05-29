@@ -29,6 +29,8 @@
 
 namespace OpenAPI\Server\Api;
 
+use Symfony\Component\DependencyInjection\Reference;
+
 /**
  * ApiServer Class Doc Comment
  *
@@ -45,7 +47,7 @@ class ApiServer
     /**
      * @var array
      */
-    private $apis = array();
+    private array $apis = array();
 
     /**
      * Adds an API handler to the server.
@@ -53,7 +55,7 @@ class ApiServer
      * @param string $api An API name of the handle
      * @param mixed $handler A handler to set for the given API
      */
-    public function addApiHandler($api, $handler)
+    public function addApiHandler(string $api, $handler): void
     {
         if (isset($this->apis[$api])) {
             throw new \InvalidArgumentException('API has already a handler: '.$api);
@@ -69,7 +71,7 @@ class ApiServer
      * @return mixed Returns a handler
      * @throws \InvalidArgumentException When no such handler exists
      */
-    public function getApiHandler($api)
+    public function getApiHandler(string $api)
     {
         if (!isset($this->apis[$api])) {
             throw new \InvalidArgumentException('No handler for '.$api.' implemented.');

@@ -15,7 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -105,3 +104,4 @@ public class Cat extends Animal {
         return visitor.visitCat(this);
     }
 }
+

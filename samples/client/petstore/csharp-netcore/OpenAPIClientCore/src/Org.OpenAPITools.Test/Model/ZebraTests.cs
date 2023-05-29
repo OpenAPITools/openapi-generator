@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace Org.OpenAPITools.Test
+namespace Org.OpenAPITools.Test.Model
 {
     /// <summary>
     ///  Class for testing Zebra
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void ZebraInstanceTest()
         {
-            // TODO uncomment below to test "IsInstanceOfType" Zebra
-            //Assert.IsInstanceOfType<Zebra> (instance, "variable 'instance' is a Zebra");
+            // TODO uncomment below to test "IsType" Zebra
+            //Assert.IsType<Zebra>(instance);
         }
 
 

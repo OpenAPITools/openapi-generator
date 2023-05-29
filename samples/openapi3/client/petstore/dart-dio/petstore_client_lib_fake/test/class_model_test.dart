@@ -7,8 +7,8 @@ void main() {
   // TODO add properties to the builder and call build()
 
   group(ClassModel, () {
-    // String class_
-    test('to test the property `class_`', () async {
+    // String classField
+    test('to test the property `classField`', () async {
       // TODO
     });
 

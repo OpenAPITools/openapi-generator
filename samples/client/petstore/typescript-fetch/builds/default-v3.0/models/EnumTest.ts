@@ -13,26 +13,26 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { OuterEnum } from './OuterEnum';
 import {
-    OuterEnum,
     OuterEnumFromJSON,
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
 } from './OuterEnum';
+import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
 import {
-    OuterEnumDefaultValue,
     OuterEnumDefaultValueFromJSON,
     OuterEnumDefaultValueFromJSONTyped,
     OuterEnumDefaultValueToJSON,
 } from './OuterEnumDefaultValue';
+import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
-    OuterEnumInteger,
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
 } from './OuterEnumInteger';
+import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
 import {
-    OuterEnumIntegerDefaultValue,
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,

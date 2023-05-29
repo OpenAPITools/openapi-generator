@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the SpecialModelName type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &SpecialModelName{}
+
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
@@ -41,7 +44,7 @@ func NewSpecialModelNameWithDefaults() *SpecialModelName {
 
 // GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
 func (o *SpecialModelName) GetSpecialPropertyName() int64 {
-	if o == nil || o.SpecialPropertyName == nil {
+	if o == nil || IsNil(o.SpecialPropertyName) {
 		var ret int64
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 // GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
-	if o == nil || o.SpecialPropertyName == nil {
+	if o == nil || IsNil(o.SpecialPropertyName) {
 		return nil, false
 	}
 	return o.SpecialPropertyName, true
@@ -59,7 +62,7 @@ func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
 
 // HasSpecialPropertyName returns a boolean if a field has been set.
 func (o *SpecialModelName) HasSpecialPropertyName() bool {
-	if o != nil && o.SpecialPropertyName != nil {
+	if o != nil && !IsNil(o.SpecialPropertyName) {
 		return true
 	}
 
@@ -72,8 +75,16 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 }
 
 func (o SpecialModelName) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o SpecialModelName) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.SpecialPropertyName != nil {
+	if !IsNil(o.SpecialPropertyName) {
 		toSerialize["$special[property.name]"] = o.SpecialPropertyName
 	}
 
@@ -81,7 +92,7 @@ func (o SpecialModelName) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *SpecialModelName) UnmarshalJSON(bytes []byte) (err error) {

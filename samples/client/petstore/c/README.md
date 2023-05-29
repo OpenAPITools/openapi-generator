@@ -83,6 +83,7 @@ Category | Method | HTTP request | Description
 *UserAPI* | [**UserAPI_getUserByName**](docs/UserAPI.md#UserAPI_getUserByName) | **GET** /user/{username} | Get user by user name
 *UserAPI* | [**UserAPI_loginUser**](docs/UserAPI.md#UserAPI_loginUser) | **GET** /user/login | Logs user into the system
 *UserAPI* | [**UserAPI_logoutUser**](docs/UserAPI.md#UserAPI_logoutUser) | **GET** /user/logout | Logs out current logged in user session
+*UserAPI* | [**UserAPI_testIntAndBool**](docs/UserAPI.md#UserAPI_testIntAndBool) | **GET** /user/testIntAndBool | test integer and boolean query parameters in API
 *UserAPI* | [**UserAPI_updateUser**](docs/UserAPI.md#UserAPI_updateUser) | **PUT** /user/{username} | Updated user
 
 
@@ -99,14 +100,7 @@ Category | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-### api_key
-
-- **Type**: API key
-
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -116,6 +110,13 @@ Category | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+### api_key
+
+- **Type**: API key
+
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
 
 ## Author

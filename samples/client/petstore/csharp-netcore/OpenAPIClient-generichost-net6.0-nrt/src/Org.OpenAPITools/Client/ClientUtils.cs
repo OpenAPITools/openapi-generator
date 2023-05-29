@@ -12,17 +12,13 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Polly.Timeout;
-using Polly.Extensions.Http;
-using Polly;
-using Org.OpenAPITools.Api;
 using KellermanSoftware.CompareNetObjects;
+using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
 {
@@ -131,9 +127,54 @@ namespace Org.OpenAPITools.Client
                 // For example: 2009-06-15T13:45:30.0000000
                 return dateTimeOffset.ToString(format);
             if (obj is bool boolean)
-                return boolean ? "true" : "false";
-            if (obj is System.Collections.ICollection collection)
-                return string.Join(",", collection.Cast<object>());
+                return boolean
+                    ? "true"
+                    : "false";
+            if (obj is ChildCatAllOf.PetTypeEnum childCatAllOfPetTypeEnum)
+                return ChildCatAllOf.PetTypeEnumToJsonValue(childCatAllOfPetTypeEnum);
+            if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
+                return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
+            if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
+                return EnumArrays.JustSymbolEnumToJsonValue(enumArraysJustSymbolEnum);
+            if (obj is EnumClass enumClass)
+                return EnumClassConverter.ToJsonValue(enumClass);
+            if (obj is EnumTest.EnumIntegerEnum enumTestEnumIntegerEnum)
+                return EnumTest.EnumIntegerEnumToJsonValue(enumTestEnumIntegerEnum).ToString();
+            if (obj is EnumTest.EnumIntegerOnlyEnum enumTestEnumIntegerOnlyEnum)
+                return EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTestEnumIntegerOnlyEnum).ToString();
+            if (obj is EnumTest.EnumNumberEnum enumTestEnumNumberEnum)
+                return EnumTest.EnumNumberEnumToJsonValue(enumTestEnumNumberEnum).ToString();
+            if (obj is EnumTest.EnumStringEnum enumTestEnumStringEnum)
+                return EnumTest.EnumStringEnumToJsonValue(enumTestEnumStringEnum);
+            if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
+                return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
+            if (obj is MapTest.InnerEnum mapTestInnerEnum)
+                return MapTest.InnerEnumToJsonValue(mapTestInnerEnum);
+            if (obj is Order.StatusEnum orderStatusEnum)
+                return Order.StatusEnumToJsonValue(orderStatusEnum);
+            if (obj is OuterEnum outerEnum)
+                return OuterEnumConverter.ToJsonValue(outerEnum);
+            if (obj is OuterEnumDefaultValue outerEnumDefaultValue)
+                return OuterEnumDefaultValueConverter.ToJsonValue(outerEnumDefaultValue);
+            if (obj is OuterEnumInteger outerEnumInteger)
+                return OuterEnumIntegerConverter.ToJsonValue(outerEnumInteger).ToString();
+            if (obj is OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue)
+                return OuterEnumIntegerDefaultValueConverter.ToJsonValue(outerEnumIntegerDefaultValue).ToString();
+            if (obj is Pet.StatusEnum petStatusEnum)
+                return Pet.StatusEnumToJsonValue(petStatusEnum);
+            if (obj is Zebra.TypeEnum zebraTypeEnum)
+                return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
+            if (obj is ZeroBasedEnum zeroBasedEnum)
+                return ZeroBasedEnumConverter.ToJsonValue(zeroBasedEnum);
+            if (obj is ZeroBasedEnumClass.ZeroBasedEnumEnum zeroBasedEnumClassZeroBasedEnumEnum)
+                return ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClassZeroBasedEnumEnum);
+            if (obj is ICollection collection)
+            {
+                List<string?> entries = new List<string?>();
+                foreach (var entry in collection)
+                    entries.Add(ParameterToString(entry));
+                return string.Join(",", entries);
+            }
 
             return Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture);
         }
@@ -282,114 +323,5 @@ namespace Org.OpenAPITools.Client
         /// The format to use for DateTime serialization
         /// </summary>
         public const string ISO8601_DATETIME_FORMAT = "o";
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration> options)
-        {
-            builder.ConfigureServices((context, services) => 
-            {
-                HostConfiguration config = new HostConfiguration(services);
-
-                options(context, config);
-
-                AddApi(services, config);
-            });
-
-            return builder;
-        }
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
-        {
-            HostConfiguration config = new HostConfiguration(services);
-            options(config);
-            AddApi(services, config);
-        }
-
-        private static void AddApi(IServiceCollection services, HostConfiguration host)
-        {
-            if (!host.HttpClientsAdded)
-                host.AddApiHttpClients();
-
-            // ensure that a token provider was provided for this token type
-            // if not, default to RateLimitProvider
-            var containerServices = services.Where(s => s.ServiceType.IsGenericType &&
-                s.ServiceType.GetGenericTypeDefinition().IsAssignableFrom(typeof(TokenContainer<>))).ToArray();
-
-            foreach(var containerService in containerServices)
-            {
-                var tokenType = containerService.ServiceType.GenericTypeArguments[0];
-
-                var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableFrom(typeof(TokenProvider<>).MakeGenericType(tokenType)));
-
-                if (provider == null)
-                {
-                    services.AddSingleton(typeof(RateLimitProvider<>).MakeGenericType(tokenType));
-                    services.AddSingleton(typeof(TokenProvider<>).MakeGenericType(tokenType), 
-                        s => s.GetRequiredService(typeof(RateLimitProvider<>).MakeGenericType(tokenType)));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Adds a Polly retry policy to your clients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddRetryPolicy(this IHttpClientBuilder client, int retries)
-        {
-            client.AddPolicyHandler(RetryPolicy(retries));
-
-            return client;
-        }
-
-        /// <summary>
-        /// Adds a Polly timeout policy to your clients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddTimeoutPolicy(this IHttpClientBuilder client, TimeSpan timeout)
-        {
-            client.AddPolicyHandler(TimeoutPolicy(timeout));
-
-            return client;
-        }
-
-        /// <summary>
-        /// Adds a Polly circiut breaker to your clients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="handledEventsAllowedBeforeBreaking"></param>
-        /// <param name="durationOfBreak"></param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddCircuitBreakerPolicy(this IHttpClientBuilder client, int handledEventsAllowedBeforeBreaking, TimeSpan durationOfBreak)
-        {
-            client.AddTransientHttpErrorPolicy(builder => CircuitBreakerPolicy(builder, handledEventsAllowedBeforeBreaking, durationOfBreak));
-
-            return client;
-        }
-
-        private static Polly.Retry.AsyncRetryPolicy<HttpResponseMessage> RetryPolicy(int retries)
-            => HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .Or<TimeoutRejectedException>()
-                .RetryAsync(retries);
-
-        private static AsyncTimeoutPolicy<HttpResponseMessage> TimeoutPolicy(TimeSpan timeout)
-            => Policy.TimeoutAsync<HttpResponseMessage>(timeout);
-
-        private static Polly.CircuitBreaker.AsyncCircuitBreakerPolicy<HttpResponseMessage> CircuitBreakerPolicy(
-            PolicyBuilder<HttpResponseMessage> builder, int handledEventsAllowedBeforeBreaking, TimeSpan durationOfBreak)
-                => builder.CircuitBreakerAsync(handledEventsAllowedBeforeBreaking, durationOfBreak);
     }
 }

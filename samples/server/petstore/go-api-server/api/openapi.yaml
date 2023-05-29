@@ -47,6 +47,9 @@ paths:
       - pet
     put:
       description: ""
+      externalDocs:
+        description: API documentation for the updatePet operation
+        url: http://petstore.swagger.io/v2/doc/updatePet
       operationId: updatePet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
@@ -348,7 +351,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -448,6 +451,14 @@ paths:
         schema:
           type: string
         style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
+        name: boolean_test
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -511,6 +522,14 @@ paths:
         schema:
           type: string
         style: simple
+      - description: boolean query parameter
+        explode: true
+        in: query
+        name: boolean_test
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "400":
           description: Invalid username supplied

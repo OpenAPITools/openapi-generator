@@ -6,6 +6,9 @@
 {-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings          #-}
+{{#useCustomMonad}}
+{-# LANGUAGE RankNTypes                 #-}
+{{/useCustomMonad}}
 {-# LANGUAGE RecordWildCards            #-}
 {-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE TypeOperators              #-}
@@ -78,7 +81,7 @@ import           Network.Wai.Middleware.HttpAuth    (extractBearerAuth)
 import           Network.Wai.Middleware.HttpAuth    (extractBasicAuth)
 {{/isBasicBasic}}
 {{/authMethods}}
-import           Servant                            (ServerError, serveWithContext{{#hasAuthMethods}}, throwError{{/hasAuthMethods}})
+import           Servant                            (ServerError, serveWithContextT{{#hasAuthMethods}}, throwError{{/hasAuthMethods}})
 import           Servant.API                        hiding (addHeader)
 {{#authMethods}}
 {{#isBasicBasic}}
@@ -284,25 +287,25 @@ requestMiddlewareId a = a
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
-  => Config -> {{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend {{#hasAuthMethods}}AuthServer {{/hasAuthMethods}}(ExceptT ServerError IO) -> m ()
-run{{title}}Server config {{#hasAuthMethods}}auth {{/hasAuthMethods}}backend = run{{title}}MiddlewareServer config requestMiddlewareId {{#hasAuthMethods}}auth {{/hasAuthMethods}}backend
+  => Config -> {{#useCustomMonad}}(forall x . n x -> Handler x) -> {{/useCustomMonad}}{{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend {{#hasAuthMethods}}AuthServer {{/hasAuthMethods}}{{^useCustomMonad}}(ExceptT ServerError IO){{/useCustomMonad}}{{#useCustomMonad}}n{{/useCustomMonad}} -> m ()
+run{{title}}Server config {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAuthMethods}}auth {{/hasAuthMethods}}backend = run{{title}}MiddlewareServer config requestMiddlewareId {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAuthMethods}}auth {{/hasAuthMethods}}backend
 
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}MiddlewareServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> Middleware -> {{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend{{#hasAuthMethods}} AuthServer{{/hasAuthMethods}} (ExceptT ServerError IO) -> m ()
-run{{title}}MiddlewareServer Config{..} middleware{{#hasAuthMethods}} auth{{/hasAuthMethods}} backend = do
+  => Config -> Middleware -> {{#useCustomMonad}}(forall x . n x -> Handler x) -> {{/useCustomMonad}}{{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend{{#hasAuthMethods}} AuthServer{{/hasAuthMethods}} {{^useCustomMonad}}(ExceptT ServerError IO){{/useCustomMonad}}{{#useCustomMonad}}n{{/useCustomMonad}} -> m ()
+run{{title}}MiddlewareServer Config{..} middleware{{#useCustomMonad}} nat{{/useCustomMonad}}{{#hasAuthMethods}} auth{{/hasAuthMethods}} backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplication{{title}}{{#hasAuthMethods}} auth{{/hasAuthMethods}} backend
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplication{{title}}{{#useCustomMonad}} nat{{/useCustomMonad}}{{#hasAuthMethods}} auth{{/hasAuthMethods}} backend
 
 -- | Plain "Network.Wai" Application for the {{title}} server.
 --
 -- Can be used to implement e.g. tests that call the API without a full webserver.
-serverWaiApplication{{title}} :: {{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend {{#hasAuthMethods}}AuthServer {{/hasAuthMethods}}(ExceptT ServerError IO) -> Application
-serverWaiApplication{{title}} {{#hasAuthMethods}}auth {{/hasAuthMethods}}backend = serveWithContext (Proxy :: Proxy {{title}}API) context (serverFromBackend backend)
+serverWaiApplication{{title}} :: {{#useCustomMonad}}(forall x . n x -> Handler x) -> {{/useCustomMonad}}{{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend {{#hasAuthMethods}}AuthServer {{/hasAuthMethods}}{{^useCustomMonad}}(ExceptT ServerError IO){{/useCustomMonad}}{{#useCustomMonad}}n{{/useCustomMonad}} -> Application
+serverWaiApplication{{title}} {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAuthMethods}}auth {{/hasAuthMethods}}backend = serveWithContextT (Proxy :: Proxy {{title}}API) context {{^useCustomMonad}}id {{/useCustomMonad}}{{#useCustomMonad}}nat {{/useCustomMonad}}(serverFromBackend backend)
   where
     context = serverContext{{#hasAuthMethods}} auth{{/hasAuthMethods}}
     serverFromBackend {{title}}Backend{..} =

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-<a name="{{{operationIdLowerCase}}}"></a>
+<a id="{{{operationIdLowerCase}}}"></a>
 # **{{{operationId}}}**
 > {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
 

@@ -119,7 +119,7 @@ outputFolder = "generated-code" + File.separator + "common-mark";
 
 This is the default output location. This will be `generated-code/common-mark` on non-Windows machines and `generated-code\common-mark` on Windows. You may change this to any value you'd like, but a user will almost always provide an output directory.
 
-> When joining paths, always use `File.seperator`
+> When joining paths, always use `File.separator`
 
 ```java
  modelTemplateFiles.put("model.mustache", ".zz");
@@ -230,8 +230,12 @@ Authentication schemes defined for the API:
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
@@ -239,6 +243,10 @@ Authentication schemes defined for the API:
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}
 {{/isOAuth}}
+{{#isOpenId}}- **Type**: OpenIDConnect
+- **Connect URL**: {{{openIdConnectUrl}}}
+- **Bearer Format**: {{{bearerFormat}}}
+{{/isOpenId}}
 
 {{/authMethods}}
 ```

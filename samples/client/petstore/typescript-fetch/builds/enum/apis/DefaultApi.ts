@@ -14,26 +14,28 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  EnumPatternObject,
+  FakeEnumRequestGetInline200Response,
+  NumberEnum,
+  StringEnum,
+} from '../models';
 import {
-    EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
-    FakeEnumRequestGetInline200Response,
     FakeEnumRequestGetInline200ResponseFromJSON,
     FakeEnumRequestGetInline200ResponseToJSON,
-    NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
-    StringEnum,
     StringEnumFromJSON,
     StringEnumToJSON,
 } from '../models';
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
-    nullableStringEnum?: string | null;
+    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
-    nullableNumberEnum?: number | null;
+    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
 }
 
 export interface FakeEnumRequestGetRefRequest {
@@ -204,9 +206,27 @@ export type FakeEnumRequestGetInlineStringEnumEnum = typeof FakeEnumRequestGetIn
 /**
  * @export
  */
+export const FakeEnumRequestGetInlineNullableStringEnumEnum = {
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
+export type FakeEnumRequestGetInlineNullableStringEnumEnum = typeof FakeEnumRequestGetInlineNullableStringEnumEnum[keyof typeof FakeEnumRequestGetInlineNullableStringEnumEnum];
+/**
+ * @export
+ */
 export const FakeEnumRequestGetInlineNumberEnumEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
     NUMBER_3: 3
 } as const;
 export type FakeEnumRequestGetInlineNumberEnumEnum = typeof FakeEnumRequestGetInlineNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNumberEnumEnum];
+/**
+ * @export
+ */
+export const FakeEnumRequestGetInlineNullableNumberEnumEnum = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3
+} as const;
+export type FakeEnumRequestGetInlineNullableNumberEnumEnum = typeof FakeEnumRequestGetInlineNullableNumberEnumEnum[keyof typeof FakeEnumRequestGetInlineNullableNumberEnumEnum];

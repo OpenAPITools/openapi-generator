@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -56,15 +54,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test deserialize a ParentPet from type GrandparentAnimal
-        /// </summary>
-        [Fact]
-        public void ParentPetDeserializeFromGrandparentAnimalTest()
-        {
-            // TODO uncomment below to test deserialize a ParentPet from type GrandparentAnimal
-            //Assert.IsType<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
-        }
-        /// <summary>
         /// Test deserialize a ChildCat from type ParentPet
         /// </summary>
         [Fact]
@@ -72,6 +61,15 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO uncomment below to test deserialize a ChildCat from type ParentPet
             //Assert.IsType<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
+        }
+        /// <summary>
+        /// Test deserialize a ParentPet from type GrandparentAnimal
+        /// </summary>
+        [Fact]
+        public void ParentPetDeserializeFromGrandparentAnimalTest()
+        {
+            // TODO uncomment below to test deserialize a ParentPet from type GrandparentAnimal
+            //Assert.IsType<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
         }
 
         /// <summary>

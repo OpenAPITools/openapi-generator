@@ -1,17 +1,22 @@
 package org.openapitools.client.infrastructure
 
-import com.squareup.moshi.FromJson
-import com.squareup.moshi.ToJson
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
 import java.math.BigInteger
 
-class BigIntegerAdapter {
-    @ToJson
-    fun toJson(value: BigInteger): String {
-        return value.toString()
+@Serializer(forClass = BigInteger::class)
+object BigIntegerAdapter : KSerializer<BigInteger> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigInteger", PrimitiveKind.STRING)
+    override fun deserialize(decoder: Decoder): BigInteger {
+        return BigInteger(decoder.decodeString())
     }
 
-    @FromJson
-    fun fromJson(value: String): BigInteger {
-        return BigInteger(value)
+    override fun serialize(encoder: Encoder, value: BigInteger) {
+        encoder.encodeString(value.toString())
     }
 }

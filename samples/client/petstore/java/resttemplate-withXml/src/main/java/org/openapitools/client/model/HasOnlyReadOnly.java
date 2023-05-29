@@ -20,12 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+import io.github.threetenjaxb.core.*;
 
 /**
  * HasOnlyReadOnly
@@ -48,7 +48,7 @@ public class HasOnlyReadOnly {
   @XmlElement(name = "foo")
   private String foo;
 
-  public HasOnlyReadOnly() { 
+  public HasOnlyReadOnly() {
   }
 
    /**
@@ -56,7 +56,6 @@ public class HasOnlyReadOnly {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bar")
@@ -73,7 +72,6 @@ public class HasOnlyReadOnly {
    * @return foo
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FOO)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "foo")
@@ -81,7 +79,6 @@ public class HasOnlyReadOnly {
   public String getFoo() {
     return foo;
   }
-
 
 
 

@@ -27,7 +27,7 @@ This runs all tests and packages the library.
 * Supports collection formats for query parameters: csv, tsv, ssv, pipes.
 * Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
 
-<a name="documentation-for-api-endpoints"></a>
+<a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -56,7 +56,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**updateUser**](docs/UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
-<a name="documentation-for-models"></a>
+<a id="documentation-for-models"></a>
 ## Documentation for Models
 
  - [org.openapitools.server.models.Category](docs/Category.md)
@@ -67,17 +67,12 @@ Class | Method | HTTP request | Description
  - [org.openapitools.server.models.User](docs/User.md)
 
 
-<a name="documentation-for-authorization"></a>
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-<a name="api_key"></a>
-### api_key
 
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-<a name="petstore_auth"></a>
+Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 - **Type**: OAuth
@@ -86,4 +81,11 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a id="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 

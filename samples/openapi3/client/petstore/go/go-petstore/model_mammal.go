@@ -71,11 +71,11 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 		dst.Whale = nil
 		dst.Zebra = nil
 
-		return fmt.Errorf("Data matches more than one schema in oneOf(Mammal)")
+		return fmt.Errorf("data matches more than one schema in oneOf(Mammal)")
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(Mammal)")
+		return fmt.Errorf("data failed to match schemas in oneOf(Mammal)")
 	}
 }
 

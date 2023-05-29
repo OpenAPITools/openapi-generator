@@ -1,3 +1,5 @@
+# coding: utf-8
+
 {{>partial_header}}
 
 import io
@@ -5,8 +7,7 @@ import json
 import logging
 import re
 
-# python 2 and python 3 compatibility library
-from six.moves.urllib.parse import urlencode
+from urllib.parse import urlencode, quote_plus
 import tornado
 import tornado.gen
 from tornado import httpclient

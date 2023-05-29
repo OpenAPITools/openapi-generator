@@ -20,11 +20,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.ShapeInterface;
-import org.openapitools.client.model.TriangleInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,10 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -59,7 +60,7 @@ public class IsoscelesTriangle {
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
   private String triangleType;
 
-  public IsoscelesTriangle() { 
+  public IsoscelesTriangle() {
   }
 
   public IsoscelesTriangle shapeType(String shapeType) {
@@ -73,8 +74,6 @@ public class IsoscelesTriangle {
    * @return shapeType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public String getShapeType() {
     return shapeType;
   }
@@ -96,8 +95,6 @@ public class IsoscelesTriangle {
    * @return triangleType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public String getTriangleType() {
     return triangleType;
   }
@@ -172,9 +169,7 @@ public class IsoscelesTriangle {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (IsoscelesTriangle.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!IsoscelesTriangle.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in IsoscelesTriangle is not found in the empty JSON string", IsoscelesTriangle.openapiRequiredFields.toString()));
         }
       }
@@ -193,10 +188,10 @@ public class IsoscelesTriangle {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-      if (jsonObj.get("shapeType") != null && !jsonObj.get("shapeType").isJsonPrimitive()) {
+      if (!jsonObj.get("shapeType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `shapeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shapeType").toString()));
       }
-      if (jsonObj.get("triangleType") != null && !jsonObj.get("triangleType").isJsonPrimitive()) {
+      if (!jsonObj.get("triangleType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `triangleType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("triangleType").toString()));
       }
   }

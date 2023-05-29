@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  DefaultMetaOnlyResponse,
+  User,
+} from '../models';
 import {
-    DefaultMetaOnlyResponse,
     DefaultMetaOnlyResponseFromJSON,
     DefaultMetaOnlyResponseToJSON,
-    User,
     UserFromJSON,
     UserToJSON,
 } from '../models';
@@ -248,7 +250,11 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**

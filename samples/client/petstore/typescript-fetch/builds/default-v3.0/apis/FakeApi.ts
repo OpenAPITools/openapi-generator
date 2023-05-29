@@ -14,29 +14,31 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Client,
+  EnumClass,
+  FileSchemaTestClass,
+  HealthCheckResult,
+  OuterComposite,
+  OuterObjectWithEnumProperty,
+  Pet,
+  User,
+} from '../models';
 import {
-    Client,
     ClientFromJSON,
     ClientToJSON,
-    EnumClass,
     EnumClassFromJSON,
     EnumClassToJSON,
-    FileSchemaTestClass,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
-    HealthCheckResult,
     HealthCheckResultFromJSON,
     HealthCheckResultToJSON,
-    OuterComposite,
     OuterCompositeFromJSON,
     OuterCompositeToJSON,
-    OuterObjectWithEnumProperty,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
-    Pet,
     PetFromJSON,
     PetToJSON,
-    User,
     UserFromJSON,
     UserToJSON,
 } from '../models';
@@ -230,7 +232,11 @@ export class FakeApi extends runtime.BaseAPI {
             body: requestParameters.body as any,
         }, initOverrides);
 
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<boolean>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
@@ -288,7 +294,11 @@ export class FakeApi extends runtime.BaseAPI {
             body: requestParameters.body as any,
         }, initOverrides);
 
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
@@ -317,7 +327,11 @@ export class FakeApi extends runtime.BaseAPI {
             body: requestParameters.body as any,
         }, initOverrides);
 
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**

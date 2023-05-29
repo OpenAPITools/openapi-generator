@@ -17,6 +17,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Net.Http;
 
 namespace Org.OpenAPITools.Client
 {
@@ -108,7 +109,7 @@ namespace Org.OpenAPITools.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = "OpenAPI-Generator/1.0.0/csharp";
+            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.0.0/csharp");
             BasePath = "http://localhost";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
@@ -443,7 +444,7 @@ namespace Org.OpenAPITools.Client
         /// <return>The operation server URL.</return>
         public string GetOperationServerUrl(string operation, int index, Dictionary<string, string> inputVariables)
         {
-            if (OperationServers.TryGetValue(operation, out var operationServer))
+            if (operation != null && OperationServers.TryGetValue(operation, out var operationServer))
             {
                 return GetServerUrl(operationServer, index, inputVariables);
             }

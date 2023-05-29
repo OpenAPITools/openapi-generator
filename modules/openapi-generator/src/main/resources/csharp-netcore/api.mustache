@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using {{packageName}}.Client;
+{{#hasOAuthMethods}}using {{packageName}}.Client.Auth;
+{{/hasOAuthMethods}}
 {{#hasImport}}using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
@@ -331,7 +333,7 @@ namespace {{packageName}}.{{apiPackage}}
                 {{#items.vars}}
                 if ({{paramName}}.{{name}} != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{paramName}}[{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}]", {{paramName}}.{{name}}));
                 }
                 {{/items.vars}}
                 {{^items}}
@@ -359,17 +361,21 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isFile}}
             {{#isArray}}
+            {{#supportsFileParameters}}
             foreach (var file in {{paramName}})
             {
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
             }
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{^isArray}}
+            {{#supportsFileParameters}}
             localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{/isFile}}
             {{^isFile}}
-            localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+            localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}})); // form parameter
             {{/isFile}}
             {{/required}}
             {{^required}}
@@ -377,13 +383,17 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 {{#isFile}}
                 {{#isArray}}
+                {{#supportsFileParameters}}
                 foreach (var file in {{paramName}})
                 {
                     localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
                 }
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{^isArray}}
+                {{#supportsFileParameters}}
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{/isFile}}
                 {{^isFile}}
@@ -438,9 +448,21 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                }
+                {{#hasOAuthMethods}}
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
+                         this.Configuration.OAuthFlow != null)
+                {
+                    localVarRequestOptions.OAuth = true;
+                }
+                {{/hasOAuthMethods}}
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
@@ -588,13 +610,17 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isFile}}
             {{#isArray}}
+            {{#supportsFileParameters}}
             foreach (var file in {{paramName}})
             {
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
             }
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{^isArray}}
+            {{#supportsFileParameters}}
             localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+            {{/supportsFileParameters}}
             {{/isArray}}
             {{/isFile}}
             {{^isFile}}
@@ -606,13 +632,17 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 {{#isFile}}
                 {{#isArray}}
+                {{#supportsFileParameters}}
                 foreach (var file in {{paramName}})
                 {
                     localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
                 }
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{^isArray}}
+                {{#supportsFileParameters}}
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", {{paramName}});
+                {{/supportsFileParameters}}
                 {{/isArray}}
                 {{/isFile}}
                 {{^isFile}}
@@ -669,9 +699,21 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
             {
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+                }
+                {{#hasOAuthMethods}}
+                else if (!string.IsNullOrEmpty(this.Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(this.Configuration.OAuthClientSecret) &&
+                         this.Configuration.OAuthFlow != null)
+                {
+                    localVarRequestOptions.OAuth = true;
+                }
+                {{/hasOAuthMethods}}
             }
             {{/isOAuth}}
             {{#isHttpSignature}}

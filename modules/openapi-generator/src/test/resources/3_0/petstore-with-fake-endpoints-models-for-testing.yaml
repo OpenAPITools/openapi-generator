@@ -33,6 +33,21 @@ paths:
     servers:
     - url: 'http://petstore.swagger.io/v2'
     - url: 'http://path-server-test.petstore.local/v2'
+    - url: 'http://{server}.swagger.io:{port}/v2'
+      description: test server with variables
+      variables:
+        server:
+          description: target server
+          enum:
+            - 'petstore'
+            - 'qa-petstore'
+            - 'dev-petstore'
+          default: 'petstore'
+        port:
+          enum:
+            - 80
+            - 8080
+          default: 80
     post:
       tags:
         - pet
@@ -303,6 +318,7 @@ paths:
       summary: Returns pet inventories by status
       description: Returns a map of status codes to quantities
       operationId: getInventory
+      x-webclient-blocking: false
       responses:
         '200':
           description: successful operation
@@ -348,7 +364,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -837,7 +853,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1468,6 +1484,9 @@ components:
       type: object
       discriminator:
         propertyName: className
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          CAT: '#/components/schemas/Cat'
       required:
         - className
       properties:

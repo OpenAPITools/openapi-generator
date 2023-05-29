@@ -65,6 +65,8 @@ paths:
           description: A list resource collection of Employees.
       operationId: getEmployees
       summary: List all employees.
+  /company:
+    summary: Represents a Company
 components:
   schemas:
     EmployeeEntity:
@@ -200,7 +202,7 @@ components:
           x-field-extra-annotation: |-
             @org.springframework.data.annotation.LastModifiedDate
         modifiedBy:
-          description: The employee id (Kerberos) of the user that last modifed the project.
+          description: The employee id (Kerberos) of the user that last modified the project.
           type: string
           example: janedoe
           x-field-extra-annotation: |-
@@ -277,3 +279,20 @@ components:
           description: Role that the employee is billed for on the project..
           type: string
           example: Consultant
+    CompanyDto:
+      type: object
+      properties:
+        priceCategory:
+          description: The price category
+          nullable: true
+          x-field-extra-annotation: '@IgnoreForRoles("MEDIA_ADMIN")'
+          allOf:
+            - $ref: '#/components/schemas/SamplingPriceCategoryEnum'
+
+    SamplingPriceCategoryEnum:
+      description: The price category of a sampling action
+      type: string
+      enum:
+        - FREE
+        - PRICE_TIER_1
+        - PRICE_TIER_2

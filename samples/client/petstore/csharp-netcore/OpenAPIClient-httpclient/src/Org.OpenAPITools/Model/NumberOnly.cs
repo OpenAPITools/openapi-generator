@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,6 +31,8 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// NumberOnly
     /// </summary>
+    [CLSCompliant(true)]
+    [ComVisible(true)]
     [DataContract(Name = "NumberOnly")]
     public partial class NumberOnly : IEquatable<NumberOnly>, IValidatableObject
     {
@@ -121,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

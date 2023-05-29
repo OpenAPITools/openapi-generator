@@ -24,14 +24,14 @@ describe {{moduleName}}::{{classname}} do
   describe 'test attribute "{{{name}}}"' do
     it 'should work' do
       {{#isEnum}}
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       # validator = Petstore::EnumTest::EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
       # validator.allowable_values.each do |value|
       #   expect { instance.{{name}} = value }.not_to raise_error
       # end
       {{/isEnum}}
       {{^isEnum}}
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
       {{/isEnum}}
     end
   end

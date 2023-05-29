@@ -55,7 +55,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
-
         }
 
 
@@ -87,14 +86,13 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
-
         }
 
 
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = true)]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
         /// <summary>
         /// Defines EnumInteger
@@ -110,7 +108,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
             NUMBER_MINUS_1 = -1
-
         }
 
 
@@ -133,7 +130,6 @@ namespace Org.OpenAPITools.Model
             /// Enum NUMBER_MINUS_2 for value: -2
             /// </summary>
             NUMBER_MINUS_2 = -2
-
         }
 
 
@@ -159,7 +155,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "-1.2")]
             NUMBER_MINUS_1_DOT_2 = 2
-
         }
 
 
@@ -299,7 +294,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

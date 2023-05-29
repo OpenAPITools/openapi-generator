@@ -1,5 +1,4 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http.ts';
-import * as models from '../models/all.ts';
 import { Configuration} from '../configuration.ts'
 
 import { ApiResponse } from '../models/ApiResponse.ts';
@@ -146,7 +145,7 @@ export class PromiseStoreApi {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */

@@ -66,14 +66,19 @@ public class ApiClient {
                 auth = new HttpBasicAuth();
             {{/isBasicBasic}}
             {{^isBasicBasic}}
+            {{#isBasicBearer}}
                 auth = new HttpBearerAuth("{{scheme}}");
+            {{/isBasicBearer}}
+            {{^isBasicBearer}}
+                throw new RuntimeException("auth name \"" + authName + "\" does not have a supported http scheme type");
+            {{/isBasicBearer}}
             {{/isBasicBasic}}
             {{/isBasic}}
             {{#isApiKey}}
                 auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
             {{/isApiKey}}
             {{#isOAuth}}
-                auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
+                auth = new OAuth(OAuthFlow.{{flow}}, "{{{authorizationUrl}}}", "{{{tokenUrl}}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
             {{/isOAuth}}
             } else {{/authMethods}}{
                 throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");

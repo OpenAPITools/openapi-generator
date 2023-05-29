@@ -8,3 +8,4 @@ additionalProperties:
   artifactId: springboot
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
+  requestMappingMode: api_interface

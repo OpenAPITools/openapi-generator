@@ -36,7 +36,7 @@ class OuterEnumDefaultValue {
 
   static OuterEnumDefaultValue? fromJson(dynamic value) => OuterEnumDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumDefaultValue>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<OuterEnumDefaultValue> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterEnumDefaultValue>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -69,7 +69,7 @@ class OuterEnumDefaultValueTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumDefaultValue? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'placed': return OuterEnumDefaultValue.placed;
         case r'approved': return OuterEnumDefaultValue.approved;
         case r'delivered': return OuterEnumDefaultValue.delivered;

@@ -26,8 +26,18 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FooRef extends EntityRef implements FooRefOrValue {
 
-  @JsonProperty("foorefPropA")
   private String foorefPropA;
+
+  public FooRef() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public FooRef(String atType) {
+    super(atType);
+  }
 
   public FooRef foorefPropA(String foorefPropA) {
     this.foorefPropA = foorefPropA;
@@ -39,7 +49,8 @@ public class FooRef extends EntityRef implements FooRefOrValue {
    * @return foorefPropA
   */
   
-  @Schema(name = "foorefPropA", required = false)
+  @Schema(name = "foorefPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foorefPropA")
   public String getFoorefPropA() {
     return foorefPropA;
   }

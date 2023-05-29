@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -27,7 +26,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal {
 
-  @JsonProperty("breed")
   private String breed;
 
   public Dog breed(String breed) {
@@ -40,7 +38,8 @@ public class Dog extends Animal {
    * @return breed
   */
   
-  @Schema(name = "breed", required = false)
+  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }

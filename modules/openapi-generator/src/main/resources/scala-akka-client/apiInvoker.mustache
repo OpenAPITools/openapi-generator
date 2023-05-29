@@ -39,7 +39,7 @@ object ApiInvoker {
     * Allows request execution without calling apiInvoker.execute(request)
     * request.response can be used to get a future of the ApiResponse generated.
     * request.result can be used to get a future of the expected ApiResponse content. If content doesn't match, a
-    * Future will failed with a ClassCastException
+    * Future will fail with a ClassCastException
     *
     * @param request the apiRequest to be executed
     */

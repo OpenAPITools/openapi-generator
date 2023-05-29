@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Foo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -38,7 +36,7 @@ public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
   private Foo string;
 
-  public FooGetDefaultResponse() { 
+  public FooGetDefaultResponse() {
   }
 
   public FooGetDefaultResponse string(Foo string) {
@@ -52,7 +50,6 @@ public class FooGetDefaultResponse {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -66,7 +63,6 @@ public class FooGetDefaultResponse {
   public void setString(Foo string) {
     this.string = string;
   }
-
 
   @Override
   public boolean equals(Object o) {

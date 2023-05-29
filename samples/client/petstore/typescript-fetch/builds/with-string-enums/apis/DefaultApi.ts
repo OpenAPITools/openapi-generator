@@ -14,26 +14,28 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  EnumPatternObject,
+  FakeEnumRequestGetInline200Response,
+  NumberEnum,
+  StringEnum,
+} from '../models';
 import {
-    EnumPatternObject,
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
-    FakeEnumRequestGetInline200Response,
     FakeEnumRequestGetInline200ResponseFromJSON,
     FakeEnumRequestGetInline200ResponseToJSON,
-    NumberEnum,
     NumberEnumFromJSON,
     NumberEnumToJSON,
-    StringEnum,
     StringEnumFromJSON,
     StringEnumToJSON,
 } from '../models';
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
-    nullableStringEnum?: string | null;
+    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
-    nullableNumberEnum?: number | null;
+    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
 }
 
 export interface FakeEnumRequestGetRefRequest {
@@ -205,7 +207,25 @@ export enum FakeEnumRequestGetInlineStringEnumEnum {
   * @export
   * @enum {string}
   */
+export enum FakeEnumRequestGetInlineNullableStringEnumEnum {
+    One = 'one',
+    Two = 'two',
+    Three = 'three'
+}
+/**
+  * @export
+  * @enum {string}
+  */
 export enum FakeEnumRequestGetInlineNumberEnumEnum {
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum FakeEnumRequestGetInlineNullableNumberEnumEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3

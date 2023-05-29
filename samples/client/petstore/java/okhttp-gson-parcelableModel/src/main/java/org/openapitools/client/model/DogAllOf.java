@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -36,10 +34,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -55,7 +58,7 @@ public class DogAllOf implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public DogAllOf() { 
+  public DogAllOf() {
   }
 
   public DogAllOf breed(String breed) {
@@ -69,8 +72,6 @@ public class DogAllOf implements Parcelable {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getBreed() {
     return breed;
   }
@@ -161,9 +162,7 @@ public class DogAllOf implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (DogAllOf.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!DogAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in DogAllOf is not found in the empty JSON string", DogAllOf.openapiRequiredFields.toString()));
         }
       }
@@ -175,7 +174,7 @@ public class DogAllOf implements Parcelable {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DogAllOf` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonPrimitive()) {
+      if ((jsonObj.get("breed") != null && !jsonObj.get("breed").isJsonNull()) && !jsonObj.get("breed").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `breed` to be a primitive type in the JSON string but got `%s`", jsonObj.get("breed").toString()));
       }
   }

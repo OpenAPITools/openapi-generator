@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,20 +55,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'Uuid'
+        /// Test the property 'Bars'
         /// </summary>
         [Fact]
-        public void UuidTest()
+        public void BarsTest()
         {
-            // TODO unit test for the property 'Uuid'
-        }
-        /// <summary>
-        /// Test the property 'Id'
-        /// </summary>
-        [Fact]
-        public void IdTest()
-        {
-            // TODO unit test for the property 'Id'
+            // TODO unit test for the property 'Bars'
         }
         /// <summary>
         /// Test the property 'DeprecatedRef'
@@ -81,12 +71,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'DeprecatedRef'
         }
         /// <summary>
-        /// Test the property 'Bars'
+        /// Test the property 'Id'
         /// </summary>
         [Fact]
-        public void BarsTest()
+        public void IdTest()
         {
-            // TODO unit test for the property 'Bars'
+            // TODO unit test for the property 'Id'
+        }
+        /// <summary>
+        /// Test the property 'Uuid'
+        /// </summary>
+        [Fact]
+        public void UuidTest()
+        {
+            // TODO unit test for the property 'Uuid'
         }
 
     }

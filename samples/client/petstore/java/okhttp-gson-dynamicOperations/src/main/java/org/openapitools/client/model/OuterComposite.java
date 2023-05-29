@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -35,10 +33,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -62,7 +65,7 @@ public class OuterComposite {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
-  public OuterComposite() { 
+  public OuterComposite() {
   }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -76,8 +79,6 @@ public class OuterComposite {
    * @return myNumber
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -99,8 +100,6 @@ public class OuterComposite {
    * @return myString
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getMyString() {
     return myString;
   }
@@ -122,8 +121,6 @@ public class OuterComposite {
    * @return myBoolean
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Boolean getMyBoolean() {
     return myBoolean;
   }
@@ -199,9 +196,7 @@ public class OuterComposite {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (OuterComposite.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!OuterComposite.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
         }
       }
@@ -213,7 +208,7 @@ public class OuterComposite {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `OuterComposite` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-      if (jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonPrimitive()) {
+      if ((jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonNull()) && !jsonObj.get("my_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
       }
   }

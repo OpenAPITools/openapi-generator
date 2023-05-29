@@ -47,7 +47,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private Boolean hstsFeatureEnabled = true;
     private Boolean corsFeatureEnabled = false;
     private Boolean compressionFeatureEnabled = true;
-    private Boolean locationsFeatureEnabled = true;
+    private Boolean resourcesFeatureEnabled = true;
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
@@ -62,7 +62,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     Constants.HSTS,
                     Constants.CORS,
                     Constants.COMPRESSION,
-                    Constants.LOCATIONS,
+                    Constants.RESOURCES,
                     Constants.METRICS
             ))
             .build();
@@ -126,13 +126,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.HSTS, Constants.HSTS_DESC, getHstsFeatureEnabled());
         addSwitch(Constants.CORS, Constants.CORS_DESC, getCorsFeatureEnabled());
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
-        addSwitch(Constants.LOCATIONS, Constants.LOCATIONS_DESC, getLocationsFeatureEnabled());
+        addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
 
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.", useBeanValidation));
-        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library."));
+        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.", useCoroutines));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax", useJakartaEe));
     }
 
     public Boolean getAutoHeadFeatureEnabled() {
@@ -179,12 +180,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         this.hstsFeatureEnabled = hstsFeatureEnabled;
     }
 
-    public Boolean getLocationsFeatureEnabled() {
-        return locationsFeatureEnabled;
+    public Boolean getResourcesFeatureEnabled() {
+        return resourcesFeatureEnabled;
     }
 
-    public void setLocationsFeatureEnabled(Boolean locationsFeatureEnabled) {
-        this.locationsFeatureEnabled = locationsFeatureEnabled;
+    public void setResourcesFeatureEnabled(Boolean resourcesFeatureEnabled) {
+        this.resourcesFeatureEnabled = resourcesFeatureEnabled;
     }
 
     public Boolean getMetricsFeatureEnabled() {
@@ -279,10 +280,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
-        if (additionalProperties.containsKey(Constants.LOCATIONS)) {
-            setLocationsFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.LOCATIONS));
+        if (additionalProperties.containsKey(Constants.RESOURCES)) {
+            setResourcesFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.RESOURCES));
         } else {
-            additionalProperties.put(Constants.LOCATIONS, getLocationsFeatureEnabled());
+            additionalProperties.put(Constants.RESOURCES, getResourcesFeatureEnabled());
         }
 
         if (additionalProperties.containsKey(Constants.METRICS)) {
@@ -293,7 +294,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
-        String resourcesFolder = "src/main/resources"; // not sure this can be user configurable.
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -309,7 +309,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
-            if (generateApis && locationsFeatureEnabled) {
+            if (generateApis && resourcesFeatureEnabled) {
                 supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
             }
 
@@ -340,8 +340,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String CORS_DESC = "Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.";
         public final static String COMPRESSION = "featureCompression";
         public final static String COMPRESSION_DESC = "Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.";
-        public final static String LOCATIONS = "featureLocations";
-        public final static String LOCATIONS_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
+        public final static String RESOURCES = "featureResources";
+        public final static String RESOURCES_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
         public final static String METRICS = "featureMetrics";
         public final static String METRICS_DESC = "Enables metrics feature.";
     }

@@ -93,26 +93,38 @@ class Capitalization {
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (smallCamel != null) {
-      _json[r'smallCamel'] = smallCamel;
+    final json = <String, dynamic>{};
+    if (this.smallCamel != null) {
+      json[r'smallCamel'] = this.smallCamel;
+    } else {
+      json[r'smallCamel'] = null;
     }
-    if (capitalCamel != null) {
-      _json[r'CapitalCamel'] = capitalCamel;
+    if (this.capitalCamel != null) {
+      json[r'CapitalCamel'] = this.capitalCamel;
+    } else {
+      json[r'CapitalCamel'] = null;
     }
-    if (smallSnake != null) {
-      _json[r'small_Snake'] = smallSnake;
+    if (this.smallSnake != null) {
+      json[r'small_Snake'] = this.smallSnake;
+    } else {
+      json[r'small_Snake'] = null;
     }
-    if (capitalSnake != null) {
-      _json[r'Capital_Snake'] = capitalSnake;
+    if (this.capitalSnake != null) {
+      json[r'Capital_Snake'] = this.capitalSnake;
+    } else {
+      json[r'Capital_Snake'] = null;
     }
-    if (sCAETHFlowPoints != null) {
-      _json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
+    if (this.sCAETHFlowPoints != null) {
+      json[r'SCA_ETH_Flow_Points'] = this.sCAETHFlowPoints;
+    } else {
+      json[r'SCA_ETH_Flow_Points'] = null;
     }
-    if (ATT_NAME != null) {
-      _json[r'ATT_NAME'] = ATT_NAME;
+    if (this.ATT_NAME != null) {
+      json[r'ATT_NAME'] = this.ATT_NAME;
+    } else {
+      json[r'ATT_NAME'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Capitalization] instance and imports its values from
@@ -145,7 +157,7 @@ class Capitalization {
     return null;
   }
 
-  static List<Capitalization>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Capitalization> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Capitalization>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -176,12 +188,10 @@ class Capitalization {
   static Map<String, List<Capitalization>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Capitalization>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Capitalization.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Capitalization.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

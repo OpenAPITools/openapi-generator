@@ -15,7 +15,7 @@ namespace {{packageName}}.Models
     /// {{description}}
     /// </summary>
     [DataContract]
-    public partial class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
+    public partial class {{classname}} {{#parent}}: {{{.}}}{{^pocoModels}}, {{/pocoModels}}{{/parent}}{{^pocoModels}}{{^parent}}: {{/parent}}IEquatable<{{classname}}>{{/pocoModels}}
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -36,6 +36,9 @@ namespace {{packageName}}.Models
         {{#description}}
         /// <value>{{.}}</value>
         {{/description}}
+        {{#example}}
+        /// <example>{{.}}</example>
+        {{/example}}
         {{#required}}
         [Required]
         {{/required}}

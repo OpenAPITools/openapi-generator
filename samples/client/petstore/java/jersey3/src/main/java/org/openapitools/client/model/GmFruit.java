@@ -22,8 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
@@ -124,7 +122,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in anyOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public GmFruit() {
         super("anyOf", Boolean.FALSE);
@@ -163,12 +161,12 @@ public class GmFruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

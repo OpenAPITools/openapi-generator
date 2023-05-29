@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,7 +12,7 @@
  */
 
 
-import RESTDataSource from 'apollo-datasource-rest';
+import { RESTDataSource } from 'apollo-datasource-rest';
 
 /**
 * @module ApiClient
@@ -26,16 +26,26 @@ import RESTDataSource from 'apollo-datasource-rest';
 * @class
 */
 export default class ApiClient extends RESTDataSource {
-    constructor() {
+    constructor(baseURL = 'http://petstore.swagger.io:80/v2') {
         super()
-        
+
+        /**
+         * The base URL against which to resolve every API call's (relative) path.
+         * @type {String}
+         * @default http://petstore.swagger.io:80/v2
+         */
+        this.baseURL = baseURL.replace(/\/+$/, '');
+
         /**
          * The authentication methods to be included for all API calls.
          * @type {Array.<String>}
          */
         this.authentications = {
+            'petstore_auth': {type: 'oauth2'},
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
-            'petstore_auth': {type: 'oauth2'}
+            'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
+            'http_basic_test': {type: 'basic'},
+            'bearer_test': {type: 'bearer'}, // JWT
         }
     }
 
@@ -51,7 +61,7 @@ export default class ApiClient extends RESTDataSource {
     }
 
     parametrizePath(path, pathParams) {
-        return url.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
+        return path.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
             var value;
             if (pathParams.hasOwnProperty(key)) {
                 value = this.paramToString(pathParams[key]);
@@ -174,18 +184,20 @@ export default class ApiClient extends RESTDataSource {
 
     async callApi(path, httpMethod, pathParams,
         queryParams, headerParams, formParams, bodyParam, authNames,
-        returnType) {
+        contentTypes, accepts, returnType, requestInit) {
+
+        var normalizedQueryParams = this.normalizeParams(queryParams);
 
         var parameterizedPath = this.parametrizePath(path, pathParams);
         var fetchOptions = {
             headers: headerParams,
-            params: queryParams
+            params: normalizedQueryParams
         };
 
         this.applyAuthOptions(fetchOptions, authNames);
 
         var body = null;
-        
+
         if (bodyParam !== null && bodyParam !== undefined) {
             body = bodyParam;
         } else if (formParams !== null && formParams !== undefined) {
@@ -201,9 +213,9 @@ export default class ApiClient extends RESTDataSource {
         var httpMethodFn = httpMethod.toLowerCase();
 
         if (httpMethodFn == 'get' || httpMethodFn == 'delete') {
-            response = await this[httpMethodFn](parameterizedPath, fetchOptions);
+            response = await this[httpMethodFn](parameterizedPath, normalizedQueryParams, requestInit);
         } else {
-            response = await this[httpMethodFn](parameterizedPath, body, fetchOptions)
+            response = await this[httpMethodFn](parameterizedPath, body, requestInit)
         }
 
         var convertedResponse = ApiClient.convertToType(response, returnType);
@@ -232,7 +244,7 @@ export default class ApiClient extends RESTDataSource {
             case 'Blob':
                 return data;
             default:
-                if (type === Object) {
+                if (typeof type === "object") {
                     // generic object, return directly
                     return data;
                 } else if (typeof type.constructFromObject === 'function') {

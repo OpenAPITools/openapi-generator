@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import com.fasterxml.jackson.annotation.*;
 
@@ -140,3 +139,4 @@ public class BigCat extends Cat {
         return visitor.visitBigCat(this);
     }
 }
+
