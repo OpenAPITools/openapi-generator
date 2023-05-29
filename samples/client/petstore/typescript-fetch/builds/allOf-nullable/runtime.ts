@@ -179,7 +179,9 @@ export class BaseAPI {
                 overriddenInit.body instanceof URLSearchParams ||
                 isBlob(overriddenInit.body)
                     ? overriddenInit.body
-                    : JSON.stringify(overriddenInit.body),
+                    : this.isJsonMime(headers['Content-Type'])
+                    ? JSON.stringify(overriddenInit.body)
+                    : overriddenInit.body,
         };
 
         return { url, init };
