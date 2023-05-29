@@ -4660,4 +4660,36 @@ public class DefaultCodegenTest {
         Assert.assertFalse(inlineEnumSchemaProperty.isPrimitiveType);
     }
 
+    @Test
+    public void testAddOption() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.addOption("optionKey", "optionDesc", "defaultValue", Map.of("defaultValue", "defaultDesc"));
+
+        CliOption expected = new CliOption("optionKey", "optionDesc");
+        expected.setDefault("defaultValue");
+        expected.setEnum(Map.of("defaultValue", "defaultDesc"));
+
+        Assert.assertTrue(codegen.cliOptions.contains(expected));
+    }
+
+    @Test
+    public void testAddOptionDefaultNull() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.addOption("optionKey", "optionDesc", null);
+
+        CliOption expected = new CliOption("optionKey", "optionDesc");
+
+        Assert.assertTrue(codegen.cliOptions.contains(expected));
+    }
+
+    @Test
+    public void testAddOptionEnumValuesNull() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.addOption("optionKey", "optionDesc", "defaultValue");
+
+        CliOption expected = new CliOption("optionKey", "optionDesc");
+        expected.setDefault("defaultValue");
+
+        Assert.assertTrue(codegen.cliOptions.contains(expected));
+    }
 }
