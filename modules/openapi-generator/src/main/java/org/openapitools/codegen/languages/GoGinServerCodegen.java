@@ -192,6 +192,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("go.mod.mustache", "go.mod"));
+        supportingFiles.add(new SupportingFile("go.sum.mustache", "go.sum"));
     }
 
     @Override

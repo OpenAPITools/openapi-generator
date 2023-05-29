@@ -296,6 +296,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
           supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
           supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
           supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+          supportingFiles.add(new SupportingFile("go.sum.mustache", "", "go.sum"));
         }
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));

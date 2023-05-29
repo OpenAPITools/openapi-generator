@@ -1,6 +1,6 @@
-module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}
+module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}{{#isGoSubmodule}}/{{packageName}}{{/isGoSubmodule}}
 
-go 1.18
+go 1.19
 
 {{#routers}}
 	{{#mux}}

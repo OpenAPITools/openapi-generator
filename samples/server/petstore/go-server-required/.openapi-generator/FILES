@@ -2,6 +2,7 @@ Dockerfile
 README.md
 api/openapi.yaml
 go.mod
+go.sum
 go/api.go
 go/api_pet.go
 go/api_pet_service.go
