@@ -116,9 +116,9 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T? ToModel(System.Text.Json.JsonSerializerOptions? options = null)
+        public T? AsModel(System.Text.Json.JsonSerializerOptions? options = null)
         {
-            // This logic may be modified with the ToModel.mustache template
+            // This logic may be modified with the AsModel.mustache template
             return IsSuccessStatusCode
                 ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
                 : default(T);
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Client
         {
             try
             {
-                model = ToModel(options);
+                model = AsModel(options);
                 return model != null;
             }
             catch

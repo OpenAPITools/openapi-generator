@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**_Name** | **int** |  | 
+**VarName** | **int** |  | 
 **SnakeCase** | **int** |  | [optional] [readonly] 
 **Property** | **string** |  | [optional] 
-**_123Number** | **int** |  | [optional] [readonly] 
+**var123Number** | **int** |  | [optional] [readonly] 
 
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

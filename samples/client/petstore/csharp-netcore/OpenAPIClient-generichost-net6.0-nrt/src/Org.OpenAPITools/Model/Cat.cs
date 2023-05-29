@@ -99,8 +99,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader catAllOfReader = utf8JsonReader;
             bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref utf8JsonReader, jsonSerializerOptions, out CatAllOf? catAllOf);
 
-            string className = default;
-            string color = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {

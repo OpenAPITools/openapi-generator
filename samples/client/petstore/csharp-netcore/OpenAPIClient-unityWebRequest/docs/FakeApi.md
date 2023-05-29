@@ -809,7 +809,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string varString = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -837,14 +837,14 @@ namespace Example
 
             var apiInstance = new FakeApi(config);
             var number = 8.14D;  // decimal | None
-            var _double = 1.2D;  // double | None
+            var varDouble = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
-            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
+            var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789L;  // long? | None (optional) 
-            var _float = 3.4F;  // float? | None (optional) 
-            var _string = "_string_example";  // string | None (optional) 
+            var varFloat = 3.4F;  // float? | None (optional) 
+            var varString = "string_example";  // string | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
             var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
@@ -854,7 +854,7 @@ namespace Example
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+                apiInstance.TestEndpointParameters(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
             }
             catch (ApiException  e)
             {
@@ -874,7 +874,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    apiInstance.TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+    apiInstance.TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
 }
 catch (ApiException e)
 {
@@ -889,14 +889,14 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **number** | **decimal** | None |  |
-| **_double** | **double** | None |  |
+| **varDouble** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
-| **_byte** | **byte[]** | None |  |
+| **varByte** | **byte[]** | None |  |
 | **integer** | **int?** | None | [optional]  |
 | **int32** | **int?** | None | [optional]  |
 | **int64** | **long?** | None | [optional]  |
-| **_float** | **float?** | None | [optional]  |
-| **_string** | **string** | None | [optional]  |
+| **varFloat** | **float?** | None | [optional]  |
+| **varString** | **string** | None | [optional]  |
 | **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
 | **date** | **DateTime?** | None | [optional]  |
 | **dateTime** | **DateTime?** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |

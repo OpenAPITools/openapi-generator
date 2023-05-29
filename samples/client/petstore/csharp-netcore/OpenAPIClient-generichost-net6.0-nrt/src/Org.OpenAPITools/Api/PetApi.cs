@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> AddPetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Add a new pet to the store
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes a pet
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> DeletePetAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> DeletePetAsync(long petId, string? apiKey = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes a pet
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> DeletePetOrDefaultAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>?> DeletePetOrDefaultAsync(long petId, string? apiKey = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by status
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by status
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Pet&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<Pet>>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<Pet>>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by tags
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by tags
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Pet&gt;&gt;?&gt;</returns>
-        Task<ApiResponse<List<Pet>>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<Pet>>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find pet by ID
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Pet&gt;&gt;</returns>
-        Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find pet by ID
@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Pet&gt;?&gt;</returns>
-        Task<ApiResponse<Pet>?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Pet>?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update an existing pet
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update an existing pet
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> UpdatePetWithFormAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> UpdatePetWithFormAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -194,7 +194,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> UpdatePetWithFormOrDefaultAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>?> UpdatePetWithFormOrDefaultAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image
@@ -208,7 +208,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image
@@ -221,7 +221,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ApiResponse&gt;?&gt;</returns>
-        Task<ApiResponse<ApiResponse>?> UploadFileOrDefaultAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ApiResponse>?> UploadFileOrDefaultAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -235,7 +235,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ApiResponse&gt;?&gt;</returns>
-        Task<ApiResponse<ApiResponse>?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ApiResponse>?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -372,7 +372,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>?> AddPetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -391,7 +391,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> AddPetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> AddPetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -426,7 +426,7 @@ namespace Org.OpenAPITools.Api
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                     httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
 
@@ -444,11 +444,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -523,7 +523,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> DeletePetOrDefaultAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>?> DeletePetOrDefaultAsync(long petId, string? apiKey = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -543,7 +543,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeletePetAsync(long petId, string? apiKey = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> DeletePetAsync(long petId, string? apiKey = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -579,11 +579,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet/{petId}", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -650,7 +650,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Pet&gt;"/></returns>
-        public async Task<ApiResponse<List<Pet>>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<List<Pet>>?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -669,7 +669,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Pet&gt;"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -706,7 +706,7 @@ namespace Org.OpenAPITools.Api
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                     httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
 
@@ -724,11 +724,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet/findByStatus", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<List<Pet>> apiResponseLocalVar = new ApiResponse<List<Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -799,7 +799,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Pet&gt;"/></returns>
-        public async Task<ApiResponse<List<Pet>>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<List<Pet>>?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -818,7 +818,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Pet&gt;"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -855,7 +855,7 @@ namespace Org.OpenAPITools.Api
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                     httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
 
@@ -873,11 +873,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet/findByTags", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<List<Pet>> apiResponseLocalVar = new ApiResponse<List<Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -948,7 +948,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
-        public async Task<ApiResponse<Pet>?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Pet>?> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -967,7 +967,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
-        public async Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1006,11 +1006,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet/{petId}", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<Pet> apiResponseLocalVar = new ApiResponse<Pet>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -1077,7 +1077,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>?> UpdatePetOrDefaultAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1096,7 +1096,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> UpdatePetAsync(Pet pet, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1131,7 +1131,7 @@ namespace Org.OpenAPITools.Api
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content!.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                     httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
 
@@ -1149,11 +1149,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -1232,7 +1232,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> UpdatePetWithFormOrDefaultAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>?> UpdatePetWithFormOrDefaultAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1253,7 +1253,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdatePetWithFormAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> UpdatePetWithFormAsync(long petId, string? name = null, string? status = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1308,11 +1308,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet/{petId}", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -1387,7 +1387,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>?> UploadFileOrDefaultAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ApiResponse>?> UploadFileOrDefaultAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1408,7 +1408,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, System.IO.Stream? file = null, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1472,11 +1472,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/pet/{petId}/uploadImage", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 
@@ -1554,7 +1554,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ApiResponse>?> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1575,7 +1575,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, string? additionalMetadata = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1639,11 +1639,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 

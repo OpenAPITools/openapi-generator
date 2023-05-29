@@ -110,9 +110,9 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T{{nrt?}} ToModel(System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
+        public T{{nrt?}} AsModel(System.Text.Json.JsonSerializerOptions{{nrt?}} options = null)
         {
-{{>ToModel}}
+{{>AsModel}}
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace {{packageName}}.{{clientPackage}}
         {
             try
             {
-                model = ToModel(options);
+                model = AsModel(options);
                 return model != null;
             }
             catch

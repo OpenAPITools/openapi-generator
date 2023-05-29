@@ -10,11 +10,11 @@ Name | Type | Description | Notes
 **Int64** | **long** |  | [optional] 
 **UnsignedLong** | **ulong** |  | [optional] 
 **Number** | **decimal** |  | 
-**Float** | **float** |  | [optional] 
-**Double** | **double** |  | [optional] 
-**Decimal** | **decimal** |  | [optional] 
-**String** | **string** |  | [optional] 
-**Byte** | **byte[]** |  | 
+**VarFloat** | **float** |  | [optional] 
+**VarDouble** | **double** |  | [optional] 
+**VarDecimal** | **decimal** |  | [optional] 
+**VarString** | **string** |  | [optional] 
+**VarByte** | **byte[]** |  | 
 **Binary** | [**FileParameter**](FileParameter.md) |  | [optional] 
 **Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 

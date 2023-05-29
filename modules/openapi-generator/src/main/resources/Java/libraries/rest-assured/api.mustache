@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-{{/fullJavaUtil}}
 {{#gson}}
 import {{invokerPackage}}.JSON;
 {{/gson}}

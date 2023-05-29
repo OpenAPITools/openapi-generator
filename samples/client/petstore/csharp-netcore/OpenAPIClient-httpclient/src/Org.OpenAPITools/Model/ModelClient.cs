@@ -30,24 +30,24 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ModelClient
     /// </summary>
-    [DataContract(Name = "_Client")]
+    [DataContract(Name = "varClient")]
     public partial class ModelClient : IEquatable<ModelClient>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="_client">_client.</param>
-        public ModelClient(string _client = default(string))
+        /// <param name="varClient">varClient.</param>
+        public ModelClient(string varClient = default(string))
         {
-            this._Client = _client;
+            this.varClient = varClient;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _Client
+        /// Gets or Sets varClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string _Client { get; set; }
+        public string varClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _Client: ").Append(_Client).Append("\n");
+            sb.Append("  varClient: ").Append(varClient).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,9 +107,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Client != null)
+                if (this.varClient != null)
                 {
-                    hashCode = (hashCode * 59) + this._Client.GetHashCode();
+                    hashCode = (hashCode * 59) + this.varClient.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

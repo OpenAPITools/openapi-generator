@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123list">_123list.</param>
-        public List(string _123list = default(string))
+        /// <param name="var123List">var123List.</param>
+        public List(string var123List = default(string))
         {
-            this._123List = _123list;
+            this.var123List = var123List;
         }
 
         /// <summary>
-        /// Gets or Sets _123List
+        /// Gets or Sets var123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string _123List { get; set; }
+        public string var123List { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  _123List: ").Append(_123List).Append("\n");
+            sb.Append("  var123List: ").Append(var123List).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this._123List == input._123List ||
-                    (this._123List != null &&
-                    this._123List.Equals(input._123List))
+                    this.var123List == input.var123List ||
+                    (this.var123List != null &&
+                    this.var123List.Equals(input.var123List))
                 );
         }
 
@@ -105,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._123List != null)
+                if (this.var123List != null)
                 {
-                    hashCode = (hashCode * 59) + this._123List.GetHashCode();
+                    hashCode = (hashCode * 59) + this.var123List.GetHashCode();
                 }
                 return hashCode;
             }

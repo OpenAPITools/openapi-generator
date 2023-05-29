@@ -156,7 +156,7 @@ public class Cat extends Animal {
         case "BigCat":
           BigCat.validateJsonObject(jsonObj);
           break;
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }

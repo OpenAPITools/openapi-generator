@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Fruit&gt;&gt;</returns>
-        Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.IApi
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Fruit&gt;?&gt;</returns>
-        Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
-        public async Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
-        public async Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -174,11 +174,11 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/", uriBuilderLocalVar.Path));
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                         ApiResponse<Fruit> apiResponseLocalVar = new ApiResponse<Fruit>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
 

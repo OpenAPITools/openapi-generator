@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             List<string> status = default;
             var response = await _instance.FindPetsByStatusAsync(status);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<List<Pet>>(model);
         }
 
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             List<string> tags = default;
             var response = await _instance.FindPetsByTagsAsync(tags);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<List<Pet>>(model);
         }
 
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             long petId = default;
             var response = await _instance.GetPetByIdAsync(petId);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<Pet>(model);
         }
 
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Test.Api
             System.IO.Stream file = default;
             string additionalMetadata = default;
             var response = await _instance.UploadFileAsync(petId, file, additionalMetadata);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<ApiResponse>(model);
         }
 
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Test.Api
             long petId = default;
             string additionalMetadata = default;
             var response = await _instance.UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<ApiResponse>(model);
         }
     }

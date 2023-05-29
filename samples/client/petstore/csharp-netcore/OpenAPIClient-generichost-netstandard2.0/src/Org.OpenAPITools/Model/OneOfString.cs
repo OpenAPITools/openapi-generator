@@ -31,11 +31,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OneOfString" /> class.
         /// </summary>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         [JsonConstructor]
-        internal OneOfString(string _string)
+        internal OneOfString(string varString)
         {
-            String = _string;
+            String = varString;
             OnCreated();
         }
 
@@ -98,10 +98,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader _stringReader = utf8JsonReader;
-            bool _stringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string _string);
-
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -123,8 +119,9 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (_stringDeserialized)
-                return new OneOfString(_string);
+            Utf8JsonReader varStringReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string varString))
+                return new OneOfString(varString);
 
             throw new JsonException();
         }

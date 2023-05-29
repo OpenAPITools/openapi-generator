@@ -2024,6 +2024,18 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the examples of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    public void setParameterExamples(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            codegenParameter.examples = parameter.getExamples();
+        }
+    }
+
+    /**
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
@@ -3604,6 +3616,10 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updatePropertyForMap(CodegenProperty property, Schema p) {
+        // throw exception if additionalProperties is false
+        if (p.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(p.getAdditionalProperties())) {
+            throw new RuntimeException("additionalProperties cannot be false in updatePropertyForMap.");
+        }
         property.isContainer = true;
         property.containerType = "map";
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
@@ -3992,6 +4008,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (p.getWriteOnly() != null) {
                 property.isWriteOnly = p.getWriteOnly();
+            }
+            if (original.getExtensions() != null) {
+                property.getVendorExtensions().putAll(original.getExtensions());
             }
         }
 
@@ -4877,6 +4896,8 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, parameter);
+        // set the parameter examples (if available)
+        setParameterExamples(codegenParameter, parameter);
 
         postProcessParameter(codegenParameter);
         LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);

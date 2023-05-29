@@ -33,17 +33,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="_return">_return.</param>
-        public Return(int _return = default(int))
+        /// <param name="varReturn">varReturn.</param>
+        public Return(int varReturn = default(int))
         {
-            this._Return = _return;
+            this.VarReturn = varReturn;
         }
 
         /// <summary>
-        /// Gets or Sets _Return
+        /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name="return", EmitDefaultValue=false)]
-        public int _Return { get; set; }
+        public int VarReturn { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  _Return: ").Append(_Return).Append("\n");
+            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -89,9 +89,9 @@ namespace Org.OpenAPITools.Model
 
             return 
                 (
-                    this._Return == input._Return ||
-                    (this._Return != null &&
-                    this._Return.Equals(input._Return))
+                    this.VarReturn == input.VarReturn ||
+                    (this.VarReturn != null &&
+                    this.VarReturn.Equals(input.VarReturn))
                 );
         }
 
@@ -104,8 +104,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Return != null)
-                    hashCode = hashCode * 59 + this._Return.GetHashCode();
+                if (this.VarReturn != null)
+                    hashCode = hashCode * 59 + this.VarReturn.GetHashCode();
                 return hashCode;
             }
         }

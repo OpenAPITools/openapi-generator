@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        /// <example>&quot;doggie&quot;</example>
+        /// <example>doggie</example>
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -209,10 +209,10 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Category category = default;
-            long id = default;
+            long? id = default;
             string name = default;
             List<string> photoUrls = default;
-            Pet.StatusEnum status = default;
+            Pet.StatusEnum? status = default;
             List<Tag> tags = default;
 
             while (utf8JsonReader.Read())
@@ -259,9 +259,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (id == null)
                 throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
 
@@ -280,10 +277,7 @@ namespace Org.OpenAPITools.Model
             if (status == null)
                 throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new Pet(category, id, name, photoUrls, status, tags);
+            return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
         }
 
         /// <summary>

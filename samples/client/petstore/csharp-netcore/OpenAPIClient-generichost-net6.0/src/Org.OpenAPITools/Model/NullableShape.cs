@@ -124,13 +124,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader triangleReader = utf8JsonReader;
-            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle triangle);
-
-            Utf8JsonReader quadrilateralReader = utf8JsonReader;
-            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral quadrilateral);
-
-
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -152,10 +145,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (triangleDeserialized)
+            Utf8JsonReader triangleReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle triangle))
                 return new NullableShape(triangle);
 
-            if (quadrilateralDeserialized)
+            Utf8JsonReader quadrilateralReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral quadrilateral))
                 return new NullableShape(quadrilateral);
 
             throw new JsonException();

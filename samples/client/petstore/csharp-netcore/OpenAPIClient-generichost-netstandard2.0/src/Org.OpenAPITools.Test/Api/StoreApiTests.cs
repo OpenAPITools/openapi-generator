@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task GetInventoryAsyncTest()
         {
             var response = await _instance.GetInventoryAsync();
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<Dictionary<string, int>>(model);
         }
 
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             long orderId = default;
             var response = await _instance.GetOrderByIdAsync(orderId);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<Order>(model);
         }
 
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             Order order = default;
             var response = await _instance.PlaceOrderAsync(order);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<Order>(model);
         }
     }

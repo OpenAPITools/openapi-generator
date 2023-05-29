@@ -44,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |useBeanValidation|Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.| |false|
 |useCoroutines|Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 
 ## IMPORT MAPPING
 

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.IApi
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Hello
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Guid&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Hello
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.IApi
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Guid&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -219,7 +219,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -251,7 +251,7 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/foo", uriBuilderLocalVar.Path));
 
@@ -318,7 +318,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -337,7 +337,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -379,7 +379,7 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/country", uriBuilderLocalVar.Path));
 
@@ -433,7 +433,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Guid&gt;"/></returns>
-        public async Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -451,7 +451,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;Guid&gt;"/></returns>
-        public async Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -483,7 +483,7 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
                         OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/hello", uriBuilderLocalVar.Path));
 

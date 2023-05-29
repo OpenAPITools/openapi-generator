@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string cultivar = default;
-            bool mealy = default;
+            bool? mealy = default;
 
             while (utf8JsonReader.Read())
             {
@@ -133,19 +133,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (cultivar == null)
                 throw new ArgumentNullException(nameof(cultivar), "Property is required for class AppleReq.");
 
             if (mealy == null)
                 throw new ArgumentNullException(nameof(mealy), "Property is required for class AppleReq.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new AppleReq(cultivar, mealy);
+            return new AppleReq(cultivar, mealy.Value);
         }
 
         /// <summary>
