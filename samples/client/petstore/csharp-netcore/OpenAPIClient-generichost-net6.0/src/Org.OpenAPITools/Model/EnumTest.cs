@@ -518,7 +518,7 @@ namespace Org.OpenAPITools.Model
             if (outerEnumIntegerDefaultValue == null)
                 throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is required for class EnumTest.");
 
-            return new EnumTest(enumInteger.Value, enumIntegerOnly.Value, enumNumber.Value, enumString.Value, enumStringRequired.Value, outerEnumDefaultValue.Value, outerEnumInteger.Value, outerEnumIntegerDefaultValue.Value, outerEnum.Value);
+            return new EnumTest(enumInteger.Value, enumIntegerOnly.Value, enumNumber.Value, enumString.Value, enumStringRequired.Value, outerEnumDefaultValue.Value, outerEnumInteger.Value, outerEnumIntegerDefaultValue.Value, outerEnum);
         }
 
         /// <summary>
