@@ -233,6 +233,7 @@ public class InlineModelResolver {
                 // allOf items are all non-model (e.g. type: string) only
                 return false;
             }
+
             if (m.getAnyOf() != null && !m.getAnyOf().isEmpty()) {
                 return true;
             }
@@ -351,8 +352,10 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
-                        newAllOf.add(refSchema); // replace with ref
+                        // comment out below as we no longer create separate model in allOf inline schemas
+                        //Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
+                        //newAllOf.add(refSchema); // replace with ref
+                        newAllOf.add(inner);
                         atLeastOneModel = true;
                     } else {
                         newAllOf.add(inner);
@@ -554,8 +557,9 @@ public class InlineModelResolver {
      *
      * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     * @param skipAllOfInlineSchemas true if allOf inline schemas need to be skipped.
      */
-    private void flattenComposedChildren(String key, List<Schema> children) {
+    private void flattenComposedChildren(String key, List<Schema> children, boolean skipAllOfInlineSchemas) {
         if (children == null || children.isEmpty()) {
             return;
         }
@@ -581,15 +585,19 @@ public class InlineModelResolver {
                 // Recurse to create $refs for inner models
                 gatherInlineModels(innerModel, innerModelName);
                 String existing = matchGenerated(innerModel);
-                if (existing == null) {
-                    innerModelName = addSchemas(innerModelName, innerModel);
-                    Schema schema = new Schema().$ref(innerModelName);
-                    schema.setRequired(component.getRequired());
-                    listIterator.set(schema);
+                if (!skipAllOfInlineSchemas) {
+                    if (existing == null) {
+                        innerModelName = addSchemas(innerModelName, innerModel);
+                        Schema schema = new Schema().$ref(innerModelName);
+                        schema.setRequired(component.getRequired());
+                        listIterator.set(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(component.getRequired());
+                        listIterator.set(schema);
+                    }
                 } else {
-                    Schema schema = new Schema().$ref(existing);
-                    schema.setRequired(component.getRequired());
-                    listIterator.set(schema);
+                    LOGGER.debug("Inline allOf schema {} not refactored into a separate model using $ref.", innerModelName);
                 }
             }
         }
@@ -614,9 +622,9 @@ public class InlineModelResolver {
             } else if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
-                flattenComposedChildren(modelName + "_allOf", m.getAllOf());
-                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
-                flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
+                flattenComposedChildren(modelName + "_allOf", m.getAllOf(), true);
+                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf(), false);
+                flattenComposedChildren(modelName + "_oneOf", m.getOneOf(), false);
             } else {
                 gatherInlineModels(model, modelName);
             }
