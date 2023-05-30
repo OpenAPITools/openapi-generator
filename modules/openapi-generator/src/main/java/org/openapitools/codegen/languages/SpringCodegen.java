@@ -530,7 +530,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
-        importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
@@ -1191,6 +1190,13 @@ public class SpringCodegen extends AbstractJavaCodegen
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+
+        // add Pageable import only if x-spring-paginated explicitly used
+        // this allows to use a custom Pageable schema without importing Spring Pageable.
+        if (Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+            importMapping.put("Pageable", "org.springframework.data.domain.Pageable");
+        }
+
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
