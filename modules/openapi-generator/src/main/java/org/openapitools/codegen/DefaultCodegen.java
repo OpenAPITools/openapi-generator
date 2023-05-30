@@ -5153,7 +5153,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = codegenProperty.dataType;
         }
         if (!addSchemaImportsFromV3SpecLocations) {
-            if (ModelUtils.isSet(parameterSchema)) {
+            if (ModelUtils.isArraySchema(parameterSchema)) {
                 imports.add(codegenProperty.baseType);
             }
         }
@@ -7350,7 +7350,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (addSchemaImportsFromV3SpecLocations) {
                     addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
                 } else {
-                    addImports(imports, schemaProp.getImports(false, importBaseType, generatorMetadata.getFeatureSet()));
+                    addImports(imports, schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet()));
                 }
             }
         }

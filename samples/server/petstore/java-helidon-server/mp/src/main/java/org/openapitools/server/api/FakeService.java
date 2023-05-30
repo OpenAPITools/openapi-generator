@@ -18,6 +18,7 @@ import org.openapitools.server.model.EnumClass;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import org.openapitools.server.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;

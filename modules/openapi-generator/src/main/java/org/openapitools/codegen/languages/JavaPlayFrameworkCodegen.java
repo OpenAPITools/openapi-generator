@@ -371,6 +371,17 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             }
         }
 
+        // Remove imports of List as they are
+        // imported in the template already.
+        List<Map<String, String>> imports = objs.getImports();
+        Pattern pattern = Pattern.compile("java\\.util\\.List");
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
+                itr.remove();
+            }
+        }
+
         return objs;
     }
 

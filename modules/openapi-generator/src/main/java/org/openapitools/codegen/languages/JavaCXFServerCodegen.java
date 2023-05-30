@@ -25,12 +25,18 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
@@ -261,6 +267,24 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
                 model.imports.add("JsonValue");
             }
         }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        // Remove imports of List as they are
+        // imported in the template already.
+        List<Map<String, String>> imports = objs.getImports();
+        Pattern pattern = Pattern.compile("java\\.util\\.List");
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
+                itr.remove();
+            }
+        }
+
+        return objs;
     }
 
     @Override

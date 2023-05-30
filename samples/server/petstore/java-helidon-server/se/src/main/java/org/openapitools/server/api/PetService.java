@@ -2,6 +2,7 @@ package org.openapitools.server.api;
 
 import java.io.File;
 import io.helidon.webserver.Handler;
+import java.util.List;
 import org.openapitools.server.model.ModelApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.server.model.Pet;

@@ -19,8 +19,14 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an
@@ -96,6 +102,24 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         // Reinstate JsonProperty
         model.imports.add("JsonProperty");
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        // Remove imports of List as they are
+        // imported in the template already.
+        List<Map<String, String>> imports = objs.getImports();
+        Pattern pattern = Pattern.compile("java\\.util\\.List");
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
+                itr.remove();
+            }
+        }
+
+        return objs;
     }
 
     @Override
