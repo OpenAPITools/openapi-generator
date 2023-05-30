@@ -136,6 +136,15 @@ public class PythonClientCodegenTest {
         Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
     }
 
+    @Test(description = "test backslash default")
+    public void testBackslashDefault() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setDefault("\\");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'\\\\'", defaultValue);
+    }
+
     @Test(description = "convert a python model with dots")
     public void modelTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/v1beta3.yaml");
