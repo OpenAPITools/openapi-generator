@@ -171,15 +171,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnFooGet()
-        {
-            return;
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -227,8 +218,6 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                OnFooGet();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
@@ -274,12 +263,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatGetCountry(ref string country);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="country"></param>
         /// <returns></returns>
-        protected virtual string OnGetCountry(string country)
+        private void ValidateGetCountry(string country)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -287,10 +278,8 @@ namespace Org.OpenAPITools.Api
             if (country == null)
                 throw new ArgumentNullException(nameof(country));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return country;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -345,7 +334,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                country = OnGetCountry(country);
+                ValidateGetCountry(country);
+
+                FormatGetCountry(ref country);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -403,15 +394,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnHello()
-        {
-            return;
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -459,8 +441,6 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                OnHello();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;

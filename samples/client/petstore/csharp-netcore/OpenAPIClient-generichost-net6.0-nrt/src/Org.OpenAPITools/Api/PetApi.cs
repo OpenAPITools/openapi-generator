@@ -326,12 +326,14 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
+        partial void FormatAddPet(Pet pet);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="pet"></param>
         /// <returns></returns>
-        protected virtual Pet OnAddPet(Pet pet)
+        private void ValidateAddPet(Pet pet)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -339,10 +341,8 @@ namespace Org.OpenAPITools.Api
             if (pet == null)
                 throw new ArgumentNullException(nameof(pet));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return pet;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -397,7 +397,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                pet = OnAddPet(pet);
+                ValidateAddPet(pet);
+
+                FormatAddPet(pet);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -473,13 +475,15 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatDeletePet(ref long petId, ref string? apiKey);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
-        protected virtual (long, string?) OnDeletePet(long petId, string? apiKey)
+        private void ValidateDeletePet(long petId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -487,10 +491,8 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (petId, apiKey);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -549,9 +551,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnDeletePet(petId, apiKey);
-                petId = validatedParameterLocalVars.Item1;
-                apiKey = validatedParameterLocalVars.Item2;
+                ValidateDeletePet(petId);
+
+                FormatDeletePet(ref petId, ref apiKey);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -604,12 +606,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatFindPetsByStatus(List<string> status);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        protected virtual List<string> OnFindPetsByStatus(List<string> status)
+        private void ValidateFindPetsByStatus(List<string> status)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -617,10 +621,8 @@ namespace Org.OpenAPITools.Api
             if (status == null)
                 throw new ArgumentNullException(nameof(status));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return status;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -675,7 +677,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                status = OnFindPetsByStatus(status);
+                ValidateFindPetsByStatus(status);
+
+                FormatFindPetsByStatus(status);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -753,12 +757,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatFindPetsByTags(List<string> tags);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="tags"></param>
         /// <returns></returns>
-        protected virtual List<string> OnFindPetsByTags(List<string> tags)
+        private void ValidateFindPetsByTags(List<string> tags)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -766,10 +772,8 @@ namespace Org.OpenAPITools.Api
             if (tags == null)
                 throw new ArgumentNullException(nameof(tags));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return tags;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -824,7 +828,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                tags = OnFindPetsByTags(tags);
+                ValidateFindPetsByTags(tags);
+
+                FormatFindPetsByTags(tags);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -902,12 +908,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatGetPetById(ref long petId);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
         /// <returns></returns>
-        protected virtual long OnGetPetById(long petId)
+        private void ValidateGetPetById(long petId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -915,10 +923,8 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return petId;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -973,7 +979,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                petId = OnGetPetById(petId);
+                ValidateGetPetById(petId);
+
+                FormatGetPetById(ref petId);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1031,12 +1039,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatUpdatePet(Pet pet);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="pet"></param>
         /// <returns></returns>
-        protected virtual Pet OnUpdatePet(Pet pet)
+        private void ValidateUpdatePet(Pet pet)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1044,10 +1054,8 @@ namespace Org.OpenAPITools.Api
             if (pet == null)
                 throw new ArgumentNullException(nameof(pet));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return pet;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1102,7 +1110,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                pet = OnUpdatePet(pet);
+                ValidateUpdatePet(pet);
+
+                FormatUpdatePet(pet);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1178,6 +1188,8 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatUpdatePetWithForm(ref long petId, ref string? name, ref string? status);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
@@ -1185,7 +1197,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        protected virtual (long, string?, string?) OnUpdatePetWithForm(long petId, string? name, string? status)
+        private void ValidateUpdatePetWithForm(long petId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1193,10 +1205,8 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (petId, name, status);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1259,10 +1269,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnUpdatePetWithForm(petId, name, status);
-                petId = validatedParameterLocalVars.Item1;
-                name = validatedParameterLocalVars.Item2;
-                status = validatedParameterLocalVars.Item3;
+                ValidateUpdatePetWithForm(petId);
+
+                FormatUpdatePetWithForm(ref petId, ref name, ref status);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1333,6 +1342,8 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatUploadFile(ref long petId, ref System.IO.Stream? file, ref string? additionalMetadata);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
@@ -1340,7 +1351,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        protected virtual (long, System.IO.Stream?, string?) OnUploadFile(long petId, System.IO.Stream? file, string? additionalMetadata)
+        private void ValidateUploadFile(long petId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1348,10 +1359,8 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (petId, file, additionalMetadata);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1414,10 +1423,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnUploadFile(petId, file, additionalMetadata);
-                petId = validatedParameterLocalVars.Item1;
-                file = validatedParameterLocalVars.Item2;
-                additionalMetadata = validatedParameterLocalVars.Item3;
+                ValidateUploadFile(petId);
+
+                FormatUploadFile(ref petId, ref file, ref additionalMetadata);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1497,6 +1505,8 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatUploadFileWithRequiredFile(ref System.IO.Stream requiredFile, ref long petId, ref string? additionalMetadata);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
@@ -1504,7 +1514,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        protected virtual (System.IO.Stream, long, string?) OnUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string? additionalMetadata)
+        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1515,10 +1525,8 @@ namespace Org.OpenAPITools.Api
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredFile, petId, additionalMetadata);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1581,10 +1589,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnUploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
-                requiredFile = validatedParameterLocalVars.Item1;
-                petId = validatedParameterLocalVars.Item2;
-                additionalMetadata = validatedParameterLocalVars.Item3;
+                ValidateUploadFileWithRequiredFile(requiredFile, petId);
+
+                FormatUploadFileWithRequiredFile(ref requiredFile, ref petId, ref additionalMetadata);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
