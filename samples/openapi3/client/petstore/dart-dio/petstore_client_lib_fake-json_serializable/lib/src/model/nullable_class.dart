@@ -3,7 +3,9 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/date.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date_serializer.dart';
 
 part 'nullable_class.g.dart';
 
@@ -98,8 +100,9 @@ class NullableClass {
     includeIfNull: false
   )
 
+  @DateSerializer()
 
-  final DateTime? dateProp;
+  final Date? dateProp;
 
 
 

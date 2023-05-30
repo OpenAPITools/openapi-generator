@@ -301,6 +301,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
                     supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + modelPackage(), "date.dart"));
                     supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache", srcFolder, "date_serializer.dart"));
+                } else if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
+                    typeMapping.put("date", "Date");
+                    typeMapping.put("Date", "Date");
+                    importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
+                    supportingFiles.add(new SupportingFile("serialization/json_serializable/date.mustache", srcFolder + File.separator + modelPackage(), "date.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/json_serializable/date_serializer.mustache", srcFolder + File.separator + modelPackage(), "date_serializer.dart"));
                 }
                 break;
         }

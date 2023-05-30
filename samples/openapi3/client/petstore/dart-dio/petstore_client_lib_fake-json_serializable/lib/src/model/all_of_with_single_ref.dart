@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/single_ref_type.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date_serializer.dart';
 
 part 'all_of_with_single_ref.g.dart';
 

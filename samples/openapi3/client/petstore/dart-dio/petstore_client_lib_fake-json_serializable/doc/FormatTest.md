@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **string** | **String** |  | [optional] 
 **byte** | **String** |  | 
 **binary** | [**MultipartFile**](MultipartFile.md) |  | [optional] 
-**date** | [**DateTime**](DateTime.md) |  | 
+**date** | [**Date**](Date.md) |  | 
 **dateTime** | [**DateTime**](DateTime.md) |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 

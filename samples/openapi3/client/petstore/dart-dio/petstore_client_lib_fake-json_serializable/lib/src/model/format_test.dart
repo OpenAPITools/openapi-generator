@@ -3,8 +3,10 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/date.dart';
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date_serializer.dart';
 
 part 'format_test.g.dart';
 
@@ -184,8 +186,9 @@ class FormatTest {
     includeIfNull: false
   )
 
+  @DateSerializer()
 
-  final DateTime date;
+  final Date date;
 
 
 

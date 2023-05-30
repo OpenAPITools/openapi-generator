@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/health_check_result.dart';
 import 'package:openapi/src/model/model_client.dart';
@@ -950,7 +951,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     double? float,
     String? string,
     MultipartFile? binary,
-    DateTime? date,
+    Date? date,
     DateTime? dateTime,
     String? password,
     String? callback,

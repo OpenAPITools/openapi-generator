@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date_serializer.dart';
 
 part 'foo.g.dart';
 

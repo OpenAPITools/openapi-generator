@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date_serializer.dart';
 
 part 'object_with_deprecated_fields.g.dart';
 

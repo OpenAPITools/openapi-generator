@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **numberProp** | **num** |  | [optional] 
 **booleanProp** | **bool** |  | [optional] 
 **stringProp** | **String** |  | [optional] 
-**dateProp** | [**DateTime**](DateTime.md) |  | [optional] 
+**dateProp** | [**Date**](Date.md) |  | [optional] 
 **datetimeProp** | [**DateTime**](DateTime.md) |  | [optional] 
 **arrayNullableProp** | **List&lt;Object&gt;** |  | [optional] 
 **arrayAndItemsNullableProp** | **List&lt;Object&gt;** |  | [optional] 

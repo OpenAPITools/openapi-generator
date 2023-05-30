@@ -1,0 +1,15 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:openapi/src/model/date.dart';
+
+class DateSerializer implements JsonConverter<Date, String> {
+  const DateSerializer();
+
+  @override
+  Date fromJson(String json) {
+    final parsed = DateTime.parse(json);
+    return Date(year: parsed.year, month: parsed.month, day: parsed.day);
+  }
+
+  @override
+  String toJson(Date object) => object.toString();
+}

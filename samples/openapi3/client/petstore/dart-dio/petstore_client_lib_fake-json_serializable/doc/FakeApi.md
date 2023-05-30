@@ -518,7 +518,7 @@ final int int64 = 789; // int | None
 final double float = 3.4; // double | None
 final String string = string_example; // String | None
 final MultipartFile binary = BINARY_DATA_HERE; // MultipartFile | None
-final DateTime date = 2013-10-20; // DateTime | None
+final Date date = 2013-10-20; // Date | None
 final DateTime dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
 final String password = password_example; // String | None
 final String callback = callback_example; // String | None
@@ -544,7 +544,7 @@ Name | Type | Description  | Notes
  **float** | **double**| None | [optional] 
  **string** | **String**| None | [optional] 
  **binary** | **MultipartFile**| None | [optional] 
- **date** | **DateTime**| None | [optional] 
+ **date** | **Date**| None | [optional] 
  **dateTime** | **DateTime**| None | [optional] 
  **password** | **String**| None | [optional] 
  **callback** | **String**| None | [optional] 
