@@ -903,6 +903,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2023-03-19 - [EXOGEM: Extending OpenAPI Generator for Monitoring of RESTful APIs](https://link.springer.com/chapter/10.1007/978-3-031-26507-5_10) by Daniel Friis Holtebo, Jannik Lucas Sommer, Magnus Mølgaard Lund, Alessandro Tibo, Junior Dongo & Michele Albano at "ICSOC 2022: Service-Oriented Computing – ICSOC 2022 Workshops"
 - 2023-03-28 - [API-First Design with OpenAPI Generator](https://www.linkedin.com/pulse/api-first-design-openapi-generator-jonathan-manera/) by [Jonathan Manera](https://www.linkedin.com/in/manerajona/)
 - 2023-03-28 - [ハンズオンで学ぶサーバーサイド Kotlin（Spring Boot&Arrow&OpenAPI Generator）v1.0.1](https://zenn.dev/msksgm/books/implementing-server-side-kotlin-development) by [msk](https://zenn.dev/msksgm)
+- 2023-04-01 - [OpenAPI Client Code Generation](https://testingboss.com/blog/openapi-client-generation/) by Kwo Ding
+- 2023-04-27 - [Create an Angular Client using OpenAPI Specifications](Create an Angular Client using OpenAPI Specifications) by [Patric](https://pguso.medium.com/)
+- 2023-05-16 - [Adyen for Java developers](https://www.adyen.com/blog/adyen-java-library) by [Beppe Catanese, Developer Advocate, Adyen](https://github.com/gcatanese)
+- 2023-05-18 - [如何基于 Swagger 使用 OpenAPI Generator 生成 JMeter 脚本？](https://blog.51cto.com/u_15181572/6294974) by [高楼（Zee)](https://blog.51cto.com/u_15181572)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -1147,7 +1151,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | JMeter                | @kannkyo (2021/01)                                                                                                                                                                                                                                    |
 | Jetbrains HTTP Client | @jlengrand (2023/01)                                                                                                                                                                                                                                  |
 | Julia                 | @tanmaykm (2023/01)                                                                                                                                                                                                                                   |
-| Kotlin                | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
+| Kotlin                | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03) @stefankoppier (2022/06)                                                        |
 | Lua                   | @daurnimator (2017/08)                                                                                                                                                                                                                                |
 | N4JS                  | @mmews-n4 (2023/03)                                                                                                                                                                                      |
 | Nim                   |                                                                                                                                                                                                                                                       |
