@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Breed
         /// </summary>
-        [DataMember(Name="breed", EmitDefaultValue=false)]
+        [DataMember(Name="breed", EmitDefaultValue=true)]
         public string Breed { get; set; }
 
         /// <summary>

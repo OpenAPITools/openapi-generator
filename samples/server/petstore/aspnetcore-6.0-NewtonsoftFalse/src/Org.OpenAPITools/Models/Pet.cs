@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
-        [DataMember(Name="category", EmitDefaultValue=false)]
+        [DataMember(Name="category", EmitDefaultValue=true)]
         public Category Category { get; set; }
 
         /// <summary>
@@ -43,20 +43,20 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <example>doggie</example>
         [Required]
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [Required]
-        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
+        [DataMember(Name="photoUrls", EmitDefaultValue=true)]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
-        [DataMember(Name="tags", EmitDefaultValue=false)]
+        [DataMember(Name="tags", EmitDefaultValue=true)]
         public List<Tag> Tags { get; set; }
 
 

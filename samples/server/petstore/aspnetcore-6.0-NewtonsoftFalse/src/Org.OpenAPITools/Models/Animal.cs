@@ -37,13 +37,13 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets ClassName
         /// </summary>
         [Required]
-        [DataMember(Name="className", EmitDefaultValue=false)]
+        [DataMember(Name="className", EmitDefaultValue=true)]
         public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
-        [DataMember(Name="color", EmitDefaultValue=false)]
+        [DataMember(Name="color", EmitDefaultValue=true)]
         public string Color { get; set; } = "red";
 
         /// <summary>

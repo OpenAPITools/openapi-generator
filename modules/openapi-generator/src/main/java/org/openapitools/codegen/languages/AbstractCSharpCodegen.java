@@ -575,8 +575,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
+        property.isNullable = true;
         if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
+            property.isNullable = false;
         }
 
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
@@ -867,6 +869,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 }
             }
 
+            parameter.isNullable = true;
             if (model != null) {
                 // Effectively mark enum models as enums and non-nullable
                 if (model.isEnum) {
@@ -874,11 +877,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     parameter.allowableValues = model.allowableValues;
                     parameter.isPrimitiveType = true;
                     parameter.vendorExtensions.put("x-csharp-value-type", true);
+                    parameter.isNullable = false;
                 }
             }
 
             if (!parameter.isContainer && nullableType.contains(parameter.dataType)) {
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
+                parameter.isNullable = false;
             }
 
             if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
