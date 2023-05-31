@@ -1,6 +1,7 @@
 package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.SkipException
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
@@ -60,8 +61,19 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
         assertEquals(expectedRelativeFilePathSet, projectDirCC.toRelativeFilePathSet())
     }
 
+    private fun getJavaVersion(): Int {
+        val version = System.getProperty("java.version")
+        val parts = version.split('.')
+        if (parts.first() == "1") return parts.getOrElse(1) { "0" }.toInt()
+        return parts.first().toInt()
+    }
+
     @Test(dataProvider = "gradle_version_provider_without_cc")
     fun `openApiGenerate should work with Gradle legacy versions`(gradleVersion: String) {
+        if(getJavaVersion() > 12) {
+            // https://docs.gradle.org/current/userguide/compatibility.html
+            throw SkipException("Skipping test as Gradle ${gradleVersion} is not compatible with Java ${getJavaVersion()}")
+        }
         // Arrange
         withProject(inputSpecExtensionContents)
 
