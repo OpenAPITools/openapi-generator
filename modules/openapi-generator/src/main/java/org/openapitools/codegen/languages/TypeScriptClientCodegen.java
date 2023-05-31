@@ -302,12 +302,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return getNameUsingEnumPropertyNaming("empty");
+            return getNameWithEnumPropertyNaming("empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return getNameUsingEnumPropertyNaming(getSymbolName(name));
+            return getNameWithEnumPropertyNaming(getSymbolName(name));
         }
 
         // number
@@ -325,7 +325,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = getNameUsingEnumPropertyNaming(enumName);
+        enumName = getNameWithEnumPropertyNaming(enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -334,7 +334,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
     }
 
-    private String getNameUsingEnumPropertyNaming(String name) {
+    private String getNameWithEnumPropertyNaming(String name) {
         switch (getEnumPropertyNaming()) {
             case original:
                 return name;
