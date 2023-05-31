@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
         [JsonConstructor]
-        public ActivityOutputElementRepresentation(string prop1, Object prop2)
+        public ActivityOutputElementRepresentation(string? prop1 = default, Object? prop2 = default)
         {
             Prop1 = prop1;
             Prop2 = prop2;
@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop1
         /// </summary>
         [JsonPropertyName("prop1")]
-        public string Prop1 { get; set; }
+        public string? Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [JsonPropertyName("prop2")]
-        public Object Prop2 { get; set; }
+        public Object? Prop2 { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

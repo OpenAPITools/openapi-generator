@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(string varClass, int name)
+        public Model200Response(string varClass = default, int name)
         {
             VarClass = varClass;
             Name = name;

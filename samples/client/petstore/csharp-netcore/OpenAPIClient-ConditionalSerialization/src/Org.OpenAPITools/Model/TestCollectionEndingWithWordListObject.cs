@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
-        [DataMember(Name = "TestCollectionEndingWithWordList", EmitDefaultValue = false)]
+        [DataMember(Name = "TestCollectionEndingWithWordList", EmitDefaultValue = true)]
         public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList
         {
             get{ return _TestCollectionEndingWithWordList;}

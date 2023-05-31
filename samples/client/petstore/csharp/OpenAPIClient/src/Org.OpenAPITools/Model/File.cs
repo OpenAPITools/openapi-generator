@@ -37,13 +37,14 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI = default(string))
         {
             this.SourceURI = sourceURI;
+            this.SourceURI = sourceURI;
         }
 
         /// <summary>
         /// Test capitalization
         /// </summary>
         /// <value>Test capitalization</value>
-        [DataMember(Name="sourceURI", EmitDefaultValue=false)]
+        [DataMember(Name="sourceURI", EmitDefaultValue=true)]
         public string SourceURI { get; set; }
 
         /// <summary>

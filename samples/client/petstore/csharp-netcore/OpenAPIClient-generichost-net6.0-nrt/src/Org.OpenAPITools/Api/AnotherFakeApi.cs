@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient? modelClient = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test special tags
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;?&gt;</returns>
-        Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient? modelClient = null, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
-        partial void FormatCall123TestSpecialTags(ModelClient modelClient);
+        partial void FormatCall123TestSpecialTags(ModelClient? modelClient);
 
         /// <summary>
         /// Validates the request parameters
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        protected virtual void AfterCall123TestSpecialTags(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        protected virtual void AfterCall123TestSpecialTags(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient? modelClient)
         {
         }
 
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        protected virtual void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient? modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<ModelClient>?> Call123TestSpecialTagsOrDefaultAsync(ModelClient? modelClient = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient? modelClient = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 

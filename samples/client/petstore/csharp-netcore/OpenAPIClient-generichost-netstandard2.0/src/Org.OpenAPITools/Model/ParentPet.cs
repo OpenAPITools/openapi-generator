@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="petType">petType</param>
         [JsonConstructor]
-        internal ParentPet(string petType) : base(petType)
+        internal ParentPet(string petType = default) : base(petType)
         {
             OnCreated();
         }

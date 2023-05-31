@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// One file
         /// </summary>
         /// <value>One file</value>
-        [DataMember(Name = "file", EmitDefaultValue = false)]
+        [DataMember(Name = "file", EmitDefaultValue = true)]
         public System.IO.Stream File { get; set; }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClass">varClass</param>
         [JsonConstructor]
-        public ClassModel(string varClass)
+        public ClassModel(string? varClass = default)
         {
             VarClass = varClass;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("_class")]
-        public string VarClass { get; set; }
+        public string? VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

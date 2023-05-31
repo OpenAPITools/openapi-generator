@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
-        [DataMember(Name = "property", EmitDefaultValue = false)]
+        [DataMember(Name = "property", EmitDefaultValue = true)]
         public string Property { get; set; }
 
         /// <summary>

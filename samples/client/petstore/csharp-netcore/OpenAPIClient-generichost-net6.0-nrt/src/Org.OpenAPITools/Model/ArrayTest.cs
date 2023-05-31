@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
+        public ArrayTest(List<List<long>>? arrayArrayOfInteger = default, List<List<ReadOnlyFirst>>? arrayArrayOfModel = default, List<string>? arrayOfString = default)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;
@@ -51,19 +51,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [JsonPropertyName("array_array_of_integer")]
-        public List<List<long>> ArrayArrayOfInteger { get; set; }
+        public List<List<long>>? ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
+        public List<List<ReadOnlyFirst>>? ArrayArrayOfModel { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayOfString
         /// </summary>
         [JsonPropertyName("array_of_string")]
-        public List<string> ArrayOfString { get; set; }
+        public List<string>? ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public ModelClient(string varClient = default(string))
         {
             this.varClient = varClient;
+            this.varClient = varClient;
         }
 
         /// <summary>
         /// Gets or Sets varClient
         /// </summary>
-        [DataMember(Name="client", EmitDefaultValue=false)]
+        [DataMember(Name="client", EmitDefaultValue=true)]
         public string varClient { get; set; }
 
         /// <summary>

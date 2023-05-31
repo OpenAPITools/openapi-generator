@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple?"></param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Apple? apple, string color)
+        public Fruit(Apple? apple, string? color = default)
         {
             Apple = apple;
             Color = color;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="banana"></param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Banana banana, string color)
+        public Fruit(Banana banana, string? color = default)
         {
             Banana = banana;
             Color = color;
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

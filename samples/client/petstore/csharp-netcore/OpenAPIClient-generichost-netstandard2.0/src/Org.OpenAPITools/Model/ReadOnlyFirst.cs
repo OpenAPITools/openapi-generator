@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(string bar, string baz)
+        public ReadOnlyFirst(string bar = default, string baz = default)
         {
             Bar = bar;
             Baz = baz;
@@ -105,7 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Bar.GetHashCode();
+
+                if (Bar != null)
+                    hashCode = (hashCode * 59) + Bar.GetHashCode();
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;

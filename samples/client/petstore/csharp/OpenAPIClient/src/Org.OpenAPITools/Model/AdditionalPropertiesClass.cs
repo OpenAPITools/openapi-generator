@@ -39,18 +39,20 @@ namespace Org.OpenAPITools.Model
         {
             this.MapProperty = mapProperty;
             this.MapOfMapProperty = mapOfMapProperty;
+            this.MapProperty = mapProperty;
+            this.MapOfMapProperty = mapOfMapProperty;
         }
 
         /// <summary>
         /// Gets or Sets MapProperty
         /// </summary>
-        [DataMember(Name="map_property", EmitDefaultValue=false)]
+        [DataMember(Name="map_property", EmitDefaultValue=true)]
         public Dictionary<string, string> MapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
-        [DataMember(Name="map_of_map_property", EmitDefaultValue=false)]
+        [DataMember(Name="map_of_map_property", EmitDefaultValue=true)]
         public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
 
         /// <summary>

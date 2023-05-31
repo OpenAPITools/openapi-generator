@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, string color = @"red")
+        public Animal(string? className = default, string? color = @"red")
         {
             ClassName = className;
             Color = color;
@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public string? ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

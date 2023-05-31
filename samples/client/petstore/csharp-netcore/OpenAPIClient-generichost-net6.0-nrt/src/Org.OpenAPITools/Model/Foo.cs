@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        public Foo(string bar = @"bar")
+        public Foo(string? bar = @"bar")
         {
             Bar = bar;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get; set; }
+        public string? Bar { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

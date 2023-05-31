@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        [DataMember(Name = "uuid", EmitDefaultValue = false)]
+        [DataMember(Name = "uuid", EmitDefaultValue = true)]
         public string Uuid
         {
             get{ return _Uuid;}
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
-        [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
+        [DataMember(Name = "deprecatedRef", EmitDefaultValue = true)]
         [Obsolete]
         public DeprecatedObject DeprecatedRef
         {
@@ -141,7 +141,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Bars
         /// </summary>
-        [DataMember(Name = "bars", EmitDefaultValue = false)]
+        [DataMember(Name = "bars", EmitDefaultValue = true)]
         [Obsolete]
         public List<string> Bars
         {

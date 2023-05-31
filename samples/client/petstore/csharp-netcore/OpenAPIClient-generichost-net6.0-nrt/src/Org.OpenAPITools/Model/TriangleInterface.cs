@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public TriangleInterface(string triangleType)
+        public TriangleInterface(string? triangleType = default)
         {
             TriangleType = triangleType;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
+        public string? TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

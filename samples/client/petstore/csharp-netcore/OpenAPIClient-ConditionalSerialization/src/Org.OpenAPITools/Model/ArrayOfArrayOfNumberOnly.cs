@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
-        [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = false)]
+        [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = true)]
         public List<List<decimal>> ArrayArrayNumber
         {
             get{ return _ArrayArrayNumber;}

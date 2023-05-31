@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EscapedLiteralString
         /// </summary>
-        [DataMember(Name = "escapedLiteralString", EmitDefaultValue = false)]
+        [DataMember(Name = "escapedLiteralString", EmitDefaultValue = true)]
         public string EscapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
-        [DataMember(Name = "unescapedLiteralString", EmitDefaultValue = false)]
+        [DataMember(Name = "unescapedLiteralString", EmitDefaultValue = true)]
         public string UnescapedLiteralString { get; set; }
 
         /// <summary>

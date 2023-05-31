@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClient">varClient</param>
         [JsonConstructor]
-        public ModelClient(string varClient)
+        public ModelClient(string? varClient = default)
         {
             varClient = varClient;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets varClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string varClient { get; set; }
+        public string? varClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

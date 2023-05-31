@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="petType">petType</param>
         [JsonConstructor]
-        public GrandparentAnimal(string petType)
+        public GrandparentAnimal(string? petType = default)
         {
             PetType = petType;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public string PetType { get; set; }
+        public string? PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

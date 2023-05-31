@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
-        [DataMember(Name = "cultivar", EmitDefaultValue = false)]
+        [DataMember(Name = "cultivar", EmitDefaultValue = true)]
         public string Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
-        [DataMember(Name = "origin", EmitDefaultValue = false)]
+        [DataMember(Name = "origin", EmitDefaultValue = true)]
         public string Origin { get; set; }
 
         /// <summary>

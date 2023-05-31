@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="stringProp">stringProp</param>
         [JsonConstructor]
-        public NullableClass(List<Object> arrayItemsNullable, Dictionary<string, Object> objectItemsNullable, List<Object>? arrayAndItemsNullableProp = default, List<Object>? arrayNullableProp = default, bool? booleanProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, int? integerProp = default, decimal? numberProp = default, Dictionary<string, Object>? objectAndItemsNullableProp = default, Dictionary<string, Object>? objectNullableProp = default, string? stringProp = default) : base()
+        public NullableClass(List<Object>? arrayItemsNullable = default, Dictionary<string, Object>? objectItemsNullable = default, List<Object>? arrayAndItemsNullableProp = default, List<Object>? arrayNullableProp = default, bool? booleanProp = default, DateTime? dateProp = default, DateTime? datetimeProp = default, int? integerProp = default, decimal? numberProp = default, Dictionary<string, Object>? objectAndItemsNullableProp = default, Dictionary<string, Object>? objectNullableProp = default, string? stringProp = default) : base()
         {
             ArrayItemsNullable = arrayItemsNullable;
             ObjectItemsNullable = objectItemsNullable;
@@ -69,13 +69,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [JsonPropertyName("array_items_nullable")]
-        public List<Object> ArrayItemsNullable { get; set; }
+        public List<Object>? ArrayItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [JsonPropertyName("object_items_nullable")]
-        public Dictionary<string, Object> ObjectItemsNullable { get; set; }
+        public Dictionary<string, Object>? ObjectItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp

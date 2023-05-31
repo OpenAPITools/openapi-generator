@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
         [JsonConstructor]
-        internal HasOnlyReadOnly(string bar, string foo)
+        internal HasOnlyReadOnly(string? bar = default, string? foo = default)
         {
             Bar = bar;
             Foo = foo;
@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get; }
+        public string? Bar { get; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string Foo { get; }
+        public string? Foo { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -107,8 +107,12 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Bar.GetHashCode();
-                hashCode = (hashCode * 59) + Foo.GetHashCode();
+
+                if (Bar != null)
+                    hashCode = (hashCode * 59) + Bar.GetHashCode();
+
+                if (Foo != null)
+                    hashCode = (hashCode * 59) + Foo.GetHashCode();
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;

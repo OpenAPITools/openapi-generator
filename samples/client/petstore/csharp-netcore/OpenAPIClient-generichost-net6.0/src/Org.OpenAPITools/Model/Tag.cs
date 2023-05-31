@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Tag(long id, string name)
+        public Tag(long id, string name = default)
         {
             Id = id;
             Name = name;

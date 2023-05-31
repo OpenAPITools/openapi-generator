@@ -42,12 +42,13 @@ namespace Org.OpenAPITools.Model
         public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
         {
             this.Breed = breed;
+            this.Breed = breed;
         }
 
         /// <summary>
         /// Gets or Sets Breed
         /// </summary>
-        [DataMember(Name="breed", EmitDefaultValue=false)]
+        [DataMember(Name="breed", EmitDefaultValue=true)]
         public string Breed { get; set; }
 
         /// <summary>

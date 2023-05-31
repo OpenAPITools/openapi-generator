@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="map">map.</param>
         public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
+            this.Map = map;
             this.Uuid = uuid;
             this.DateTime = dateTime;
             this.Map = map;
@@ -58,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
-        [DataMember(Name="map", EmitDefaultValue=false)]
+        [DataMember(Name="map", EmitDefaultValue=true)]
         public Dictionary<string, Animal> Map { get; set; }
 
         /// <summary>

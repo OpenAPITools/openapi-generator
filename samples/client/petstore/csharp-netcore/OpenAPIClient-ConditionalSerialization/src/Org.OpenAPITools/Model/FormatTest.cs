@@ -375,7 +375,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
-        [DataMember(Name = "string", EmitDefaultValue = false)]
+        [DataMember(Name = "string", EmitDefaultValue = true)]
         public string VarString
         {
             get{ return _VarString;}
@@ -423,7 +423,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
-        [DataMember(Name = "binary", EmitDefaultValue = false)]
+        [DataMember(Name = "binary", EmitDefaultValue = true)]
         public System.IO.Stream Binary
         {
             get{ return _Binary;}
@@ -548,7 +548,7 @@ namespace Org.OpenAPITools.Model
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
-        [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
+        [DataMember(Name = "pattern_with_digits", EmitDefaultValue = true)]
         public string PatternWithDigits
         {
             get{ return _PatternWithDigits;}
@@ -573,7 +573,7 @@ namespace Org.OpenAPITools.Model
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
-        [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
+        [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = true)]
         public string PatternWithDigitsAndDelimiter
         {
             get{ return _PatternWithDigitsAndDelimiter;}
@@ -598,7 +598,7 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = false)]
+        [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = true)]
         public string PatternWithBackslash
         {
             get{ return _PatternWithBackslash;}
@@ -716,9 +716,18 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Binary.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Date.GetHashCode();
-                hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
-                hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                if (this.Date != null)
+                {
+                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
+                }
+                if (this.DateTime != null)
+                {
+                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                }
+                if (this.Uuid != null)
+                {
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
                 if (this.Password != null)
                 {
                     hashCode = (hashCode * 59) + this.Password.GetHashCode();

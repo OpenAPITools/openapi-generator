@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public DeprecatedObject(string name = default(string))
         {
             this.Name = name;
+            this.Name = name;
         }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>

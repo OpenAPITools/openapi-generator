@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> DeleteOrderAsync(string orderId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<object>> DeleteOrderAsync(string? orderId = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete purchase order by ID
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
-        Task<ApiResponse<object>?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<object>?> DeleteOrderOrDefaultAsync(string? orderId = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns pet inventories by status
@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order&gt;&gt;</returns>
-        Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Order>> PlaceOrderAsync(Order? order = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Place an order for a pet
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Order&gt;?&gt;</returns>
-        Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order? order = null, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -195,7 +195,7 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
-        partial void FormatDeleteOrder(ref string orderId);
+        partial void FormatDeleteOrder(ref string? orderId);
 
         /// <summary>
         /// Validates the request parameters
@@ -219,7 +219,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        protected virtual void AfterDeleteOrder(ApiResponse<object> apiResponseLocalVar, string orderId)
+        protected virtual void AfterDeleteOrder(ApiResponse<object> apiResponseLocalVar, string? orderId)
         {
         }
 
@@ -230,7 +230,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="orderId"></param>
-        protected virtual void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId)
+        protected virtual void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string? orderId)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -241,7 +241,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>?> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<object>?> DeleteOrderOrDefaultAsync(string? orderId = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -260,7 +260,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeleteOrderAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<object>> DeleteOrderAsync(string? orderId = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -530,7 +530,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatPlaceOrder(Order order);
+        partial void FormatPlaceOrder(Order? order);
 
         /// <summary>
         /// Validates the request parameters
@@ -554,7 +554,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        protected virtual void AfterPlaceOrder(ApiResponse<Order> apiResponseLocalVar, Order order)
+        protected virtual void AfterPlaceOrder(ApiResponse<Order> apiResponseLocalVar, Order? order)
         {
         }
 
@@ -565,7 +565,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="order"></param>
-        protected virtual void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order)
+        protected virtual void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order? order)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -576,7 +576,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order? order = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -595,7 +595,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Order>> PlaceOrderAsync(Order? order = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 

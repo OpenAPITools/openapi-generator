@@ -46,13 +46,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Prop1
         /// </summary>
-        [DataMember(Name = "prop1", EmitDefaultValue = false)]
+        [DataMember(Name = "prop1", EmitDefaultValue = true)]
         public string Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
-        [DataMember(Name = "prop2", EmitDefaultValue = false)]
+        [DataMember(Name = "prop2", EmitDefaultValue = true)]
         public Object Prop2 { get; set; }
 
         /// <summary>

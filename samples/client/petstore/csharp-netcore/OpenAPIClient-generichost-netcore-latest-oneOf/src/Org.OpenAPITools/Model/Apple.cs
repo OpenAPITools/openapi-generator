@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="kind">kind</param>
         [JsonConstructor]
-        public Apple(string kind)
+        public Apple(string? kind = default)
         {
             Kind = kind;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Kind
         /// </summary>
         [JsonPropertyName("kind")]
-        public string Kind { get; set; }
+        public string? Kind { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

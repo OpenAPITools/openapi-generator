@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public ClassModel(string varClass = default(string))
         {
             this.VarClass = varClass;
+            this.VarClass = varClass;
         }
 
         /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
-        [DataMember(Name="_class", EmitDefaultValue=false)]
+        [DataMember(Name="_class", EmitDefaultValue=true)]
         public string VarClass { get; set; }
 
         /// <summary>

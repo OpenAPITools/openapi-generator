@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
-        public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
+        public Pet(Category category = default, long id, string name = default, List<string> photoUrls = default, StatusEnum status, List<Tag> tags = default)
         {
             Category = category;
             Id = id;

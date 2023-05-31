@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
         [JsonConstructor]
-        public MapTest(Dictionary<string, bool> directMap, Dictionary<string, bool> indirectMap, Dictionary<string, Dictionary<string, string>> mapMapOfString, Dictionary<string, MapTest.InnerEnum> mapOfEnumString)
+        public MapTest(Dictionary<string, bool>? directMap = default, Dictionary<string, bool>? indirectMap = default, Dictionary<string, Dictionary<string, string>>? mapMapOfString = default, Dictionary<string, MapTest.InnerEnum>? mapOfEnumString = default)
         {
             DirectMap = directMap;
             IndirectMap = indirectMap;
@@ -102,25 +102,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Dictionary<string, bool> DirectMap { get; set; }
+        public Dictionary<string, bool>? DirectMap { get; set; }
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Dictionary<string, bool> IndirectMap { get; set; }
+        public Dictionary<string, bool>? IndirectMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
+        public Dictionary<string, Dictionary<string, string>>? MapMapOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get; set; }
+        public Dictionary<string, MapTest.InnerEnum>? MapOfEnumString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
+        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType = default, string triangleType = default)
         {
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
+        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType = default, string triangleType = default)
         {
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
+        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType = default, string triangleType = default)
         {
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;

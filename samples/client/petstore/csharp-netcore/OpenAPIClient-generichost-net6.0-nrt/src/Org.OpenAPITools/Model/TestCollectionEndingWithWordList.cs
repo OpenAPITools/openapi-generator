@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value">value</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordList(string value)
+        public TestCollectionEndingWithWordList(string? value = default)
         {
             Value = value;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(string var123List)
+        public List(string var123List = default)
         {
             var123List = var123List;
             OnCreated();

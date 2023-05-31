@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo varString)
+        public FooGetDefaultResponse(Foo varString = default)
         {
             VarString = varString;
             OnCreated();

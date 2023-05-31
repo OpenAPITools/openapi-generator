@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        internal Adult(AdultAllOf adultAllOf, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        internal Adult(AdultAllOf adultAllOf, string? firstName = default, string? lastName = default, string? type = default) : base(firstName, lastName, type)
         {
             AdultAllOf = adultAllOf;
             OnCreated();

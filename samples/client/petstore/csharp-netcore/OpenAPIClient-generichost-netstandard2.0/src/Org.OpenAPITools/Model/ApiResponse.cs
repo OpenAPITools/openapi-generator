@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(int code, string message, string type)
+        public ApiResponse(int code, string message = default, string type = default)
         {
             Code = code;
             Message = message;

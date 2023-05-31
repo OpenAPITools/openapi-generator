@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Person&gt;&gt;</returns>
-        Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Person>> ListAsync(string? personId = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Person&gt;?&gt;</returns>
-        Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Person>?> ListOrDefaultAsync(string? personId = null, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
-        partial void FormatList(ref string personId);
+        partial void FormatList(ref string? personId);
 
         /// <summary>
         /// Validates the request parameters
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        protected virtual void AfterList(ApiResponse<Person> apiResponseLocalVar, string personId)
+        protected virtual void AfterList(ApiResponse<Person> apiResponseLocalVar, string? personId)
         {
         }
 
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="personId"></param>
-        protected virtual void OnErrorList(Exception exception, string pathFormat, string path, string personId)
+        protected virtual void OnErrorList(Exception exception, string pathFormat, string path, string? personId)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string? personId = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Person>> ListAsync(string? personId = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 

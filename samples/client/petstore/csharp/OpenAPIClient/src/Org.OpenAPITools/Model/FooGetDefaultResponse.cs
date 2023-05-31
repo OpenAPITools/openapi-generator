@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public FooGetDefaultResponse(Foo varString = default(Foo))
         {
             this.VarString = varString;
+            this.VarString = varString;
         }
 
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
-        [DataMember(Name="string", EmitDefaultValue=false)]
+        [DataMember(Name="string", EmitDefaultValue=true)]
         public Foo VarString { get; set; }
 
         /// <summary>

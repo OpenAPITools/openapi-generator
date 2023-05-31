@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets VarSpecialModelName
         /// </summary>
-        [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
+        [DataMember(Name = "_special_model.name_", EmitDefaultValue = true)]
         public string VarSpecialModelName { get; set; }
 
         /// <summary>

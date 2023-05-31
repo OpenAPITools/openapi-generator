@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ShapeInterface(string shapeType)
+        public ShapeInterface(string? shapeType = default)
         {
             ShapeType = shapeType;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public string? ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

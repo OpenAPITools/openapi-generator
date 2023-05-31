@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
         public Foo(string bar = "bar")
         {
+            this.Bar = bar;
             // use default value if no "bar" provided
             if (bar == null)
             {
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
-        [DataMember(Name="bar", EmitDefaultValue=false)]
+        [DataMember(Name="bar", EmitDefaultValue=true)]
         public string Bar { get; set; }
 
         /// <summary>

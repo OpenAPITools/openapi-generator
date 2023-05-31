@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="banana"></param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public GmFruit(Apple? apple, Banana banana, string color)
+        public GmFruit(Apple? apple, Banana banana, string? color = default)
         {
             Apple = Apple;
             Banana = Banana;
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(int code, string message, string type)
+        public ApiResponse(int code, string? message = default, string? type = default)
         {
             Code = code;
             Message = message;
@@ -57,13 +57,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

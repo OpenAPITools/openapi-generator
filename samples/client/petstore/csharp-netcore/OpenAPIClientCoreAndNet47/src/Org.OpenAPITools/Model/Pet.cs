@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
-        [DataMember(Name = "category", EmitDefaultValue = false)]
+        [DataMember(Name = "category", EmitDefaultValue = true)]
         public Category Category { get; set; }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
-        [DataMember(Name = "tags", EmitDefaultValue = false)]
+        [DataMember(Name = "tags", EmitDefaultValue = true)]
         public List<Tag> Tags { get; set; }
 
         /// <summary>

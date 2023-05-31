@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="children">children</param>
         [JsonConstructor]
-        public AdultAllOf(List<Child> children)
+        public AdultAllOf(List<Child>? children = default)
         {
             Children = children;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Children
         /// </summary>
         [JsonPropertyName("children")]
-        public List<Child> Children { get; set; }
+        public List<Child>? Children { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

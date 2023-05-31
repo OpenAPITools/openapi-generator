@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<object>> GetCountryAsync(string country = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Hello
@@ -307,7 +307,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country = null, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -326,7 +326,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<object>> GetCountryAsync(string country = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 

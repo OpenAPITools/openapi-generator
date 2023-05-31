@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
         /// <param name="anytype1">anytype1</param>
         [JsonConstructor]
-        public AdditionalPropertiesClass(Object emptyMap, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Dictionary<string, string> mapProperty, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Dictionary<string, string> mapWithUndeclaredPropertiesString, Object? anytype1 = default)
+        public AdditionalPropertiesClass(Object? emptyMap = default, Dictionary<string, Dictionary<string, string>>? mapOfMapProperty = default, Dictionary<string, string>? mapProperty = default, Object? mapWithUndeclaredPropertiesAnytype1 = default, Object? mapWithUndeclaredPropertiesAnytype2 = default, Dictionary<string, Object>? mapWithUndeclaredPropertiesAnytype3 = default, Dictionary<string, string>? mapWithUndeclaredPropertiesString = default, Object? anytype1 = default)
         {
             EmptyMap = emptyMap;
             MapOfMapProperty = mapOfMapProperty;
@@ -62,43 +62,43 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [JsonPropertyName("empty_map")]
-        public Object EmptyMap { get; set; }
+        public Object? EmptyMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [JsonPropertyName("map_of_map_property")]
-        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
+        public Dictionary<string, Dictionary<string, string>>? MapOfMapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapProperty
         /// </summary>
         [JsonPropertyName("map_property")]
-        public Dictionary<string, string> MapProperty { get; set; }
+        public Dictionary<string, string>? MapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_1")]
-        public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
+        public Object? MapWithUndeclaredPropertiesAnytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_2")]
-        public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
+        public Object? MapWithUndeclaredPropertiesAnytype2 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_3")]
-        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; }
+        public Dictionary<string, Object>? MapWithUndeclaredPropertiesAnytype3 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_string")]
-        public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
+        public Dictionary<string, string>? MapWithUndeclaredPropertiesString { get; set; }
 
         /// <summary>
         /// Gets or Sets Anytype1

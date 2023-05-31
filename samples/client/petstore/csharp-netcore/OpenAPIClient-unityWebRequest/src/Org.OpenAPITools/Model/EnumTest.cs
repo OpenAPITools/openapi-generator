@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
-        [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
+        [DataMember(Name = "outerEnum", EmitDefaultValue = false)]
         public OuterEnum? OuterEnum { get; set; }
 
         /// <summary>

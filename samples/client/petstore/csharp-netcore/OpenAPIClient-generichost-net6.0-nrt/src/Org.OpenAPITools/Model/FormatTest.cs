@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] varByte, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
+        public FormatTest(System.IO.Stream? binary = default, byte[]? varByte = default, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string? password = default, string? patternWithBackslash = default, string? patternWithDigits = default, string? patternWithDigitsAndDelimiter = default, string? varString = default, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
             Binary = binary;
             VarByte = varByte;
@@ -83,13 +83,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream Binary { get; set; }
+        public System.IO.Stream? Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets VarByte
         /// </summary>
         [JsonPropertyName("byte")]
-        public byte[] VarByte { get; set; }
+        public byte[]? VarByte { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
@@ -151,34 +151,34 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// None
         /// </summary>
         /// <value>None</value>
         [JsonPropertyName("pattern_with_backslash")]
-        public string PatternWithBackslash { get; set; }
+        public string? PatternWithBackslash { get; set; }
 
         /// <summary>
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string PatternWithDigits { get; set; }
+        public string? PatternWithDigits { get; set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string PatternWithDigitsAndDelimiter { get; set; }
+        public string? PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public string VarString { get; set; }
+        public string? VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger

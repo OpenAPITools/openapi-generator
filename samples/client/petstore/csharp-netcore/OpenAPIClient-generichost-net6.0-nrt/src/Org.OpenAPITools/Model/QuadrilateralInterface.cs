@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType</param>
         [JsonConstructor]
-        public QuadrilateralInterface(string quadrilateralType)
+        public QuadrilateralInterface(string? quadrilateralType = default)
         {
             QuadrilateralType = quadrilateralType;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
+        public string? QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

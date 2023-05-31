@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value">value</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordList(string value)
+        public TestCollectionEndingWithWordList(string value = default)
         {
             Value = value;
             OnCreated();

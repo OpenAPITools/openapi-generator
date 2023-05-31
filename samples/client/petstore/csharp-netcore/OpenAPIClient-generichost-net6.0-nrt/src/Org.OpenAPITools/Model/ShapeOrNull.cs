@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangle"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
         [JsonConstructor]
-        public ShapeOrNull(Triangle triangle, string quadrilateralType)
+        public ShapeOrNull(Triangle triangle, string? quadrilateralType = default)
         {
             Triangle = triangle;
             QuadrilateralType = quadrilateralType;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
         [JsonConstructor]
-        public ShapeOrNull(Quadrilateral quadrilateral, string quadrilateralType)
+        public ShapeOrNull(Quadrilateral quadrilateral, string? quadrilateralType = default)
         {
             Quadrilateral = quadrilateral;
             QuadrilateralType = quadrilateralType;
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
+        public string? QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

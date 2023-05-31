@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
         [JsonConstructor]
-        public AppleReq(string cultivar, bool mealy)
+        public AppleReq(string cultivar = default, bool mealy)
         {
             Cultivar = cultivar;
             Mealy = mealy;

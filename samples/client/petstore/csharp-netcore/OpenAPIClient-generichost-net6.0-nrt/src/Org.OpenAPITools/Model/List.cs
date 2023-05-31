@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(string var123List)
+        public List(string? var123List = default)
         {
             var123List = var123List;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string var123List { get; set; }
+        public string? var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

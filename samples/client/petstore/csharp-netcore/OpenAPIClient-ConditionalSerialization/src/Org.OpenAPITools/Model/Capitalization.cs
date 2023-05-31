@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
-        [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
+        [DataMember(Name = "smallCamel", EmitDefaultValue = true)]
         public string SmallCamel
         {
             get{ return _SmallCamel;}
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
-        [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
+        [DataMember(Name = "CapitalCamel", EmitDefaultValue = true)]
         public string CapitalCamel
         {
             get{ return _CapitalCamel;}
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
-        [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
+        [DataMember(Name = "small_Snake", EmitDefaultValue = true)]
         public string SmallSnake
         {
             get{ return _SmallSnake;}
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
-        [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
+        [DataMember(Name = "Capital_Snake", EmitDefaultValue = true)]
         public string CapitalSnake
         {
             get{ return _CapitalSnake;}
@@ -175,7 +175,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
-        [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
+        [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = true)]
         public string SCAETHFlowPoints
         {
             get{ return _SCAETHFlowPoints;}
@@ -200,7 +200,7 @@ namespace Org.OpenAPITools.Model
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
-        [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
+        [DataMember(Name = "ATT_NAME", EmitDefaultValue = true)]
         public string ATT_NAME
         {
             get{ return _ATT_NAME;}

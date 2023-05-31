@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ActivityOutputs
         /// </summary>
-        [DataMember(Name = "activity_outputs", EmitDefaultValue = false)]
+        [DataMember(Name = "activity_outputs", EmitDefaultValue = true)]
         public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get; set; }
 
         /// <summary>

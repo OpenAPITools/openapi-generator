@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="childCatAllOf"></param>
         /// <param name="petType">petType</param>
         [JsonConstructor]
-        internal ChildCat(ChildCatAllOf childCatAllOf, string petType) : base(petType)
+        internal ChildCat(ChildCatAllOf childCatAllOf, string petType = default) : base(petType)
         {
             ChildCatAllOf = childCatAllOf;
             OnCreated();

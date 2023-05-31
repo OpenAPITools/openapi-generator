@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">pet status in the store.</param>
         public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
+            this.Category = category;
             // to ensure "name" is required (not null)
             if (name == null)
             {
@@ -89,6 +90,7 @@ namespace Org.OpenAPITools.Model
                 this.Name = name;
             }
 
+            this.Name = name;
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
@@ -99,6 +101,8 @@ namespace Org.OpenAPITools.Model
                 this.PhotoUrls = photoUrls;
             }
 
+            this.PhotoUrls = photoUrls;
+            this.Tags = tags;
             this.Id = id;
             this.Category = category;
             this.Tags = tags;
@@ -114,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
-        [DataMember(Name="category", EmitDefaultValue=false)]
+        [DataMember(Name="category", EmitDefaultValue=true)]
         public Category Category { get; set; }
 
         /// <summary>
@@ -132,7 +136,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
-        [DataMember(Name="tags", EmitDefaultValue=false)]
+        [DataMember(Name="tags", EmitDefaultValue=true)]
         public List<Tag> Tags { get; set; }
 
 

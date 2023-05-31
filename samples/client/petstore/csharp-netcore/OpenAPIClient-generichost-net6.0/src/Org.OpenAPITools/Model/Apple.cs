@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
         [JsonConstructor]
-        public Apple(string cultivar, string origin)
+        public Apple(string cultivar = default, string origin = default)
         {
             Cultivar = cultivar;
             Origin = origin;

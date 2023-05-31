@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
-        [DataMember(Name = "class", EmitDefaultValue = false)]
+        [DataMember(Name = "class", EmitDefaultValue = true)]
         public string VarClass { get; set; }
 
         /// <summary>

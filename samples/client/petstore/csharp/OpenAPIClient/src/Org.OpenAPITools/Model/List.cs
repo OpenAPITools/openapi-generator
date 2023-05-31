@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public List(string var123List = default(string))
         {
             this.var123List = var123List;
+            this.var123List = var123List;
         }
 
         /// <summary>
         /// Gets or Sets var123List
         /// </summary>
-        [DataMember(Name="123-list", EmitDefaultValue=false)]
+        [DataMember(Name="123-list", EmitDefaultValue=true)]
         public string var123List { get; set; }
 
         /// <summary>

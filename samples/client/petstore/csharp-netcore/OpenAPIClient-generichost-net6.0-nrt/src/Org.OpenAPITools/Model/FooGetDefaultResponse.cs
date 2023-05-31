@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo varString)
+        public FooGetDefaultResponse(Foo? varString = default)
         {
             VarString = varString;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo VarString { get; set; }
+        public Foo? VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

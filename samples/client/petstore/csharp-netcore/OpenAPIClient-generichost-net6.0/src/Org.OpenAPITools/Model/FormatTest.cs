@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] varByte, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
+        public FormatTest(System.IO.Stream binary = default, byte[] varByte = default, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password = default, string patternWithBackslash = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string varString = default, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
             Binary = binary;
             VarByte = varByte;

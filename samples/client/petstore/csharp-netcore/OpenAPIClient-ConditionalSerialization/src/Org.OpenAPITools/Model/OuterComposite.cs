@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
-        [DataMember(Name = "my_string", EmitDefaultValue = false)]
+        [DataMember(Name = "my_string", EmitDefaultValue = true)]
         public string MyString
         {
             get{ return _MyString;}

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
         [JsonConstructor]
-        public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
+        public EnumArrays(List<EnumArrays.ArrayEnumEnum>? arrayEnum = default, JustSymbolEnum justSymbol)
         {
             ArrayEnum = arrayEnum;
             JustSymbol = justSymbol;
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
+        public List<EnumArrays.ArrayEnumEnum>? ArrayEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

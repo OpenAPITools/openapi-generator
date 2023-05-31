@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
-        [DataMember(Name="outerEnum", EmitDefaultValue=true)]
+        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
         public OuterEnum? OuterEnum { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnumInteger
@@ -187,7 +187,6 @@ namespace Org.OpenAPITools.Model
                 this.EnumStringRequired = enumStringRequired;
             }
 
-            this.OuterEnum = outerEnum;
             this.EnumString = enumString;
             this.EnumInteger = enumInteger;
             this.EnumNumber = enumNumber;

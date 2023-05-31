@@ -37,18 +37,19 @@ namespace Org.OpenAPITools.Model
         public ReadOnlyFirst(string baz = default(string))
         {
             this.Baz = baz;
+            this.Baz = baz;
         }
 
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
-        [DataMember(Name="bar", EmitDefaultValue=false)]
+        [DataMember(Name="bar", EmitDefaultValue=true)]
         public string Bar { get; private set; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
-        [DataMember(Name="baz", EmitDefaultValue=false)]
+        [DataMember(Name="baz", EmitDefaultValue=true)]
         public string Baz { get; set; }
 
         /// <summary>

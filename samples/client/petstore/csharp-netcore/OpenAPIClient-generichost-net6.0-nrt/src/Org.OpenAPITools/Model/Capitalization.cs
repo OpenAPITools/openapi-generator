@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
+        public Capitalization(string? aTTNAME = default, string? capitalCamel = default, string? capitalSnake = default, string? sCAETHFlowPoints = default, string? smallCamel = default, string? smallSnake = default)
         {
             ATT_NAME = aTTNAME;
             CapitalCamel = capitalCamel;
@@ -58,37 +58,37 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
-        public string ATT_NAME { get; set; }
+        public string? ATT_NAME { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
-        public string CapitalCamel { get; set; }
+        public string? CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
-        public string CapitalSnake { get; set; }
+        public string? CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
-        public string SCAETHFlowPoints { get; set; }
+        public string? SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
         [JsonPropertyName("smallCamel")]
-        public string SmallCamel { get; set; }
+        public string? SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
-        public string SmallSnake { get; set; }
+        public string? SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

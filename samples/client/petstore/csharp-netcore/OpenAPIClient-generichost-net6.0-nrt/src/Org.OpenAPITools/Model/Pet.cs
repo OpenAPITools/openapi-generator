@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
-        public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
+        public Pet(Category? category = default, long id, string? name = default, List<string>? photoUrls = default, StatusEnum status, List<Tag>? tags = default)
         {
             Category = category;
             Id = id;
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
@@ -138,19 +138,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>doggie</example>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [JsonPropertyName("photoUrls")]
-        public List<string> PhotoUrls { get; set; }
+        public List<string>? PhotoUrls { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag> Tags { get; set; }
+        public List<Tag>? Tags { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Marker
         /// </summary>
-        [DataMember(Name = "marker", EmitDefaultValue = false)]
+        [DataMember(Name = "marker", EmitDefaultValue = true)]
         public MultipartMixedRequestMarker Marker { get; set; }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets StatusArray
         /// </summary>
-        [DataMember(Name = "statusArray", EmitDefaultValue = false)]
+        [DataMember(Name = "statusArray", EmitDefaultValue = true)]
         public List<MultipartMixedStatus> StatusArray { get; set; }
 
         /// <summary>

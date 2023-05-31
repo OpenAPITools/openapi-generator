@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCatAllOf(string name, PetTypeEnum petType = PetTypeEnum.ChildCat)
+        public ChildCatAllOf(string name = default, PetTypeEnum petType = PetTypeEnum.ChildCat)
         {
             Name = name;
             PetType = petType;

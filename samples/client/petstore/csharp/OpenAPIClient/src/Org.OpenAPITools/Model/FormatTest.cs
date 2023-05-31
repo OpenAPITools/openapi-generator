@@ -66,6 +66,7 @@ namespace Org.OpenAPITools.Model
                 this.Number = number;
             }
 
+            this.VarString = varString;
             // to ensure "varByte" is required (not null)
             if (varByte == null)
             {
@@ -76,6 +77,8 @@ namespace Org.OpenAPITools.Model
                 this.VarByte = varByte;
             }
 
+            this.VarByte = varByte;
+            this.Binary = binary;
             // to ensure "date" is required (not null)
             if (date == null)
             {
@@ -96,6 +99,9 @@ namespace Org.OpenAPITools.Model
                 this.Password = password;
             }
 
+            this.Password = password;
+            this.PatternWithDigits = patternWithDigits;
+            this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;
@@ -155,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets VarString
         /// </summary>
-        [DataMember(Name="string", EmitDefaultValue=false)]
+        [DataMember(Name="string", EmitDefaultValue=true)]
         public string VarString { get; set; }
 
         /// <summary>
@@ -167,7 +173,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Binary
         /// </summary>
-        [DataMember(Name="binary", EmitDefaultValue=false)]
+        [DataMember(Name="binary", EmitDefaultValue=true)]
         public System.IO.Stream Binary { get; set; }
 
         /// <summary>
@@ -199,14 +205,14 @@ namespace Org.OpenAPITools.Model
         /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
-        [DataMember(Name="pattern_with_digits", EmitDefaultValue=false)]
+        [DataMember(Name="pattern_with_digits", EmitDefaultValue=true)]
         public string PatternWithDigits { get; set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
-        [DataMember(Name="pattern_with_digits_and_delimiter", EmitDefaultValue=false)]
+        [DataMember(Name="pattern_with_digits_and_delimiter", EmitDefaultValue=true)]
         public string PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>

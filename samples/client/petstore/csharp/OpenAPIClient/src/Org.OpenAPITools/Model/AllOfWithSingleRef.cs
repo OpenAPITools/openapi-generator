@@ -43,13 +43,14 @@ namespace Org.OpenAPITools.Model
         public AllOfWithSingleRef(string username = default(string), SingleRefType? singleRefType = default(SingleRefType?))
         {
             this.Username = username;
+            this.Username = username;
             this.SingleRefType = singleRefType;
         }
 
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
-        [DataMember(Name="username", EmitDefaultValue=false)]
+        [DataMember(Name="username", EmitDefaultValue=true)]
         public string Username { get; set; }
 
 

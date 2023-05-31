@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="activityOutputs">activityOutputs</param>
         [JsonConstructor]
-        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs)
+        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>>? activityOutputs = default)
         {
             ActivityOutputs = activityOutputs;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [JsonPropertyName("activity_outputs")]
-        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get; set; }
+        public Dictionary<string, List<ActivityOutputElementRepresentation>>? ActivityOutputs { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="breed">breed</param>
         [JsonConstructor]
-        public DogAllOf(string breed)
+        public DogAllOf(string? breed = default)
         {
             Breed = breed;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public string Breed { get; set; }
+        public string? Breed { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

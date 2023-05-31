@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MapProperty
         /// </summary>
-        [DataMember(Name = "map_property", EmitDefaultValue = false)]
+        [DataMember(Name = "map_property", EmitDefaultValue = true)]
         public Dictionary<string, string> MapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
-        [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
+        [DataMember(Name = "map_of_map_property", EmitDefaultValue = true)]
         public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
 
         /// <summary>
@@ -74,32 +74,32 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
-        [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
+        [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = true)]
         public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
-        [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
+        [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = true)]
         public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
-        [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = false)]
+        [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = true)]
         public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; }
 
         /// <summary>
         /// an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
-        [DataMember(Name = "empty_map", EmitDefaultValue = false)]
+        [DataMember(Name = "empty_map", EmitDefaultValue = true)]
         public Object EmptyMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
-        [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = false)]
+        [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = true)]
         public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
 
         /// <summary>

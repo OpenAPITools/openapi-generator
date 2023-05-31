@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Many files
         /// </summary>
         /// <value>Many files</value>
-        [DataMember(Name = "files", EmitDefaultValue = false)]
+        [DataMember(Name = "files", EmitDefaultValue = true)]
         public List<System.IO.Stream> Files { get; set; }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
         /// <param name="anytype1">anytype1</param>
         [JsonConstructor]
-        public AdditionalPropertiesClass(Object emptyMap, Dictionary<string, Dictionary<string, string>> mapOfMapProperty, Dictionary<string, string> mapProperty, Object mapWithUndeclaredPropertiesAnytype1, Object mapWithUndeclaredPropertiesAnytype2, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3, Dictionary<string, string> mapWithUndeclaredPropertiesString, Object anytype1 = default)
+        public AdditionalPropertiesClass(Object emptyMap = default, Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default, Dictionary<string, string> mapProperty = default, Object mapWithUndeclaredPropertiesAnytype1 = default, Object mapWithUndeclaredPropertiesAnytype2 = default, Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default, Dictionary<string, string> mapWithUndeclaredPropertiesString = default, Object anytype1 = default)
         {
             EmptyMap = emptyMap;
             MapOfMapProperty = mapOfMapProperty;

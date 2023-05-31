@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayNumber">arrayNumber</param>
         [JsonConstructor]
-        public ArrayOfNumberOnly(List<decimal> arrayNumber)
+        public ArrayOfNumberOnly(List<decimal>? arrayNumber = default)
         {
             ArrayNumber = arrayNumber;
             OnCreated();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayNumber")]
-        public List<decimal> ArrayNumber { get; set; }
+        public List<decimal>? ArrayNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

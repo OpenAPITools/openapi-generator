@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className</param>
         [JsonConstructor]
-        public DanishPig(string className)
+        public DanishPig(string className = default)
         {
             ClassName = className;
             OnCreated();

@@ -41,24 +41,27 @@ namespace Org.OpenAPITools.Model
             this.ArrayOfString = arrayOfString;
             this.ArrayArrayOfInteger = arrayArrayOfInteger;
             this.ArrayArrayOfModel = arrayArrayOfModel;
+            this.ArrayOfString = arrayOfString;
+            this.ArrayArrayOfInteger = arrayArrayOfInteger;
+            this.ArrayArrayOfModel = arrayArrayOfModel;
         }
 
         /// <summary>
         /// Gets or Sets ArrayOfString
         /// </summary>
-        [DataMember(Name="array_of_string", EmitDefaultValue=false)]
+        [DataMember(Name="array_of_string", EmitDefaultValue=true)]
         public List<string> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
-        [DataMember(Name="array_array_of_integer", EmitDefaultValue=false)]
+        [DataMember(Name="array_array_of_integer", EmitDefaultValue=true)]
         public List<List<long>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
-        [DataMember(Name="array_array_of_model", EmitDefaultValue=false)]
+        [DataMember(Name="array_array_of_model", EmitDefaultValue=true)]
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
 
         /// <summary>

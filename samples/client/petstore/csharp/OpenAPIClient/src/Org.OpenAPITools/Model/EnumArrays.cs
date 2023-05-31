@@ -82,6 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum.</param>
         public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
+            this.ArrayEnum = arrayEnum;
             this.JustSymbol = justSymbol;
             this.ArrayEnum = arrayEnum;
         }
@@ -90,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
-        [DataMember(Name="array_enum", EmitDefaultValue=false)]
+        [DataMember(Name="array_enum", EmitDefaultValue=true)]
         public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
 
         /// <summary>

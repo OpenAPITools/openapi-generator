@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ShapeInterface(string shapeType)
+        public ShapeInterface(string shapeType = default)
         {
             ShapeType = shapeType;
             OnCreated();

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
         [JsonConstructor]
-        public OuterComposite(bool myBoolean, decimal myNumber, string myString)
+        public OuterComposite(bool myBoolean, decimal myNumber, string myString = default)
         {
             MyBoolean = myBoolean;
             MyNumber = myNumber;

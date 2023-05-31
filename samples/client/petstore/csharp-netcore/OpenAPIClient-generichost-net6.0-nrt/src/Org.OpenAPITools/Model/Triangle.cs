@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
+        public Triangle(EquilateralTriangle equilateralTriangle, string? shapeType = default, string? triangleType = default)
         {
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
+        public Triangle(IsoscelesTriangle isoscelesTriangle, string? shapeType = default, string? triangleType = default)
         {
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
+        public Triangle(ScaleneTriangle scaleneTriangle, string? shapeType = default, string? triangleType = default)
         {
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
@@ -96,13 +96,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public string? ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
+        public string? TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

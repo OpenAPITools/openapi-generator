@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="breed">breed</param>
         [JsonConstructor]
-        public DogAllOf(string breed)
+        public DogAllOf(string breed = default)
         {
             Breed = breed;
             OnCreated();

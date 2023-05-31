@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
-        [DataMember(Name = "array_items_nullable", EmitDefaultValue = false)]
+        [DataMember(Name = "array_items_nullable", EmitDefaultValue = true)]
         public List<Object> ArrayItemsNullable { get; set; }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
-        [DataMember(Name = "object_items_nullable", EmitDefaultValue = false)]
+        [DataMember(Name = "object_items_nullable", EmitDefaultValue = true)]
         public Dictionary<string, Object> ObjectItemsNullable { get; set; }
 
         /// <summary>

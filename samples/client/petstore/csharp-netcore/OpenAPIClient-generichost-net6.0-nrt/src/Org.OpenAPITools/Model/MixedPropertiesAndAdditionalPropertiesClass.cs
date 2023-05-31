@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid</param>
         /// <param name="uuidWithPattern">uuidWithPattern</param>
         [JsonConstructor]
-        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
+        public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal>? map = default, Guid uuid, Guid uuidWithPattern)
         {
             DateTime = dateTime;
             Map = map;
@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Map
         /// </summary>
         [JsonPropertyName("map")]
-        public Dictionary<string, Animal> Map { get; set; }
+        public Dictionary<string, Animal>? Map { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid

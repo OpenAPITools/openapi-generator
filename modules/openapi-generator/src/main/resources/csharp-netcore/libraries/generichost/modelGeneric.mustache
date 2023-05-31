@@ -259,19 +259,19 @@
             return {{#parent}}base.Equals(input) && {{/parent}}{{#readOnlyVars}}{{^isInherited}}{{^isContainer}}
                 (
                     {{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-csharp-value-type}}
+                    {{^vendorExtensions.x-is-value-type}}
                     ({{name}} != null &&
                     {{name}}.Equals(input.{{name}}))
-                    {{/vendorExtensions.x-csharp-value-type}}
-                    {{#vendorExtensions.x-csharp-value-type}}
+                    {{/vendorExtensions.x-is-value-type}}
+                    {{#vendorExtensions.x-is-value-type}}
                     {{name}}.Equals(input.{{name}})
-                    {{/vendorExtensions.x-csharp-value-type}}
+                    {{/vendorExtensions.x-is-value-type}}
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-csharp-value-type}}{{name}} != null &&
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
                     input.{{name}} != null &&
-                    {{/vendorExtensions.x-csharp-value-type}}{{name}}.SequenceEqual(input.{{name}})
+                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
                 {{^parentModel}}

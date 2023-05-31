@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="file">file</param>
         /// <param name="files">files</param>
         [JsonConstructor]
-        public FileSchemaTestClass(File file, List<File> files)
+        public FileSchemaTestClass(File? file = default, List<File>? files = default)
         {
             File = file;
             Files = files;
@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [JsonPropertyName("file")]
-        public File File { get; set; }
+        public File? File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
-        public List<File> Files { get; set; }
+        public List<File>? Files { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

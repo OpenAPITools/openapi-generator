@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public DogAllOf(string breed = default(string))
         {
             this.Breed = breed;
+            this.Breed = breed;
         }
 
         /// <summary>
         /// Gets or Sets Breed
         /// </summary>
-        [DataMember(Name="breed", EmitDefaultValue=false)]
+        [DataMember(Name="breed", EmitDefaultValue=true)]
         public string Breed { get; set; }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Child(ChildAllOf childAllOf, bool boosterSeat, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        public Child(ChildAllOf childAllOf, bool boosterSeat, string? firstName = default, string? lastName = default, string? type = default) : base(firstName, lastName, type)
         {
             ChildAllOf = childAllOf;
             BoosterSeat = boosterSeat;

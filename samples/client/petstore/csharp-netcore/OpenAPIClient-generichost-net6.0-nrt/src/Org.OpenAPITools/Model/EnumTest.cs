@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         /// <param name="outerEnum">outerEnum</param>
         [JsonConstructor]
-        public EnumTest(EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumInteger outerEnumInteger, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, OuterEnum? outerEnum = default)
+        public EnumTest(EnumIntegerEnum enumInteger, EnumIntegerOnlyEnum enumIntegerOnly, EnumNumberEnum enumNumber, EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumInteger outerEnumInteger, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, OuterEnum outerEnum)
         {
             EnumInteger = enumInteger;
             EnumIntegerOnly = enumIntegerOnly;
@@ -366,7 +366,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnum
         /// </summary>
         [JsonPropertyName("outerEnum")]
-        public OuterEnum? OuterEnum { get; set; }
+        public OuterEnum OuterEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -488,7 +488,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "outerEnum":
                             string outerEnumRawValue = utf8JsonReader.GetString();
-                            outerEnum = OuterEnumConverter.FromStringOrDefault(outerEnumRawValue);
+                            outerEnum = OuterEnumConverter.FromString(outerEnumRawValue);
                             break;
                         default:
                             break;
@@ -520,7 +520,7 @@ namespace Org.OpenAPITools.Model
             if (outerEnumIntegerDefaultValue == null)
                 throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is required for class EnumTest.");
 
-            return new EnumTest(enumInteger.Value, enumIntegerOnly.Value, enumNumber.Value, enumString.Value, enumStringRequired.Value, outerEnumDefaultValue.Value, outerEnumInteger.Value, outerEnumIntegerDefaultValue.Value, outerEnum);
+            return new EnumTest(enumInteger.Value, enumIntegerOnly.Value, enumNumber.Value, enumString.Value, enumStringRequired.Value, outerEnumDefaultValue.Value, outerEnumInteger.Value, outerEnumIntegerDefaultValue.Value, outerEnum.Value);
         }
 
         /// <summary>
@@ -562,9 +562,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
             else
                 writer.WriteNull("outerEnumIntegerDefaultValue");
-            if (enumTest.OuterEnum == null)
-                writer.WriteNull("outerEnum");
-            var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum.Value);
+            var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum);
             if (outerEnumRawValue != null)
                 writer.WriteString("outerEnum", outerEnumRawValue);
             else

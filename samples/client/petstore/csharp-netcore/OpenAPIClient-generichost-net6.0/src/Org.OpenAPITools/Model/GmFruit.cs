@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="banana"></param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public GmFruit(Apple apple, Banana banana, string color)
+        public GmFruit(Apple apple, Banana banana, string color = default)
         {
             Apple = Apple;
             Banana = Banana;

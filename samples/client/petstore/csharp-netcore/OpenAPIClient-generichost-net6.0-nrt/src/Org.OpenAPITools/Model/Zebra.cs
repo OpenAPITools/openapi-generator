@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, TypeEnum type) : base()
+        public Zebra(string? className = default, TypeEnum type) : base()
         {
             ClassName = className;
             Type = type;
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public string? ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

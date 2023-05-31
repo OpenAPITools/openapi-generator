@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
+        public ObjectWithDeprecatedFields(List<string>? bars = default, DeprecatedObject? deprecatedRef = default, decimal id, string? uuid = default)
         {
             Bars = bars;
             DeprecatedRef = deprecatedRef;
@@ -54,14 +54,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string> Bars { get; set; }
+        public List<string>? Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject DeprecatedRef { get; set; }
+        public DeprecatedObject? DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string Uuid { get; set; }
+        public string? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MainShape
         /// </summary>
-        [DataMember(Name = "mainShape", EmitDefaultValue = false)]
+        [DataMember(Name = "mainShape", EmitDefaultValue = true)]
         public Shape MainShape
         {
             get{ return _MainShape;}
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
-        [DataMember(Name = "shapeOrNull", EmitDefaultValue = false)]
+        [DataMember(Name = "shapeOrNull", EmitDefaultValue = true)]
         public ShapeOrNull ShapeOrNull
         {
             get{ return _ShapeOrNull;}
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Shapes
         /// </summary>
-        [DataMember(Name = "shapes", EmitDefaultValue = false)]
+        [DataMember(Name = "shapes", EmitDefaultValue = true)]
         public List<Shape> Shapes
         {
             get{ return _Shapes;}

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
+        public ArrayTest(List<List<long>> arrayArrayOfInteger = default, List<List<ReadOnlyFirst>> arrayArrayOfModel = default, List<string> arrayOfString = default)
         {
             ArrayArrayOfInteger = arrayArrayOfInteger;
             ArrayArrayOfModel = arrayArrayOfModel;

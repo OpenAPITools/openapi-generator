@@ -37,12 +37,13 @@ namespace Org.OpenAPITools.Model
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
         {
             this.ArrayArrayNumber = arrayArrayNumber;
+            this.ArrayArrayNumber = arrayArrayNumber;
         }
 
         /// <summary>
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
-        [DataMember(Name="ArrayArrayNumber", EmitDefaultValue=false)]
+        [DataMember(Name="ArrayArrayNumber", EmitDefaultValue=true)]
         public List<List<decimal>> ArrayArrayNumber { get; set; }
 
         /// <summary>

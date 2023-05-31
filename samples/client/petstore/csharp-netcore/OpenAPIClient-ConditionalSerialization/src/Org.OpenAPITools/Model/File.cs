@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Test capitalization
         /// </summary>
         /// <value>Test capitalization</value>
-        [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
+        [DataMember(Name = "sourceURI", EmitDefaultValue = true)]
         public string SourceURI
         {
             get{ return _SourceURI;}
