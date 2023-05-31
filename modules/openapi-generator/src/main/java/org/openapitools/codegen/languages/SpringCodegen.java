@@ -295,7 +295,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public DocumentationProvider defaultDocumentationProvider() {
-        return SPRING_HTTP_INTERFACE.equals(library) ? DocumentationProvider.NONE : DocumentationProvider.SPRINGDOC;
+        return isLibrary(SPRING_HTTP_INTERFACE) ? null : DocumentationProvider.SPRINGDOC;
     }
 
     public List<DocumentationProvider> supportedDocumentationProvider() {
@@ -370,8 +370,21 @@ public class SpringCodegen extends AbstractJavaCodegen
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe=true;
+            useBeanValidation = false;
+            performBeanValidation = false;
+
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);
+            additionalProperties.put(PERFORM_BEANVALIDATION, performBeanValidation);
+            additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
+            additionalProperties.put(documentationProvider.getPropertyName(), true);
+            additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
+            additionalProperties.put(annotationLibrary.getPropertyName(), true);
+
             applyJakartaPackage();
+
+            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary, useBeanValidation, performBeanValidation. "
+                + "useJakartaEe defaulted to 'true'");
         }
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
