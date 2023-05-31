@@ -26,7 +26,7 @@
         <eventsEnabled>true</eventsEnabled>
         <eventScheduleScript></eventScheduleScript>
         <!-- By default do not send data to perfana -->
-        <perfanaEnabled>false</perfanaEnabled>
+        <perfanaEnabled>{{ perfanaEnabled }}</perfanaEnabled>
         <!-- Perfana url  -->
         <perfanaUrl>{{ perfanaUrl }}</perfanaUrl>
         <!-- By default assert test results -->
@@ -37,7 +37,7 @@
         <tags></tags>
         <!-- By default Jenkins build Url is used -->
         <CIBuildResultsUrl>${BUILD_URL}</CIBuildResultsUrl>
-        <influxDbHost>influxdb.digitaldev.nl</influxDbHost>
+        <influxDbHost>{{ influxDbHost }}</influxDbHost>
         <graphitePrefix>gatling2.debug</graphitePrefix>
         <!-- Database settings   -->
         <db.url>jdbc://localhost:3306</db.url>
