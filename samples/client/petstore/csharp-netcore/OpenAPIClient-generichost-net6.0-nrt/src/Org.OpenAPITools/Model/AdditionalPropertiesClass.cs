@@ -145,12 +145,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type AdditionalPropertiesClass
+    /// A Json converter for type <see cref="AdditionalPropertiesClass" />
     /// </summary>
     public class AdditionalPropertiesClassJsonConverter : JsonConverter<AdditionalPropertiesClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="AdditionalPropertiesClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -253,7 +253,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="AdditionalPropertiesClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="additionalPropertiesClass"></param>

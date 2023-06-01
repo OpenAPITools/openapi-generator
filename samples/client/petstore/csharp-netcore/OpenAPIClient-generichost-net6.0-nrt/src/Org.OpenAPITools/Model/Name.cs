@@ -145,12 +145,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Name
+    /// A Json converter for type <see cref="Name" />
     /// </summary>
     public class NameJsonConverter : JsonConverter<Name>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Name" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -223,7 +223,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Name" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="name"></param>

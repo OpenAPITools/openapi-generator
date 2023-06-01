@@ -125,12 +125,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type PolymorphicProperty
+    /// A Json converter for type <see cref="PolymorphicProperty" />
     /// </summary>
     public class PolymorphicPropertyJsonConverter : JsonConverter<PolymorphicProperty>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="PolymorphicProperty" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="PolymorphicProperty" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="polymorphicProperty"></param>

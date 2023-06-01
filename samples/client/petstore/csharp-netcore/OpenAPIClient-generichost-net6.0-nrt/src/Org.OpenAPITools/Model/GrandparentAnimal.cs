@@ -91,12 +91,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type GrandparentAnimal
+    /// A Json converter for type <see cref="GrandparentAnimal" />
     /// </summary>
     public class GrandparentAnimalJsonConverter : JsonConverter<GrandparentAnimal>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="GrandparentAnimal" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="GrandparentAnimal" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="grandparentAnimal"></param>

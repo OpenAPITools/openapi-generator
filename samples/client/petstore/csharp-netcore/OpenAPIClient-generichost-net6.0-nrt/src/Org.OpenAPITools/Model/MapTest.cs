@@ -66,10 +66,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a InnerEnum
+        /// Returns a <see cref="InnerEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static InnerEnum InnerEnumFromString(string value)
         {
             if (value == "UPPER")
@@ -82,7 +83,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="InnerEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static InnerEnum? InnerEnumFromStringOrDefault(string value)
+        {
+            if (value == "UPPER")
+                return InnerEnum.UPPER;
+
+            if (value == "lower")
+                return InnerEnum.Lower;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="InnerEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -157,12 +174,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type MapTest
+    /// A Json converter for type <see cref="MapTest" />
     /// </summary>
     public class MapTestJsonConverter : JsonConverter<MapTest>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="MapTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -236,7 +253,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="MapTest" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="mapTest"></param>

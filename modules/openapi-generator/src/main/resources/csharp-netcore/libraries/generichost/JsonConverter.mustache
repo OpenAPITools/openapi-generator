@@ -1,5 +1,5 @@
     /// <summary>
-    /// A Json converter for type {{classname}}
+    /// A Json converter for type <see cref="{{classname}}" />
     /// </summary>
     {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
@@ -20,7 +20,7 @@
         {{/isDate}}
         {{/allVars}}
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="{{classname}}" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -131,12 +131,16 @@
                                 {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}})utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32();
                         {{/isNumeric}}
                         {{^isNumeric}}
-                            string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = utf8JsonReader.GetString();
+                            string{{nrt?}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = utf8JsonReader.GetString();
                             {{^isInnerEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{{datatypeWithEnum}}}Converter.FromString{{#isNullable}}OrDefault{{/isNullable}}({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue == null
+                                ? null
+                                : {{{datatypeWithEnum}}}Converter.FromStringOrDefault({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
                             {{#isInnerEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{classname}}.{{{datatypeWithEnum}}}FromString({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue == null
+                                ? null
+                                : {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
                         {{/isNumeric}}
                         {{/isMap}}
@@ -191,7 +195,7 @@
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="{{classname}}" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="{{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}"></param>

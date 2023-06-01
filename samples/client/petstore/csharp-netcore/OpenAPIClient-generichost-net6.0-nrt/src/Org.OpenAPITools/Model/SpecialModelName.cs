@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type SpecialModelName
+    /// A Json converter for type <see cref="SpecialModelName" />
     /// </summary>
     public class SpecialModelNameJsonConverter : JsonConverter<SpecialModelName>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="SpecialModelName" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="SpecialModelName" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="specialModelName"></param>

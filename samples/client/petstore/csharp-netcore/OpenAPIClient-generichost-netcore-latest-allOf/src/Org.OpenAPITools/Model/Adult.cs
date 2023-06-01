@@ -66,12 +66,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Adult
+    /// A Json converter for type <see cref="Adult" />
     /// </summary>
     public class AdultJsonConverter : JsonConverter<Adult>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Adult" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Adult" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="adult"></param>

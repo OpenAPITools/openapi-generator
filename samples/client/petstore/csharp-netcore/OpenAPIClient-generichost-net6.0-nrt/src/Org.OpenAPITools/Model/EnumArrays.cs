@@ -62,10 +62,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a ArrayEnumEnum
+        /// Returns a <see cref="ArrayEnumEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
         {
             if (value == "fish")
@@ -78,7 +79,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="ArrayEnumEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ArrayEnumEnum? ArrayEnumEnumFromStringOrDefault(string value)
+        {
+            if (value == "fish")
+                return ArrayEnumEnum.Fish;
+
+            if (value == "crab")
+                return ArrayEnumEnum.Crab;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="ArrayEnumEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -111,10 +128,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a JustSymbolEnum
+        /// Returns a <see cref="JustSymbolEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static JustSymbolEnum JustSymbolEnumFromString(string value)
         {
             if (value == ">=")
@@ -127,7 +145,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="JustSymbolEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static JustSymbolEnum? JustSymbolEnumFromStringOrDefault(string value)
+        {
+            if (value == ">=")
+                return JustSymbolEnum.GreaterThanOrEqualTo;
+
+            if (value == "$")
+                return JustSymbolEnum.Dollar;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="JustSymbolEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -188,12 +222,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type EnumArrays
+    /// A Json converter for type <see cref="EnumArrays" />
     /// </summary>
     public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="EnumArrays" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -232,8 +266,10 @@ namespace Org.OpenAPITools.Model
                                 arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "just_symbol":
-                            string justSymbolRawValue = utf8JsonReader.GetString();
-                            justSymbol = EnumArrays.JustSymbolEnumFromString(justSymbolRawValue);
+                            string? justSymbolRawValue = utf8JsonReader.GetString();
+                            justSymbol = justSymbolRawValue == null
+                                ? null
+                                : EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue);
                             break;
                         default:
                             break;
@@ -251,7 +287,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="EnumArrays" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="enumArrays"></param>

@@ -86,12 +86,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type EquilateralTriangle
+    /// A Json converter for type <see cref="EquilateralTriangle" />
     /// </summary>
     public class EquilateralTriangleJsonConverter : JsonConverter<EquilateralTriangle>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="EquilateralTriangle" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="EquilateralTriangle" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="equilateralTriangle"></param>

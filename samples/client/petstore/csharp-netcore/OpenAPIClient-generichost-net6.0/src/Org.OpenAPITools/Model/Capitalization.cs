@@ -125,12 +125,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Capitalization
+    /// A Json converter for type <see cref="Capitalization" />
     /// </summary>
     public class CapitalizationJsonConverter : JsonConverter<Capitalization>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Capitalization" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -214,7 +214,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Capitalization" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="capitalization"></param>

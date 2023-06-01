@@ -99,12 +99,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type OuterComposite
+    /// A Json converter for type <see cref="OuterComposite" />
     /// </summary>
     public class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="OuterComposite" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="OuterComposite" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>

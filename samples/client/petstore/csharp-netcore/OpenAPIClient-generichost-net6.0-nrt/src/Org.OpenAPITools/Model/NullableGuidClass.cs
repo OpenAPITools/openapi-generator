@@ -82,12 +82,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableGuidClass
+    /// A Json converter for type <see cref="NullableGuidClass" />
     /// </summary>
     public class NullableGuidClassJsonConverter : JsonConverter<NullableGuidClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableGuidClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableGuidClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableGuidClass"></param>

@@ -64,12 +64,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ChildCat
+    /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
     public class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ChildCat" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ChildCat" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="childCat"></param>

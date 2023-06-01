@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Apple
+    /// A Json converter for type <see cref="Apple" />
     /// </summary>
     public class AppleJsonConverter : JsonConverter<Apple>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Apple" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Apple" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="apple"></param>

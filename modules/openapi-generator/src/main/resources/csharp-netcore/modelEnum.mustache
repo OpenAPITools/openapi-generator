@@ -43,8 +43,17 @@
     }
     {{#useGenericHost}}
 
+    /// <summary>
+    /// A Json converter for type <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter : JsonConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}>
     {
+        /// <summary>
+        /// Parses a given value to <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} FromString(string value)
         {
             {{#allowableValues}}
@@ -57,6 +66,11 @@
             throw new NotImplementedException($"Could not convert value to type {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}: '{value}'");
         }
 
+        /// <summary>
+        /// Parses a given value to <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? FromStringOrDefault(string value)
         {
             {{#allowableValues}}
@@ -69,6 +83,12 @@
             return null;
         }
 
+        /// <summary>
+        /// Converts the <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static {{>EnumValueDataType}} ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
         {
             {{^isString}}
@@ -97,8 +117,10 @@
         {
             string{{nrt?}} rawValue = reader.GetString();
 
-            {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? result = {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter.FromString(rawValue);
-            
+            {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? result = rawValue == null
+                ? null
+                : {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter.FromStringOrDefault(rawValue);
+
             if (result != null)
                 return result.Value;
 
@@ -117,6 +139,9 @@
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
+    /// </summary>
     public class {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableConverter : JsonConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}?>
     {
         /// <summary>
@@ -130,10 +155,9 @@
         {
             string{{nrt?}} rawValue = reader.GetString();
 
-            if (rawValue == null)
-                return null;
-
-            {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? result = {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter.FromString(rawValue);
+            {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? result = rawValue == null
+                ? null
+                : {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

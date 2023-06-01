@@ -65,12 +65,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Dog
+    /// A Json converter for type <see cref="Dog" />
     /// </summary>
     public class DogJsonConverter : JsonConverter<Dog>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Dog" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Dog" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dog"></param>

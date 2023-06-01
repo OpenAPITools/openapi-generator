@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type DogAllOf
+    /// A Json converter for type <see cref="DogAllOf" />
     /// </summary>
     public class DogAllOfJsonConverter : JsonConverter<DogAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DogAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DogAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dogAllOf"></param>

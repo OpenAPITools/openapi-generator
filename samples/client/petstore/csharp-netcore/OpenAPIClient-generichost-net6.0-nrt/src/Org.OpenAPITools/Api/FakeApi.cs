@@ -951,7 +951,6 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
         /// <returns></returns>
         private void ValidateFakeOuterStringSerialize(Guid requiredStringUuid)
         {
@@ -1112,7 +1111,7 @@ namespace Org.OpenAPITools.Api
         /// Array of Enums 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
         public async Task<ApiResponse<List<OuterEnum>>?> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
@@ -1130,7 +1129,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
         public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
@@ -1586,16 +1585,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="date"></param>
-        /// <param name="binary"></param>
-        /// <param name="varFloat"></param>
-        /// <param name="integer"></param>
-        /// <param name="int32"></param>
-        /// <param name="int64"></param>
-        /// <param name="varString"></param>
-        /// <param name="password"></param>
-        /// <param name="callback"></param>
-        /// <param name="dateTime"></param>
         /// <returns></returns>
         private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter)
         {
@@ -2005,9 +1994,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="booleanGroup"></param>
-        /// <param name="stringGroup"></param>
-        /// <param name="int64Group"></param>
         /// <returns></returns>
         private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group)
         {
