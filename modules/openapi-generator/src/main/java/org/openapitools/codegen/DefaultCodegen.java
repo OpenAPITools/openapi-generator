@@ -667,8 +667,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @param importToRemove the import statement to be removed
      */
     protected void removeImport(OperationsMap objs, String importToRemove) {
-        // Remove imports of importToRemove as they are
-        // imported in the template already.
         List<Map<String, String>> imports = objs.getImports();
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
             String itrImport = itr.next().get("import");
