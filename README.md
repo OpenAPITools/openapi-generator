@@ -173,7 +173,7 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 
 ### [1.3 - Download JAR](#table-of-contents)
 <!-- RELEASE_VERSION -->
-If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
+If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
 JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.6.0/openapi-generator-cli-6.6.0.jar`
 
@@ -189,11 +189,10 @@ Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/mav
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
 
-For Mac users, please make sure Java 8 is installed (Tips: run `java -version` to check the version), and export `JAVA_HOME` in order to use the supported Java version:
+For Mac users, please make sure Java 11 is installed (Tips: run `java -version` to check the version), and export `JAVA_HOME` in order to use the supported Java version:
 ```sh
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-export PATH=${JAVA_HOME}/bin:$PATH
-```
+export JAVA_HOME=`/usr/libexec/java_home -v 1.11`
+export PATH=${JAVA_HOME}/bin:$PATH ```
 <!-- /RELEASE_VERSION -->
 ### Launcher Script
 
@@ -242,19 +241,14 @@ openapi-generator-cli version # is always 4.0.2, unless any of the above overrid
 
 To build from source, you need the following installed and available in your `$PATH:`
 
-* [Java 8](https://www.oracle.com/technetwork/java/index.html)
+* [Java 11](https://adoptium.net/)
 
-* [Apache Maven 3.3.4 or greater](https://maven.apache.org/)
+* [Apache Maven 3.3.4 or greater](https://maven.apache.org/) (optional)
 
-After cloning the project, you can build it from source with this command:
-```sh
-mvn clean install
-```
+After cloning the project, you can build it from source using [maven wrapper](https://github.com/takari/maven-wrapper):
 
-If you don't have maven installed, you may directly use the included [maven wrapper](https://github.com/takari/maven-wrapper), and build with the command:
-```sh
-./mvnw clean install
-```
+- Linux: `./mvnw clean install`
+- Windows: `mvnw.cmd clean install`
 
 #### Nix users
 
@@ -262,7 +256,7 @@ If you're a nix user, you can enter OpenAPI Generator shell, by typing:
 ```sh
 nix develop
 ```
-It will enter a shell with Java 8 and Maven installed.
+It will enter a shell with Java 11 installed.
 
 Direnv supports automatically loading of the nix developer shell, so if you're using direnv too, type:
 ```sh
@@ -272,9 +266,8 @@ and have `java` and `mvn` set up with correct versions each time you enter proje
 
 The default build contains minimal static analysis (via CheckStyle). To run your build with PMD and Spotbugs, use the `static-analysis` profile:
 
-```sh
-mvn -Pstatic-analysis clean install
-```
+- Linux: `./mvnw -Pstatic-analysis clean install`
+- Windows: `mvnw.cmd -Pstatic-analysis clean install`
 
 ### [1.5 - Homebrew](#table-of-contents)
 
@@ -290,11 +283,13 @@ To reinstall with the latest master, run `brew uninstall openapi-generator && br
 To install OpenJDK (pre-requisites), please run
 ```sh
 brew tap AdoptOpenJDK/openjdk
-brew install --cask adoptopenjdk12
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/
+brew install --cask adoptopenjdk11
+export JAVA_HOME=`/usr/libexec/java_home -v 1.11`
 ```
 
-To install Maven, please run
+or download installer via https://adoptium.net/
+
+To install Maven (optional), please run
 ```sh
 brew install maven
 ```
@@ -377,19 +372,18 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 ```sh
 ./run-in-docker.sh help # Executes 'help' command for openapi-generator-cli
 ./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
-./run-in-docker.sh /gen/bin/go-petstore.sh  # Builds the Go client
 ./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
     -g go -o /gen/out/go-petstore -p packageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 ##### Troubleshooting
 
-If an error like this occurs, just execute the **mvn clean install -U** command:
+If an error like this occurs, just execute the **./mvnw clean install -U** command:
 
 > org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test (default-test) on project openapi-generator: A type incompatibility occurred while executing org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test: java.lang.ExceptionInInitializerError cannot be cast to java.io.IOException
 
 ```sh
-./run-in-docker.sh mvn clean install -U
+./run-in-docker.sh ./mvnw clean install -U
 ```
 
 > Failed to execute goal org.fortasoft:gradle-maven-plugin:1.0.8:invoke (default) on project openapi-generator-gradle-plugin-mvn-wrapper: org.gradle.tooling.BuildException: Could not execute build using Gradle distribution 'https://services.gradle.org/distributions/gradle-4.7-bin.zip'
@@ -404,7 +398,7 @@ cd openapi-generator
 vagrant up
 vagrant ssh
 cd /vagrant
-./run-in-docker.sh mvn package
+./run-in-docker.sh ./mvnw package
 ```
 
 ### [1.7 - NPM](#table-of-contents)
@@ -438,7 +432,7 @@ To generate a PHP client for [petstore.yaml](https://raw.githubusercontent.com/o
 ```sh
 git clone https://github.com/openapitools/openapi-generator
 cd openapi-generator
-mvn clean package
+./mvnw clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
    -g php \
