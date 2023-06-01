@@ -313,7 +313,7 @@
                                     <version>1.11.0</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>3.2.5</version>
+                                    <version>3.3.4</version>
                                 </requireMavenVersion>
                                 <requireReleaseDeps>
                                     <message>No Snapshots Allowed!</message>
