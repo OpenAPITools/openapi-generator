@@ -110,6 +110,19 @@ Class | Method | HTTP request | Description
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: {{keyParamName}} and passed in as the auth context for each request.
 
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"{{keyParamName}}": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBearer}}
