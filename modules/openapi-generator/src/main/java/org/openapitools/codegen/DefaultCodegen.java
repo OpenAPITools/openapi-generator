@@ -660,6 +660,25 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Removes importToRemove from the imports of objs, if present.
+     * This is useful to remove imports that are already present in template files, to avoid importing the same thing twice.
+     *
+     * @param objs imports will be removed from this objs' imports collection
+     * @param importToRemove the import statement to be removed
+     */
+    protected void removeImport(OperationsMap objs, String importToRemove) {
+        // Remove imports of importToRemove as they are
+        // imported in the template already.
+        List<Map<String, String>> imports = objs.getImports();
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
+            String itrImport = itr.next().get("import");
+            if (itrImport.equals(importToRemove)) {
+                itr.remove();
+            }
+        }
+    }
+
+    /**
      * Removes imports from the model that points to itself
      * Marks a self referencing property, if detected
      *

@@ -345,17 +345,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-
-        // Remove imports of list as they are
-        // imported in the template already.
-        List<Map<String, String>> imports = objs.getImports();
-        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String itrImport = itr.next().get("import");
-            if ("#include <list>".equals(itrImport)) {
-                itr.remove();
-            }
-        }
-
+        removeImport(objs, "#include <list>");
         return objs;
     }
 

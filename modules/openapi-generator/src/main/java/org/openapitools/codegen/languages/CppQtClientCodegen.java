@@ -28,10 +28,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -231,17 +228,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-
-        // Remove imports of QList as they are
-        // imported in the template already.
-        List<Map<String, String>> imports = objs.getImports();
-        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String itrImport = itr.next().get("import");
-            if ("#include <QList>".equals(itrImport)) {
-                itr.remove();
-            }
-        }
-
+        removeImport(objs, "#include <QList>");
         return objs;
     }
 }

@@ -26,7 +26,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -159,18 +158,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-
-        // Remove imports of List as they are
-        // imported in the template already.
-        List<Map<String, String>> imports = objs.getImports();
-        Pattern pattern = Pattern.compile("java\\.util\\.List");
-        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String itrImport = itr.next().get("import");
-            if (pattern.matcher(itrImport).matches()) {
-                itr.remove();
-            }
-        }
-
+        removeImport(objs, "java.util.List");
         return objs;
     }
 

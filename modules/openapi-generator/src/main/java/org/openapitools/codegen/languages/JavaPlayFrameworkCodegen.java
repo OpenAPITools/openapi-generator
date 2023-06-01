@@ -32,7 +32,6 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -371,16 +370,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             }
         }
 
-        // Remove imports of List as they are
-        // imported in the template already.
-        List<Map<String, String>> imports = objs.getImports();
-        Pattern pattern = Pattern.compile("java\\.util\\.List");
-        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String itrImport = itr.next().get("import");
-            if (pattern.matcher(itrImport).matches()) {
-                itr.remove();
-            }
-        }
+        removeImport(objs, "java.util.List");
 
         return objs;
     }

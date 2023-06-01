@@ -25,7 +25,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -853,16 +852,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
         }
 
-        // Remove imports of List as they are
-        // imported in the template already.
-        List<Map<String, String>> imports = objs.getImports();
-        Pattern pattern = Pattern.compile("java\\.util\\.List");
-        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String itrImport = itr.next().get("import");
-            if (pattern.matcher(itrImport).matches()) {
-                itr.remove();
-            }
-        }
+        removeImport(objs, "java.util.List");
 
         return objs;
     }

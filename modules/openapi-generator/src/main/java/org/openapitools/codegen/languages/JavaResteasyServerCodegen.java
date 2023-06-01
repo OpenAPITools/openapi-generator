@@ -27,7 +27,6 @@ import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
@@ -166,18 +165,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-
-        // Remove imports of List as they are
-        // imported in the template already.
-        List<Map<String, String>> imports = objs.getImports();
-        Pattern pattern = Pattern.compile("java\\.util\\.List");
-        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String itrImport = itr.next().get("import");
-            if (pattern.matcher(itrImport).matches()) {
-                itr.remove();
-            }
-        }
-
+        removeImport(objs, "java.util.List");
         return objs;
     }
 
