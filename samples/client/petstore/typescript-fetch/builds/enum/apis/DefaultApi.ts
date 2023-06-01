@@ -19,7 +19,7 @@ import type {
   FakeEnumRequestGetInline200Response,
   NumberEnum,
   StringEnum,
-} from '../models';
+} from '../models/index';
 import {
     EnumPatternObjectFromJSON,
     EnumPatternObjectToJSON,
@@ -29,7 +29,7 @@ import {
     NumberEnumToJSON,
     StringEnumFromJSON,
     StringEnumToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
