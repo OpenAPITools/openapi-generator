@@ -23,17 +23,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -859,6 +851,17 @@ public class SpringCodegen extends AbstractJavaCodegen
             // But use a sensible tag name if there is none
             objs.put("tagName", "default".equals(firstTagName) ? firstOperation.baseName : firstTagName);
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
+        }
+
+        // Remove imports of List as they are
+        // imported in the template already.
+        List<Map<String, String>> imports = objs.getImports();
+        Pattern pattern = Pattern.compile("java\\.util\\.List");
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
+                itr.remove();
+            }
         }
 
         return objs;
