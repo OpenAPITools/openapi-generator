@@ -592,22 +592,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.name = firstCharacter.toUpperCase(Locale.ROOT) + property.name;
         }
 
-        /**
-         * Hotfix for this issue
-         * https://github.com/OpenAPITools/openapi-generator/issues/12155
-         */
-        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null) {
-            List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
-            if (composedSchemas.size() == 0) {
-                return;
-            }
-            CodegenProperty composedProperty = composedSchemas.stream().findFirst().get();
-            property.dataType = composedProperty.dataType;
-            property.datatypeWithEnum = composedProperty.datatypeWithEnum;
-            property.isMap = composedProperty.isMap;
-            property.isContainer = composedProperty.isContainer;
-        }
-
         // fix incorrect data types for maps of maps
         if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
             property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
