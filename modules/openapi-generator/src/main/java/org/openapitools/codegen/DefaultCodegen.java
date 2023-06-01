@@ -661,7 +661,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Removes importToRemove from the imports of objs, if present.
-     * This is useful to remove imports that are already present in template files, to avoid importing the same thing twice.
+     * This is useful to remove imports that are already present in operations-related template files, to avoid importing the same thing twice.
      *
      * @param objs imports will be removed from this objs' imports collection
      * @param importToRemove the import statement to be removed
