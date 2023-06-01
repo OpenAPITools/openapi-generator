@@ -67,10 +67,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a TypeEnum
+        /// Returns a <see cref="TypeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value == "plains")
@@ -86,7 +87,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="TypeEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TypeEnum? TypeEnumFromStringOrDefault(string value)
+        {
+            if (value == "plains")
+                return TypeEnum.Plains;
+
+            if (value == "mountain")
+                return TypeEnum.Mountain;
+
+            if (value == "grevys")
+                return TypeEnum.Grevys;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="TypeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -151,12 +171,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Zebra
+    /// A Json converter for type <see cref="Zebra" />
     /// </summary>
     public class ZebraJsonConverter : JsonConverter<Zebra>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Zebra" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -194,8 +214,10 @@ namespace Org.OpenAPITools.Model
                             className = utf8JsonReader.GetString();
                             break;
                         case "type":
-                            string typeRawValue = utf8JsonReader.GetString();
-                            type = Zebra.TypeEnumFromString(typeRawValue);
+                            string? typeRawValue = utf8JsonReader.GetString();
+                            type = typeRawValue == null
+                                ? null
+                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
                             break;
                         default:
                             break;
@@ -213,7 +235,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Zebra" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="zebra"></param>

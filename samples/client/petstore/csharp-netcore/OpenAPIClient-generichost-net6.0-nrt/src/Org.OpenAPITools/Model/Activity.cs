@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Activity
+    /// A Json converter for type <see cref="Activity" />
     /// </summary>
     public class ActivityJsonConverter : JsonConverter<Activity>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Activity" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Activity" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="activity"></param>

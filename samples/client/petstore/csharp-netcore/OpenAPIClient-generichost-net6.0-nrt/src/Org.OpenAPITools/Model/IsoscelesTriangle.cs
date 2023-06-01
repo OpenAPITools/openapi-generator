@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type IsoscelesTriangle
+    /// A Json converter for type <see cref="IsoscelesTriangle" />
     /// </summary>
     public class IsoscelesTriangleJsonConverter : JsonConverter<IsoscelesTriangle>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="IsoscelesTriangle" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="IsoscelesTriangle" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="isoscelesTriangle"></param>

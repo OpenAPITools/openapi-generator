@@ -146,9 +146,9 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        {{#allParams}}
+        {{/-first}}
         /// <param name="{{paramName}}"></param>
-        {{/allParams}}
+        {{#-last}}
         /// <returns></returns>
         private void Validate{{operationId}}({{#requiredAndNotNullableParams}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredAndNotNullableParams}})
         {
@@ -177,7 +177,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/requiredAndNotNullableParams}}
         }
 
-        {{/-first}}
+        {{/-last}}
         {{/requiredAndNotNullableParams}}
         /// <summary>
         /// Processes the server response
@@ -211,7 +211,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnProperty}}{{baseType}}{{#isContainer}}{{#isMap}}{TKey, TValue}{{/isMap}}{{^isMap}}{TValue}{{/isMap}}{{/isContainer}}{{/returnProperty}}{{^returnProperty}}object{{/returnProperty}}"/></returns>
         public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
         {
             try
@@ -232,7 +232,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnProperty}}{{baseType}}{{#isContainer}}{{#isMap}}{TKey, TValue}{{/isMap}}{{^isMap}}{TValue}{{/isMap}}{{/isContainer}}{{/returnProperty}}{{^returnProperty}}object{{/returnProperty}}"/></returns>
         public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}})
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();

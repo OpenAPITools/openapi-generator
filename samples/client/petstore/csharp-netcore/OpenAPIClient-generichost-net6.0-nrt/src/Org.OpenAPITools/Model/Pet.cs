@@ -76,10 +76,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a StatusEnum
+        /// Returns a <see cref="StatusEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "available")
@@ -95,7 +96,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="StatusEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromStringOrDefault(string value)
+        {
+            if (value == "available")
+                return StatusEnum.Available;
+
+            if (value == "pending")
+                return StatusEnum.Pending;
+
+            if (value == "sold")
+                return StatusEnum.Sold;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="StatusEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -189,12 +209,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Pet
+    /// A Json converter for type <see cref="Pet" />
     /// </summary>
     public class PetJsonConverter : JsonConverter<Pet>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Pet" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -248,8 +268,10 @@ namespace Org.OpenAPITools.Model
                                 photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
-                            string statusRawValue = utf8JsonReader.GetString();
-                            status = Pet.StatusEnumFromString(statusRawValue);
+                            string? statusRawValue = utf8JsonReader.GetString();
+                            status = statusRawValue == null
+                                ? null
+                                : Pet.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "tags":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -283,7 +305,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Pet" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pet"></param>

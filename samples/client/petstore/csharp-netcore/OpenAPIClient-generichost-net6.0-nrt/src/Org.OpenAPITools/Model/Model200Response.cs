@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Model200Response
+    /// A Json converter for type <see cref="Model200Response" />
     /// </summary>
     public class Model200ResponseJsonConverter : JsonConverter<Model200Response>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Model200Response" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Model200Response" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="model200Response"></param>

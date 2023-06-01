@@ -88,12 +88,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Category
+    /// A Json converter for type <see cref="Category" />
     /// </summary>
     public class CategoryJsonConverter : JsonConverter<Category>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Category" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Category" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="category"></param>

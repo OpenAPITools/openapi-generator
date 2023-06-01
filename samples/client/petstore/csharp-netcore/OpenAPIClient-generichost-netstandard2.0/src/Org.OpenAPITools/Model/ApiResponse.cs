@@ -97,12 +97,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ApiResponse
+    /// A Json converter for type <see cref="ApiResponse" />
     /// </summary>
     public class ApiResponseJsonConverter : JsonConverter<ApiResponse>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ApiResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ApiResponse" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="apiResponse"></param>

@@ -99,12 +99,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ArrayTest
+    /// A Json converter for type <see cref="ArrayTest" />
     /// </summary>
     public class ArrayTestJsonConverter : JsonConverter<ArrayTest>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ArrayTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ArrayTest" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="arrayTest"></param>

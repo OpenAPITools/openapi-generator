@@ -99,12 +99,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Whale
+    /// A Json converter for type <see cref="Whale" />
     /// </summary>
     public class WhaleJsonConverter : JsonConverter<Whale>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Whale" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Whale" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="whale"></param>

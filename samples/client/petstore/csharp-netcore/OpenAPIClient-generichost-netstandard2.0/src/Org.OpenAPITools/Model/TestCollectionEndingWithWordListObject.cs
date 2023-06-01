@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type TestCollectionEndingWithWordListObject
+    /// A Json converter for type <see cref="TestCollectionEndingWithWordListObject" />
     /// </summary>
     public class TestCollectionEndingWithWordListObjectJsonConverter : JsonConverter<TestCollectionEndingWithWordListObject>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="TestCollectionEndingWithWordListObject" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="TestCollectionEndingWithWordListObject" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testCollectionEndingWithWordListObject"></param>

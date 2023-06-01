@@ -183,12 +183,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type User
+    /// A Json converter for type <see cref="User" />
     /// </summary>
     public class UserJsonConverter : JsonConverter<User>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="User" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -311,7 +311,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="User" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>

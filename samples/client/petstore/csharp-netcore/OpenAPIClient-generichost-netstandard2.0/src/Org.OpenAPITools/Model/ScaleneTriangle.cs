@@ -84,12 +84,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ScaleneTriangle
+    /// A Json converter for type <see cref="ScaleneTriangle" />
     /// </summary>
     public class ScaleneTriangleJsonConverter : JsonConverter<ScaleneTriangle>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ScaleneTriangle" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ScaleneTriangle" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="scaleneTriangle"></param>

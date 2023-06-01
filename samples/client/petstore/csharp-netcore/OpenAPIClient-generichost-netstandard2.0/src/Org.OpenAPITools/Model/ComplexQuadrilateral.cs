@@ -84,12 +84,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ComplexQuadrilateral
+    /// A Json converter for type <see cref="ComplexQuadrilateral" />
     /// </summary>
     public class ComplexQuadrilateralJsonConverter : JsonConverter<ComplexQuadrilateral>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ComplexQuadrilateral" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ComplexQuadrilateral" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="complexQuadrilateral"></param>

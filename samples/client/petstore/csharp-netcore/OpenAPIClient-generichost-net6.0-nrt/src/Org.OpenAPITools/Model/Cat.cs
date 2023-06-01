@@ -72,12 +72,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Cat
+    /// A Json converter for type <see cref="Cat" />
     /// </summary>
     public class CatJsonConverter : JsonConverter<Cat>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Cat" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Cat" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="cat"></param>

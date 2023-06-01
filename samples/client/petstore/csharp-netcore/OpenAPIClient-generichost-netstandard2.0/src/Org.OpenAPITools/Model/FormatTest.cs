@@ -359,7 +359,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type FormatTest
+    /// A Json converter for type <see cref="FormatTest" />
     /// </summary>
     public class FormatTestJsonConverter : JsonConverter<FormatTest>
     {
@@ -374,7 +374,7 @@ namespace Org.OpenAPITools.Model
         public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="FormatTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -563,7 +563,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="FormatTest" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="formatTest"></param>

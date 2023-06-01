@@ -74,10 +74,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a StatusEnum
+        /// Returns a <see cref="StatusEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "placed")
@@ -93,7 +94,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="StatusEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromStringOrDefault(string value)
+        {
+            if (value == "placed")
+                return StatusEnum.Placed;
+
+            if (value == "approved")
+                return StatusEnum.Approved;
+
+            if (value == "delivered")
+                return StatusEnum.Delivered;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="StatusEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -187,7 +207,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Order
+    /// A Json converter for type <see cref="Order" />
     /// </summary>
     public class OrderJsonConverter : JsonConverter<Order>
     {
@@ -197,7 +217,7 @@ namespace Org.OpenAPITools.Model
         public static string ShipDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Order" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -253,7 +273,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
-                            status = Order.StatusEnumFromString(statusRawValue);
+                            status = statusRawValue == null
+                                ? null
+                                : Order.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "complete":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -287,7 +309,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Order" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="order"></param>

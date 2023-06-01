@@ -46,8 +46,17 @@ namespace Org.OpenAPITools.Model
         Xyz = 3
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="EnumClass"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public class EnumClassConverter : JsonConverter<EnumClass>
     {
+        /// <summary>
+        /// Parses a given value to <see cref="EnumClass"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static EnumClass FromString(string value)
         {
             if (value == "_abc")
@@ -62,6 +71,11 @@ namespace Org.OpenAPITools.Model
             throw new NotImplementedException($"Could not convert value to type EnumClass: '{value}'");
         }
 
+        /// <summary>
+        /// Parses a given value to <see cref="EnumClass"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static EnumClass? FromStringOrDefault(string value)
         {
             if (value == "_abc")
@@ -76,6 +90,12 @@ namespace Org.OpenAPITools.Model
             return null;
         }
 
+        /// <summary>
+        /// Converts the <see cref="EnumClass"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ToJsonValue(EnumClass value)
         {
             if (value == EnumClass.Abc)
@@ -101,8 +121,10 @@ namespace Org.OpenAPITools.Model
         {
             string? rawValue = reader.GetString();
 
-            EnumClass? result = EnumClassConverter.FromString(rawValue);
-            
+            EnumClass? result = rawValue == null
+                ? null
+                : EnumClassConverter.FromStringOrDefault(rawValue);
+
             if (result != null)
                 return result.Value;
 
@@ -121,6 +143,9 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="EnumClass"/>
+    /// </summary>
     public class EnumClassNullableConverter : JsonConverter<EnumClass?>
     {
         /// <summary>
@@ -134,10 +159,9 @@ namespace Org.OpenAPITools.Model
         {
             string? rawValue = reader.GetString();
 
-            if (rawValue == null)
-                return null;
-
-            EnumClass? result = EnumClassConverter.FromString(rawValue);
+            EnumClass? result = rawValue == null
+                ? null
+                : EnumClassConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
