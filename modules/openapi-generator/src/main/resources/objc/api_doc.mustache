@@ -25,10 +25,10 @@ Method | HTTP request | Description
 ```objc
 {{#hasAuthMethods}}
 {{classPrefix}}DefaultConfiguration *apiConfig = [{{classPrefix}}DefaultConfiguration sharedConfig];
-{{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
+{{#authMethods}}{{#isBasicBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
 [apiConfig setUsername:@"YOUR_USERNAME"];
 [apiConfig setPassword:@"YOUR_PASSWORD"];
-{{/isBasic}}{{#isApiKey}}
+{{/isBasicBasic}}{{#isApiKey}}
 // Configure API key authorization: (authentication scheme: {{{name}}})
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"{{{keyParamName}}}"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed

@@ -19,7 +19,7 @@
   {{#hasAuthMethods}}
     <ol>
     {{#authMethods}}
-      <li>{{#isBasic}}HTTP Basic Authentication{{/isBasic}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}</li>
+      <li>{{#isBasicBasic}}HTTP Basic Authentication{{/isBasicBasic}}{{#isBasicBearer}}HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}{{/isBasicBearer}}{{#isHttpSignature}}HTTP signature authentication{{/isHttpSignature}}{{#isOAuth}}OAuth AuthorizationUrl:{{authorizationUrl}}TokenUrl:{{tokenUrl}}{{/isOAuth}}{{#isApiKey}}APIKey KeyParamName:{{keyParamName}} KeyInQuery:{{isKeyInQuery}} KeyInHeader:{{isKeyInHeader}}{{/isApiKey}}</li>
     {{/authMethods}}
     </ol>
   {{/hasAuthMethods}}
