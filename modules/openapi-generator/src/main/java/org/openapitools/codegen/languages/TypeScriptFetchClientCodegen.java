@@ -934,16 +934,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private static boolean itemsAreUniqueId(CodegenProperty items) {
-        if (items.items != null) {
+        if (items != null && items.items != null) {
             return itemsAreUniqueId(items.items);
         };
-        if (items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
+        if (items != null && items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
             return Boolean.TRUE.equals(items.vendorExtensions.get(X_IS_UNIQUE_ID));
         }
         return false;
     }
 
     private static boolean itemsAreNullable(CodegenProperty items) {
+        if (items == null) {
+            return true;
+        }
         if (items.items != null) {
             return itemsAreNullable(items.items);
         };
@@ -951,6 +954,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private static String getItemsDataType(CodegenProperty items) {
+        if (items == null) {
+            return null;
+        }
         if (items.items != null) {
             return getItemsDataType(items.items);
         };
