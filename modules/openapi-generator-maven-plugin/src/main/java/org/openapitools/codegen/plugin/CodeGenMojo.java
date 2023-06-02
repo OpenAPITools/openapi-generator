@@ -460,6 +460,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
 
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.dryRun")
+    private Boolean dryRun = false;
+
     // TODO: Rename to global properties in version 5.1
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
@@ -867,7 +870,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            new DefaultGenerator().opts(input).generate();
+            new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));
