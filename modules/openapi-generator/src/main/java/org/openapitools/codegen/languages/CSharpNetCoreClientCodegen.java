@@ -79,7 +79,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_70_OR_LATER = "net70OrLater";
 
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -1309,7 +1309,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreClientCodegen.class);
 
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
