@@ -3,169 +3,79 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.perfana</groupId>
+    <parent>
+        <groupId>com.ahold.libraries</groupId>
+        <artifactId>lib-gatling-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/>
+    </parent>
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>Github Packages</name>
+            <url>https://maven.pkg.github.com/RoyalAholdDelhaize/price-promotion-superpom</url>
+        </repository>
+    </repositories>
+
+    <groupId>com.ah</groupId>
     <artifactId>{{ artifactId }}</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <!-- dependency versioning -->
-        <kotlin.version>1.6.10</kotlin.version>
-        <gatling.version>{{ gatlingVersion }}</gatling.version>
-        <perfana-java-client.version>{{ perfanaJavaClientVersion }}</perfana-java-client.version>
-        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
-        <gatling-maven-plugin.version>4.1.0</gatling-maven-plugin.version>
-        <events-gatling-maven-plugin.version>{{ eventsGatlingMavenPluginVersion }}</events-gatling-maven-plugin.version>
-        <!-- Default Simulation class  -->
+        <guava.version>31.1-jre</guava.version>
         <simulationClass>{{ setUpPackage }}.{{ simulationClassName }}</simulationClass>
+
         <!-- Default scenario -->
         <scenario>acceptance</scenario>
-        <!-- By default debug mode is off -->
+
+        <!-- Perfana settings -->
         <debug>false</debug>
         <testRunId>test-run</testRunId>
-        <!-- By default enable events -->
         <eventsEnabled>true</eventsEnabled>
         <eventScheduleScript></eventScheduleScript>
-        <!-- By default do not send data to perfana -->
         <perfanaEnabled>{{ perfanaEnabled }}</perfanaEnabled>
-        <!-- Perfana url  -->
         <perfanaUrl>{{ perfanaUrl }}</perfanaUrl>
-        <!-- By default assert test results -->
         <assertResultsEnabled>true</assertResultsEnabled>
-        <!-- Settings for the Perfana Dashboard -->
+
+        <!-- Perfana Dashboard settings -->
         <systemUnderTest>{{ systemUnderTest }}</systemUnderTest>
+        <perfanaApplications>{{ systemUnderTest }}</perfanaApplications>
         <version>{{ apiVersion }}</version>
         <tags></tags>
-        <!-- By default Jenkins build Url is used -->
-        <CIBuildResultsUrl>${BUILD_URL}</CIBuildResultsUrl>
-        <influxDbHost>{{ influxDbHost }}</influxDbHost>
-        <graphitePrefix>gatling2.debug</graphitePrefix>
-        <!-- Database settings   -->
-        <db.url>jdbc://localhost:3306</db.url>
-        <db.username>root</db.username>
-        <db.password>perfana</db.password>
-
+        <buildResultsUrl>${BUILD_URL}</buildResultsUrl>
+        <testEnvironment>${TEST_ENVIRONMENT}</testEnvironment>
+        <influx.host>{{ influxHost }}</influx.host>
+        <influx.port>{{ influxPort }}</influx.port>
+        <influx.protocol>{{ influxProtocol }}</influx.protocol>
+        <graphitePrefix>{{ graphitePrefix }}</graphitePrefix>
+        <db.url>{{ dbUrl }}</db.url>
+        <db.username>{{ dbUsername }}</db.username>
+        <db.password>{{ dbPassword }}</db.password>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling.highcharts</groupId>
-            <artifactId>gatling-charts-highcharts</artifactId>
-            <version>${gatling.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>19.7.0.0</version>
+            <groupId>com.ahold.libraries</groupId>
+            <artifactId>lib-gatling</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20210307</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
     </dependencies>
 
     <build>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${build-helper-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>timestamp-property</id>
-                        <goals>
-                            <goal>timestamp-property</goal>
-                        </goals>
-                        <configuration>
-                            <name>build.time</name>
-                            <pattern>yyyyMMdd-HHmmss</pattern>
-                            <timeZone>CET</timeZone>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>[3.6.3,)</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>io.perfana</groupId>
                 <artifactId>events-gatling-maven-plugin</artifactId>
-                <version>${events-gatling-maven-plugin.version}</version>
                 <configuration>
-                    <simulationClass>${simulationClass}</simulationClass>
-                    <noReports>true</noReports>
-                    <propagateSystemProperties>false</propagateSystemProperties>
-                    <resultsFolder>results</resultsFolder>
-                    <jvmArgs>
-                        <jvmArg>-Dscenario=${scenario}</jvmArg>
-                        <jvmArg>-DtestRunId=${testRunId}</jvmArg>
+                    <jvmArgs combine.children="append">
                         <jvmArg>-DtestEnvironment=${testEnvironment}</jvmArg>
-                        <jvmArg>-DtargetBaseUrl=${targetBaseUrl}</jvmArg>
-                       <!--Uncomment below arg to use idpUrl for JWT authorization -->
-                       <!-- <jvmArg>-DidpUrl=${idpUrl}</jvmArg> -->
-                        <jvmArg>-DinitialUsersPerSecond=${initialUsersPerSecond}</jvmArg>
-                        <jvmArg>-DtargetUsersPerSecond=${targetUsersPerSecond}</jvmArg>
-                        <jvmArg>-DrampupTimeInSeconds=${rampupTimeInSeconds}</jvmArg>
-                        <jvmArg>-DconstantLoadTimeInSeconds=${constantLoadTimeInSeconds}</jvmArg>
-                        <jvmArg>-Ddebug=${debug}</jvmArg>
-                        <jvmArg>-DuseProxy=${useProxy}</jvmArg>
-                        <jvmArg>-Dgatling.data.graphite.rootPathPrefix=gatling2.${systemUnderTest}.${testEnvironment}</jvmArg>
-                        <jvmArg>-Dgatling.data.graphite.host=${influxDbHost}</jvmArg>
+                        <!--Uncomment below arg to use idpUrl for JWT authorization -->
+                        <!-- <jvmArg>-DidpUrl=${idpUrl}</jvmArg> -->
                         <jvmArg>-Ddb.url=${db.url}</jvmArg>
                         <jvmArg>-Ddb.username=${db.username}</jvmArg>
                         <jvmArg>-Ddb.password=${db.password}</jvmArg>
@@ -173,46 +83,19 @@
                         <jvmArg>-Xmx4g</jvmArg>
                     </jvmArgs>
                     <eventSchedulerConfig>
-                        <debugEnabled>false</debugEnabled>
-                        <schedulerEnabled>${eventsEnabled}</schedulerEnabled>
-                        <failOnError>true</failOnError>
-                        <continueOnEventCheckFailure>true</continueOnEventCheckFailure>
-                        <scheduleScript>
-                            ${eventScheduleScript}
-                        </scheduleScript>
                         <eventConfigs>
                             <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
                                 <name>PerfanaEvent</name>
-                                <perfanaUrl>${perfanaUrl}</perfanaUrl>
                                 <enabled>${perfanaEnabled}</enabled>
-                                <apiKey>${apiKey}</apiKey>
-                                <assertResultsEnabled>${assertResultsEnabled}</assertResultsEnabled>
-                                <variables>
-                                    <perfana-applications>^{{ systemUnderTest }}$|^application2$</perfana-applications>
-                                </variables>
-                                <testConfig>
-                                    <systemUnderTest>${systemUnderTest}</systemUnderTest>
-                                    <version>${version}</version>
-                                    <workload>${workload}</workload>
-                                    <testEnvironment>${testEnvironment}</testEnvironment>
-                                    <testRunId>${testRunId}</testRunId>
-                                    <buildResultsUrl>${CIBuildResultsUrl}</buildResultsUrl>
-                                    <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
-                                    <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
-                                    <annotations>${annotations}</annotations>
-                                    <tags>${tags}</tags>
-                                </testConfig>
+                            </eventConfig>
+                            <eventConfig
+                                    implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
+                                <name>KubernetesGetDeployment</name>
+                                <enabled>false</enabled>
                             </eventConfig>
                         </eventConfigs>
                     </eventSchedulerConfig>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>io.perfana</groupId>
-                        <artifactId>perfana-java-client</artifactId>
-                        <version>${perfana-java-client.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -225,9 +108,7 @@
     == ************************************************************************ -->
 
     <profiles>
-
         <!-- Test testEnvironment profiles -->
-
         <profile>
             <id>tst</id>
             <properties>
@@ -246,9 +127,7 @@
             </properties>
         </profile>
 
-
         <!-- Workload profiles for stress, load and endurance tests -->
-
         <profile>
             <id>stress</id>
             <properties>
@@ -257,7 +136,7 @@
                 <targetUsersPerSecond>30</targetUsersPerSecond>
                 <rampupTimeInSeconds>900</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>1</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.timestamp}</testRunId>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,stress-test</tags>
             </properties>
         </profile>
@@ -269,7 +148,7 @@
                 <targetUsersPerSecond>2</targetUsersPerSecond>
                 <rampupTimeInSeconds>30</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>1200</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.timestamp}</testRunId>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,load-test</tags>
             </properties>
         </profile>
@@ -281,7 +160,7 @@
                 <targetUsersPerSecond>60</targetUsersPerSecond>
                 <rampupTimeInSeconds>900</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>86400</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.timestamp}</testRunId>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,endurance-test</tags>
             </properties>
         </profile>
@@ -291,7 +170,7 @@
             <properties>
                 <debug>true</debug>
                 <scenario>debug</scenario>
-                <perfanaEnabled>false</perfanaEnabled>
+                <perfanaEnabled>${perfanaEnabled}</perfanaEnabled>
                 <graphitePrefix>gatling2.debug</graphitePrefix>
                 <assertResultsEnabled>false</assertResultsEnabled>
                 <initialUsersPerSecond>1</initialUsersPerSecond>

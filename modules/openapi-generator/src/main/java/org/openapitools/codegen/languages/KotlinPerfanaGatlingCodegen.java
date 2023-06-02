@@ -175,11 +175,60 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
             targetBaseUrl = "http://your-app.com";
         }
 
-        String influxDbHost;
-        if (this.additionalProperties.containsKey("influxDbHost")) {
-            influxDbHost = this.additionalProperties.get("influxDbHost").toString();
+        boolean perfanaEnabled;
+        if (this.additionalProperties.containsKey("perfanaEnabled")) {
+            perfanaEnabled = Boolean.parseBoolean(this.additionalProperties.get("perfanaEnabled").toString());
         } else {
-            influxDbHost = "http://influxdb";
+            perfanaEnabled = false;
+        }
+
+        String influxHost;
+        if (this.additionalProperties.containsKey("influxHost")) {
+            influxHost = this.additionalProperties.get("influxHost").toString();
+        } else {
+            influxHost = "http://influxdb";
+        }
+
+        String influxPort;
+        if (this.additionalProperties.containsKey("influxPort")) {
+            influxPort = this.additionalProperties.get("influxPort").toString();
+        } else {
+            influxPort = "2003";
+        }
+
+        String influxProtocol;
+        if (this.additionalProperties.containsKey("influxProtocol")) {
+            influxProtocol = this.additionalProperties.get("influxProtocol").toString();
+        } else {
+            influxProtocol = "tcp";
+        }
+
+        String graphitePrefix;
+        if (this.additionalProperties.containsKey("graphitePrefix")) {
+            graphitePrefix = this.additionalProperties.get("graphitePrefix").toString();
+        } else {
+            graphitePrefix = "gatling2.debug";
+        }
+
+        String dbUrl;
+        if (this.additionalProperties.containsKey("dbUrl")) {
+            dbUrl = this.additionalProperties.get("dbUrl").toString();
+        } else {
+            dbUrl = "jdbc://localhost:3306";
+        }
+
+        String dbUsername;
+        if (this.additionalProperties.containsKey("dbUsername")) {
+            dbUsername = this.additionalProperties.get("dbUsername").toString();
+        } else {
+            dbUsername = "root";
+        }
+
+        String dbPassword;
+        if (this.additionalProperties.containsKey("dbPassword")) {
+            dbPassword = this.additionalProperties.get("dbPassword").toString();
+        } else {
+            dbPassword = "perfana";
         }
 
         String feederPackage = this.apiPackage.replace(".api", ".feeders");
@@ -194,13 +243,21 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         this.additionalProperties.put("testEventsWiremockVersion", testEventsWiremockVersion);
         this.additionalProperties.put("perfanaUrl", perfanaUrl);
         this.additionalProperties.put("targetBaseUrl", targetBaseUrl);
+        this.additionalProperties.put("perfanaEnabled", perfanaEnabled);
         this.additionalProperties.put("artifactId", artifactId);
         this.additionalProperties.put("apiVersion", this.apiVersion);
         this.additionalProperties.put("feederPackage", feederPackage);
         this.additionalProperties.put("configurationPackage", configurationPackage);
         this.additionalProperties.put("setUpPackage", setUpPackage);
         this.additionalProperties.put("helperPackage", helperPackage);
-        this.additionalProperties.put("influxDbHost", influxDbHost);
+        this.additionalProperties.put("influxHost", influxHost);
+        this.additionalProperties.put("influxPort", influxPort);
+        this.additionalProperties.put("influxProtocol", influxProtocol);
+        this.additionalProperties.put("graphitePrefix", graphitePrefix);
+        this.additionalProperties.put("dbUrl", dbUrl);
+        this.additionalProperties.put("dbUsername", dbUsername);
+        this.additionalProperties.put("dbPassword", dbPassword);
+
         String feederFolder = this.sourceFolder.replace("main", "test") + File.separator + feederPackage.replace('.', File.separatorChar);
         String configurationFolder = this.sourceFolder.replace("main", "test") + File.separator + configurationPackage.replace('.', File.separatorChar);
         String setUpFolder = this.sourceFolder.replace("main", "test") + File.separator + setUpPackage.replace('.', File.separatorChar);

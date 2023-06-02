@@ -1,397 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.perfana</groupId>
+    <parent>
+        <groupId>com.ahold.libraries</groupId>
+        <artifactId>lib-gatling-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/>
+    </parent>
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>Github Packages</name>
+            <url>https://maven.pkg.github.com/RoyalAholdDelhaize/price-promotion-superpom</url>
+        </repository>
+    </repositories>
+
+    <groupId>com.ah</groupId>
     <artifactId>{{ artifactId }}</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-
-        <encoding>UTF-8</encoding>
-
-        <!-- dependency versioning -->
-        <gatling.version>{{ gatlingVersion }}</gatling.version>
-        <events-gatling-maven-plugin.version>{{ eventsGatlingMavenPluginVersion }}</events-gatling-maven-plugin.version>
-        <perfana-java-client.version>{{ perfanaJavaClientVersion }}</perfana-java-client.version>
-        <test-events-wiremock.version>{{ testEventsWiremockVersion }}</test-events-wiremock.version>
-        <scala-maven-plugin.version>4.5.6</scala-maven-plugin.version>
-
-        <!-- Perfana url  -->
-        <perfanaUrl>{{ perfanaUrl }}</perfanaUrl>
-
-        <!-- Default Simulation class  -->
-        <systemUnderTestSimulation>{{ setUpPackage }}.{{ simulationClassName }}</systemUnderTestSimulation>
-
-        <!-- By default Jenkins build Url is used -->
-        <CIBuildResultsUrl>${BUILD_URL}</CIBuildResultsUrl>
-
-        <!-- By default no proxy is used -->
-        <useProxy>false</useProxy>
-
-        <!-- By default debug mode is off -->
-        <debug>false</debug>
-
-        <!-- Default graphite namespace -->
-        <graphitePrefix>gatling2.debug</graphitePrefix>
+        <guava.version>31.1-jre</guava.version>
+        <simulationClass>{{ setUpPackage }}.{{ simulationClassName }}</simulationClass>
 
         <!-- Default scenario -->
         <scenario>acceptance</scenario>
 
-        <!-- By default assert test results -->
-        <assertResultsEnabled>true</assertResultsEnabled>
-
-        <!-- By default send data to perfana -->
-        <perfanaEnabled>true</perfanaEnabled>
-
-        <!-- By default disable wiremock -->
-        <wiremockEnabled>false</wiremockEnabled>
-
-        <!-- By default enable events -->
+        <!-- Perfana settings -->
+        <debug>false</debug>
+        <testRunId>test-run</testRunId>
         <eventsEnabled>true</eventsEnabled>
         <eventScheduleScript></eventScheduleScript>
+        <perfanaEnabled>{{ perfanaEnabled }}</perfanaEnabled>
+        <perfanaUrl>{{ perfanaUrl }}</perfanaUrl>
+        <assertResultsEnabled>true</assertResultsEnabled>
 
-        <!-- Default load settings -->
-        <initialUsersPerSecond>1</initialUsersPerSecond>
-        <targetUsersPerSecond>1</targetUsersPerSecond>
-        <rampupTimeInSeconds>60</rampupTimeInSeconds>
-        <constantLoadTimeInSeconds>900</constantLoadTimeInSeconds>
-
-        <!-- Settings for the Perfana Dashboard -->
+        <!-- Perfana Dashboard settings -->
         <systemUnderTest>{{ systemUnderTest }}</systemUnderTest>
+        <perfanaApplications>{{ systemUnderTest }}</perfanaApplications>
         <version>{{ apiVersion }}</version>
         <tags></tags>
-
-        <wiremockUrl>http://your-wiremock-url</wiremockUrl>
-        <influxDbHost>{{ influxDbHost }}</influxDbHost>
-
-        <!-- Database settings   -->
-        <db.url>jdbc://localhost:3306</db.url>
-        <db.username>root</db.username>
-        <db.password>perfana</db.password>
-
+        <buildResultsUrl>${BUILD_URL}</buildResultsUrl>
+        <testEnvironment>${TEST_ENVIRONMENT}</testEnvironment>
+        <influx.host>{{ influxHost }}</influx.host>
+        <influx.port>{{ influxPort }}</influx.port>
+        <influx.protocol>{{ influxProtocol }}</influx.protocol>
+        <graphitePrefix>{{ graphitePrefix }}</graphitePrefix>
+        <db.url>{{ dbUrl }}</db.url>
+        <db.username>{{ dbUsername }}</db.username>
+        <db.password>{{ dbPassword }}</db.password>
     </properties>
-
-    <dependencyManagement>
-
-        <dependencies>
-            <dependency>
-                <groupId>io.gatling.highcharts</groupId>
-                <artifactId>gatling-charts-highcharts</artifactId>
-                <version>${gatling.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
-            <groupId>io.gatling.highcharts</groupId>
-            <artifactId>gatling-charts-highcharts</artifactId>
+            <groupId>com.ahold.libraries</groupId>
+            <artifactId>lib-gatling</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>19.7.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.scalaj</groupId>
-            <artifactId>scalaj-http_2.13</artifactId>
-            <version>2.4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.8.1</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <testSourceDirectory>src/test/scala</testSourceDirectory>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-            </plugins>    
-        </pluginManagement>
-
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.10</version>
-                <executions>
-                    <execution>
-                        <id>timestamp-property</id>
-                        <goals>
-                            <goal>timestamp-property</goal>
-                        </goals>
-                        <configuration>
-                            <name>build.time</name>
-                            <pattern>yyyyMMdd-HHmmss</pattern>
-                            <timeZone>CET</timeZone>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>${scala-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                        <configuration>
-                            <jvmArgs>
-                                <jvmArg>-Xss100M</jvmArg>
-                            </jvmArgs>
-                            <args>
-                                <arg>-target:jvm-1.8</arg>
-                                <arg>-deprecation</arg>
-                                <arg>-feature</arg>
-                                <arg>-unchecked</arg>
-                                <arg>-language:implicitConversions</arg>
-                                <arg>-language:postfixOps</arg>
-                            </args>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>io.perfana</groupId>
                 <artifactId>events-gatling-maven-plugin</artifactId>
-                <version>${events-gatling-maven-plugin.version}</version>
                 <configuration>
-                    <resultsFolder>target/gatling/results</resultsFolder>
-                    <simulationsFolder>src/test/scala</simulationsFolder>
-                    <noReports>true</noReports>
-                    <simulationClass>${systemUnderTestSimulation}</simulationClass>
-                    <jvmArgs>
-                        <jvmArg>-Dscenario=${scenario}</jvmArg>
-                        <jvmArg>-DtestRunId=${testRunId}</jvmArg>
+                    <jvmArgs combine.children="append">
                         <jvmArg>-DtestEnvironment=${testEnvironment}</jvmArg>
-                        <jvmArg>-DtargetBaseUrl=${targetBaseUrl}</jvmArg>
-                        <jvmArg>-DinitialUsersPerSecond=${initialUsersPerSecond}</jvmArg>
-                        <jvmArg>-DtargetUsersPerSecond=${targetUsersPerSecond}</jvmArg>
-                        <jvmArg>-DrampupTimeInSeconds=${rampupTimeInSeconds}</jvmArg>
-                        <jvmArg>-DconstantLoadTimeInSeconds=${constantLoadTimeInSeconds}</jvmArg>
-                        <jvmArg>-Ddebug=${debug}</jvmArg>
-                        <jvmArg>-DuseProxy=${useProxy}</jvmArg>
-                        <jvmArg>-Dgatling.data.graphite.rootPathPrefix=gatling2.${systemUnderTest}.${testEnvironment}</jvmArg>
-                        <jvmArg>-Dgatling.data.graphite.host=${influxDbHost}</jvmArg>
+                        <!--Uncomment below arg to use idpUrl for JWT authorization -->
+                        <!-- <jvmArg>-DidpUrl=${idpUrl}</jvmArg> -->
                         <jvmArg>-Ddb.url=${db.url}</jvmArg>
                         <jvmArg>-Ddb.username=${db.username}</jvmArg>
                         <jvmArg>-Ddb.password=${db.password}</jvmArg>
                         <jvmArg>-Xms1g</jvmArg>
                         <jvmArg>-Xmx4g</jvmArg>
                     </jvmArgs>
-                    <propagateSystemProperties>false</propagateSystemProperties>
-
                     <eventSchedulerConfig>
-                        <debugEnabled>true</debugEnabled>
-                        <schedulerEnabled>${eventsEnabled}</schedulerEnabled>
-                        <failOnError>true</failOnError>
-                        <continueOnEventCheckFailure>true</continueOnEventCheckFailure>
-                        <scheduleScript>
-                            ${eventScheduleScript}
-                        </scheduleScript>
                         <eventConfigs>
-                            <eventConfig implementation="io.perfana.event.wiremock.WiremockEventConfig">
-                                <enabled>${wiremockEnabled}</enabled>
-                                <wiremockFilesDir>src/test/resources/wiremock</wiremockFilesDir>
-                                <wiremockUrl>${wiremockUrl}</wiremockUrl>
-                            </eventConfig>
                             <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
                                 <name>PerfanaEvent</name>
-                                <apiKey>${apiKey}</apiKey>
                                 <enabled>${perfanaEnabled}</enabled>
-                                <perfanaUrl>${perfanaUrl}</perfanaUrl>
-                                <assertResultsEnabled>${assertResultsEnabled}</assertResultsEnabled>
-                                <variables>
-                                    <perfana-applications>^{{ systemUnderTest }}$|^application2$</perfana-applications>
-                                </variables>
-                                <testConfig>
-                                    <systemUnderTest>${systemUnderTest}</systemUnderTest>
-                                    <version>${version}</version>
-                                    <workload>${workload}</workload>
-                                    <testEnvironment>${testEnvironment}</testEnvironment>
-                                    <testRunId>${testRunId}</testRunId>
-                                    <buildResultsUrl>${CIBuildResultsUrl}</buildResultsUrl>
-                                    <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
-                                    <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
-                                    <annotations>${annotations}</annotations>
-                                    <tags>${tags}</tags>
-                                </testConfig>
+                            </eventConfig>
+                            <eventConfig
+                                    implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
+                                <name>KubernetesGetDeployment</name>
+                                <enabled>false</enabled>
                             </eventConfig>
                         </eventConfigs>
                     </eventSchedulerConfig>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>io.perfana</groupId>
-                        <artifactId>test-events-wiremock</artifactId>
-                        <version>${test-events-wiremock.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>io.perfana</groupId>
-                        <artifactId>perfana-java-client</artifactId>
-                        <version>${perfana-java-client.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
 
-
     <!-- ************************************************************************ ==
-    == Below we have defined three sets of profiles, which control the type of    ==
-    == test that will be run and the targeted testEnvironment.                    ==
-    == If you wish to run a stress test with scenario "default" on environment    ==
-    == "ah", use: mvn clean events-gatling:test -Pstress,ah             ==
-    == ************************************************************************ -->
+== Below we have defined three sets of profiles, which control the type of    ==
+== test that will be run and the targeted testEnvironment.                    ==
+== If you wish to run a stress test with scenario "default" on environment    ==
+== "ah", use: mvn clean events-gatling:test -Pstress,ah             ==
+== ************************************************************************ -->
 
     <profiles>
-
         <!-- Test testEnvironment profiles -->
-
         <profile>
-            <id>test-env-local</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
+            <id>tst</id>
             <properties>
-                <targetBaseUrl>http://localhost:8080</targetBaseUrl>
-                <testEnvironment>local</testEnvironment>
+                <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
+                <idpUrl>http://idp.ah-tst.k8s.digitaldev.nl</idpUrl>
+                <testEnvironment>tst</testEnvironment>
             </properties>
         </profile>
 
         <profile>
             <id>ah</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
                 <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
+                <idpUrl>http://idp.ah-acc.k8s.digitaldev.nl</idpUrl>
                 <testEnvironment>ah</testEnvironment>
             </properties>
         </profile>
 
-
-
-        <!-- Workload profiles -->
-
+        <!-- Workload profiles for stress, load and endurance tests -->
         <profile>
             <id>stress</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
-                <workload>stressTest</workload>
+                <workload>stress</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>30</targetUsersPerSecond>
                 <rampupTimeInSeconds>900</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>1</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.time}</testRunId>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,stress-test</tags>
             </properties>
         </profile>
-
         <profile>
             <id>load</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
-                <workload>loadTest</workload>
+                <workload>load</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>2</targetUsersPerSecond>
                 <rampupTimeInSeconds>30</rampupTimeInSeconds>
-                <constantLoadTimeInSeconds>240</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.timestamp}</testRunId>
+                <constantLoadTimeInSeconds>1200</constantLoadTimeInSeconds>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,load-test</tags>
             </properties>
         </profile>
-
-        <profile>
-            <id>slow-backend</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <workload>slowBackendTest</workload>
-                <initialUsersPerSecond>1</initialUsersPerSecond>
-                <targetUsersPerSecond>2</targetUsersPerSecond>
-                <rampupTimeInSeconds>60</rampupTimeInSeconds>
-                <constantLoadTimeInSeconds>300</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.timestamp}</testRunId>
-                <graphitePrefix>gatling2</graphitePrefix>
-                <wiremockEnabled>true</wiremockEnabled>
-                <eventScheduleScript>
-                    PT0S|wiremock-change-delay(delay=400)|delay=400
-                    PT1M|wiremock-change-delay(delay=2000)|delay=2000
-                    PT2M|wiremock-change-delay(delay=4000)|delay=4000
-                    PT3M|wiremock-change-delay(delay=8000)|delay=8000
-                    PT4M|wiremock-change-delay(delay=12000)|delay=12000
-                    PT5M|wiremock-change-delay(delay=400)|delay=400
-                </eventScheduleScript>
-                <tags>gatling,load-test</tags>
-            </properties>
-        </profile>
-
         <profile>
             <id>endurance</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
-                <workload>enduranceTest</workload>
+                <workload>endurance</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>60</targetUsersPerSecond>
                 <rampupTimeInSeconds>900</rampupTimeInSeconds>
-                <constantLoadTimeInSeconds>172800</constantLoadTimeInSeconds>
-                <perfanaEnabled>true</perfanaEnabled>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${build.time}</testRunId>
+                <constantLoadTimeInSeconds>86400</constantLoadTimeInSeconds>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,endurance-test</tags>
             </properties>
         </profile>
 
-        <!-- Scenarios-->
+        <profile>
+            <id>debug</id>
+            <properties>
+                <debug>true</debug>
+                <scenario>debug</scenario>
+                <perfanaEnabled>${perfanaEnabled}</perfanaEnabled>
+                <graphitePrefix>gatling2.debug</graphitePrefix>
+                <assertResultsEnabled>false</assertResultsEnabled>
+                <initialUsersPerSecond>1</initialUsersPerSecond>
+                <targetUsersPerSecond>1</targetUsersPerSecond>
+                <rampupTimeInSeconds>1</rampupTimeInSeconds>
+                <constantLoadTimeInSeconds>60</constantLoadTimeInSeconds>
+            </properties>
+        </profile>
 
         <profile>
             <id>acceptance</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
                 <scenario>acceptance</scenario>
             </properties>
         </profile>
-
-        <!-- This profile can be used to run the script in debug mode. This results in running the "debug" scenario and results are pushed to debug namespace in Graphite  -->
-
-        <profile>
-            <id>debug</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <debug>true</debug>
-                <perfanaEnabled>false</perfanaEnabled>
-                <graphitePrefix>gatling2.debug</graphitePrefix>
-                <scenario>debug</scenario>
-                <assertResultsEnabled>false</assertResultsEnabled>
-            </properties>
-        </profile>
-
 
         <!-- This profile can be used to route the traffic through a proxy for debugging  -->
         <profile>
@@ -404,7 +198,6 @@
             </properties>
         </profile>
 
-
         <!-- This profile can be used to trigger the assertions  to assert test run results from the pipeline   -->
         <profile>
             <id>assert-results</id>
@@ -415,7 +208,6 @@
                 <assertResultsEnabled>true</assertResultsEnabled>
             </properties>
         </profile>
-
 
     </profiles>
 </project>
