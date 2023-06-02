@@ -24,4 +24,6 @@ public interface Generator {
     Generator opts(ClientOptInput opts);
 
     List<File> generate();
+
+    String getName();
 }

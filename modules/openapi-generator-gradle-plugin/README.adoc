@@ -144,6 +144,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |The name of the generator which will handle codegen.
 
+|codegenName
+|String
+|default
+|The name or FQDN of the codegen class used for loading the generator and base functionality. If not specified `DefaultGenerator` is used.
+
 |outputDir
 |String
 |None
