@@ -102,9 +102,6 @@ class Configuration(object):
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.access_token = access_token
-        """Access token
-        """
         self.logger = {}
         """Logging Settings
         """

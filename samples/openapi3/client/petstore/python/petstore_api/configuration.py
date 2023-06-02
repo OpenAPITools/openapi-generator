@@ -179,9 +179,6 @@ conf = petstore_api.Configuration(
         self.password = password
         """Password for HTTP basic authentication
         """
-        self.access_token = access_token
-        """Access token
-        """
         if signing_info is not None:
             signing_info.host = host
         self.signing_info = signing_info
