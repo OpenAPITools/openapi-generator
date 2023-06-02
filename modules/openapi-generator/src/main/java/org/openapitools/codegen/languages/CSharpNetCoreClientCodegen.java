@@ -1523,20 +1523,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     cm.allVars.add(cp);
                 }
             }
-
-            for (CodegenProperty cp : cm.allVars) {
-                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11845
-                // some properties do not have isInherited set correctly
-                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
-                // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
-                if (cp.isInherited) {
-                    continue;
-                }
-                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
-                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
-                    cp.isInherited = true;
-                }
-            }
         }
 
         return objs;
@@ -1606,43 +1592,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             ensureInheritedPropertiesArePresent(cm);
-
-            for (CodegenProperty property : cm.allVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.vars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.readWriteVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.optionalVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.parentVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.requiredVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.readOnlyVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.nonNullableVars) {
-                fixInvalidPropertyName(cm, property);
-            }
         }
 
         return objs;
-    }
-
-    private void fixInvalidPropertyName(CodegenModel model, CodegenProperty property) {
-        // TODO: remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
-        if (property.name.equalsIgnoreCase(model.classname) ||
-                reservedWords().contains(property.name) ||
-                reservedWords().contains(camelize(sanitizeName(property.name), LOWERCASE_FIRST_LETTER))) {
-            property.name = property.name + "Property";
-        }
     }
 
     /**
