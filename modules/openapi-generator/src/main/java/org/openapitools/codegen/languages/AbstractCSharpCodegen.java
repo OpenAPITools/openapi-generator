@@ -582,7 +582,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
-        if (property.name != tmpPropertyName) {
+        if (!property.name.equals(tmpPropertyName)) {
             // the casing will be wrong if we just set the name to escapeReservedWord
             // if we try to fix it with camelize, underscores get stripped out
             // so test if the name was escaped and then replace var with Var
