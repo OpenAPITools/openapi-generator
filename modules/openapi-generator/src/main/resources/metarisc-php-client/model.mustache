@@ -1,0 +1,10 @@
+<?php
+{{#models}}
+{{#model}}
+{{>partial_header}}
+namespace Metarisc\Models;
+
+use DateTime;
+
+{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{/model}}{{/models}}

@@ -1,0 +1,7 @@
+language: php
+
+dist: bionic
+php:
+    - 8.0
+before_install: "composer install"
+script: "vendor/bin/phpunit"

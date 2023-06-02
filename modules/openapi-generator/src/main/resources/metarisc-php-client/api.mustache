@@ -1,0 +1,33 @@
+<?php{{>partial_header}}
+
+
+
+namespace {{invokerPackage}};
+
+use Pagerfanta\Pagerfanta;
+use Metarisc\MetariscAbstract;
+use Psr\Http\Message\ResponseInterface;
+
+{{#operations}}class {{classname}} extends MetariscAbstract
+{
+    {{#operation}}
+            {{#vendorExtensions.x-extension-metarisc-codegen-ispagination}}
+        public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}}) :Pagerfanta
+        {
+            return  $this->pagination('{{httpMethod}}', "{{path}}",[
+                'params' => [{{#queryParams}}
+                    '{{paramName}}' => ${{paramName}},{{/queryParams}}]
+            ]);
+        }
+            {{/vendorExtensions.x-extension-metarisc-codegen-ispagination}}
+            {{^vendorExtensions.x-extension-metarisc-codegen-ispagination}}
+        public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}}) :ResponseInterface
+        {
+            $path = "{{path}}";
+            return $this->request('{{httpMethod}}', "{{path}}");
+        }
+            {{/vendorExtensions.x-extension-metarisc-codegen-ispagination}}
+    {{/operation}}
+    }
+{{/operations}}
+
