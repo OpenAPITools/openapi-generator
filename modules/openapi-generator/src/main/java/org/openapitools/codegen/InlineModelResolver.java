@@ -366,6 +366,7 @@ public class InlineModelResolver {
                         if (Boolean.TRUE.equals(this.refactorAllOfInlineSchemas)) {
                             Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
                             newAllOf.add(refSchema); // replace with ref
+                            atLeastOneModel = true;
                         } else { // do not refactor allOf inline schemas
                             newAllOf.add(inner);
                             atLeastOneModel = true;
