@@ -320,18 +320,18 @@
                 writer.WriteNull("{{baseName}}");
             else
             {
-                var {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+                var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
                 {{#allowableValues}}
                 {{#enumVars}}
                 {{#-first}}
                 {{#isString}}
-                if ({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue != null)
-                    writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+                if ({{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue != null){{! we cant use name here because enumVar also has a name property, so use the camel case variant only as a work around }}
+                    writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
                 else
                     writer.WriteNull("{{baseName}}");
                 {{/isString}}
                 {{^isString}}
-                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
                 {{/isString}}
                 {{/-first}}
                 {{/enumVars}}
@@ -340,20 +340,20 @@
 
             {{/isNullable}}
             {{^isNullable}}
-            var {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+            var {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
             {{#allowableValues}}
             {{#enumVars}}
             {{#-first}}
             {{#isString}}
 
-            if ({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue != null)
-                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+            if ({{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
             else
                 writer.WriteNull("{{baseName}}");
 
             {{/isString}}
             {{^isString}}
-            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
             {{/isString}}
             {{/-first}}
             {{/enumVars}}
