@@ -40,6 +40,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -269,6 +270,11 @@ public class DefaultGenerator implements Generator {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
             inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            if (inlineModelResolver.refactorAllOfInlineSchemas == null) { // not set
+                if (config instanceof CSharpNetCoreClientCodegen) { // default to true
+                    inlineModelResolver.refactorAllOfInlineSchemas = true;
+                }
+            }
             inlineModelResolver.flatten(openAPI);
         }
 

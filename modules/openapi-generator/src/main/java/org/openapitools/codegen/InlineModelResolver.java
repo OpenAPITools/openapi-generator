@@ -47,6 +47,7 @@ public class InlineModelResolver {
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
     public boolean skipSchemaReuse = false; // skip reusing inline schema if set to true
+    public Boolean refactorAllOfInlineSchemas = null; // refactor allOf inline schemas into $ref
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
@@ -79,6 +80,16 @@ public class InlineModelResolver {
         if ("true".equalsIgnoreCase(
                 this.inlineSchemaNameDefaults.getOrDefault("SKIP_SCHEMA_REUSE", "false"))) {
             this.skipSchemaReuse = true;
+        }
+
+        if (this.inlineSchemaNameDefaults.containsKey("REFACTOR_ALLOF_INLINE_SCHEMAS")) {
+            if (Boolean.valueOf(this.inlineSchemaNameDefaults.get("REFACTOR_ALLOF_INLINE_SCHEMAS"))) {
+                this.refactorAllOfInlineSchemas = true;
+            } else { // set to false
+                this.refactorAllOfInlineSchemas = false;
+            }
+        } else {
+            // not set so default to null;
         }
     }
 
@@ -352,11 +363,13 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
-                        // comment out below as we no longer create separate model in allOf inline schemas
-                        //Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
-                        //newAllOf.add(refSchema); // replace with ref
-                        newAllOf.add(inner);
-                        atLeastOneModel = true;
+                        if (Boolean.TRUE.equals(this.refactorAllOfInlineSchemas)) {
+                            Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
+                            newAllOf.add(refSchema); // replace with ref
+                        } else { // do not refactor allOf inline schemas
+                            newAllOf.add(inner);
+                            atLeastOneModel = true;
+                        }
                     } else {
                         newAllOf.add(inner);
                     }
@@ -622,7 +635,7 @@ public class InlineModelResolver {
             } else if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
-                flattenComposedChildren(modelName + "_allOf", m.getAllOf(), true);
+                flattenComposedChildren(modelName + "_allOf", m.getAllOf(), !Boolean.TRUE.equals(this.refactorAllOfInlineSchemas));
                 flattenComposedChildren(modelName + "_anyOf", m.getAnyOf(), false);
                 flattenComposedChildren(modelName + "_oneOf", m.getOneOf(), false);
             } else {
