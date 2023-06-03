@@ -457,7 +457,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("required", new RequiredParameterLambda().generator(this))
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
-                .put("trimLineBreaks", new TrimLineBreaksLambda());
+                .put("trimLineBreaks", new TrimLineBreaksLambda())
+                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda());
     }
 
     @Override

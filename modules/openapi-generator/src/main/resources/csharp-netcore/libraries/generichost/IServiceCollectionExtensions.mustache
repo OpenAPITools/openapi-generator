@@ -21,7 +21,6 @@ namespace {{packageName}}.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="options"></param>
         public static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IServiceCollection services)
             {{#apiInfo}}
             {{#apis}}
@@ -29,7 +28,7 @@ namespace {{packageName}}.Extensions
             {{/apis}}
             {{/apiInfo}}
         {
-            HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
+            HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new{{^net70OrLater}} HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>{{/net70OrLater}}(services);
             Add{{apiName}}(services, config);
         }
 
@@ -37,7 +36,6 @@ namespace {{packageName}}.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="options"></param>
         public static void Add{{apiName}}(this IServiceCollection services)
         {
             HostConfiguration<{{>DefaultApis}}> config = new HostConfiguration<{{>DefaultApis}}>(services);
@@ -57,7 +55,7 @@ namespace {{packageName}}.Extensions
             {{/apis}}
             {{/apiInfo}}
         {
-            HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
+            HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new{{^net70OrLater}} HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>{{/net70OrLater}}(services);
             options(config);
             Add{{apiName}}(services, config);
         }
