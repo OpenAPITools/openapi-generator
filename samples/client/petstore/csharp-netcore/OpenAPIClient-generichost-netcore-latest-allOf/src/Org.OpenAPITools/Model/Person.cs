@@ -164,14 +164,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
 
             if (lastName == null)
                 throw new ArgumentNullException(nameof(lastName), "Property is required for class Person.");
 
-            if (firstName == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
 
             return new Person(firstName, lastName, type);
         }

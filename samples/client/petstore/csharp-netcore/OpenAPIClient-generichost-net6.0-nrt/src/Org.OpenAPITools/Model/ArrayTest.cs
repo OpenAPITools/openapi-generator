@@ -157,14 +157,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
-
             if (arrayArrayOfInteger == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
 
             if (arrayArrayOfModel == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
+
+            if (arrayOfString == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
 
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }

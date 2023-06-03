@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CreateUserAsyncTest()
         {
-            User user = default;
+            User user = default!;
             await _instance.CreateUserAsync(user);
         }
 
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CreateUsersWithArrayInputAsyncTest()
         {
-            List<User> user = default;
+            List<User> user = default!;
             await _instance.CreateUsersWithArrayInputAsync(user);
         }
 
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CreateUsersWithListInputAsyncTest()
         {
-            List<User> user = default;
+            List<User> user = default!;
             await _instance.CreateUsersWithListInputAsync(user);
         }
 
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task DeleteUserAsyncTest()
         {
-            string username = default;
+            string username = default!;
             await _instance.DeleteUserAsync(username);
         }
 
@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task GetUserByNameAsyncTest()
         {
-            string username = default;
+            string username = default!;
             var response = await _instance.GetUserByNameAsync(username);
             var model = response.AsModel();
             Assert.IsType<User>(model);
@@ -109,8 +109,8 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task LoginUserAsyncTest()
         {
-            string username = default;
-            string password = default;
+            string username = default!;
+            string password = default!;
             var response = await _instance.LoginUserAsync(username, password);
             var model = response.AsModel();
             Assert.IsType<string>(model);
@@ -131,8 +131,8 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UpdateUserAsyncTest()
         {
-            User user = default;
-            string username = default;
+            User user = default!;
+            string username = default!;
             await _instance.UpdateUserAsync(user, username);
         }
     }

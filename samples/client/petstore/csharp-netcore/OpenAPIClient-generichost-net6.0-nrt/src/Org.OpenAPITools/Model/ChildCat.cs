@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -113,6 +113,12 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+            if (petType == null)
+                throw new ArgumentNullException(nameof(petType), "Property is required for class ChildCat.");
+
+            if (childCatAllOf == null)
+                throw new ArgumentNullException(nameof(childCatAllOf), "Property is required for class ChildCat.");
 
             return new ChildCat(childCatAllOf, petType);
         }

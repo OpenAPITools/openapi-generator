@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Adult {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -123,6 +123,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Adult.");
+
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Adult.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Adult.");
+
+            if (adultAllOf == null)
+                throw new ArgumentNullException(nameof(adultAllOf), "Property is required for class Adult.");
 
             return new Adult(adultAllOf, firstName, lastName, type);
         }

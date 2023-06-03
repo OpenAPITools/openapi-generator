@@ -502,41 +502,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (integer == null)
-                throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
-
-            if (int32 == null)
-                throw new ArgumentNullException(nameof(int32), "Property is required for class FormatTest.");
-
-            if (unsignedInteger == null)
-                throw new ArgumentNullException(nameof(unsignedInteger), "Property is required for class FormatTest.");
-
-            if (int64 == null)
-                throw new ArgumentNullException(nameof(int64), "Property is required for class FormatTest.");
-
-            if (unsignedLong == null)
-                throw new ArgumentNullException(nameof(unsignedLong), "Property is required for class FormatTest.");
-
-            if (number == null)
-                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
-
-            if (varFloat == null)
-                throw new ArgumentNullException(nameof(varFloat), "Property is required for class FormatTest.");
-
-            if (varDouble == null)
-                throw new ArgumentNullException(nameof(varDouble), "Property is required for class FormatTest.");
-
-            if (varDecimal == null)
-                throw new ArgumentNullException(nameof(varDecimal), "Property is required for class FormatTest.");
-
-            if (varString == null)
-                throw new ArgumentNullException(nameof(varString), "Property is required for class FormatTest.");
+            if (binary == null)
+                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
 
             if (varByte == null)
                 throw new ArgumentNullException(nameof(varByte), "Property is required for class FormatTest.");
-
-            if (binary == null)
-                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
 
             if (date == null)
                 throw new ArgumentNullException(nameof(date), "Property is required for class FormatTest.");
@@ -544,11 +514,32 @@ namespace Org.OpenAPITools.Model
             if (dateTime == null)
                 throw new ArgumentNullException(nameof(dateTime), "Property is required for class FormatTest.");
 
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class FormatTest.");
+            if (varDecimal == null)
+                throw new ArgumentNullException(nameof(varDecimal), "Property is required for class FormatTest.");
+
+            if (varDouble == null)
+                throw new ArgumentNullException(nameof(varDouble), "Property is required for class FormatTest.");
+
+            if (varFloat == null)
+                throw new ArgumentNullException(nameof(varFloat), "Property is required for class FormatTest.");
+
+            if (int32 == null)
+                throw new ArgumentNullException(nameof(int32), "Property is required for class FormatTest.");
+
+            if (int64 == null)
+                throw new ArgumentNullException(nameof(int64), "Property is required for class FormatTest.");
+
+            if (integer == null)
+                throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
+
+            if (number == null)
+                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
 
             if (password == null)
                 throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
+
+            if (patternWithBackslash == null)
+                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
 
             if (patternWithDigits == null)
                 throw new ArgumentNullException(nameof(patternWithDigits), "Property is required for class FormatTest.");
@@ -556,8 +547,17 @@ namespace Org.OpenAPITools.Model
             if (patternWithDigitsAndDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
 
-            if (patternWithBackslash == null)
-                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
+            if (varString == null)
+                throw new ArgumentNullException(nameof(varString), "Property is required for class FormatTest.");
+
+            if (unsignedInteger == null)
+                throw new ArgumentNullException(nameof(unsignedInteger), "Property is required for class FormatTest.");
+
+            if (unsignedLong == null)
+                throw new ArgumentNullException(nameof(unsignedLong), "Property is required for class FormatTest.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class FormatTest.");
 
             return new FormatTest(binary, varByte, date.Value, dateTime.Value, varDecimal.Value, varDouble.Value, varFloat.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
         }

@@ -192,14 +192,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (smallCamel == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
+            if (aTTNAME == null)
+                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
 
             if (capitalCamel == null)
                 throw new ArgumentNullException(nameof(capitalCamel), "Property is required for class Capitalization.");
-
-            if (smallSnake == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
 
             if (capitalSnake == null)
                 throw new ArgumentNullException(nameof(capitalSnake), "Property is required for class Capitalization.");
@@ -207,8 +204,11 @@ namespace Org.OpenAPITools.Model
             if (sCAETHFlowPoints == null)
                 throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is required for class Capitalization.");
 
-            if (aTTNAME == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
+            if (smallCamel == null)
+                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
+
+            if (smallSnake == null)
+                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
