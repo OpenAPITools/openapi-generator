@@ -297,6 +297,7 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("array_enum");
             JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol);
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);

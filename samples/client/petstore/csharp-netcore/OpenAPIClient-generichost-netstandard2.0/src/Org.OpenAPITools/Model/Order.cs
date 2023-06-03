@@ -323,11 +323,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("petId", order.PetId);
             writer.WriteNumber("quantity", order.Quantity);
             writer.WriteString("shipDate", order.ShipDate.ToString(ShipDateFormat));
+
             var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WriteBoolean("complete", order.Complete);
 
             writer.WriteEndObject();

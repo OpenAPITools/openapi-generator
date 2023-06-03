@@ -212,6 +212,7 @@
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
+            {{#lambda.trimLineBreaks}}
             {{#composedSchemas.anyOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
             System.Text.Json.JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}, jsonSerializerOptions);
@@ -245,10 +246,12 @@
             {{/isString}}
             {{#isBoolean}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
@@ -257,10 +260,12 @@
             {{^isEnum}}
             {{#isNumeric}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
@@ -269,10 +274,12 @@
             {{/isEnum}}
             {{#isDate}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
@@ -280,10 +287,12 @@
             {{/isDate}}
             {{#isDateTime}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
@@ -296,14 +305,17 @@
             {{^isMap}}
             {{^isNumeric}}
             {{#isInnerEnum}}
+
             var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{classname}}.{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isInnerEnum}}
             {{^isInnerEnum}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
                 writer.WriteNull("{{baseName}}");
             else
@@ -325,6 +337,7 @@
                 {{/enumVars}}
                 {{/allowableValues}}
             }
+
             {{/isNullable}}
             {{^isNullable}}
             var {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
@@ -332,10 +345,12 @@
             {{#enumVars}}
             {{#-first}}
             {{#isString}}
+
             if ({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isString}}
             {{^isString}}
             writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
@@ -353,10 +368,12 @@
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
             {{/isNullable}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
                 writer.WriteNull("{{baseName}}");
             else
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
+
             {{/isNullable}}
             {{/isUuid}}
             {{^isUuid}}
@@ -379,5 +396,6 @@
 
             writer.WriteEndObject();
             {{/composedSchemas}}
+            {{/lambda.trimLineBreaks}}
         }
     }

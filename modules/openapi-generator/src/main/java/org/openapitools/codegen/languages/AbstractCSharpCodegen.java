@@ -456,7 +456,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda().generator(this))
                 .put("optional", new OptionalParameterLambda().generator(this))
-                .put("joinWithComma", new JoinWithCommaLambda());
+                .put("joinWithComma", new JoinWithCommaLambda())
+                .put("trimLineBreaks", new TrimLineBreaksLambda());
     }
 
     @Override

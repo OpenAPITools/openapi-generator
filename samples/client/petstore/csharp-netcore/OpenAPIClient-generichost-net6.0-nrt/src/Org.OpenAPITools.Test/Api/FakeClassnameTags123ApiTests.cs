@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
         }
 
-
         /// <summary>
         /// Test TestClassname
         /// </summary>
