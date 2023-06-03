@@ -319,11 +319,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WritePropertyName("tags");
             JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
 

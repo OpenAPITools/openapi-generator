@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IFakeApi>();
         }
 
-
         /// <summary>
         /// Test FakeHealthGet
         /// </summary>

@@ -312,26 +312,32 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, jsonSerializerOptions);
             writer.WritePropertyName("array_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, jsonSerializerOptions);
+
             if (nullableClass.BooleanProp != null)
                 writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
             else
                 writer.WriteNull("boolean_prop");
+
             if (nullableClass.DateProp != null)
                 writer.WriteString("date_prop", nullableClass.DateProp.Value.ToString(DatePropFormat));
             else
                 writer.WriteNull("date_prop");
+
             if (nullableClass.DatetimeProp != null)
                 writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.ToString(DatetimePropFormat));
             else
                 writer.WriteNull("datetime_prop");
+
             if (nullableClass.IntegerProp != null)
                 writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value);
             else
                 writer.WriteNull("integer_prop");
+
             if (nullableClass.NumberProp != null)
                 writer.WriteNumber("number_prop", nullableClass.NumberProp.Value);
             else
                 writer.WriteNull("number_prop");
+
             writer.WritePropertyName("object_and_items_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, jsonSerializerOptions);
             writer.WritePropertyName("object_nullable_prop");

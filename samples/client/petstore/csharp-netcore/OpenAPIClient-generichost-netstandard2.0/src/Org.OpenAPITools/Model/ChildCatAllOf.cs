@@ -215,6 +215,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("name", childCatAllOf.Name);
+
             var petTypeRawValue = ChildCatAllOf.PetTypeEnumToJsonValue(childCatAllOf.PetType);
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);
