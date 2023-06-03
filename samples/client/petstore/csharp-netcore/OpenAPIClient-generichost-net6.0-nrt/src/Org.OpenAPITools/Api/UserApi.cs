@@ -291,12 +291,14 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
+        partial void FormatCreateUser(User user);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        protected virtual User OnCreateUser(User user)
+        private void ValidateCreateUser(User user)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -304,10 +306,8 @@ namespace Org.OpenAPITools.Api
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return user;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -362,7 +362,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                user = OnCreateUser(user);
+                ValidateCreateUser(user);
+
+                FormatCreateUser(user);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -413,12 +415,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatCreateUsersWithArrayInput(List<User> user);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        protected virtual List<User> OnCreateUsersWithArrayInput(List<User> user)
+        private void ValidateCreateUsersWithArrayInput(List<User> user)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -426,10 +430,8 @@ namespace Org.OpenAPITools.Api
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return user;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -484,7 +486,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                user = OnCreateUsersWithArrayInput(user);
+                ValidateCreateUsersWithArrayInput(user);
+
+                FormatCreateUsersWithArrayInput(user);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -535,12 +539,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatCreateUsersWithListInput(List<User> user);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        protected virtual List<User> OnCreateUsersWithListInput(List<User> user)
+        private void ValidateCreateUsersWithListInput(List<User> user)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -548,10 +554,8 @@ namespace Org.OpenAPITools.Api
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return user;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -606,7 +610,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                user = OnCreateUsersWithListInput(user);
+                ValidateCreateUsersWithListInput(user);
+
+                FormatCreateUsersWithListInput(user);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -657,12 +663,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatDeleteUser(ref string username);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        protected virtual string OnDeleteUser(string username)
+        private void ValidateDeleteUser(string username)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -670,10 +678,8 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return username;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -728,7 +734,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                username = OnDeleteUser(username);
+                ValidateDeleteUser(username);
+
+                FormatDeleteUser(ref username);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -766,12 +774,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatGetUserByName(ref string username);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        protected virtual string OnGetUserByName(string username)
+        private void ValidateGetUserByName(string username)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -779,10 +789,8 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return username;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -837,7 +845,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                username = OnGetUserByName(username);
+                ValidateGetUserByName(username);
+
+                FormatGetUserByName(ref username);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -885,13 +895,15 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatLoginUser(ref string username, ref string password);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        protected virtual (string, string) OnLoginUser(string username, string password)
+        private void ValidateLoginUser(string username, string password)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -902,10 +914,8 @@ namespace Org.OpenAPITools.Api
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (username, password);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -964,9 +974,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnLoginUser(username, password);
-                username = validatedParameterLocalVars.Item1;
-                password = validatedParameterLocalVars.Item2;
+                ValidateLoginUser(username, password);
+
+                FormatLoginUser(ref username, ref password);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1022,15 +1032,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnLogoutUser()
-        {
-            return;
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -1078,8 +1079,6 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                OnLogoutUser();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
@@ -1116,13 +1115,15 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatUpdateUser(User user, ref string username);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="user"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        protected virtual (User, string) OnUpdateUser(User user, string username)
+        private void ValidateUpdateUser(User user, string username)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1133,10 +1134,8 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (user, username);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1195,9 +1194,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnUpdateUser(user, username);
-                user = validatedParameterLocalVars.Item1;
-                username = validatedParameterLocalVars.Item2;
+                ValidateUpdateUser(user, username);
+
+                FormatUpdateUser(user, ref username);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {

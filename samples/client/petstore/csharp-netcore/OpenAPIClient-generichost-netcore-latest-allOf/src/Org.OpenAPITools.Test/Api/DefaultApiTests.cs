@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task ListAsyncTest()
         {
-            string personId = default;
+            string personId = default!;
             var response = await _instance.ListAsync(personId);
             var model = response.AsModel();
             Assert.IsType<Person>(model);

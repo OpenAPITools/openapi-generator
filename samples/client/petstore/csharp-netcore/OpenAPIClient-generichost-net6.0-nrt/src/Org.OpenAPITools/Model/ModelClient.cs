@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ModelClient
+    /// A Json converter for type <see cref="ModelClient" />
     /// </summary>
     public class ModelClientJsonConverter : JsonConverter<ModelClient>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ModelClient" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ModelClient" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="modelClient"></param>

@@ -57,10 +57,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a PetTypeEnum
+        /// Returns a <see cref="PetTypeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static PetTypeEnum PetTypeEnumFromString(string value)
         {
             if (value == "ChildCat")
@@ -70,7 +71,20 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="PetTypeEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static PetTypeEnum? PetTypeEnumFromStringOrDefault(string value)
+        {
+            if (value == "ChildCat")
+                return PetTypeEnum.ChildCat;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="PetTypeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -128,12 +142,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ChildCatAllOf
+    /// A Json converter for type <see cref="ChildCatAllOf" />
     /// </summary>
     public class ChildCatAllOfJsonConverter : JsonConverter<ChildCatAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ChildCatAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -171,8 +185,10 @@ namespace Org.OpenAPITools.Model
                             name = utf8JsonReader.GetString();
                             break;
                         case "pet_type":
-                            string petTypeRawValue = utf8JsonReader.GetString();
-                            petType = ChildCatAllOf.PetTypeEnumFromString(petTypeRawValue);
+                            string? petTypeRawValue = utf8JsonReader.GetString();
+                            petType = petTypeRawValue == null
+                                ? null
+                                : ChildCatAllOf.PetTypeEnumFromStringOrDefault(petTypeRawValue);
                             break;
                         default:
                             break;
@@ -190,7 +206,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ChildCatAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="childCatAllOf"></param>

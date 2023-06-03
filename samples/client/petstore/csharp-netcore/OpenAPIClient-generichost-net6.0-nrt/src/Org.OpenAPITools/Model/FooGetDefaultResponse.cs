@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type FooGetDefaultResponse
+    /// A Json converter for type <see cref="FooGetDefaultResponse" />
     /// </summary>
     public class FooGetDefaultResponseJsonConverter : JsonConverter<FooGetDefaultResponse>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="FooGetDefaultResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="FooGetDefaultResponse" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fooGetDefaultResponse"></param>

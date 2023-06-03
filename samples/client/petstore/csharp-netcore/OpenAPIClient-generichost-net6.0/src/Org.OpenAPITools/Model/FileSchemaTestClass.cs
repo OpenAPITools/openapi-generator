@@ -88,12 +88,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type FileSchemaTestClass
+    /// A Json converter for type <see cref="FileSchemaTestClass" />
     /// </summary>
     public class FileSchemaTestClassJsonConverter : JsonConverter<FileSchemaTestClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="FileSchemaTestClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="FileSchemaTestClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fileSchemaTestClass"></param>

@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
             sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
             sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableClass
+    /// A Json converter for type <see cref="NullableClass" />
     /// </summary>
     public class NullableClassJsonConverter : JsonConverter<NullableClass>
     {
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
         public static string DatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -296,7 +296,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableClass"></param>

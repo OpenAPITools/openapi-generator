@@ -509,15 +509,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnFakeHealthGet()
-        {
-            return;
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -565,8 +556,6 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                OnFakeHealthGet();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -612,15 +601,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="body"></param>
-        /// <returns></returns>
-        protected virtual bool? OnFakeOuterBooleanSerialize(bool? body)
-        {
-            return body;
-        }
+        partial void FormatFakeOuterBooleanSerialize(ref bool? body);
 
         /// <summary>
         /// Processes the server response
@@ -674,7 +655,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                body = OnFakeOuterBooleanSerialize(body);
+                FormatFakeOuterBooleanSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -734,15 +715,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="outerComposite"></param>
-        /// <returns></returns>
-        protected virtual OuterComposite OnFakeOuterCompositeSerialize(OuterComposite outerComposite)
-        {
-            return outerComposite;
-        }
+        partial void FormatFakeOuterCompositeSerialize(OuterComposite outerComposite);
 
         /// <summary>
         /// Processes the server response
@@ -796,7 +769,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                outerComposite = OnFakeOuterCompositeSerialize(outerComposite);
+                FormatFakeOuterCompositeSerialize(outerComposite);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -856,15 +829,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="body"></param>
-        /// <returns></returns>
-        protected virtual decimal? OnFakeOuterNumberSerialize(decimal? body)
-        {
-            return body;
-        }
+        partial void FormatFakeOuterNumberSerialize(ref decimal? body);
 
         /// <summary>
         /// Processes the server response
@@ -918,7 +883,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                body = OnFakeOuterNumberSerialize(body);
+                FormatFakeOuterNumberSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -978,13 +943,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, ref string body);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
         /// <returns></returns>
-        protected virtual (Guid, string) OnFakeOuterStringSerialize(Guid requiredStringUuid, string body)
+        private void ValidateFakeOuterStringSerialize(Guid requiredStringUuid)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -992,10 +958,8 @@ namespace Org.OpenAPITools.Api
             if (requiredStringUuid == null)
                 throw new ArgumentNullException(nameof(requiredStringUuid));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredStringUuid, body);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1054,9 +1018,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnFakeOuterStringSerialize(requiredStringUuid, body);
-                requiredStringUuid = validatedParameterLocalVars.Item1;
-                body = validatedParameterLocalVars.Item2;
+                ValidateFakeOuterStringSerialize(requiredStringUuid);
+
+                FormatFakeOuterStringSerialize(ref requiredStringUuid, ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1123,15 +1087,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnGetArrayOfEnums()
-        {
-            return;
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -1154,7 +1109,7 @@ namespace Org.OpenAPITools.Api
         /// Array of Enums 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
         public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
@@ -1172,15 +1127,13 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
         public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnGetArrayOfEnums();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -1226,12 +1179,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="fileSchemaTestClass"></param>
         /// <returns></returns>
-        protected virtual FileSchemaTestClass OnTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
+        private void ValidateTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1239,10 +1194,8 @@ namespace Org.OpenAPITools.Api
             if (fileSchemaTestClass == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return fileSchemaTestClass;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1297,7 +1250,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                fileSchemaTestClass = OnTestBodyWithFileSchema(fileSchemaTestClass);
+                ValidateTestBodyWithFileSchema(fileSchemaTestClass);
+
+                FormatTestBodyWithFileSchema(fileSchemaTestClass);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1348,13 +1303,15 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestBodyWithQueryParams(User user, ref string query);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        protected virtual (User, string) OnTestBodyWithQueryParams(User user, string query)
+        private void ValidateTestBodyWithQueryParams(User user, string query)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1365,10 +1322,8 @@ namespace Org.OpenAPITools.Api
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (user, query);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1427,9 +1382,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestBodyWithQueryParams(user, query);
-                user = validatedParameterLocalVars.Item1;
-                query = validatedParameterLocalVars.Item2;
+                ValidateTestBodyWithQueryParams(user, query);
+
+                FormatTestBodyWithQueryParams(user, ref query);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1486,12 +1441,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestClientModel(ModelClient modelClient);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        protected virtual ModelClient OnTestClientModel(ModelClient modelClient)
+        private void ValidateTestClientModel(ModelClient modelClient)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1499,10 +1456,8 @@ namespace Org.OpenAPITools.Api
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return modelClient;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1557,7 +1512,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                modelClient = OnTestClientModel(modelClient);
+                ValidateTestClientModel(modelClient);
+
+                FormatTestClientModel(modelClient);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1617,6 +1574,8 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestEndpointParameters(ref byte[] varByte, ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref DateTime? date, ref System.IO.Stream binary, ref float? varFloat, ref int? integer, ref int? int32, ref long? int64, ref string varString, ref string password, ref string callback, ref DateTime? dateTime);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
@@ -1624,18 +1583,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="date"></param>
-        /// <param name="binary"></param>
-        /// <param name="varFloat"></param>
-        /// <param name="integer"></param>
-        /// <param name="int32"></param>
-        /// <param name="int64"></param>
-        /// <param name="varString"></param>
-        /// <param name="password"></param>
-        /// <param name="callback"></param>
-        /// <param name="dateTime"></param>
         /// <returns></returns>
-        protected virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream, float?, int?, int?, long?, string, string, string, DateTime?) OnTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
+        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1652,10 +1601,8 @@ namespace Org.OpenAPITools.Api
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1762,21 +1709,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
-                varByte = validatedParameterLocalVars.Item1;
-                number = validatedParameterLocalVars.Item2;
-                varDouble = validatedParameterLocalVars.Item3;
-                patternWithoutDelimiter = validatedParameterLocalVars.Item4;
-                date = validatedParameterLocalVars.Item5;
-                binary = validatedParameterLocalVars.Item6;
-                varFloat = validatedParameterLocalVars.Item7;
-                integer = validatedParameterLocalVars.Item8;
-                int32 = validatedParameterLocalVars.Item9;
-                int64 = validatedParameterLocalVars.Item10;
-                varString = validatedParameterLocalVars.Item11;
-                password = validatedParameterLocalVars.Item12;
-                callback = validatedParameterLocalVars.Item13;
-                dateTime = validatedParameterLocalVars.Item14;
+                ValidateTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter);
+
+                FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1887,22 +1822,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="enumHeaderStringArray"></param>
-        /// <param name="enumQueryStringArray"></param>
-        /// <param name="enumQueryDouble"></param>
-        /// <param name="enumQueryInteger"></param>
-        /// <param name="enumFormStringArray"></param>
-        /// <param name="enumHeaderString"></param>
-        /// <param name="enumQueryString"></param>
-        /// <param name="enumFormString"></param>
-        /// <returns></returns>
-        protected virtual (List<string>, List<string>, double?, int?, List<string>, string, string, string) OnTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
-        {
-            return (enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
-        }
+        partial void FormatTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, ref double? enumQueryDouble, ref int? enumQueryInteger, List<string> enumFormStringArray, ref string enumHeaderString, ref string enumQueryString, ref string enumFormString);
 
         /// <summary>
         /// Processes the server response
@@ -1984,15 +1904,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
-                enumHeaderStringArray = validatedParameterLocalVars.Item1;
-                enumQueryStringArray = validatedParameterLocalVars.Item2;
-                enumQueryDouble = validatedParameterLocalVars.Item3;
-                enumQueryInteger = validatedParameterLocalVars.Item4;
-                enumFormStringArray = validatedParameterLocalVars.Item5;
-                enumHeaderString = validatedParameterLocalVars.Item6;
-                enumQueryString = validatedParameterLocalVars.Item7;
-                enumFormString = validatedParameterLocalVars.Item8;
+                FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2072,17 +1984,16 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref int requiredStringGroup, ref long requiredInt64Group, ref bool? booleanGroup, ref int? stringGroup, ref long? int64Group);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="booleanGroup"></param>
-        /// <param name="stringGroup"></param>
-        /// <param name="int64Group"></param>
         /// <returns></returns>
-        protected virtual (bool, int, long, bool?, int?, long?) OnTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2096,10 +2007,8 @@ namespace Org.OpenAPITools.Api
             if (requiredInt64Group == null)
                 throw new ArgumentNullException(nameof(requiredInt64Group));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2174,13 +2083,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
-                requiredBooleanGroup = validatedParameterLocalVars.Item1;
-                requiredStringGroup = validatedParameterLocalVars.Item2;
-                requiredInt64Group = validatedParameterLocalVars.Item3;
-                booleanGroup = validatedParameterLocalVars.Item4;
-                stringGroup = validatedParameterLocalVars.Item5;
-                int64Group = validatedParameterLocalVars.Item6;
+                ValidateTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group);
+
+                FormatTestGroupParameters(ref requiredBooleanGroup, ref requiredStringGroup, ref requiredInt64Group, ref booleanGroup, ref stringGroup, ref int64Group);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2248,12 +2153,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestInlineAdditionalProperties(Dictionary<string, string> requestBody);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requestBody"></param>
         /// <returns></returns>
-        protected virtual Dictionary<string, string> OnTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
+        private void ValidateTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2261,10 +2168,8 @@ namespace Org.OpenAPITools.Api
             if (requestBody == null)
                 throw new ArgumentNullException(nameof(requestBody));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return requestBody;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2319,7 +2224,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                requestBody = OnTestInlineAdditionalProperties(requestBody);
+                ValidateTestInlineAdditionalProperties(requestBody);
+
+                FormatTestInlineAdditionalProperties(requestBody);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2370,13 +2277,15 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestJsonFormData(ref string param, ref string param2);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="param"></param>
         /// <param name="param2"></param>
         /// <returns></returns>
-        protected virtual (string, string) OnTestJsonFormData(string param, string param2)
+        private void ValidateTestJsonFormData(string param, string param2)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2387,10 +2296,8 @@ namespace Org.OpenAPITools.Api
             if (param2 == null)
                 throw new ArgumentNullException(nameof(param2));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (param, param2);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2449,9 +2356,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestJsonFormData(param, param2);
-                param = validatedParameterLocalVars.Item1;
-                param2 = validatedParameterLocalVars.Item2;
+                ValidateTestJsonFormData(param, param2);
+
+                FormatTestJsonFormData(ref param, ref param2);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2512,6 +2419,8 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
@@ -2521,7 +2430,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual (List<string>, List<string>, List<string>, List<string>, List<string>) OnTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void ValidateTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2541,10 +2450,8 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (pipe, ioutil, http, url, context);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2615,12 +2522,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
-                pipe = validatedParameterLocalVars.Item1;
-                ioutil = validatedParameterLocalVars.Item2;
-                http = validatedParameterLocalVars.Item3;
-                url = validatedParameterLocalVars.Item4;
-                context = validatedParameterLocalVars.Item5;
+                ValidateTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
+                FormatTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {

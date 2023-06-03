@@ -114,12 +114,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ShapeOrNull
+    /// A Json converter for type <see cref="ShapeOrNull" />
     /// </summary>
     public class ShapeOrNullJsonConverter : JsonConverter<ShapeOrNull>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ShapeOrNull" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ShapeOrNull" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>

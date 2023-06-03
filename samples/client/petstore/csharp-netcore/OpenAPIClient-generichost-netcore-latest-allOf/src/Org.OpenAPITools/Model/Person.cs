@@ -109,12 +109,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Person
+    /// A Json converter for type <see cref="Person" />
     /// </summary>
     public class PersonJsonConverter : JsonConverter<Person>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Person" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -164,20 +164,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
 
             if (lastName == null)
                 throw new ArgumentNullException(nameof(lastName), "Property is required for class Person.");
 
-            if (firstName == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
 
             return new Person(firstName, lastName, type);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Person" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="person"></param>

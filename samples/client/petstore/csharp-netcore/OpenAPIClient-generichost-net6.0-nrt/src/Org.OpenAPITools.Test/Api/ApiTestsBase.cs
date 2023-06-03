@@ -52,20 +52,20 @@ namespace Org.OpenAPITools.Test.Api
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureApi((context, services, options) =>
             {
-                ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken = new(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
                 
-                BearerToken bearerToken = new BearerToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                BearerToken bearerToken = new(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(bearerToken);
                 
-                BasicToken basicToken = new BasicToken(context.Configuration["<username>"], context.Configuration["<password>"], timeout: TimeSpan.FromSeconds(1));
+                BasicToken basicToken = new(context.Configuration["<username>"], context.Configuration["<password>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(basicToken);
                 
-                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
+                HttpSigningConfiguration config = new("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken = new(config, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken);
                 
-                OAuthToken oauthToken = new OAuthToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                OAuthToken oauthToken = new(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);
             });
     }

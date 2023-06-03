@@ -99,6 +99,19 @@ Authentication schemes defined for the API:
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-Api-Key and passed in as the auth context for each request.
 
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"X-Api-Key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
 ### api_key_query
 
 - **Type**: API key
@@ -106,6 +119,19 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: URL query string
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
+
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"api_key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

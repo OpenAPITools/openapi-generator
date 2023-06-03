@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Foo
+    /// A Json converter for type <see cref="Foo" />
     /// </summary>
     public class FooJsonConverter : JsonConverter<Foo>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Foo" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Foo" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="foo"></param>

@@ -23,7 +23,7 @@ import type {
   OuterObjectWithEnumProperty,
   Pet,
   User,
-} from '../models';
+} from '../models/index';
 import {
     ClientFromJSON,
     ClientToJSON,
@@ -41,7 +41,7 @@ import {
     PetToJSON,
     UserFromJSON,
     UserToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface FakeHttpSignatureTestRequest {
     pet: Pet;

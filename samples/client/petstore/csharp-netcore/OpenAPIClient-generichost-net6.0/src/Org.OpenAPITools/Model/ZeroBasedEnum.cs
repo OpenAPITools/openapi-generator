@@ -39,8 +39,17 @@ namespace Org.OpenAPITools.Model
         NotUnknown
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="ZeroBasedEnum"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public class ZeroBasedEnumConverter : JsonConverter<ZeroBasedEnum>
     {
+        /// <summary>
+        /// Parses a given value to <see cref="ZeroBasedEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static ZeroBasedEnum FromString(string value)
         {
             if (value == "unknown")
@@ -52,6 +61,11 @@ namespace Org.OpenAPITools.Model
             throw new NotImplementedException($"Could not convert value to type ZeroBasedEnum: '{value}'");
         }
 
+        /// <summary>
+        /// Parses a given value to <see cref="ZeroBasedEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static ZeroBasedEnum? FromStringOrDefault(string value)
         {
             if (value == "unknown")
@@ -63,6 +77,12 @@ namespace Org.OpenAPITools.Model
             return null;
         }
 
+        /// <summary>
+        /// Converts the <see cref="ZeroBasedEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ToJsonValue(ZeroBasedEnum value)
         {
             if (value == ZeroBasedEnum.Unknown)
@@ -85,8 +105,10 @@ namespace Org.OpenAPITools.Model
         {
             string rawValue = reader.GetString();
 
-            ZeroBasedEnum? result = ZeroBasedEnumConverter.FromString(rawValue);
-            
+            ZeroBasedEnum? result = rawValue == null
+                ? null
+                : ZeroBasedEnumConverter.FromStringOrDefault(rawValue);
+
             if (result != null)
                 return result.Value;
 
@@ -105,6 +127,9 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="ZeroBasedEnum"/>
+    /// </summary>
     public class ZeroBasedEnumNullableConverter : JsonConverter<ZeroBasedEnum?>
     {
         /// <summary>
@@ -118,10 +143,9 @@ namespace Org.OpenAPITools.Model
         {
             string rawValue = reader.GetString();
 
-            if (rawValue == null)
-                return null;
-
-            ZeroBasedEnum? result = ZeroBasedEnumConverter.FromString(rawValue);
+            ZeroBasedEnum? result = rawValue == null
+                ? null
+                : ZeroBasedEnumConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

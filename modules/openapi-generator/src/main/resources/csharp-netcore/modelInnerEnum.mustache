@@ -32,11 +32,12 @@
         {{#useGenericHost}}
 
         /// <summary>
-        /// Returns a {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        /// Returns a <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isNullable}}?{{/isNullable}} {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}FromString(string value)
+        /// <exception cref="NotImplementedException"></exception>
+        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}FromString(string value)
         {
             {{#allowableValues}}
             {{#enumVars}}
@@ -45,20 +46,34 @@
 
             {{/enumVars}}
             {{/allowableValues}}
-            {{#isNullable}}
-            return null;
-            {{/isNullable}}
-            {{^isNullable}}
             throw new NotImplementedException($"Could not convert value to type {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}: '{value}'");
-            {{/isNullable}}
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        public static {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}FromStringOrDefault(string value)
+        {
+            {{#allowableValues}}
+            {{#enumVars}}
+            if (value == {{^isString}}({{{value}}}).ToString(){{/isString}}{{#isString}}"{{{value}}}"{{/isString}})
+                return {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}};
+
+            {{/enumVars}}
+            {{/allowableValues}}
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        {{#isString}}
         /// <exception cref="NotImplementedException"></exception>
+        {{/isString}}
         public static {{>EnumValueDataType}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
         {
             {{^isString}}

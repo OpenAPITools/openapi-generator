@@ -193,12 +193,14 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
+        partial void FormatDeleteOrder(ref string orderId);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        protected virtual string OnDeleteOrder(string orderId)
+        private void ValidateDeleteOrder(string orderId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -206,10 +208,8 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return orderId;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -264,7 +264,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                orderId = OnDeleteOrder(orderId);
+                ValidateDeleteOrder(orderId);
+
+                FormatDeleteOrder(ref orderId);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -303,15 +305,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnGetInventory()
-        {
-            return;
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -334,7 +327,7 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary&lt;string, int&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary{TKey, TValue}"/></returns>
         public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
@@ -352,15 +345,13 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary&lt;string, int&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary{TKey, TValue}"/></returns>
         public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnGetInventory();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -416,12 +407,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatGetOrderById(ref long orderId);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        protected virtual long OnGetOrderById(long orderId)
+        private void ValidateGetOrderById(long orderId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -429,10 +422,8 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return orderId;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -487,7 +478,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                orderId = OnGetOrderById(orderId);
+                ValidateGetOrderById(orderId);
+
+                FormatGetOrderById(ref orderId);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -535,12 +528,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
+        partial void FormatPlaceOrder(Order order);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        protected virtual Order OnPlaceOrder(Order order)
+        private void ValidatePlaceOrder(Order order)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -548,10 +543,8 @@ namespace Org.OpenAPITools.Api
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return order;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -606,7 +599,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                order = OnPlaceOrder(order);
+                ValidatePlaceOrder(order);
+
+                FormatPlaceOrder(order);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {

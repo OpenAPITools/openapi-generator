@@ -359,6 +359,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether the generator should run in dry-run mode.
+     */
+    val dryRun = project.objects.property<Boolean>()
+
     init {
         applyDefaults()
     }
@@ -381,5 +386,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         skipValidateSpec.set(false)
         generateAliasAsModel.set(false)
         cleanupOutput.set(false)
+        dryRun.set(false)
     }
 }
