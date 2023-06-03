@@ -52,7 +52,7 @@ jobs:
 
       - name: Build with Maven
         shell: bash
-        run: mvn clean -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
+        run: mvn clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
