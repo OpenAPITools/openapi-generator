@@ -192,7 +192,9 @@ After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to sho
 For Mac users, please make sure Java 11 is installed (Tips: run `java -version` to check the version), and export `JAVA_HOME` in order to use the supported Java version:
 ```sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.11`
-export PATH=${JAVA_HOME}/bin:$PATH ```
+export PATH=${JAVA_HOME}/bin:$PATH
+```
+
 <!-- /RELEASE_VERSION -->
 ### Launcher Script
 
