@@ -173,11 +173,13 @@
                 }
             }
 
-            {{#nonNullableVars}}
+            {{#allVars}}
+            {{^isNullable}}
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
                 throw new ArgumentNullException(nameof({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}), "Property is required for class {{classname}}.");
 
-            {{/nonNullableVars}}
+            {{/isNullable}}
+            {{/allVars}}
             {{#composedSchemas.oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
             Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
@@ -190,7 +192,14 @@
             {{/-last}}
             {{/composedSchemas.oneOf}}
             {{^composedSchemas.oneOf}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-csharp-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-csharp-value-type}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-csharp-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-csharp-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-csharp-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-csharp-value-type}}  {{/allVars}}{{/lambda.joinWithComma}});
+            {{#model.composedSchemas.allOf}}
+            {{^isInherited}}
+            if ({{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}} == null)
+                throw new ArgumentNullException(nameof({{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}), "Property is required for class {{classname}}.");
+
+            {{/isInherited}}
+            {{/model.composedSchemas.allOf}}
+            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-csharp-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-csharp-value-type}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-csharp-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-csharp-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-csharp-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-csharp-value-type}}  {{/allVars}}{{/lambda.joinWithComma}});
             {{/composedSchemas.oneOf}}
         }
 
@@ -297,12 +306,44 @@
             {{#isNullable}}
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
                 writer.WriteNull("{{baseName}}");
+            else
+            {
+                var {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+                {{#allowableValues}}
+                {{#enumVars}}
+                {{#-first}}
+                {{#isString}}
+                if ({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue != null)
+                    writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+                else
+                    writer.WriteNull("{{baseName}}");
+                {{/isString}}
+                {{^isString}}
+                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+                {{/isString}}
+                {{/-first}}
+                {{/enumVars}}
+                {{/allowableValues}}
+            }
             {{/isNullable}}
-            var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
-            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue != null)
-                writer.Write{{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}String{{/isString}}{{^isString}}Number{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}("{{baseName}}", {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+            {{^isNullable}}
+            var {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+            {{#allowableValues}}
+            {{#enumVars}}
+            {{#-first}}
+            {{#isString}}
+            if ({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
             else
                 writer.WriteNull("{{baseName}}");
+            {{/isString}}
+            {{^isString}}
+            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{/lambda.camelcase_param}}RawValue);
+            {{/isString}}
+            {{/-first}}
+            {{/enumVars}}
+            {{/allowableValues}}
+            {{/isNullable}}
             {{/isInnerEnum}}
             {{/isNumeric}}
             {{/isMap}}

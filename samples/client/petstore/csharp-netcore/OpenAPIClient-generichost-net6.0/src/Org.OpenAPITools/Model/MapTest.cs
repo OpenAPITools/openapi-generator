@@ -235,17 +235,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (mapMapOfString == null)
-                throw new ArgumentNullException(nameof(mapMapOfString), "Property is required for class MapTest.");
-
-            if (mapOfEnumString == null)
-                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is required for class MapTest.");
-
             if (directMap == null)
                 throw new ArgumentNullException(nameof(directMap), "Property is required for class MapTest.");
 
             if (indirectMap == null)
                 throw new ArgumentNullException(nameof(indirectMap), "Property is required for class MapTest.");
+
+            if (mapMapOfString == null)
+                throw new ArgumentNullException(nameof(mapMapOfString), "Property is required for class MapTest.");
+
+            if (mapOfEnumString == null)
+                throw new ArgumentNullException(nameof(mapOfEnumString), "Property is required for class MapTest.");
 
             return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }

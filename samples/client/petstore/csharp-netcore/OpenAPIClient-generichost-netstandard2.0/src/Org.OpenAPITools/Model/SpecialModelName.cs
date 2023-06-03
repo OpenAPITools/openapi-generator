@@ -140,11 +140,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (specialPropertyName == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
-
             if (varSpecialModelName == null)
                 throw new ArgumentNullException(nameof(varSpecialModelName), "Property is required for class SpecialModelName.");
+
+            if (specialPropertyName == null)
+                throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
 
             return new SpecialModelName(varSpecialModelName, specialPropertyName.Value);
         }

@@ -280,20 +280,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class User.");
-
-            if (username == null)
-                throw new ArgumentNullException(nameof(username), "Property is required for class User.");
+            if (email == null)
+                throw new ArgumentNullException(nameof(email), "Property is required for class User.");
 
             if (firstName == null)
                 throw new ArgumentNullException(nameof(firstName), "Property is required for class User.");
 
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class User.");
+
             if (lastName == null)
                 throw new ArgumentNullException(nameof(lastName), "Property is required for class User.");
 
-            if (email == null)
-                throw new ArgumentNullException(nameof(email), "Property is required for class User.");
+            if (objectWithNoDeclaredProps == null)
+                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is required for class User.");
 
             if (password == null)
                 throw new ArgumentNullException(nameof(password), "Property is required for class User.");
@@ -304,8 +304,8 @@ namespace Org.OpenAPITools.Model
             if (userStatus == null)
                 throw new ArgumentNullException(nameof(userStatus), "Property is required for class User.");
 
-            if (objectWithNoDeclaredProps == null)
-                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is required for class User.");
+            if (username == null)
+                throw new ArgumentNullException(nameof(username), "Property is required for class User.");
 
             return new User(email, firstName, id.Value, lastName, objectWithNoDeclaredProps, password, phone, userStatus.Value, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
         }

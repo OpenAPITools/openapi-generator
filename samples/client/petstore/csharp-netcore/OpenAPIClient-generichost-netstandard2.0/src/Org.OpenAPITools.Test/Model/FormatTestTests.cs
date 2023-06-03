@@ -63,12 +63,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Binary'
         }
         /// <summary>
-        /// Test the property 'ByteProperty'
+        /// Test the property 'VarByte'
         /// </summary>
         [Fact]
-        public void BytePropertyTest()
+        public void VarByteTest()
         {
-            // TODO unit test for the property 'ByteProperty'
+            // TODO unit test for the property 'VarByte'
         }
         /// <summary>
         /// Test the property 'Date'
@@ -87,28 +87,28 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'DateTime'
         }
         /// <summary>
-        /// Test the property 'DecimalProperty'
+        /// Test the property 'VarDecimal'
         /// </summary>
         [Fact]
-        public void DecimalPropertyTest()
+        public void VarDecimalTest()
         {
-            // TODO unit test for the property 'DecimalProperty'
+            // TODO unit test for the property 'VarDecimal'
         }
         /// <summary>
-        /// Test the property 'DoubleProperty'
+        /// Test the property 'VarDouble'
         /// </summary>
         [Fact]
-        public void DoublePropertyTest()
+        public void VarDoubleTest()
         {
-            // TODO unit test for the property 'DoubleProperty'
+            // TODO unit test for the property 'VarDouble'
         }
         /// <summary>
-        /// Test the property 'FloatProperty'
+        /// Test the property 'VarFloat'
         /// </summary>
         [Fact]
-        public void FloatPropertyTest()
+        public void VarFloatTest()
         {
-            // TODO unit test for the property 'FloatProperty'
+            // TODO unit test for the property 'VarFloat'
         }
         /// <summary>
         /// Test the property 'Int32'
@@ -175,12 +175,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'PatternWithDigitsAndDelimiter'
         }
         /// <summary>
-        /// Test the property 'StringProperty'
+        /// Test the property 'VarString'
         /// </summary>
         [Fact]
-        public void StringPropertyTest()
+        public void VarStringTest()
         {
-            // TODO unit test for the property 'StringProperty'
+            // TODO unit test for the property 'VarString'
         }
         /// <summary>
         /// Test the property 'UnsignedInteger'

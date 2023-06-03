@@ -55,12 +55,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'NameProperty'
+        /// Test the property 'VarName'
         /// </summary>
         [Fact]
-        public void NamePropertyTest()
+        public void VarNameTest()
         {
-            // TODO unit test for the property 'NameProperty'
+            // TODO unit test for the property 'VarName'
         }
         /// <summary>
         /// Test the property 'Property'
@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'SnakeCase'
         }
         /// <summary>
-        /// Test the property '_123Number'
+        /// Test the property 'var123Number'
         /// </summary>
         [Fact]
-        public void _123NumberTest()
+        public void var123NumberTest()
         {
-            // TODO unit test for the property '_123Number'
+            // TODO unit test for the property 'var123Number'
         }
 
     }

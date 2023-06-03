@@ -597,12 +597,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (enumString == null)
-                throw new ArgumentNullException(nameof(enumString), "Property is required for class EnumTest.");
-
-            if (enumStringRequired == null)
-                throw new ArgumentNullException(nameof(enumStringRequired), "Property is required for class EnumTest.");
-
             if (enumInteger == null)
                 throw new ArgumentNullException(nameof(enumInteger), "Property is required for class EnumTest.");
 
@@ -612,11 +606,17 @@ namespace Org.OpenAPITools.Model
             if (enumNumber == null)
                 throw new ArgumentNullException(nameof(enumNumber), "Property is required for class EnumTest.");
 
-            if (outerEnumInteger == null)
-                throw new ArgumentNullException(nameof(outerEnumInteger), "Property is required for class EnumTest.");
+            if (enumString == null)
+                throw new ArgumentNullException(nameof(enumString), "Property is required for class EnumTest.");
+
+            if (enumStringRequired == null)
+                throw new ArgumentNullException(nameof(enumStringRequired), "Property is required for class EnumTest.");
 
             if (outerEnumDefaultValue == null)
                 throw new ArgumentNullException(nameof(outerEnumDefaultValue), "Property is required for class EnumTest.");
+
+            if (outerEnumInteger == null)
+                throw new ArgumentNullException(nameof(outerEnumInteger), "Property is required for class EnumTest.");
 
             if (outerEnumIntegerDefaultValue == null)
                 throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is required for class EnumTest.");
@@ -654,22 +654,19 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteNull("outerEnumDefaultValue");
             var outerEnumIntegerRawValue = OuterEnumIntegerConverter.ToJsonValue(enumTest.OuterEnumInteger);
-            if (outerEnumIntegerRawValue != null)
-                writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
-            else
-                writer.WriteNull("outerEnumInteger");
+            writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
             var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue);
-            if (outerEnumIntegerDefaultValueRawValue != null)
-                writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
-            else
-                writer.WriteNull("outerEnumIntegerDefaultValue");
+            writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
             if (enumTest.OuterEnum == null)
                 writer.WriteNull("outerEnum");
-            var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum.Value);
-            if (outerEnumRawValue != null)
-                writer.WriteString("outerEnum", outerEnumRawValue);
             else
-                writer.WriteNull("outerEnum");
+            {
+                var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum.Value);
+                if (outerEnumRawValue != null)
+                    writer.WriteString("outerEnum", outerEnumRawValue);
+                else
+                    writer.WriteNull("outerEnum");
+            }
 
             writer.WriteEndObject();
         }

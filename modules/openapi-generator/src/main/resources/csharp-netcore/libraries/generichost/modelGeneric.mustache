@@ -34,6 +34,11 @@
             {{^isInherited}}
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isInherited}}
+            {{#isInherited}}
+            {{#isNew}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isNew}}
+            {{/isInherited}}
             {{/allVars}}
             OnCreated();
         }
@@ -69,6 +74,11 @@
             {{#allVars}}
             {{^isInherited}}
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isInherited}}
+            {{#isInherited}}
+            {{#isNew}}
+            {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isNew}}
             {{/isInherited}}
             {{/allVars}}
             OnCreated();
@@ -211,7 +221,7 @@
             StringBuilder sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
             {{#parent}}
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             {{/parent}}
             {{#vars}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");

@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task GetCountryAsyncTest()
         {
-            string country = default;
+            string country = default!;
             await _instance.GetCountryAsync(country);
         }
 

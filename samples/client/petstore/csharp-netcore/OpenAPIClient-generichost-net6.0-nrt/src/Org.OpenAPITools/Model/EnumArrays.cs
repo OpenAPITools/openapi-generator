@@ -277,11 +277,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (justSymbol == null)
-                throw new ArgumentNullException(nameof(justSymbol), "Property is required for class EnumArrays.");
-
             if (arrayEnum == null)
                 throw new ArgumentNullException(nameof(arrayEnum), "Property is required for class EnumArrays.");
+
+            if (justSymbol == null)
+                throw new ArgumentNullException(nameof(justSymbol), "Property is required for class EnumArrays.");
 
             return new EnumArrays(arrayEnum, justSymbol.Value);
         }
