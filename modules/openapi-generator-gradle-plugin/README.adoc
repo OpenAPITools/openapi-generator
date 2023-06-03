@@ -418,6 +418,12 @@ apply plugin: 'org.openapi.generator'
 |Boolean
 |false
 |Defines whether the output directory should be cleaned up before generating the output.
+
+|dryRun
+|Boolean
+|false
+|Defines whether the generator should run in dry-run mode. In dry-run mode no files are written and a summary about
+file states is output.
 |===
 
 [NOTE]
