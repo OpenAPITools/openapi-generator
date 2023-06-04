@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.base.Strings;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -38,11 +39,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
@@ -60,9 +61,14 @@ public class ElixirClientCodegen extends DefaultCodegen {
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 1.7\"}",
-            "{:poison, \"~> 3.0\"}",
+            "{:jason, \"~> 1.4\"}",
             "{:ex_doc, \"~> 0.28\", only: :dev, runtime: false}"
     );
+
+    protected List<String> charactersToAllow = Collections.singletonList("_");
+
+    protected Set<String> keywordsThatDoNotSupportRawIdentifiers = new HashSet<>(
+            Arrays.asList());
 
     public ElixirClientCodegen() {
         super();
@@ -982,4 +988,92 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELIXIR; }
+
+    public enum CasingType {CAMEL_CASE, SNAKE_CASE};
+
+    /**
+     * General purpose sanitizing function for Elixir identifiers (fields, variables, structs, parameters, etc.).<br>
+     * @param name The input string
+     * @param casingType Which casing type to apply
+     * @param escapePrefix Prefix to escape words beginning with numbers or reserved words
+     * @param type The type of identifier (used for logging)
+     * @param allowRawIdentifiers Raw identifiers can't always be used, because of filename vs import mismatch.
+     * @return Sanitized string
+     */
+    public String sanitizeIdentifier(String name, ElixirClientCodegen.CasingType casingType, String escapePrefix, String type, boolean allowRawIdentifiers) {
+        String originalName = name;
+
+        Function<String, String> casingFunction;
+        switch (casingType) {
+            case CAMEL_CASE:
+                // This probably seems odd, but it is necessary for two reasons
+                // Compatibility with rust-server, such that MyIDList => my_id_list => MyIdList
+                // Conversion from SCREAMING_SNAKE_CASE to ScreamingSnakeCase
+                casingFunction = (input) -> camelize(underscore(input));
+                break;
+            case SNAKE_CASE:
+                casingFunction = org.openapitools.codegen.utils.StringUtils::underscore;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown CasingType");
+        }
+
+        // Replace hyphens with underscores
+        name = name.replaceAll("-", "_");
+
+        // Apply special character escapes, e.g. "@type" => "At_type"
+        // Remove the trailing underscore if necessary
+        if (!Strings.isNullOrEmpty(name)) {
+            boolean endedWithUnderscore = name.endsWith("_");
+            name = escape(name, specialCharReplacements, charactersToAllow, "_");
+            if (!endedWithUnderscore && name.endsWith("_")) {
+                name = org.apache.commons.lang3.StringUtils.chop(name);
+            }
+        }
+
+        // Sanitize any other special characters that weren't replaced
+        name = sanitizeName(name);
+
+        // Keep track of modifications prior to casing
+        boolean nameWasModified = !originalName.equals(name);
+
+        // Convert casing
+        name = casingFunction.apply(name);
+
+        // If word starts with number add a prefix
+        // Note: this must be done after casing since CamelCase will strip leading underscores
+        if (name.matches("^\\d.*")) {
+            nameWasModified = true;
+            name = casingFunction.apply(escapePrefix + '_' + name);
+        }
+
+        // Escape reserved words - this is case-sensitive so must be done after casing
+        // There is currently a bug in Rust where this doesn't work for a few reserved words :(
+        // https://internals.rust-lang.org/t/raw-identifiers-dont-work-for-all-identifiers/9094
+        if (isReservedWord(name)) {
+            nameWasModified = true;
+            if (this.keywordsThatDoNotSupportRawIdentifiers.contains(name) || !allowRawIdentifiers) {
+                name = casingFunction.apply(escapePrefix + '_' + name);
+            } else {
+                name = "r#" + name;
+            };
+        }
+
+        // If the name had to be modified (not just because of casing), log the change
+        if (nameWasModified) {
+            LOGGER.warn("{} cannot be used as a {} name. Renamed to {}", casingFunction.apply(originalName), type, name);
+        }
+
+        return name;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "field/variable", true);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "parameter", true);
+    }
 }
