@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type AppleReq
+    /// A Json converter for type <see cref="AppleReq" />
     /// </summary>
     public class AppleReqJsonConverter : JsonConverter<AppleReq>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="AppleReq" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="AppleReq" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="appleReq"></param>

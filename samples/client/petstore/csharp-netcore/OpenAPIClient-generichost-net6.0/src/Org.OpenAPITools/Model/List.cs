@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type List
+    /// A Json converter for type <see cref="List" />
     /// </summary>
     public class ListJsonConverter : JsonConverter<List>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="List" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="List" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>

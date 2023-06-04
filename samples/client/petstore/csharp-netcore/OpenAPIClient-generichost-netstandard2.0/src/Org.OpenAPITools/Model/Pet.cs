@@ -74,10 +74,11 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns a StatusEnum
+        /// Returns a <see cref="StatusEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "available")
@@ -93,7 +94,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="StatusEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromStringOrDefault(string value)
+        {
+            if (value == "available")
+                return StatusEnum.Available;
+
+            if (value == "pending")
+                return StatusEnum.Pending;
+
+            if (value == "sold")
+                return StatusEnum.Sold;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="StatusEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -187,12 +207,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Pet
+    /// A Json converter for type <see cref="Pet" />
     /// </summary>
     public class PetJsonConverter : JsonConverter<Pet>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Pet" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -247,7 +267,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
-                            status = Pet.StatusEnumFromString(statusRawValue);
+                            status = statusRawValue == null
+                                ? null
+                                : Pet.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "tags":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -259,11 +281,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
-
             if (category == null)
                 throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
 
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
@@ -271,17 +293,17 @@ namespace Org.OpenAPITools.Model
             if (photoUrls == null)
                 throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
 
-            if (tags == null)
-                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
-
             if (status == null)
                 throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
 
             return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Pet" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pet"></param>
@@ -297,11 +319,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WritePropertyName("tags");
             JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
 

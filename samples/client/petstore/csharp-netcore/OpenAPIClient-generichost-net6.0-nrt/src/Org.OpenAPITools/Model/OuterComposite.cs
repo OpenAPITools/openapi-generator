@@ -99,12 +99,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type OuterComposite
+    /// A Json converter for type <see cref="OuterComposite" />
     /// </summary>
     public class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="OuterComposite" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -156,20 +156,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (myBoolean == null)
+                throw new ArgumentNullException(nameof(myBoolean), "Property is required for class OuterComposite.");
+
             if (myNumber == null)
                 throw new ArgumentNullException(nameof(myNumber), "Property is required for class OuterComposite.");
 
             if (myString == null)
                 throw new ArgumentNullException(nameof(myString), "Property is required for class OuterComposite.");
 
-            if (myBoolean == null)
-                throw new ArgumentNullException(nameof(myBoolean), "Property is required for class OuterComposite.");
-
             return new OuterComposite(myBoolean.Value, myNumber.Value, myString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="OuterComposite" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>

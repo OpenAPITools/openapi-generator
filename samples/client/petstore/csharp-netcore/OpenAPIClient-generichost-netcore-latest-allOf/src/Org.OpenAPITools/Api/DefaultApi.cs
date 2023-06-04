@@ -93,12 +93,14 @@ namespace Org.OpenAPITools.Api
             Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
         }
 
+        partial void FormatList(ref string personId);
+
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="personId"></param>
         /// <returns></returns>
-        protected virtual string OnList(string personId)
+        private void ValidateList(string personId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -106,10 +108,8 @@ namespace Org.OpenAPITools.Api
             if (personId == null)
                 throw new ArgumentNullException(nameof(personId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return personId;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -164,7 +164,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                personId = OnList(personId);
+                ValidateList(personId);
+
+                FormatList(ref personId);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -172,13 +174,12 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/person/display/{personId}";
-
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpersonId%7D", Uri.EscapeDataString(personId.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);

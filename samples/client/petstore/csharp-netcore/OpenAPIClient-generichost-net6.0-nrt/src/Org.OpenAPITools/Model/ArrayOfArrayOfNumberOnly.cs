@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ArrayOfArrayOfNumberOnly
+    /// A Json converter for type <see cref="ArrayOfArrayOfNumberOnly" />
     /// </summary>
     public class ArrayOfArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfArrayOfNumberOnly>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ArrayOfArrayOfNumberOnly" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ArrayOfArrayOfNumberOnly" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="arrayOfArrayOfNumberOnly"></param>

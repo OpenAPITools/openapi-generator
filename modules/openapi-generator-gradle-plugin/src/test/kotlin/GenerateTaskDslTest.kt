@@ -458,4 +458,45 @@ class GenerateTaskDslTest : TestBase() {
         assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
             "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
+
+    @Test
+    fun `openapiGenerate should set dryRun flag`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(
+            """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+            dryRun = true
+        }
+    """.trimIndent(),
+            projectFiles
+        )
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Dry Run Results:"),
+            "Dry run results message is missing."
+        )
+    }
 }

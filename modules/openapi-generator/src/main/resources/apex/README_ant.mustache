@@ -104,14 +104,14 @@ Please follow the [installation](#installation) instruction and execute the foll
 {{classname}} api = new {{classname}}();
 {{#hasAuthMethods}}
 {{classPrefix}}Client client = api.getClient();
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setUsername('YOUR USERNAME');
 {{{name}}}.setPassword('YOUR PASSWORD');
 
 // You can also set your username and password in one line
-{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasic}}{{#isApiKey}}
+{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasicBasic}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setApiKey('YOUR API KEY');{{/isApiKey}}{{#isOAuth}}
@@ -161,14 +161,16 @@ Class | Method | HTTP request | Description
 {{#authMethods}}
 ### {{name}}
 
-{{#isApiKey}}
-
-- **Type**: API key
+{{#isApiKey}}- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}

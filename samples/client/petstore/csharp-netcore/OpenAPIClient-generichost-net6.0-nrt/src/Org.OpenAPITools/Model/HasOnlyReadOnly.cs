@@ -127,12 +127,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type HasOnlyReadOnly
+    /// A Json converter for type <see cref="HasOnlyReadOnly" />
     /// </summary>
     public class HasOnlyReadOnlyJsonConverter : JsonConverter<HasOnlyReadOnly>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="HasOnlyReadOnly" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="HasOnlyReadOnly" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="hasOnlyReadOnly"></param>

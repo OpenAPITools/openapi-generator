@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Child {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  BoosterSeat: ").Append(BoosterSeat).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -75,12 +75,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Child
+    /// A Json converter for type <see cref="Child" />
     /// </summary>
     public class ChildJsonConverter : JsonConverter<Child>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Child" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -141,11 +141,23 @@ namespace Org.OpenAPITools.Model
             if (boosterSeat == null)
                 throw new ArgumentNullException(nameof(boosterSeat), "Property is required for class Child.");
 
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Child.");
+
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Child.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Child.");
+
+            if (childAllOf == null)
+                throw new ArgumentNullException(nameof(childAllOf), "Property is required for class Child.");
+
             return new Child(childAllOf, boosterSeat.Value, firstName, lastName, type);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Child" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="child"></param>

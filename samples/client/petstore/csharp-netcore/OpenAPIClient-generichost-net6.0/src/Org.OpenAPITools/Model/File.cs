@@ -80,12 +80,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type File
+    /// A Json converter for type <see cref="File" />
     /// </summary>
     public class FileJsonConverter : JsonConverter<File>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="File" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="File" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="file"></param>

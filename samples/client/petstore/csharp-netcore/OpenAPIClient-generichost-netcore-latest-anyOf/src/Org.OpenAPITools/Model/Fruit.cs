@@ -95,12 +95,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Fruit
+    /// A Json converter for type <see cref="Fruit" />
     /// </summary>
     public class FruitJsonConverter : JsonConverter<Fruit>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Fruit" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Fruit" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fruit"></param>

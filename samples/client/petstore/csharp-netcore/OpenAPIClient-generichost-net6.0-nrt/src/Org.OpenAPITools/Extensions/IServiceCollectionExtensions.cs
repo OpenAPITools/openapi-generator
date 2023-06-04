@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Extensions
             where TStoreApi : class, IApi.IStoreApi
             where TUserApi : class, IApi.IUserApi
         {
-            HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(services);
+            HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new(services);
             options(config);
             AddApi(services, config);
         }

@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type LiteralStringClass
+    /// A Json converter for type <see cref="LiteralStringClass" />
     /// </summary>
     public class LiteralStringClassJsonConverter : JsonConverter<LiteralStringClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="LiteralStringClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="LiteralStringClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="literalStringClass"></param>

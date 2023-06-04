@@ -145,12 +145,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type AdditionalPropertiesClass
+    /// A Json converter for type <see cref="AdditionalPropertiesClass" />
     /// </summary>
     public class AdditionalPropertiesClassJsonConverter : JsonConverter<AdditionalPropertiesClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="AdditionalPropertiesClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -228,11 +228,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (mapProperty == null)
-                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
+            if (emptyMap == null)
+                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
 
             if (mapOfMapProperty == null)
                 throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapProperty == null)
+                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
 
             if (mapWithUndeclaredPropertiesAnytype1 == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
@@ -243,9 +246,6 @@ namespace Org.OpenAPITools.Model
             if (mapWithUndeclaredPropertiesAnytype3 == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
 
-            if (emptyMap == null)
-                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
-
             if (mapWithUndeclaredPropertiesString == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
 
@@ -253,7 +253,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="AdditionalPropertiesClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="additionalPropertiesClass"></param>

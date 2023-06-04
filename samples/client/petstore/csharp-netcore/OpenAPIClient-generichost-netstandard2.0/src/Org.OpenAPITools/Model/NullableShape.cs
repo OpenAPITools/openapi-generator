@@ -103,12 +103,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableShape
+    /// A Json converter for type <see cref="NullableShape" />
     /// </summary>
     public class NullableShapeJsonConverter : JsonConverter<NullableShape>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableShape" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -157,7 +157,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableShape" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableShape"></param>

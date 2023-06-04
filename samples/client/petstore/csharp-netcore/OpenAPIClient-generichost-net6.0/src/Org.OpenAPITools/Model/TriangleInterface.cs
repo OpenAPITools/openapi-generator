@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type TriangleInterface
+    /// A Json converter for type <see cref="TriangleInterface" />
     /// </summary>
     public class TriangleInterfaceJsonConverter : JsonConverter<TriangleInterface>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="TriangleInterface" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="TriangleInterface" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="triangleInterface"></param>

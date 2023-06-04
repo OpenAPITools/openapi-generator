@@ -143,12 +143,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Name
+    /// A Json converter for type <see cref="Name" />
     /// </summary>
     public class NameJsonConverter : JsonConverter<Name>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Name" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -208,11 +208,11 @@ namespace Org.OpenAPITools.Model
             if (varName == null)
                 throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
 
-            if (snakeCase == null)
-                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
-
             if (property == null)
                 throw new ArgumentNullException(nameof(property), "Property is required for class Name.");
+
+            if (snakeCase == null)
+                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
 
             if (var123Number == null)
                 throw new ArgumentNullException(nameof(var123Number), "Property is required for class Name.");
@@ -221,7 +221,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Name" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="name"></param>

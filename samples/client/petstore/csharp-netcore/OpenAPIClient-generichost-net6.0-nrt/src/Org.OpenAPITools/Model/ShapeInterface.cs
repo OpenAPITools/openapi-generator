@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ShapeInterface
+    /// A Json converter for type <see cref="ShapeInterface" />
     /// </summary>
     public class ShapeInterfaceJsonConverter : JsonConverter<ShapeInterface>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ShapeInterface" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ShapeInterface" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="shapeInterface"></param>

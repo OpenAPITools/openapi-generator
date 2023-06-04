@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Tag
+    /// A Json converter for type <see cref="Tag" />
     /// </summary>
     public class TagJsonConverter : JsonConverter<Tag>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Tag" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Tag" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="tag"></param>
