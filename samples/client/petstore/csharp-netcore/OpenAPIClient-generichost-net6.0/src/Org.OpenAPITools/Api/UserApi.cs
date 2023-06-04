@@ -375,19 +375,17 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -499,19 +497,17 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -623,19 +619,17 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -742,11 +736,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
-
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -853,14 +846,13 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
-
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/xml", 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/xml",
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -987,16 +979,14 @@ namespace Org.OpenAPITools.Api
 
                     parseQueryStringLocalVar["username"] = username.ToString();
                     parseQueryStringLocalVar["password"] = password.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/xml", 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/xml",
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -1084,10 +1074,8 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -1202,24 +1190,23 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
-                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
+                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
-
-
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;

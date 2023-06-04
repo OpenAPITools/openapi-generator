@@ -235,6 +235,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnProperty}}{{baseType}}{{#isContainer}}{{#isMap}}{TKey, TValue}{{/isMap}}{{^isMap}}{TValue}{{/isMap}}{{/isContainer}}{{/returnProperty}}{{^returnProperty}}object{{/returnProperty}}"/></returns>
         public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}})
         {
+            {{#lambda.trimLineBreaks}}
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
@@ -258,7 +259,6 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "{{path}}";
-
                     {{/servers}}
                     {{#servers}}
                     {{#-first}}
@@ -266,12 +266,14 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Host = urlLocalVar.Authority;
                     uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
                     uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
-
                     {{/-first}}
                     {{/servers}}
                     {{#pathParams}}
                     {{#required}}
-                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));
+                    {{/required}}
+                    {{^required}}
+
                     if ({{paramName}} != null)
                         uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
                     {{#-last}}
@@ -281,17 +283,39 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/pathParams}}
                     {{#queryParams}}
                     {{#-first}}
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/-first}}{{/queryParams}}{{^queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
 
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/queryParams}}{{#queryParams}}{{#required}}{{#-first}}
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+                    {{/-first}}
+                    {{/queryParams}}
+                    {{^queryParams}}
+                    {{#authMethods}}
+                    {{#isApiKey}}
+                    {{#isKeyInQuery}}
 
-                    {{! all the redundant tags here are to get the spacing just right }}
-                    {{/-first}}{{/required}}{{/queryParams}}{{#queryParams}}{{#required}}parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
-                    {{/required}}{{/queryParams}}{{#queryParams}}{{#-first}}
-                    {{/-first}}{{/queryParams}}{{#queryParams}}{{^required}}if ({{paramName}} != null)
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+                    {{/isKeyInQuery}}
+                    {{/isApiKey}}
+                    {{/authMethods}}
+                    {{/queryParams}}
+                    {{#queryParams}}
+                    {{#required}}
+                    {{#-first}}
+
+                    {{/-first}}
+                    {{/required}}
+                    {{#required}}
+                    parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
+                    {{/required}}
+                    {{/queryParams}}
+
+                    {{#queryParams}}
+                    {{^required}}
+                    if ({{paramName}} != null)
                         parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
 
-                    {{/required}}{{#-last}}uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+                    {{/required}}
+                    {{#-last}}
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     {{/-last}}
                     {{/queryParams}}
@@ -353,32 +377,45 @@ namespace {{packageName}}.{{apiPackage}}
 
                     tokenBaseLocalVars.Add(apiKeyTokenLocalVar);{{#isKeyInHeader}}
 
-                    apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}
+                    apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
+                    {{/isKeyInHeader}}
+                    {{#isKeyInQuery}}
 
                     apiKeyTokenLocalVar.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "{{keyParamName}}");
 
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+                    {{/isKeyInQuery}}
+                    {{/isApiKey}}
+                    {{/authMethods}}
 
                     {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;{{#authMethods}}{{#isBasicBasic}}
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+                    {{#authMethods}}
+                    {{#isBasicBasic}}
 
                     BasicToken basicTokenLocalVar = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(basicTokenLocalVar);
 
-                    basicTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isBasicBasic}}{{#isBasicBearer}}
+                    basicTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
+                    {{/isBasicBasic}}
+                    {{#isBasicBearer}}
 
                     BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(bearerTokenLocalVar);
 
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isBasicBearer}}{{#isOAuth}}
+                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
+                    {{/isBasicBearer}}
+                    {{#isOAuth}}
 
                     OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");{{/isOAuth}}{{#isHttpSignature}}
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
+                    {{/isOAuth}}
+                    {{#isHttpSignature}}
 
                     HttpSignatureToken httpSignatureTokenLocalVar = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
@@ -386,22 +423,41 @@ namespace {{packageName}}.{{apiPackage}}
 
                     string requestBodyLocalVar = await httpRequestMessageLocalVar.Content{{nrt!}}.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                    httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
+                    httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                    {{/isHttpSignature}}
+                    {{/authMethods}}
+                    {{#consumes}}
+                    {{#-first}}
 
-                    string[] contentTypes = new string[] {
-                        {{/-first}}"{{{mediaType}}}"{{^-last}},
-                        {{/-last}}{{#-last}} 
-                    };{{/-last}}{{/consumes}}{{#consumes}}{{#-first}}
+                    {{=<% %>=}}
+                    string[] contentTypes = new string[] {<%/-first%>
+                    <%={{ }}=%>
+                        "{{{mediaType}}}"{{^-last}},{{/-last}}{{#-last}}
+                    };
+                    {{/-last}}
+                    {{/consumes}}
+                    {{#consumes}}
+                    {{#-first}}
 
                     string{{nrt?}} contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);{{/-first}}{{/consumes}}{{#produces}}{{#-first}}
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { {{/-first}}{{/produces}}
-                        {{#produces}}"{{{mediaType}}}"{{^-last}}, 
-                        {{/-last}}{{/produces}}{{#produces}}{{#-last}} 
-                    };{{/-last}}{{/produces}}{{#produces}}{{#-first}}
+                    {{/-first}}
+                    {{/consumes}}
+                    {{#produces}}
+                    {{#-first}}
+
+                    {{=<% %>=}}
+                    string[] acceptLocalVars = new string[] {<%/-first%>
+                    <%={{ }}=%>
+                        "{{{mediaType}}}"{{^-last}},{{/-last}}{{#-last}}
+                    };
+                    {{/-last}}
+                    {{/produces}}
+                    {{#produces}}
+                    {{#-first}}
 
                     string{{nrt?}} acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
@@ -411,8 +467,11 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/produces}}
                     {{^netStandard}}
 
-                    httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};{{/netStandard}}{{#netStandard}}
-                    httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");{{/netStandard}}{{! early standard versions do not have HttpMethod.Patch }}
+                    httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};
+                    {{/netStandard}}
+                    {{#netStandard}}
+                    httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");
+                    {{/netStandard}}
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -441,6 +500,7 @@ namespace {{packageName}}.{{apiPackage}}
                 OnError{{operationId}}({{#lambda.joinWithComma}}e  "{{path}}"  uriBuilderLocalVar.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
                 throw;
             }
+            {{/lambda.trimLineBreaks}}
         }
         {{/operation}}
     }
