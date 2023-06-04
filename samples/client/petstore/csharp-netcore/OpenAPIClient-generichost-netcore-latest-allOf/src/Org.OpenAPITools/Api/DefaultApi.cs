@@ -84,15 +84,6 @@ namespace Org.OpenAPITools.Api
             HttpClient = httpClient;
         }
 
-        /// <summary>
-        /// Logs the api response
-        /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
-        {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
         partial void FormatList(ref string personId);
 
         /// <summary>
@@ -117,21 +108,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        protected virtual void AfterList(ApiResponse<Person> apiResponseLocalVar, string personId)
+        private void AfterListDefaultImplementation(ApiResponse<Person> apiResponseLocalVar, string personId)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterList(apiResponseLocalVar, personId);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="personId"></param>
+        partial void AfterList(ApiResponse<Person> apiResponseLocalVar, string personId);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="personId"></param>
-        protected virtual void OnErrorList(Exception exception, string pathFormat, string path, string personId)
+        private void OnErrorListDefaultImplementation(Exception exception, string pathFormat, string path, string personId)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorList(exception, pathFormat, path, personId);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="personId"></param>
+        partial void OnErrorList(Exception exception, string pathFormat, string path, string personId);
 
         /// <summary>
         ///  
@@ -193,13 +203,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/person/display/{personId}", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Person> apiResponseLocalVar = new ApiResponse<Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Person> apiResponseLocalVar = new ApiResponse<Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/person/display/{personId}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterList(apiResponseLocalVar, personId);
+                        AfterListDefaultImplementation(apiResponseLocalVar, personId);
 
                         return apiResponseLocalVar;
                     }
@@ -207,7 +215,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorList(e, "/person/display/{personId}", uriBuilderLocalVar.Path, personId);
+                OnErrorListDefaultImplementation(e, "/person/display/{personId}", uriBuilderLocalVar.Path, personId);
                 throw;
             }
         }
