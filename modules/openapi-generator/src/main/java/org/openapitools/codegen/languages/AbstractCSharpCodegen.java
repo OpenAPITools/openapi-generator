@@ -80,6 +80,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
+    protected String invalidNamePrefix = "var";
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -584,7 +585,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
-        if (!property.name.equals(tmpPropertyName)) {
+        if (!property.name.equals(tmpPropertyName) || property.name.startsWith(this.invalidNamePrefix)) {
             // the casing will be wrong if we just set the name to escapeReservedWord
             // if we try to fix it with camelize, underscores get stripped out
             // so test if the name was escaped and then replace var with Var
@@ -961,7 +962,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = this.escapeReservedWord(name);
 
         return name.equalsIgnoreCase(model.getClassname())
-            ? "var" + camelize(name)
+            ? this.invalidNamePrefix + camelize(name)
             : name;
     }
 
@@ -972,7 +973,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 reservedWords().contains(camelize(sanitizeName(name))) ||
                 isReservedWord(name) ||
                 name.matches("^\\d.*")) {
-            name = "var" + camelize(name);
+            name = this.invalidNamePrefix + camelize(name);
         }
         return name;
     }

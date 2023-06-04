@@ -39,15 +39,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClient">varClient.</param>
         public ModelClient(string varClient = default(string))
         {
-            this.varClient = varClient;
+            this.VarClient = varClient;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets varClient
+        /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string varClient { get; set; }
+        public string VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  varClient: ").Append(varClient).Append("\n");
+            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,9 +107,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.varClient != null)
+                if (this.VarClient != null)
                 {
-                    hashCode = (hashCode * 59) + this.varClient.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
