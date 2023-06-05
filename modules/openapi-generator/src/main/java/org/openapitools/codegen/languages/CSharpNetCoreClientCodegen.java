@@ -135,7 +135,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.OAuth2_ClientCredentials,
                         SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.SignatureAuth
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
