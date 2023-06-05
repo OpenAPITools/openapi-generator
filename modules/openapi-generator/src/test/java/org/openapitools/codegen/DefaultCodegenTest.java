@@ -4723,4 +4723,22 @@ public class DefaultCodegenTest {
 
         Assert.assertTrue(codegen.cliOptions.contains(expected));
     }
+
+    @Test
+    public void testRequestInlineSingleExample() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/inlineRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        CodegenParameter bodyParameter = co.bodyParam;
+        LinkedHashMap<String, CodegenMediaType> content = bodyParameter.getContent();
+        assertNotNull(content);
+        CodegenMediaType mt = content.get("application/json");
+        assertNotNull(mt.getExample());
+    }
+
 }
