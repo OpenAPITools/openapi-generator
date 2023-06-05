@@ -282,15 +282,6 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        /// <summary>
-        /// Logs the api response
-        /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
-        {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
         partial void FormatCreateUser(User user);
 
         /// <summary>
@@ -315,21 +306,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        protected virtual void AfterCreateUser(ApiResponse<object> apiResponseLocalVar, User user)
+        private void AfterCreateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCreateUser(apiResponseLocalVar, user);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        partial void AfterCreateUser(ApiResponse<object> apiResponseLocalVar, User user);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        protected virtual void OnErrorCreateUser(Exception exception, string pathFormat, string path, User user)
+        private void OnErrorCreateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCreateUser(exception, pathFormat, path, user);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        partial void OnErrorCreateUser(Exception exception, string pathFormat, string path, User user);
 
         /// <summary>
         /// Create user This can only be done by the logged in user.
@@ -394,13 +404,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterCreateUser(apiResponseLocalVar, user);
+                        AfterCreateUserDefaultImplementation(apiResponseLocalVar, user);
 
                         return apiResponseLocalVar;
                     }
@@ -408,7 +416,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorCreateUser(e, "/user", uriBuilderLocalVar.Path, user);
+                OnErrorCreateUserDefaultImplementation(e, "/user", uriBuilderLocalVar.Path, user);
                 throw;
             }
         }
@@ -437,21 +445,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        protected virtual void AfterCreateUsersWithArrayInput(ApiResponse<object> apiResponseLocalVar, List<User> user)
+        private void AfterCreateUsersWithArrayInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCreateUsersWithArrayInput(apiResponseLocalVar, user);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        partial void AfterCreateUsersWithArrayInput(ApiResponse<object> apiResponseLocalVar, List<User> user);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        protected virtual void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user)
+        private void OnErrorCreateUsersWithArrayInputDefaultImplementation(Exception exception, string pathFormat, string path, List<User> user)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCreateUsersWithArrayInput(exception, pathFormat, path, user);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        partial void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user);
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -516,13 +543,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/createWithArray", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithArray", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterCreateUsersWithArrayInput(apiResponseLocalVar, user);
+                        AfterCreateUsersWithArrayInputDefaultImplementation(apiResponseLocalVar, user);
 
                         return apiResponseLocalVar;
                     }
@@ -530,7 +555,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorCreateUsersWithArrayInput(e, "/user/createWithArray", uriBuilderLocalVar.Path, user);
+                OnErrorCreateUsersWithArrayInputDefaultImplementation(e, "/user/createWithArray", uriBuilderLocalVar.Path, user);
                 throw;
             }
         }
@@ -559,21 +584,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        protected virtual void AfterCreateUsersWithListInput(ApiResponse<object> apiResponseLocalVar, List<User> user)
+        private void AfterCreateUsersWithListInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCreateUsersWithListInput(apiResponseLocalVar, user);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        partial void AfterCreateUsersWithListInput(ApiResponse<object> apiResponseLocalVar, List<User> user);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        protected virtual void OnErrorCreateUsersWithListInput(Exception exception, string pathFormat, string path, List<User> user)
+        private void OnErrorCreateUsersWithListInputDefaultImplementation(Exception exception, string pathFormat, string path, List<User> user)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCreateUsersWithListInput(exception, pathFormat, path, user);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        partial void OnErrorCreateUsersWithListInput(Exception exception, string pathFormat, string path, List<User> user);
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -638,13 +682,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/createWithList", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithList", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterCreateUsersWithListInput(apiResponseLocalVar, user);
+                        AfterCreateUsersWithListInputDefaultImplementation(apiResponseLocalVar, user);
 
                         return apiResponseLocalVar;
                     }
@@ -652,7 +694,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorCreateUsersWithListInput(e, "/user/createWithList", uriBuilderLocalVar.Path, user);
+                OnErrorCreateUsersWithListInputDefaultImplementation(e, "/user/createWithList", uriBuilderLocalVar.Path, user);
                 throw;
             }
         }
@@ -681,21 +723,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        protected virtual void AfterDeleteUser(ApiResponse<object> apiResponseLocalVar, string username)
+        private void AfterDeleteUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string username)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterDeleteUser(apiResponseLocalVar, username);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        partial void AfterDeleteUser(ApiResponse<object> apiResponseLocalVar, string username);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="username"></param>
-        protected virtual void OnErrorDeleteUser(Exception exception, string pathFormat, string path, string username)
+        private void OnErrorDeleteUserDefaultImplementation(Exception exception, string pathFormat, string path, string username)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorDeleteUser(exception, pathFormat, path, username);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        partial void OnErrorDeleteUser(Exception exception, string pathFormat, string path, string username);
 
         /// <summary>
         /// Delete user This can only be done by the logged in user.
@@ -748,13 +809,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/{username}", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterDeleteUser(apiResponseLocalVar, username);
+                        AfterDeleteUserDefaultImplementation(apiResponseLocalVar, username);
 
                         return apiResponseLocalVar;
                     }
@@ -762,7 +821,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorDeleteUser(e, "/user/{username}", uriBuilderLocalVar.Path, username);
+                OnErrorDeleteUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username);
                 throw;
             }
         }
@@ -791,21 +850,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        protected virtual void AfterGetUserByName(ApiResponse<User> apiResponseLocalVar, string username)
+        private void AfterGetUserByNameDefaultImplementation(ApiResponse<User> apiResponseLocalVar, string username)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterGetUserByName(apiResponseLocalVar, username);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        partial void AfterGetUserByName(ApiResponse<User> apiResponseLocalVar, string username);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="username"></param>
-        protected virtual void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username)
+        private void OnErrorGetUserByNameDefaultImplementation(Exception exception, string pathFormat, string path, string username)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetUserByName(exception, pathFormat, path, username);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        partial void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username);
 
         /// <summary>
         /// Get user by user name 
@@ -868,13 +946,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/{username}", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterGetUserByName(apiResponseLocalVar, username);
+                        AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
 
                         return apiResponseLocalVar;
                     }
@@ -882,7 +958,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorGetUserByName(e, "/user/{username}", uriBuilderLocalVar.Path, username);
+                OnErrorGetUserByNameDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username);
                 throw;
             }
         }
@@ -916,22 +992,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        protected virtual void AfterLoginUser(ApiResponse<string> apiResponseLocalVar, string username, string password)
+        private void AfterLoginUserDefaultImplementation(ApiResponse<string> apiResponseLocalVar, string username, string password)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterLoginUser(apiResponseLocalVar, username, password);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        partial void AfterLoginUser(ApiResponse<string> apiResponseLocalVar, string username, string password);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        protected virtual void OnErrorLoginUser(Exception exception, string pathFormat, string path, string username, string password)
+        private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string username, string password)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorLoginUser(exception, pathFormat, path, username, password);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        partial void OnErrorLoginUser(Exception exception, string pathFormat, string path, string username, string password);
 
         /// <summary>
         /// Logs user into the system 
@@ -1002,13 +1099,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/login", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterLoginUser(apiResponseLocalVar, username, password);
+                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
 
                         return apiResponseLocalVar;
                     }
@@ -1016,7 +1111,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorLoginUser(e, "/user/login", uriBuilderLocalVar.Path, username, password);
+                OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, username, password);
                 throw;
             }
         }
@@ -1025,20 +1120,37 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        protected virtual void AfterLogoutUser(ApiResponse<object> apiResponseLocalVar)
+        private void AfterLogoutUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterLogoutUser(apiResponseLocalVar);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterLogoutUser(ApiResponse<object> apiResponseLocalVar);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorLogoutUser(Exception exception, string pathFormat, string path)
+        private void OnErrorLogoutUserDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorLogoutUser(exception, pathFormat, path);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorLogoutUser(Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Logs out current logged in user session 
@@ -1084,13 +1196,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/logout", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterLogoutUser(apiResponseLocalVar);
+                        AfterLogoutUserDefaultImplementation(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1098,7 +1208,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorLogoutUser(e, "/user/logout", uriBuilderLocalVar.Path);
+                OnErrorLogoutUserDefaultImplementation(e, "/user/logout", uriBuilderLocalVar.Path);
                 throw;
             }
         }
@@ -1132,22 +1242,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        protected virtual void AfterUpdateUser(ApiResponse<object> apiResponseLocalVar, User user, string username)
+        private void AfterUpdateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string username)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterUpdateUser(apiResponseLocalVar, user, username);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        partial void AfterUpdateUser(ApiResponse<object> apiResponseLocalVar, User user, string username);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        protected virtual void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username)
+        private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user, string username)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorUpdateUser(exception, pathFormat, path, user, username);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        partial void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username);
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.
@@ -1215,13 +1346,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/user/{username}", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterUpdateUser(apiResponseLocalVar, user, username);
+                        AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
 
                         return apiResponseLocalVar;
                     }
@@ -1229,7 +1358,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorUpdateUser(e, "/user/{username}", uriBuilderLocalVar.Path, user, username);
+                OnErrorUpdateUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, user, username);
                 throw;
             }
         }
