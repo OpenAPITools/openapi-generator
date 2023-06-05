@@ -35,17 +35,17 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ModelClient(string varClient)
         {
-            varClient = varClient;
+            VarClient = varClient;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets varClient
+        /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string varClient { get; set; }
+        public string VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  varClient: ").Append(varClient).Append("\n");
+            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("client", modelClient.varClient);
+            writer.WriteString("client", modelClient.VarClient);
 
             writer.WriteEndObject();
         }

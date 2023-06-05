@@ -38,37 +38,37 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClient">varClient.</param>
         public ModelClient(string varClient = default(string))
         {
-            this._varClient = varClient;
-            if (this.varClient != null)
+            this._VarClient = varClient;
+            if (this.VarClient != null)
             {
-                this._flagvarClient = true;
+                this._flagVarClient = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets varClient
+        /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string varClient
+        public string VarClient
         {
-            get{ return _varClient;}
+            get{ return _VarClient;}
             set
             {
-                _varClient = value;
-                _flagvarClient = true;
+                _VarClient = value;
+                _flagVarClient = true;
             }
         }
-        private string _varClient;
-        private bool _flagvarClient;
+        private string _VarClient;
+        private bool _flagVarClient;
 
         /// <summary>
-        /// Returns false as varClient should not be serialized given that it's read-only.
+        /// Returns false as VarClient should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializevarClient()
+        public bool ShouldSerializeVarClient()
         {
-            return _flagvarClient;
+            return _flagVarClient;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  varClient: ").Append(varClient).Append("\n");
+            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.varClient != null)
+                if (this.VarClient != null)
                 {
-                    hashCode = (hashCode * 59) + this.varClient.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

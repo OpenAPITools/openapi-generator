@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'SnakeCase'
         }
         /// <summary>
-        /// Test the property 'var123Number'
+        /// Test the property 'Var123Number'
         /// </summary>
         [Fact]
-        public void var123NumberTest()
+        public void Var123NumberTest()
         {
-            // TODO unit test for the property 'var123Number'
+            // TODO unit test for the property 'Var123Number'
         }
 
     }
