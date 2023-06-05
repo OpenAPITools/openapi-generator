@@ -68,8 +68,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
-    public static final String USE_PARAMETER_DEFAULT_VALUES = "useParameterDefaultValues";
-
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
@@ -97,7 +95,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
 
-    private boolean useParameterDefaultValues = false;
+    private boolean useParameterDefaultValues = true;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -276,10 +274,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Use default routing for the ASP.NET Core version.",
                 useDefaultRouting);
 
-        addSwitch(USE_PARAMETER_DEFAULT_VALUES,
-                "Use parameter default values in controller methods.",
-                useParameterDefaultValues);
-
         addOption(CodegenConstants.ENUM_NAME_SUFFIX,
                 CodegenConstants.ENUM_NAME_SUFFIX_DESC,
                 enumNameSuffix);
@@ -410,7 +404,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
-        setUseParameterDefaultValues();
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -462,6 +455,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
     }
 
+    /**
+     * Sorts the parameters so that any with a default are at the end, this is required by C# as parameters with
+     * defaults may be omitted when then the method is called.
+     *
+     * @see <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/named-and-optional-arguments#optional-arguments">C# Programming Guide</a>
+     *
+     * @param path       the path of the operation
+     * @param httpMethod HTTP method
+     * @param operation  OAS operation object
+     * @param servers    list of servers
+     *
+     * @return Updated operation object
+     */
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
@@ -857,14 +863,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else {
             // default, do nothing
             LOGGER.info("Swashbuckle version: {}", swashbuckleVersion.getOptValue());
-        }
-    }
-
-    private void setUseParameterDefaultValues() {
-        if (additionalProperties.containsKey(USE_PARAMETER_DEFAULT_VALUES)) {
-            useParameterDefaultValues = convertPropertyToBooleanAndWriteBack(USE_PARAMETER_DEFAULT_VALUES);
-        } else {
-            additionalProperties.put(USE_PARAMETER_DEFAULT_VALUES, useParameterDefaultValues);
         }
     }
 }
