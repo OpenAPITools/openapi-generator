@@ -867,10 +867,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (!parameter.isContainer && nullableType.contains(parameter.dataType)) {
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
             }
-
-            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-                parameter.dataType = parameter.dataType + "?";
-            }
         }
     }
 

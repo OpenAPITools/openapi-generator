@@ -19,7 +19,9 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -66,6 +68,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
+    public static final String USE_PARAMETER_DEFAULT_VALUES = "useParameterDefaultValues";
+
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
@@ -92,6 +96,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
+
+    private boolean useParameterDefaultValues = false;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -270,6 +276,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Use default routing for the ASP.NET Core version.",
                 useDefaultRouting);
 
+        addSwitch(USE_PARAMETER_DEFAULT_VALUES,
+                "Use parameter default values in controller methods.",
+                useParameterDefaultValues);
+
         addOption(CodegenConstants.ENUM_NAME_SUFFIX,
                 CodegenConstants.ENUM_NAME_SUFFIX_DESC,
                 enumNameSuffix);
@@ -400,6 +410,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
+        setUseParameterDefaultValues();
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -449,6 +460,28 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        if (useParameterDefaultValues) {
+            op.allParams.sort((a, b) -> {
+                if (a.defaultValue != null && b.defaultValue == null) {
+                    return 1;
+                } else if (a.defaultValue == null && b.defaultValue != null) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            });
+        }
+
+        return op;
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -554,6 +587,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        // TODO: instead of appending the ?
+        // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
+        if (!parameter.required
+                && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))
+                && (parameter.defaultValue == null || !useParameterDefaultValues)) {
+            parameter.dataType = parameter.dataType.endsWith("?")
+                    ? parameter.dataType
+                    : parameter.dataType + "?";
+        }
+    }
+
+    @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         // To avoid unexpected behaviors when options are passed programmatically such as { "useCollection": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
@@ -568,7 +614,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
+            if (isSupportNullable()
+                    && ModelUtils.isNullable(p)
+                    && (nullableType.contains(type) || nullReferenceTypesFlag)
+                    && (p.getDefault() == null || !useParameterDefaultValues)) {
                 return type + "?";
             } else {
                 return type;
@@ -808,6 +857,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else {
             // default, do nothing
             LOGGER.info("Swashbuckle version: {}", swashbuckleVersion.getOptValue());
+        }
+    }
+
+    private void setUseParameterDefaultValues() {
+        if (additionalProperties.containsKey(USE_PARAMETER_DEFAULT_VALUES)) {
+            useParameterDefaultValues = convertPropertyToBooleanAndWriteBack(USE_PARAMETER_DEFAULT_VALUES);
+        } else {
+            additionalProperties.put(USE_PARAMETER_DEFAULT_VALUES, useParameterDefaultValues);
         }
     }
 }
