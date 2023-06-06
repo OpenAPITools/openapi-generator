@@ -37,6 +37,7 @@ export class CatAllOf {
     }
 
     public constructor() {
+
     }
 }
 

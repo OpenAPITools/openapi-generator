@@ -21,6 +21,8 @@ export class PetsPatchRequest {
     'breed'?: PetsPatchRequestBreedEnum;
 
     static readonly discriminator: string | undefined = "petType";
+    static readonly discriminatorTypeMap = {
+    }
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
@@ -53,6 +55,7 @@ export class PetsPatchRequest {
     }
 
     public constructor() {
+
         this.petType = "PetsPatchRequest";
     }
 }

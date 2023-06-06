@@ -73,6 +73,7 @@ export class Pet {
     }
 
     public constructor() {
+
     }
 }
 

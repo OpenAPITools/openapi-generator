@@ -53,6 +53,7 @@ export class PetsFilteredPatchRequest {
     }
 
     public constructor() {
+
     }
 }
 

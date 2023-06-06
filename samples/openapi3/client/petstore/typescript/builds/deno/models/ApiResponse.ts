@@ -47,6 +47,7 @@ export class ApiResponse {
     }
 
     public constructor() {
+
     }
 }
 

@@ -365,13 +365,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
+                    String replaceName = var.isInnerEnum ? "Inner" + super.enumSuffix : var.enumName;
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(replaceName, var.enumName);
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
+                            var.datatypeWithEnum = var.datatypeWithEnum
                                 .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
@@ -484,8 +486,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = getSchemaAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(p)) { // it is an object schema
+            inner = getSchemaAdditionalProperties(p); // additional properties?
             String postfix = "";
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 postfix = " | null";

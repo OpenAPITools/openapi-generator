@@ -40,6 +40,7 @@ export class Tag {
     }
 
     public constructor() {
+
     }
 }
 

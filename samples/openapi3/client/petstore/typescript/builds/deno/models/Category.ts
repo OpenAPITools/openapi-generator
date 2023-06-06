@@ -40,6 +40,7 @@ export class Category {
     }
 
     public constructor() {
+
     }
 }
 

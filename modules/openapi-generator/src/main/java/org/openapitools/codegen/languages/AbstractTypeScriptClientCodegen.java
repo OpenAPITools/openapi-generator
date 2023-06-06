@@ -612,6 +612,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isBinarySchema(p)) {
             return "ArrayBuffer";
         }
+
         return super.getTypeDeclaration(p);
     }
 
@@ -887,7 +888,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String toEnumName(CodegenProperty property) {
         String enumName = property.name;
         enumName = addSuffix(enumName, enumSuffix);
-        return toTypescriptTypeName(enumName, "_");
+        String tsName = toTypescriptTypeName(enumName, "_");
+        return tsName;
     }
 
     protected void setEnumPropertyNaming(String naming) {
@@ -962,6 +964,40 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         return objs;
+    }
+
+    /**
+     * Update datatypeWithEnum for array container
+     *
+     * @param property Codegen property
+     */
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+        if (baseItem != null) {
+            /* 
+             * Note: There are cases where we have datatypeWithEnum == Array<{ [key: string]: string}
+             * In these cases, we then have Array <{ [key: EnumName]: EnumName}> - which is invalid typescript
+             * To protect agains this we first replace [key: string] with a special/reserved placeholder (i.e. *[key]* )
+             */
+            property.datatypeWithEnum = property.datatypeWithEnum.replace("[key: string]", "*PLACEHOLDER*")
+                                                                    .replace(baseItem.baseType, toEnumName(baseItem))
+                                                                    .replace("*PLACEHOLDER*", "[key: string]");
+
+            // naming the enum with respect to the language enum naming convention
+            // e.g. remove [], {} from array/map of enum
+            property.enumName = toEnumName(property);
+
+            // set default value for variable with inner enum
+            if (property.defaultValue != null) {
+                property.defaultValue = property.defaultValue.replace(baseItem.baseType, toEnumName(baseItem));
+            }
+
+            updateCodegenPropertyEnum(property);
+        }
     }
 
     @Override

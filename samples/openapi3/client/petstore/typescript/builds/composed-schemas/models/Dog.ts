@@ -37,6 +37,7 @@ export class Dog {
     }
 
     public constructor() {
+
     }
 }
 
