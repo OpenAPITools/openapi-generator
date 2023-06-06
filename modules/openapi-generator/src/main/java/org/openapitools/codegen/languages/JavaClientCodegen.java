@@ -27,6 +27,7 @@ import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -174,6 +175,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
+                SecurityFeature.OAuth2_ClientCredentials,
+                SecurityFeature.OAuth2_Password,
+                SecurityFeature.SignatureAuth)//jersey only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
