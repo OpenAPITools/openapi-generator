@@ -528,6 +528,13 @@ open class GenerateTask : DefaultTask() {
     @Input
     val dryRun = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether metadata files should be generated.
+     */
+    @Optional
+    @Input
+    val generateMetadata = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -834,6 +841,11 @@ open class GenerateTask : DefaultTask() {
                 dryRunSetting = setting
             }
 
+            var generateMetadataSetting = true;
+            generateMetadata.ifNotEmpty { setting ->
+                generateMetadataSetting = setting
+            }
+
             val clientOptInput = configurator.toClientOptInput()
             val codegenConfig = clientOptInput.config
 
@@ -850,7 +862,9 @@ open class GenerateTask : DefaultTask() {
                 val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
                 out.withStyle(StyledTextOutput.Style.Success)
 
-                DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
+                val generator = DefaultGenerator(dryRunSetting).opts(clientOptInput)
+                generator.setGenerateMetadata(generateMetadataSetting)
+                generator.generate()
 
                 out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {

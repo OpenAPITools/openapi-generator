@@ -316,7 +316,7 @@ SYNOPSIS
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--server-variables <server variables>...]
-                [--skip-operation-example] [--skip-validate-spec]
+                [--skip-generate-metadata] [--skip-operation-example] [--skip-validate-spec]
                 [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
@@ -482,6 +482,10 @@ OPTIONS
         --server-variables <server variables>
             sets server variables overrides for spec documents which support
             variable templating of servers.
+            
+        --skip-generate-metadata
+            Skip outputting metadata files such as VERSION, FILES and
+            .openapi-generator-ignore.
 
         --skip-operation-example
             Skip examples defined in operations to avoid out of memory errors.

@@ -499,4 +499,45 @@ class GenerateTaskDslTest : TestBase() {
             "Dry run results message is missing."
         )
     }
+
+    @Test
+    fun `openapiGenerate should set generateMetadata flag`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(
+            """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            configOptions = [
+                    dateLibrary: "java8"
+            ]
+            generateMetadata = false
+        }
+    """.trimIndent(),
+            projectFiles
+        )
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--info")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Skipped by generateMetadata option supplied by user."),
+            "Skipped generateMetadata message is missing."
+        )
+    }
 }

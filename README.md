@@ -510,7 +510,7 @@ SYNOPSIS
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--server-variables <server variables>...]
-                [--skip-validate-spec] [--strict-spec <true/false strict behavior>]
+                [--skip-generate-metadata] [--skip-validate-spec] [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
 

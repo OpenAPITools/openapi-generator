@@ -364,6 +364,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val dryRun = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether metadata files should be generated.
+     */
+    val generateMetadata = project.objects.property<Boolean>()
+
     init {
         applyDefaults()
     }
@@ -387,5 +392,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         generateAliasAsModel.set(false)
         cleanupOutput.set(false)
         dryRun.set(false)
+        generateMetadata.set(true)
     }
 }

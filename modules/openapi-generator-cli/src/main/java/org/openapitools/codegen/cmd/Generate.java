@@ -103,7 +103,11 @@ public class Generate extends OpenApiGeneratorCommand {
 
     @Option(name = { "--dry-run" }, title = "Dry run",
             description = "Try things out and report on potential changes (without actually making changes).")
-    private Boolean isDryRun;
+    private Boolean isDryRun = false;
+
+    @Option(name = { "--skip-generate-metadata" }, title = "Skip generating metadata files",
+            description = "Do not output metadata files such as FILES, VERSION and .openapi-generator-ignore.")
+    private Boolean isSkipGenerateMetadata = false;
 
     @Option(name = {"--package-name"}, title = "package name",
             description = CodegenConstants.PACKAGE_NAME_DESC)
@@ -484,6 +488,7 @@ public class Generate extends OpenApiGeneratorCommand {
             }
 
             generator.opts(clientOptInput);
+            generator.setGenerateMetadata(!isSkipGenerateMetadata);
             generator.generate();
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());

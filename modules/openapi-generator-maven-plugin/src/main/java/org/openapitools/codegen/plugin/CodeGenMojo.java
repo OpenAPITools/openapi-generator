@@ -52,11 +52,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.project.MavenProject;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -462,6 +458,9 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.dryRun")
     private Boolean dryRun = false;
+
+    @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.generateMetadata")
+    private Boolean generateMetadata = true;
 
     // TODO: Rename to global properties in version 5.1
     @Parameter
@@ -870,7 +869,9 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            new DefaultGenerator(dryRun).opts(input).generate();
+            Generator generator = new DefaultGenerator(dryRun).opts(input);
+            generator.setGenerateMetadata(generateMetadata);
+            generator.generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));

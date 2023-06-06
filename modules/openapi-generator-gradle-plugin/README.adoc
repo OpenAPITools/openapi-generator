@@ -424,6 +424,11 @@ apply plugin: 'org.openapi.generator'
 |false
 |Defines whether the generator should run in dry-run mode. In dry-run mode no files are written and a summary about
 file states is output.
+
+|generateMetadata
+|Boolean
+|true
+|Defines whether metadata files (FILES, VERSION, .openapi-generator-ignore) should be generated.
 |===
 
 [NOTE]

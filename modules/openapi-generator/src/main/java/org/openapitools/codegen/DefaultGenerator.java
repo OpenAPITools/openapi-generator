@@ -172,6 +172,7 @@ public class DefaultGenerator implements Generator {
      *
      * @param generateMetadata true: enable outputs, false: disable outputs
      */
+    @Override
     @SuppressWarnings("WeakerAccess")
     public void setGenerateMetadata(Boolean generateMetadata) {
         this.generateMetadata = generateMetadata;
