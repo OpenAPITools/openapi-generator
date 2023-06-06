@@ -133,7 +133,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
