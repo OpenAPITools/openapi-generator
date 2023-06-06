@@ -25,6 +25,7 @@ models/DogAllOf.ts
 models/EnumArrays.ts
 models/EnumClass.ts
 models/EnumTest.ts
+models/FakeBigDecimalMap200Response.ts
 models/FileSchemaTestClass.ts
 models/Foo.ts
 models/FooGetDefaultResponse.ts

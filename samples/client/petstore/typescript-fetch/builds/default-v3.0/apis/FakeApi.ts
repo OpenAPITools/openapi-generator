@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   Client,
   EnumClass,
+  FakeBigDecimalMap200Response,
   FileSchemaTestClass,
   HealthCheckResult,
   OuterComposite,
@@ -29,6 +30,8 @@ import {
     ClientToJSON,
     EnumClassFromJSON,
     EnumClassToJSON,
+    FakeBigDecimalMap200ResponseFromJSON,
+    FakeBigDecimalMap200ResponseToJSON,
     FileSchemaTestClassFromJSON,
     FileSchemaTestClassToJSON,
     HealthCheckResultFromJSON,
@@ -147,6 +150,32 @@ export interface TestQueryParameterCollectionFormatRequest {
  * 
  */
 export class FakeApi extends runtime.BaseAPI {
+
+    /**
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     */
+    async fakeBigDecimalMapRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeBigDecimalMap200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/fake/BigDecimalMap`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FakeBigDecimalMap200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     */
+    async fakeBigDecimalMap(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FakeBigDecimalMap200Response> {
+        const response = await this.fakeBigDecimalMapRaw(initOverrides);
+        return await response.value();
+    }
 
     /**
      * Health check endpoint

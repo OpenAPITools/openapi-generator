@@ -55,6 +55,8 @@ model/EnumClass.cpp
 model/EnumClass.h
 model/Enum_Test.cpp
 model/Enum_Test.h
+model/FakeBigDecimalMap_200_response.cpp
+model/FakeBigDecimalMap_200_response.h
 model/File.cpp
 model/File.h
 model/FileSchemaTestClass.cpp

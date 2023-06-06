@@ -107,6 +107,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**FakeBigDecimalMap**](docs/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeHttpSignatureTest**](docs/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -168,6 +169,7 @@ Class | Method | HTTP request | Description
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
+ - [Model.FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [Model.File](docs/File.md)
  - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Model.Foo](docs/Foo.md)

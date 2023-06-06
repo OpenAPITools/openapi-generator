@@ -25,6 +25,7 @@ docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
 docs/FakeApi.md
+docs/FakeBigDecimalMap200Response.md
 docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
@@ -61,6 +62,7 @@ docs/User.md
 docs/UserApi.md
 git_push.sh
 mono_nunit_test.sh
+src/Org.OpenAPITools.Test/Model/FakeBigDecimalMap200ResponseTests.cs
 src/Org.OpenAPITools.Test/packages.config
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
@@ -96,6 +98,7 @@ src/Org.OpenAPITools/Model/DogAllOf.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs
+src/Org.OpenAPITools/Model/FakeBigDecimalMap200Response.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
 src/Org.OpenAPITools/Model/Foo.cs

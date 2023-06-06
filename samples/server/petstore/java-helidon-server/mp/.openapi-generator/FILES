@@ -35,6 +35,7 @@ src/main/java/org/openapitools/server/model/DogAllOf.java
 src/main/java/org/openapitools/server/model/EnumArrays.java
 src/main/java/org/openapitools/server/model/EnumClass.java
 src/main/java/org/openapitools/server/model/EnumTest.java
+src/main/java/org/openapitools/server/model/FakeBigDecimalMap200Response.java
 src/main/java/org/openapitools/server/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/server/model/Foo.java
 src/main/java/org/openapitools/server/model/FooGetDefaultResponse.java
@@ -70,3 +71,4 @@ src/main/resources/META-INF/beans.xml
 src/main/resources/META-INF/microprofile-config.properties
 src/main/resources/META-INF/openapi.yml
 src/main/resources/logging.properties
+src/test/java/org/openapitools/server/model/FakeBigDecimalMap200ResponseTest.java

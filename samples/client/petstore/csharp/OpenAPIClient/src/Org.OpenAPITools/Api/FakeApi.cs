@@ -26,6 +26,25 @@ namespace Org.OpenAPITools.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>FakeBigDecimalMap200Response</returns>
+        FakeBigDecimalMap200Response FakeBigDecimalMap ();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of FakeBigDecimalMap200Response</returns>
+        ApiResponse<FakeBigDecimalMap200Response> FakeBigDecimalMapWithHttpInfo ();
+        /// <summary>
         /// Health check endpoint
         /// </summary>
         /// <remarks>
@@ -454,6 +473,27 @@ namespace Org.OpenAPITools.Api
         ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = default(Dictionary<string, string>));
         #endregion Synchronous Operations
         #region Asynchronous Operations
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of FakeBigDecimalMap200Response</returns>
+        System.Threading.Tasks.Task<FakeBigDecimalMap200Response> FakeBigDecimalMapAsync (CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (FakeBigDecimalMap200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<FakeBigDecimalMap200Response>> FakeBigDecimalMapWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Health check endpoint
         /// </summary>
@@ -1024,6 +1064,129 @@ namespace Org.OpenAPITools.Api
         public void AddDefaultHeader(string key, string value)
         {
             this.Configuration.AddDefaultHeader(key, value);
+        }
+
+        /// <summary>
+        ///  for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>FakeBigDecimalMap200Response</returns>
+        public FakeBigDecimalMap200Response FakeBigDecimalMap ()
+        {
+             ApiResponse<FakeBigDecimalMap200Response> localVarResponse = FakeBigDecimalMapWithHttpInfo();
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///  for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of FakeBigDecimalMap200Response</returns>
+        public ApiResponse<FakeBigDecimalMap200Response> FakeBigDecimalMapWithHttpInfo ()
+        {
+
+            var localVarPath = "/fake/BigDecimalMap";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "*/*"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakeBigDecimalMap", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<FakeBigDecimalMap200Response>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (FakeBigDecimalMap200Response) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(FakeBigDecimalMap200Response)));
+        }
+
+        /// <summary>
+        ///  for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of FakeBigDecimalMap200Response</returns>
+        public async System.Threading.Tasks.Task<FakeBigDecimalMap200Response> FakeBigDecimalMapAsync (CancellationToken cancellationToken = default(CancellationToken))
+        {
+             ApiResponse<FakeBigDecimalMap200Response> localVarResponse = await FakeBigDecimalMapWithHttpInfoAsync(cancellationToken);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        ///  for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (FakeBigDecimalMap200Response)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<FakeBigDecimalMap200Response>> FakeBigDecimalMapWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken))
+        {
+
+            var localVarPath = "/fake/BigDecimalMap";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "*/*"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakeBigDecimalMap", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<FakeBigDecimalMap200Response>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (FakeBigDecimalMap200Response) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(FakeBigDecimalMap200Response)));
         }
 
         /// <summary>

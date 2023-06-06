@@ -18,6 +18,7 @@ export * from './DogAllOf';
 export * from './EnumArrays';
 export * from './EnumClass';
 export * from './EnumTest';
+export * from './FakeBigDecimalMap200Response';
 export * from './FileSchemaTestClass';
 export * from './Foo';
 export * from './FooGetDefaultResponse';

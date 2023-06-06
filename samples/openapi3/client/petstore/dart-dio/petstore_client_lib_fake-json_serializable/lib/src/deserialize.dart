@@ -15,6 +15,7 @@ import 'package:openapi/src/model/dog.dart';
 import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
@@ -93,6 +94,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return EnumArrays.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'EnumTest':
           return EnumTest.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'FakeBigDecimalMap200Response':
+          return FakeBigDecimalMap200Response.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'FileSchemaTestClass':
           return FileSchemaTestClass.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Foo':
