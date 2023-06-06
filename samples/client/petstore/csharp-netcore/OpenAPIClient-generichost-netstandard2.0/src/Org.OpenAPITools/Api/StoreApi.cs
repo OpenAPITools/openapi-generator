@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class StoreApi : IApi.IStoreApi
+    public sealed partial class StoreApi : IApi.IStoreApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

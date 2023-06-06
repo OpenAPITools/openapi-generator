@@ -10,6 +10,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
+using {{packageName}}.{{apiPackage}};
+using {{packageName}}.{{interfacePrefix}}{{apiPackage}};
 using {{packageName}}.{{modelPackage}};
 
 namespace {{packageName}}.{{clientPackage}}
@@ -17,12 +19,7 @@ namespace {{packageName}}.{{clientPackage}}
     /// <summary>
     /// Provides hosting configuration for {{packageName}}
     /// </summary>
-    {{>visibility}} class HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>
-        {{#apiInfo}}
-        {{#apis}}
-        where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-        {{/apis}}
-        {{/apiInfo}}
+    {{>visibility}} class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -52,7 +49,7 @@ namespace {{packageName}}.{{clientPackage}}
             {{/models}}
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
-            _services.AddTransient<T{{classname}}, T{{classname}}>();{{/apis}}{{/apiInfo}}
+            _services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
@@ -61,7 +58,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> Add{{apiName}}HttpClients
+        public HostConfiguration Add{{apiName}}HttpClients
         (
             Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
         {
@@ -70,7 +67,7 @@ namespace {{packageName}}.{{clientPackage}}
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>(client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
@@ -86,7 +83,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> ConfigureJsonOptions(Action<JsonSerializerOptions> options)
+        public HostConfiguration ConfigureJsonOptions(Action<JsonSerializerOptions> options)
         {
             options(_jsonOptions);
 
@@ -99,7 +96,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
             return AddTokens(new TTokenBase[]{ token });
         }
@@ -110,7 +107,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
             _services.AddSingleton(services => container);
@@ -124,7 +121,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <returns></returns>
-        public HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> UseProvider<TTokenProvider, TTokenBase>() 
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
             where TTokenProvider : TokenProvider<TTokenBase>
             where TTokenBase : TokenBase
         {

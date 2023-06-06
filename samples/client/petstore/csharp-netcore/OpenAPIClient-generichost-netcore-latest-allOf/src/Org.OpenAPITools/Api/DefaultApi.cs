@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class DefaultApi : IApi.IDefaultApi
+    public sealed partial class DefaultApi : IApi.IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

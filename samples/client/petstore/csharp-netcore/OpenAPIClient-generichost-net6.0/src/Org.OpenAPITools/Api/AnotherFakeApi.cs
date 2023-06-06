@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class AnotherFakeApi : IApi.IAnotherFakeApi
+    public sealed partial class AnotherFakeApi : IApi.IAnotherFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

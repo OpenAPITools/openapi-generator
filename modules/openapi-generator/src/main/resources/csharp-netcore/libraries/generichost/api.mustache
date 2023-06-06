@@ -65,7 +65,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
+    {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
