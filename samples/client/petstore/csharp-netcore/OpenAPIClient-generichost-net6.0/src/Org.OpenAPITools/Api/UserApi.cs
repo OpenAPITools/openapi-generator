@@ -220,7 +220,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class UserApi : IApi.IUserApi
+    public sealed partial class UserApi : IApi.IUserApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

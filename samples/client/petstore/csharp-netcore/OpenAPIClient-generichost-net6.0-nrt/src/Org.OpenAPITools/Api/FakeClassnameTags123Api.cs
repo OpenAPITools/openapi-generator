@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class FakeClassnameTags123Api : IApi.IFakeClassnameTags123Api
+    public sealed partial class FakeClassnameTags123Api : IApi.IFakeClassnameTags123Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

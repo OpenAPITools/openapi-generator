@@ -255,7 +255,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class PetApi : IApi.IPetApi
+    public sealed partial class PetApi : IApi.IPetApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
