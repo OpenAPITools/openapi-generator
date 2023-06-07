@@ -56,11 +56,11 @@ public class AdditionalPropertiesString {
     */
     @JsonAnySetter
     public AdditionalPropertiesString putAdditionalProperty(String key, String value) {
-    if (this.additionalProperties == null) {
-    this.additionalProperties = new HashMap<String, String>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
+        if (this.additionalProperties == null) {
+            this.additionalProperties = new HashMap<String, String>();
+        }
+        this.additionalProperties.put(key, value);
+        return this;
     }
 
     /**
@@ -68,17 +68,17 @@ public class AdditionalPropertiesString {
     */
     @JsonAnyGetter
     public Map<String, String> getAdditionalProperties() {
-    return additionalProperties;
+        return additionalProperties;
     }
 
     /**
     * Return the additional (undeclared) property with the specified name.
     */
     public String getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-    return null;
-    }
-    return this.additionalProperties.get(key);
+        if (this.additionalProperties == null) {
+            return null;
+        }
+        return this.additionalProperties.get(key);
     }
 
   @Override

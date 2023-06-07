@@ -60,11 +60,11 @@ public class AdditionalPropertiesNumber {
     */
     @JsonAnySetter
     public AdditionalPropertiesNumber putAdditionalProperty(String key, BigDecimal value) {
-    if (this.additionalProperties == null) {
-    this.additionalProperties = new HashMap<String, BigDecimal>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
+        if (this.additionalProperties == null) {
+            this.additionalProperties = new HashMap<String, BigDecimal>();
+        }
+        this.additionalProperties.put(key, value);
+        return this;
     }
 
     /**
@@ -72,17 +72,17 @@ public class AdditionalPropertiesNumber {
     */
     @JsonAnyGetter
     public Map<String, BigDecimal> getAdditionalProperties() {
-    return additionalProperties;
+        return additionalProperties;
     }
 
     /**
     * Return the additional (undeclared) property with the specified name.
     */
     public BigDecimal getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-    return null;
-    }
-    return this.additionalProperties.get(key);
+        if (this.additionalProperties == null) {
+            return null;
+        }
+        return this.additionalProperties.get(key);
     }
 
   @Override

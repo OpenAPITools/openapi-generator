@@ -106,6 +106,7 @@ public class BarCreate extends Entity {
     this.foo = foo;
   }
 
+
   public BarCreate href(String href) {
     super.setHref(href);
     return this;
@@ -130,7 +131,6 @@ public class BarCreate extends Entity {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -57,11 +57,11 @@ public class AdditionalPropertiesArray {
     */
     @JsonAnySetter
     public AdditionalPropertiesArray putAdditionalProperty(String key, List value) {
-    if (this.additionalProperties == null) {
-    this.additionalProperties = new HashMap<String, List>();
-    }
-    this.additionalProperties.put(key, value);
-    return this;
+        if (this.additionalProperties == null) {
+            this.additionalProperties = new HashMap<String, List>();
+        }
+        this.additionalProperties.put(key, value);
+        return this;
     }
 
     /**
@@ -69,17 +69,17 @@ public class AdditionalPropertiesArray {
     */
     @JsonAnyGetter
     public Map<String, List> getAdditionalProperties() {
-    return additionalProperties;
+        return additionalProperties;
     }
 
     /**
     * Return the additional (undeclared) property with the specified name.
     */
     public List getAdditionalProperty(String key) {
-    if (this.additionalProperties == null) {
-    return null;
-    }
-    return this.additionalProperties.get(key);
+        if (this.additionalProperties == null) {
+            return null;
+        }
+        return this.additionalProperties.get(key);
     }
 
   @Override

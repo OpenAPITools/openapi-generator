@@ -194,6 +194,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{! end feature: getter and setter }}
   {{/vars}}
+{{>additionalProperties}}
   {{#parentVars}}
 
   {{! begin feature: fluent setter methods for inherited properties }}
@@ -217,8 +218,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/isMap}}
   {{! end feature: fluent setter methods for inherited properties }}
   {{/parentVars}}
-
-  {{>additionalProperties}}
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -233,13 +232,11 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
-  }
-  {{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
     return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-  {{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
   public int hashCode() {
@@ -251,8 +248,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
       return 1;
     }
     return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
-  }
-  {{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
   public String toString() {
