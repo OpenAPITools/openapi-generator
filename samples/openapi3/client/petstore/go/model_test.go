@@ -41,3 +41,13 @@ func TestDog(t *testing.T) {
 	//assert.Nil(newDog)
 	assert.Equal(*newDog.Breed, breedString, "Breed should be `Shepherd`")
 }
+
+func TestReadOnlyFirst(t *testing.T) {
+	assert := assert.New(t)
+
+	newReadOnlyFirst := (sw.ReadOnlyFirst{Bar: sw.PtrString("Bar value"), Baz: sw.PtrString("Baz value")})
+	json, _ := newReadOnlyFirst.MarshalJSON()
+	expected := `{"Bar":"Bar value","Baz":"Baz value"}`
+
+	assert.Equal(t, expected, (string)(json))
+}
