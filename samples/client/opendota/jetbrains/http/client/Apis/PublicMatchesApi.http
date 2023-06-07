@@ -1,0 +1,6 @@
+## PublicMatchesApi
+
+### GET /publicMatches
+## Get list of randomly sampled public matches
+# @name publicMatchesGet
+GET https://api.opendota.com/api/publicMatches

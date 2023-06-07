@@ -1,0 +1,6 @@
+## HealthApi
+
+### GET /health
+## Get service health data
+# @name healthGet
+GET https://api.opendota.com/api/health

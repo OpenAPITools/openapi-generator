@@ -1,0 +1,6 @@
+## RankingsApi
+
+### GET /rankings
+## Top players by hero
+# @name rankingsGet
+GET https://api.opendota.com/api/rankings

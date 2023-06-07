@@ -1,0 +1,6 @@
+## PlayersByRankApi
+
+### GET /playersByRank
+## Players ordered by rank/medal tier
+# @name playersByRankGet
+GET https://api.opendota.com/api/playersByRank

@@ -1,0 +1,21 @@
+## LeaguesApi
+
+### GET /leagues
+## Get league data
+# @name leaguesGet
+GET https://api.opendota.com/api/leagues
+
+### GET /leagues/{league_id}
+## Get data for a league
+# @name leaguesLeagueIdGet
+GET https://api.opendota.com/api/leagues/{{league_id}}
+
+### GET /leagues/{league_id}/matches
+## Get matches for a team
+# @name leaguesLeagueIdMatchesGet
+GET https://api.opendota.com/api/leagues/{{league_id}}/matches
+
+### GET /leagues/{league_id}/teams
+## Get teams for a league
+# @name leaguesLeagueIdTeamsGet
+GET https://api.opendota.com/api/leagues/{{league_id}}/teams

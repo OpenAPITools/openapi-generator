@@ -1,0 +1,26 @@
+## TeamsApi
+
+### GET /teams
+## Get team data
+# @name teamsGet
+GET https://api.opendota.com/api/teams
+
+### GET /teams/{team_id}
+## Get data for a team
+# @name teamsTeamIdGet
+GET https://api.opendota.com/api/teams/{{team_id}}
+
+### GET /teams/{team_id}/heroes
+## Get heroes for a team
+# @name teamsTeamIdHeroesGet
+GET https://api.opendota.com/api/teams/{{team_id}}/heroes
+
+### GET /teams/{team_id}/matches
+## Get matches for a team
+# @name teamsTeamIdMatchesGet
+GET https://api.opendota.com/api/teams/{{team_id}}/matches
+
+### GET /teams/{team_id}/players
+## Get players who have played for a team
+# @name teamsTeamIdPlayersGet
+GET https://api.opendota.com/api/teams/{{team_id}}/players

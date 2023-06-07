@@ -1,0 +1,6 @@
+## RecordsApi
+
+### GET /records/{field}
+## Get top performances in a stat
+# @name recordsFieldGet
+GET https://api.opendota.com/api/records/{{field}}

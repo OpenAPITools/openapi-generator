@@ -1,0 +1,6 @@
+## ParsedMatchesApi
+
+### GET /parsedMatches
+## Get list of parsed match IDs
+# @name parsedMatchesGet
+GET https://api.opendota.com/api/parsedMatches

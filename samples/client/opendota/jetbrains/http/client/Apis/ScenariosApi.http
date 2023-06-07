@@ -1,0 +1,16 @@
+## ScenariosApi
+
+### GET /scenarios/itemTimings
+## Win rates for certain item timings on a hero for items that cost at least 1400 gold
+# @name scenariosItemTimingsGet
+GET https://api.opendota.com/api/scenarios/itemTimings
+
+### GET /scenarios/laneRoles
+## Win rates for heroes in certain lane roles
+# @name scenariosLaneRolesGet
+GET https://api.opendota.com/api/scenarios/laneRoles
+
+### GET /scenarios/misc
+## Miscellaneous team scenarios
+# @name scenariosMiscGet
+GET https://api.opendota.com/api/scenarios/misc

@@ -1,0 +1,6 @@
+## FindMatchesApi
+
+### GET /
+## Finds recent matches by heroes played
+# @name findMatchesGet
+GET https://api.opendota.com/api/findMatches

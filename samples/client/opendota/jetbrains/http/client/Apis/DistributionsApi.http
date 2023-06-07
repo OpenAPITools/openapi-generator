@@ -1,0 +1,6 @@
+## DistributionsApi
+
+### GET /distributions
+## Distributions of MMR data by bracket and country
+# @name distributionsGet
+GET https://api.opendota.com/api/distributions

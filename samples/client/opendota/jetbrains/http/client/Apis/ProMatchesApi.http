@@ -1,0 +1,6 @@
+## ProMatchesApi
+
+### GET /proMatches
+## Get list of pro matches
+# @name proMatchesGet
+GET https://api.opendota.com/api/proMatches

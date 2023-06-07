@@ -1,0 +1,6 @@
+## BenchmarksApi
+
+### GET /benchmarks
+## Benchmarks of average stat values for a hero
+# @name benchmarksGet
+GET https://api.opendota.com/api/benchmarks

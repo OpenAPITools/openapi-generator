@@ -1,0 +1,6 @@
+## SchemaApi
+
+### GET /schema
+## Get database schema
+# @name schemaGet
+GET https://api.opendota.com/api/schema

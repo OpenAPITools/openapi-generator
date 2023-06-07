@@ -1,0 +1,6 @@
+## SearchApi
+
+### GET /search
+## Search players by personaname.
+# @name searchGet
+GET https://api.opendota.com/api/search

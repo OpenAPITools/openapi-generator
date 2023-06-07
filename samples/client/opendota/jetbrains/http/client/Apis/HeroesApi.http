@@ -1,0 +1,31 @@
+## HeroesApi
+
+### GET /heroes
+## Get hero data
+# @name heroesGet
+GET https://api.opendota.com/api/heroes
+
+### GET /heroes/{hero_id}/durations
+## Get hero performance over a range of match durations
+# @name heroesHeroIdDurationsGet
+GET https://api.opendota.com/api/heroes/{{hero_id}}/durations
+
+### GET /heroes/{hero_id}/itemPopularity
+## Get item popularity of hero categoried by start, early, mid and late game, analyzed from professional games
+# @name heroesHeroIdItemPopularityGet
+GET https://api.opendota.com/api/heroes/{{hero_id}}/itemPopularity
+
+### GET /heroes/{hero_id}/matches
+## Get recent matches with a hero
+# @name heroesHeroIdMatchesGet
+GET https://api.opendota.com/api/heroes/{{hero_id}}/matches
+
+### GET /heroes/{hero_id}/matchups
+## Get results against other heroes for a hero
+# @name heroesHeroIdMatchupsGet
+GET https://api.opendota.com/api/heroes/{{hero_id}}/matchups
+
+### GET /heroes/{hero_id}/players
+## Get players who have played this hero
+# @name heroesHeroIdPlayersGet
+GET https://api.opendota.com/api/heroes/{{hero_id}}/players

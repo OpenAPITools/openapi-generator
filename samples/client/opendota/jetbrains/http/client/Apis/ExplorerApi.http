@@ -1,0 +1,6 @@
+## ExplorerApi
+
+### GET /explorer
+## Submit arbitrary SQL queries to the database
+# @name explorerGet
+GET https://api.opendota.com/api/explorer

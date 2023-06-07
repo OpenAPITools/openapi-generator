@@ -1,0 +1,6 @@
+## HeroStatsApi
+
+### GET /heroStats
+## Get stats about hero performance in recent matches
+# @name heroStatsGet
+GET https://api.opendota.com/api/heroStats

@@ -1,0 +1,11 @@
+## RequestApi
+
+### GET /request/{jobId}
+## Get parse request state
+# @name requestJobIdGet
+GET https://api.opendota.com/api/request/{{jobId}}
+
+### POST /request/{match_id}
+## Submit a new parse request
+# @name requestMatchIdPost
+POST https://api.opendota.com/api/request/{{match_id}}

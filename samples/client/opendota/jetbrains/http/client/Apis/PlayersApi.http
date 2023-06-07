@@ -1,0 +1,76 @@
+## PlayersApi
+
+### GET /players/{account_id}/counts
+## Counts in categories
+# @name playersAccountIdCountsGet
+GET https://api.opendota.com/api/players/{{account_id}}/counts
+
+### GET /players/{account_id}
+## Player data
+# @name playersAccountIdGet
+GET https://api.opendota.com/api/players/{{account_id}}
+
+### GET /players/{account_id}/heroes
+## Heroes played
+# @name playersAccountIdHeroesGet
+GET https://api.opendota.com/api/players/{{account_id}}/heroes
+
+### GET /players/{account_id}/histograms
+## Distribution of matches in a single stat
+# @name playersAccountIdHistogramsFieldGet
+GET https://api.opendota.com/api/players/{{account_id}}/histograms/{{field}}
+
+### GET /players/{account_id}/matches
+## Matches played
+# @name playersAccountIdMatchesGet
+GET https://api.opendota.com/api/players/{{account_id}}/matches
+
+### GET /players/{account_id}/peers
+## Players played with
+# @name playersAccountIdPeersGet
+GET https://api.opendota.com/api/players/{{account_id}}/peers
+
+### GET /players/{account_id}/pros
+## Pro players played with
+# @name playersAccountIdProsGet
+GET https://api.opendota.com/api/players/{{account_id}}/pros
+
+### GET /players/{account_id}/rankings
+## Player hero rankings
+# @name playersAccountIdRankingsGet
+GET https://api.opendota.com/api/players/{{account_id}}/rankings
+
+### GET /players/{account_id}/ratings
+## Player rating history
+# @name playersAccountIdRatingsGet
+GET https://api.opendota.com/api/players/{{account_id}}/ratings
+
+### GET /players/{account_id}/recentMatches
+## Recent matches played
+# @name playersAccountIdRecentMatchesGet
+GET https://api.opendota.com/api/players/{{account_id}}/recentMatches
+
+### POST /players/{account_id}/refresh
+## Refresh player match history
+# @name playersAccountIdRefreshPost
+POST https://api.opendota.com/api/players/{{account_id}}/refresh
+
+### GET /players/{account_id}/totals
+## Totals in stats
+# @name playersAccountIdTotalsGet
+GET https://api.opendota.com/api/players/{{account_id}}/totals
+
+### GET /players/{account_id}/wardmap
+## Wards placed in matches played
+# @name playersAccountIdWardmapGet
+GET https://api.opendota.com/api/players/{{account_id}}/wardmap
+
+### GET /players/{account_id}/wl
+## Win/Loss count
+# @name playersAccountIdWlGet
+GET https://api.opendota.com/api/players/{{account_id}}/wl
+
+### GET /players/{account_id}/wordcloud
+## Words said/read in matches played
+# @name playersAccountIdWordcloudGet
+GET https://api.opendota.com/api/players/{{account_id}}/wordcloud

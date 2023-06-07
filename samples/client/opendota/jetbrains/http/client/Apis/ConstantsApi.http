@@ -1,0 +1,11 @@
+## ConstantsApi
+
+### GET /constants
+## Gets an array of available resources.
+# @name constantsGet
+GET https://api.opendota.com/api/constants
+
+### GET /constants
+## Get static game data mirrored from the dotaconstants repository.
+# @name constantsResourceGet
+GET https://api.opendota.com/api/constants/{{resource}}
