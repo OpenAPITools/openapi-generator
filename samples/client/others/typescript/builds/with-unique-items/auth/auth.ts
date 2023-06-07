@@ -1,4 +1,3 @@
-// typings for btoa are incorrect
 import { RequestContext } from "../http/http";
 
 /**

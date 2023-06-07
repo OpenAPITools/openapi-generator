@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 
@@ -43,13 +43,12 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class PetApiTests : ApiTestsBase
     {
-        private readonly IPetApi _instance;
+        private readonly IApi.IPetApi _instance;
 
         public PetApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IPetApi>();
+            _instance = _host.Services.GetRequiredService<IApi.IPetApi>();
         }
-
 
         /// <summary>
         /// Test AddPet
@@ -80,7 +79,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             List<string> status = default;
             var response = await _instance.FindPetsByStatusAsync(status);
-            Assert.IsType<List<Pet>>(response);
+            var model = response.AsModel();
+            Assert.IsType<List<Pet>>(model);
         }
 
         /// <summary>
@@ -91,7 +91,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             List<string> tags = default;
             var response = await _instance.FindPetsByTagsAsync(tags);
-            Assert.IsType<List<Pet>>(response);
+            var model = response.AsModel();
+            Assert.IsType<List<Pet>>(model);
         }
 
         /// <summary>
@@ -102,7 +103,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             long petId = default;
             var response = await _instance.GetPetByIdAsync(petId);
-            Assert.IsType<Pet>(response);
+            var model = response.AsModel();
+            Assert.IsType<Pet>(model);
         }
 
         /// <summary>
@@ -134,10 +136,11 @@ namespace Org.OpenAPITools.Test.Api
         public async Task UploadFileAsyncTest()
         {
             long petId = default;
-            string additionalMetadata = default;
             System.IO.Stream file = default;
-            var response = await _instance.UploadFileAsync(petId, additionalMetadata, file);
-            Assert.IsType<ApiResponse>(response);
+            string additionalMetadata = default;
+            var response = await _instance.UploadFileAsync(petId, file, additionalMetadata);
+            var model = response.AsModel();
+            Assert.IsType<ApiResponse>(model);
         }
 
         /// <summary>
@@ -146,11 +149,12 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UploadFileWithRequiredFileAsyncTest()
         {
-            long petId = default;
             System.IO.Stream requiredFile = default;
+            long petId = default;
             string additionalMetadata = default;
-            var response = await _instance.UploadFileWithRequiredFileAsync(petId, requiredFile, additionalMetadata);
-            Assert.IsType<ApiResponse>(response);
+            var response = await _instance.UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata);
+            var model = response.AsModel();
+            Assert.IsType<ApiResponse>(model);
         }
     }
 }

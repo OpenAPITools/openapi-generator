@@ -23,6 +23,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -31,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -48,7 +51,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
     public static final String GENERATE_BODY = "generateBody";
     public static final String BUILD_TARGET = "buildTarget";
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
-    public static final String TARGET_FRAMEWORK= "targetFramework";
+    public static final String TARGET_FRAMEWORK = "targetFramework";
     public static final String FUNCTIONS_SDK_VERSION = "functionsSDKVersion";
 
     public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
@@ -84,18 +87,11 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
-                .includeSecurityFeatures(
+                .securityFeatures(EnumSet.of(
                         SecurityFeature.ApiKey,
                         SecurityFeature.BasicAuth,
                         SecurityFeature.BearerToken
-                )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit
-                )
+                ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -281,7 +277,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates an ASP.NET Core Web API server.";
+        return "Creates Azure function templates on top of the models/converters created by the C# codegens. This function is contained in a partial class. Default Get/Create/Patch/Post etc. methods are created with an underscore prefix. The assumption is that when the function is implemented, the partial class will be completed with another partial class. The implementing code should be located in a method of the same name, only without the underscore prefix. If no such method is found then the function will throw a Not Implemented exception. This setup allows the endpoints to be specified in the schema at build time, and separated from the implementing function.";
     }
 
     @Override
@@ -302,7 +298,12 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
-        additionalProperties.put("userSecretsGuid", userSecretsGuid);
+
+        if (!additionalProperties.containsKey("userSecretsGuid")) {
+            additionalProperties.put("userSecretsGuid", userSecretsGuid);
+        } else {
+            userSecretsGuid = (String) additionalProperties.get("userSecretsGuid");
+        }
 
         if (!additionalProperties.containsKey(NEWTONSOFT_VERSION)) {
             additionalProperties.put(NEWTONSOFT_VERSION, newtonsoftVersion);
@@ -377,8 +378,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
         // HACK: Unlikely in the wild, but we need to clean operation paths for MVC Routing
         if (operation.path != null) {
-            if (operation.path.startsWith("/"))
-            {
+            if (operation.path.startsWith("/")) {
                 operation.path = operation.path.substring(1);
             }
             String original = operation.path;
@@ -393,13 +393,13 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         // We need to postprocess the operations to add proper consumes tags and fix form file handling
         if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            OperationMap operations = objs.getOperations();
             if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
                     if (operation.consumes == null) {
                         continue;
@@ -417,10 +417,9 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                             continue;
                         }
 
-                        if(consumesString.toString().isEmpty()) {
+                        if (consumesString.toString().isEmpty()) {
                             consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
-                        }
-                        else {
+                        } else {
                             consumesString.append(", \"").append(consume.get("mediaType")).append("\"");
                         }
 
@@ -445,7 +444,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                         }
                     }
 
-                    if(!consumesString.toString().isEmpty()) {
+                    if (!consumesString.toString().isEmpty()) {
                         operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
                     }
                 }

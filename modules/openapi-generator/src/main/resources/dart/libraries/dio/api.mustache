@@ -1,7 +1,7 @@
 {{>header}}
 import 'dart:async';
 
-{{#useBuiltValue}}import 'package:built_value/serializer.dart';{{/useBuiltValue}}
+{{#includeLibraryTemplate}}api/imports{{/includeLibraryTemplate}}
 import 'package:dio/dio.dart';
 
 {{#operations}}
@@ -11,12 +11,8 @@ import 'package:dio/dio.dart';
 class {{classname}} {
 
   final Dio _dio;
-  {{#useBuiltValue}}
 
-  final Serializers _serializers;
-
-  {{/useBuiltValue}}
-  const {{classname}}(this._dio{{#useBuiltValue}}, this._serializers{{/useBuiltValue}});
+{{#includeLibraryTemplate}}api/constructor{{/includeLibraryTemplate}}
 
   {{#operation}}
   /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
@@ -43,11 +39,11 @@ class {{classname}} {
   @Deprecated('This operation has been deprecated')
   {{/isDeprecated}}
   Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
-    required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
-    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
-    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -88,14 +84,14 @@ class {{classname}} {
 
     final _queryParameters = <String, dynamic>{
       {{#queryParams}}
-      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#useBuiltValue}}{{>serialization/built_value/query_param}}{{/useBuiltValue}},
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
       {{/queryParams}}
     };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
 
     dynamic _bodyData;
 
     try {
-{{#useBuiltValue}}{{>serialization/built_value/serialize}}{{/useBuiltValue}}
+{{#includeLibraryTemplate}}api/serialize{{/includeLibraryTemplate}}
     } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
@@ -103,9 +99,10 @@ class {{classname}} {
           _path,{{#hasQueryParams}}
           queryParameters: _queryParameters,{{/hasQueryParams}}
         ),
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }{{/hasBodyOrFormParams}}
 
     final _response = await _dio.request<Object>(
@@ -119,17 +116,18 @@ class {{classname}} {
     );
     {{#returnType}}
 
-    {{{returnType}}} _responseData;
+    {{{.}}}? _responseData;
 
     try {
-{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
+{{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<{{{returnType}}}>(

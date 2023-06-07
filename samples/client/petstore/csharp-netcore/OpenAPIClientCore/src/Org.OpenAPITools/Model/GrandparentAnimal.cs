@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = true)]
         public string PetType { get; set; }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }

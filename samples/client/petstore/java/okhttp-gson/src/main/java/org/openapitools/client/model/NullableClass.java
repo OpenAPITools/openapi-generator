@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -42,9 +40,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -55,7 +59,7 @@ import org.openapitools.client.JSON;
  * NullableClass
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class NullableClass extends HashMap<String, Object> {
+public class NullableClass {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
   private Integer integerProp;
@@ -82,29 +86,29 @@ public class NullableClass extends HashMap<String, Object> {
 
   public static final String SERIALIZED_NAME_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_NULLABLE_PROP)
-  private List<Object> arrayNullableProp = null;
+  private List<Object> arrayNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP)
-  private List<Object> arrayAndItemsNullableProp = null;
+  private List<Object> arrayAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable = null;
+  private List<Object> arrayItemsNullable;
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)
-  private Map<String, Object> objectNullableProp = null;
+  private Map<String, Object> objectNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP)
-  private Map<String, Object> objectAndItemsNullableProp = null;
+  private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
-  private Map<String, Object> objectItemsNullable = null;
+  private Map<String, Object> objectItemsNullable = new HashMap<>();
 
-  public NullableClass() { 
+  public NullableClass() {
   }
 
   public NullableClass integerProp(Integer integerProp) {
@@ -118,8 +122,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return integerProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Integer getIntegerProp() {
     return integerProp;
   }
@@ -141,8 +143,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return numberProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public BigDecimal getNumberProp() {
     return numberProp;
   }
@@ -164,8 +164,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return booleanProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Boolean getBooleanProp() {
     return booleanProp;
   }
@@ -187,8 +185,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return stringProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getStringProp() {
     return stringProp;
   }
@@ -210,8 +206,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return dateProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public LocalDate getDateProp() {
     return dateProp;
   }
@@ -233,8 +227,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return datetimeProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public OffsetDateTime getDatetimeProp() {
     return datetimeProp;
   }
@@ -264,8 +256,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return arrayNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
@@ -295,8 +285,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return arrayAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
@@ -326,8 +314,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return arrayItemsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
@@ -357,8 +343,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return objectNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
   }
@@ -388,8 +372,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return objectAndItemsNullableProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
   }
@@ -419,8 +401,6 @@ public class NullableClass extends HashMap<String, Object> {
    * @return objectItemsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }
@@ -429,6 +409,7 @@ public class NullableClass extends HashMap<String, Object> {
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }
+
 
 
   @Override
@@ -451,8 +432,7 @@ public class NullableClass extends HashMap<String, Object> {
         Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
         Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
         Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable) &&
-        super.equals(o);
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -461,7 +441,7 @@ public class NullableClass extends HashMap<String, Object> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, super.hashCode());
+    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -475,7 +455,6 @@ public class NullableClass extends HashMap<String, Object> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NullableClass {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    integerProp: ").append(toIndentedString(integerProp)).append("\n");
     sb.append("    numberProp: ").append(toIndentedString(numberProp)).append("\n");
     sb.append("    booleanProp: ").append(toIndentedString(booleanProp)).append("\n");
@@ -535,18 +514,32 @@ public class NullableClass extends HashMap<String, Object> {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (NullableClass.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!NullableClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in NullableClass is not found in the empty JSON string", NullableClass.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!NullableClass.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `NullableClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
+      }
+      if ((jsonObj.get("string_prop") != null && !jsonObj.get("string_prop").isJsonNull()) && !jsonObj.get("string_prop").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `string_prop` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_prop").toString()));
+      }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_nullable_prop") != null && !jsonObj.get("array_nullable_prop").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_nullable_prop").toString()));
+      }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_and_items_nullable_prop") != null && !jsonObj.get("array_and_items_nullable_prop").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_and_items_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_and_items_nullable_prop").toString()));
+      }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_items_nullable") != null && !jsonObj.get("array_items_nullable").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_items_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_items_nullable").toString()));
       }
   }
 

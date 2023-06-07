@@ -20,10 +20,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -36,9 +33,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -49,12 +52,12 @@ import org.openapitools.client.JSON;
  * AdditionalPropertiesObject
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AdditionalPropertiesObject extends HashMap<String, Map> {
+public class AdditionalPropertiesObject {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesObject() { 
+  public AdditionalPropertiesObject() {
   }
 
   public AdditionalPropertiesObject name(String name) {
@@ -68,8 +71,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getName() {
     return name;
   }
@@ -78,6 +79,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public void setName(String name) {
     this.name = name;
   }
+
 
 
   @Override
@@ -89,20 +91,18 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
       return false;
     }
     AdditionalPropertiesObject additionalPropertiesObject = (AdditionalPropertiesObject) o;
-    return Objects.equals(this.name, additionalPropertiesObject.name) &&
-        super.equals(o);
+    return Objects.equals(this.name, additionalPropertiesObject.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesObject {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -140,18 +140,20 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (AdditionalPropertiesObject.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!AdditionalPropertiesObject.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesObject is not found in the empty JSON string", AdditionalPropertiesObject.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!AdditionalPropertiesObject.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesObject` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
+      }
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
   }
 

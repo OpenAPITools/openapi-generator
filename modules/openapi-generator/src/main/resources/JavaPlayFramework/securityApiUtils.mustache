@@ -42,6 +42,7 @@ public class SecurityAPIUtils {
     private final HashMap<String, String> tokenIntrospectEndpoints = new HashMap<>();
     private final String clientId;
     private final String clientSecret;
+    private final long leeway;
 
     // Offline validation
     private final HashMap<String, String> jwksEndpoints = new HashMap<>();
@@ -54,6 +55,7 @@ public class SecurityAPIUtils {
 
         clientId = configuration.hasPath("oauth.clientId") ? configuration.getString("oauth.clientId") : "";
         clientSecret = configuration.hasPath("oauth.clientSecret") ? configuration.getString("oauth.clientSecret") : "";
+        leeway = configuration.hasPath("oauth.leeway") ? configuration.getLong("oauth.leeway") : 3;
 
 {{#hasOAuthMethods}}
 {{#oauthMethods}}
@@ -135,6 +137,7 @@ public class SecurityAPIUtils {
                 Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);
                 tokenVerifier = JWT.require(algorithm)
                         .withIssuer(issuer)
+                        .acceptLeeway(leeway)
                         .build();
                 tokenKeyId = keyId;
             }

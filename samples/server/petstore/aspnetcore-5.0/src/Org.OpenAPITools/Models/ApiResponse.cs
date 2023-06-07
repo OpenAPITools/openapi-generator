@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
-        [DataMember(Name="code", EmitDefaultValue=false)]
+        [DataMember(Name="code", EmitDefaultValue=true)]
         public int Code { get; set; }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Models
         /// <returns>JSON string presentation of the object</returns>
         public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>

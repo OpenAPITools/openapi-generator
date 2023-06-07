@@ -45,29 +45,23 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "ChildCat")]
             ChildCat = 1
-
         }
 
 
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
-        public PetTypeEnum PetType { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ChildCat" /> class.
-        /// </summary>
-        [JsonConstructorAttribute]
-        protected ChildCat() { }
+        [DataMember(Name = "pet_type", EmitDefaultValue = false)]
+        public PetTypeEnum? PetType { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
+        /// <param name="petType">petType (default to PetTypeEnum.ChildCat).</param>
+        public ChildCat(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat) : base()
         {
-            this.PetType = petType;
             this.Name = name;
+            this.PetType = petType;
         }
 
         /// <summary>
@@ -143,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -155,7 +149,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-            foreach (var x in BaseValidate(validationContext))
+            foreach (var x in base.BaseValidate(validationContext))
             {
                 yield return x;
             }

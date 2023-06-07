@@ -20,10 +20,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.ParentPet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,9 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -53,7 +56,7 @@ public class GrandparentAnimal {
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
   protected String petType;
 
-  public GrandparentAnimal() { 
+  public GrandparentAnimal() {
     this.petType = this.getClass().getSimpleName();
   }
 
@@ -68,8 +71,6 @@ public class GrandparentAnimal {
    * @return petType
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public String getPetType() {
     return petType;
   }
@@ -77,6 +78,51 @@ public class GrandparentAnimal {
 
   public void setPetType(String petType) {
     this.petType = petType;
+  }
+
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the GrandparentAnimal instance itself
+   */
+  public GrandparentAnimal putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
   }
 
 
@@ -89,12 +135,13 @@ public class GrandparentAnimal {
       return false;
     }
     GrandparentAnimal grandparentAnimal = (GrandparentAnimal) o;
-    return Objects.equals(this.petType, grandparentAnimal.petType);
+    return Objects.equals(this.petType, grandparentAnimal.petType)&&
+        Objects.equals(this.additionalProperties, grandparentAnimal.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(petType);
+    return Objects.hash(petType, additionalProperties);
   }
 
   @Override
@@ -102,6 +149,7 @@ public class GrandparentAnimal {
     StringBuilder sb = new StringBuilder();
     sb.append("class GrandparentAnimal {\n");
     sb.append("    petType: ").append(toIndentedString(petType)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -139,9 +187,7 @@ public class GrandparentAnimal {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (GrandparentAnimal.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!GrandparentAnimal.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
         }
       }
@@ -151,7 +197,7 @@ public class GrandparentAnimal {
         case "ParentPet":
           ParentPet.validateJsonObject(jsonObj);
           break;
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }

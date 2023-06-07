@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,20 +55,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'NameProperty'
+        /// Test the property 'VarName'
         /// </summary>
         [Fact]
-        public void NamePropertyTest()
+        public void VarNameTest()
         {
-            // TODO unit test for the property 'NameProperty'
-        }
-        /// <summary>
-        /// Test the property 'SnakeCase'
-        /// </summary>
-        [Fact]
-        public void SnakeCaseTest()
-        {
-            // TODO unit test for the property 'SnakeCase'
+            // TODO unit test for the property 'VarName'
         }
         /// <summary>
         /// Test the property 'Property'
@@ -81,12 +71,20 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Property'
         }
         /// <summary>
-        /// Test the property '_123Number'
+        /// Test the property 'SnakeCase'
         /// </summary>
         [Fact]
-        public void _123NumberTest()
+        public void SnakeCaseTest()
         {
-            // TODO unit test for the property '_123Number'
+            // TODO unit test for the property 'SnakeCase'
+        }
+        /// <summary>
+        /// Test the property 'Var123Number'
+        /// </summary>
+        [Fact]
+        public void Var123NumberTest()
+        {
+            // TODO unit test for the property 'Var123Number'
         }
 
     }

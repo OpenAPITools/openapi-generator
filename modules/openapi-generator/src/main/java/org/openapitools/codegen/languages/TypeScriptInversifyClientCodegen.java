@@ -25,10 +25,13 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -197,13 +200,13 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
         // Add filename information for api imports
-        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.getClassname()));
 
-        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        List<CodegenOperation> ops = objs.getOperation();
         for (CodegenOperation op : ops) {
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
@@ -246,10 +249,10 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         }
 
         // Add additional filename information for model imports in the services
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
             im.put("filename", im.get("import"));
-            im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
+            im.put("classname", getModelnameFromModelFilename(im.get("filename")));
         }
 
         return operations;
@@ -313,7 +316,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, true) + ".service";
+        return camelize(name, LOWERCASE_FIRST_LETTER) + ".service";
     }
 
     @Override
@@ -323,7 +326,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        return camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override

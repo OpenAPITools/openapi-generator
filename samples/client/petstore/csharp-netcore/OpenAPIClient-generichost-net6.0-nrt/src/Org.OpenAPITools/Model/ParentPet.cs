@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,15 +28,19 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ParentPet
     /// </summary>
-    public partial class ParentPet : GrandparentAnimal, IEquatable<ParentPet>
+    public partial class ParentPet : GrandparentAnimal, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
-        /// <param name="petType">petType (required)</param>
-        public ParentPet(string petType) : base(petType)
+        /// <param name="petType">petType</param>
+        [JsonConstructor]
+        internal ParentPet(string petType) : base(petType)
         {
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -47,44 +50,75 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ParentPet {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as ParentPet).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if ParentPet instances are equal
-        /// </summary>
-        /// <param name="input">Instance of ParentPet to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(ParentPet? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                return hashCode;
-            }
-        }
-
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="ParentPet" />
+    /// </summary>
+    public class ParentPetJsonConverter : JsonConverter<ParentPet>
+    {
+        /// <summary>
+        /// Deserializes json to <see cref="ParentPet" />
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override ParentPet Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            string? petType = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "pet_type":
+                            petType = utf8JsonReader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            if (petType == null)
+                throw new ArgumentNullException(nameof(petType), "Property is required for class ParentPet.");
+
+            return new ParentPet(petType);
+        }
+
+        /// <summary>
+        /// Serializes a <see cref="ParentPet" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="parentPet"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
+        {
+        }
+    }
 }

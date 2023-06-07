@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -28,8 +27,18 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal {
 
-  @JsonProperty("breed")
   private String breed;
+
+  public Dog() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Dog(String className) {
+    super(className);
+  }
 
   public Dog breed(String breed) {
     this.breed = breed;
@@ -42,12 +51,23 @@ public class Dog extends Animal {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }
 
   public void setBreed(String breed) {
     this.breed = breed;
+  }
+
+  public Dog className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public Dog color(String color) {
+    super.setColor(color);
+    return this;
   }
 
   @Override

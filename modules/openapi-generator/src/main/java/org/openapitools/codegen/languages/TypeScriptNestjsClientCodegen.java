@@ -22,6 +22,8 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
@@ -31,6 +33,7 @@ import java.io.File;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -51,7 +54,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
-    protected String nestVersion = "6.0.0";
+    protected String nestVersion = "8.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
@@ -89,7 +92,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").defaultValue(this.nestVersion));
+        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0","Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0","Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
@@ -111,7 +114,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Nestjs 6.x client library.";
+        return "Generates a TypeScript Nestjs 8.x or 6.x client library.";
     }
 
     @Override
@@ -168,6 +171,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         additionalProperties.put("injectionToken", nestVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
         additionalProperties.put("injectionTokenTyped", nestVersion.atLeast("4.0.0"));
         additionalProperties.put("useHttpClient", nestVersion.atLeast("4.3.0"));
+        additionalProperties.put("useAxiosHttpModule", nestVersion.atLeast("8.0.0"));
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
             validateClassSuffixArgument("Service", serviceSuffix);
@@ -267,13 +271,13 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<ModelMap> allModels) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+        OperationMap objs = operations.getOperations();
 
         // Add filename information for api imports
-        objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
+        objs.put("apiFilename", getApiFilenameFromClassname(objs.getClassname()));
 
-        List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        List<CodegenOperation> ops = objs.getOperation();
         boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
             if (op.getHasFormParams()) {
@@ -327,8 +331,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         operations.put("hasSomeFormParams", hasSomeFormParams);
 
         // Add additional filename information for model imports in the services
-        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        for (Map<String, Object> im : imports) {
+        List<Map<String, String>> imports = operations.getImports();
+        for (Map<String, String> im : imports) {
             im.put("filename", im.get("import"));
             im.put("classname", im.get("classname"));
         }
@@ -540,7 +544,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         if ("kebab-case".equals(fileNaming)) {
             name = dashize(underscore(name));
         } else {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
         }
         return name;
     }

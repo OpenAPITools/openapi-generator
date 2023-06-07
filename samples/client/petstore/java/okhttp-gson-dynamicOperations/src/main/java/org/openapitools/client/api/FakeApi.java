@@ -130,7 +130,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -138,7 +137,12 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
+            "application/xml",
+            "application/xml; charset=utf-8",
+            "application/xml; charset=utf-16",
+            "text/xml",
+            "text/xml; charset=utf-8",
+            "text/xml; charset=utf-16"
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -151,15 +155,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call createXmlItemValidateBeforeCall(XmlItem xmlItem, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'xmlItem' is set
         if (xmlItem == null) {
             throw new ApiException("Missing the required parameter 'xmlItem' when calling createXmlItem(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = createXmlItemCall(xmlItem, _callback);
-        return localVarCall;
+        return createXmlItemCall(xmlItem, _callback);
 
     }
 
@@ -268,7 +269,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -281,10 +281,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterBooleanSerializeValidateBeforeCall(Boolean body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterBooleanSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterBooleanSerializeCall(body, _callback);
 
     }
 
@@ -319,14 +316,8 @@ public class FakeApi {
      */
     public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterBooleanSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Boolean>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Boolean>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -403,7 +394,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -416,10 +406,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterCompositeSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterCompositeSerializeCall(body, _callback);
 
     }
 
@@ -454,14 +441,8 @@ public class FakeApi {
      */
     public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<OuterComposite>(){}.getType()));
-            e.setErrorObjectType(new GenericType<OuterComposite>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -538,7 +519,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -551,10 +531,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterNumberSerializeValidateBeforeCall(BigDecimal body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterNumberSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterNumberSerializeCall(body, _callback);
 
     }
 
@@ -589,14 +566,8 @@ public class FakeApi {
      */
     public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<BigDecimal>(){}.getType()));
-            e.setErrorObjectType(new GenericType<BigDecimal>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -673,7 +644,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -686,10 +656,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterStringSerializeValidateBeforeCall(String body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterStringSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterStringSerializeCall(body, _callback);
 
     }
 
@@ -724,14 +691,8 @@ public class FakeApi {
      */
     public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<String>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<String>(){}.getType()));
-            e.setErrorObjectType(new GenericType<String>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -800,7 +761,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -821,15 +781,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testBodyWithFileSchemaValidateBeforeCall(FileSchemaTestClass body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling testBodyWithFileSchema(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testBodyWithFileSchemaCall(body, _callback);
-        return localVarCall;
+        return testBodyWithFileSchemaCall(body, _callback);
 
     }
 
@@ -932,7 +889,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -953,20 +909,17 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testBodyWithQueryParamsValidateBeforeCall(String query, User body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new ApiException("Missing the required parameter 'query' when calling testBodyWithQueryParams(Async)");
         }
-        
+
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling testBodyWithQueryParams(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testBodyWithQueryParamsCall(query, body, _callback);
-        return localVarCall;
+        return testBodyWithQueryParamsCall(query, body, _callback);
 
     }
 
@@ -1091,15 +1044,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testClientModelValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling testClientModel(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testClientModelCall(body, _callback);
-        return localVarCall;
+        return testClientModelCall(body, _callback);
 
     }
 
@@ -1134,14 +1084,8 @@ public class FakeApi {
      */
     public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
         okhttp3.Call localVarCall = testClientModelValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<Client>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Client>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Client>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1280,7 +1224,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1301,30 +1244,27 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new ApiException("Missing the required parameter 'number' when calling testEndpointParameters(Async)");
         }
-        
+
         // verify the required parameter '_double' is set
         if (_double == null) {
             throw new ApiException("Missing the required parameter '_double' when calling testEndpointParameters(Async)");
         }
-        
+
         // verify the required parameter 'patternWithoutDelimiter' is set
         if (patternWithoutDelimiter == null) {
             throw new ApiException("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters(Async)");
         }
-        
+
         // verify the required parameter '_byte' is set
         if (_byte == null) {
             throw new ApiException("Missing the required parameter '_byte' when calling testEndpointParameters(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
-        return localVarCall;
+        return testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
 
     }
 
@@ -1489,7 +1429,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1510,10 +1449,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testEnumParametersValidateBeforeCall(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
-        return localVarCall;
+        return testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
 
     }
 
@@ -1632,7 +1568,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1640,7 +1575,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -1653,25 +1587,22 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testGroupParametersValidateBeforeCall(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
             throw new ApiException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters(Async)");
         }
-        
+
         // verify the required parameter 'requiredBooleanGroup' is set
         if (requiredBooleanGroup == null) {
             throw new ApiException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters(Async)");
         }
-        
+
         // verify the required parameter 'requiredInt64Group' is set
         if (requiredInt64Group == null) {
             throw new ApiException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
-        return localVarCall;
+        return testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
 
     }
 
@@ -1740,7 +1671,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
@@ -1753,7 +1684,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public void execute() throws ApiException {
@@ -1767,7 +1698,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public ApiResponse<Void> executeWithHttpInfo() throws ApiException {
@@ -1782,7 +1713,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<Void> _callback) throws ApiException {
@@ -1800,7 +1731,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
      </table>
      */
     public APItestGroupParametersRequest testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group) {
@@ -1852,7 +1783,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1873,15 +1803,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testInlineAdditionalPropertiesValidateBeforeCall(Map<String, String> param, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new ApiException("Missing the required parameter 'param' when calling testInlineAdditionalProperties(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testInlineAdditionalPropertiesCall(param, _callback);
-        return localVarCall;
+        return testInlineAdditionalPropertiesCall(param, _callback);
 
     }
 
@@ -1991,7 +1918,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2012,20 +1938,17 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testJsonFormDataValidateBeforeCall(String param, String param2, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new ApiException("Missing the required parameter 'param' when calling testJsonFormData(Async)");
         }
-        
+
         // verify the required parameter 'param2' is set
         if (param2 == null) {
             throw new ApiException("Missing the required parameter 'param2' when calling testJsonFormData(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testJsonFormDataCall(param, param2, _callback);
-        return localVarCall;
+        return testJsonFormDataCall(param, param2, _callback);
 
     }
 
@@ -2138,7 +2061,6 @@ public class FakeApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2146,7 +2068,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -2159,35 +2080,32 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testQueryParameterCollectionFormatValidateBeforeCall(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
             throw new ApiException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'ioutil' is set
         if (ioutil == null) {
             throw new ApiException("Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'http' is set
         if (http == null) {
             throw new ApiException("Missing the required parameter 'http' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'url' is set
         if (url == null) {
             throw new ApiException("Missing the required parameter 'url' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'context' is set
         if (context == null) {
             throw new ApiException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testQueryParameterCollectionFormatCall(pipe, ioutil, http, url, context, _callback);
-        return localVarCall;
+        return testQueryParameterCollectionFormatCall(pipe, ioutil, http, url, context, _callback);
 
     }
 

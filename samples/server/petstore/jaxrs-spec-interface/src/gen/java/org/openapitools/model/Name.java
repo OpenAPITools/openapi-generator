@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class Name  implements Serializable {
-  
   private @Valid Integer name;
   private @Valid Integer snakeCase;
   private @Valid String property;
@@ -46,7 +45,7 @@ public class Name  implements Serializable {
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Name snakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -65,7 +64,7 @@ public class Name  implements Serializable {
     this.snakeCase = snakeCase;
   }
 
-/**
+  /**
    **/
   public Name property(String property) {
     this.property = property;
@@ -84,7 +83,7 @@ public class Name  implements Serializable {
     this.property = property;
   }
 
-/**
+  /**
    **/
   public Name _123number(Integer _123number) {
     this._123number = _123number;

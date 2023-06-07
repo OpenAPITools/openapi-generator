@@ -36,11 +36,11 @@ describe 'UsageApi' do
   # Use alias to array
   # Use alias to array
   # @param [Hash] opts the optional parameters
-  # @option opts [ArrayAlias] :array_alias 
+  # @option opts [ArrayAlias] :array_alias
   # @return [Object]
   describe 'array test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -48,11 +48,11 @@ describe 'UsageApi' do
   # Use alias to map
   # Use alias to map
   # @param [Hash] opts the optional parameters
-  # @option opts [MapAlias] :map_alias 
+  # @option opts [MapAlias] :map_alias
   # @return [Object]
   describe 'map test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 

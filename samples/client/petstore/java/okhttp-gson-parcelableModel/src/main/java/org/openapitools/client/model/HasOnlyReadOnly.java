@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -36,9 +34,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -58,7 +62,7 @@ public class HasOnlyReadOnly implements Parcelable {
   @SerializedName(SERIALIZED_NAME_FOO)
   private String foo;
 
-  public HasOnlyReadOnly() { 
+  public HasOnlyReadOnly() {
   }
 
   
@@ -76,8 +80,6 @@ public class HasOnlyReadOnly implements Parcelable {
    * @return bar
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getBar() {
     return bar;
   }
@@ -90,11 +92,10 @@ public class HasOnlyReadOnly implements Parcelable {
    * @return foo
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getFoo() {
     return foo;
   }
+
 
 
 
@@ -183,18 +184,23 @@ public class HasOnlyReadOnly implements Parcelable {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (HasOnlyReadOnly.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!HasOnlyReadOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in HasOnlyReadOnly is not found in the empty JSON string", HasOnlyReadOnly.openapiRequiredFields.toString()));
         }
       }
+
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!HasOnlyReadOnly.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `HasOnlyReadOnly` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
+      }
+      if ((jsonObj.get("bar") != null && !jsonObj.get("bar").isJsonNull()) && !jsonObj.get("bar").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `bar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("bar").toString()));
+      }
+      if ((jsonObj.get("foo") != null && !jsonObj.get("foo").isJsonNull()) && !jsonObj.get("foo").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `foo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("foo").toString()));
       }
   }
 

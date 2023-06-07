@@ -19,7 +19,9 @@ import io.micronaut.core.type.Argument
 import jakarta.inject.Inject
 import spock.lang.Specification
 import spock.lang.Ignore
+{{#reactive}}
 import reactor.core.publisher.Mono
+{{/reactive}}
 import java.io.File
 import java.io.FileReader
 
@@ -34,7 +36,7 @@ class {{classname}}Spec extends Specification {
     EmbeddedServer server
 
     @Inject
-    @Client('${context-path}')
+    @Client
     HttpClient client
 
     @Inject
@@ -63,7 +65,7 @@ class {{classname}}Spec extends Specification {
         {{/allParams}}
 
         when:
-        {{#returnType}}{{{returnType}}} result = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block()
+        {{#returnType}}{{{returnType}}} result = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#reactive}}.block(){{/reactive}}{{#wrapInHttpResponse}}.body(){{/wrapInHttpResponse}}
 
         then:
         {{^generateControllerFromExamples}}

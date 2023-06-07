@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
-from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
+from pydantic import AnyUrl, BaseModel, EmailStr, Field, validator  # noqa: F401
 
 
 class User(BaseModel):
@@ -26,13 +26,13 @@ class User(BaseModel):
         user_status: The user_status of this User [Optional].
     """
 
-    id: Optional[int] = None
-    username: Optional[str] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    email: Optional[str] = None
-    password: Optional[str] = None
-    phone: Optional[str] = None
-    user_status: Optional[int] = None
+    id: Optional[int] = Field(alias="id", default=None)
+    username: Optional[str] = Field(alias="username", default=None)
+    first_name: Optional[str] = Field(alias="firstName", default=None)
+    last_name: Optional[str] = Field(alias="lastName", default=None)
+    email: Optional[str] = Field(alias="email", default=None)
+    password: Optional[str] = Field(alias="password", default=None)
+    phone: Optional[str] = Field(alias="phone", default=None)
+    user_status: Optional[int] = Field(alias="userStatus", default=None)
 
 User.update_forward_refs()

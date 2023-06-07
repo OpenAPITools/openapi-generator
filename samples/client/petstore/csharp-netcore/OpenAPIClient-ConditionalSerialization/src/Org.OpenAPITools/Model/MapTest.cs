@@ -49,36 +49,8 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2
-
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets MapOfEnumString
-        /// </summary>
-
-        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
-        public Dictionary<string, InnerEnum> MapOfEnumString
-        {
-            get{ return _MapOfEnumString;}
-            set
-            {
-                _MapOfEnumString = value;
-                _flagMapOfEnumString = true;
-            }
-        }
-        private Dictionary<string, InnerEnum> _MapOfEnumString;
-        private bool _flagMapOfEnumString;
-
-        /// <summary>
-        /// Returns false as MapOfEnumString should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMapOfEnumString()
-        {
-            return _flagMapOfEnumString;
-        }
         /// <summary>
         /// Initializes a new instance of the <see cref="MapTest" /> class.
         /// </summary>
@@ -134,6 +106,30 @@ namespace Org.OpenAPITools.Model
         public bool ShouldSerializeMapMapOfString()
         {
             return _flagMapMapOfString;
+        }
+        /// <summary>
+        /// Gets or Sets MapOfEnumString
+        /// </summary>
+        [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString
+        {
+            get{ return _MapOfEnumString;}
+            set
+            {
+                _MapOfEnumString = value;
+                _flagMapOfEnumString = true;
+            }
+        }
+        private Dictionary<string, MapTest.InnerEnum> _MapOfEnumString;
+        private bool _flagMapOfEnumString;
+
+        /// <summary>
+        /// Returns false as MapOfEnumString should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeMapOfEnumString()
+        {
+            return _flagMapOfEnumString;
         }
         /// <summary>
         /// Gets or Sets DirectMap
@@ -248,7 +244,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                if (this.MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
+                }
                 if (this.DirectMap != null)
                 {
                     hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();
@@ -270,7 +269,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

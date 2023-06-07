@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,16 +65,15 @@ public class TypeHolderDefault {
      * @return stringItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public String getStringItem() {
+    public String getStringItem() {
         return stringItem;
     }
 
     @JsonProperty(JSON_PROPERTY_STRING_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setStringItem(String stringItem) {
+    public void setStringItem(String stringItem) {
         this.stringItem = stringItem;
     }
 
@@ -90,16 +87,15 @@ public class TypeHolderDefault {
      * @return numberItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public BigDecimal getNumberItem() {
+    public BigDecimal getNumberItem() {
         return numberItem;
     }
 
     @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setNumberItem(BigDecimal numberItem) {
+    public void setNumberItem(BigDecimal numberItem) {
         this.numberItem = numberItem;
     }
 
@@ -113,16 +109,15 @@ public class TypeHolderDefault {
      * @return integerItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public Integer getIntegerItem() {
+    public Integer getIntegerItem() {
         return integerItem;
     }
 
     @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setIntegerItem(Integer integerItem) {
+    public void setIntegerItem(Integer integerItem) {
         this.integerItem = integerItem;
     }
 
@@ -136,16 +131,15 @@ public class TypeHolderDefault {
      * @return boolItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public Boolean getBoolItem() {
+    public Boolean getBoolItem() {
         return boolItem;
     }
 
     @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setBoolItem(Boolean boolItem) {
+    public void setBoolItem(Boolean boolItem) {
         this.boolItem = boolItem;
     }
 
@@ -164,16 +158,15 @@ public class TypeHolderDefault {
      * @return arrayItem
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public List<Integer> getArrayItem() {
+    public List<Integer> getArrayItem() {
         return arrayItem;
     }
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setArrayItem(List<Integer> arrayItem) {
+    public void setArrayItem(List<Integer> arrayItem) {
         this.arrayItem = arrayItem;
     }
 
@@ -223,3 +216,4 @@ public class TypeHolderDefault {
     }
 
 }
+

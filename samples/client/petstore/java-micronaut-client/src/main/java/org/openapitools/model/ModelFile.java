@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -27,7 +25,6 @@ import javax.annotation.Generated;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@ApiModel(description = "Must be named `File` for test.")
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
@@ -50,16 +47,15 @@ public class ModelFile {
      * @return sourceURI
      **/
     @Nullable
-    @ApiModelProperty(value = "Test capitalization")
     @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getSourceURI() {
+    public String getSourceURI() {
         return sourceURI;
     }
 
     @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setSourceURI(String sourceURI) {
+    public void setSourceURI(String sourceURI) {
         this.sourceURI = sourceURI;
     }
 
@@ -101,3 +97,4 @@ public class ModelFile {
     }
 
 }
+

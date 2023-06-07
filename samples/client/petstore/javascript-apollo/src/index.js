@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,19 +13,70 @@
 
 
 import ApiClient from './ApiClient';
+import AdditionalPropertiesClass from './model/AdditionalPropertiesClass';
+import Animal from './model/Animal';
 import ApiResponse from './model/ApiResponse';
+import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
+import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
+import ArrayTest from './model/ArrayTest';
+import BasquePig from './model/BasquePig';
+import Capitalization from './model/Capitalization';
+import Cat from './model/Cat';
+import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
+import ClassModel from './model/ClassModel';
+import Client from './model/Client';
+import Color from './model/Color';
+import DanishPig from './model/DanishPig';
+import DeprecatedObject from './model/DeprecatedObject';
+import Dog from './model/Dog';
+import DogAllOf from './model/DogAllOf';
+import EnumArrays from './model/EnumArrays';
+import EnumClass from './model/EnumClass';
+import EnumTest from './model/EnumTest';
+import File from './model/File';
+import FileSchemaTestClass from './model/FileSchemaTestClass';
+import Foo from './model/Foo';
+import FooGetDefaultResponse from './model/FooGetDefaultResponse';
+import FormatTest from './model/FormatTest';
+import HasOnlyReadOnly from './model/HasOnlyReadOnly';
+import HealthCheckResult from './model/HealthCheckResult';
+import List from './model/List';
+import MapTest from './model/MapTest';
+import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
+import Model200Response from './model/Model200Response';
+import Name from './model/Name';
+import NestedColor from './model/NestedColor';
+import NestedOneOf from './model/NestedOneOf';
+import NullableClass from './model/NullableClass';
+import NumberOnly from './model/NumberOnly';
+import ObjectWithDeprecatedFields from './model/ObjectWithDeprecatedFields';
 import Order from './model/Order';
+import OuterComposite from './model/OuterComposite';
+import OuterEnum from './model/OuterEnum';
+import OuterEnumDefaultValue from './model/OuterEnumDefaultValue';
+import OuterEnumInteger from './model/OuterEnumInteger';
+import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
+import OuterObjectWithEnumProperty from './model/OuterObjectWithEnumProperty';
 import Pet from './model/Pet';
+import Pig from './model/Pig';
+import ReadOnlyFirst from './model/ReadOnlyFirst';
+import Return from './model/Return';
+import SpecialModelName from './model/SpecialModelName';
+import StringOrBoolean from './model/StringOrBoolean';
 import Tag from './model/Tag';
 import User from './model/User';
+import AnotherFakeApi from './api/AnotherFakeApi';
+import DefaultApi from './api/DefaultApi';
+import FakeApi from './api/FakeApi';
+import FakeClassnameTags123Api from './api/FakeClassnameTags123Api';
 import PetApi from './api/PetApi';
 import StoreApi from './api/StoreApi';
 import UserApi from './api/UserApi';
 
 
 /**
-* This_is_a_sample_server_Petstore_server__For_this_sample_you_can_use_the_api_key_special_key_to_test_the_authorization_filters_.<br>
+* This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\.<br>
 * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
 * <p>
 * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -63,10 +114,64 @@ export {
     ApiClient,
 
     /**
+     * The AdditionalPropertiesClass model constructor.
+     * @property {module:model/AdditionalPropertiesClass}
+     */
+    AdditionalPropertiesClass,
+
+    /**
+     * The Animal model constructor.
+     * @property {module:model/Animal}
+     */
+    Animal,
+
+    /**
      * The ApiResponse model constructor.
      * @property {module:model/ApiResponse}
      */
     ApiResponse,
+
+    /**
+     * The ArrayOfArrayOfNumberOnly model constructor.
+     * @property {module:model/ArrayOfArrayOfNumberOnly}
+     */
+    ArrayOfArrayOfNumberOnly,
+
+    /**
+     * The ArrayOfNumberOnly model constructor.
+     * @property {module:model/ArrayOfNumberOnly}
+     */
+    ArrayOfNumberOnly,
+
+    /**
+     * The ArrayTest model constructor.
+     * @property {module:model/ArrayTest}
+     */
+    ArrayTest,
+
+    /**
+     * The BasquePig model constructor.
+     * @property {module:model/BasquePig}
+     */
+    BasquePig,
+
+    /**
+     * The Capitalization model constructor.
+     * @property {module:model/Capitalization}
+     */
+    Capitalization,
+
+    /**
+     * The Cat model constructor.
+     * @property {module:model/Cat}
+     */
+    Cat,
+
+    /**
+     * The CatAllOf model constructor.
+     * @property {module:model/CatAllOf}
+     */
+    CatAllOf,
 
     /**
      * The Category model constructor.
@@ -75,16 +180,244 @@ export {
     Category,
 
     /**
+     * The ClassModel model constructor.
+     * @property {module:model/ClassModel}
+     */
+    ClassModel,
+
+    /**
+     * The Client model constructor.
+     * @property {module:model/Client}
+     */
+    Client,
+
+    /**
+     * The Color model constructor.
+     * @property {module:model/Color}
+     */
+    Color,
+
+    /**
+     * The DanishPig model constructor.
+     * @property {module:model/DanishPig}
+     */
+    DanishPig,
+
+    /**
+     * The DeprecatedObject model constructor.
+     * @property {module:model/DeprecatedObject}
+     */
+    DeprecatedObject,
+
+    /**
+     * The Dog model constructor.
+     * @property {module:model/Dog}
+     */
+    Dog,
+
+    /**
+     * The DogAllOf model constructor.
+     * @property {module:model/DogAllOf}
+     */
+    DogAllOf,
+
+    /**
+     * The EnumArrays model constructor.
+     * @property {module:model/EnumArrays}
+     */
+    EnumArrays,
+
+    /**
+     * The EnumClass model constructor.
+     * @property {module:model/EnumClass}
+     */
+    EnumClass,
+
+    /**
+     * The EnumTest model constructor.
+     * @property {module:model/EnumTest}
+     */
+    EnumTest,
+
+    /**
+     * The File model constructor.
+     * @property {module:model/File}
+     */
+    File,
+
+    /**
+     * The FileSchemaTestClass model constructor.
+     * @property {module:model/FileSchemaTestClass}
+     */
+    FileSchemaTestClass,
+
+    /**
+     * The Foo model constructor.
+     * @property {module:model/Foo}
+     */
+    Foo,
+
+    /**
+     * The FooGetDefaultResponse model constructor.
+     * @property {module:model/FooGetDefaultResponse}
+     */
+    FooGetDefaultResponse,
+
+    /**
+     * The FormatTest model constructor.
+     * @property {module:model/FormatTest}
+     */
+    FormatTest,
+
+    /**
+     * The HasOnlyReadOnly model constructor.
+     * @property {module:model/HasOnlyReadOnly}
+     */
+    HasOnlyReadOnly,
+
+    /**
+     * The HealthCheckResult model constructor.
+     * @property {module:model/HealthCheckResult}
+     */
+    HealthCheckResult,
+
+    /**
+     * The List model constructor.
+     * @property {module:model/List}
+     */
+    List,
+
+    /**
+     * The MapTest model constructor.
+     * @property {module:model/MapTest}
+     */
+    MapTest,
+
+    /**
+     * The MixedPropertiesAndAdditionalPropertiesClass model constructor.
+     * @property {module:model/MixedPropertiesAndAdditionalPropertiesClass}
+     */
+    MixedPropertiesAndAdditionalPropertiesClass,
+
+    /**
+     * The Model200Response model constructor.
+     * @property {module:model/Model200Response}
+     */
+    Model200Response,
+
+    /**
+     * The Name model constructor.
+     * @property {module:model/Name}
+     */
+    Name,
+
+    /**
+     * The NestedColor model constructor.
+     * @property {module:model/NestedColor}
+     */
+    NestedColor,
+
+    /**
+     * The NestedOneOf model constructor.
+     * @property {module:model/NestedOneOf}
+     */
+    NestedOneOf,
+
+    /**
+     * The NullableClass model constructor.
+     * @property {module:model/NullableClass}
+     */
+    NullableClass,
+
+    /**
+     * The NumberOnly model constructor.
+     * @property {module:model/NumberOnly}
+     */
+    NumberOnly,
+
+    /**
+     * The ObjectWithDeprecatedFields model constructor.
+     * @property {module:model/ObjectWithDeprecatedFields}
+     */
+    ObjectWithDeprecatedFields,
+
+    /**
      * The Order model constructor.
      * @property {module:model/Order}
      */
     Order,
 
     /**
+     * The OuterComposite model constructor.
+     * @property {module:model/OuterComposite}
+     */
+    OuterComposite,
+
+    /**
+     * The OuterEnum model constructor.
+     * @property {module:model/OuterEnum}
+     */
+    OuterEnum,
+
+    /**
+     * The OuterEnumDefaultValue model constructor.
+     * @property {module:model/OuterEnumDefaultValue}
+     */
+    OuterEnumDefaultValue,
+
+    /**
+     * The OuterEnumInteger model constructor.
+     * @property {module:model/OuterEnumInteger}
+     */
+    OuterEnumInteger,
+
+    /**
+     * The OuterEnumIntegerDefaultValue model constructor.
+     * @property {module:model/OuterEnumIntegerDefaultValue}
+     */
+    OuterEnumIntegerDefaultValue,
+
+    /**
+     * The OuterObjectWithEnumProperty model constructor.
+     * @property {module:model/OuterObjectWithEnumProperty}
+     */
+    OuterObjectWithEnumProperty,
+
+    /**
      * The Pet model constructor.
      * @property {module:model/Pet}
      */
     Pet,
+
+    /**
+     * The Pig model constructor.
+     * @property {module:model/Pig}
+     */
+    Pig,
+
+    /**
+     * The ReadOnlyFirst model constructor.
+     * @property {module:model/ReadOnlyFirst}
+     */
+    ReadOnlyFirst,
+
+    /**
+     * The Return model constructor.
+     * @property {module:model/Return}
+     */
+    Return,
+
+    /**
+     * The SpecialModelName model constructor.
+     * @property {module:model/SpecialModelName}
+     */
+    SpecialModelName,
+
+    /**
+     * The StringOrBoolean model constructor.
+     * @property {module:model/StringOrBoolean}
+     */
+    StringOrBoolean,
 
     /**
      * The Tag model constructor.
@@ -97,6 +430,30 @@ export {
      * @property {module:model/User}
      */
     User,
+
+    /**
+    * The AnotherFakeApi service constructor.
+    * @property {module:api/AnotherFakeApi}
+    */
+    AnotherFakeApi,
+
+    /**
+    * The DefaultApi service constructor.
+    * @property {module:api/DefaultApi}
+    */
+    DefaultApi,
+
+    /**
+    * The FakeApi service constructor.
+    * @property {module:api/FakeApi}
+    */
+    FakeApi,
+
+    /**
+    * The FakeClassnameTags123Api service constructor.
+    * @property {module:api/FakeClassnameTags123Api}
+    */
+    FakeClassnameTags123Api,
 
     /**
     * The PetApi service constructor.

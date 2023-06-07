@@ -5,12 +5,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 
 import java.util.*;
@@ -24,13 +23,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 
-  @JsonProperty("code")
   private Integer code;
 
-  @JsonProperty("type")
   private String type;
 
-  @JsonProperty("message")
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -43,7 +39,8 @@ public class ModelApiResponse {
    * @return code
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
@@ -62,7 +59,8 @@ public class ModelApiResponse {
    * @return type
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("type")
   public String getType() {
     return type;
   }
@@ -81,7 +79,8 @@ public class ModelApiResponse {
    * @return message
   */
   
-  @ApiModelProperty(value = "")
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("message")
   public String getMessage() {
     return message;
   }

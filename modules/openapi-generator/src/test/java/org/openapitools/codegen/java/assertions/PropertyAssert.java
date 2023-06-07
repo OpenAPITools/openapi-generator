@@ -2,10 +2,11 @@ package org.openapitools.codegen.java.assertions;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
 import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 
+@CanIgnoreReturnValue
 public class PropertyAssert extends ObjectAssert<FieldDeclaration> {
 
     private final JavaFileAssert javaFileAssert;

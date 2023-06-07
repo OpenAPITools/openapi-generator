@@ -38,7 +38,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -50,7 +49,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -85,7 +83,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['api_key'];
     const contentTypes = <String>[];
 
 
@@ -97,7 +94,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -121,7 +117,7 @@ class StoreApi {
 
   /// Find purchase order by ID
   ///
-  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -141,7 +137,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -153,13 +148,12 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// Find purchase order by ID
   ///
-  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
   ///
   /// Parameters:
   ///
@@ -201,7 +195,6 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -213,7 +206,6 @@ class StoreApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 

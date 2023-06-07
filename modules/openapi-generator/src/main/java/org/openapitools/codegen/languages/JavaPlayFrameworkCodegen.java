@@ -23,6 +23,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
@@ -305,11 +308,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
 
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
 
                 for (CodegenParameter param : operation.allParams) {
@@ -328,7 +331,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                 Matcher match = pathVariableMatcher.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
-                    String replacement = ":" + camelize(match.group(1), true);
+                    String replacement = ":" + camelize(match.group(1), LOWERCASE_FIRST_LETTER);
                     operation.path = operation.path.replace(completeMatch, replacement);
                 }
 
@@ -390,17 +393,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         for (CodegenSecurity codegenSecurity : securities) {
             ExtendedCodegenSecurity extendedCodegenSecurity = new ExtendedCodegenSecurity(codegenSecurity);
-            Object jwksUrl = extendedCodegenSecurity.vendorExtensions.get(X_JWKS_URL);
-
-            if (jwksUrl instanceof String) {
-                extendedCodegenSecurity.jwksUrl = (String) jwksUrl;
-            }
-
-            Object tokenIntrospectUrl = extendedCodegenSecurity.vendorExtensions.get(X_TOKEN_INTROSPECT_URL);
-
-            if (tokenIntrospectUrl instanceof String) {
-                extendedCodegenSecurity.tokenIntrospectUrl = (String) tokenIntrospectUrl;
-            }
             extendedSecurities.add(extendedCodegenSecurity);
         }
 
@@ -413,32 +405,17 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         public String tokenIntrospectUrl;
 
         public ExtendedCodegenSecurity(CodegenSecurity cm) {
-            super();
+            super(cm);
 
-            this.name = cm.name;
-            this.type = cm.type;
-            this.scheme = cm.scheme;
-            this.isBasic = cm.isBasic;
-            this.isOAuth = cm.isOAuth;
-            this.isApiKey = cm.isApiKey;
-            this.isBasicBasic = cm.isBasicBasic;
-            this.isBasicBearer = cm.isBasicBearer;
-            this.isHttpSignature = cm.isHttpSignature;
-            this.bearerFormat = cm.bearerFormat;
-            this.vendorExtensions = new HashMap<String, Object>(cm.vendorExtensions);
-            this.keyParamName = cm.keyParamName;
-            this.isKeyInQuery = cm.isKeyInQuery;
-            this.isKeyInHeader = cm.isKeyInHeader;
-            this.isKeyInCookie = cm.isKeyInCookie;
-            this.flow = cm.flow;
-            this.authorizationUrl = cm.authorizationUrl;
-            this.tokenUrl = cm.tokenUrl;
-            this.refreshUrl = cm.refreshUrl;
-            this.scopes = cm.scopes;
-            this.isCode = cm.isCode;
-            this.isPassword = cm.isPassword;
-            this.isApplication = cm.isApplication;
-            this.isImplicit = cm.isImplicit;
+            Object cmJwksUrl = cm.vendorExtensions.get(X_JWKS_URL);
+            if (cmJwksUrl instanceof String) {
+                this.jwksUrl = (String) cmJwksUrl;
+            }
+
+            Object cmTokenIntrospectUrl = cm.vendorExtensions.get(X_TOKEN_INTROSPECT_URL);
+            if (cmTokenIntrospectUrl instanceof String) {
+                this.tokenIntrospectUrl = (String) cmTokenIntrospectUrl;
+            }
         }
 
         @Override

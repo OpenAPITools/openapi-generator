@@ -6,13 +6,14 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CanIgnoreReturnValue;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 
+@CanIgnoreReturnValue
 public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration> {
 
     private final JavaFileAssert fileAssert;
@@ -66,6 +67,23 @@ public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration
                 methodSignature, Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
             )
             .contains(lines);
+
+        return this;
+    }
+
+    public MethodAssert bodyNotContainsLines(final String... lines) {
+        Assertions.assertThat(isWithImplementation())
+            .withFailMessage("Method %s is abstract", methodSignature)
+            .isTrue();
+        final String actualBody = actual.getTokenRange()
+            .orElseThrow(() -> new IllegalStateException("Not-abstract method doesn't have body"))
+            .toString();
+        Assertions.assertThat(actualBody)
+            .withFailMessage(
+                "Method's %s body shouldn't contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                methodSignature, Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+            )
+            .doesNotContain(lines);
 
         return this;
     }

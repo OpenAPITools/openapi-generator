@@ -42,7 +42,7 @@ Note that the class needs to be annotated with one of Micronaut's [scope annotat
 
 More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
-<a name="createUser"></a>
+<a id="createUser"></a>
 # **createUser**
 ```java
 Mono<Void> UserApi.createUser(_body)
@@ -66,7 +66,7 @@ This can only be done by the logged in user.
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
+<a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
 ```java
 Mono<Void> UserApi.createUsersWithArrayInput(_body)
@@ -88,7 +88,7 @@ Creates list of users with given input array
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="createUsersWithListInput"></a>
+<a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
 ```java
 Mono<Void> UserApi.createUsersWithListInput(_body)
@@ -110,7 +110,7 @@ Creates list of users with given input array
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="deleteUser"></a>
+<a id="deleteUser"></a>
 # **deleteUser**
 ```java
 Mono<Void> UserApi.deleteUser(username)
@@ -134,7 +134,7 @@ This can only be done by the logged in user.
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getUserByName"></a>
+<a id="getUserByName"></a>
 # **getUserByName**
 ```java
 Mono<User> UserApi.getUserByName(username)
@@ -157,7 +157,7 @@ Get user by user name
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="loginUser"></a>
+<a id="loginUser"></a>
 # **loginUser**
 ```java
 Mono<String> UserApi.loginUser(usernamepassword)
@@ -181,7 +181,7 @@ Logs user into the system
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="logoutUser"></a>
+<a id="logoutUser"></a>
 # **logoutUser**
 ```java
 Mono<Void> UserApi.logoutUser()
@@ -199,7 +199,7 @@ Logs out current logged in user session
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="updateUser"></a>
+<a id="updateUser"></a>
 # **updateUser**
 ```java
 Mono<Void> UserApi.updateUser(username_body)

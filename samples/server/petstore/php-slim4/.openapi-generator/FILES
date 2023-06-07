@@ -20,6 +20,7 @@ lib/Model/Order.php
 lib/Model/Pet.php
 lib/Model/Tag.php
 lib/Model/User.php
+logs/.htaccess
 phpcs.xml.dist
 phpunit.xml.dist
 public/.htaccess

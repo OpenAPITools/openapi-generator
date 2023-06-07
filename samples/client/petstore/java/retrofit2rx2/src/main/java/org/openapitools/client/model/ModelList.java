@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
@@ -33,7 +31,7 @@ public class ModelList {
   @SerializedName(SERIALIZED_NAME_123LIST)
   private String _123list;
 
-  public ModelList() { 
+  public ModelList() {
   }
 
   public ModelList _123list(String _123list) {
@@ -47,7 +45,6 @@ public class ModelList {
    * @return _123list
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
 
   public String get123list() {
     return _123list;
@@ -57,7 +54,6 @@ public class ModelList {
   public void set123list(String _123list) {
     this._123list = _123list;
   }
-
 
   @Override
   public boolean equals(Object o) {

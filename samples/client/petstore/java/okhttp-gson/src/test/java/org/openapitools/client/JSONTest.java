@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class JSONTest {
             // OK
         }
         try {
-            // unexpected miliseconds
+            // unexpected milliseconds
             json.deserialize("\"2015-11-07T03:49:09.000Z\"", Date.class);
             fail("json parsing should fail");
         } catch (RuntimeException e) {
@@ -224,13 +225,11 @@ public class JSONTest {
     }
 
     @Test
+    @Disabled("No longer need the following test as additional field(s) should be stored in `additionalProperties`")
     public void testAdditionalFieldException() {
         IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             // test json string with additional field(s) to ensure exception is thrown
             Gson gson = json.getGson();
-            //Gson gson = new GsonBuilder()
-            //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
-            //        .create();
             String json = "{\"id\": 5847, \"name\":\"tag test 1\", \"new-field\": true}";
             org.openapitools.client.model.Tag t = gson.fromJson(json, org.openapitools.client.model.Tag.class);
         });
@@ -268,7 +267,13 @@ public class JSONTest {
         Pet t4 = gson.fromJson(json3, Pet.class);
         assertEquals(t4.getName(), "pet test 1");
         assertEquals(t4.getId(), Long.valueOf(5847));
+    }
 
+    @Test
+    @Disabled("Unknown fields are now correctly deserialized into `additionalProperties`")
+    public void testUnknownFields() {
+        // test unknown fields in the payload
+        Gson gson = json.getGson();
         // test Tag
         String json5 = "{\"unknown_field\": 543, \"id\":\"tag 123\"}";
         Exception exception5 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
@@ -359,6 +364,7 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
             assertEquals(o.toJson(), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
 
+            /* comment out the following as we've added "additionalProperties" support
             String str2 = "{ \"origin_typo\": \"japan\" }";
             // no match
             Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
@@ -374,6 +380,7 @@ public class JSONTest {
             Exception exception4 = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 GmFruit o2 = json.getGson().fromJson(str2, GmFruit.class);
             });
+             */
         }
     }
 
@@ -407,15 +414,15 @@ public class JSONTest {
 
             // make sure deserialization works for pojo object
             Zebra z = Zebra.fromJson(str2);
-            assertEquals(z.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
 
             Mammal o2 = json.getGson().fromJson(str2, Mammal.class);
             assertTrue(o2.getActualInstance() instanceof Zebra);
             Zebra inst2 = (Zebra) o2.getActualInstance();
-            assertEquals(json.getGson().toJson(inst2), "{\"className\":\"zebra\",\"type\":\"plains\"}");
-            assertEquals(inst2.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
-            assertEquals(json.getGson().toJson(o2), "{\"className\":\"zebra\",\"type\":\"plains\"}");
-            assertEquals(o2.toJson(), "{\"className\":\"zebra\",\"type\":\"plains\"}");
+            assertEquals(json.getGson().toJson(inst2), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(inst2.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(json.getGson().toJson(o2), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+            assertEquals(o2.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
         }
         {
             // incorrect payload results in exception
@@ -423,7 +430,7 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 Mammal o = json.getGson().fromJson(str, Mammal.class);
             });
-            assertTrue(exception.getMessage().contains("Failed deserialization for Mammal: 0 classes match result, expected 1. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}"));
+            assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
         }
         {
             // Try to deserialize empty object. This should fail 'oneOf' because none will match
@@ -432,8 +439,26 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 json.getGson().fromJson(str, Mammal.class);
             });
-            assertTrue(exception.getMessage().contains("Failed deserialization for Mammal: 0 classes match result, expected 1"));
+            assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}", exception.getMessage());
         }
+    }
+
+    /**
+     * Test JSON validation method
+     */
+    @Test
+    public void testJsonValidation() throws Exception {
+        String str = "{ \"cultivar\": [\"golden delicious\"], \"mealy\": false }";
+        Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            AppleReq a = json.getGson().fromJson(str, AppleReq.class);
+        });
+        assertTrue(exception.getMessage().contains("Expected the field `cultivar` to be a primitive type in the JSON string but got `[\"golden delicious\"]`"));
+
+        String str2 = "{ \"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": 123 }";
+        Exception exception2 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            Pet p1 = json.getGson().fromJson(str2, Pet.class);
+        });
+        assertTrue(exception2.getMessage().contains("Expected the field `photoUrls` to be an array in the JSON string but got `123`"));
     }
 
     /**
@@ -493,7 +518,7 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 FruitReq o = json.getGson().fromJson(str, FruitReq.class);
             });
-            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result, expected 1. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}"));
+            assertEquals("java.io.IOException: Failed deserialization for FruitReq: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for AppleReq failed with `The field `garbage_prop` in the JSON string is not defined in the `AppleReq` properties. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for BananaReq failed with `The field `cultivar` in the JSON string is not defined in the `BananaReq` properties. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
         }
         {
             String str = "{ \"lengthCm\": 17 }";
@@ -518,5 +543,35 @@ public class JSONTest {
             });
             assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result, expected 1"));
         }
+    }
+
+
+    /**
+     * Test validateJsonObject with null object
+     */
+    @Test
+    public void testValidateJsonObject() throws Exception {
+        JsonObject jsonObject = new JsonObject();
+        Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            Pet.validateJsonObject(jsonObject);
+        });
+        assertEquals(exception.getMessage(), "The required field `photoUrls` is not found in the JSON string: {}");
+    }
+
+    /**
+     * Test additional properties.
+     */
+    @Test
+    public void testAdditionalProperties() throws Exception {
+        String str = "{ \"className\": \"zebra\", \"type\": \"plains\", \"from_json\": 4567, \"from_json_map\": {\"nested_string\": \"nested_value\"} }";
+        Zebra z = Zebra.fromJson(str);
+        z.putAdditionalProperty("new_key", "new_value");
+        z.putAdditionalProperty("new_number", 1.23);
+        z.putAdditionalProperty("new_boolean", true);
+        org.openapitools.client.model.Tag t = new org.openapitools.client.model.Tag();
+        t.setId(34L);
+        t.setName("just a tag");
+        z.putAdditionalProperty("new_object", t);
+        assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"new_number\":1.23}");
     }
 }

@@ -20,12 +20,30 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +52,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
-        implements BeanValidationFeatures {
+        implements BeanValidationFeatures, DocumentationProviderFeatures, SwaggerUIFeatures {
 
     private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
@@ -55,37 +78,51 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     "ApiResponse"
             ));
 
+    public static final String OPEN_BRACE = "{";
+    public static final String CLOSE_BRACE = "}";
+
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
+    public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String SPRING_BOOT = "spring-boot";
+    public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
-    public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
+    public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+
     private String basePackage;
+    protected String configPackage;
     private String invokerPackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
-    private String resourceFolder = "src/main/resources";
     private boolean useBeanValidation = true;
+    private boolean skipDefaultInterface = false;
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
-    private boolean swaggerAnnotations = false;
+    private boolean useSwaggerUI = true;
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
     private boolean reactive = false;
     private boolean interfaceOnly = false;
+    protected boolean useFeignClientUrl = true;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
+
+    protected boolean useSpringBoot3 = false;
+    private DocumentationProvider documentationProvider;
+    private AnnotationLibrary annotationLibrary;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -96,7 +133,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -119,11 +159,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         artifactId = "openapi-spring";
         basePackage = invokerPackage = "org.openapitools";
+        configPackage = "org.openapitools.configuration";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
+
+        additionalProperties.put("openbrace", OPEN_BRACE);
+        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         // Use lists instead of arrays
         typeMapping.put("array", "kotlin.collections.List");
@@ -133,41 +177,117 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         typeMapping.put("file", "org.springframework.core.io.Resource");
 
         addOption(TITLE, "server title name or client service name", title);
+        addOption(CONFIG_PACKAGE, "configuration package for generated code", this.getConfigPackage());
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
-        addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
+        addSwitch(USE_SWAGGER_UI, "Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies", useSwaggerUI);
         addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
                 "cases this option would be used to update an existing project, so not to override implementations. " +
                 "Useful to help facilitate the generation gap pattern", serviceInterface);
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(USE_FEIGN_CLIENT_URL, "Whether to generate Feign client with url parameter.", useFeignClientUrl);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
         addSwitch(BEAN_QUALIFIERS, "Whether to add fully-qualifier class names as bean qualifiers in @Component and " +
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
+        addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
+        supportedLibraries.put(SPRING_CLOUD_LIBRARY,
+                "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
 
         CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
+
+        if (null != defaultDocumentationProvider()) {
+            CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
+                    "Select the OpenAPI documentation provider.")
+                    .defaultValue(defaultDocumentationProvider().toCliOptValue());
+            supportedDocumentationProvider().forEach(dp ->
+                    documentationProviderCliOption.addEnum(dp.toCliOptValue(), dp.getDescription()));
+            cliOptions.add(documentationProviderCliOption);
+
+            CliOption annotationLibraryCliOption = new CliOption(ANNOTATION_LIBRARY,
+                    "Select the complementary documentation annotation library.")
+                    .defaultValue(defaultDocumentationProvider().getPreferredAnnotationLibrary().toCliOptValue());
+            supportedAnnotationLibraries().forEach(al ->
+                    annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
+            cliOptions.add(annotationLibraryCliOption);
+        }
     }
 
-    public String getResourceFolder() {
-        return this.resourceFolder;
+    @Override
+    public DocumentationProvider getDocumentationProvider() {
+        return documentationProvider;
     }
 
-    public void setResourceFolder(String resourceFolder) {
-        this.resourceFolder = resourceFolder;
+    @Override
+    public void setDocumentationProvider(DocumentationProvider documentationProvider) {
+        this.documentationProvider = documentationProvider;
+    }
+
+    @Override
+    public AnnotationLibrary getAnnotationLibrary() {
+        return annotationLibrary;
+    }
+
+    @Override
+    public void setAnnotationLibrary(AnnotationLibrary annotationLibrary) {
+        this.annotationLibrary = annotationLibrary;
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SPRINGDOC;
+    }
+
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        return Arrays.asList(
+                DocumentationProvider.NONE,
+                DocumentationProvider.SOURCE,
+                DocumentationProvider.SPRINGFOX,
+                DocumentationProvider.SPRINGDOC
+        );
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        return Arrays.asList(
+                AnnotationLibrary.NONE,
+                AnnotationLibrary.SWAGGER1,
+                AnnotationLibrary.SWAGGER2
+        );
+    }
+
+    /**
+     * Whether the selected {@link DocumentationProviderFeatures.DocumentationProvider} requires us to bootstrap and
+     * configure swagger-ui by ourselves. Springdoc, for example ships its own swagger-ui integration.
+     *
+     * @return true if the selected DocumentationProvider requires us to bootstrap swagger-ui.
+     */
+    private boolean selectedDocumentationProviderRequiresSwaggerUiBootstrap() {
+        return getDocumentationProvider().equals(DocumentationProvider.SPRINGFOX) ||
+                getDocumentationProvider().equals(DocumentationProvider.SOURCE);
+    }
+
+    public void setConfigPackage(String configPackage) {
+        this.configPackage = configPackage;
+    }
+
+    public String getConfigPackage() {
+        return configPackage;
     }
 
     public String getBasePackage() {
@@ -210,12 +330,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.gradleBuildFile = gradleBuildFile;
     }
 
-    public boolean getSwaggerAnnotations() {
-        return this.swaggerAnnotations;
+    public boolean getUseSwaggerUI() {
+        return this.useSwaggerUI;
     }
 
-    public void setSwaggerAnnotations(boolean swaggerAnnotations) {
-        this.swaggerAnnotations = swaggerAnnotations;
+    @Override
+    public void setUseSwaggerUI(boolean useSwaggerUI) {
+        this.useSwaggerUI = useSwaggerUI;
     }
 
     public boolean getServiceInterface() {
@@ -224,6 +345,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setServiceInterface(boolean serviceInterface) {
         this.serviceInterface = serviceInterface;
+    }
+
+    public void setUseFeignClientUrl(boolean useFeignClientUrl) {
+        this.useFeignClientUrl = useFeignClientUrl;
     }
 
     public boolean getServiceImplementation() {
@@ -250,9 +375,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useTags = useTags;
     }
 
+    public void setUseSpringBoot3(boolean isSpringBoot3) {
+        this.useSpringBoot3 = isSpringBoot3;
+    }
+
+    public boolean isUseSpringBoot3() {
+        return useSpringBoot3;
+    }
+
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
     }
 
     public boolean isReactive() {
@@ -261,10 +398,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setReactive(boolean reactive) {
         this.reactive = reactive;
-    }
-
-    public boolean isBeanQualifiers() {
-        return beanQualifiers;
     }
 
     public void setBeanQualifiers(boolean beanQualifiers) {
@@ -289,6 +422,50 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+            LOGGER.warn("The springfox documentation provider is deprecated for removal. Use the springdoc provider instead.");
+        }
+
+        if (null != defaultDocumentationProvider()) {
+            documentationProvider = DocumentationProvider.ofCliOption(
+                    (String) additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
+                            defaultDocumentationProvider().toCliOptValue())
+            );
+
+            if (!supportedDocumentationProvider().contains(documentationProvider)) {
+                String msg = String.format(Locale.ROOT,
+                        "The [%s] Documentation Provider is not supported by this generator",
+                        documentationProvider.toCliOptValue());
+                throw new IllegalArgumentException(msg);
+            }
+
+            annotationLibrary = AnnotationLibrary.ofCliOption(
+                    (String) additionalProperties.getOrDefault(ANNOTATION_LIBRARY,
+                            documentationProvider.getPreferredAnnotationLibrary().toCliOptValue())
+            );
+
+            if (!supportedAnnotationLibraries().contains(annotationLibrary)) {
+                String msg = String.format(Locale.ROOT, "The Annotation Library [%s] is not supported by this generator",
+                        annotationLibrary.toCliOptValue());
+                throw new IllegalArgumentException(msg);
+            }
+
+            if (!documentationProvider.supportedAnnotationLibraries().contains(annotationLibrary)) {
+                String msg = String.format(Locale.ROOT,
+                        "The [%s] documentation provider does not support [%s] as complementary annotation library",
+                        documentationProvider.toCliOptValue(), annotationLibrary.toCliOptValue());
+                throw new IllegalArgumentException(msg);
+            }
+
+            additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
+            additionalProperties.put(documentationProvider.getPropertyName(), true);
+            additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
+            additionalProperties.put(annotationLibrary.getPropertyName(), true);
+        } else {
+            additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE);
+            additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
+        }
 
         if (isModelMutable()) {
             typeMapping.put("array", "kotlin.collections.MutableList");
@@ -328,6 +505,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
+        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
+            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
+        } else {
+            additionalProperties.put(CONFIG_PACKAGE, configPackage);
+        }
+
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
         } else {
@@ -350,10 +533,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(GRADLE_BUILD_FILE, gradleBuildFile);
 
-        if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
-            this.setSwaggerAnnotations(Boolean.parseBoolean(additionalProperties.get(SWAGGER_ANNOTATIONS).toString()));
+        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
+            this.setUseSwaggerUI(Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_UI).toString()));
         }
-        writePropertyBack(SWAGGER_ANNOTATIONS, swaggerAnnotations);
+        if (getDocumentationProvider().equals(DocumentationProvider.NONE)) {
+            this.setUseSwaggerUI(false);
+        }
+        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
 
         if (additionalProperties.containsKey(SERVICE_INTERFACE)) {
             this.setServiceInterface(Boolean.parseBoolean(additionalProperties.get(SERVICE_INTERFACE).toString()));
@@ -370,10 +556,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
-        if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
-            this.setReactive(convertPropertyToBoolean(REACTIVE));
-            // spring webflux doesn't support @ControllerAdvice
-            this.setExceptionHandler(false);
+        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
+            this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));
+        }
+        writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
+
+        if (additionalProperties.containsKey(REACTIVE)) {
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
+                throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
+            }
+            if (library.equals(SPRING_BOOT)) {
+                this.setReactive(convertPropertyToBoolean(REACTIVE));
+                // spring webflux doesn't support @ControllerAdvice
+                this.setExceptionHandler(false);
+            }
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
@@ -387,16 +583,38 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
 
+        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            this.setInterfaceOnly(true);
+        }
+
+        if (additionalProperties.containsKey(USE_FEIGN_CLIENT_URL)) {
+            this.setUseFeignClientUrl(Boolean.parseBoolean(additionalProperties.get(USE_FEIGN_CLIENT_URL).toString()));
+        }
+        writePropertyBack(USE_FEIGN_CLIENT_URL, useFeignClientUrl);
+
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
-            if (!this.interfaceOnly) {
-                this.setSwaggerAnnotations(true);
-            }
         }
 
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
+
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (isUseSpringBoot3()) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
+                throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
+            }
+            useJakartaEe = true;
+            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
+            applyJakartaPackage();
+        }
+        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
 
         modelTemplateFiles.put("model.mustache", ".kt");
 
@@ -408,11 +626,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else {
             apiTemplateFiles.put("api.mustache", "Controller.kt");
             apiTestTemplateFiles.put("api_test.mustache", ".kt");
-        }
-
-        if (SPRING_BOOT.equals(library)) {
-            supportingFiles.add(new SupportingFile("apiUtil.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
         }
 
         if (this.serviceInterface) {
@@ -432,24 +645,90 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
 
-        if (this.exceptionHandler) {
+        if (this.exceptionHandler && !library.equals(SPRING_CLOUD_LIBRARY)) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
         }
 
         if (library.equals(SPRING_BOOT)) {
             LOGGER.info("Setup code generator for Kotlin Spring Boot");
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+
+            supportingFiles.add(new SupportingFile("apiUtil.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
+
+            if (isUseSpringBoot3()) {
+                supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
+            } else {
+                supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            }
 
             if (this.gradleBuildFile) {
-                supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
+                if (isUseSpringBoot3()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "", "build.gradle.kts"));
+                } else {
+                    supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
+                }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
             }
 
             if (!this.interfaceOnly) {
-                supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
+                if (this.documentationProvider != DocumentationProvider.NONE) {
+                    supportingFiles.add(new SupportingFile("homeController.mustache",
+                            (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                            "HomeController.kt"));
+                    supportingFiles.add(new SupportingFile("openapi.mustache",
+                            resourcesFolder.replace("/", java.io.File.separator), "openapi.yaml"));
+                }
+
+                supportingFiles.add(new SupportingFile("application.mustache", resourcesFolder, "application.yaml"));
                 supportingFiles.add(new SupportingFile("springBootApplication.mustache",
                         sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
+
+                if (useSwaggerUI && selectedDocumentationProviderRequiresSwaggerUiBootstrap()) {
+                    supportingFiles.add(new SupportingFile("swagger-ui.mustache",
+                            resourcesFolder + "/static", "swagger-ui.html"));
+                }
+            }
+        }
+
+        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            LOGGER.info("Setup code generator for Kotlin Spring Cloud Client");
+
+            if (isUseSpringBoot3()) {
+                supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+            } else {
+                supportingFiles.add(new SupportingFile("pom.mustache", "pom.xml"));
+            }
+
+            if (this.gradleBuildFile) {
+                if (isUseSpringBoot3()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                } else {
+                    supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
+                }
+                supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+            }
+
+            supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "ApiKeyRequestInterceptor.kt"));
+            supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "ClientConfiguration.kt"));
+            apiTemplateFiles.put("apiClient.mustache", "Client.kt");
+
+            apiTestTemplateFiles.clear();
+        }
+
+        if (!reactive && !library.equals(SPRING_CLOUD_LIBRARY)) {
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        "SpringFoxConfiguration.kt"));
+            } else if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                supportingFiles.add(new SupportingFile("springdocDocumentationConfig.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        "SpringDocConfiguration.kt"));
             }
         }
 
@@ -460,7 +739,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         additionalProperties.put("lambdaEscapeDoubleQuote",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }
 
     @Override
@@ -514,7 +793,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (title.toUpperCase(Locale.ROOT).endsWith("API"))
                     title = title.substring(0, title.length() - 3);
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), LOWERCASE_FIRST_LETTER);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -578,10 +857,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
@@ -642,6 +921,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return objs;
     }
 
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateYAMLSpecFile(objs);
+        return objs;
+    }
+
+
     private String getNonMutableContainerTypeIfNeeded(String type) {
         if (type != null && type.contains("kotlin.collections.Mutable")) {
             return type.replaceAll("kotlin\\.collections\\.Mutable", "kotlin.collections.");
@@ -695,8 +981,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     // TODO could probably be made more generic, and moved to the `mustache` package if required by other components.
     private static class EscapeLambda implements Mustache.Lambda {
-        private String from;
-        private String to;
+        private final String from;
+        private final String to;
 
         EscapeLambda(final String from, final String to) {
             this.from = from;
@@ -734,7 +1020,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
-        boolean imports = !type.startsWith("org.springframework.") && super.needToImport(type);
-        return imports;
+        return !type.startsWith("org.springframework.") && super.needToImport(type);
     }
 }

@@ -3,10 +3,10 @@ use {{{perlModuleName}}}::Configuration;
 use {{perlModuleName}}::{{classname}};
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{^isBasicBearer}}{{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 ${{{perlModuleName}}}::Configuration::username = 'YOUR_USERNAME';
-${{{perlModuleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+${{{perlModuleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasicBasic}}{{#isBasicBearer}}
 # Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 ${{{perlModuleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isBasicBearer}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}

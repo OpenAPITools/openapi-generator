@@ -50,6 +50,8 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         // Use standard types
         typeMapping.put("DateTime", "java.util.Date");
+        typeMapping.put("binary", "java.io.InputStream");
+        typeMapping.put("file", "java.io.InputStream");
 
         // Updated template directory
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";

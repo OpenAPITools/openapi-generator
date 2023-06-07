@@ -17,17 +17,40 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
+import java.io.File;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
+import com.google.common.collect.Iterables;
+
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
 
 public class GoServerCodegen extends AbstractGoCodegen {
 
@@ -112,7 +135,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
-        
+
         // option to exclude service factories; only interfaces are rendered
         CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
         optOnlyInterfaces.setType("bool");
@@ -286,14 +309,44 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        objs = super.postProcessOperationsWithModels(objs, allModels);
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // The superclass determines the list of required golang imports. The actual list of imports
+        // depends on which types are used. So super.postProcessModels must be invoked at the beginning
+        // of this method.
+        objs = super.postProcessModels(objs);
 
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
+
+        for (ModelMap m : objs.getModels()) {
+            imports.add(createMapping("import", "encoding/json"));
+
+            CodegenModel model = m.getModel();
+            if (model.isEnum) {
+                continue;
+            }
+
+            Boolean importErrors = false;
+
+            for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
+                if (param.isNumeric && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
+                    importErrors = true;
+                }
+            }
+
+            if (importErrors) {
+                imports.add(createMapping("import", "errors"));
+            }
+        }
+        return objs;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
+
+        List<Map<String, String>> imports = objs.getImports();
         if (imports == null)
             return objs;
 

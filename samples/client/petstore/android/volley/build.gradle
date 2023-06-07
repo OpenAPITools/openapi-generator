@@ -28,11 +28,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -57,10 +57,10 @@ android {
 }
 
 ext {
-    swagger_annotations_version = "1.6.2"
-    gson_version = "2.8.6"
+    swagger_annotations_version = "1.6.6"
+    gson_version = "2.8.9"
     httpmime_version = "4.5.13"
-    volley_version = "1.2.0"
+    volley_version = "1.2.1"
     junit_version = "4.13.2"
     robolectric_version = "4.5.1"
     concurrent_unit_version = "0.4.6"

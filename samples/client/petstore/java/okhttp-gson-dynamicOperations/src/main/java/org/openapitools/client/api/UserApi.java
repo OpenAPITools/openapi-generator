@@ -123,7 +123,6 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -131,7 +130,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -144,15 +142,12 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call createUserValidateBeforeCall(User body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling createUser(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = createUserCall(body, _callback);
-        return localVarCall;
+        return createUserCall(body, _callback);
 
     }
 
@@ -253,7 +248,6 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -261,7 +255,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -274,15 +267,12 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling createUsersWithArrayInput(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = createUsersWithArrayInputCall(body, _callback);
-        return localVarCall;
+        return createUsersWithArrayInputCall(body, _callback);
 
     }
 
@@ -383,7 +373,6 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -391,7 +380,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -404,15 +392,12 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling createUsersWithListInput(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = createUsersWithListInputCall(body, _callback);
-        return localVarCall;
+        return createUsersWithListInputCall(body, _callback);
 
     }
 
@@ -515,7 +500,6 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -523,7 +507,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -536,15 +519,12 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call deleteUserValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling deleteUser(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = deleteUserCall(username, _callback);
-        return localVarCall;
+        return deleteUserCall(username, _callback);
 
     }
 
@@ -651,7 +631,8 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            "application/xml", "application/json"
+            "application/xml",
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -659,7 +640,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -672,15 +652,12 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getUserByNameValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling getUserByName(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = getUserByNameCall(username, _callback);
-        return localVarCall;
+        return getUserByNameCall(username, _callback);
 
     }
 
@@ -719,14 +696,8 @@ public class UserApi {
      */
     public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
         okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, null);
-        try {
-            Type localVarReturnType = new TypeToken<User>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<User>(){}.getType()));
-            e.setErrorObjectType(new GenericType<User>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<User>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -801,7 +772,8 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            "application/xml", "application/json"
+            "application/xml",
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -809,7 +781,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -822,20 +793,17 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call loginUserValidateBeforeCall(String username, String password, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling loginUser(Async)");
         }
-        
+
         // verify the required parameter 'password' is set
         if (password == null) {
             throw new ApiException("Missing the required parameter 'password' when calling loginUser(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = loginUserCall(username, password, _callback);
-        return localVarCall;
+        return loginUserCall(username, password, _callback);
 
     }
 
@@ -874,14 +842,8 @@ public class UserApi {
      */
     public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
         okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, null);
-        try {
-            Type localVarReturnType = new TypeToken<String>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<String>(){}.getType()));
-            e.setErrorObjectType(new GenericType<String>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -951,7 +913,6 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -959,7 +920,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -972,10 +932,7 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call logoutUserValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = logoutUserCall(_callback);
-        return localVarCall;
+        return logoutUserCall(_callback);
 
     }
 
@@ -1076,7 +1033,6 @@ public class UserApi {
         localVarPath = localVarApiClient.fillParametersFromOperation(operation, paramMap, localVarPath, localVarQueryParams, localVarCollectionQueryParams, localVarHeaderParams, localVarCookieParams);
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1084,7 +1040,6 @@ public class UserApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -1097,20 +1052,17 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call updateUserValidateBeforeCall(String username, User body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling updateUser(Async)");
         }
-        
+
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling updateUser(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = updateUserCall(username, body, _callback);
-        return localVarCall;
+        return updateUserCall(username, body, _callback);
 
     }
 

@@ -29,6 +29,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -39,6 +41,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoClientCodegen extends AbstractGoCodegen {
@@ -47,10 +50,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String modelFileFolder = null;
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
     public static final String GENERATE_INTERFACES = "generateInterfaces";
+    public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -66,8 +71,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.SignatureAuth
                 ))
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer
@@ -98,6 +105,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
+        apiTestTemplateFiles.put("api_test.mustache", ".go");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
@@ -251,18 +259,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
+        if (additionalProperties.containsKey(MODEL_FILE_FOLDER)) {
+            modelFileFolder = additionalProperties.get(MODEL_FILE_FOLDER).toString();
+        }
+
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
-        additionalProperties.put("lambda.type-to-name", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String content = fragment.execute();
-                content = content.trim().replace("[]", "array_of_");
-                content = content.trim().replace("[", "map_of_");
-                content = content.trim().replace("]", "");
-                writer.write(camelize(content));
-            }
-        });
+        additionalProperties.put("lambda.type-to-name", (Mustache.Lambda) (fragment, writer) -> writer.write(typeToName(fragment.execute())));
 
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -272,7 +275,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
-        supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
+        supportingFiles.add(new SupportingFile("go.sum.mustache", "", "go.sum"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
     }
@@ -306,9 +309,22 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return outputFolder + File.separator;
     }
 
+    /**
+     * Location of created model files (it can be overriden using --additional-properties in openapi-generator-cli
+     */
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator;
+        String modelFileFolderPath = outputFolder + File.separator;
+
+        if(modelFileFolder != null) {
+            modelFileFolderPath = modelFileFolderPath + modelFileFolder + File.separator;
+        }
+        return modelFileFolderPath.replace("/", File.separator);
+    }
+
+    @Override
+    public String apiTestFileFolder()  {
+        return outputFolder + File.separator + "test" + File.separator;
     }
 
     @Override
@@ -373,10 +389,29 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
     }
 
+    /**
+     * Determines if at least one of the allOf pieces of a schema are of type string
+     *
+     * @param p
+     * @return
+     */
+    private boolean isAllOfStringSchema(Schema schema) {
+        if (schema.getAllOf() != null) {
+            Iterator<Schema> it = schema.getAllOf().iterator();
+            while (it.hasNext()) {
+                Schema childSchema = ModelUtils.getReferencedSchema(this.openAPI, it.next());
+                if (ModelUtils.isStringSchema(childSchema)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isStringSchema(p)) {
+        if (ModelUtils.isStringSchema(p) || isAllOfStringSchema(p)) {
             Object defaultObj = p.getDefault();
             if (defaultObj != null) {
                 if (defaultObj instanceof java.lang.String) {
@@ -391,9 +426,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty prop = super.fromProperty(name, p);
-        String cc = camelize(prop.name, true);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty prop = super.fromProperty(name, p, required);
+        String cc = camelize(prop.name, LOWERCASE_FIRST_LETTER);
         if (isReservedWord(cc)) {
             cc = escapeReservedWord(cc);
         }
@@ -456,18 +491,18 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        OperationMap operations = objs.getOperations();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, ArrayList<Integer>> processedModelMaps = new HashMap<>();
 
         for (ModelMap modelMap : allModels) {
             CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-go-example", constructExampleCode(p, modelMaps, processedModelMaps));
@@ -488,14 +523,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return objs;
     }
 
-    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, ArrayList<Integer>> processedModelMap) {
         if (codegenParameter.isArray) { // array
             String prefix = codegenParameter.dataType;
             String dataType = StringUtils.removeStart(codegenParameter.dataType, "[]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "[]" + goImportAlias + "." + dataType;
             }
-            return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            return prefix + "{" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, 0) + "}";
         } else if (codegenParameter.isMap) {
             String prefix = codegenParameter.dataType;
             String dataType = StringUtils.removeStart(codegenParameter.dataType, "map[string][]");
@@ -505,7 +540,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (codegenParameter.items == null) {
                 return prefix + "{ ... }";
             }
-            return prefix + "{\"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            return prefix + "{\"key\": " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, 0) + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
@@ -522,7 +557,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else if (codegenParameter.isUri) { // URL
                 return "\"https://example.com\"";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
-                processedModelMap.put("time.Time", 1);
+                ArrayList<Integer> v = new ArrayList<>();
+                v.add(1);
+                processedModelMap.put("time.Time", v);
                 return "time.Now()";
             } else if (codegenParameter.isFile) {
                 return "os.NewFile(1234, \"some_file\")";
@@ -536,7 +573,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap, 0);
             } else if (codegenParameter.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
                     return "\"" + codegenParameter.example + "\"";
@@ -544,7 +581,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     return "\"" + codegenParameter.paramName + "@example.com\"";
                 }
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
-                processedModelMap.put("time.Time", 1);
+                ArrayList<Integer> v = new ArrayList<>();
+                v.add(1);
+                processedModelMap.put("time.Time", v);
                 return "time.Now()";
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
@@ -553,7 +592,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
     }
 
-    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, ArrayList<Integer>> processedModelMap, int depth) {
         if (codegenProperty.isArray) { // array
             String prefix = codegenProperty.dataType;
             String dataType = StringUtils.removeStart(codegenProperty.dataType, "[]");
@@ -564,7 +603,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 // We can't easily generate a pointer inline, so just use nil in that case
                 return prefix + "{nil}";
             }
-            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, depth+1) + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;
             String dataType = StringUtils.removeStart(codegenProperty.dataType, "map[string][]");
@@ -574,7 +613,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (codegenProperty.items == null) {
                 return prefix + "{ ... }";
             }
-            return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, depth+1) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
@@ -591,7 +630,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             } else if (codegenProperty.isUri) { // URL
                 return "\"https://example.com\"";
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
-                processedModelMap.put("time.Time", 1);
+                ArrayList<Integer> v = new ArrayList<>();
+                v.add(1);
+                processedModelMap.put("time.Time", v);
                 return "time.Now()";
             } else { // numeric
                 String example;
@@ -606,7 +647,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap, depth+1);
             } else if (codegenProperty.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
@@ -614,7 +655,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     return "\"" + codegenProperty.name + "@example.com\"";
                 }
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
-                processedModelMap.put("time.Time", 1);
+                ArrayList<Integer> v = new ArrayList<>();
+                v.add(1);
+                processedModelMap.put("time.Time", v);
                 return "time.Now()";
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
@@ -623,17 +666,20 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
     }
 
-    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, ArrayList<Integer>> processedModelMap, int depth) {
         // break infinite recursion. Return, in case a model is already processed in the current context.
         String model = codegenModel.name;
         if (processedModelMap.containsKey(model)) {
-            int count = processedModelMap.get(model);
-            if (count == 1) {
-                processedModelMap.put(model, 2);
-            } else if (count == 2) {
+            ArrayList<Integer> depthList = processedModelMap.get(model);
+            if (depthList.size() == 1) {
+                if (depthList.get(0) != depth) {
+                    depthList.add(depth);
+                    processedModelMap.put(model, depthList);
+                }
+            } else if (depthList.size() == 2) {
                 return "";
             } else {
-                throw new RuntimeException("Invalid count when constructing example: " + count);
+                throw new RuntimeException("Invalid count when constructing example: " + depthList.size());
             }
         } else if (codegenModel.isEnum) {
             Map<String, Object> allowableValues = codegenModel.allowableValues;
@@ -645,16 +691,30 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return goImportAlias + "." + model + "(" + example + ")";
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
-            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap).substring(1);
-            return goImportAlias + "." + model + "{" + subModel + ": " + oneOf + "}";
+            String oneOf;
+            if (modelMaps.get(subModel) == null) {
+                oneOf = "new(" + subModel + ")";// a primitive type
+            } else {
+                oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap, depth + 1).substring(1);
+            }
+            return goImportAlias + "." + model + "{" + typeToName(subModel) + ": " + oneOf + "}";
         } else {
-            processedModelMap.put(model, 1);
+            ArrayList<Integer> v = new ArrayList<>();
+            v.add(depth);
+            processedModelMap.put(model, v);
         }
 
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
-            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap, depth+1));
         }
         return "*" + goImportAlias + ".New" + toModelName(model) + "(" + StringUtils.join(propertyExamples, ", ") + ")";
+    }
+
+    private String typeToName(String content) {
+        content = content.trim().replace("[]", "array_of_");
+        content = content.trim().replace("[", "map_of_");
+        content = content.trim().replace("]", "");
+        return camelize(content);
     }
 }

@@ -65,16 +65,22 @@ class ObjectWithDeprecatedFields {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (uuid != null) {
-      json[r'uuid'] = uuid;
+    if (this.uuid != null) {
+      json[r'uuid'] = this.uuid;
+    } else {
+      json[r'uuid'] = null;
     }
-    if (id != null) {
-      json[r'id'] = id;
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
     }
-    if (deprecatedRef != null) {
-      json[r'deprecatedRef'] = deprecatedRef;
+    if (this.deprecatedRef != null) {
+      json[r'deprecatedRef'] = this.deprecatedRef;
+    } else {
+      json[r'deprecatedRef'] = null;
     }
-      json[r'bars'] = bars;
+      json[r'bars'] = this.bars;
     return json;
   }
 
@@ -102,15 +108,15 @@ class ObjectWithDeprecatedFields {
             ? null
             : num.parse(json[r'id'].toString()),
         deprecatedRef: DeprecatedObject.fromJson(json[r'deprecatedRef']),
-        bars: json[r'bars'] is List
-            ? (json[r'bars'] as List).cast<String>()
+        bars: json[r'bars'] is Iterable
+            ? (json[r'bars'] as Iterable).cast<String>().toList(growable: false)
             : const [],
       );
     }
     return null;
   }
 
-  static List<ObjectWithDeprecatedFields>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ObjectWithDeprecatedFields> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ObjectWithDeprecatedFields>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -141,12 +147,10 @@ class ObjectWithDeprecatedFields {
   static Map<String, List<ObjectWithDeprecatedFields>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ObjectWithDeprecatedFields>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ObjectWithDeprecatedFields.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ObjectWithDeprecatedFields.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

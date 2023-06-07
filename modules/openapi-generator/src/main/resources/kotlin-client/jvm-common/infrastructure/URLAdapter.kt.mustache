@@ -10,7 +10,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import java.net.URL
 
 @Serializer(forClass = URL::class)
-object URLAdapter : KSerializer<URL> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}object URLAdapter : KSerializer<URL> {
     override fun serialize(encoder: Encoder, value: URL) {
         encoder.encodeString(value.toExternalForm())
     }

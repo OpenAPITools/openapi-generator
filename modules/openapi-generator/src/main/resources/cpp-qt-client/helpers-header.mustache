@@ -127,6 +127,7 @@ QJsonValue toJsonValue(const double &value);
 QJsonValue toJsonValue(const {{prefix}}Object &value);
 QJsonValue toJsonValue(const {{prefix}}Enum &value);
 QJsonValue toJsonValue(const {{prefix}}HttpFileElement &value);
+QJsonValue toJsonValue(const QJsonValue &value);
 
 template <typename T>
 QJsonValue toJsonValue(const QList<T> &val) {
@@ -213,6 +214,7 @@ bool fromJsonValue(double &value, const QJsonValue &jval);
 bool fromJsonValue({{prefix}}Object &value, const QJsonValue &jval);
 bool fromJsonValue({{prefix}}Enum &value, const QJsonValue &jval);
 bool fromJsonValue({{prefix}}HttpFileElement &value, const QJsonValue &jval);
+bool fromJsonValue(QJsonValue &value, const QJsonValue &jval);
 
 template <typename T>
 bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {

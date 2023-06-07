@@ -1,0 +1,165 @@
+openapi: 3.0.0
+info:
+  description: This is a test api description
+  version: 1.0.0
+  title: Library
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - {name: books, description: Everything about books}
+  - {name: users, description: Everything about users}
+  - {name: reviews, description: Everything related to book reviews}
+paths:
+  /book/{bookName}:
+    get:
+      tags: [books]
+      summary: Get a book by name
+      operationId: getBook
+      parameters:
+        - {name: bookName, in: path, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Book" }
+      x-roles: ["isAnonymous()"]
+    post:
+      tags: [books]
+      summary: Create a new book
+      operationId: createBook
+      parameters:
+        - {name: bookName, in: path, required: true, schema: {type: string}}
+      requestBody:
+        content:
+          application/json: { schema: { $ref: "#/components/schemas/Book" } }
+      responses:
+        '200':
+          description: success
+      x-roles: ["admin"]
+  /book/search:
+    get:
+      tags: [books]
+      summary: Search for a book
+      parameters:
+        - {name: bookName, in: query, required: false, schema: {type: string, example: "Book 2"}}
+        - {name: ISBN, in: query, required: false, schema: {type: string, pattern: "[0-9]{13}", example: "0123456789123"}}
+        - {name: published, in: query, required: false, schema: {type: string, format: date}}
+        - {name: minNumPages, in: query, required: false, schema: {type: integer, format: int32, minimum: 1, maximum: 1000}}
+        - {name: minReadTime, in: query, required: false, schema: {type: number, format: float, minimum: 1, example: 5.7}}
+        - {name: description, in: query, required: false, schema: {type: string, minLength: 4, nullable: true}}
+        - {name: preferences, in: cookie, required: false, schema: {type: string}}
+        - {name: geoLocation, in: header, required: false, schema: {type: string}}
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              { schema: { type: array, items: { $ref: "#/components/schemas/Book" } } }
+  /book/availability/{bookName}:
+    get:
+      tags: [books]
+      summary: Check book availability
+      operationId: isBookAvailable
+      parameters:
+        - { name: bookName, in: path, required: true, schema: { type: string, example: "Book 1" } }
+      responses:
+        '200':
+          description: success
+          content:
+            text/plain:
+              schema: { $ref: "#/components/schemas/BookAvailability" }
+  /book/reserve/{bookName}:
+    get:
+      tags: [books]
+      summary: Reserve book for self
+      operationId: reserveBook
+      parameters:
+        - { name: bookName, in: path, required: true, schema: { type: string, example: "Book 2" } }
+      responses:
+        '200':
+          description: success
+      x-roles: ["isAuthorized()"]
+  /user/{userName}:
+    get:
+      tags: [users]
+      summary: View user profile
+      operationId: getUserProfile
+      parameters:
+        - {name: userName, in: path, required: true, schema: {type: string, pattern: "[0-9a-zA-Z ]+"}}
+      responses:
+        '200':
+          description: success
+          content:
+            application/json: { schema: { $ref: "#/components/schemas/User" } }
+  /user:
+    post:
+      tags: [users]
+      summary: Update your own profile
+      operationId: updateProfile
+      requestBody:
+        content:
+          '*/*': { schema: { $ref: "#/components/schemas/User"} }
+      responses:
+        '200':
+          description: success
+      x-roles: ["isAuthorized()"]
+  /book/viewReviews:
+    get:
+      tags: [reviews]
+      summary: Get all reviews for a book
+      parameters:
+        - { name: bookName, in: query, required: true, schema: { type: string, nullable: false } }
+      responses:
+        '200':
+          description: success
+          content:
+            application/json: { schema: { type: array, items: { $ref: "#/content/schemas/Review" } } }
+  /book/sendReview:
+    post:
+      tags: [reviews]
+      summary: Send a review to a book
+      parameters:
+        - {name: bookName, in: query, required: true, schema: { type: string, nullable: false } }
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema: {$ref: "#/components/schemas/Review"}
+      responses:
+        '200':
+          description: success
+      x-roles: ["isAuthorized()"]
+components:
+  schemas:
+    Book:
+      title: Book
+      description: book instance
+      type: object
+      properties:
+        name: {type: string}
+        availability: {$ref: "#/components/schemas/BookAvailability"}
+        pages: {type: integer, format: int32, minimum: 1}
+        author: {type: string, pattern: "[a-zA-z ]+"}
+        readTime: {type: number, format: float, minimum: 0, exclusiveMinimum: true}
+      required: ["name", "availability"]
+      default:
+        name: "Bob's Adventures"
+        availability: "available"
+    BookAvailability:
+      type: string
+      enum: ["available", "not available", "reserved"]
+      default: "not available"
+    Review:
+      type: object
+      properties:
+        rating: {type: integer, minimum: 1, maximum: 5, default: 2}
+        description: {type: string, maxLength: 200}
+      required: [rating]
+    User:
+      type: object
+      properties:
+        username: { type: string, minLength: 2, nullable: false }
+        name: { type: string, minLength: 1 }
+        description: { type: string, nullable: true }
+      required: ["username", "name"]

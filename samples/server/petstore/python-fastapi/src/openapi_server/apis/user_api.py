@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from typing import Dict, List  # noqa: F401
+import importlib
+import pkgutil
+
+from openapi_server.apis.user_api_base import BaseUserApi
+import openapi_server.impl
 
 from fastapi import (  # noqa: F401
     APIRouter,
@@ -22,6 +27,10 @@ from openapi_server.security_api import get_token_api_key
 
 router = APIRouter()
 
+ns_pkg = openapi_server.impl
+for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
+    importlib.import_module(name)
+
 
 @router.post(
     "/user",
@@ -30,6 +39,7 @@ router = APIRouter()
     },
     tags=["user"],
     summary="Create user",
+    response_model_by_alias=True,
 )
 async def create_user(
     user: User = Body(None, description="Created user object"),
@@ -38,7 +48,7 @@ async def create_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    ...
+    return BaseUserApi.subclasses[0]().create_user(user)
 
 
 @router.post(
@@ -48,6 +58,7 @@ async def create_user(
     },
     tags=["user"],
     summary="Creates list of users with given input array",
+    response_model_by_alias=True,
 )
 async def create_users_with_array_input(
     user: List[User] = Body(None, description="List of user object"),
@@ -56,7 +67,7 @@ async def create_users_with_array_input(
     ),
 ) -> None:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().create_users_with_array_input(user)
 
 
 @router.post(
@@ -66,6 +77,7 @@ async def create_users_with_array_input(
     },
     tags=["user"],
     summary="Creates list of users with given input array",
+    response_model_by_alias=True,
 )
 async def create_users_with_list_input(
     user: List[User] = Body(None, description="List of user object"),
@@ -74,7 +86,7 @@ async def create_users_with_list_input(
     ),
 ) -> None:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().create_users_with_list_input(user)
 
 
 @router.delete(
@@ -85,6 +97,7 @@ async def create_users_with_list_input(
     },
     tags=["user"],
     summary="Delete user",
+    response_model_by_alias=True,
 )
 async def delete_user(
     username: str = Path(None, description="The name that needs to be deleted"),
@@ -93,7 +106,7 @@ async def delete_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    ...
+    return BaseUserApi.subclasses[0]().delete_user(username)
 
 
 @router.get(
@@ -105,12 +118,13 @@ async def delete_user(
     },
     tags=["user"],
     summary="Get user by user name",
+    response_model_by_alias=True,
 )
 async def get_user_by_name(
     username: str = Path(None, description="The name that needs to be fetched. Use user1 for testing."),
 ) -> User:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().get_user_by_name(username)
 
 
 @router.get(
@@ -121,13 +135,14 @@ async def get_user_by_name(
     },
     tags=["user"],
     summary="Logs user into the system",
+    response_model_by_alias=True,
 )
 async def login_user(
     username: str = Query(None, description="The user name for login", regex=r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$"),
     password: str = Query(None, description="The password for login in clear text"),
 ) -> str:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().login_user(username, password)
 
 
 @router.get(
@@ -137,6 +152,7 @@ async def login_user(
     },
     tags=["user"],
     summary="Logs out current logged in user session",
+    response_model_by_alias=True,
 )
 async def logout_user(
     token_api_key: TokenModel = Security(
@@ -144,7 +160,7 @@ async def logout_user(
     ),
 ) -> None:
     """"""
-    ...
+    return BaseUserApi.subclasses[0]().logout_user()
 
 
 @router.put(
@@ -155,6 +171,7 @@ async def logout_user(
     },
     tags=["user"],
     summary="Updated user",
+    response_model_by_alias=True,
 )
 async def update_user(
     username: str = Path(None, description="name that need to be deleted"),
@@ -164,4 +181,4 @@ async def update_user(
     ),
 ) -> None:
     """This can only be done by the logged in user."""
-    ...
+    return BaseUserApi.subclasses[0]().update_user(username, user)

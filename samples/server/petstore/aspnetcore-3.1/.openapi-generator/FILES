@@ -5,6 +5,7 @@ build.sh
 src/Org.OpenAPITools/.gitignore
 src/Org.OpenAPITools/Attributes/ValidateModelStateAttribute.cs
 src/Org.OpenAPITools/Authentication/ApiAuthentication.cs
+src/Org.OpenAPITools/Controllers/FakeApi.cs
 src/Org.OpenAPITools/Controllers/PetApi.cs
 src/Org.OpenAPITools/Controllers/StoreApi.cs
 src/Org.OpenAPITools/Controllers/UserApi.cs
@@ -13,8 +14,13 @@ src/Org.OpenAPITools/Dockerfile
 src/Org.OpenAPITools/Filters/BasePathFilter.cs
 src/Org.OpenAPITools/Filters/GeneratePathParamsValidationFilter.cs
 src/Org.OpenAPITools/Formatters/InputFormatterStream.cs
+src/Org.OpenAPITools/Models/Animal.cs
 src/Org.OpenAPITools/Models/ApiResponse.cs
+src/Org.OpenAPITools/Models/Cat.cs
+src/Org.OpenAPITools/Models/CatAllOf.cs
 src/Org.OpenAPITools/Models/Category.cs
+src/Org.OpenAPITools/Models/Dog.cs
+src/Org.OpenAPITools/Models/DogAllOf.cs
 src/Org.OpenAPITools/Models/Order.cs
 src/Org.OpenAPITools/Models/Pet.cs
 src/Org.OpenAPITools/Models/Tag.cs
@@ -23,6 +29,7 @@ src/Org.OpenAPITools/OpenApi/TypeExtensions.cs
 src/Org.OpenAPITools/Program.cs
 src/Org.OpenAPITools/Properties/launchSettings.json
 src/Org.OpenAPITools/Startup.cs
+src/Org.OpenAPITools/appsettings.Development.json
 src/Org.OpenAPITools/appsettings.json
 src/Org.OpenAPITools/wwwroot/README.md
 src/Org.OpenAPITools/wwwroot/index.html

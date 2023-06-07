@@ -2,13 +2,13 @@ group "org.openapitools"
 version "1.0.0"
 
 wrapper {
-    gradleVersion = "6.9"
+    gradleVersion = "7.4.2"
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = "1.4.32"
-    ext.ktor_version = "1.5.4"
+    ext.kotlin_version = "1.7.20"
+    ext.ktor_version = "2.2.1"
     ext.shadow_version = "6.1.0"
 
     repositories {
@@ -55,14 +55,19 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
-    implementation("ch.qos.logback:logback-classic:1.2.1")
+    implementation("ch.qos.logback:logback-classic:1.2.9")
     implementation("com.typesafe:config:1.4.1")
-    implementation("io.ktor:ktor-auth:$ktor_version")
+    implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation("io.ktor:ktor-client-apache:$ktor_version")
-    implementation("io.ktor:ktor-gson:$ktor_version")
-    implementation("io.ktor:ktor-locations:$ktor_version")
+    implementation("io.ktor:ktor-server-auto-head-response:$ktor_version")
+    implementation("io.ktor:ktor-server-default-headers:$ktor_version")
+    implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-gson:$ktor_version")
+    implementation("io.ktor:ktor-server-resources:$ktor_version")
+    implementation("io.ktor:ktor-server-hsts:$ktor_version")
+    implementation("io.ktor:ktor-server-compression:$ktor_version")
     implementation("io.dropwizard.metrics:metrics-core:4.1.18")
-    implementation("io.ktor:ktor-metrics:$ktor_version")
+    implementation("io.ktor:ktor-server-metrics:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
 
     testImplementation("junit:junit:4.13.2")

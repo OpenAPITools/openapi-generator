@@ -38,6 +38,8 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.CXFExtServerFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.JsonCache;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.JsonCache.CacheException;
@@ -1161,17 +1163,17 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> result = super.postProcessOperationsWithModels(objs, allModels);
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap result = super.postProcessOperationsWithModels(objs, allModels);
 
         if (generateOperationBody) {
             // We generate the operation body in code because the logic to do so is far too complicated to be expressed
             // in the logic-less Mustache templating system.
 
             @SuppressWarnings("unchecked")
-            Map<String, Object> operations = (Map<String, Object>) result.get("operations");
+            OperationMap operations = result.getOperations();
             if (operations != null) {
-                String classname = (String) operations.get("classname");
+                String classname = operations.getClassname();
 
                 // Map the models so we can look them up by name.
                 Map<String, CodegenModel> models = new HashMap<>();
@@ -1181,8 +1183,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 }
 
                 StringBuilder buffer = new StringBuilder();
-                @SuppressWarnings("unchecked")
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation op : ops) {
                     applyDefaultContentTypes(op);
                     String testDataPath = '/' + classname + '/' + op.operationId;
@@ -1246,16 +1247,16 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 // did not include the ones we've just added to support the code in the operation bodies. Therefore it
                 // is necessary to recompute the imports and overwrite the existing ones. The code below was copied from
                 // the private DefaultGenerator.processOperations() method to achieve this end.
-                Set<String> allImports = new TreeSet<String>();
+                Set<String> allImports = new TreeSet<>();
                 for (CodegenOperation op : ops) {
                     allImports.addAll(op.imports);
                 }
                 allImports.add("List");
                 allImports.add("Map");
 
-                List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+                List<Map<String, String>> imports = new ArrayList<>();
                 for (String nextImport : allImports) {
-                    Map<String, String> im = new LinkedHashMap<String, String>();
+                    Map<String, String> im = new LinkedHashMap<>();
                     String mapping = importMapping().get(nextImport);
                     if (mapping == null) {
                         mapping = toModelImport(nextImport);

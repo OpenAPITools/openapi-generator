@@ -10,6 +10,6 @@ namespace app\Models;
 class DogAllOf {
 
     /** @var string $breed */
-    private $breed;
+    public $breed = "";
 
 }

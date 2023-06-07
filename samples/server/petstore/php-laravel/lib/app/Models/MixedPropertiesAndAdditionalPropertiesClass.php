@@ -10,12 +10,12 @@ namespace app\Models;
 class MixedPropertiesAndAdditionalPropertiesClass {
 
     /** @var string $uuid */
-    private $uuid;
+    public $uuid = "";
 
     /** @var \DateTime $dateTime */
-    private $dateTime;
+    public $dateTime;
 
     /** @var array<string,\app\Models\Animal> $map */
-    private $map;
+    public $map;
 
 }

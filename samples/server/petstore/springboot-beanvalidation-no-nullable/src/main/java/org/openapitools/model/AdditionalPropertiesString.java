@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesString {
 
-  @JsonProperty("name")
   private String name;
 
   public AdditionalPropertiesString name(String name) {
@@ -39,6 +38,7 @@ public class AdditionalPropertiesString {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

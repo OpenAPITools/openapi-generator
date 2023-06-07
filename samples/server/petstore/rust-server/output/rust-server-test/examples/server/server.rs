@@ -32,6 +32,7 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
+    #[allow(unused_mut)]
     let mut service =
         rust_server_test::server::context::MakeAddContext::<_, EmptyContext>::new(
             service
@@ -131,7 +132,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 
     async fn dummy_put(
         &self,
-        nested_response: models::InlineObject,
+        nested_response: models::DummyPutRequest,
         context: &C) -> Result<DummyPutResponse, ApiError>
     {
         let context = context.clone();

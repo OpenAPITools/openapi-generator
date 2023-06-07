@@ -60,14 +60,20 @@ class ApiResponse {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (code != null) {
-      json[r'code'] = code;
+    if (this.code != null) {
+      json[r'code'] = this.code;
+    } else {
+      json[r'code'] = null;
     }
-    if (type != null) {
-      json[r'type'] = type;
+    if (this.type != null) {
+      json[r'type'] = this.type;
+    } else {
+      json[r'type'] = null;
     }
-    if (message != null) {
-      json[r'message'] = message;
+    if (this.message != null) {
+      json[r'message'] = this.message;
+    } else {
+      json[r'message'] = null;
     }
     return json;
   }
@@ -99,7 +105,7 @@ class ApiResponse {
     return null;
   }
 
-  static List<ApiResponse>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ApiResponse> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ApiResponse>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -130,12 +136,10 @@ class ApiResponse {
   static Map<String, List<ApiResponse>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ApiResponse>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ApiResponse.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ApiResponse.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

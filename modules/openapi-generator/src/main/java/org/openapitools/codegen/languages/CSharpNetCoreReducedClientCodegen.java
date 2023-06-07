@@ -37,6 +37,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -59,7 +60,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreReducedClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -69,8 +70,6 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_2_1,
             FrameworkStrategy.NETCOREAPP_2_0,
             FrameworkStrategy.NETCOREAPP_2_1,
-            FrameworkStrategy.NETCOREAPP_3_0,
-            FrameworkStrategy.NETCOREAPP_3_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NET_5_0
     );
@@ -114,7 +113,9 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.SignatureAuth
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -415,7 +416,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -970,7 +971,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreReducedClientCodegen.class);
 
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
         };
@@ -987,10 +988,6 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "netcoreapp2.0", Boolean.FALSE) {
         };
         static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible", "netcoreapp2.1", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible", "netcoreapp3.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
         static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
         };

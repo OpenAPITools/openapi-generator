@@ -23,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -30,6 +32,7 @@ import org.openapitools.codegen.meta.Stability;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -96,7 +99,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
                         "boolean",
                         "int",
                         "integer",
-                        "double",
                         "float",
                         "string",
                         "object",
@@ -113,7 +115,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
         typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
+        typeMapping.put("double", "float");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "boolean");
@@ -260,9 +262,9 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             String path = op.path;
             String[] items = path.split("/", -1);
@@ -272,7 +274,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                     // camelize path variable
-                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), LOWERCASE_FIRST_LETTER) + "}";
                 }
             }
 

@@ -12,15 +12,11 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
 import java.net.URL;
 import java.net.MalformedURLException;
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-{{/fullJavaUtil}}
-
-
 
 /**
  {{#appName}}
@@ -42,10 +38,15 @@ public class {{classname}}Test {
 
     @Before
     public void setup() throws MalformedURLException {
+        {{#microprofile3}}
+        // TODO initialize the client
+        {{/microprofile3}}
+        {{^microprofile3}}
         client = RestClientBuilder.newBuilder()
                         .baseUrl(new URL(baseUrl))
                         .register(ApiException.class)
                         .build({{classname}}.class);
+        {{/microprofile3}}
     }
 
     {{#operations}}{{#operation}}
@@ -67,7 +68,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
         {{/allParams}}
-        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //{{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         //{{#returnType}}assertNotNull(response);{{/returnType}}
 
 

@@ -42,27 +42,27 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
     cJSON *item = cJSON_CreateObject();
 
     // api_response->code
-    if(api_response->code) { 
+    if(api_response->code) {
     if(cJSON_AddNumberToObject(item, "code", api_response->code) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // api_response->type
-    if(api_response->type) { 
+    if(api_response->type) {
     if(cJSON_AddStringToObject(item, "type", api_response->type) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
 
     // api_response->message
-    if(api_response->message) { 
+    if(api_response->message) {
     if(cJSON_AddStringToObject(item, "message", api_response->message) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
     return item;
 fail:
@@ -88,7 +88,7 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
     // api_response->type
     cJSON *type = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "type");
     if (type) { 
-    if(!cJSON_IsString(type))
+    if(!cJSON_IsString(type) && !cJSON_IsNull(type))
     {
     goto end; //String
     }
@@ -97,7 +97,7 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
     // api_response->message
     cJSON *message = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "message");
     if (message) { 
-    if(!cJSON_IsString(message))
+    if(!cJSON_IsString(message) && !cJSON_IsNull(message))
     {
     goto end; //String
     }
@@ -106,8 +106,8 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
 
     api_response_local_var = api_response_create (
         code ? code->valuedouble : 0,
-        type ? strdup(type->valuestring) : NULL,
-        message ? strdup(message->valuestring) : NULL
+        type && !cJSON_IsNull(type) ? strdup(type->valuestring) : NULL,
+        message && !cJSON_IsNull(message) ? strdup(message->valuestring) : NULL
         );
 
     return api_response_local_var;

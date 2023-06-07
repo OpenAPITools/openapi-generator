@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string UserApi::base = "/v2";
 
 UserApi::UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 
@@ -106,7 +106,8 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);
-        body.validate();
+        for (const auto& validationParam : body)
+             validationParam.validate();
     } catch (std::exception &e) {
         const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
         response.send(errorInfo.first, errorInfo.second);
@@ -138,7 +139,8 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);
-        body.validate();
+        for (const auto& validationParam : body)
+             validationParam.validate();
     } catch (std::exception &e) {
         const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleParsingException(e);
         response.send(errorInfo.first, errorInfo.second);

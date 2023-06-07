@@ -1,7 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
-import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.Flow
 import org.springframework.stereotype.Service
 @Service
 class StoreApiServiceImpl : StoreApiService {

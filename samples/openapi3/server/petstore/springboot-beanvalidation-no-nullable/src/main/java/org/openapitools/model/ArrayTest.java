@@ -23,15 +23,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest {
 
-  @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString = null;
 
-  @JsonProperty("array_array_of_integer")
   @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
 
-  @JsonProperty("array_array_of_model")
   @Valid
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
@@ -42,7 +39,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<>();
+      this.arrayOfString = ;
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -53,7 +50,8 @@ public class ArrayTest {
    * @return arrayOfString
   */
   
-  @Schema(name = "array_of_string", required = false)
+  @Schema(name = "array_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -69,7 +67,7 @@ public class ArrayTest {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<>();
+      this.arrayArrayOfInteger = ;
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -80,7 +78,8 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   */
   @Valid 
-  @Schema(name = "array_array_of_integer", required = false)
+  @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -94,9 +93,9 @@ public class ArrayTest {
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<>();
+      this.arrayArrayOfModel = ;
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
@@ -107,7 +106,8 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   */
   @Valid 
-  @Schema(name = "array_array_of_model", required = false)
+  @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

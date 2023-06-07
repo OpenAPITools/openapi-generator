@@ -6,6 +6,36 @@ servers:
 - url: http://localhost:8082/
 paths:
   /ping:
+    get:
+      operationId: getPing
+      parameters:
+      - description: ID of pet that needs to be updated
+        explode: true
+        in: query
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/getPing_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeObj'
+          description: OK
+      tags:
+      - ping
+      x-streaming: true
+      x-group-parameters: true
+      x-content-type: application/x-www-form-urlencoded
+      x-accepts: application/json
     post:
       operationId: postPing
       requestBody:
@@ -48,6 +78,15 @@ components:
         active:
           type: boolean
         type:
+          type: string
+      type: object
+    getPing_request:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
           type: string
       type: object
 

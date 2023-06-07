@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -45,6 +44,132 @@ namespace Org.OpenAPITools.Model
         /// Enum NUMBER_2 for value: 2
         /// </summary>
         NUMBER_2 = 2
-
     }
+
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public class OuterEnumIntegerDefaultValueConverter : JsonConverter<OuterEnumIntegerDefaultValue>
+    {
+        /// <summary>
+        /// Parses a given value to <see cref="OuterEnumIntegerDefaultValue"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static OuterEnumIntegerDefaultValue FromString(string value)
+        {
+            if (value == (0).ToString())
+                return OuterEnumIntegerDefaultValue.NUMBER_0;
+
+            if (value == (1).ToString())
+                return OuterEnumIntegerDefaultValue.NUMBER_1;
+
+            if (value == (2).ToString())
+                return OuterEnumIntegerDefaultValue.NUMBER_2;
+
+            throw new NotImplementedException($"Could not convert value to type OuterEnumIntegerDefaultValue: '{value}'");
+        }
+
+        /// <summary>
+        /// Parses a given value to <see cref="OuterEnumIntegerDefaultValue"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static OuterEnumIntegerDefaultValue? FromStringOrDefault(string value)
+        {
+            if (value == (0).ToString())
+                return OuterEnumIntegerDefaultValue.NUMBER_0;
+
+            if (value == (1).ToString())
+                return OuterEnumIntegerDefaultValue.NUMBER_1;
+
+            if (value == (2).ToString())
+                return OuterEnumIntegerDefaultValue.NUMBER_2;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="OuterEnumIntegerDefaultValue"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static int ToJsonValue(OuterEnumIntegerDefaultValue value)
+        {
+            return (int) value;
+        }
+
+        /// <summary>
+        /// Returns a  from the Json object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override OuterEnumIntegerDefaultValue Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string? rawValue = reader.GetString();
+
+            OuterEnumIntegerDefaultValue? result = rawValue == null
+                ? null
+                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(rawValue);
+
+            if (result != null)
+                return result.Value;
+
+            throw new JsonException();
+        }
+
+        /// <summary>
+        /// Writes the OuterEnumIntegerDefaultValue to the json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="outerEnumIntegerDefaultValue"></param>
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(outerEnumIntegerDefaultValue.ToString());
+        }
+    }
+
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
+    /// </summary>
+    public class OuterEnumIntegerDefaultValueNullableConverter : JsonConverter<OuterEnumIntegerDefaultValue?>
+    {
+        /// <summary>
+        /// Returns a OuterEnumIntegerDefaultValue from the Json object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public override OuterEnumIntegerDefaultValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string? rawValue = reader.GetString();
+
+            OuterEnumIntegerDefaultValue? result = rawValue == null
+                ? null
+                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(rawValue);
+
+            if (result != null)
+                return result.Value;
+
+            throw new JsonException();
+        }
+
+        /// <summary>
+        /// Writes the DateTime to the json writer
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="outerEnumIntegerDefaultValue"></param>
+        /// <param name="options"></param>
+        public override void Write(Utf8JsonWriter writer, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(outerEnumIntegerDefaultValue?.ToString() ?? "null");
+        }
+    }
+
 }

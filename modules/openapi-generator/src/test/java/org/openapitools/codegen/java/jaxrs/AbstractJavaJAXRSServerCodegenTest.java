@@ -23,6 +23,8 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -108,11 +110,11 @@ public class AbstractJavaJAXRSServerCodegenTest {
     @Test
     public void testCommonPath() {
         final AbstractJavaJAXRSServerCodegen codegen = new P_AbstractJavaJAXRSServerCodegen();
-        Map<String, Object> objs = new HashMap<>();
-        Map<String, List<CodegenOperation>> opMap = new HashMap<>();
+        OperationsMap objs = new OperationsMap();
+        OperationMap opMap = new OperationMap();
         List<CodegenOperation> operations = new ArrayList<>();
-        objs.put("operations", opMap);
-        opMap.put("operation", operations);
+        objs.setOperation(opMap);
+        opMap.setOperation(operations);
 
         operations.add(getCo("/"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());

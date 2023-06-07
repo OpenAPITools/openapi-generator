@@ -1,0 +1,7 @@
+generatorName: csharp-netcore-functions
+outputDir: samples/client/petstore/csharp-netcore-functions
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-netcore-functions
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  userSecretsGuid: "76e9e993-9159-441c-9c5b-fe95e7f4f020"

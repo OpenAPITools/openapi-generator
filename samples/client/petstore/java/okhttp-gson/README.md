@@ -161,6 +161,10 @@ Class | Method | HTTP request | Description
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md)
+ - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)
@@ -180,10 +184,12 @@ Class | Method | HTTP request | Description
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
+ - [EnumStringDiscriminator](docs/EnumStringDiscriminator.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
+ - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [FormatTest](docs/FormatTest.md)
  - [Fruit](docs/Fruit.md)
  - [FruitReq](docs/FruitReq.md)
@@ -191,7 +197,6 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)
@@ -233,33 +238,12 @@ Class | Method | HTTP request | Description
  - [Zebra](docs/Zebra.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-### api_key_query
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-### bearer_test
-
-- **Type**: HTTP basic authentication
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-### http_signature_test
-
-- **Type**: HTTP basic authentication
-
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 - **Type**: OAuth
@@ -268,6 +252,30 @@ Authentication schemes defined for the API:
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+<a id="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+<a id="api_key_query"></a>
+### api_key_query
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+<a id="http_basic_test"></a>
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+<a id="bearer_test"></a>
+### bearer_test
+
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 
 ## Recommendation

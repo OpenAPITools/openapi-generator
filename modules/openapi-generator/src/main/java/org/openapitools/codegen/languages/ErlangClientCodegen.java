@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -309,10 +311,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> os = operations.getOperation();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
@@ -322,7 +324,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
-            ArrayList<String> pathTemplateNames = new ArrayList<String>();
+            ArrayList<String> pathTemplateNames = new ArrayList<>();
             Matcher matcher = pattern.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
@@ -341,7 +343,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             eco.setPathTemplateNames(pathTemplateNames);
             newOs.add(eco);
         }
-        operations.put("operation", newOs);
+        operations.setOperation(newOs);
         return objs;
     }
 

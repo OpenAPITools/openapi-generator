@@ -2,8 +2,9 @@ README.md
 pom.xml
 src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
+src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
-src/main/java/org/openapitools/configuration/SpringFoxConfiguration.java
+src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApi.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApiController.java
 src/main/java/org/openapitools/virtualan/api/ApiUtil.java
@@ -37,6 +38,7 @@ src/main/java/org/openapitools/virtualan/model/CatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Category.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
+src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
 src/main/java/org/openapitools/virtualan/model/Dog.java
 src/main/java/org/openapitools/virtualan/model/DogAllOf.java
 src/main/java/org/openapitools/virtualan/model/EnumArrays.java
@@ -59,6 +61,7 @@ src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java
 src/main/java/org/openapitools/virtualan/model/Pet.java
 src/main/java/org/openapitools/virtualan/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/virtualan/model/ResponseObjectWithDifferentFieldNames.java
 src/main/java/org/openapitools/virtualan/model/SpecialModelName.java
 src/main/java/org/openapitools/virtualan/model/Tag.java
 src/main/java/org/openapitools/virtualan/model/TypeHolderDefault.java
@@ -67,5 +70,4 @@ src/main/java/org/openapitools/virtualan/model/User.java
 src/main/java/org/openapitools/virtualan/model/XmlItem.java
 src/main/resources/application.properties
 src/main/resources/openapi.yaml
-src/main/resources/static/swagger-ui.html
 src/test/java/org/openapitools/OpenApiGeneratorApplicationTests.java

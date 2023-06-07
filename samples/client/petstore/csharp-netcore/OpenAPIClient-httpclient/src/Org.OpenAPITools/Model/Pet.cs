@@ -57,7 +57,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "sold")]
             Sold = 3
-
         }
 
 
@@ -120,13 +119,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        /// <example>doggie</example>
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
-        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = true)]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

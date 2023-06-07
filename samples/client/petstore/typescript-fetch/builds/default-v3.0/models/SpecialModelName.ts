@@ -27,6 +27,15 @@ export interface SpecialModelName {
     $specialPropertyName?: number;
 }
 
+/**
+ * Check if a given object implements the SpecialModelName interface.
+ */
+export function instanceOfSpecialModelName(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function SpecialModelNameFromJSON(json: any): SpecialModelName {
     return SpecialModelNameFromJSONTyped(json, false);
 }

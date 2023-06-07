@@ -25,6 +25,8 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
@@ -33,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -251,18 +254,16 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         String sanitizedOperationId = sanitizeName(operationId);
 
         if (isReservedWord(sanitizedOperationId)) {
-            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId, false);
+            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId);
         }
 
-        return StringUtils.camelize(sanitizedOperationId, true);
+        return StringUtils.camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
         }
@@ -320,7 +321,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name)) {
@@ -350,7 +351,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String name = StringUtils.camelize(property.name, false);
+        String name = StringUtils.camelize(property.name);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";
@@ -362,7 +363,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         name = name.replace(" ", "_");
-        name = StringUtils.camelize(name, false);
+        name = StringUtils.camelize(name);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";

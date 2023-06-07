@@ -27,6 +27,15 @@ export interface Return {
     _return?: number;
 }
 
+/**
+ * Check if a given object implements the Return interface.
+ */
+export function instanceOfReturn(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
+}
+
 export function ReturnFromJSON(json: any): Return {
     return ReturnFromJSONTyped(json, false);
 }

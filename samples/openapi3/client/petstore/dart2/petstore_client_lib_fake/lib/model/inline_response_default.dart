@@ -37,11 +37,11 @@ class InlineResponseDefault {
   String toString() => 'InlineResponseDefault[string=$string]';
 
   Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
+    final _json = <String, dynamic>{};
     if (string != null) {
-      json[r'string'] = string;
+      _json[r'string'] = string;
     }
-    return json;
+    return _json;
   }
 
   /// Returns a new [InlineResponseDefault] instance and imports its values from

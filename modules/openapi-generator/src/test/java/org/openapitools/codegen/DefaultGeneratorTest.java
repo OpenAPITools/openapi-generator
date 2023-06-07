@@ -14,8 +14,10 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -38,6 +40,8 @@ public class DefaultGeneratorTest {
                     "build.sbt",
                     "src/main/AndroidManifest.xml",
                     "pom.xml",
+                    ".github/**",
+                    "api/**.yaml",
                     "src/test/**",
                     "src/main/java/org/openapitools/client/api/UserApi.java"
             );
@@ -65,7 +69,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 44);
+            Assert.assertEquals(files.size(), 42);
 
             // Check expected generated files
             // api sanity check
@@ -83,8 +87,11 @@ public class DefaultGeneratorTest {
             TestUtils.ensureContainsFile(files, output, "build.gradle");
             Assert.assertTrue(new File(output, "build.gradle").exists());
 
-            TestUtils.ensureContainsFile(files, output, "api/openapi.yaml");
-            Assert.assertTrue(new File(output, "build.gradle").exists());
+            TestUtils.ensureDoesNotContainsFile(files, output, "api/openapi.yaml");
+            Assert.assertFalse(new File(output, "api").exists());
+
+            TestUtils.ensureDoesNotContainsFile(files, output, ".github/workflows/");
+            Assert.assertFalse(new File(output, ".github").exists());
 
             // Check excluded files
             TestUtils.ensureDoesNotContainsFile(files, output, ".travis.yml");
@@ -105,7 +112,7 @@ public class DefaultGeneratorTest {
             TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/api/UserApi.java");
             Assert.assertFalse(new File(output, "src/main/java/org/openapitools/client/api/UserApi.java").exists());
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -170,7 +177,7 @@ public class DefaultGeneratorTest {
             String modelTestContents = Files.readAllLines(modelTestFile.toPath()).get(0);
             Assert.assertEquals(modelTestContents, "empty", "Expected test file to retain original contents.");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -201,7 +208,7 @@ public class DefaultGeneratorTest {
             Assert.assertEquals(files.size(), 1);
             TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/api/PingApi.java");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -232,7 +239,7 @@ public class DefaultGeneratorTest {
             Assert.assertEquals(files.size(), 1);
             TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/SomeObj.java");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -277,7 +284,7 @@ public class DefaultGeneratorTest {
             TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
         } finally {
             GlobalSettings.reset();
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -334,7 +341,7 @@ public class DefaultGeneratorTest {
                     "testCase,httpStatusCode,someObj",
                     "Success,200,0");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -460,7 +467,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 26);
+            Assert.assertEquals(files.size(), 27);
 
             // Generator should report a library templated file as a generated file
             TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
@@ -474,7 +481,7 @@ public class DefaultGeneratorTest {
                     "open class ClientException",
                     "open class ServerException");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -502,7 +509,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 26);
+            Assert.assertEquals(files.size(), 27);
 
             // Generator should report README.md as a generated file
             TestUtils.ensureContainsFile(files, output, "README.md");
@@ -517,7 +524,7 @@ public class DefaultGeneratorTest {
                     "## Build",
                     "## Features/Implementation Notes");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 
@@ -567,7 +574,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 26);
+            Assert.assertEquals(files.size(), 27);
 
             // Generator should report a library templated file as a generated file
             TestUtils.ensureContainsFile(files, output, "src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt");
@@ -582,8 +589,8 @@ public class DefaultGeneratorTest {
                     "open class CustomException(",
                     "private const val serialVersionUID: Long = 789L");
         } finally {
-            output.delete();
-            templates.toFile().delete();
+            output.deleteOnExit();
+            templates.toFile().deleteOnExit();
         }
     }
 
@@ -621,7 +628,7 @@ public class DefaultGeneratorTest {
 
             List<File> files = generator.opts(clientOptInput).generate();
 
-            Assert.assertEquals(files.size(), 26);
+            Assert.assertEquals(files.size(), 27);
 
             // Generator should report README.md as a generated file
             TestUtils.ensureContainsFile(files, output, "README.md");
@@ -633,8 +640,8 @@ public class DefaultGeneratorTest {
             // README.md should contain our custom templated text
             TestUtils.assertFileContains(readme.toPath(), "# testCustomNonLibraryTemplates");
         } finally {
-            output.delete();
-            templates.toFile().delete();
+            output.deleteOnExit();
+            templates.toFile().deleteOnExit();
         }
     }
 
@@ -654,7 +661,7 @@ public class DefaultGeneratorTest {
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas);
-        List<Object> allOperations = new ArrayList<>();
+        List<OperationsMap> allOperations = new ArrayList<>();
         generator.generateApis(files, allOperations, allModels);
 
         Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
@@ -680,7 +687,7 @@ public class DefaultGeneratorTest {
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas);
-        List<Object> allOperations = new ArrayList<>();
+        List<OperationsMap> allOperations = new ArrayList<>();
         generator.generateApis(files, allOperations, allModels);
 
         Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
@@ -741,8 +748,8 @@ public class DefaultGeneratorTest {
                     "from io.something import rest"
               );
         } finally {
-            output.delete();
-            templates.toFile().delete();
+            output.deleteOnExit();
+            templates.toFile().deleteOnExit();
         }
     }
 

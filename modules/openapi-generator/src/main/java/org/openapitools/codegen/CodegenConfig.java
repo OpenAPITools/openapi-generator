@@ -29,6 +29,7 @@ import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.List;
@@ -140,6 +141,14 @@ public interface CodegenConfig {
 
     Map<String, String> importMapping();
 
+    Map<String, String> schemaMapping();
+
+    Map<String, String> inlineSchemaNameMapping();
+
+    Map<String, String> inlineSchemaNameDefault();
+
+    Map<String, String> openapiNormalizer();
+
     Map<String, String> apiTemplateFiles();
 
     Map<String, String> modelTemplateFiles();
@@ -180,7 +189,7 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
-    Map<String,String> toModelImportMap(String name);
+    Map<String, String> toModelImportMap(String name);
 
     String toApiImport(String name);
 
@@ -194,7 +203,7 @@ public interface CodegenConfig {
 
     ModelsMap postProcessModels(ModelsMap objs);
 
-    Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels);
+    OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels);
 
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
@@ -283,6 +292,7 @@ public interface CodegenConfig {
 
     /**
      * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     *
      * @param openAPI specification being generated
      */
     void setOpenAPI(OpenAPI openAPI);
@@ -305,7 +315,7 @@ public interface CodegenConfig {
 
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
-    Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+    Schema unaliasSchema(Schema schema);
 
     String defaultTemplatingEngine();
 
@@ -318,4 +328,11 @@ public interface CodegenConfig {
     String generatorLanguageVersion();
 
     List<VendorExtension> getSupportedVendorExtensions();
+
+    boolean getUseInlineModelResolver();
+
+    boolean getAddSuffixToDuplicateOperationNicknames();
+
+    boolean getUseOpenAPINormalizer();
+
 }

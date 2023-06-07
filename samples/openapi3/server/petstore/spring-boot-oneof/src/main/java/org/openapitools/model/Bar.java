@@ -25,19 +25,27 @@ import javax.annotation.Generated;
 
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class Bar extends Entity {
+public class Bar extends Entity implements BarRefOrValue {
 
-  @JsonProperty("id")
   private String id;
 
-  @JsonProperty("barPropA")
   private String barPropA;
 
-  @JsonProperty("fooPropB")
   private String fooPropB;
 
-  @JsonProperty("foo")
   private FooRefOrValue foo;
+
+  public Bar() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Bar(String id, String atType) {
+    super(atType);
+    this.id = id;
+  }
 
   public Bar id(String id) {
     this.id = id;
@@ -49,7 +57,8 @@ public class Bar extends Entity {
    * @return id
   */
   @NotNull 
-  @Schema(name = "id", required = true)
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }
@@ -68,7 +77,8 @@ public class Bar extends Entity {
    * @return barPropA
   */
   
-  @Schema(name = "barPropA", required = false)
+  @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("barPropA")
   public String getBarPropA() {
     return barPropA;
   }
@@ -87,7 +97,8 @@ public class Bar extends Entity {
    * @return fooPropB
   */
   
-  @Schema(name = "fooPropB", required = false)
+  @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("fooPropB")
   public String getFooPropB() {
     return fooPropB;
   }
@@ -106,13 +117,34 @@ public class Bar extends Entity {
    * @return foo
   */
   @Valid 
-  @Schema(name = "foo", required = false)
+  @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("foo")
   public FooRefOrValue getFoo() {
     return foo;
   }
 
   public void setFoo(FooRefOrValue foo) {
     this.foo = foo;
+  }
+
+  public Bar href(String href) {
+    super.setHref(href);
+    return this;
+  }
+
+  public Bar atSchemaLocation(String atSchemaLocation) {
+    super.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  public Bar atBaseType(String atBaseType) {
+    super.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  public Bar atType(String atType) {
+    super.setAtType(atType);
+    return this;
   }
 
   @Override

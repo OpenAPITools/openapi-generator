@@ -231,18 +231,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
           description: Invalid input
@@ -268,19 +260,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -364,7 +347,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -616,16 +599,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
   schemas:
     OrderInfo:
       description: An order info for a pets from the pet store
@@ -733,10 +706,134 @@ components:
               id: 1
         id: 0
         deepSliceMap:
-        - - "{}"
-          - "{}"
-        - - "{}"
-          - "{}"
+        - - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+          - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+        - - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+          - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
         email: email
         username: username
       properties:
@@ -777,17 +874,7 @@ components:
           items:
             description: An array 2-deep.
             items:
-              description: An array 3-deep.
-              properties:
-                tag:
-                  $ref: '#/components/schemas/Tag'
-                Pet:
-                  description: An array of pet.
-                  items:
-                    $ref: '#/components/schemas/Pet'
-                  type: array
-              title: an Object
-              type: object
+              $ref: '#/components/schemas/an_Object'
             type: array
           type: array
       required:
@@ -883,7 +970,7 @@ components:
           type: string
       title: An uploaded response
       type: object
-    inline_object:
+    updatePetWithForm_request:
       properties:
         name:
           description: Updated name of the pet
@@ -892,7 +979,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFile_request:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -901,6 +988,51 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
+    an_Object:
+      description: An array 3-deep.
+      example:
+        tag:
+          name: name
+          id: 1
+        Pet:
+        - photoUrls:
+          - photoUrls
+          - photoUrls
+          name: doggie
+          id: 0
+          category:
+            name: name
+            id: 6
+          tags:
+          - name: name
+            id: 1
+          - name: name
+            id: 1
+          status: available
+        - photoUrls:
+          - photoUrls
+          - photoUrls
+          name: doggie
+          id: 0
+          category:
+            name: name
+            id: 6
+          tags:
+          - name: name
+            id: 1
+          - name: name
+            id: 1
+          status: available
+      properties:
+        tag:
+          $ref: '#/components/schemas/Tag'
+        Pet:
+          description: An array of pet.
+          items:
+            $ref: '#/components/schemas/Pet'
+          type: array
+      title: an Object
       type: object
   securitySchemes:
     petstore_auth:

@@ -3,7 +3,6 @@
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
 README.md
-build.gradle
 docs/apis/AnotherFakeApi.md
 docs/apis/FakeApi.md
 docs/apis/FakeClassnameTags123Api.md
@@ -66,7 +65,6 @@ gradlew
 gradlew.bat
 mvnw
 mvnw.bat
-pom.xml
 settings.gradle
 src/main/java/org/openapitools/api/AnotherFakeApi.java
 src/main/java/org/openapitools/api/FakeApi.java

@@ -2,14 +2,13 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**MultipartArray**](MultipartApi.md#multipartarray) | **POST** /multipart-array | 
-[**MultipartMixed**](MultipartApi.md#multipartmixed) | **POST** /multipart-mixed | 
-[**MultipartSingle**](MultipartApi.md#multipartsingle) | **POST** /multipart-single | 
+| Method | HTTP request | Description |
+|--------|--------------|-------------|
+| [**MultipartArray**](MultipartApi.md#multipartarray) | **POST** /multipart-array |  |
+| [**MultipartMixed**](MultipartApi.md#multipartmixed) | **POST** /multipart-mixed |  |
+| [**MultipartSingle**](MultipartApi.md#multipartsingle) | **POST** /multipart-single |  |
 
-
-<a name="multipartarray"></a>
+<a id="multipartarray"></a>
 # **MultipartArray**
 > void MultipartArray (List<System.IO.Stream> files = null)
 
@@ -42,8 +41,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling MultipartApi.MultipartArray: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling MultipartApi.MultipartArray: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -51,11 +50,27 @@ namespace Example
 }
 ```
 
+#### Using the MultipartArrayWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    apiInstance.MultipartArrayWithHttpInfo(files);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling MultipartApi.MultipartArrayWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **files** | **List&lt;System.IO.Stream&gt;**| Many files | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **files** | **List&lt;System.IO.Stream&gt;** | Many files | [optional]  |
 
 ### Return type
 
@@ -78,9 +93,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="multipartmixed"></a>
+<a id="multipartmixed"></a>
 # **MultipartMixed**
-> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedMarker marker = null)
+> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedStatus> statusArray = null)
 
 
 
@@ -105,16 +120,17 @@ namespace Example
             var apiInstance = new MultipartApi(config);
             var status = (MultipartMixedStatus) "ALLOWED";  // MultipartMixedStatus | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
-            var marker = new MultipartMixedMarker(); // MultipartMixedMarker |  (optional) 
+            var marker = new MultipartMixedRequestMarker(); // MultipartMixedRequestMarker |  (optional) 
+            var statusArray = new List<MultipartMixedStatus>(); // List<MultipartMixedStatus> |  (optional) 
 
             try
             {
-                apiInstance.MultipartMixed(status, file, marker);
+                apiInstance.MultipartMixed(status, file, marker, statusArray);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling MultipartApi.MultipartMixed: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling MultipartApi.MultipartMixed: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -122,13 +138,30 @@ namespace Example
 }
 ```
 
+#### Using the MultipartMixedWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    apiInstance.MultipartMixedWithHttpInfo(status, file, marker, statusArray);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling MultipartApi.MultipartMixedWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | **MultipartMixedStatus**|  | 
- **file** | **System.IO.Stream****System.IO.Stream**| a file | 
- **marker** | [**MultipartMixedMarker**](MultipartMixedMarker.md)|  | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **status** | **MultipartMixedStatus** |  |  |
+| **file** | **System.IO.Stream****System.IO.Stream** | a file |  |
+| **marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md) |  | [optional]  |
+| **statusArray** | [**List&lt;MultipartMixedStatus&gt;**](MultipartMixedStatus.md) |  | [optional]  |
 
 ### Return type
 
@@ -151,7 +184,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="multipartsingle"></a>
+<a id="multipartsingle"></a>
 # **MultipartSingle**
 > void MultipartSingle (System.IO.Stream file = null)
 
@@ -184,8 +217,8 @@ namespace Example
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling MultipartApi.MultipartSingle: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print("Exception when calling MultipartApi.MultipartSingle: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -193,11 +226,27 @@ namespace Example
 }
 ```
 
+#### Using the MultipartSingleWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    apiInstance.MultipartSingleWithHttpInfo(file);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling MultipartApi.MultipartSingleWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **file** | **System.IO.Stream****System.IO.Stream**| One file | [optional] 
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **file** | **System.IO.Stream****System.IO.Stream** | One file | [optional]  |
 
 ### Return type
 

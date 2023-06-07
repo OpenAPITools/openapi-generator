@@ -17,11 +17,13 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/ObjA'
                   - $ref: '#/components/schemas/ObjB'
+                  - $ref: '#/components/schemas/ObjD'
                 discriminator:
                   propertyName: realtype
                   mapping:
                     a-type: '#/components/schemas/ObjA'
                     b-type: '#/components/schemas/ObjB'
+                    b-type: '#/components/schemas/ObjD'
     post:
       operationId: createState
       requestBody:
@@ -57,11 +59,13 @@ components:
         oneOf:
           - $ref: '#/components/schemas/ObjA'
           - $ref: '#/components/schemas/ObjB'
+          - $ref: '#/components/schemas/ObjC'
         discriminator:
           propertyName: realtype
           mapping:
             a-type: '#/components/schemas/ObjA'
             b-type: '#/components/schemas/ObjB'
+            c-type: '#/components/schemas/ObjC'
     ObjA:
       type: object
       properties:
@@ -79,3 +83,17 @@ components:
         code:
           type: integer
           format: int32
+    ObjC:
+      type: object
+      properties:
+        realtype:
+          type: string
+        state:
+          type: string
+    ObjD:
+      type: object
+      properties:
+        realtype:
+          type: string
+        color:
+          type: string

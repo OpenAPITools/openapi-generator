@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -57,12 +55,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'ReturnProperty'
+        /// Test the property 'VarReturn'
         /// </summary>
         [Fact]
-        public void ReturnPropertyTest()
+        public void VarReturnTest()
         {
-            // TODO unit test for the property 'ReturnProperty'
+            // TODO unit test for the property 'VarReturn'
         }
 
     }

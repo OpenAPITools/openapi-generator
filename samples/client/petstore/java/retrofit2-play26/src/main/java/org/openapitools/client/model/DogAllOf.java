@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
@@ -39,7 +37,7 @@ public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
-  public DogAllOf() { 
+  public DogAllOf() {
   }
 
   public DogAllOf breed(String breed) {
@@ -53,7 +51,7 @@ public class DogAllOf {
    * @return breed
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -67,7 +65,6 @@ public class DogAllOf {
   public void setBreed(String breed) {
     this.breed = breed;
   }
-
 
   @Override
   public boolean equals(Object o) {

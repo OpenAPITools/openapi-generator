@@ -30,6 +30,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +43,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -809,10 +813,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<ModelMap> allModels) {
-        Map<String, Object> ret = super.postProcessOperationsWithModels(objs, allModels);
-        HashMap<String, Object> pathOps = (HashMap<String, Object>) ret.get("operations");
-        ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>) pathOps.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationsMap ret = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap pathOps = ret.getOperations();
+        List<CodegenOperation> ops = pathOps.getOperation();
         if (ops.size() > 0) {
             ops.get(0).vendorExtensions.put(VENDOR_EXTENSION_X_HAS_NEW_TAG, true);
         }
@@ -827,7 +831,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 m.vendorExtensions.put(VENDOR_EXTENSION_X_MIME_TYPES, mimeTypes);
 
                 if ((boolean) additionalProperties.get(PROP_GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
-                    Boolean hasMimeFormUrlEncoded = true;
+                    boolean hasMimeFormUrlEncoded = true;
                     for (CodegenProperty v : m.vars) {
                         if (!(v.isPrimitiveType || v.isString || v.isDate || v.isDateTime)) {
                             hasMimeFormUrlEncoded = false;
@@ -1169,9 +1173,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     public String toVarName(String prefix, String name) {
-        Boolean hasPrefix = !StringUtils.isBlank(prefix);
+        boolean hasPrefix = !StringUtils.isBlank(prefix);
         name = underscore(sanitizeName(name.replaceAll("-", "_")));
-        name = camelize(name, !hasPrefix);
+        name = camelize(name, hasPrefix ? UPPERCASE_FIRST_CHAR : LOWERCASE_FIRST_LETTER);
+
         if (hasPrefix) {
             return prefix + name;
         } else {
@@ -1225,7 +1230,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
-        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), true));
+        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER));
         return operationId;
     }
 

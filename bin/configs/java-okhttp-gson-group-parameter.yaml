@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/petstore/java/okhttp-gson-group-parameter
+library: okhttp-gson
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-group-parameter.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-okhttp-gson-group-parameter
+  hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: false
+  useSingleRequestParameter: true

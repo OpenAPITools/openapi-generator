@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * Describes the result of uploading an image resource
@@ -21,14 +21,14 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class ModelApiResponse(
 
-    @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("code") var code: kotlin.Int? = null,
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("code") var code: kotlin.Int? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("type") var type: kotlin.String? = null,
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("type") var type: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("message") var message: kotlin.String? = null
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("message") var message: kotlin.String? = null
 ) {
 
 }

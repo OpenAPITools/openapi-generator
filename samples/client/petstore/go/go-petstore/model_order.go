@@ -15,6 +15,9 @@ import (
 	"time"
 )
 
+// checks if the Order type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Order{}
+
 // Order struct for Order
 type Order struct {
 	Id *int64 `json:"id,omitempty"`
@@ -49,7 +52,7 @@ func NewOrderWithDefaults() *Order {
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Order) GetId() int64 {
-	if o == nil || o.Id == nil {
+	if o == nil || IsNil(o.Id) {
 		var ret int64
 		return ret
 	}
@@ -59,7 +62,7 @@ func (o *Order) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetIdOk() (*int64, bool) {
-	if o == nil || o.Id == nil {
+	if o == nil || IsNil(o.Id) {
 		return nil, false
 	}
 	return o.Id, true
@@ -67,7 +70,7 @@ func (o *Order) GetIdOk() (*int64, bool) {
 
 // HasId returns a boolean if a field has been set.
 func (o *Order) HasId() bool {
-	if o != nil && o.Id != nil {
+	if o != nil && !IsNil(o.Id) {
 		return true
 	}
 
@@ -81,7 +84,7 @@ func (o *Order) SetId(v int64) {
 
 // GetPetId returns the PetId field value if set, zero value otherwise.
 func (o *Order) GetPetId() int64 {
-	if o == nil || o.PetId == nil {
+	if o == nil || IsNil(o.PetId) {
 		var ret int64
 		return ret
 	}
@@ -91,7 +94,7 @@ func (o *Order) GetPetId() int64 {
 // GetPetIdOk returns a tuple with the PetId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetPetIdOk() (*int64, bool) {
-	if o == nil || o.PetId == nil {
+	if o == nil || IsNil(o.PetId) {
 		return nil, false
 	}
 	return o.PetId, true
@@ -99,7 +102,7 @@ func (o *Order) GetPetIdOk() (*int64, bool) {
 
 // HasPetId returns a boolean if a field has been set.
 func (o *Order) HasPetId() bool {
-	if o != nil && o.PetId != nil {
+	if o != nil && !IsNil(o.PetId) {
 		return true
 	}
 
@@ -113,7 +116,7 @@ func (o *Order) SetPetId(v int64) {
 
 // GetQuantity returns the Quantity field value if set, zero value otherwise.
 func (o *Order) GetQuantity() int32 {
-	if o == nil || o.Quantity == nil {
+	if o == nil || IsNil(o.Quantity) {
 		var ret int32
 		return ret
 	}
@@ -123,7 +126,7 @@ func (o *Order) GetQuantity() int32 {
 // GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetQuantityOk() (*int32, bool) {
-	if o == nil || o.Quantity == nil {
+	if o == nil || IsNil(o.Quantity) {
 		return nil, false
 	}
 	return o.Quantity, true
@@ -131,7 +134,7 @@ func (o *Order) GetQuantityOk() (*int32, bool) {
 
 // HasQuantity returns a boolean if a field has been set.
 func (o *Order) HasQuantity() bool {
-	if o != nil && o.Quantity != nil {
+	if o != nil && !IsNil(o.Quantity) {
 		return true
 	}
 
@@ -145,7 +148,7 @@ func (o *Order) SetQuantity(v int32) {
 
 // GetShipDate returns the ShipDate field value if set, zero value otherwise.
 func (o *Order) GetShipDate() time.Time {
-	if o == nil || o.ShipDate == nil {
+	if o == nil || IsNil(o.ShipDate) {
 		var ret time.Time
 		return ret
 	}
@@ -155,7 +158,7 @@ func (o *Order) GetShipDate() time.Time {
 // GetShipDateOk returns a tuple with the ShipDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetShipDateOk() (*time.Time, bool) {
-	if o == nil || o.ShipDate == nil {
+	if o == nil || IsNil(o.ShipDate) {
 		return nil, false
 	}
 	return o.ShipDate, true
@@ -163,7 +166,7 @@ func (o *Order) GetShipDateOk() (*time.Time, bool) {
 
 // HasShipDate returns a boolean if a field has been set.
 func (o *Order) HasShipDate() bool {
-	if o != nil && o.ShipDate != nil {
+	if o != nil && !IsNil(o.ShipDate) {
 		return true
 	}
 
@@ -177,7 +180,7 @@ func (o *Order) SetShipDate(v time.Time) {
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Order) GetStatus() string {
-	if o == nil || o.Status == nil {
+	if o == nil || IsNil(o.Status) {
 		var ret string
 		return ret
 	}
@@ -187,7 +190,7 @@ func (o *Order) GetStatus() string {
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetStatusOk() (*string, bool) {
-	if o == nil || o.Status == nil {
+	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
 	return o.Status, true
@@ -195,7 +198,7 @@ func (o *Order) GetStatusOk() (*string, bool) {
 
 // HasStatus returns a boolean if a field has been set.
 func (o *Order) HasStatus() bool {
-	if o != nil && o.Status != nil {
+	if o != nil && !IsNil(o.Status) {
 		return true
 	}
 
@@ -209,7 +212,7 @@ func (o *Order) SetStatus(v string) {
 
 // GetComplete returns the Complete field value if set, zero value otherwise.
 func (o *Order) GetComplete() bool {
-	if o == nil || o.Complete == nil {
+	if o == nil || IsNil(o.Complete) {
 		var ret bool
 		return ret
 	}
@@ -219,7 +222,7 @@ func (o *Order) GetComplete() bool {
 // GetCompleteOk returns a tuple with the Complete field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Order) GetCompleteOk() (*bool, bool) {
-	if o == nil || o.Complete == nil {
+	if o == nil || IsNil(o.Complete) {
 		return nil, false
 	}
 	return o.Complete, true
@@ -227,7 +230,7 @@ func (o *Order) GetCompleteOk() (*bool, bool) {
 
 // HasComplete returns a boolean if a field has been set.
 func (o *Order) HasComplete() bool {
-	if o != nil && o.Complete != nil {
+	if o != nil && !IsNil(o.Complete) {
 		return true
 	}
 
@@ -240,26 +243,34 @@ func (o *Order) SetComplete(v bool) {
 }
 
 func (o Order) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.PetId != nil {
-		toSerialize["petId"] = o.PetId
-	}
-	if o.Quantity != nil {
-		toSerialize["quantity"] = o.Quantity
-	}
-	if o.ShipDate != nil {
-		toSerialize["shipDate"] = o.ShipDate
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
-	}
-	if o.Complete != nil {
-		toSerialize["complete"] = o.Complete
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o Order) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.PetId) {
+		toSerialize["petId"] = o.PetId
+	}
+	if !IsNil(o.Quantity) {
+		toSerialize["quantity"] = o.Quantity
+	}
+	if !IsNil(o.ShipDate) {
+		toSerialize["shipDate"] = o.ShipDate
+	}
+	if !IsNil(o.Status) {
+		toSerialize["status"] = o.Status
+	}
+	if !IsNil(o.Complete) {
+		toSerialize["complete"] = o.Complete
+	}
+	return toSerialize, nil
 }
 
 type NullableOrder struct {
