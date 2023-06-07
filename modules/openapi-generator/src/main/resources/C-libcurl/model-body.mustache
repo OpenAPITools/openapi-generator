@@ -332,9 +332,13 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     // {{{classname}}}->{{{name}}}
     {{#required}}
     {{^isEnum}}
+    {{^isNumeric}}
+    {{^isBoolean}}
     if (!{{{classname}}}->{{{name}}}) {
         goto fail;
     }
+    {{/isBoolean}}
+    {{/isNumeric}}
     {{/isEnum}}
     {{#isEnum}}
     if ({{projectName}}_{{classVarName}}_{{enumName}}_NULL == {{{classname}}}->{{{name}}}) {
@@ -344,7 +348,11 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/required}}
     {{^required}}
     {{^isEnum}}
+    {{^isNumeric}}
+    {{^isBoolean}}
     if({{{classname}}}->{{{name}}}) {
+    {{/isBoolean}}
+    {{/isNumeric}}
     {{/isEnum}}
     {{#isEnum}}
     if({{{classname}}}->{{{name}}} != {{projectName}}_{{classVarName}}_{{enumName}}_NULL) {
@@ -548,7 +556,11 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isMap}}
     {{/isContainer}}
     {{^required}}
+    {{^isNumeric}}
+    {{^isBoolean}}
     }
+    {{/isBoolean}}
+    {{/isNumeric}}
     {{/required}}
 
     {{/vars}}
