@@ -80,6 +80,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
+    protected String invalidNamePrefix = "var";
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -456,7 +457,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda().generator(this))
                 .put("optional", new OptionalParameterLambda().generator(this))
-                .put("joinWithComma", new JoinWithCommaLambda());
+                .put("joinWithComma", new JoinWithCommaLambda())
+                .put("trimLineBreaks", new TrimLineBreaksLambda())
+                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda());
     }
 
     @Override
@@ -582,7 +585,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
-        if (property.name != tmpPropertyName) {
+        if (!property.name.equals(tmpPropertyName) || property.name.startsWith(this.invalidNamePrefix)) {
             // the casing will be wrong if we just set the name to escapeReservedWord
             // if we try to fix it with camelize, underscores get stripped out
             // so test if the name was escaped and then replace var with Var
@@ -590,22 +593,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             String firstCharacter = property.name.substring(0, 1);
             property.name = property.name.substring(1);
             property.name = firstCharacter.toUpperCase(Locale.ROOT) + property.name;
-        }
-
-        /**
-         * Hotfix for this issue
-         * https://github.com/OpenAPITools/openapi-generator/issues/12155
-         */
-        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null) {
-            List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
-            if (composedSchemas.size() == 0) {
-                return;
-            }
-            CodegenProperty composedProperty = composedSchemas.stream().findFirst().get();
-            property.dataType = composedProperty.dataType;
-            property.datatypeWithEnum = composedProperty.datatypeWithEnum;
-            property.isMap = composedProperty.isMap;
-            property.isContainer = composedProperty.isContainer;
         }
 
         // fix incorrect data types for maps of maps
@@ -975,7 +962,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = this.escapeReservedWord(name);
 
         return name.equalsIgnoreCase(model.getClassname())
-            ? "var" + camelize(name)
+            ? this.invalidNamePrefix + camelize(name)
             : name;
     }
 
@@ -986,7 +973,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 reservedWords().contains(camelize(sanitizeName(name))) ||
                 isReservedWord(name) ||
                 name.matches("^\\d.*")) {
-            name = "var" + camelize(name);
+            name = this.invalidNamePrefix + camelize(name);
         }
         return name;
     }

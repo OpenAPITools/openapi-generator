@@ -149,6 +149,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateAliasAsModel.set(generate.generateAliasAsModel)
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
+                    dryRun.set(generate.dryRun)
                 }
             }
         }

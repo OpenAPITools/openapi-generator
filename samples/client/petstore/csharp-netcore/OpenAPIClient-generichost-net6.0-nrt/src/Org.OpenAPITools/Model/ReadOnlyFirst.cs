@@ -126,12 +126,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ReadOnlyFirst
+    /// A Json converter for type <see cref="ReadOnlyFirst" />
     /// </summary>
     public class ReadOnlyFirstJsonConverter : JsonConverter<ReadOnlyFirst>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ReadOnlyFirst" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ReadOnlyFirst" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="readOnlyFirst"></param>

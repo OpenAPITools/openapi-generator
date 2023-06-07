@@ -16,11 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   Client,
-} from '../models';
+} from '../models/index';
 import {
     ClientFromJSON,
     ClientToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface 123testSpecialTagsRequest {
     client: Client;

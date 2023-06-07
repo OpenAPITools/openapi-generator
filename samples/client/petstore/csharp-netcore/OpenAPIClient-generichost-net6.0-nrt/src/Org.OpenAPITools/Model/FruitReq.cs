@@ -88,12 +88,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type FruitReq
+    /// A Json converter for type <see cref="FruitReq" />
     /// </summary>
     public class FruitReqJsonConverter : JsonConverter<FruitReq>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="FruitReq" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="FruitReq" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fruitReq"></param>

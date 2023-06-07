@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NumberOnly
+    /// A Json converter for type <see cref="NumberOnly" />
     /// </summary>
     public class NumberOnlyJsonConverter : JsonConverter<NumberOnly>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NumberOnly" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NumberOnly" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="numberOnly"></param>

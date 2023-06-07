@@ -79,7 +79,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_70_OR_LATER = "net70OrLater";
 
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -135,7 +135,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.OAuth2_ClientCredentials,
                         SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.SignatureAuth
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -1309,7 +1311,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreClientCodegen.class);
 
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
@@ -1523,20 +1525,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     cm.allVars.add(cp);
                 }
             }
-
-            for (CodegenProperty cp : cm.allVars) {
-                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11845
-                // some properties do not have isInherited set correctly
-                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
-                // Child properties Type, LastName, FirstName will have isInherited set to false when it should be true
-                if (cp.isInherited) {
-                    continue;
-                }
-                if (Boolean.TRUE.equals(cm.parentVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName) && v.dataType.equals(cp.dataType)))) {
-                    LOGGER.debug("Property " + cp.baseName + " was found in the parentVars but not marked as inherited.");
-                    cp.isInherited = true;
-                }
-            }
         }
 
         return objs;
@@ -1606,43 +1594,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             ensureInheritedPropertiesArePresent(cm);
-
-            for (CodegenProperty property : cm.allVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.vars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.readWriteVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.optionalVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.parentVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.requiredVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.readOnlyVars) {
-                fixInvalidPropertyName(cm, property);
-            }
-            for (CodegenProperty property : cm.nonNullableVars) {
-                fixInvalidPropertyName(cm, property);
-            }
         }
 
         return objs;
-    }
-
-    private void fixInvalidPropertyName(CodegenModel model, CodegenProperty property) {
-        // TODO: remove once https://github.com/OpenAPITools/openapi-generator/pull/13681 is merged
-        if (property.name.equalsIgnoreCase(model.classname) ||
-                reservedWords().contains(property.name) ||
-                reservedWords().contains(camelize(sanitizeName(property.name), LOWERCASE_FIRST_LETTER))) {
-            property.name = property.name + "Property";
-        }
     }
 
     /**

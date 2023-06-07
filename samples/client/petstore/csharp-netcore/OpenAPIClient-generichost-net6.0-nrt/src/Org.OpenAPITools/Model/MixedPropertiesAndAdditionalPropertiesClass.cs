@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type MixedPropertiesAndAdditionalPropertiesClass
+    /// A Json converter for type <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
     /// </summary>
     public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -183,23 +183,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (uuidWithPattern == null)
-                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
             if (dateTime == null)
                 throw new ArgumentNullException(nameof(dateTime), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             if (map == null)
                 throw new ArgumentNullException(nameof(map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuidWithPattern == null)
+                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime.Value, map, uuid.Value, uuidWithPattern.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>

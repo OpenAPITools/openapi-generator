@@ -99,12 +99,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ArrayTest
+    /// A Json converter for type <see cref="ArrayTest" />
     /// </summary>
     public class ArrayTestJsonConverter : JsonConverter<ArrayTest>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ArrayTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -157,20 +157,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
-
             if (arrayArrayOfInteger == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
 
             if (arrayArrayOfModel == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
 
+            if (arrayOfString == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
+
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ArrayTest" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="arrayTest"></param>

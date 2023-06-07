@@ -125,12 +125,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Capitalization
+    /// A Json converter for type <see cref="Capitalization" />
     /// </summary>
     public class CapitalizationJsonConverter : JsonConverter<Capitalization>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Capitalization" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -192,14 +192,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (smallCamel == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
+            if (aTTNAME == null)
+                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
 
             if (capitalCamel == null)
                 throw new ArgumentNullException(nameof(capitalCamel), "Property is required for class Capitalization.");
-
-            if (smallSnake == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
 
             if (capitalSnake == null)
                 throw new ArgumentNullException(nameof(capitalSnake), "Property is required for class Capitalization.");
@@ -207,14 +204,17 @@ namespace Org.OpenAPITools.Model
             if (sCAETHFlowPoints == null)
                 throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is required for class Capitalization.");
 
-            if (aTTNAME == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
+            if (smallCamel == null)
+                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
+
+            if (smallSnake == null)
+                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Capitalization" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="capitalization"></param>

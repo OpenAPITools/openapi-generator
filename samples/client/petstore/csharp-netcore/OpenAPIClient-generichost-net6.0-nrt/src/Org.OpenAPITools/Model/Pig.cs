@@ -105,12 +105,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Pig
+    /// A Json converter for type <see cref="Pig" />
     /// </summary>
     public class PigJsonConverter : JsonConverter<Pig>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Pig" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Pig" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pig"></param>

@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type DeprecatedObject
+    /// A Json converter for type <see cref="DeprecatedObject" />
     /// </summary>
     public class DeprecatedObjectJsonConverter : JsonConverter<DeprecatedObject>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DeprecatedObject" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DeprecatedObject" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="deprecatedObject"></param>

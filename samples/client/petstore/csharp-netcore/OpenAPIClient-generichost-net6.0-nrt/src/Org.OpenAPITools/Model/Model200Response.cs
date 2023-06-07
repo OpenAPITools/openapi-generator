@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Model200Response
+    /// A Json converter for type <see cref="Model200Response" />
     /// </summary>
     public class Model200ResponseJsonConverter : JsonConverter<Model200Response>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Model200Response" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -142,17 +142,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
-
             if (varClass == null)
                 throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
 
             return new Model200Response(varClass, name.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Model200Response" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="model200Response"></param>

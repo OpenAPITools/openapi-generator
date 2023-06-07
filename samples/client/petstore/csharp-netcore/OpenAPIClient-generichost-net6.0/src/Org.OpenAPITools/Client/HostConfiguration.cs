@@ -14,6 +14,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
@@ -21,14 +23,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
-    public class HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>
-        where TAnotherFakeApi : class, IApi.IAnotherFakeApi
-        where TDefaultApi : class, IApi.IDefaultApi
-        where TFakeApi : class, IApi.IFakeApi
-        where TFakeClassnameTags123Api : class, IApi.IFakeClassnameTags123Api
-        where TPetApi : class, IApi.IPetApi
-        where TStoreApi : class, IApi.IStoreApi
-        where TUserApi : class, IApi.IUserApi
+    public class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -140,13 +135,13 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
-            _services.AddTransient<TAnotherFakeApi, TAnotherFakeApi>();
-            _services.AddTransient<TDefaultApi, TDefaultApi>();
-            _services.AddTransient<TFakeApi, TFakeApi>();
-            _services.AddTransient<TFakeClassnameTags123Api, TFakeClassnameTags123Api>();
-            _services.AddTransient<TPetApi, TPetApi>();
-            _services.AddTransient<TStoreApi, TStoreApi>();
-            _services.AddTransient<TUserApi, TUserApi>();
+            _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
+            _services.AddTransient<IDefaultApi, DefaultApi>();
+            _services.AddTransient<IFakeApi, FakeApi>();
+            _services.AddTransient<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
+            _services.AddTransient<IPetApi, PetApi>();
+            _services.AddTransient<IStoreApi, StoreApi>();
+            _services.AddTransient<IUserApi, UserApi>();
         }
 
         /// <summary>
@@ -155,7 +150,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> AddApiHttpClients
+        public HostConfiguration AddApiHttpClients
         (
             Action<HttpClient> client = null, Action<IHttpClientBuilder> builder = null)
         {
@@ -164,13 +159,13 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IApi.IAnotherFakeApi, TAnotherFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IApi.IDefaultApi, TDefaultApi>(client));
-            builders.Add(_services.AddHttpClient<IApi.IFakeApi, TFakeApi>(client));
-            builders.Add(_services.AddHttpClient<IApi.IFakeClassnameTags123Api, TFakeClassnameTags123Api>(client));
-            builders.Add(_services.AddHttpClient<IApi.IPetApi, TPetApi>(client));
-            builders.Add(_services.AddHttpClient<IApi.IStoreApi, TStoreApi>(client));
-            builders.Add(_services.AddHttpClient<IApi.IUserApi, TUserApi>(client));
+            builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
+            builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>(client));
+            builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>(client));
+            builders.Add(_services.AddHttpClient<IPetApi, PetApi>(client));
+            builders.Add(_services.AddHttpClient<IStoreApi, StoreApi>(client));
+            builders.Add(_services.AddHttpClient<IUserApi, UserApi>(client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
@@ -186,7 +181,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> ConfigureJsonOptions(Action<JsonSerializerOptions> options)
+        public HostConfiguration ConfigureJsonOptions(Action<JsonSerializerOptions> options)
         {
             options(_jsonOptions);
 
@@ -199,7 +194,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
             return AddTokens(new TTokenBase[]{ token });
         }
@@ -210,7 +205,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
             _services.AddSingleton(services => container);
@@ -224,7 +219,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <returns></returns>
-        public HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> UseProvider<TTokenProvider, TTokenBase>() 
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
             where TTokenProvider : TokenProvider<TTokenBase>
             where TTokenBase : TokenBase
         {

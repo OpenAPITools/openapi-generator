@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type DateOnlyClass
+    /// A Json converter for type <see cref="DateOnlyClass" />
     /// </summary>
     public class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
     {
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dateOnlyClass"></param>

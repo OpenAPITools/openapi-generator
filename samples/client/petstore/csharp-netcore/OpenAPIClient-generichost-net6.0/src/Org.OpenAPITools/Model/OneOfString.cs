@@ -77,12 +77,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type OneOfString
+    /// A Json converter for type <see cref="OneOfString" />
     /// </summary>
     public class OneOfStringJsonConverter : JsonConverter<OneOfString>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="OneOfString" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="OneOfString" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="oneOfString"></param>

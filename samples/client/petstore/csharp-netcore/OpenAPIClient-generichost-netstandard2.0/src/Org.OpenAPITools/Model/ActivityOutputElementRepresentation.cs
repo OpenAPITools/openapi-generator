@@ -88,12 +88,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ActivityOutputElementRepresentation
+    /// A Json converter for type <see cref="ActivityOutputElementRepresentation" />
     /// </summary>
     public class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ActivityOutputElementRepresentation" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ActivityOutputElementRepresentation" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>

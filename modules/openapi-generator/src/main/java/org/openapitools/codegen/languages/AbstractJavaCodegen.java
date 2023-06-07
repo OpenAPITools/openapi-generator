@@ -148,8 +148,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -588,6 +591,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // imports for pojos
         importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
@@ -1398,7 +1402,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
-            codegenModel.imports.add("ApiModel");
+            if (!AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+                // TODO: should only be for SWAGGER1, but some NONE/MICROPROFILE templates still use it
+                codegenModel.imports.add("ApiModel");
+            }
         }
         if (codegenModel.discriminator != null && additionalProperties.containsKey(JACKSON)) {
             codegenModel.imports.add("JsonSubTypes");
@@ -1459,8 +1466,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums
-            model.imports.add("ApiModelProperty");
-            model.imports.add("ApiModel");
+            if (!AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+                // TODO: should only be for SWAGGER1, but some NONE/MICROPROFILE templates still use it
+                model.imports.add("ApiModelProperty");
+                model.imports.add("ApiModel");
+            }
         }
 
         if (openApiNullable) {

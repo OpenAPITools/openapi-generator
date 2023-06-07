@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import java.io.File;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,13 +153,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit
-                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.OAuth2_AuthorizationCode,//retrofit only
+                        SecurityFeature.OAuth2_Implicit))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,

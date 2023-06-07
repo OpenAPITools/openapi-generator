@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Return
+    /// A Json converter for type <see cref="Return" />
     /// </summary>
     public class ReturnJsonConverter : JsonConverter<Return>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Return" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Return" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="varReturn"></param>

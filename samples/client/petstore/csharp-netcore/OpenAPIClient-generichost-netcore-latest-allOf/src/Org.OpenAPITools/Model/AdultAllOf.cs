@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type AdultAllOf
+    /// A Json converter for type <see cref="AdultAllOf" />
     /// </summary>
     public class AdultAllOfJsonConverter : JsonConverter<AdultAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="AdultAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="AdultAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="adultAllOf"></param>

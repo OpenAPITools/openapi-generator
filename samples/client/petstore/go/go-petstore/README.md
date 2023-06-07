@@ -210,6 +210,19 @@ r, err := client.Service.Operation(auth, args)
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
 
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"api_key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
 ### api_key_query
 
 - **Type**: API key
@@ -217,6 +230,19 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: URL query string
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
+
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"api_key_query": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
 
 ### http_basic_test
 
