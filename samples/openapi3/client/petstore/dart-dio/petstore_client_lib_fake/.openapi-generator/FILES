@@ -125,4 +125,3 @@ lib/src/model/tag.dart
 lib/src/model/user.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/fake_big_decimal_map200_response_test.dart

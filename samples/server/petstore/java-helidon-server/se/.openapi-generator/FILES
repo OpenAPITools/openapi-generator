@@ -72,4 +72,3 @@ src/main/resources/META-INF/openapi.yml
 src/main/resources/application.yaml
 src/main/resources/logging.properties
 src/test/java/org/openapitools/server/MainTest.java
-src/test/java/org/openapitools/server/model/FakeBigDecimalMap200ResponseTest.java

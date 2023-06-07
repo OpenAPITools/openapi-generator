@@ -125,4 +125,3 @@ lib/model/special_model_name.dart
 lib/model/tag.dart
 lib/model/user.dart
 pubspec.yaml
-test/fake_big_decimal_map200_response_test.dart

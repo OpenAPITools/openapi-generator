@@ -116,4 +116,3 @@ src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
-src/test/java/org/openapitools/client/model/FakeBigDecimalMap200ResponseTest.java
