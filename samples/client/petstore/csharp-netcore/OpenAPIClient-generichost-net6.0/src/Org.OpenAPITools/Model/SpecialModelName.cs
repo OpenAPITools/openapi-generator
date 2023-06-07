@@ -88,12 +88,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type SpecialModelName
+    /// A Json converter for type <see cref="SpecialModelName" />
     /// </summary>
     public class SpecialModelNameJsonConverter : JsonConverter<SpecialModelName>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="SpecialModelName" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -140,17 +140,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (specialPropertyName == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
-
             if (varSpecialModelName == null)
                 throw new ArgumentNullException(nameof(varSpecialModelName), "Property is required for class SpecialModelName.");
+
+            if (specialPropertyName == null)
+                throw new ArgumentNullException(nameof(specialPropertyName), "Property is required for class SpecialModelName.");
 
             return new SpecialModelName(varSpecialModelName, specialPropertyName.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="SpecialModelName" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="specialModelName"></param>

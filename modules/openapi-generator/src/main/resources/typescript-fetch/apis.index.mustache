@@ -1,15 +1,15 @@
 /* tslint:disable */
 /* eslint-disable */
 {{#useSagaAndRecords}}
-export * from './SagaApiManager'
-export * from './allSagas'
+export * from './SagaApiManager{{importFileExtension}}'
+export * from './allSagas{{importFileExtension}}'
 {{/useSagaAndRecords}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-export * from './{{ classFilename }}';
+export * from './{{ classFilename }}{{importFileExtension}}';
 {{#useSagaAndRecords}}
-export * from './{{{ classFilename }}}Sagas';
+export * from './{{{ classFilename }}}Sagas{{importFileExtension}}';
 {{/useSagaAndRecords}}
 {{/operations}}
 {{/apis}}

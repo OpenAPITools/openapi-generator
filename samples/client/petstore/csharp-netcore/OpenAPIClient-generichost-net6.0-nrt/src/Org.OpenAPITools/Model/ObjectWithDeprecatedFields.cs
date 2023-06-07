@@ -111,12 +111,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ObjectWithDeprecatedFields
+    /// A Json converter for type <see cref="ObjectWithDeprecatedFields" />
     /// </summary>
     public class ObjectWithDeprecatedFieldsJsonConverter : JsonConverter<ObjectWithDeprecatedFields>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ObjectWithDeprecatedFields" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -173,23 +173,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+            if (bars == null)
+                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
 
             if (deprecatedRef == null)
                 throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
 
-            if (bars == null)
-                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ObjectWithDeprecatedFields" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="objectWithDeprecatedFields"></param>

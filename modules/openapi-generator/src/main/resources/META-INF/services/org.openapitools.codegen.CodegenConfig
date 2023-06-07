@@ -20,7 +20,6 @@ org.openapitools.codegen.languages.CppRestSdkClientCodegen
 org.openapitools.codegen.languages.CppTinyClientCodegen
 org.openapitools.codegen.languages.CppTizenClientCodegen
 org.openapitools.codegen.languages.CppUE4ClientCodegen
-org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
 org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen

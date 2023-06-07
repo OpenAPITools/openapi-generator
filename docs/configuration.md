@@ -34,10 +34,10 @@ _How_ you provide values to options also depends on the tool. OpenAPI Generator 
 
 ```
 openApiGenerate {
-    globalProperties = [
+    globalProperties.set([
         apis: "",
         models: "User:Pet"
-    ]
+    ])
 }
 ```
 
@@ -107,12 +107,12 @@ It may seem like a typo but there are two `=` signs in the above example.
 
 ```
 openApiGenerate {
-    generatorName = "mysql-schema"
-    inputSpec = "$rootDir/spec.yaml".toString()
-    outputDir = "$buildDir/mysql".toString()
-    configOptions = [
+    generatorName.set("mysql-schema")
+    inputSpec.set("$rootDir/spec.yaml")
+    outputDir.set("$buildDir/mysql")
+    configOptions.set([
             identifierNamingConvention: "snake_case"
-    ]
+    ])
 }
 ```
 

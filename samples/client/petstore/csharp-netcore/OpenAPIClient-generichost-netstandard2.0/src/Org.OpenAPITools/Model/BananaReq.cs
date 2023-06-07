@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type BananaReq
+    /// A Json converter for type <see cref="BananaReq" />
     /// </summary>
     public class BananaReqJsonConverter : JsonConverter<BananaReq>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="BananaReq" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="BananaReq" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="bananaReq"></param>

@@ -79,16 +79,16 @@ namespace Org.OpenAPITools.Model
         public string Property { get; set; }
 
         /// <summary>
-        /// Gets or Sets var123Number
+        /// Gets or Sets Var123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int var123Number { get; private set; }
+        public int Var123Number { get; private set; }
 
         /// <summary>
-        /// Returns false as var123Number should not be serialized given that it's read-only.
+        /// Returns false as Var123Number should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializevar123Number()
+        public bool ShouldSerializeVar123Number()
         {
             return false;
         }
@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  VarName: ").Append(VarName).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
-            sb.Append("  var123Number: ").Append(var123Number).Append("\n");
+            sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Property.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.var123Number.GetHashCode();
+                hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class AnotherFakeApi : IApi.IAnotherFakeApi
+    public sealed partial class AnotherFakeApi : IApi.IAnotherFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -117,21 +117,14 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        /// <summary>
-        /// Logs the api response
-        /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
-        {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
+        partial void FormatCall123TestSpecialTags(ModelClient modelClient);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        protected virtual ModelClient OnCall123TestSpecialTags(ModelClient modelClient)
+        private void ValidateCall123TestSpecialTags(ModelClient modelClient)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -139,10 +132,8 @@ namespace Org.OpenAPITools.Api
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return modelClient;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -150,21 +141,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        protected virtual void AfterCall123TestSpecialTags(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterCall123TestSpecialTagsDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCall123TestSpecialTags(apiResponseLocalVar, modelClient);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="modelClient"></param>
+        partial void AfterCall123TestSpecialTags(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorCall123TestSpecialTagsDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCall123TestSpecialTags(exception, pathFormat, path, modelClient);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="modelClient"></param>
+        partial void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test special tags To test special tags and operation ID starting with number
@@ -197,7 +207,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                modelClient = OnCall123TestSpecialTags(modelClient);
+                ValidateCall123TestSpecialTags(modelClient);
+
+                FormatCall123TestSpecialTags(modelClient);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -210,12 +222,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -223,8 +233,8 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -238,13 +248,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/another-fake/dummy", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterCall123TestSpecialTags(apiResponseLocalVar, modelClient);
+                        AfterCall123TestSpecialTagsDefaultImplementation(apiResponseLocalVar, modelClient);
 
                         return apiResponseLocalVar;
                     }
@@ -252,7 +260,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorCall123TestSpecialTags(e, "/another-fake/dummy", uriBuilderLocalVar.Path, modelClient);
+                OnErrorCall123TestSpecialTagsDefaultImplementation(e, "/another-fake/dummy", uriBuilderLocalVar.Path, modelClient);
                 throw;
             }
         }

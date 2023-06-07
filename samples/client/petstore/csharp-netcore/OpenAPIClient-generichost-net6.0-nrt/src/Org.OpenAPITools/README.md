@@ -193,6 +193,7 @@ Authentication schemes defined for the API:
 <a id="http_signature_test"></a>
 ### http_signature_test
 
+- **Type**: HTTP signature authentication
 
 
 ## Build

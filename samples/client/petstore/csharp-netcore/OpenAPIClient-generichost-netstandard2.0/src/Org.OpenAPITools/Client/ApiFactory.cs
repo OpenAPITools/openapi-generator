@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Client
         public IServiceProvider Services { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref=""/> class.
+        /// Initializes a new instance of the <see cref="ApiFactory"/> class.
         /// </summary>
         /// <param name="services"></param>
         public ApiFactory(IServiceProvider services)

@@ -16,11 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   FooGetDefaultResponse,
-} from '../models';
+} from '../models/index';
 import {
     FooGetDefaultResponseFromJSON,
     FooGetDefaultResponseToJSON,
-} from '../models';
+} from '../models/index';
 
 /**
  * 

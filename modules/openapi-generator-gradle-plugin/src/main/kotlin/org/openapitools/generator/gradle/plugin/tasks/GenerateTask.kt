@@ -521,6 +521,13 @@ open class GenerateTask : DefaultTask() {
     @Input
     val cleanupOutput = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether the generator should run in dry-run mode.
+     */
+    @Optional
+    @Input
+    val dryRun = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -822,6 +829,11 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
+            var dryRunSetting = false
+            dryRun.ifNotEmpty { setting ->
+                dryRunSetting = setting
+            }
+
             val clientOptInput = configurator.toClientOptInput()
             val codegenConfig = clientOptInput.config
 
@@ -838,7 +850,7 @@ open class GenerateTask : DefaultTask() {
                 val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
                 out.withStyle(StyledTextOutput.Style.Success)
 
-                DefaultGenerator().opts(clientOptInput).generate()
+                DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
 
                 out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {

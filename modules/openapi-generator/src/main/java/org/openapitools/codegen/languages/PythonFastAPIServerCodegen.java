@@ -28,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -87,6 +88,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     public PythonFastAPIServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeSecurityFeatures(
+                SecurityFeature.OAuth2_AuthorizationCode,
+                SecurityFeature.OAuth2_Password
+        ));
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

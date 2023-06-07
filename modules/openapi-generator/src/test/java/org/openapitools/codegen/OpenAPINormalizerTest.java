@@ -141,11 +141,11 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 2);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("OneOfTest");
-        assertEquals(schema2.getOneOf().size(), 2);
+        assertEquals(schema2.getOneOf().size(), 4);
         assertNull(schema2.getNullable());
 
         Schema schema5 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
@@ -168,6 +168,7 @@ public class OpenAPINormalizerTest {
         Schema schema4 = openAPI.getComponents().getSchemas().get("OneOfTest");
         assertNull(schema4.getOneOf());
         assertTrue(schema4 instanceof IntegerSchema);
+        assertTrue(schema4.getNullable());
 
         Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
         assertEquals(schema6.getOneOf().size(), 2);
@@ -273,7 +274,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 3);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
@@ -292,7 +293,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 3);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
@@ -313,7 +314,7 @@ public class OpenAPINormalizerTest {
 
         // before test
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 3);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
@@ -323,7 +324,7 @@ public class OpenAPINormalizerTest {
 
         // checks should be the same after test
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema3.getAnyOf().size(), 3);
+        assertEquals(schema3.getAnyOf().size(), 4);
         assertNull(schema3.getNullable());
     }
 

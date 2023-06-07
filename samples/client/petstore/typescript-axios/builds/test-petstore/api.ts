@@ -512,7 +512,7 @@ export interface Drawing {
      * @type {ShapeOrNull}
      * @memberof Drawing
      */
-    'shapeOrNull'?: ShapeOrNull;
+    'shapeOrNull'?: ShapeOrNull | null;
     /**
      * 
      * @type {NullableShape}
@@ -846,7 +846,7 @@ export type Fruit = Apple | Banana;
  * @type FruitReq
  * @export
  */
-export type FruitReq = AppleReq | BananaReq | Null;
+export type FruitReq = AppleReq | BananaReq;
 
 /**
  * 
@@ -1520,7 +1520,7 @@ export interface ShapeInterface {
  * The value may be a shape or the \'null\' value. This is introduced in OAS schema >= 3.1.
  * @export
  */
-export type ShapeOrNull = Null | Quadrilateral | Triangle;
+export type ShapeOrNull = Quadrilateral | Triangle;
 
 /**
  * 

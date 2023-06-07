@@ -336,7 +336,6 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.5</gson-fire-version>
-        <swagger-annotations-version>1.6.6</swagger-annotations-version>
         <okhttp-version>4.10.0</okhttp-version>
         <gson-version>2.9.1</gson-version>
         <commons-lang3-version>3.12.0</commons-lang3-version>

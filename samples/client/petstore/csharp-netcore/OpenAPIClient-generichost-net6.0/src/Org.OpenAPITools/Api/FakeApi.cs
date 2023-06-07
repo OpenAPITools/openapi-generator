@@ -439,7 +439,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class FakeApi : IApi.IFakeApi
+    public sealed partial class FakeApi : IApi.IFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -500,41 +500,40 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Logs the api response
+        /// Processes the server response
         /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterFakeHealthGetDefaultImplementation(ApiResponse<HealthCheckResult> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnFakeHealthGet()
-        {
-            return;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeHealthGet(apiResponseLocalVar);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        protected virtual void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponseLocalVar)
-        {
-        }
+        partial void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponseLocalVar);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path)
+        private void OnErrorFakeHealthGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeHealthGet(exception, pathFormat, path);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Health check endpoint 
@@ -565,8 +564,6 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                OnFakeHealthGet();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -574,12 +571,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/health";
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -593,13 +588,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/health", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterFakeHealthGet(apiResponseLocalVar);
+                        AfterFakeHealthGetDefaultImplementation(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -607,19 +600,22 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeHealthGet(e, "/fake/health", uriBuilderLocalVar.Path);
+                OnErrorFakeHealthGetDefaultImplementation(e, "/fake/health", uriBuilderLocalVar.Path);
                 throw;
             }
         }
 
+        partial void FormatFakeOuterBooleanSerialize(ref bool? body);
+
         /// <summary>
-        /// Validates the request parameters
+        /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        /// <returns></returns>
-        protected virtual bool? OnFakeOuterBooleanSerialize(bool? body)
+        private void AfterFakeOuterBooleanSerializeDefaultImplementation(ApiResponse<bool> apiResponseLocalVar, bool? body)
         {
-            return body;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterBooleanSerialize(apiResponseLocalVar, body);
         }
 
         /// <summary>
@@ -627,21 +623,29 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponseLocalVar, bool? body)
-        {
-        }
+        partial void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponseLocalVar, bool? body);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, bool? body)
+        private void OnErrorFakeOuterBooleanSerializeDefaultImplementation(Exception exception, string pathFormat, string path, bool? body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterBooleanSerialize(exception, pathFormat, path, body);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="body"></param>
+        partial void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, bool? body);
 
         /// <summary>
         ///  Test serialization of outer boolean types
@@ -674,7 +678,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                body = OnFakeOuterBooleanSerialize(body);
+                FormatFakeOuterBooleanSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -687,12 +691,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -700,8 +702,8 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -715,13 +717,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/boolean", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<bool> apiResponseLocalVar = new ApiResponse<bool>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<bool> apiResponseLocalVar = new ApiResponse<bool>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/boolean", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterFakeOuterBooleanSerialize(apiResponseLocalVar, body);
+                        AfterFakeOuterBooleanSerializeDefaultImplementation(apiResponseLocalVar, body);
 
                         return apiResponseLocalVar;
                     }
@@ -729,19 +729,22 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterBooleanSerialize(e, "/fake/outer/boolean", uriBuilderLocalVar.Path, body);
+                OnErrorFakeOuterBooleanSerializeDefaultImplementation(e, "/fake/outer/boolean", uriBuilderLocalVar.Path, body);
                 throw;
             }
         }
 
+        partial void FormatFakeOuterCompositeSerialize(OuterComposite outerComposite);
+
         /// <summary>
-        /// Validates the request parameters
+        /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        /// <returns></returns>
-        protected virtual OuterComposite OnFakeOuterCompositeSerialize(OuterComposite outerComposite)
+        private void AfterFakeOuterCompositeSerializeDefaultImplementation(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite outerComposite)
         {
-            return outerComposite;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterCompositeSerialize(apiResponseLocalVar, outerComposite);
         }
 
         /// <summary>
@@ -749,21 +752,29 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        protected virtual void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite outerComposite)
-        {
-        }
+        partial void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite outerComposite);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="outerComposite"></param>
-        protected virtual void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, OuterComposite outerComposite)
+        private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exception, string pathFormat, string path, OuterComposite outerComposite)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterCompositeSerialize(exception, pathFormat, path, outerComposite);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="outerComposite"></param>
+        partial void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, OuterComposite outerComposite);
 
         /// <summary>
         ///  Test serialization of object with outer number type
@@ -796,7 +807,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                outerComposite = OnFakeOuterCompositeSerialize(outerComposite);
+                FormatFakeOuterCompositeSerialize(outerComposite);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -809,12 +820,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerComposite, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -822,8 +831,8 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -837,13 +846,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/composite", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterFakeOuterCompositeSerialize(apiResponseLocalVar, outerComposite);
+                        AfterFakeOuterCompositeSerializeDefaultImplementation(apiResponseLocalVar, outerComposite);
 
                         return apiResponseLocalVar;
                     }
@@ -851,19 +858,22 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterCompositeSerialize(e, "/fake/outer/composite", uriBuilderLocalVar.Path, outerComposite);
+                OnErrorFakeOuterCompositeSerializeDefaultImplementation(e, "/fake/outer/composite", uriBuilderLocalVar.Path, outerComposite);
                 throw;
             }
         }
 
+        partial void FormatFakeOuterNumberSerialize(ref decimal? body);
+
         /// <summary>
-        /// Validates the request parameters
+        /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        /// <returns></returns>
-        protected virtual decimal? OnFakeOuterNumberSerialize(decimal? body)
+        private void AfterFakeOuterNumberSerializeDefaultImplementation(ApiResponse<decimal> apiResponseLocalVar, decimal? body)
         {
-            return body;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterNumberSerialize(apiResponseLocalVar, body);
         }
 
         /// <summary>
@@ -871,21 +881,29 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponseLocalVar, decimal? body)
-        {
-        }
+        partial void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponseLocalVar, decimal? body);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, decimal? body)
+        private void OnErrorFakeOuterNumberSerializeDefaultImplementation(Exception exception, string pathFormat, string path, decimal? body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterNumberSerialize(exception, pathFormat, path, body);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="body"></param>
+        partial void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, decimal? body);
 
         /// <summary>
         ///  Test serialization of outer number types
@@ -918,7 +936,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                body = OnFakeOuterNumberSerialize(body);
+                FormatFakeOuterNumberSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -931,12 +949,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -944,8 +960,8 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -959,13 +975,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/number", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<decimal> apiResponseLocalVar = new ApiResponse<decimal>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<decimal> apiResponseLocalVar = new ApiResponse<decimal>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/number", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterFakeOuterNumberSerialize(apiResponseLocalVar, body);
+                        AfterFakeOuterNumberSerializeDefaultImplementation(apiResponseLocalVar, body);
 
                         return apiResponseLocalVar;
                     }
@@ -973,18 +987,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterNumberSerialize(e, "/fake/outer/number", uriBuilderLocalVar.Path, body);
+                OnErrorFakeOuterNumberSerializeDefaultImplementation(e, "/fake/outer/number", uriBuilderLocalVar.Path, body);
                 throw;
             }
         }
+
+        partial void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, ref string body);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
         /// <returns></returns>
-        protected virtual (Guid, string) OnFakeOuterStringSerialize(Guid requiredStringUuid, string body)
+        private void ValidateFakeOuterStringSerialize(Guid requiredStringUuid)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -992,10 +1007,8 @@ namespace Org.OpenAPITools.Api
             if (requiredStringUuid == null)
                 throw new ArgumentNullException(nameof(requiredStringUuid));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredStringUuid, body);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1004,22 +1017,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string body)
+        private void AfterFakeOuterStringSerializeDefaultImplementation(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string body)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterStringSerialize(apiResponseLocalVar, requiredStringUuid, body);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requiredStringUuid"></param>
+        /// <param name="body"></param>
+        partial void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string body);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body)
+        private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterStringSerialize(exception, pathFormat, path, requiredStringUuid, body);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requiredStringUuid"></param>
+        /// <param name="body"></param>
+        partial void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body);
 
         /// <summary>
         ///  Test serialization of outer string types
@@ -1054,9 +1088,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnFakeOuterStringSerialize(requiredStringUuid, body);
-                requiredStringUuid = validatedParameterLocalVars.Item1;
-                body = validatedParameterLocalVars.Item2;
+                ValidateFakeOuterStringSerialize(requiredStringUuid);
+
+                FormatFakeOuterStringSerialize(ref requiredStringUuid, ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1068,19 +1102,17 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     parseQueryStringLocalVar["required_string_uuid"] = requiredStringUuid.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     httpRequestMessageLocalVar.Content = (body as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -1088,8 +1120,8 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -1103,13 +1135,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/string", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/string", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterFakeOuterStringSerialize(apiResponseLocalVar, requiredStringUuid, body);
+                        AfterFakeOuterStringSerializeDefaultImplementation(apiResponseLocalVar, requiredStringUuid, body);
 
                         return apiResponseLocalVar;
                     }
@@ -1117,44 +1147,52 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, body);
+                OnErrorFakeOuterStringSerializeDefaultImplementation(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, body);
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnGetArrayOfEnums()
-        {
-            return;
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        protected virtual void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
+        private void AfterGetArrayOfEnumsDefaultImplementation(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterGetArrayOfEnums(apiResponseLocalVar);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponseLocalVar);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path)
+        private void OnErrorGetArrayOfEnumsDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetArrayOfEnums(exception, pathFormat, path);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Array of Enums 
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
         public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
@@ -1172,15 +1210,13 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
         public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnGetArrayOfEnums();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -1188,12 +1224,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/array-of-enums";
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -1207,13 +1241,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/array-of-enums", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterGetArrayOfEnums(apiResponseLocalVar);
+                        AfterGetArrayOfEnumsDefaultImplementation(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1221,17 +1253,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorGetArrayOfEnums(e, "/fake/array-of-enums", uriBuilderLocalVar.Path);
+                OnErrorGetArrayOfEnumsDefaultImplementation(e, "/fake/array-of-enums", uriBuilderLocalVar.Path);
                 throw;
             }
         }
+
+        partial void FormatTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="fileSchemaTestClass"></param>
         /// <returns></returns>
-        protected virtual FileSchemaTestClass OnTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
+        private void ValidateTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1239,10 +1273,8 @@ namespace Org.OpenAPITools.Api
             if (fileSchemaTestClass == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return fileSchemaTestClass;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1250,21 +1282,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        protected virtual void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
+        private void AfterTestBodyWithFileSchemaDefaultImplementation(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestBodyWithFileSchema(apiResponseLocalVar, fileSchemaTestClass);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fileSchemaTestClass"></param>
+        partial void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="fileSchemaTestClass"></param>
-        protected virtual void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
+        private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestBodyWithFileSchema(exception, pathFormat, path, fileSchemaTestClass);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="fileSchemaTestClass"></param>
+        partial void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -1297,7 +1348,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                fileSchemaTestClass = OnTestBodyWithFileSchema(fileSchemaTestClass);
+                ValidateTestBodyWithFileSchema(fileSchemaTestClass);
+
+                FormatTestBodyWithFileSchema(fileSchemaTestClass);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1310,32 +1363,28 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/body-with-file-schema", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-file-schema", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestBodyWithFileSchema(apiResponseLocalVar, fileSchemaTestClass);
+                        AfterTestBodyWithFileSchemaDefaultImplementation(apiResponseLocalVar, fileSchemaTestClass);
 
                         return apiResponseLocalVar;
                     }
@@ -1343,10 +1392,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithFileSchema(e, "/fake/body-with-file-schema", uriBuilderLocalVar.Path, fileSchemaTestClass);
+                OnErrorTestBodyWithFileSchemaDefaultImplementation(e, "/fake/body-with-file-schema", uriBuilderLocalVar.Path, fileSchemaTestClass);
                 throw;
             }
         }
+
+        partial void FormatTestBodyWithQueryParams(User user, ref string query);
 
         /// <summary>
         /// Validates the request parameters
@@ -1354,7 +1405,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        protected virtual (User, string) OnTestBodyWithQueryParams(User user, string query)
+        private void ValidateTestBodyWithQueryParams(User user, string query)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1365,10 +1416,8 @@ namespace Org.OpenAPITools.Api
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (user, query);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1377,22 +1426,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        protected virtual void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponseLocalVar, User user, string query)
+        private void AfterTestBodyWithQueryParamsDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string query)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestBodyWithQueryParams(apiResponseLocalVar, user, query);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        partial void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponseLocalVar, User user, string query);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        protected virtual void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query)
+        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, User user, string query)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestBodyWithQueryParams(exception, pathFormat, path, user, query);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        partial void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query);
 
         /// <summary>
         ///  
@@ -1427,9 +1497,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestBodyWithQueryParams(user, query);
-                user = validatedParameterLocalVars.Item1;
-                query = validatedParameterLocalVars.Item2;
+                ValidateTestBodyWithQueryParams(user, query);
+
+                FormatTestBodyWithQueryParams(user, ref query);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1441,39 +1511,35 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     parseQueryStringLocalVar["query"] = query.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/body-with-query-params", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-query-params", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestBodyWithQueryParams(apiResponseLocalVar, user, query);
+                        AfterTestBodyWithQueryParamsDefaultImplementation(apiResponseLocalVar, user, query);
 
                         return apiResponseLocalVar;
                     }
@@ -1481,17 +1547,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithQueryParams(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, user, query);
+                OnErrorTestBodyWithQueryParamsDefaultImplementation(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, user, query);
                 throw;
             }
         }
+
+        partial void FormatTestClientModel(ModelClient modelClient);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        protected virtual ModelClient OnTestClientModel(ModelClient modelClient)
+        private void ValidateTestClientModel(ModelClient modelClient)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1499,10 +1567,8 @@ namespace Org.OpenAPITools.Api
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return modelClient;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1510,21 +1576,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        protected virtual void AfterTestClientModel(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterTestClientModelDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestClientModel(apiResponseLocalVar, modelClient);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="modelClient"></param>
+        partial void AfterTestClientModel(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorTestClientModelDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestClientModel(exception, pathFormat, path, modelClient);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="modelClient"></param>
+        partial void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
@@ -1557,7 +1642,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                modelClient = OnTestClientModel(modelClient);
+                ValidateTestClientModel(modelClient);
+
+                FormatTestClientModel(modelClient);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1570,12 +1657,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -1583,8 +1668,8 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -1598,13 +1683,11 @@ namespace Org.OpenAPITools.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestClientModel(apiResponseLocalVar, modelClient);
+                        AfterTestClientModelDefaultImplementation(apiResponseLocalVar, modelClient);
 
                         return apiResponseLocalVar;
                     }
@@ -1612,10 +1695,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestClientModel(e, "/fake", uriBuilderLocalVar.Path, modelClient);
+                OnErrorTestClientModelDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, modelClient);
                 throw;
             }
         }
+
+        partial void FormatTestEndpointParameters(ref byte[] varByte, ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref DateTime? date, ref System.IO.Stream binary, ref float? varFloat, ref int? integer, ref int? int32, ref long? int64, ref string varString, ref string password, ref string callback, ref DateTime? dateTime);
 
         /// <summary>
         /// Validates the request parameters
@@ -1624,18 +1709,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="date"></param>
-        /// <param name="binary"></param>
-        /// <param name="varFloat"></param>
-        /// <param name="integer"></param>
-        /// <param name="int32"></param>
-        /// <param name="int64"></param>
-        /// <param name="varString"></param>
-        /// <param name="password"></param>
-        /// <param name="callback"></param>
-        /// <param name="dateTime"></param>
         /// <returns></returns>
-        protected virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream, float?, int?, int?, long?, string, string, string, DateTime?) OnTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
+        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1652,10 +1727,8 @@ namespace Org.OpenAPITools.Api
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1676,12 +1749,34 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
+        private void AfterTestEndpointParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestEndpointParameters(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="varByte"></param>
+        /// <param name="number"></param>
+        /// <param name="varDouble"></param>
+        /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="varString"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
+        partial void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -1700,10 +1795,33 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
+        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestEndpointParameters(exception, pathFormat, path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="varByte"></param>
+        /// <param name="number"></param>
+        /// <param name="varDouble"></param>
+        /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="varString"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
+        partial void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1762,21 +1880,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
-                varByte = validatedParameterLocalVars.Item1;
-                number = validatedParameterLocalVars.Item2;
-                varDouble = validatedParameterLocalVars.Item3;
-                patternWithoutDelimiter = validatedParameterLocalVars.Item4;
-                date = validatedParameterLocalVars.Item5;
-                binary = validatedParameterLocalVars.Item6;
-                varFloat = validatedParameterLocalVars.Item7;
-                integer = validatedParameterLocalVars.Item8;
-                int32 = validatedParameterLocalVars.Item9;
-                int64 = validatedParameterLocalVars.Item10;
-                varString = validatedParameterLocalVars.Item11;
-                password = validatedParameterLocalVars.Item12;
-                callback = validatedParameterLocalVars.Item13;
-                dateTime = validatedParameterLocalVars.Item14;
+                ValidateTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter);
+
+                FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1795,15 +1901,9 @@ namespace Org.OpenAPITools.Api
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("byte", ClientUtils.ParameterToString(varByte)));
 
-
-
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("number", ClientUtils.ParameterToString(number)));
 
-
-
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("double", ClientUtils.ParameterToString(varDouble)));
-
-
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("pattern_without_delimiter", ClientUtils.ParameterToString(patternWithoutDelimiter)));
 
@@ -1839,8 +1939,6 @@ namespace Org.OpenAPITools.Api
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     BasicToken basicTokenLocalVar = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -1850,27 +1948,25 @@ namespace Org.OpenAPITools.Api
                     basicTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestEndpointParameters(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1882,14 +1978,17 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEndpointParameters(e, "/fake", uriBuilderLocalVar.Path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+                OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
                 throw;
             }
         }
 
+        partial void FormatTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, ref double? enumQueryDouble, ref int? enumQueryInteger, List<string> enumFormStringArray, ref string enumHeaderString, ref string enumQueryString, ref string enumFormString);
+
         /// <summary>
-        /// Validates the request parameters
+        /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
         /// <param name="enumQueryDouble"></param>
@@ -1898,10 +1997,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        /// <returns></returns>
-        protected virtual (List<string>, List<string>, double?, int?, List<string>, string, string, string) OnTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        private void AfterTestEnumParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
-            return (enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestEnumParameters(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
 
         /// <summary>
@@ -1916,12 +2015,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        protected virtual void AfterTestEnumParameters(ApiResponse<object> apiResponseLocalVar, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
-        {
-        }
+        partial void AfterTestEnumParameters(ApiResponse<object> apiResponseLocalVar, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -1934,10 +2031,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        protected virtual void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        private void OnErrorTestEnumParametersDefaultImplementation(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestEnumParameters(exception, pathFormat, path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="enumHeaderStringArray"></param>
+        /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
+        /// <param name="enumHeaderString"></param>
+        /// <param name="enumQueryString"></param>
+        /// <param name="enumFormString"></param>
+        partial void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString);
 
         /// <summary>
         /// To test enum parameters To test enum parameters
@@ -1984,15 +2098,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
-                enumHeaderStringArray = validatedParameterLocalVars.Item1;
-                enumQueryStringArray = validatedParameterLocalVars.Item2;
-                enumQueryDouble = validatedParameterLocalVars.Item3;
-                enumQueryInteger = validatedParameterLocalVars.Item4;
-                enumFormStringArray = validatedParameterLocalVars.Item5;
-                enumHeaderString = validatedParameterLocalVars.Item6;
-                enumQueryString = validatedParameterLocalVars.Item7;
-                enumFormString = validatedParameterLocalVars.Item8;
+                FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2002,6 +2108,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
                     if (enumQueryStringArray != null)
                         parseQueryStringLocalVar["enum_query_string_array"] = enumQueryStringArray.ToString();
 
@@ -2034,32 +2141,28 @@ namespace Org.OpenAPITools.Api
                     if (enumFormString != null)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("enum_form_string", ClientUtils.ParameterToString(enumFormString)));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestEnumParameters(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                        AfterTestEnumParametersDefaultImplementation(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 
                         return apiResponseLocalVar;
                     }
@@ -2067,10 +2170,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEnumParameters(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                OnErrorTestEnumParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
                 throw;
             }
         }
+
+        partial void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref int requiredStringGroup, ref long requiredInt64Group, ref bool? booleanGroup, ref int? stringGroup, ref long? int64Group);
 
         /// <summary>
         /// Validates the request parameters
@@ -2078,11 +2183,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="booleanGroup"></param>
-        /// <param name="stringGroup"></param>
-        /// <param name="int64Group"></param>
         /// <returns></returns>
-        protected virtual (bool, int, long, bool?, int?, long?) OnTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2096,10 +2198,8 @@ namespace Org.OpenAPITools.Api
             if (requiredInt64Group == null)
                 throw new ArgumentNullException(nameof(requiredInt64Group));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2112,12 +2212,26 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        protected virtual void AfterTestGroupParameters(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void AfterTestGroupParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestGroupParameters(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
+        /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
+        partial void AfterTestGroupParameters(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -2128,10 +2242,25 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        protected virtual void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void OnErrorTestGroupParametersDefaultImplementation(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestGroupParameters(exception, pathFormat, path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
+        /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
+        partial void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
@@ -2174,13 +2303,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
-                requiredBooleanGroup = validatedParameterLocalVars.Item1;
-                requiredStringGroup = validatedParameterLocalVars.Item2;
-                requiredInt64Group = validatedParameterLocalVars.Item3;
-                booleanGroup = validatedParameterLocalVars.Item4;
-                stringGroup = validatedParameterLocalVars.Item5;
-                int64Group = validatedParameterLocalVars.Item6;
+                ValidateTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group);
+
+                FormatTestGroupParameters(ref requiredBooleanGroup, ref requiredStringGroup, ref requiredInt64Group, ref booleanGroup, ref stringGroup, ref int64Group);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2193,7 +2318,7 @@ namespace Org.OpenAPITools.Api
 
                     parseQueryStringLocalVar["required_string_group"] = requiredStringGroup.ToString();
                     parseQueryStringLocalVar["required_int64_group"] = requiredInt64Group.ToString();
-                    
+
                     if (stringGroup != null)
                         parseQueryStringLocalVar["string_group"] = stringGroup.ToString();
 
@@ -2209,8 +2334,6 @@ namespace Org.OpenAPITools.Api
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -2218,20 +2341,18 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(bearerTokenLocalVar);
 
                     bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestGroupParameters(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                        AfterTestGroupParametersDefaultImplementation(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -2243,17 +2364,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestGroupParameters(e, "/fake", uriBuilderLocalVar.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                OnErrorTestGroupParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
                 throw;
             }
         }
+
+        partial void FormatTestInlineAdditionalProperties(Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requestBody"></param>
         /// <returns></returns>
-        protected virtual Dictionary<string, string> OnTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
+        private void ValidateTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2261,10 +2384,8 @@ namespace Org.OpenAPITools.Api
             if (requestBody == null)
                 throw new ArgumentNullException(nameof(requestBody));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return requestBody;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2272,21 +2393,40 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        protected virtual void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody)
+        private void AfterTestInlineAdditionalPropertiesDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestInlineAdditionalProperties(apiResponseLocalVar, requestBody);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requestBody"></param>
+        partial void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requestBody"></param>
-        protected virtual void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
+        private void OnErrorTestInlineAdditionalPropertiesDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestInlineAdditionalProperties(exception, pathFormat, path, requestBody);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requestBody"></param>
+        partial void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// test inline additionalProperties 
@@ -2319,7 +2459,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                requestBody = OnTestInlineAdditionalProperties(requestBody);
+                ValidateTestInlineAdditionalProperties(requestBody);
+
+                FormatTestInlineAdditionalProperties(requestBody);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2332,32 +2474,28 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-additionalProperties", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestInlineAdditionalProperties(apiResponseLocalVar, requestBody);
+                        AfterTestInlineAdditionalPropertiesDefaultImplementation(apiResponseLocalVar, requestBody);
 
                         return apiResponseLocalVar;
                     }
@@ -2365,10 +2503,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestInlineAdditionalProperties(e, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path, requestBody);
+                OnErrorTestInlineAdditionalPropertiesDefaultImplementation(e, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path, requestBody);
                 throw;
             }
         }
+
+        partial void FormatTestJsonFormData(ref string param, ref string param2);
 
         /// <summary>
         /// Validates the request parameters
@@ -2376,7 +2516,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="param"></param>
         /// <param name="param2"></param>
         /// <returns></returns>
-        protected virtual (string, string) OnTestJsonFormData(string param, string param2)
+        private void ValidateTestJsonFormData(string param, string param2)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2387,10 +2527,8 @@ namespace Org.OpenAPITools.Api
             if (param2 == null)
                 throw new ArgumentNullException(nameof(param2));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (param, param2);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2399,22 +2537,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        protected virtual void AfterTestJsonFormData(ApiResponse<object> apiResponseLocalVar, string param, string param2)
+        private void AfterTestJsonFormDataDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string param, string param2)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestJsonFormData(apiResponseLocalVar, param, param2);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="param"></param>
+        /// <param name="param2"></param>
+        partial void AfterTestJsonFormData(ApiResponse<object> apiResponseLocalVar, string param, string param2);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        protected virtual void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2)
+        private void OnErrorTestJsonFormDataDefaultImplementation(Exception exception, string pathFormat, string path, string param, string param2)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestJsonFormData(exception, pathFormat, path, param, param2);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="param"></param>
+        /// <param name="param2"></param>
+        partial void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2);
 
         /// <summary>
         /// test json serialization of form data 
@@ -2449,9 +2608,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestJsonFormData(param, param2);
-                param = validatedParameterLocalVars.Item1;
-                param2 = validatedParameterLocalVars.Item2;
+                ValidateTestJsonFormData(param, param2);
+
+                FormatTestJsonFormData(ref param, ref param2);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2470,36 +2629,30 @@ namespace Org.OpenAPITools.Api
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param", ClientUtils.ParameterToString(param)));
 
-
-
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param2", ClientUtils.ParameterToString(param2)));
-
-
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/jsonFormData", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/jsonFormData", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestJsonFormData(apiResponseLocalVar, param, param2);
+                        AfterTestJsonFormDataDefaultImplementation(apiResponseLocalVar, param, param2);
 
                         return apiResponseLocalVar;
                     }
@@ -2507,10 +2660,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestJsonFormData(e, "/fake/jsonFormData", uriBuilderLocalVar.Path, param, param2);
+                OnErrorTestJsonFormDataDefaultImplementation(e, "/fake/jsonFormData", uriBuilderLocalVar.Path, param, param2);
                 throw;
             }
         }
+
+        partial void FormatTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
 
         /// <summary>
         /// Validates the request parameters
@@ -2521,7 +2676,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual (List<string>, List<string>, List<string>, List<string>, List<string>) OnTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void ValidateTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2541,10 +2696,8 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (pipe, ioutil, http, url, context);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2556,12 +2709,25 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
-        protected virtual void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void AfterTestQueryParameterCollectionFormatDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestQueryParameterCollectionFormat(apiResponseLocalVar, pipe, ioutil, http, url, context);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        partial void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -2571,10 +2737,24 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
-        protected virtual void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestQueryParameterCollectionFormat(exception, pathFormat, path, pipe, ioutil, http, url, context);
         }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        partial void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
 
         /// <summary>
         ///  To test the collection format in query parameters
@@ -2615,12 +2795,9 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                var validatedParameterLocalVars = OnTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
-                pipe = validatedParameterLocalVars.Item1;
-                ioutil = validatedParameterLocalVars.Item2;
-                http = validatedParameterLocalVars.Item3;
-                url = validatedParameterLocalVars.Item4;
-                context = validatedParameterLocalVars.Item5;
+                ValidateTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
+                FormatTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2636,26 +2813,22 @@ namespace Org.OpenAPITools.Api
                     parseQueryStringLocalVar["http"] = http.ToString();
                     parseQueryStringLocalVar["url"] = url.ToString();
                     parseQueryStringLocalVar["context"] = context.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-                        
+
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/test-query-parameters", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, _jsonSerializerOptions);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/test-query-parameters", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestQueryParameterCollectionFormat(apiResponseLocalVar, pipe, ioutil, http, url, context);
+                        AfterTestQueryParameterCollectionFormatDefaultImplementation(apiResponseLocalVar, pipe, ioutil, http, url, context);
 
                         return apiResponseLocalVar;
                     }
@@ -2663,7 +2836,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestQueryParameterCollectionFormat(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, pipe, ioutil, http, url, context);
+                OnErrorTestQueryParameterCollectionFormatDefaultImplementation(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, pipe, ioutil, http, url, context);
                 throw;
             }
         }

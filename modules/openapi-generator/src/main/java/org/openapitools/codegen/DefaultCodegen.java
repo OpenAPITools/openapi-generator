@@ -2753,7 +2753,9 @@ public class DefaultCodegen implements CodegenConfig {
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else {
                         // composition
-                        addProperties(properties, required, refSchema, new HashSet<>());
+                        Map<String, Schema> newProperties = new LinkedHashMap<>();
+                        addProperties(newProperties, required, refSchema, new HashSet<>());
+                        mergeProperties(properties, newProperties);
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     }
                 }
@@ -2827,6 +2829,28 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // end of code block for composed schema
+    }
+
+    /**
+     * Combines all previously-detected type entries for a schema with newly-discovered ones, to ensure
+     * that schema for items like enum include all possible values.
+     */
+    private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
+        // https://github.com/OpenAPITools/openapi-generator/issues/12545
+        if (null != existingProperties && null != newProperties) {
+            Schema existingType = existingProperties.get("type");
+            Schema newType = newProperties.get("type");
+            existingProperties.putAll(newProperties);
+            if (null != existingType && null != newType && !newType.getEnum().isEmpty()) {
+                for (Object e : newType.getEnum()) {
+                    // ensure all interface enum types are added to schema
+                    if (null != existingType.getEnum() && !existingType.getEnum().contains(e)) {
+                        existingType.addEnumItemObject(e);
+                    }
+                }
+                existingProperties.put("type", existingType);
+            }
+        }
     }
 
     protected void updateModelForObject(CodegenModel m, Schema schema) {
@@ -7220,10 +7244,6 @@ public class DefaultCodegen implements CodegenConfig {
                 innerCp = innerCp.items;
             }
 
-            if (mostInnerItem == null) {
-                throw new RuntimeException("mostInnerItem (codegen property of array item) cannot be null. " + arraySchema);
-            }
-
             if (StringUtils.isEmpty(bodyParameterName)) {
                 if (StringUtils.isEmpty(mostInnerItem.complexType)) {
                     codegenParameter.baseName = "request_body";
@@ -8140,7 +8160,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Schema the input data converted to a Schema if possible
      */
     protected Schema getSchemaFromBooleanOrSchema(Object schema) {
-        if (schema instanceof Boolean) {
+        if (schema == null) {
+            return null;
+        } else if (schema instanceof Boolean) {
             if (Boolean.TRUE.equals(schema)) {
                 return trueSchema;
             } else if (Boolean.FALSE.equals(schema)) {
@@ -8149,13 +8171,9 @@ public class DefaultCodegen implements CodegenConfig {
             // null case
             return null;
         } else if (schema instanceof Schema) {
-            if (schema == null) {
-                return null;
-            }
             return (Schema) schema;
-        } else if (schema == null) {
-            return null;
+        } else {
+            throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
         }
-        throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
     }
 }
