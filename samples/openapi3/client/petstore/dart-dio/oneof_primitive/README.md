@@ -51,7 +51,7 @@ final api = Openapi().getDefaultApi();
 try {
     final response = await api.list();
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling DefaultApi->list: $e\n");
 }
 
