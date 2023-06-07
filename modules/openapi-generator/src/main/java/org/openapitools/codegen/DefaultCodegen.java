@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen;
+ package org.openapitools.codegen;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -5910,13 +5910,42 @@ public class DefaultCodegen implements CodegenConfig {
      * @return camelized string
      */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
-        String result = Arrays.stream(name.split(nonNameElementPattern))
+        String[] splitString = name.split(nonNameElementPattern);
+
+        if (splitString.length > 0) {
+            splitString[0] = lowerStartOfWord(splitString[0]);
+        }
+
+        String result = Arrays.stream(splitString)
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(""));
         if (result.length() > 0) {
             result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
         }
         return result;
+    }
+
+    /**
+     * Puts the first letters to lowercase. If the word starts with multiple capital letters, all of them
+     * will be converted to lowercase.
+     * @param name string to be changed
+     * @return string starting with lowercase
+     */
+    private String lowerStartOfWord(final String name) {
+        final StringBuilder result = new StringBuilder();
+        boolean isStartingBlock = true;
+        for (int i = 0; i < name.length(); i++) {
+            char current = name.charAt(i);
+            if (isStartingBlock && Character.isUpperCase(current)) {
+                current = Character.toLowerCase(current);
+            } else {
+                isStartingBlock = false;
+            }
+
+            result.append(current);
+        }
+
+        return result.toString();
     }
 
     @Override
