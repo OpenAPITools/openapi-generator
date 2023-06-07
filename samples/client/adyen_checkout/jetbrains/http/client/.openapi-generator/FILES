@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 Apis/ClassicCheckoutSDKApi.http
 Apis/ModificationsApi.http
 Apis/OrdersApi.http
