@@ -1,0 +1,11 @@
+## RecurringApi
+
+### Delete a token for stored payment details
+## Deletes the token identified in the path. The token can no longer be used with payment requests.
+# @name deleteStoredPaymentMethodsRecurringId
+DELETE https://checkout-test.adyen.com/v70/storedPaymentMethods/{{recurringId}}
+
+### Get tokens for stored payment details
+## Lists the tokens for stored payment details for the shopper identified in the path, if there are any available. The token ID can be used with payment requests for the shopper&#39;s payment. A summary of the stored details is included.  
+# @name getStoredPaymentMethods
+GET https://checkout-test.adyen.com/v70/storedPaymentMethods

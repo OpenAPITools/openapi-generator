@@ -1,0 +1,19 @@
+## OrdersApi
+
+### Create an order
+## Creates an order to be used for partial payments. Make a POST &#x60;/orders&#x60; call before making a &#x60;/payments&#x60; call when processing payments with different payment methods.
+# @name postOrders
+POST https://checkout-test.adyen.com/v70/orders
+Content-Type: application/json
+
+### Cancel an order
+## Cancels an order. Cancellation of an order results in an automatic rollback of all payments made in the order, either by canceling or refunding the payment, depending on the type of payment method.
+# @name postOrdersCancel
+POST https://checkout-test.adyen.com/v70/orders/cancel
+Content-Type: application/json
+
+### Get the balance of a gift card
+## Retrieves the balance remaining on a shopper&#39;s gift card. To check a gift card&#39;s balance, make a POST &#x60;/paymentMethods/balance&#x60; call and include the gift card&#39;s details inside a &#x60;paymentMethod&#x60; object.
+# @name postPaymentMethodsBalance
+POST https://checkout-test.adyen.com/v70/paymentMethods/balance
+Content-Type: application/json

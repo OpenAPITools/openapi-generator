@@ -1,0 +1,13 @@
+## UtilityApi
+
+### Get an Apple Pay session
+## You need to use this endpoint if you have an API-only integration with Apple Pay which uses Adyen&#39;s Apple Pay certificate.  The endpoint returns the Apple Pay session data which you need to complete the [Apple Pay session validation](https://docs.adyen.com/payment-methods/apple-pay/api-only?tab&#x3D;adyen-certificate-validation_1#complete-apple-pay-session-validation).
+# @name postApplePaySessions
+POST https://checkout-test.adyen.com/v70/applePay/sessions
+Content-Type: application/json
+
+### Create originKey values for domains
+## This operation takes the origin domains and returns a JSON object containing the corresponding origin keys for the domains.  &gt; If you&#39;re still using origin key for your Web Drop-in or Components integration, we recommend [switching to client key](https://docs.adyen.com/development-resources/client-side-authentication/migrate-from-origin-key-to-client-key). This allows you to use a single key for all origins, add or remove origins without generating a new key, and detect the card type from the number entered in your payment form. 
+# @name postOriginKeys
+POST https://checkout-test.adyen.com/v70/originKeys
+Content-Type: application/json
