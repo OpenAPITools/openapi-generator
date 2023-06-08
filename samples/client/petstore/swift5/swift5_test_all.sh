@@ -13,8 +13,7 @@ DIRECTORY=`dirname $0`
 (cd $DIRECTORY/urlsessionLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 
 # spm build
-(cd $DIRECTORY/alamofireLibrary/ && ./run_spmbuild.sh)
-(cd $DIRECTORY/alamofireLibrary/ && ./run_spmbuild.sh)
+#(cd $DIRECTORY/alamofireLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/anycodable/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/asyncAwaitLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/combineLibrary/ && ./run_spmbuild.sh)
