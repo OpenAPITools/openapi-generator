@@ -127,6 +127,7 @@ public class Bar extends Entity implements BarRefOrValue {
     this.foo = foo;
   }
 
+
   public Bar href(String href) {
     super.setHref(href);
     return this;
@@ -146,7 +147,6 @@ public class Bar extends Entity implements BarRefOrValue {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

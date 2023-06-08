@@ -69,6 +69,7 @@ public class CatDto extends AnimalDto {
     this.declawed = declawed;
   }
 
+
   public CatDto className(String className) {
     super.setClassName(className);
     return this;
@@ -78,7 +79,6 @@ public class CatDto extends AnimalDto {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

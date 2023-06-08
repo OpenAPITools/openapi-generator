@@ -716,6 +716,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             apiTemplateFiles.clear();
             modelTemplateFiles.clear();
         }
+        supportsAdditionalPropertiesWithComposedSchema = true;
     }
 
     private boolean containsEnums() {
