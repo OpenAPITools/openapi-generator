@@ -13,6 +13,7 @@ import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
+import javax.validation.Valid;
 
 @ApiModel(description="A pet for sale in the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class Pet   {
@@ -64,6 +65,7 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("category")
+  @Valid
   public Category getCategory() {
     return category;
   }
@@ -102,6 +104,7 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
+  @Valid
   public List<Tag> getTags() {
     return tags;
   }
