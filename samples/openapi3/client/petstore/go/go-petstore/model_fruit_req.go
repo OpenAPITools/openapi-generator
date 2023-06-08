@@ -23,12 +23,16 @@ type FruitReq struct {
 
 // AppleReqAsFruitReq is a convenience function that returns AppleReq wrapped in FruitReq
 func AppleReqAsFruitReq(v *AppleReq) FruitReq {
-	return FruitReq{ AppleReq: v}
+	return FruitReq{
+		AppleReq: v,
+	}
 }
 
 // BananaReqAsFruitReq is a convenience function that returns BananaReq wrapped in FruitReq
 func BananaReqAsFruitReq(v *BananaReq) FruitReq {
-	return FruitReq{ BananaReq: v}
+	return FruitReq{
+		BananaReq: v,
+	}
 }
 
 
@@ -37,7 +41,7 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into AppleReq
-	err = json.Unmarshal(data, &dst.AppleReq)
+	err = newStrictDecoder(data).Decode(&dst.AppleReq)
 	if err == nil {
 		jsonAppleReq, _ := json.Marshal(dst.AppleReq)
 		if string(jsonAppleReq) == "{}" { // empty struct
@@ -50,7 +54,7 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal data into BananaReq
-	err = json.Unmarshal(data, &dst.BananaReq)
+	err = newStrictDecoder(data).Decode(&dst.BananaReq)
 	if err == nil {
 		jsonBananaReq, _ := json.Marshal(dst.BananaReq)
 		if string(jsonBananaReq) == "{}" { // empty struct
@@ -90,6 +94,9 @@ func (src FruitReq) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *FruitReq) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.AppleReq != nil {
 		return obj.AppleReq
 	}

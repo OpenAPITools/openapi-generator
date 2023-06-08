@@ -17,7 +17,7 @@ import (
 // FileSchemaTestClass struct for FileSchemaTestClass
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
-	Files *[]File `json:"files,omitempty"`
+	Files []File `json:"files,omitempty"`
 }
 
 // NewFileSchemaTestClass instantiates a new FileSchemaTestClass object
@@ -75,12 +75,12 @@ func (o *FileSchemaTestClass) GetFiles() []File {
 		var ret []File
 		return ret
 	}
-	return *o.Files
+	return o.Files
 }
 
 // GetFilesOk returns a tuple with the Files field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FileSchemaTestClass) GetFilesOk() (*[]File, bool) {
+func (o *FileSchemaTestClass) GetFilesOk() ([]File, bool) {
 	if o == nil || o.Files == nil {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *FileSchemaTestClass) HasFiles() bool {
 
 // SetFiles gets a reference to the given []File and assigns it to the Files field.
 func (o *FileSchemaTestClass) SetFiles(v []File) {
-	o.Files = &v
+	o.Files = v
 }
 
 func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {

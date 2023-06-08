@@ -1,4 +1,4 @@
-public enum {{classname}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
+public enum {{classname}}: {{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable, JSONEncodable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
     {{#oneOf}}
     case type{{.}}({{.}})
     {{/oneOf}}

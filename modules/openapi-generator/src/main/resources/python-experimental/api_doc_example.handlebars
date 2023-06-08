@@ -1,0 +1,163 @@
+```python
+import {{{packageName}}}
+from {{packageName}}.{{apiPackage}} import {{classFilename}}
+{{#each imports}}
+{{{.}}}
+{{/each}}
+from pprint import pprint
+{{> doc_auth_partial}}
+# Enter a context with an instance of the API client
+with {{{packageName}}}.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = {{classFilename}}.{{{classname}}}(api_client)
+{{#if requiredParams}}
+
+    # example passing only required values which don't have defaults set
+{{#if pathParams}}
+    path_params = {
+    {{#each pathParams}}
+    {{#if required}}
+        '{{baseName}}': {{{example}}},
+    {{/if}}
+    {{/each}}
+    }
+{{/if}}
+{{#if queryParams}}
+    query_params = {
+    {{#each queryParams}}
+    {{#if required}}
+        '{{baseName}}': {{{example}}},
+    {{/if}}
+    {{/each}}
+    }
+{{/if}}
+{{#if cookieParams}}
+    cookie_params = {
+    {{#each cookieParams}}
+    {{#if required}}
+        '{{baseName}}': {{{example}}},
+    {{/if}}
+    {{/each}}
+    }
+{{/if}}
+{{#if headerParams}}
+    header_params = {
+    {{#each headerParams}}
+    {{#if required}}
+        '{{baseName}}': {{{example}}},
+    {{/if}}
+    {{/each}}
+    }
+{{/if}}
+{{#with bodyParam}}
+    {{#if required}}
+    body = {{{example}}}
+    {{/if}}
+{{/with}}
+    try:
+{{#if summary}}
+        # {{{summary}}}
+{{/if}}
+        api_response = api_instance.{{{operationId}}}(
+            {{#if pathParams}}
+            path_params=path_params,
+            {{/if}}
+            {{#if queryParams}}
+            query_params=query_params,
+            {{/if}}
+            {{#if headerParams}}
+            header_params=header_params,
+            {{/if}}
+            {{#if cookieParams}}
+            cookie_params=cookie_params,
+            {{/if}}
+            {{#with bodyParam}}
+            {{#if required}}
+            body=body,
+            {{/if}}
+            {{/with}}
+        )
+{{#if returnType}}
+        pprint(api_response)
+{{/if}}
+    except {{{packageName}}}.ApiException as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/if}}
+{{#if optionalParams}}
+
+    # example passing only optional values
+{{#if pathParams}}
+    path_params = {
+    {{#each pathParams}}
+        '{{baseName}}': {{{example}}},
+    {{/each}}
+    }
+{{/if}}
+{{#if queryParams}}
+    query_params = {
+    {{#each queryParams}}
+        '{{baseName}}': {{{example}}},
+    {{/each}}
+    }
+{{/if}}
+{{#if cookieParams}}
+    cookie_params = {
+    {{#each cookieParams}}
+        '{{baseName}}': {{{example}}},
+    {{/each}}
+    }
+{{/if}}
+{{#if headerParams}}
+    header_params = {
+    {{#each headerParams}}
+        '{{baseName}}': {{{example}}},
+    {{/each}}
+    }
+{{/if}}
+{{#with bodyParam}}
+    body = {{{example}}}
+{{/with}}
+    try:
+{{#if summary}}
+        # {{{summary}}}
+{{/if}}
+        api_response = api_instance.{{{operationId}}}(
+            {{#if pathParams}}
+            path_params=path_params,
+            {{/if}}
+            {{#if queryParams}}
+            query_params=query_params,
+            {{/if}}
+            {{#if headerParams}}
+            header_params=header_params,
+            {{/if}}
+            {{#if cookieParams}}
+            cookie_params=cookie_params,
+            {{/if}}
+            {{#if bodyParam}}
+            body=body,
+            {{/if}}
+        )
+{{#if returnType}}
+        pprint(api_response)
+{{/if}}
+    except {{{packageName}}}.ApiException as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/if}}
+{{#unless requiredParams}}
+{{#unless optionalParams}}
+
+    # example, this endpoint has no required or optional parameters
+    try:
+{{#if summary}}
+        # {{{summary}}}
+{{/if}}
+        api_response = api_instance.{{{operationId}}}()
+{{#if returnType}}
+        pprint(api_response)
+{{/if}}
+    except {{{packageName}}}.ApiException as e:
+        print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/unless}}
+{{/unless}}
+```

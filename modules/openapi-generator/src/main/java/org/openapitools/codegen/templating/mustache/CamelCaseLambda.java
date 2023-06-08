@@ -62,7 +62,7 @@ public class CamelCaseLambda implements Mustache.Lambda {
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String text = camelize(fragment.execute(), lowercaseFirstLetter);
+        String text = camelize(fragment.execute().replace(" ", "_"), lowercaseFirstLetter);
         if (generator != null) {
             text = generator.sanitizeName(text);
             if (generator.reservedWords().contains(text)) {

@@ -11,9 +11,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("ReadOnlyFirst")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ReadOnlyFirst  implements Serializable {
   
   private @Valid String bar;
@@ -35,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(String bar) {
     this.bar = bar;
   }
@@ -55,6 +58,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(String baz) {
     this.baz = baz;
   }

@@ -76,12 +76,6 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-    def test_get_inline_additionl_properties_ref_payload(self):
-        """Test case for get_inline_additionl_properties_ref_payload
-
-        """
-        pass
-
     def test_mammal(self):
         """Test case for mammal
 
@@ -96,6 +90,18 @@ class TestFakeApi(unittest.TestCase):
 
     def test_object_model_with_ref_props(self):
         """Test case for object_model_with_ref_props
+
+        """
+        pass
+
+    def test_post_inline_additional_properties_payload(self):
+        """Test case for post_inline_additional_properties_payload
+
+        """
+        pass
+
+    def test_post_inline_additional_properties_ref_payload(self):
+        """Test case for post_inline_additional_properties_ref_payload
 
         """
         pass
@@ -168,6 +174,12 @@ class TestFakeApi(unittest.TestCase):
 
     def test_test_query_parameter_collection_format(self):
         """Test case for test_query_parameter_collection_format
+
+        """
+        pass
+
+    def test_tx_rx_any_of_model(self):
+        """Test case for tx_rx_any_of_model
 
         """
         pass

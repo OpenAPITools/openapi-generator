@@ -1,0 +1,57 @@
+group "{{groupId}}"
+version "{{artifactVersion}}"
+
+wrapper {
+    gradleVersion = "6.9"
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+buildscript {
+    ext.kotlin_version = "1.4.32"
+    ext.jakarta_ws_rs_version = "2.1.6"
+    ext.swagger_annotations_version = "1.5.3"
+    ext.jakarta_annotations_version = "1.3.5"
+    ext.jackson_version = "2.9.9"
+{{#useBeanValidation}}
+    ext.beanvalidation_version = "2.0.2"
+{{/useBeanValidation}}
+    repositories {
+        maven { url "https://repo1.maven.org/maven2" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    }
+}
+
+apply plugin: "java"
+apply plugin: "kotlin"
+apply plugin: "application"
+
+sourceCompatibility = 1.8
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+repositories {
+    maven { setUrl("https://repo1.maven.org/maven2") }
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    implementation("ch.qos.logback:logback-classic:1.2.1")
+    implementation("jakarta.ws.rs:jakarta.ws.rs-api:$jakarta_ws_rs_version")
+    implementation("jakarta.annotation:jakarta.annotation-api:$jakarta_annotations_version")
+    implementation("io.swagger:swagger-annotations:$swagger_annotations_version")
+    implementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version")
+{{#useBeanValidation}}
+    implementation("jakarta.validation:jakarta.validation-api:$beanvalidation_version")
+{{/useBeanValidation}}
+    testImplementation("junit:junit:4.13.2")
+}

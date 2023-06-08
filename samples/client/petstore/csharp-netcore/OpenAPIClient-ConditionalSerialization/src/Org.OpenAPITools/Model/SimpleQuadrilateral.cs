@@ -48,12 +48,14 @@ namespace Org.OpenAPITools.Model
         public SimpleQuadrilateral(string shapeType = default(string), string quadrilateralType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            if (shapeType == null) {
+            if (shapeType == null)
+            {
                 throw new ArgumentNullException("shapeType is a required property for SimpleQuadrilateral and cannot be null");
             }
             this._ShapeType = shapeType;
             // to ensure "quadrilateralType" is required (not null)
-            if (quadrilateralType == null) {
+            if (quadrilateralType == null)
+            {
                 throw new ArgumentNullException("quadrilateralType is a required property for SimpleQuadrilateral and cannot be null");
             }
             this._QuadrilateralType = quadrilateralType;

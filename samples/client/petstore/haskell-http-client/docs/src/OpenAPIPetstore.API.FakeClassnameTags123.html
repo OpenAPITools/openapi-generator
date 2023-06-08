@@ -71,10 +71,11 @@ Module : OpenAPIPetstore.API.FakeClassnameTags123
 </span><span id="line-71"></span><span>  </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#Consumes"><span class="hs-identifier hs-type">Consumes</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#TestClassname"><span class="hs-identifier hs-type">TestClassname</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#MimeJSON"><span class="hs-identifier hs-type">MimeJSON</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#MimeRender"><span class="hs-identifier hs-type">MimeRender</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#MimeJSON"><span class="hs-identifier hs-type">MimeJSON</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.Model.html#Client"><span class="hs-identifier hs-type">Client</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-72"></span><span>  </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="OpenAPIPetstore.Model.html#Client"><span class="hs-identifier hs-type">Client</span></a></span><span> </span><span class="hs-comment">-- ^ &quot;body&quot; -  client model</span><span>
 </span><span id="line-73"></span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="OpenAPIPetstore.Core.html#OpenAPIPetstoreRequest"><span class="hs-identifier hs-type">OpenAPIPetstoreRequest</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#TestClassname"><span class="hs-identifier hs-type">TestClassname</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#MimeJSON"><span class="hs-identifier hs-type">MimeJSON</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.Model.html#Client"><span class="hs-identifier hs-type">Client</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#MimeJSON"><span class="hs-identifier hs-type">MimeJSON</span></a></span><span>
-</span><span id="line-74"></span><span id="testClassname"><span class="annot"><span class="annottext">testClassname :: Client
+</span><span id="line-74"></span><span id="testClassname"><span class="annot"><span class="annottext">testClassname :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON Client) =&gt;
+Client
 -&gt; OpenAPIPetstoreRequest TestClassname MimeJSON Client MimeJSON
-</span><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#testClassname"><span class="hs-identifier hs-var hs-var">testClassname</span></a></span></span><span> </span><span id="local-6989586621679152197"><span class="annot"><span class="annottext">Client
-</span><a href="#local-6989586621679152197"><span class="hs-identifier hs-var">body</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#testClassname"><span class="hs-identifier hs-var hs-var">testClassname</span></a></span></span><span> </span><span id="local-6989586621679163660"><span class="annot"><span class="annottext">Client
+</span><a href="#local-6989586621679163660"><span class="hs-identifier hs-var">body</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-75"></span><span>  </span><span class="annot"><span class="annottext">Method
 -&gt; [ByteString]
 -&gt; OpenAPIPetstoreRequest TestClassname MimeJSON Client MimeJSON
@@ -94,7 +95,7 @@ OpenAPIPetstoreRequest req contentType res accept
 -&gt; Proxy authMethod
 -&gt; OpenAPIPetstoreRequest req contentType res accept
 </span><a href="OpenAPIPetstore.Core.html#_hasAuthType"><span class="hs-operator hs-var">`_hasAuthType`</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Proxy AuthApiKeyApiKeyQuery
-forall k (t :: k). Proxy t
+forall {k} (t :: k). Proxy t
 </span><span class="hs-identifier hs-var">P.Proxy</span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">P.Proxy</span></span><span> </span><span class="annot"><a href="OpenAPIPetstore.Model.html#AuthApiKeyApiKeyQuery"><span class="hs-identifier hs-type">AuthApiKeyApiKeyQuery</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-77"></span><span>    </span><span class="annot"><span class="annottext">OpenAPIPetstoreRequest TestClassname MimeJSON Client MimeJSON
 -&gt; Client
@@ -105,12 +106,12 @@ forall req param contentType res accept.
 OpenAPIPetstoreRequest req contentType res accept
 -&gt; param -&gt; OpenAPIPetstoreRequest req contentType res accept
 </span><a href="OpenAPIPetstore.Core.html#setBodyParam"><span class="hs-operator hs-var">`setBodyParam`</span></a></span><span> </span><span class="annot"><span class="annottext">Client
-</span><a href="#local-6989586621679152197"><span class="hs-identifier hs-var">body</span></a></span><span>
+</span><a href="#local-6989586621679163660"><span class="hs-identifier hs-var">body</span></a></span><span>
 </span><span id="line-78"></span><span>
 </span><span id="line-79"></span><span class="hs-keyword">data</span><span> </span><span id="TestClassname"><span class="annot"><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#TestClassname"><span class="hs-identifier hs-var">TestClassname</span></a></span></span><span> </span><span>
 </span><span id="line-80"></span><span>
 </span><span id="line-81"></span><span class="hs-comment">-- | /Body Param/ &quot;body&quot; - client model</span><span>
-</span><span id="line-82"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679152191"><span class="annot"><a href="OpenAPIPetstore.Core.html#HasBodyParam"><span class="hs-identifier hs-type">HasBodyParam</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#TestClassname"><span class="hs-identifier hs-type">TestClassname</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.Model.html#Client"><span class="hs-identifier hs-type">Client</span></a></span></span><span> </span><span>
+</span><span id="line-82"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679163654"><span class="annot"><a href="OpenAPIPetstore.Core.html#HasBodyParam"><span class="hs-identifier hs-type">HasBodyParam</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#TestClassname"><span class="hs-identifier hs-type">TestClassname</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.Model.html#Client"><span class="hs-identifier hs-type">Client</span></a></span></span><span> </span><span>
 </span><span id="line-83"></span><span>
 </span><span id="line-84"></span><span class="hs-comment">-- | @application/json@</span><span>
 </span><span id="line-85"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#Consumes"><span class="hs-identifier hs-type">Consumes</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.API.FakeClassnameTags123.html#TestClassname"><span class="hs-identifier hs-type">TestClassname</span></a></span><span> </span><span class="annot"><a href="OpenAPIPetstore.MimeTypes.html#MimeJSON"><span class="hs-identifier hs-type">MimeJSON</span></a></span><span>

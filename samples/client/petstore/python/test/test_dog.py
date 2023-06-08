@@ -112,9 +112,9 @@ class TestDog(unittest.TestCase):
         self.assertEqual(
             dog._var_name_to_model_instances,
             {
-                'breed': [dog, animal_instance, dog_allof_instance],
-                'class_name': [dog, animal_instance, dog_allof_instance],
-                'color': [dog, animal_instance, dog_allof_instance]
+                'breed': [dog, dog_allof_instance],
+                'class_name': [dog, animal_instance],
+                'color': [dog, animal_instance]
             }
         )
         # model._additional_properties_model_instances stores a list of

@@ -61,10 +61,13 @@ public class PetApi  {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet" })
+    @io.swagger.annotations.ApiImplicitParams({
+        @io.swagger.annotations.ApiImplicitParam(name = "api_key", value = "",  dataType = "String", paramType = "header")
+    })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId,  @ApiParam(value = "" )@HeaderParam("api_key") String apiKey) {
-        return delegate.deletePet(petId, apiKey, securityContext);
+    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId) {
+        return delegate.deletePet(petId, securityContext);
     }
 
     @GET
@@ -87,6 +90,7 @@ public class PetApi  {
     @Path("/findByTags")
     
     @Produces({ "application/xml", "application/json" })
+    @SuppressWarnings("deprecation")
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -158,7 +162,7 @@ public class PetApi  {
          }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream fileInputStream, @Multipart(value = "file" , required = false) Attachment fileDetail) {
-        return delegate.uploadFile(petId, additionalMetadata, fileInputStream, fileDetail, securityContext);
+    public Response uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file", required = false) InputStream _fileInputStream, @Multipart(value = "file" , required = false) Attachment _fileDetail) {
+        return delegate.uploadFile(petId, additionalMetadata, _fileInputStream, _fileDetail, securityContext);
     }
 }

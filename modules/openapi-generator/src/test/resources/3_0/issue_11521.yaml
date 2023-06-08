@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  description: a spec to test free form object models
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+tags: []
+paths: {}
+components:
+  schemas:
+    DateTimeObject:
+      properties:
+        datetime:
+          type: string
+          pattern: '[\d]{4}-[\d]{2}-[\d]{2}T[\d]{1,2}:[\d]{2}Z'

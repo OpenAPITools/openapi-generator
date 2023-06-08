@@ -15,7 +15,7 @@ public typealias Cat = PetstoreClientAPI.Cat
 
 extension PetstoreClientAPI {
 
-public final class Cat: Codable, Hashable {
+public final class Cat: Codable, JSONEncodable, Hashable {
 
     public var className: String
     public var color: String? = "red"

@@ -29,6 +29,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -108,6 +112,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         cliOptions.add(new CliOption(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET, CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
+        cliOptions.add(new CliOption(CodegenConstants.INIT_REQUIRED_VARS, CodegenConstants.INIT_REQUIRED_VARS_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -123,7 +130,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.EXPERIMENTAL)
+                .stability(Stability.STABLE)
                 .build();
     }
 
@@ -144,7 +151,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 .reduce((a, b) -> {
                     throw new IllegalStateException("Multiple elements: " + a + ", " + b);
                 })
-                .get();
+                .orElse(null);
         supportingFiles.remove(originalInitModel);
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
@@ -184,6 +191,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         this.setDisallowAdditionalPropertiesIfNotPresent(disallowAddProps);
 
+        Boolean initRequiredVars = false;
+        if (additionalProperties.containsKey(CodegenConstants.INIT_REQUIRED_VARS)) {
+            initRequiredVars = Boolean.valueOf(additionalProperties.get(CodegenConstants.INIT_REQUIRED_VARS).toString());
+        }
+        additionalProperties.put("initRequiredVars", initRequiredVars);
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {
@@ -203,7 +215,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     }
 
     @Override
-    public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+    public Schema unaliasSchema(Schema schema, Map<String, String> schemaMappings) {
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -213,8 +225,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
-            if (usedImportMappings.containsKey(simpleRef)) {
-                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, usedImportMappings.get(simpleRef));
+            if (schemaMappings.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, schemaMappings.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -229,7 +241,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                            usedImportMappings);
+                            schemaMappings);
                 }
             } else if (ModelUtils.isComposedSchema(ref)) {
                 return schema;
@@ -242,7 +254,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     } else {
                         // treat it as a typical map
                         return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                usedImportMappings);
+                                schemaMappings);
                     }
                 }
             } else if (ModelUtils.isObjectSchema(ref)) { // model
@@ -256,7 +268,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                         return schema;
                     } else {
                         return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
-                                usedImportMappings);
+                                schemaMappings);
                     }
                 }
             } else if (ModelUtils.hasValidation(ref)) {
@@ -267,7 +279,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 // - use those validations when we use this schema in composed oneOf schemas
                 return schema;
             } else {
-                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
+                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), schemaMappings);
             }
         }
         return schema;
@@ -355,13 +367,13 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     @Override
     @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         // fix the imports that each model has, add the module reference to the model
         // loops through imports and converts them all
         // from 'Pet' to 'from petstore_api.model.pet import Pet'
 
-        HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
-        ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
+        OperationMap val = objs.getOperations();
+        List<CodegenOperation> operations = val.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.imports.isEmpty()) {
                 continue;
@@ -388,23 +400,22 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @return the updated objs
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         super.postProcessAllModels(objs);
 
         List<String> modelsToRemove = new ArrayList<>();
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         for (String schemaName : allDefinitions.keySet()) {
             Schema refSchema = new Schema().$ref("#/components/schemas/" + schemaName);
-            Schema unaliasedSchema = unaliasSchema(refSchema, importMapping);
+            Schema unaliasedSchema = unaliasSchema(refSchema, schemaMapping);
             String modelName = toModelName(schemaName);
             if (unaliasedSchema.get$ref() == null) {
                 modelsToRemove.add(modelName);
             } else {
-                HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
+                ModelsMap objModel = objs.get(modelName);
                 if (objModel != null) { // to avoid form parameter's models that are not generated (skipFormModel=true)
-                    List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
-                    for (Map<String, Object> model : models) {
-                        CodegenModel cm = (CodegenModel) model.get("model");
+                    for (ModelMap model : objModel.getModels()) {
+                        CodegenModel cm = model.getModel();
                         String[] importModelNames = cm.imports.toArray(new String[0]);
                         cm.imports.clear();
                         for (String importModelName : importModelNames) {
@@ -506,7 +517,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (schema.get$ref() == null) {
             return cp;
         }
-        Schema unaliasedSchema = unaliasSchema(schema, importMapping);
+        Schema unaliasedSchema = unaliasSchema(schema, schemaMapping);
         CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
         Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
         Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
@@ -536,7 +547,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     protected void addBodyModelSchema(CodegenParameter codegenParameter, String name, Schema schema, Set<String> imports, String bodyParameterName, boolean forceSimpleRef) {
         if (name != null) {
             Schema bodySchema = new Schema().$ref("#/components/schemas/" + name);
-            Schema unaliased = unaliasSchema(bodySchema, importMapping);
+            Schema unaliased = unaliasSchema(bodySchema, schemaMapping);
             if (unaliased.get$ref() != null) {
                 forceSimpleRef = true;
             }
@@ -629,14 +640,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         for (Schema sc : oneOfanyOfSchemas) {
             Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
-            addProperties(otherProperties, otherRequired, refSchema);
+            addProperties(otherProperties, otherRequired, refSchema, new HashSet<>());
         }
         Set<String> otherRequiredSet = new HashSet<>(otherRequired);
 
         List<Schema> allOf = cs.getAllOf();
         if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
             // NOTE: this function also adds the allOf properties inside schema
-            addProperties(selfProperties, selfRequired, schema);
+            addProperties(selfProperties, selfRequired, schema, new HashSet<>());
         }
         if (result.discriminator != null) {
             selfRequired.add(result.discriminator.getPropertyBaseName());
@@ -747,7 +758,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
     public String getModelName(Schema sc) {
         if (sc.get$ref() != null) {
-            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            Schema unaliasedSchema = unaliasSchema(sc, schemaMapping);
             if (unaliasedSchema.get$ref() != null) {
                 return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
@@ -840,7 +851,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (StringUtils.isNotEmpty(p.get$ref())) {
             // The input schema is a reference. If the resolved schema is
             // a composed schema, convert the name to a Python class.
-            Schema unaliasedSchema = unaliasSchema(p, importMapping);
+            Schema unaliasedSchema = unaliasSchema(p, schemaMapping);
             if (unaliasedSchema.get$ref() != null) {
                 String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
@@ -1500,5 +1511,14 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             modelNameToSchemaCache = Collections.unmodifiableMap(m);
         }
         return modelNameToSchemaCache;
+    }
+
+    @Override
+    public String generatorLanguageVersion() { return ">=3.6"; };
+
+    @Override
+    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+        // import everything (including child schema of a composed schema)
+        addImport(model, modelName);
     }
 }

@@ -51,7 +51,8 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType = default(string))
         {
             // to ensure "petType" is required (not null)
-            if (petType == null) {
+            if (petType == null)
+            {
                 throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
             }
             this.PetType = petType;

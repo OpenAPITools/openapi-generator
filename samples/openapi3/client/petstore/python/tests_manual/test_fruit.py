@@ -147,7 +147,7 @@ class TestFruit(unittest.TestCase):
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit, banana_instance],
+                'color': [fruit],
                 'length_cm': [fruit, banana_instance],
             }
         )
@@ -206,7 +206,7 @@ class TestFruit(unittest.TestCase):
         self.assertEqual(
             fruit._var_name_to_model_instances,
             {
-                'color': [fruit, apple_instance],
+                'color': [fruit],
                 'cultivar': [fruit, apple_instance],
             }
         )

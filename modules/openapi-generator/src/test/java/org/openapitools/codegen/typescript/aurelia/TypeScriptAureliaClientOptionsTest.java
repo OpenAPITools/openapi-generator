@@ -45,5 +45,6 @@ public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setParamNaming(TypeScriptAureliaClientOptionsProvider.PARAM_NAMING_VALUE);
         verify(clientCodegen).setSupportsES6(TypeScriptAureliaClientOptionsProvider.SUPPORTS_ES6_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptAureliaClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

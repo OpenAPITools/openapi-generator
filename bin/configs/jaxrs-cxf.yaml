@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/cxf
 additionalProperties:
   hideGenerationTimestamp: "true"
   serverPort: "8082"
+  implicitHeadersRegex: (api_key|enum_header_string)

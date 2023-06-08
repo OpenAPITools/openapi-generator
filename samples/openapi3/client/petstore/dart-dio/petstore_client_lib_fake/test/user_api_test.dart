@@ -1,13 +1,5 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.7
-
-// ignore_for_file: unused_import
-
-import 'package:openapi/api.dart';
-import 'package:openapi/api/user_api.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 
 /// tests for UserApi
@@ -26,12 +18,16 @@ void main() {
 
     // Creates list of users with given input array
     //
+    // 
+    //
     //Future createUsersWithArrayInput(BuiltList<User> user) async
     test('test createUsersWithArrayInput', () async {
       // TODO
     });
 
     // Creates list of users with given input array
+    //
+    // 
     //
     //Future createUsersWithListInput(BuiltList<User> user) async
     test('test createUsersWithListInput', () async {
@@ -49,6 +45,8 @@ void main() {
 
     // Get user by user name
     //
+    // 
+    //
     //Future<User> getUserByName(String username) async
     test('test getUserByName', () async {
       // TODO
@@ -56,12 +54,16 @@ void main() {
 
     // Logs user into the system
     //
+    // 
+    //
     //Future<String> loginUser(String username, String password) async
     test('test loginUser', () async {
       // TODO
     });
 
     // Logs out current logged in user session
+    //
+    // 
     //
     //Future logoutUser() async
     test('test logoutUser', () async {

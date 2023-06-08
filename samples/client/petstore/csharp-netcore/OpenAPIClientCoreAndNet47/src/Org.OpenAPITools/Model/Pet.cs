@@ -84,12 +84,14 @@ namespace Org.OpenAPITools.Model
         public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
             // to ensure "name" is required (not null)
-            if (name == null) {
+            if (name == null)
+            {
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
             this.Name = name;
             // to ensure "photoUrls" is required (not null)
-            if (photoUrls == null) {
+            if (photoUrls == null)
+            {
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
             this.PhotoUrls = photoUrls;

@@ -17,7 +17,7 @@ import (
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
-	ArrayEnum *[]string `json:"array_enum,omitempty"`
+	ArrayEnum []string `json:"array_enum,omitempty"`
 }
 
 // NewEnumArrays instantiates a new EnumArrays object
@@ -75,12 +75,12 @@ func (o *EnumArrays) GetArrayEnum() []string {
 		var ret []string
 		return ret
 	}
-	return *o.ArrayEnum
+	return o.ArrayEnum
 }
 
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool) {
+func (o *EnumArrays) GetArrayEnumOk() ([]string, bool) {
 	if o == nil || o.ArrayEnum == nil {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *EnumArrays) HasArrayEnum() bool {
 
 // SetArrayEnum gets a reference to the given []string and assigns it to the ArrayEnum field.
 func (o *EnumArrays) SetArrayEnum(v []string) {
-	o.ArrayEnum = &v
+	o.ArrayEnum = v
 }
 
 func (o EnumArrays) MarshalJSON() ([]byte, error) {

@@ -177,6 +177,8 @@ class FakeApi extends Controller
 
         $enum_query_double = $input['enum_query_double'];
 
+        $enum_query_model_array = $input['enum_query_model_array'];
+
         $enum_form_string_array = $input['enum_form_string_array'];
 
         $enum_form_string = $input['enum_form_string'];

@@ -1,3 +1,4 @@
+.github/workflows/maven.yml
 .gitignore
 .travis.yml
 README.md
@@ -39,6 +40,8 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelApiResponse.md
+docs/ModelFile.md
+docs/ModelList.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NumberOnly.md
@@ -68,7 +71,6 @@ src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/ApiException.java
 src/main/java/org/openapitools/client/Configuration.java
-src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/JavaTimeFormatter.java
 src/main/java/org/openapitools/client/Pair.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
@@ -119,6 +121,8 @@ src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
+src/main/java/org/openapitools/client/model/ModelFile.java
+src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NumberOnly.java

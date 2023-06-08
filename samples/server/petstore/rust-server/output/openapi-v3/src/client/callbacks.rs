@@ -266,14 +266,14 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
             // CallbackCallbackWithHeaderPost - POST /{$request.query.url}/callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => Ok("CallbackCallbackWithHeaderPost"),
+            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK_WITH_HEADER) => Some("CallbackCallbackWithHeaderPost"),
             // CallbackCallbackPost - POST /{$request.query.url}/callback
-            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => Ok("CallbackCallbackPost"),
-            _ => Err(()),
+            &hyper::Method::POST if path.matched(paths::ID_REQUEST_QUERY_URL_CALLBACK) => Some("CallbackCallbackPost"),
+            _ => None,
         }
     }
 }

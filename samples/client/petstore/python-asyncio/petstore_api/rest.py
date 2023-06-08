@@ -70,7 +70,8 @@ class RESTClientObject(object):
 
         # https pool manager
         self.pool_manager = aiohttp.ClientSession(
-            connector=connector
+            connector=connector,
+            trust_env=True
         )
 
     async def close(self):

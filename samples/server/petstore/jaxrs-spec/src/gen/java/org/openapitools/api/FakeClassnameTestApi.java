@@ -15,7 +15,8 @@ import javax.validation.Valid;
 
 @Path("/fake_classname_test")
 @Api(description = "the fake_classname_test API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FakeClassnameTestApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class FakeClassnameTestApi {
 
     @PATCH
     @Consumes({ "application/json" })

@@ -25,7 +25,7 @@ public class ApiResponseDecoder extends JacksonDecoder {
     Map<String, Collection<String>> responseHeaders = Collections.unmodifiableMap(response.headers());
         //Detects if the type is an instance of the parameterized class ApiResponse
         Type responseBodyType;
-        if (Types.getRawType(type).isAssignableFrom(ApiResponse.class)) {
+        if (type instanceof ParameterizedType && Types.getRawType(type).isAssignableFrom(ApiResponse.class)) {
             //The ApiResponse class has a single type parameter, the Dto class itself
             responseBodyType = ((ParameterizedType) type).getActualTypeArguments()[0];
             Object body = super.decode(response, responseBodyType);

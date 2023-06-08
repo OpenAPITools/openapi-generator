@@ -32,20 +32,20 @@ public class PetApiServiceImpl implements PetApi {
      */
     public void addPet(Pet body) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Deletes a pet
      *
      */
-    public void deletePet(Long petId, String apiKey) {
+    public void deletePet(Long petId) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Finds Pets by status
      *
@@ -54,10 +54,10 @@ public class PetApiServiceImpl implements PetApi {
      */
     public List<Pet> findPetsByStatus(List<String> status) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Finds Pets by tags
      *
@@ -66,10 +66,10 @@ public class PetApiServiceImpl implements PetApi {
      */
     public Set<Pet> findPetsByTags(Set<String> tags) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Find pet by ID
      *
@@ -78,49 +78,48 @@ public class PetApiServiceImpl implements PetApi {
      */
     public Pet getPetById(Long petId) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Update an existing pet
      *
      */
     public void updatePet(Pet body) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Updates a pet in the store with form data
      *
      */
     public void updatePetWithForm(Long petId, String name, String status) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * uploads an image
      *
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata,  Attachment fileDetail) {
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata,  Attachment _fileDetail) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * uploads an image (required)
      *
      */
     public ModelApiResponse uploadFileWithRequiredFile(Long petId,  Attachment requiredFileDetail, String additionalMetadata) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
-}
 
+}

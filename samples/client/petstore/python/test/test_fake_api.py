@@ -126,6 +126,8 @@ class TestFakeApi(unittest.TestCase):
                 _preload_content=True,
                 _request_timeout=None,
                 _return_http_data_only=True,
+                _spec_property_naming=False,
+                _request_auths=None,
                 async_req=False,
                 header_number=1.234,
                 path_integer=34,

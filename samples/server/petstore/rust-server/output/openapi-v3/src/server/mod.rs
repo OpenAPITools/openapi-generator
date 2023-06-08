@@ -1021,7 +1021,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
@@ -1261,7 +1261,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1360,7 +1360,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1427,7 +1427,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1505,7 +1505,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1572,7 +1572,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1639,7 +1639,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1706,7 +1706,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1868,62 +1868,62 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
             // AnyOfGet - GET /any-of
-            &hyper::Method::GET if path.matched(paths::ID_ANY_OF) => Ok("AnyOfGet"),
+            &hyper::Method::GET if path.matched(paths::ID_ANY_OF) => Some("AnyOfGet"),
             // CallbackWithHeaderPost - POST /callback-with-header
-            &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Ok("CallbackWithHeaderPost"),
+            &hyper::Method::POST if path.matched(paths::ID_CALLBACK_WITH_HEADER) => Some("CallbackWithHeaderPost"),
             // ComplexQueryParamGet - GET /complex-query-param
-            &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Ok("ComplexQueryParamGet"),
+            &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Some("ComplexQueryParamGet"),
             // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
-            &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Ok("EnumInPathPathParamGet"),
+            &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Some("EnumInPathPathParamGet"),
             // JsonComplexQueryParamGet - GET /json-complex-query-param
-            &hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => Ok("JsonComplexQueryParamGet"),
+            &hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => Some("JsonComplexQueryParamGet"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
-            &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Ok("MandatoryRequestHeaderGet"),
+            &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Some("MandatoryRequestHeaderGet"),
             // MergePatchJsonGet - GET /merge-patch-json
-            &hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => Ok("MergePatchJsonGet"),
+            &hyper::Method::GET if path.matched(paths::ID_MERGE_PATCH_JSON) => Some("MergePatchJsonGet"),
             // MultigetGet - GET /multiget
-            &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Ok("MultigetGet"),
+            &hyper::Method::GET if path.matched(paths::ID_MULTIGET) => Some("MultigetGet"),
             // MultipleAuthSchemeGet - GET /multiple_auth_scheme
-            &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Ok("MultipleAuthSchemeGet"),
+            &hyper::Method::GET if path.matched(paths::ID_MULTIPLE_AUTH_SCHEME) => Some("MultipleAuthSchemeGet"),
             // OneOfGet - GET /one-of
-            &hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Ok("OneOfGet"),
+            &hyper::Method::GET if path.matched(paths::ID_ONE_OF) => Some("OneOfGet"),
             // OverrideServerGet - GET /override-server
-            &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Ok("OverrideServerGet"),
+            &hyper::Method::GET if path.matched(paths::ID_OVERRIDE_SERVER) => Some("OverrideServerGet"),
             // ParamgetGet - GET /paramget
-            &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Ok("ParamgetGet"),
+            &hyper::Method::GET if path.matched(paths::ID_PARAMGET) => Some("ParamgetGet"),
             // ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
-            &hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Ok("ReadonlyAuthSchemeGet"),
+            &hyper::Method::GET if path.matched(paths::ID_READONLY_AUTH_SCHEME) => Some("ReadonlyAuthSchemeGet"),
             // RegisterCallbackPost - POST /register-callback
-            &hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => Ok("RegisterCallbackPost"),
+            &hyper::Method::POST if path.matched(paths::ID_REGISTER_CALLBACK) => Some("RegisterCallbackPost"),
             // RequiredOctetStreamPut - PUT /required_octet_stream
-            &hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Ok("RequiredOctetStreamPut"),
+            &hyper::Method::PUT if path.matched(paths::ID_REQUIRED_OCTET_STREAM) => Some("RequiredOctetStreamPut"),
             // ResponsesWithHeadersGet - GET /responses_with_headers
-            &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Ok("ResponsesWithHeadersGet"),
+            &hyper::Method::GET if path.matched(paths::ID_RESPONSES_WITH_HEADERS) => Some("ResponsesWithHeadersGet"),
             // Rfc7807Get - GET /rfc7807
-            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => Ok("Rfc7807Get"),
+            &hyper::Method::GET if path.matched(paths::ID_RFC7807) => Some("Rfc7807Get"),
             // UntypedPropertyGet - GET /untyped_property
-            &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Ok("UntypedPropertyGet"),
+            &hyper::Method::GET if path.matched(paths::ID_UNTYPED_PROPERTY) => Some("UntypedPropertyGet"),
             // UuidGet - GET /uuid
-            &hyper::Method::GET if path.matched(paths::ID_UUID) => Ok("UuidGet"),
+            &hyper::Method::GET if path.matched(paths::ID_UUID) => Some("UuidGet"),
             // XmlExtraPost - POST /xml_extra
-            &hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => Ok("XmlExtraPost"),
+            &hyper::Method::POST if path.matched(paths::ID_XML_EXTRA) => Some("XmlExtraPost"),
             // XmlOtherPost - POST /xml_other
-            &hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPost"),
+            &hyper::Method::POST if path.matched(paths::ID_XML_OTHER) => Some("XmlOtherPost"),
             // XmlOtherPut - PUT /xml_other
-            &hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => Ok("XmlOtherPut"),
+            &hyper::Method::PUT if path.matched(paths::ID_XML_OTHER) => Some("XmlOtherPut"),
             // XmlPost - POST /xml
-            &hyper::Method::POST if path.matched(paths::ID_XML) => Ok("XmlPost"),
+            &hyper::Method::POST if path.matched(paths::ID_XML) => Some("XmlPost"),
             // XmlPut - PUT /xml
-            &hyper::Method::PUT if path.matched(paths::ID_XML) => Ok("XmlPut"),
+            &hyper::Method::PUT if path.matched(paths::ID_XML) => Some("XmlPut"),
             // CreateRepo - POST /repos
-            &hyper::Method::POST if path.matched(paths::ID_REPOS) => Ok("CreateRepo"),
+            &hyper::Method::POST if path.matched(paths::ID_REPOS) => Some("CreateRepo"),
             // GetRepoInfo - GET /repos/{repoId}
-            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Ok("GetRepoInfo"),
-            _ => Err(()),
+            &hyper::Method::GET if path.matched(paths::ID_REPOS_REPOID) => Some("GetRepoInfo"),
+            _ => None,
         }
     }
 }

@@ -40,7 +40,7 @@ defmodule {{moduleName}}.Mixfile do
    defp package() do
     [
       name: "{{#underscored}}{{packageName}}{{/underscored}}",
-      files: ~w(lib mix.exs README* LICENSE*),
+      files: ~w(.formatter.exs config lib mix.exs README* LICENSE*),
       licenses: ["{{licenseId}}"]
     ]
   end

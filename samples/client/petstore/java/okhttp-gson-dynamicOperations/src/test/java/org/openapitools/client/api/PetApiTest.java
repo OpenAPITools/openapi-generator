@@ -37,9 +37,8 @@ import java.io.FileWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.junit.*;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * API tests for PetApi
@@ -312,14 +311,14 @@ public class PetApiTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testFindPetsByTags() throws Exception {
         Pet pet = createPet();
         pet.setName("monster");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        List<Tag> tags = new ArrayList<Tag>();
-        Tag tag1 = new Tag();
+        List<org.openapitools.client.model.Tag> tags = new ArrayList<org.openapitools.client.model.Tag>();
+        org.openapitools.client.model.Tag tag1 = new org.openapitools.client.model.Tag();
         tag1.setName("friendly");
         tags.add(tag1);
         pet.setTags(tags);

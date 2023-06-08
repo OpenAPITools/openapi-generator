@@ -724,7 +724,7 @@ void (empty response body)
 ## `testEnumParameters()`
 
 ```php
-testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
+testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string)
 ```
 
 To test enum parameters
@@ -750,11 +750,12 @@ $enum_query_string_array = array('enum_query_string_array_example'); // string[]
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
+$enum_query_model_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[]
 $enum_form_string_array = array('$'); // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
 try {
-    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
+    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEnumParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -770,6 +771,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
+ **enum_query_model_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)|  | [optional]
  **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
@@ -869,6 +871,8 @@ testInlineAdditionalProperties($request_body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```php
@@ -921,6 +925,8 @@ testJsonFormData($param, $param2)
 ```
 
 test json serialization of form data
+
+
 
 ### Example
 

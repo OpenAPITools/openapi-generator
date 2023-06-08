@@ -40,7 +40,15 @@ namespace Org.OpenAPITools.Model
         public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
         {
             this._File = file;
+            if (this.File != null)
+            {
+                this._flagFile = true;
+            }
             this._Files = files;
+            if (this.Files != null)
+            {
+                this._flagFiles = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

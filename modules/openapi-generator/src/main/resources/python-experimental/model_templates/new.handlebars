@@ -1,0 +1,53 @@
+def __new__(
+    cls,
+    *args: typing.Union[{{#if isAnyType}}dict, frozendict, str, date, datetime, int, float, decimal.Decimal, None, list, tuple, bytes{{/if}}{{#if isUnboundedInteger}}int, {{/if}}{{#if isNumber}}float, {{/if}}{{#if isBoolean}}bool, {{/if}}{{#if isArray}}list, tuple, {{/if}}{{#if isMap}}dict, frozendict, {{/if}}{{#if isString}}str, {{/if}}{{#if isNull}}None, {{/if}}],
+{{#unless isNull}}
+{{#if getHasRequired}}
+{{#each requiredVars}}
+{{#unless nameInSnakeCase}}
+    {{baseName}}: {{baseName}},
+{{/unless}}
+{{/each}}
+{{/if}}
+{{/unless}}
+{{#each vars}}
+{{#unless nameInSnakeCase}}
+{{#unless getRequired}}
+{{#unless complexType}}
+    {{baseName}}: typing.Union[{{baseName}}, Unset] = unset,
+{{/unless}}
+{{#if complexType}}
+    {{baseName}}: typing.Union['{{complexType}}', Unset] = unset,
+{{/if}}
+{{/unless}}
+{{/unless}}
+{{/each}}
+    _configuration: typing.Optional[Configuration] = None,
+{{#with additionalProperties}}
+    **kwargs: typing.Type[Schema],
+{{/with}}
+) -> '{{#if this.classname}}{{classname}}{{else}}{{#if nameInSnakeCase}}{{name}}{{else}}{{baseName}}{{/if}}{{/if}}':
+    return super().__new__(
+        cls,
+        *args,
+{{#unless isNull}}
+{{#if getHasRequired}}
+{{#each requiredVars}}
+{{#unless nameInSnakeCase}}
+        {{baseName}}={{baseName}},
+{{/unless}}
+{{/each}}
+{{/if}}
+{{/unless}}
+{{#each vars}}
+{{#unless getRequired}}
+{{#unless nameInSnakeCase}}
+        {{baseName}}={{baseName}},
+{{/unless}}
+{{/unless}}
+{{/each}}
+        _configuration=_configuration,
+{{#with additionalProperties}}
+        **kwargs,
+{{/with}}
+    )

@@ -16,7 +16,7 @@ import (
 
 // ArrayOfNumberOnly struct for ArrayOfNumberOnly
 type ArrayOfNumberOnly struct {
-	ArrayNumber *[]float32 `json:"ArrayNumber,omitempty"`
+	ArrayNumber []float32 `json:"ArrayNumber,omitempty"`
 }
 
 // NewArrayOfNumberOnly instantiates a new ArrayOfNumberOnly object
@@ -42,12 +42,12 @@ func (o *ArrayOfNumberOnly) GetArrayNumber() []float32 {
 		var ret []float32
 		return ret
 	}
-	return *o.ArrayNumber
+	return o.ArrayNumber
 }
 
 // GetArrayNumberOk returns a tuple with the ArrayNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ArrayOfNumberOnly) GetArrayNumberOk() (*[]float32, bool) {
+func (o *ArrayOfNumberOnly) GetArrayNumberOk() ([]float32, bool) {
 	if o == nil || o.ArrayNumber == nil {
 		return nil, false
 	}
@@ -65,7 +65,7 @@ func (o *ArrayOfNumberOnly) HasArrayNumber() bool {
 
 // SetArrayNumber gets a reference to the given []float32 and assigns it to the ArrayNumber field.
 func (o *ArrayOfNumberOnly) SetArrayNumber(v []float32) {
-	o.ArrayNumber = &v
+	o.ArrayNumber = v
 }
 
 func (o ArrayOfNumberOnly) MarshalJSON() ([]byte, error) {

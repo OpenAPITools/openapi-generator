@@ -40,7 +40,15 @@ namespace Org.OpenAPITools.Model
         public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
         {
             this._SpecialPropertyName = specialPropertyName;
+            if (this.SpecialPropertyName != null)
+            {
+                this._flagSpecialPropertyName = true;
+            }
             this.__SpecialModelName = specialModelName;
+            if (this._SpecialModelName != null)
+            {
+                this._flag_SpecialModelName = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

@@ -34,6 +34,7 @@ open class PetAPI {
     /**
      Add a new pet to the store
      - POST /pet
+     - 
      - OAuth:
        - type: oauth2
        - name: petstore_auth
@@ -81,6 +82,7 @@ open class PetAPI {
     /**
      Deletes a pet
      - DELETE /pet/{petId}
+     - 
      - OAuth:
        - type: oauth2
        - name: petstore_auth
@@ -292,6 +294,7 @@ open class PetAPI {
     /**
      Update an existing pet
      - PUT /pet
+     - 
      - OAuth:
        - type: oauth2
        - name: petstore_auth
@@ -340,6 +343,7 @@ open class PetAPI {
     /**
      Updates a pet in the store with form data
      - POST /pet/{petId}
+     - 
      - OAuth:
        - type: oauth2
        - name: petstore_auth
@@ -399,6 +403,7 @@ open class PetAPI {
     /**
      uploads an image
      - POST /pet/{petId}/uploadImage
+     - 
      - OAuth:
        - type: oauth2
        - name: petstore_auth

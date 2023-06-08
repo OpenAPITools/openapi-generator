@@ -15,7 +15,7 @@ public typealias User = PetstoreClientAPI.User
 
 extension PetstoreClientAPI {
 
-public final class User: Codable, Hashable {
+public final class User: Codable, JSONEncodable, Hashable {
 
     public var id: Int64?
     public var username: String?

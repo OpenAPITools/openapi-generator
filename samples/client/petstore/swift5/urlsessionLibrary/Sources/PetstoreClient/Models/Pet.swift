@@ -15,7 +15,7 @@ public typealias Pet = PetstoreClientAPI.Pet
 
 extension PetstoreClientAPI {
 
-public final class Pet: Codable, Hashable {
+public final class Pet: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -28,9 +28,9 @@ public final class Pet: Codable, Hashable {
     public var photoUrls: [String]
     public var tags: [Tag]?
     /** pet status in the store */
-    public var status: Status?
+    public var status: NullEncodable<Status>
 
-    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
+    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeNull) {
         self.id = id
         self.category = category
         self.name = name
@@ -57,7 +57,10 @@ public final class Pet: Codable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encode(photoUrls, forKey: .photoUrls)
         try container.encodeIfPresent(tags, forKey: .tags)
-        try container.encodeIfPresent(status, forKey: .status)
+        switch status {
+        case .encodeNothing: break
+        case .encodeNull, .encodeValue: try container.encode(status, forKey: .status)
+        }
     }
 
     public static func == (lhs: Pet, rhs: Pet) -> Bool {
@@ -76,7 +79,7 @@ public final class Pet: Codable, Hashable {
         hasher.combine(name.hashValue)
         hasher.combine(photoUrls.hashValue)
         hasher.combine(tags?.hashValue)
-        hasher.combine(status?.hashValue)
+        hasher.combine(status.hashValue)
         
     }
 }

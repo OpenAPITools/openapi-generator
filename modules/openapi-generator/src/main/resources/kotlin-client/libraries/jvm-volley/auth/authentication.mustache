@@ -1,0 +1,15 @@
+companion object Authentication {
+    // Where a header factory requires parameters a client will need to bind these
+    // TODO Generate appropriate header factories based on settings
+    {{#authMethods}}
+{{#isApiKey}}
+{{>auth/apikeyauth}}
+{{/isApiKey}}
+{{#isBasic}}
+{{>auth/httpbasicauth}}
+{{/isBasic}}
+{{#isOAuth}}
+    // TODO: Oauth not implemented yet - comment out below as OAuth does not exist
+{{/isOAuth}}
+    {{/authMethods}}
+   }

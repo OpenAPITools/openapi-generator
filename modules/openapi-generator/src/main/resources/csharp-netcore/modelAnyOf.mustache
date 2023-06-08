@@ -1,6 +1,12 @@
     /// <summary>
     /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
+    {{#vendorExtensions.x-cls-compliant}}
+    [CLSCompliant({{{.}}})]
+    {{/vendorExtensions.x-cls-compliant}}
+    {{#vendorExtensions.x-com-visible}}
+    [ComVisible({{{.}}})]
+    {{/vendorExtensions.x-com-visible}}
     [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
@@ -19,7 +25,7 @@
         {{#anyOf}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class
-        /// with the <see cref="{{{.}}}" /> class
+        /// with the <see cref="{{#lambdaCref}}{{{.}}}{{/lambdaCref}}" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of {{{.}}}.</param>
         public {{classname}}({{{.}}} actualInstance)
@@ -171,6 +177,7 @@
             }
         }
 
+        {{#validatable}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -180,6 +187,7 @@
         {
             yield break;
         }
+        {{/validatable}}
     }
 
     /// <summary>

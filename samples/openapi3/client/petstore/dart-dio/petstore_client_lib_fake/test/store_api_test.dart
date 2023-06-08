@@ -1,13 +1,5 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.7
-
-// ignore_for_file: unused_import
-
-import 'package:openapi/api.dart';
-import 'package:openapi/api/store_api.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 
 /// tests for StoreApi
@@ -43,6 +35,8 @@ void main() {
     });
 
     // Place an order for a pet
+    //
+    // 
     //
     //Future<Order> placeOrder(Order order) async
     test('test placeOrder', () async {

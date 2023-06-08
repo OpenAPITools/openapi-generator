@@ -36,7 +36,7 @@ git clone https://{{gitHost}}/{{{gitUserId}}}/{{{gitRepoId}}}
 cd {{{gitRepoId}}}
 R CMD build .
 R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz --no-manual
-R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD INSTALL --preclean {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
 
 ### Install the package
@@ -50,6 +50,11 @@ To install directly from Github, use `devtools`:
 install.packages("devtools")
 library(devtools)
 install_github("{{{gitUserId}}}/{{{gitRepoId}}}")
+```
+
+To install the package from a local file:
+```R
+install.packages("{{{packageName}}}_{{{packageVersion}}}.tar.gz", repos = NULL, type = "source")
 ```
 
 ### Usage

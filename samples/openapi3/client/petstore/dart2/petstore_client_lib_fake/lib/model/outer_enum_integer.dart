@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,7 +19,7 @@ class OuterEnumInteger {
   final int value;
 
   @override
-  String toString() => value == null ? '' : value.toString();
+  String toString() => value.toString();
 
   int toJson() => value;
 
@@ -34,13 +34,20 @@ class OuterEnumInteger {
     number2,
   ];
 
-  static OuterEnumInteger fromJson(dynamic value) =>
-    OuterEnumIntegerTypeTransformer().decode(value);
+  static OuterEnumInteger? fromJson(dynamic value) => OuterEnumIntegerTypeTransformer().decode(value);
 
-  static List<OuterEnumInteger> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(OuterEnumInteger.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <OuterEnumInteger>[];
+  static List<OuterEnumInteger>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OuterEnumInteger>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OuterEnumInteger.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumInteger] to int,
@@ -60,14 +67,14 @@ class OuterEnumIntegerTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  OuterEnumInteger decode(dynamic data, {bool allowNull}) {
+  OuterEnumInteger? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data.toString()) {
         case 0: return OuterEnumInteger.number0;
         case 1: return OuterEnumInteger.number1;
         case 2: return OuterEnumInteger.number2;
         default:
-          if (allowNull == false) {
+          if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
           }
       }
@@ -76,6 +83,6 @@ class OuterEnumIntegerTypeTransformer {
   }
 
   /// Singleton [OuterEnumIntegerTypeTransformer] instance.
-  static OuterEnumIntegerTypeTransformer _instance;
+  static OuterEnumIntegerTypeTransformer? _instance;
 }
 

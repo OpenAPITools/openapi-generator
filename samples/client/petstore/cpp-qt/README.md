@@ -66,8 +66,8 @@ void Example::exampleFunction1(){
           loop.quit();
       });
 
-      PFXPet body = create(); // PFXPet | Pet object that needs to be added to the store
-      apiInstance.addPet(body);
+      PFXPet pfx_pet = create(); // PFXPet | Pet object that needs to be added to the store
+      apiInstance.addPet(pfx_pet);
       QTimer::singleShot(5000, &loop, &QEventLoop::quit);
       loop.exec();
   }

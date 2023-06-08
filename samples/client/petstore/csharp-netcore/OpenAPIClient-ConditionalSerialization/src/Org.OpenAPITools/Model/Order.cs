@@ -98,10 +98,30 @@ namespace Org.OpenAPITools.Model
         public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
         {
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this._PetId = petId;
+            if (this.PetId != null)
+            {
+                this._flagPetId = true;
+            }
             this._Quantity = quantity;
+            if (this.Quantity != null)
+            {
+                this._flagQuantity = true;
+            }
             this._ShipDate = shipDate;
+            if (this.ShipDate != null)
+            {
+                this._flagShipDate = true;
+            }
             this._Status = status;
+            if (this.Status != null)
+            {
+                this._flagStatus = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

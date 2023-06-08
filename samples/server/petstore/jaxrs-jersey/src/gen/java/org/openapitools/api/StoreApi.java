@@ -56,7 +56,7 @@ public class StoreApi  {
       this.delegate = delegate;
    }
 
-    @DELETE
+    @javax.ws.rs.DELETE
     @Path("/order/{order_id}")
     
     
@@ -69,7 +69,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.deleteOrder(orderId, securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/inventory")
     
     @Produces({ "application/json" })
@@ -83,7 +83,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.getInventory(securityContext);
     }
-    @GET
+    @javax.ws.rs.GET
     @Path("/order/{order_id}")
     
     @Produces({ "application/xml", "application/json" })
@@ -97,7 +97,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.getOrderById(orderId, securityContext);
     }
-    @POST
+    @javax.ws.rs.POST
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })

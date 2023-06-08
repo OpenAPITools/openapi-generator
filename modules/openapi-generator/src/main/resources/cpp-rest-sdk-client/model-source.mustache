@@ -1,12 +1,11 @@
 {{>licenseInfo}}
 {{#models}}{{#model}}
 
-#include "{{classFilename}}.h"
+#include "{{packageName}}/model/{{classFilename}}.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
-
 
 {{#isEnum}}
 
@@ -189,9 +188,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("{{baseName}}")));
         if(!fieldValue.is_null())
         {
-            {{{dataType}}} refVal_{{baseName}};
-            ok &= ModelBase::fromJson(fieldValue, refVal_{{baseName}});
-            {{setter}}(refVal_{{baseName}});
+            {{{dataType}}} refVal_{{setter}};
+            ok &= ModelBase::fromJson(fieldValue, refVal_{{setter}});
+            {{setter}}(refVal_{{setter}});
         }
     }{{/isInherited}}{{/vars}}
     return ok;
@@ -224,9 +223,9 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{#vars}}
     if(multipart->hasContent(utility::conversions::to_string_t(U("{{baseName}}"))))
     {
-        {{{dataType}}} refVal_{{baseName}};
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{baseName}} );
-        {{setter}}(refVal_{{baseName}});
+        {{{dataType}}} refVal_{{setter}};
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{setter}} );
+        {{setter}}(refVal_{{setter}});
     }
     {{/vars}}
     return ok;

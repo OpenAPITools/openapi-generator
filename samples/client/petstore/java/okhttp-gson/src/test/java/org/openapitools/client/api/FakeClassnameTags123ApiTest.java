@@ -13,13 +13,13 @@
 package org.openapitools.client.api;
 
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 
 /** API tests for FakeClassnameTags123Api */
-@Ignore
+@Disabled
 public class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();

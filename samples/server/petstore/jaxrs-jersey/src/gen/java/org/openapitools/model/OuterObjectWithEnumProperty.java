@@ -73,7 +73,6 @@ public class OuterObjectWithEnumProperty   {
     return Objects.hash(value);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

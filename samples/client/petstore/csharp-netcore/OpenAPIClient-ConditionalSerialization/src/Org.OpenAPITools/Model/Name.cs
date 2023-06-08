@@ -49,6 +49,10 @@ namespace Org.OpenAPITools.Model
         {
             this.__Name = name;
             this._Property = property;
+            if (this.Property != null)
+            {
+                this._flagProperty = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

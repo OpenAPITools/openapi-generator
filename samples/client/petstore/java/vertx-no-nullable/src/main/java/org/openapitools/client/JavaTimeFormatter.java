@@ -12,9 +12,9 @@
 
 package org.openapitools.client;
 
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.DateTimeParseException;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Class that add parsing/formatting support for Java 8+ {@code OffsetDateTime} class.

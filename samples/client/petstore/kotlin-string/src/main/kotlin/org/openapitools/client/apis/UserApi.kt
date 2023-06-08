@@ -21,8 +21,11 @@
 package org.openapitools.client.apis
 
 import java.io.IOException
+import okhttp3.OkHttpClient
 
 import org.openapitools.client.models.User
+
+import com.squareup.moshi.Json
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
@@ -31,13 +34,14 @@ import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
 import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.PartConfig
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+class UserApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -46,16 +50,16 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Create user
-    * This can only be done by the logged in user.
-    * @param body Created user object 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Create user
+     * This can only be done by the logged in user.
+     * @param body Created user object
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUser(body: User) : Unit {
         val localVarResponse = createUserWithHttpInfo(body = body)
@@ -76,13 +80,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Create user
-    * This can only be done by the logged in user.
-    * @param body Created user object 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Create user
+     * This can only be done by the logged in user.
+     * @param body Created user object
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUserWithHttpInfo(body: User) : ApiResponse<Unit?> {
         val localVariableConfig = createUserRequestConfig(body = body)
@@ -93,11 +97,11 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation createUser
-    *
-    * @param body Created user object 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation createUser
+     *
+     * @param body Created user object
+     * @return RequestConfig
+     */
     fun createUserRequestConfig(body: User) : RequestConfig<User> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -113,16 +117,16 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Creates list of users with given input array
-    * 
-    * @param body List of user object 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit {
         val localVarResponse = createUsersWithArrayInputWithHttpInfo(body = body)
@@ -143,13 +147,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Creates list of users with given input array
-    * 
-    * @param body List of user object 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUsersWithArrayInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiResponse<Unit?> {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(body = body)
@@ -160,11 +164,11 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation createUsersWithArrayInput
-    *
-    * @param body List of user object 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation createUsersWithArrayInput
+     *
+     * @param body List of user object
+     * @return RequestConfig
+     */
     fun createUsersWithArrayInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -180,16 +184,16 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Creates list of users with given input array
-    * 
-    * @param body List of user object 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit {
         val localVarResponse = createUsersWithListInputWithHttpInfo(body = body)
@@ -210,13 +214,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Creates list of users with given input array
-    * 
-    * @param body List of user object 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Creates list of users with given input array
+     * 
+     * @param body List of user object
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUsersWithListInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiResponse<Unit?> {
         val localVariableConfig = createUsersWithListInputRequestConfig(body = body)
@@ -227,11 +231,11 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation createUsersWithListInput
-    *
-    * @param body List of user object 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation createUsersWithListInput
+     *
+     * @param body List of user object
+     * @return RequestConfig
+     */
     fun createUsersWithListInputRequestConfig(body: kotlin.collections.List<User>) : RequestConfig<kotlin.collections.List<User>> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -247,16 +251,16 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Delete user
-    * This can only be done by the logged in user.
-    * @param username The name that needs to be deleted 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param username The name that needs to be deleted
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteUser(username: kotlin.String) : Unit {
         val localVarResponse = deleteUserWithHttpInfo(username = username)
@@ -277,13 +281,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Delete user
-    * This can only be done by the logged in user.
-    * @param username The name that needs to be deleted 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Delete user
+     * This can only be done by the logged in user.
+     * @param username The name that needs to be deleted
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun deleteUserWithHttpInfo(username: kotlin.String) : ApiResponse<Unit?> {
         val localVariableConfig = deleteUserRequestConfig(username = username)
@@ -294,11 +298,11 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation deleteUser
-    *
-    * @param username The name that needs to be deleted 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation deleteUser
+     *
+     * @param username The name that needs to be deleted
+     * @return RequestConfig
+     */
     fun deleteUserRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -306,7 +310,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -314,16 +318,16 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Get user by user name
-    * 
-    * @param username The name that needs to be fetched. Use user1 for testing. 
-    * @return User
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Get user by user name
+     * 
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return User
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getUserByName(username: kotlin.String) : User {
@@ -345,13 +349,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Get user by user name
-    * 
-    * @param username The name that needs to be fetched. Use user1 for testing. 
-    * @return ApiResponse<User?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Get user by user name
+     * 
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return ApiResponse<User?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getUserByNameWithHttpInfo(username: kotlin.String) : ApiResponse<User?> {
@@ -363,11 +367,11 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation getUserByName
-    *
-    * @param username The name that needs to be fetched. Use user1 for testing. 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation getUserByName
+     *
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     * @return RequestConfig
+     */
     fun getUserByNameRequestConfig(username: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -376,7 +380,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -384,17 +388,17 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Logs user into the system
-    * 
-    * @param username The user name for login 
-    * @param password The password for login in clear text 
-    * @return kotlin.String
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Logs user into the system
+     * 
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return kotlin.String
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
@@ -416,14 +420,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Logs user into the system
-    * 
-    * @param username The user name for login 
-    * @param password The password for login in clear text 
-    * @return ApiResponse<kotlin.String?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Logs user into the system
+     * 
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return ApiResponse<kotlin.String?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : ApiResponse<kotlin.String?> {
@@ -435,15 +439,15 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation loginUser
-    *
-    * @param username The user name for login 
-    * @param password The password for login in clear text 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation loginUser
+     *
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     * @return RequestConfig
+     */
     fun loginUserRequestConfig(username: kotlin.String, password: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("username", listOf(username.toString()))
                 put("password", listOf(password.toString()))
@@ -461,15 +465,15 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Logs out current logged in user session
-    * 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Logs out current logged in user session
+     * 
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun logoutUser() : Unit {
         val localVarResponse = logoutUserWithHttpInfo()
@@ -490,12 +494,12 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Logs out current logged in user session
-    * 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Logs out current logged in user session
+     * 
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun logoutUserWithHttpInfo() : ApiResponse<Unit?> {
         val localVariableConfig = logoutUserRequestConfig()
@@ -506,10 +510,10 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation logoutUser
-    *
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation logoutUser
+     *
+     * @return RequestConfig
+     */
     fun logoutUserRequestConfig() : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -525,17 +529,17 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Updated user
-    * This can only be done by the logged in user.
-    * @param username name that need to be deleted 
-    * @param body Updated user object 
-    * @return void
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updateUser(username: kotlin.String, body: User) : Unit {
         val localVarResponse = updateUserWithHttpInfo(username = username, body = body)
@@ -556,14 +560,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * Updated user
-    * This can only be done by the logged in user.
-    * @param username name that need to be deleted 
-    * @param body Updated user object 
-    * @return ApiResponse<Unit?>
-    * @throws IllegalStateException If the request is not correctly configured
-    * @throws IOException Rethrows the OkHttp execute method exception
-    */
+     * Updated user
+     * This can only be done by the logged in user.
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
     @Throws(IllegalStateException::class, IOException::class)
     fun updateUserWithHttpInfo(username: kotlin.String, body: User) : ApiResponse<Unit?> {
         val localVariableConfig = updateUserRequestConfig(username = username, body = body)
@@ -574,12 +578,12 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
-    * To obtain the request config of the operation updateUser
-    *
-    * @param username name that need to be deleted 
-    * @param body Updated user object 
-    * @return RequestConfig
-    */
+     * To obtain the request config of the operation updateUser
+     *
+     * @param username name that need to be deleted
+     * @param body Updated user object
+     * @return RequestConfig
+     */
     fun updateUserRequestConfig(username: kotlin.String, body: User) : RequestConfig<User> {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
@@ -587,7 +591,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", "$username"),
+            path = "/user/{username}".replace("{"+"username"+"}", username.toString()),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

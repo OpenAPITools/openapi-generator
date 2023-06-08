@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct AdditionalPropertiesInteger: Codable, Hashable {
+public struct AdditionalPropertiesInteger: Codable, JSONEncodable, Hashable {
 
     public var name: String?
 

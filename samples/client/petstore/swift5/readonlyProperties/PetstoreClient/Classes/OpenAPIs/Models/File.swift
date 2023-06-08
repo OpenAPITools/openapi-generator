@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Must be named &#x60;File&#x60; for test. */
-public struct File: Codable, Hashable {
+public struct File: Codable, JSONEncodable, Hashable {
 
     /** Test capitalization */
     public private(set) var sourceURI: String?

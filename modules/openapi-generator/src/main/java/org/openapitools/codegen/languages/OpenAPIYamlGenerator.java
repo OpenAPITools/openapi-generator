@@ -120,4 +120,6 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
         return input;
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() { return null; }
 }

@@ -9,9 +9,6 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.core.io.Resource
 {{#reactive}}
 import kotlinx.coroutines.flow.Flow
-import org.springframework.web.server.ServerWebExchange
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
 {{/reactive}}
 
 import java.util.Optional
@@ -33,7 +30,7 @@ interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{>optionalDataType}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
         {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {
         {{>methodBody}}
     }

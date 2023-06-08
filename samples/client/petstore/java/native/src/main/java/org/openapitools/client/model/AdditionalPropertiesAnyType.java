@@ -82,6 +82,9 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   * @param key the name of the property
+   * @param value the value value of the property
+   * @return self reference
    */
   @JsonAnySetter
   public AdditionalPropertiesAnyType putAdditionalProperty(String key, Object value) {
@@ -93,7 +96,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   }
 
   /**
-   * Return the additional (undeclared) property.
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
    */
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
@@ -102,6 +106,8 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {

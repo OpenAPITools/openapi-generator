@@ -1,0 +1,6 @@
+generatorName: java-play-framework
+outputDir: samples/server/petstore/java-play-framework-fake-endpoints-with-security
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-for-testing-playframework-with-security.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaPlayFramework
+additionalProperties:
+  hideGenerationTimestamp: "true"

@@ -33,7 +33,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-class StoreApi(
+open class StoreApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
@@ -43,10 +43,10 @@ class StoreApi(
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     * @param orderId ID of the order that needs to be deleted 
+     * @param orderId ID of the order that needs to be deleted
      * @return void
      */
-    suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
+    open suspend fun deleteOrder(orderId: kotlin.String): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -54,7 +54,6 @@ class StoreApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -78,7 +77,7 @@ class StoreApi(
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getInventory(): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
+    open suspend fun getInventory(): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
 
         val localVariableAuthNames = listOf<String>("api_key")
 
@@ -86,7 +85,6 @@ class StoreApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -117,11 +115,11 @@ class StoreApi(
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param orderId ID of pet that needs to be fetched 
+     * @param orderId ID of pet that needs to be fetched
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getOrderById(orderId: kotlin.Long): HttpResponse<Order> {
+    open suspend fun getOrderById(orderId: kotlin.Long): HttpResponse<Order> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -129,7 +127,6 @@ class StoreApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -150,18 +147,17 @@ class StoreApi(
     /**
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet 
+     * @param body order placed for purchasing the pet
      * @return Order
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun placeOrder(body: Order): HttpResponse<Order> {
+    open suspend fun placeOrder(body: Order): HttpResponse<Order> {
 
         val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(

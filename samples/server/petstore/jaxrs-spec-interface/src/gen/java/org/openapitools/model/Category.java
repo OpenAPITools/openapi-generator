@@ -16,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Category")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Category  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Category  implements Serializable {
   
   private @Valid Long id;
   private @Valid String name = "default-name";
@@ -27,8 +28,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.id = id;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -48,8 +47,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")

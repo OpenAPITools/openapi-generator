@@ -396,13 +396,45 @@ namespace Org.OpenAPITools.Model
         {
             this._EnumStringRequired = enumStringRequired;
             this._EnumString = enumString;
+            if (this.EnumString != null)
+            {
+                this._flagEnumString = true;
+            }
             this._EnumInteger = enumInteger;
+            if (this.EnumInteger != null)
+            {
+                this._flagEnumInteger = true;
+            }
             this._EnumIntegerOnly = enumIntegerOnly;
+            if (this.EnumIntegerOnly != null)
+            {
+                this._flagEnumIntegerOnly = true;
+            }
             this._EnumNumber = enumNumber;
+            if (this.EnumNumber != null)
+            {
+                this._flagEnumNumber = true;
+            }
             this._OuterEnum = outerEnum;
+            if (this.OuterEnum != null)
+            {
+                this._flagOuterEnum = true;
+            }
             this._OuterEnumInteger = outerEnumInteger;
+            if (this.OuterEnumInteger != null)
+            {
+                this._flagOuterEnumInteger = true;
+            }
             this._OuterEnumDefaultValue = outerEnumDefaultValue;
+            if (this.OuterEnumDefaultValue != null)
+            {
+                this._flagOuterEnumDefaultValue = true;
+            }
             this._OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            if (this.OuterEnumIntegerDefaultValue != null)
+            {
+                this._flagOuterEnumIntegerDefaultValue = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

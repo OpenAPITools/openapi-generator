@@ -6,7 +6,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   
@@ -30,6 +32,23 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
+    return Objects.equals(name, additionalPropertiesBoolean.name) &&
+        super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, super.hashCode());
+  }
 
   @Override
   public String toString() {

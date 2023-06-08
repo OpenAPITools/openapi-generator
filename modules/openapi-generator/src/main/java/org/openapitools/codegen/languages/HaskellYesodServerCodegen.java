@@ -630,4 +630,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             }
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
 }

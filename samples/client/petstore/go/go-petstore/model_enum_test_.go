@@ -86,7 +86,7 @@ func (o *EnumTest) GetEnumStringRequired() string {
 // GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field value
 // and a boolean to check if the value has been set.
 func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EnumStringRequired, true

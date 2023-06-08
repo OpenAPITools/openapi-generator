@@ -63,28 +63,78 @@ namespace Org.OpenAPITools.Model
         {
             this._Number = number;
             // to ensure "_byte" is required (not null)
-            if (_byte == null) {
+            if (_byte == null)
+            {
                 throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             }
             this._Byte = _byte;
             this._Date = date;
             // to ensure "password" is required (not null)
-            if (password == null) {
+            if (password == null)
+            {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this._Password = password;
             this._Integer = integer;
+            if (this.Integer != null)
+            {
+                this._flagInteger = true;
+            }
             this._Int32 = int32;
+            if (this.Int32 != null)
+            {
+                this._flagInt32 = true;
+            }
             this._Int64 = int64;
+            if (this.Int64 != null)
+            {
+                this._flagInt64 = true;
+            }
             this._Float = _float;
+            if (this.Float != null)
+            {
+                this._flagFloat = true;
+            }
             this._Double = _double;
+            if (this.Double != null)
+            {
+                this._flagDouble = true;
+            }
             this._Decimal = _decimal;
+            if (this.Decimal != null)
+            {
+                this._flagDecimal = true;
+            }
             this._String = _string;
+            if (this.String != null)
+            {
+                this._flagString = true;
+            }
             this._Binary = binary;
+            if (this.Binary != null)
+            {
+                this._flagBinary = true;
+            }
             this._DateTime = dateTime;
+            if (this.DateTime != null)
+            {
+                this._flagDateTime = true;
+            }
             this._Uuid = uuid;
+            if (this.Uuid != null)
+            {
+                this._flagUuid = true;
+            }
             this._PatternWithDigits = patternWithDigits;
+            if (this.PatternWithDigits != null)
+            {
+                this._flagPatternWithDigits = true;
+            }
             this._PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            if (this.PatternWithDigitsAndDelimiter != null)
+            {
+                this._flagPatternWithDigitsAndDelimiter = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

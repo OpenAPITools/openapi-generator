@@ -27,10 +27,10 @@ docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -88,10 +88,10 @@ src/model/EnumTest.js
 src/model/File.js
 src/model/FileSchemaTestClass.js
 src/model/Foo.js
+src/model/FooGetDefaultResponse.js
 src/model/FormatTest.js
 src/model/HasOnlyReadOnly.js
 src/model/HealthCheckResult.js
-src/model/InlineResponseDefault.js
 src/model/List.js
 src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js

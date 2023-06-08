@@ -2,12 +2,14 @@ package org.openapitools.model;
 
 import java.net.URI;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -16,12 +18,16 @@ import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class BigCat extends Cat  {
+
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class BigCat extends Cat {
+
   /**
    * Gets or Sets kind
    */
@@ -73,9 +79,8 @@ public class BigCat extends Cat  {
    * Get kind
    * @return kind
   */
+  
   @ApiModelProperty(value = "")
-
-
   public KindEnum getKind() {
     return kind;
   }
@@ -84,6 +89,20 @@ public class BigCat extends Cat  {
     this.kind = kind;
   }
 
+  public BigCat declawed(Boolean declawed) {
+    super.setDeclawed(declawed);
+    return this;
+  }
+
+  public BigCat className(String className) {
+    super.setClassName(className);
+    return this;
+  }
+
+  public BigCat color(String color) {
+    super.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

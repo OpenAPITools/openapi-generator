@@ -1,7 +1,7 @@
 {{>partial_header}}
 syntax = "proto3";
 
-package {{{packageName}}};
+package {{#lambda.lowercase}}{{{packageName}}}.{{{apiPackage}}}.{{{classname}}};{{/lambda.lowercase}}
 
 import "google/protobuf/empty.proto";
 {{#imports}}

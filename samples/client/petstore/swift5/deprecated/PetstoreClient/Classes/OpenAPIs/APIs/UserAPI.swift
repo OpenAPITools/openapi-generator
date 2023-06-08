@@ -81,6 +81,7 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      - POST /user/createWithArray
+     - 
      - API Key:
        - type: apiKey AUTH_KEY 
        - name: auth_cookie
@@ -127,6 +128,7 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      - POST /user/createWithList
+     - 
      - API Key:
        - type: apiKey AUTH_KEY 
        - name: auth_cookie
@@ -223,6 +225,7 @@ open class UserAPI {
     /**
      Get user by user name
      - GET /user/{username}
+     - 
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: RequestBuilder<User> 
      */
@@ -270,6 +273,7 @@ open class UserAPI {
     /**
      Logs user into the system
      - GET /user/login
+     - 
      - responseHeaders: [Set-Cookie(String), X-Rate-Limit(Int), X-Expires-After(Date)]
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
@@ -318,6 +322,7 @@ open class UserAPI {
     /**
      Logs out current logged in user session
      - GET /user/logout
+     - 
      - API Key:
        - type: apiKey AUTH_KEY 
        - name: auth_cookie

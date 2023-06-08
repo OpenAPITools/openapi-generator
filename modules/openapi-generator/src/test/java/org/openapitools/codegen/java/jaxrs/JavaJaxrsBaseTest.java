@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -270,5 +271,33 @@ public abstract class JavaJaxrsBaseTest {
         Map<String, Object> operations = (Map<String, Object>) templateData.get("operations");
         Assert.assertTrue(operations.get("operation") instanceof List);
         return (List<CodegenOperation>) operations.get("operation");
+    }
+
+    @Test
+    public void testExtraAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_11772.yml");
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        TestUtils.assertExtraAnnotationFiles(outputPath + "/src/gen/java/org/openapitools/model");
+
     }
 }

@@ -40,6 +40,7 @@ defmodule OpenapiPetstore.Api.User do
 
   @doc """
   Creates list of users with given input array
+  
 
   ## Parameters
 
@@ -66,6 +67,7 @@ defmodule OpenapiPetstore.Api.User do
 
   @doc """
   Creates list of users with given input array
+  
 
   ## Parameters
 
@@ -119,6 +121,7 @@ defmodule OpenapiPetstore.Api.User do
 
   @doc """
   Get user by user name
+  
 
   ## Parameters
 
@@ -146,6 +149,7 @@ defmodule OpenapiPetstore.Api.User do
 
   @doc """
   Logs user into the system
+  
 
   ## Parameters
 
@@ -163,8 +167,8 @@ defmodule OpenapiPetstore.Api.User do
     %{}
     |> method(:get)
     |> url("/user/login")
-    |> add_param(:query, :"username", username)
-    |> add_param(:query, :"password", password)
+    |> add_param(:query, :username, username)
+    |> add_param(:query, :password, password)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -175,6 +179,7 @@ defmodule OpenapiPetstore.Api.User do
 
   @doc """
   Logs out current logged in user session
+  
 
   ## Parameters
 

@@ -15,7 +15,7 @@ public typealias Category = PetstoreClientAPI.Category
 
 extension PetstoreClientAPI {
 
-public final class Category: Codable, Hashable {
+public final class Category: Codable, JSONEncodable, Hashable {
 
     public var id: Int64?
     public var name: String? = "default-name"

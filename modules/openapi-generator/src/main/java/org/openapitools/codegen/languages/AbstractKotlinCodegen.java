@@ -19,11 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,8 +94,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.String",
                 "kotlin.Array",
                 "kotlin.collections.List",
+                "kotlin.collections.MutableList",
                 "kotlin.collections.Map",
-                "kotlin.collections.Set"
+                "kotlin.collections.MutableMap",
+                "kotlin.collections.Set",
+                "kotlin.collections.MutableSet"
         ));
 
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
@@ -184,8 +190,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "kotlin.Char",
                 "kotlin.Array",
                 "kotlin.collections.List",
+                "kotlin.collections.MutableList",
                 "kotlin.collections.Set",
-                "kotlin.collections.Map"
+                "kotlin.collections.MutableSet",
+                "kotlin.collections.Map",
+                "kotlin.collections.MutableMap"
         ));
 
         typeMapping = new HashMap<>();
@@ -356,7 +365,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, schemaMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -386,12 +395,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             if (cm.getDiscriminator() != null) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
                 break;
@@ -414,6 +421,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(System.getenv("KOTLIN_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try 'export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
+        if (additionalProperties.containsKey(MODEL_MUTABLE)) {
+            additionalProperties.put(MODEL_MUTABLE, Boolean.parseBoolean(additionalProperties.get(MODEL_MUTABLE).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
@@ -475,6 +486,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(convertPropertyToBooleanAndWriteBack(CodegenConstants.PARCELIZE_MODELS));
         } else {
@@ -495,6 +510,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        if (isModelMutable()) {
+            typeMapping.put("list", "kotlin.collections.MutableList");
+            typeMapping.put("set", "kotlin.collections.MutableSet");
+            typeMapping.put("map", "kotlin.collections.MutableMap");
+        }
+    }
+
+    protected boolean isModelMutable() {
+        return Boolean.TRUE.equals(additionalProperties.get(MODEL_MUTABLE));
     }
 
     public void setArtifactId(String artifactId) {
@@ -649,6 +674,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return name;
         }
 
+        // If schemaMapping contains name, assume this is a legitimate model name.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // TODO review importMapping below as we've added schema mapping support
         // If importMapping contains name, assume this is a legitimate model name.
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
@@ -981,7 +1012,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isURISchema(p)) {
             if (p.getDefault() != null) {
-                return "URI.create('" + p.getDefault() + "')";
+                return importMapping.get("URI") + ".create(\"" + p.getDefault() + "\")";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -1015,5 +1046,36 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         return null;
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.KOTLIN;
+    }
+
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        /**
+         * we have a custom version of this function so we only set isMap to true if
+         * ModelUtils.isMapSchema
+         * In other generators, isMap is true for all type object schemas
+         */
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else {
+            m.setIsMap(false);
+            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }

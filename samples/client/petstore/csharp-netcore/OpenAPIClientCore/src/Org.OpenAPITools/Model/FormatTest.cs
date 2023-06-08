@@ -60,13 +60,15 @@ namespace Org.OpenAPITools.Model
         {
             this.Number = number;
             // to ensure "_byte" is required (not null)
-            if (_byte == null) {
+            if (_byte == null)
+            {
                 throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
             }
             this.Byte = _byte;
             this.Date = date;
             // to ensure "password" is required (not null)
-            if (password == null) {
+            if (password == null)
+            {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
             this.Password = password;

@@ -127,9 +127,9 @@ public class {{classname}} {
         public {{operationIdCamelCase}}Oper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
             {{#vendorExtensions}}
-            {{#x-contentType}}
-            reqSpec.setContentType("{{x-contentType}}");
-            {{/x-contentType}}
+            {{#x-content-type}}
+            reqSpec.setContentType("{{x-content-type}}");
+            {{/x-content-type}}
             {{#x-accepts}}
             reqSpec.setAccept("{{x-accepts}}");
             {{/x-accepts}}

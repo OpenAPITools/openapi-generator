@@ -37,6 +37,8 @@ void PFXPetApi::initializeServerConfigs() {
     QMap<QString, PFXServerVariable>()));
     _serverConfigs.insert("addPet", defaultConf);
     _serverIndices.insert("addPet", 0);
+    _serverConfigs.insert("allPets", defaultConf);
+    _serverIndices.insert("allPets", 0);
     _serverConfigs.insert("deletePet", defaultConf);
     _serverIndices.insert("deletePet", 0);
     _serverConfigs.insert("findPetsByStatus", defaultConf);
@@ -226,7 +228,7 @@ QString PFXPetApi::getParamStyleDelimiter(const QString &style, const QString &n
     }
 }
 
-void PFXPetApi::addPet(const PFXPet &body) {
+void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     QString fullPath = QString(_serverConfigs["addPet"][_serverIndices.value("addPet")].URL()+"/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -236,7 +238,8 @@ void PFXPetApi::addPet(const PFXPet &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        
+        QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -318,6 +321,64 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
+void PFXPetApi::allPets() {
+    QString fullPath = QString(_serverConfigs["allPets"][_serverIndices.value("allPets")].URL()+"/pet/all");
+    
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
+    PFXHttpRequestInput input(fullPath, "GET");
+
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
+
+    connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::allPetsCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    worker->execute(&input);
+}
+
+void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
+    }
+    QSet<PFXPet> output;
+    QString json(worker->response);
+    QByteArray array(json.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonArray jsonArray = doc.array();
+    foreach (QJsonValue obj, jsonArray) {
+        PFXPet val;
+        ::test_namespace::fromJsonValue(val, obj);
+        output.insert(val);
+    }
+    worker->deleteLater();
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit allPetsSignal(output);
+        emit allPetsSignalFull(worker, output);
+    } else {
+        emit allPetsSignalE(output, error_type, error_str);
+        emit allPetsSignalEFull(worker, error_type, error_str);
+    }
+}
+
 void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::OptionalParam<QString> &api_key) {
     QString fullPath = QString(_serverConfigs["deletePet"][_serverIndices.value("deletePet")].URL()+"/pet/{petId}");
     
@@ -326,7 +387,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -806,7 +867,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -861,7 +922,7 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::updatePet(const PFXPet &body) {
+void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     QString fullPath = QString(_serverConfigs["updatePet"][_serverIndices.value("updatePet")].URL()+"/pet");
     
     PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
@@ -871,7 +932,8 @@ void PFXPetApi::updatePet(const PFXPet &body) {
 
     {
 
-        QByteArray output = body.asJson().toUtf8();
+        
+        QByteArray output = pfx_pet.asJson().toUtf8();
         input.request_body.append(output);
     }
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
@@ -961,7 +1023,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -1071,7 +1133,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
         QString pet_idPathParam("{");
         pet_idPathParam.append("petId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
-        QString pathStyle = "";
+        QString pathStyle = "simple";
         if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
@@ -1185,7 +1247,7 @@ void PFXPetApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _implicitFlow.removeToken(_latestScope.join(" "));
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 2: //authorization flow
@@ -1195,7 +1257,7 @@ void PFXPetApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _authFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 3: //client credentials flow
@@ -1205,7 +1267,7 @@ void PFXPetApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _credentialFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     case 4: //resource owner password flow
@@ -1215,7 +1277,7 @@ void PFXPetApi::tokenAvailable(){
             _latestWorker->execute(&_latestInput);
         }else{
             _credentialFlow.removeToken(_latestScope.join(" "));    
-            qDebug() << "Could not retreive a valid token";
+            qDebug() << "Could not retrieve a valid token";
         }
         break;
     default:

@@ -20,31 +20,31 @@ type XmlItem struct {
 	AttributeNumber *float32 `json:"attribute_number,omitempty"`
 	AttributeInteger *int32 `json:"attribute_integer,omitempty"`
 	AttributeBoolean *bool `json:"attribute_boolean,omitempty"`
-	WrappedArray *[]int32 `json:"wrapped_array,omitempty"`
+	WrappedArray []int32 `json:"wrapped_array,omitempty"`
 	NameString *string `json:"name_string,omitempty"`
 	NameNumber *float32 `json:"name_number,omitempty"`
 	NameInteger *int32 `json:"name_integer,omitempty"`
 	NameBoolean *bool `json:"name_boolean,omitempty"`
-	NameArray *[]int32 `json:"name_array,omitempty"`
-	NameWrappedArray *[]int32 `json:"name_wrapped_array,omitempty"`
+	NameArray []int32 `json:"name_array,omitempty"`
+	NameWrappedArray []int32 `json:"name_wrapped_array,omitempty"`
 	PrefixString *string `json:"prefix_string,omitempty"`
 	PrefixNumber *float32 `json:"prefix_number,omitempty"`
 	PrefixInteger *int32 `json:"prefix_integer,omitempty"`
 	PrefixBoolean *bool `json:"prefix_boolean,omitempty"`
-	PrefixArray *[]int32 `json:"prefix_array,omitempty"`
-	PrefixWrappedArray *[]int32 `json:"prefix_wrapped_array,omitempty"`
+	PrefixArray []int32 `json:"prefix_array,omitempty"`
+	PrefixWrappedArray []int32 `json:"prefix_wrapped_array,omitempty"`
 	NamespaceString *string `json:"namespace_string,omitempty"`
 	NamespaceNumber *float32 `json:"namespace_number,omitempty"`
 	NamespaceInteger *int32 `json:"namespace_integer,omitempty"`
 	NamespaceBoolean *bool `json:"namespace_boolean,omitempty"`
-	NamespaceArray *[]int32 `json:"namespace_array,omitempty"`
-	NamespaceWrappedArray *[]int32 `json:"namespace_wrapped_array,omitempty"`
+	NamespaceArray []int32 `json:"namespace_array,omitempty"`
+	NamespaceWrappedArray []int32 `json:"namespace_wrapped_array,omitempty"`
 	PrefixNsString *string `json:"prefix_ns_string,omitempty"`
 	PrefixNsNumber *float32 `json:"prefix_ns_number,omitempty"`
 	PrefixNsInteger *int32 `json:"prefix_ns_integer,omitempty"`
 	PrefixNsBoolean *bool `json:"prefix_ns_boolean,omitempty"`
-	PrefixNsArray *[]int32 `json:"prefix_ns_array,omitempty"`
-	PrefixNsWrappedArray *[]int32 `json:"prefix_ns_wrapped_array,omitempty"`
+	PrefixNsArray []int32 `json:"prefix_ns_array,omitempty"`
+	PrefixNsWrappedArray []int32 `json:"prefix_ns_wrapped_array,omitempty"`
 }
 
 // NewXmlItem instantiates a new XmlItem object
@@ -198,12 +198,12 @@ func (o *XmlItem) GetWrappedArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.WrappedArray
+	return o.WrappedArray
 }
 
 // GetWrappedArrayOk returns a tuple with the WrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetWrappedArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetWrappedArrayOk() ([]int32, bool) {
 	if o == nil || o.WrappedArray == nil {
 		return nil, false
 	}
@@ -221,7 +221,7 @@ func (o *XmlItem) HasWrappedArray() bool {
 
 // SetWrappedArray gets a reference to the given []int32 and assigns it to the WrappedArray field.
 func (o *XmlItem) SetWrappedArray(v []int32) {
-	o.WrappedArray = &v
+	o.WrappedArray = v
 }
 
 // GetNameString returns the NameString field value if set, zero value otherwise.
@@ -358,12 +358,12 @@ func (o *XmlItem) GetNameArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.NameArray
+	return o.NameArray
 }
 
 // GetNameArrayOk returns a tuple with the NameArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetNameArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetNameArrayOk() ([]int32, bool) {
 	if o == nil || o.NameArray == nil {
 		return nil, false
 	}
@@ -381,7 +381,7 @@ func (o *XmlItem) HasNameArray() bool {
 
 // SetNameArray gets a reference to the given []int32 and assigns it to the NameArray field.
 func (o *XmlItem) SetNameArray(v []int32) {
-	o.NameArray = &v
+	o.NameArray = v
 }
 
 // GetNameWrappedArray returns the NameWrappedArray field value if set, zero value otherwise.
@@ -390,12 +390,12 @@ func (o *XmlItem) GetNameWrappedArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.NameWrappedArray
+	return o.NameWrappedArray
 }
 
 // GetNameWrappedArrayOk returns a tuple with the NameWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetNameWrappedArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetNameWrappedArrayOk() ([]int32, bool) {
 	if o == nil || o.NameWrappedArray == nil {
 		return nil, false
 	}
@@ -413,7 +413,7 @@ func (o *XmlItem) HasNameWrappedArray() bool {
 
 // SetNameWrappedArray gets a reference to the given []int32 and assigns it to the NameWrappedArray field.
 func (o *XmlItem) SetNameWrappedArray(v []int32) {
-	o.NameWrappedArray = &v
+	o.NameWrappedArray = v
 }
 
 // GetPrefixString returns the PrefixString field value if set, zero value otherwise.
@@ -550,12 +550,12 @@ func (o *XmlItem) GetPrefixArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.PrefixArray
+	return o.PrefixArray
 }
 
 // GetPrefixArrayOk returns a tuple with the PrefixArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetPrefixArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetPrefixArrayOk() ([]int32, bool) {
 	if o == nil || o.PrefixArray == nil {
 		return nil, false
 	}
@@ -573,7 +573,7 @@ func (o *XmlItem) HasPrefixArray() bool {
 
 // SetPrefixArray gets a reference to the given []int32 and assigns it to the PrefixArray field.
 func (o *XmlItem) SetPrefixArray(v []int32) {
-	o.PrefixArray = &v
+	o.PrefixArray = v
 }
 
 // GetPrefixWrappedArray returns the PrefixWrappedArray field value if set, zero value otherwise.
@@ -582,12 +582,12 @@ func (o *XmlItem) GetPrefixWrappedArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.PrefixWrappedArray
+	return o.PrefixWrappedArray
 }
 
 // GetPrefixWrappedArrayOk returns a tuple with the PrefixWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetPrefixWrappedArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetPrefixWrappedArrayOk() ([]int32, bool) {
 	if o == nil || o.PrefixWrappedArray == nil {
 		return nil, false
 	}
@@ -605,7 +605,7 @@ func (o *XmlItem) HasPrefixWrappedArray() bool {
 
 // SetPrefixWrappedArray gets a reference to the given []int32 and assigns it to the PrefixWrappedArray field.
 func (o *XmlItem) SetPrefixWrappedArray(v []int32) {
-	o.PrefixWrappedArray = &v
+	o.PrefixWrappedArray = v
 }
 
 // GetNamespaceString returns the NamespaceString field value if set, zero value otherwise.
@@ -742,12 +742,12 @@ func (o *XmlItem) GetNamespaceArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.NamespaceArray
+	return o.NamespaceArray
 }
 
 // GetNamespaceArrayOk returns a tuple with the NamespaceArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetNamespaceArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetNamespaceArrayOk() ([]int32, bool) {
 	if o == nil || o.NamespaceArray == nil {
 		return nil, false
 	}
@@ -765,7 +765,7 @@ func (o *XmlItem) HasNamespaceArray() bool {
 
 // SetNamespaceArray gets a reference to the given []int32 and assigns it to the NamespaceArray field.
 func (o *XmlItem) SetNamespaceArray(v []int32) {
-	o.NamespaceArray = &v
+	o.NamespaceArray = v
 }
 
 // GetNamespaceWrappedArray returns the NamespaceWrappedArray field value if set, zero value otherwise.
@@ -774,12 +774,12 @@ func (o *XmlItem) GetNamespaceWrappedArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.NamespaceWrappedArray
+	return o.NamespaceWrappedArray
 }
 
 // GetNamespaceWrappedArrayOk returns a tuple with the NamespaceWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetNamespaceWrappedArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetNamespaceWrappedArrayOk() ([]int32, bool) {
 	if o == nil || o.NamespaceWrappedArray == nil {
 		return nil, false
 	}
@@ -797,7 +797,7 @@ func (o *XmlItem) HasNamespaceWrappedArray() bool {
 
 // SetNamespaceWrappedArray gets a reference to the given []int32 and assigns it to the NamespaceWrappedArray field.
 func (o *XmlItem) SetNamespaceWrappedArray(v []int32) {
-	o.NamespaceWrappedArray = &v
+	o.NamespaceWrappedArray = v
 }
 
 // GetPrefixNsString returns the PrefixNsString field value if set, zero value otherwise.
@@ -934,12 +934,12 @@ func (o *XmlItem) GetPrefixNsArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.PrefixNsArray
+	return o.PrefixNsArray
 }
 
 // GetPrefixNsArrayOk returns a tuple with the PrefixNsArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetPrefixNsArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetPrefixNsArrayOk() ([]int32, bool) {
 	if o == nil || o.PrefixNsArray == nil {
 		return nil, false
 	}
@@ -957,7 +957,7 @@ func (o *XmlItem) HasPrefixNsArray() bool {
 
 // SetPrefixNsArray gets a reference to the given []int32 and assigns it to the PrefixNsArray field.
 func (o *XmlItem) SetPrefixNsArray(v []int32) {
-	o.PrefixNsArray = &v
+	o.PrefixNsArray = v
 }
 
 // GetPrefixNsWrappedArray returns the PrefixNsWrappedArray field value if set, zero value otherwise.
@@ -966,12 +966,12 @@ func (o *XmlItem) GetPrefixNsWrappedArray() []int32 {
 		var ret []int32
 		return ret
 	}
-	return *o.PrefixNsWrappedArray
+	return o.PrefixNsWrappedArray
 }
 
 // GetPrefixNsWrappedArrayOk returns a tuple with the PrefixNsWrappedArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *XmlItem) GetPrefixNsWrappedArrayOk() (*[]int32, bool) {
+func (o *XmlItem) GetPrefixNsWrappedArrayOk() ([]int32, bool) {
 	if o == nil || o.PrefixNsWrappedArray == nil {
 		return nil, false
 	}
@@ -989,7 +989,7 @@ func (o *XmlItem) HasPrefixNsWrappedArray() bool {
 
 // SetPrefixNsWrappedArray gets a reference to the given []int32 and assigns it to the PrefixNsWrappedArray field.
 func (o *XmlItem) SetPrefixNsWrappedArray(v []int32) {
-	o.PrefixNsWrappedArray = &v
+	o.PrefixNsWrappedArray = v
 }
 
 func (o XmlItem) MarshalJSON() ([]byte, error) {

@@ -10,12 +10,16 @@ import org.openapitools.jackson.nullable.JsonNullable;
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
-{{#jdk8}}
 import java.time.OffsetDateTime;
-{{/jdk8}}
 {{#useBeanValidation}}
+{{#useJakartaEe}}
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+{{/useJakartaEe}}
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
@@ -26,9 +30,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 {{/withXml}}
 {{/jackson}}
-{{#oas3}}
+{{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.media.Schema;
-{{/oas3}}
+{{/swagger2AnnotationLibrary}}
 
 {{#withXml}}
 import javax.xml.bind.annotation.*;
@@ -40,6 +44,12 @@ import org.springframework.hateoas.RepresentationModel;
 {{/parent}}
 
 import java.util.*;
+{{#useJakartaEe}}
+import jakarta.annotation.Generated;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
+import javax.annotation.Generated;
+{{/useJakartaEe}}
 
 {{#models}}
 {{#model}}
@@ -47,7 +57,7 @@ import java.util.*;
 {{>enumOuterClass}}
 {{/isEnum}}
 {{^isEnum}}
-{{>pojo}}
+{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{>pojo}}{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

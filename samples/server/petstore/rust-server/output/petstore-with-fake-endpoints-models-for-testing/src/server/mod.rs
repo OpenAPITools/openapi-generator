@@ -257,7 +257,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -366,7 +366,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -436,7 +436,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -506,7 +506,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -576,7 +576,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -755,7 +755,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -829,7 +829,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1125,7 +1125,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1243,7 +1243,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1353,7 +1353,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -1792,7 +1792,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2023,7 +2023,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Form Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw();
+                let result = body.into_raw();
                 match result.await {
                             Ok(body) => {
                                 use std::io::Read;
@@ -2307,7 +2307,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2391,7 +2391,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2464,7 +2464,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2537,7 +2537,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -2916,7 +2916,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 // Body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
-                let result = body.to_raw().await;
+                let result = body.into_raw().await;
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
@@ -3026,80 +3026,80 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
             // TestSpecialTags - PATCH /another-fake/dummy
-            &hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Ok("TestSpecialTags"),
+            &hyper::Method::PATCH if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Some("TestSpecialTags"),
             // Call123example - GET /fake/operation-with-numeric-id
-            &hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => Ok("Call123example"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_OPERATION_WITH_NUMERIC_ID) => Some("Call123example"),
             // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Ok("FakeOuterBooleanSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Some("FakeOuterBooleanSerialize"),
             // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Ok("FakeOuterCompositeSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Some("FakeOuterCompositeSerialize"),
             // FakeOuterNumberSerialize - POST /fake/outer/number
-            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Ok("FakeOuterNumberSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Some("FakeOuterNumberSerialize"),
             // FakeOuterStringSerialize - POST /fake/outer/string
-            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_OUTER_STRING) => Some("FakeOuterStringSerialize"),
             // FakeResponseWithNumericalDescription - GET /fake/response-with-numerical-description
-            &hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => Ok("FakeResponseWithNumericalDescription"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_RESPONSE_WITH_NUMERICAL_DESCRIPTION) => Some("FakeResponseWithNumericalDescription"),
             // HyphenParam - GET /fake/hyphenParam/{hyphen-param}
-            &hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Ok("HyphenParam"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_HYPHENPARAM_HYPHEN_PARAM) => Some("HyphenParam"),
             // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            &hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),
+            &hyper::Method::PUT if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Some("TestBodyWithQueryParams"),
             // TestClientModel - PATCH /fake
-            &hyper::Method::PATCH if path.matched(paths::ID_FAKE) => Ok("TestClientModel"),
+            &hyper::Method::PATCH if path.matched(paths::ID_FAKE) => Some("TestClientModel"),
             // TestEndpointParameters - POST /fake
-            &hyper::Method::POST if path.matched(paths::ID_FAKE) => Ok("TestEndpointParameters"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE) => Some("TestEndpointParameters"),
             // TestEnumParameters - GET /fake
-            &hyper::Method::GET if path.matched(paths::ID_FAKE) => Ok("TestEnumParameters"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE) => Some("TestEnumParameters"),
             // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            &hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Ok("TestInlineAdditionalProperties"),
+            &hyper::Method::POST if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Some("TestInlineAdditionalProperties"),
             // TestJsonFormData - GET /fake/jsonFormData
-            &hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => Ok("TestJsonFormData"),
+            &hyper::Method::GET if path.matched(paths::ID_FAKE_JSONFORMDATA) => Some("TestJsonFormData"),
             // TestClassname - PATCH /fake_classname_test
-            &hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Ok("TestClassname"),
+            &hyper::Method::PATCH if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Some("TestClassname"),
             // AddPet - POST /pet
-            &hyper::Method::POST if path.matched(paths::ID_PET) => Ok("AddPet"),
+            &hyper::Method::POST if path.matched(paths::ID_PET) => Some("AddPet"),
             // DeletePet - DELETE /pet/{petId}
-            &hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => Ok("DeletePet"),
+            &hyper::Method::DELETE if path.matched(paths::ID_PET_PETID) => Some("DeletePet"),
             // FindPetsByStatus - GET /pet/findByStatus
-            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => Ok("FindPetsByStatus"),
+            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYSTATUS) => Some("FindPetsByStatus"),
             // FindPetsByTags - GET /pet/findByTags
-            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => Ok("FindPetsByTags"),
+            &hyper::Method::GET if path.matched(paths::ID_PET_FINDBYTAGS) => Some("FindPetsByTags"),
             // GetPetById - GET /pet/{petId}
-            &hyper::Method::GET if path.matched(paths::ID_PET_PETID) => Ok("GetPetById"),
+            &hyper::Method::GET if path.matched(paths::ID_PET_PETID) => Some("GetPetById"),
             // UpdatePet - PUT /pet
-            &hyper::Method::PUT if path.matched(paths::ID_PET) => Ok("UpdatePet"),
+            &hyper::Method::PUT if path.matched(paths::ID_PET) => Some("UpdatePet"),
             // UpdatePetWithForm - POST /pet/{petId}
-            &hyper::Method::POST if path.matched(paths::ID_PET_PETID) => Ok("UpdatePetWithForm"),
+            &hyper::Method::POST if path.matched(paths::ID_PET_PETID) => Some("UpdatePetWithForm"),
             // UploadFile - POST /pet/{petId}/uploadImage
-            &hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Ok("UploadFile"),
+            &hyper::Method::POST if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Some("UploadFile"),
             // DeleteOrder - DELETE /store/order/{order_id}
-            &hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("DeleteOrder"),
+            &hyper::Method::DELETE if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Some("DeleteOrder"),
             // GetInventory - GET /store/inventory
-            &hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => Ok("GetInventory"),
+            &hyper::Method::GET if path.matched(paths::ID_STORE_INVENTORY) => Some("GetInventory"),
             // GetOrderById - GET /store/order/{order_id}
-            &hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("GetOrderById"),
+            &hyper::Method::GET if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Some("GetOrderById"),
             // PlaceOrder - POST /store/order
-            &hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => Ok("PlaceOrder"),
+            &hyper::Method::POST if path.matched(paths::ID_STORE_ORDER) => Some("PlaceOrder"),
             // CreateUser - POST /user
-            &hyper::Method::POST if path.matched(paths::ID_USER) => Ok("CreateUser"),
+            &hyper::Method::POST if path.matched(paths::ID_USER) => Some("CreateUser"),
             // CreateUsersWithArrayInput - POST /user/createWithArray
-            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => Ok("CreateUsersWithArrayInput"),
+            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHARRAY) => Some("CreateUsersWithArrayInput"),
             // CreateUsersWithListInput - POST /user/createWithList
-            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => Ok("CreateUsersWithListInput"),
+            &hyper::Method::POST if path.matched(paths::ID_USER_CREATEWITHLIST) => Some("CreateUsersWithListInput"),
             // DeleteUser - DELETE /user/{username}
-            &hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => Ok("DeleteUser"),
+            &hyper::Method::DELETE if path.matched(paths::ID_USER_USERNAME) => Some("DeleteUser"),
             // GetUserByName - GET /user/{username}
-            &hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => Ok("GetUserByName"),
+            &hyper::Method::GET if path.matched(paths::ID_USER_USERNAME) => Some("GetUserByName"),
             // LoginUser - GET /user/login
-            &hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => Ok("LoginUser"),
+            &hyper::Method::GET if path.matched(paths::ID_USER_LOGIN) => Some("LoginUser"),
             // LogoutUser - GET /user/logout
-            &hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => Ok("LogoutUser"),
+            &hyper::Method::GET if path.matched(paths::ID_USER_LOGOUT) => Some("LogoutUser"),
             // UpdateUser - PUT /user/{username}
-            &hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => Ok("UpdateUser"),
-            _ => Err(()),
+            &hyper::Method::PUT if path.matched(paths::ID_USER_USERNAME) => Some("UpdateUser"),
+            _ => None,
         }
     }
 }

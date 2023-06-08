@@ -9,21 +9,21 @@ defmodule OpenapiPetstore.Model.Order do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"id",
-    :"petId",
-    :"quantity",
-    :"shipDate",
-    :"status",
-    :"complete"
+    :id,
+    :petId,
+    :quantity,
+    :shipDate,
+    :status,
+    :complete
   ]
 
   @type t :: %__MODULE__{
-    :"id" => integer() | nil,
-    :"petId" => integer() | nil,
-    :"quantity" => integer() | nil,
-    :"shipDate" => DateTime.t | nil,
-    :"status" => String.t | nil,
-    :"complete" => boolean() | nil
+    :id => integer() | nil,
+    :petId => integer() | nil,
+    :quantity => integer() | nil,
+    :shipDate => DateTime.t | nil,
+    :status => String.t | nil,
+    :complete => boolean() | nil
   }
 end
 

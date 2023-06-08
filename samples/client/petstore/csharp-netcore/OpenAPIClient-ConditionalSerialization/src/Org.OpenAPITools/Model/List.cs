@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public List(string _123list = default(string))
         {
             this.__123List = _123list;
+            if (this._123List != null)
+            {
+                this._flag_123List = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

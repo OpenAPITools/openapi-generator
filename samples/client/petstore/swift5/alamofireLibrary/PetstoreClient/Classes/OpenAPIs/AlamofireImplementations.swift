@@ -347,13 +347,17 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                guard let data = dataResponse.data, !data.isEmpty else {
-                    completion(.failure(ErrorResponse.error(-1, nil, dataResponse.response, DecodableRequestBuilderError.emptyDataResponse)))
+                guard let httpResponse = dataResponse.response else {
+                    completion(.failure(ErrorResponse.error(-2, nil, dataResponse.response, DecodableRequestBuilderError.nilHTTPResponse)))
                     return
                 }
 
-                guard let httpResponse = dataResponse.response else {
-                    completion(.failure(ErrorResponse.error(-2, nil, dataResponse.response, DecodableRequestBuilderError.nilHTTPResponse)))
+                guard let data = dataResponse.data, !data.isEmpty else {
+                    if T.self is ExpressibleByNilLiteral.Type {
+                        completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T)))
+                    } else {
+                        completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, httpResponse, DecodableRequestBuilderError.emptyDataResponse)))
+                    }
                     return
                 }
 

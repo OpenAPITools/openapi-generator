@@ -9,13 +9,13 @@ defmodule OpenapiPetstore.Model.ReadOnlyFirst do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"bar",
-    :"baz"
+    :bar,
+    :baz
   ]
 
   @type t :: %__MODULE__{
-    :"bar" => String.t | nil,
-    :"baz" => String.t | nil
+    :bar => String.t | nil,
+    :baz => String.t | nil
   }
 end
 

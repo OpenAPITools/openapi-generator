@@ -1,0 +1,4 @@
+
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<{{returnContainer}}<{{{returnType}}}>>(exampleJson)
+            : Enumerable.Empty<{{{returnType}}}>();

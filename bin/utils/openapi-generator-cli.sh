@@ -13,7 +13,7 @@
 # or
 #    OPENAPI_GENERATOR_VERSION=3.1.0 openapi-generator-cli.sh
 #
-# This is also helpful, for example, if you want want to evaluate a SNAPSHOT version.
+# This is also helpful, for example, if you want to evaluate a SNAPSHOT version.
 #
 # NOTE: Jars are downloaded on demand from maven into the same directory as this script
 # for every 'latest' version pulled from github. Consider putting this under its own directory.

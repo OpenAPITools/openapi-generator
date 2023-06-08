@@ -65,12 +65,7 @@ import java.util.TimeZone;
 import javax.annotation.Nullable;
 
 {{#jsr310}}
-{{#threetenbp}}
-import org.threeten.bp.OffsetDateTime;
-{{/threetenbp}}
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
 {{/jsr310}}
 
 import {{invokerPackage}}.auth.Authentication;

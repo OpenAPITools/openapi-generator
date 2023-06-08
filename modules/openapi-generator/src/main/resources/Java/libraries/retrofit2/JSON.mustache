@@ -19,11 +19,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 {{/joda}}
-{{#threetenbp}}
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-{{/threetenbp}}
 
 {{#models.0}}
 import {{modelPackage}}.*;
@@ -35,11 +30,9 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
-{{#java8}}
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-{{/java8}}
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;

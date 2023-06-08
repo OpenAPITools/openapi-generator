@@ -1367,84 +1367,84 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
         match request.method() {
             // Op10Get - GET /op10
-            &hyper::Method::GET if path.matched(paths::ID_OP10) => Ok("Op10Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP10) => Some("Op10Get"),
             // Op11Get - GET /op11
-            &hyper::Method::GET if path.matched(paths::ID_OP11) => Ok("Op11Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP11) => Some("Op11Get"),
             // Op12Get - GET /op12
-            &hyper::Method::GET if path.matched(paths::ID_OP12) => Ok("Op12Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP12) => Some("Op12Get"),
             // Op13Get - GET /op13
-            &hyper::Method::GET if path.matched(paths::ID_OP13) => Ok("Op13Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP13) => Some("Op13Get"),
             // Op14Get - GET /op14
-            &hyper::Method::GET if path.matched(paths::ID_OP14) => Ok("Op14Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP14) => Some("Op14Get"),
             // Op15Get - GET /op15
-            &hyper::Method::GET if path.matched(paths::ID_OP15) => Ok("Op15Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP15) => Some("Op15Get"),
             // Op16Get - GET /op16
-            &hyper::Method::GET if path.matched(paths::ID_OP16) => Ok("Op16Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP16) => Some("Op16Get"),
             // Op17Get - GET /op17
-            &hyper::Method::GET if path.matched(paths::ID_OP17) => Ok("Op17Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP17) => Some("Op17Get"),
             // Op18Get - GET /op18
-            &hyper::Method::GET if path.matched(paths::ID_OP18) => Ok("Op18Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP18) => Some("Op18Get"),
             // Op19Get - GET /op19
-            &hyper::Method::GET if path.matched(paths::ID_OP19) => Ok("Op19Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP19) => Some("Op19Get"),
             // Op1Get - GET /op1
-            &hyper::Method::GET if path.matched(paths::ID_OP1) => Ok("Op1Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP1) => Some("Op1Get"),
             // Op20Get - GET /op20
-            &hyper::Method::GET if path.matched(paths::ID_OP20) => Ok("Op20Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP20) => Some("Op20Get"),
             // Op21Get - GET /op21
-            &hyper::Method::GET if path.matched(paths::ID_OP21) => Ok("Op21Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP21) => Some("Op21Get"),
             // Op22Get - GET /op22
-            &hyper::Method::GET if path.matched(paths::ID_OP22) => Ok("Op22Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP22) => Some("Op22Get"),
             // Op23Get - GET /op23
-            &hyper::Method::GET if path.matched(paths::ID_OP23) => Ok("Op23Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP23) => Some("Op23Get"),
             // Op24Get - GET /op24
-            &hyper::Method::GET if path.matched(paths::ID_OP24) => Ok("Op24Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP24) => Some("Op24Get"),
             // Op25Get - GET /op25
-            &hyper::Method::GET if path.matched(paths::ID_OP25) => Ok("Op25Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP25) => Some("Op25Get"),
             // Op26Get - GET /op26
-            &hyper::Method::GET if path.matched(paths::ID_OP26) => Ok("Op26Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP26) => Some("Op26Get"),
             // Op27Get - GET /op27
-            &hyper::Method::GET if path.matched(paths::ID_OP27) => Ok("Op27Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP27) => Some("Op27Get"),
             // Op28Get - GET /op28
-            &hyper::Method::GET if path.matched(paths::ID_OP28) => Ok("Op28Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP28) => Some("Op28Get"),
             // Op29Get - GET /op29
-            &hyper::Method::GET if path.matched(paths::ID_OP29) => Ok("Op29Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP29) => Some("Op29Get"),
             // Op2Get - GET /op2
-            &hyper::Method::GET if path.matched(paths::ID_OP2) => Ok("Op2Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP2) => Some("Op2Get"),
             // Op30Get - GET /op30
-            &hyper::Method::GET if path.matched(paths::ID_OP30) => Ok("Op30Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP30) => Some("Op30Get"),
             // Op31Get - GET /op31
-            &hyper::Method::GET if path.matched(paths::ID_OP31) => Ok("Op31Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP31) => Some("Op31Get"),
             // Op32Get - GET /op32
-            &hyper::Method::GET if path.matched(paths::ID_OP32) => Ok("Op32Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP32) => Some("Op32Get"),
             // Op33Get - GET /op33
-            &hyper::Method::GET if path.matched(paths::ID_OP33) => Ok("Op33Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP33) => Some("Op33Get"),
             // Op34Get - GET /op34
-            &hyper::Method::GET if path.matched(paths::ID_OP34) => Ok("Op34Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP34) => Some("Op34Get"),
             // Op35Get - GET /op35
-            &hyper::Method::GET if path.matched(paths::ID_OP35) => Ok("Op35Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP35) => Some("Op35Get"),
             // Op36Get - GET /op36
-            &hyper::Method::GET if path.matched(paths::ID_OP36) => Ok("Op36Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP36) => Some("Op36Get"),
             // Op37Get - GET /op37
-            &hyper::Method::GET if path.matched(paths::ID_OP37) => Ok("Op37Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP37) => Some("Op37Get"),
             // Op3Get - GET /op3
-            &hyper::Method::GET if path.matched(paths::ID_OP3) => Ok("Op3Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP3) => Some("Op3Get"),
             // Op4Get - GET /op4
-            &hyper::Method::GET if path.matched(paths::ID_OP4) => Ok("Op4Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP4) => Some("Op4Get"),
             // Op5Get - GET /op5
-            &hyper::Method::GET if path.matched(paths::ID_OP5) => Ok("Op5Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP5) => Some("Op5Get"),
             // Op6Get - GET /op6
-            &hyper::Method::GET if path.matched(paths::ID_OP6) => Ok("Op6Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP6) => Some("Op6Get"),
             // Op7Get - GET /op7
-            &hyper::Method::GET if path.matched(paths::ID_OP7) => Ok("Op7Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP7) => Some("Op7Get"),
             // Op8Get - GET /op8
-            &hyper::Method::GET if path.matched(paths::ID_OP8) => Ok("Op8Get"),
+            &hyper::Method::GET if path.matched(paths::ID_OP8) => Some("Op8Get"),
             // Op9Get - GET /op9
-            &hyper::Method::GET if path.matched(paths::ID_OP9) => Ok("Op9Get"),
-            _ => Err(()),
+            &hyper::Method::GET if path.matched(paths::ID_OP9) => Some("Op9Get"),
+            _ => None,
         }
     }
 }

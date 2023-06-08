@@ -163,3 +163,14 @@ class ApiClientTests(unittest.TestCase):
             }
             response = MockResponse(data=json.dumps(data))
             deserialized = api_client.deserialize(response, (format_test.FormatTest,), True)
+
+    def test_sanitize_for_serialization(self):
+        data = {
+            "prop1": [{"key1": "val1"}],
+            "prop2": {"key2": "val2"}
+        }
+        from petstore_api.model.foo_object import FooObject
+        # the property named prop1 of this model is a list of dict
+        foo_object = FooObject(prop1=data["prop1"], prop2=data["prop2"])
+        result = self.api_client.sanitize_for_serialization(foo_object)
+        self.assertEqual(data, result)

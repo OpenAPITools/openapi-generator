@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.HealthCheckResult do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"NullableMessage"
+    :NullableMessage
   ]
 
   @type t :: %__MODULE__{
-    :"NullableMessage" => String.t | nil
+    :NullableMessage => String.t | nil
   }
 end
 

@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.Client do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"client"
+    :client
   ]
 
   @type t :: %__MODULE__{
-    :"client" => String.t | nil
+    :client => String.t | nil
   }
 end
 

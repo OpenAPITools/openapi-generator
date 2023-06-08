@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** A category for a pet */
-public struct Category: Codable, Hashable {
+public struct Category: Codable, JSONEncodable, Hashable {
 
     public var id: Int64?
     public var name: String?

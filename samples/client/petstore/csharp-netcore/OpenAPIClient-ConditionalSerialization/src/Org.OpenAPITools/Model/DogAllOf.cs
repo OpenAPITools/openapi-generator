@@ -39,6 +39,10 @@ namespace Org.OpenAPITools.Model
         public DogAllOf(string breed = default(string))
         {
             this._Breed = breed;
+            if (this.Breed != null)
+            {
+                this._flagBreed = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

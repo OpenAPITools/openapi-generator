@@ -401,7 +401,7 @@ class Configuration(object):
                             "qa-petstore",
                             "dev-petstore"
                         ]
-                        },
+                    },
                     'port': {
                         'description': "No description provided",
                         'default_value': "80",
@@ -409,8 +409,8 @@ class Configuration(object):
                             "80",
                             "8080"
                         ]
-                        }
                     }
+                }
             },
             {
                 'url': "https://localhost:8080/{version}",
@@ -424,8 +424,8 @@ class Configuration(object):
                             "v2",
                             "v3"
                         ]
-                        }
                     }
+                }
             }
         ]
 

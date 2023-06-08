@@ -19,14 +19,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("TypeHolderExample")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderExample  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class TypeHolderExample  implements Serializable {
   
   private @Valid String stringItem;
   private @Valid BigDecimal numberItem;
   private @Valid Float floatItem;
   private @Valid Integer integerItem;
   private @Valid Boolean boolItem;
-  private @Valid List<Integer> arrayItem = new ArrayList<Integer>();
+  private @Valid List<Integer> arrayItem = new ArrayList<>();
+
+  protected TypeHolderExample(TypeHolderExampleBuilder<?, ?> b) {
+  this.stringItem = b.stringItem;this.numberItem = b.numberItem;this.floatItem = b.floatItem;this.integerItem = b.integerItem;this.boolItem = b.boolItem;this.arrayItem = b.arrayItem;
+  }
+
+  public TypeHolderExample() { }
 
   /**
    **/
@@ -34,8 +41,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.stringItem = stringItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "what", required = true, value = "")
@@ -58,8 +63,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty("number_item")
   @NotNull
@@ -78,8 +81,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.floatItem = floatItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "1.234", required = true, value = "")
@@ -102,8 +103,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty("integer_item")
   @NotNull
@@ -122,8 +121,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.boolItem = boolItem;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "true", required = true, value = "")
@@ -146,8 +143,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @JsonProperty("array_item")
   @NotNull
@@ -160,6 +155,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayItem = arrayItem;
   }
 
+  public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
+
+    this.arrayItem.add(arrayItemItem);
+    return this;
+  }
+
+  public TypeHolderExample removeArrayItemItem(Integer arrayItemItem) {
+    if (arrayItemItem != null && this.arrayItem != null) {
+      this.arrayItem.remove(arrayItemItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -210,5 +221,58 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static TypeHolderExampleBuilder<?, ?> builder() {
+    return new TypeHolderExampleBuilderImpl();
+  }
+
+  private static final class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
+
+    @Override
+    protected TypeHolderExampleBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public TypeHolderExample build() {
+      return new TypeHolderExample(this);
+    }
+  }
+
+  public static abstract class TypeHolderExampleBuilder<C extends TypeHolderExample, B extends TypeHolderExampleBuilder<C, B>>  {
+    private String stringItem;
+    private BigDecimal numberItem;
+    private Float floatItem;
+    private Integer integerItem;
+    private Boolean boolItem;
+    private List<Integer> arrayItem = new ArrayList<>();
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B stringItem(String stringItem) {
+      this.stringItem = stringItem;
+      return self();
+    }
+    public B numberItem(BigDecimal numberItem) {
+      this.numberItem = numberItem;
+      return self();
+    }
+    public B floatItem(Float floatItem) {
+      this.floatItem = floatItem;
+      return self();
+    }
+    public B integerItem(Integer integerItem) {
+      this.integerItem = integerItem;
+      return self();
+    }
+    public B boolItem(Boolean boolItem) {
+      this.boolItem = boolItem;
+      return self();
+    }
+    public B arrayItem(List<Integer> arrayItem) {
+      this.arrayItem = arrayItem;
+      return self();
+    }
+  }
 }
 

@@ -475,11 +475,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body)?;
+                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(TestSpecialTagsResponse::SuccessfulOperation
                     (body)
                 )
@@ -488,7 +490,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -557,7 +559,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -632,11 +634,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<bool>(body)?;
+                let body = serde_json::from_str::<bool>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterBooleanSerializeResponse::OutputBoolean
                     (body)
                 )
@@ -645,7 +649,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -720,11 +724,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::OuterComposite>(body)?;
+                let body = serde_json::from_str::<models::OuterComposite>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterCompositeSerializeResponse::OutputComposite
                     (body)
                 )
@@ -733,7 +739,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -808,11 +814,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<f64>(body)?;
+                let body = serde_json::from_str::<f64>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterNumberSerializeResponse::OutputNumber
                     (body)
                 )
@@ -821,7 +829,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -896,11 +904,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<String>(body)?;
+                let body = serde_json::from_str::<String>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterStringSerializeResponse::OutputString
                     (body)
                 )
@@ -909,7 +919,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -978,7 +988,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1049,7 +1059,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1130,7 +1140,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1201,11 +1211,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body)?;
+                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(TestClientModelResponse::SuccessfulOperation
                     (body)
                 )
@@ -1214,7 +1226,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1344,7 +1356,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1484,7 +1496,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1562,7 +1574,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1645,7 +1657,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1731,11 +1743,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body)?;
+                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(TestClassnameResponse::SuccessfulOperation
                     (body)
                 )
@@ -1744,7 +1758,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1840,7 +1854,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1945,7 +1959,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2027,7 +2041,7 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2049,7 +2063,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2131,7 +2145,7 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2153,7 +2167,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2224,7 +2238,7 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2252,7 +2266,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2359,7 +2373,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2461,7 +2475,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2599,11 +2613,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::ApiResponse>(body)?;
+                let body = serde_json::from_str::<models::ApiResponse>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(UploadFileResponse::SuccessfulOperation
                     (body)
                 )
@@ -2612,7 +2628,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2689,7 +2705,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2758,11 +2774,13 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body)?;
+                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(GetInventoryResponse::SuccessfulOperation
                     (body)
                 )
@@ -2771,7 +2789,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2835,7 +2853,7 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2863,7 +2881,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2936,7 +2954,7 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2958,7 +2976,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3037,7 +3055,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3115,7 +3133,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3193,7 +3211,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3270,7 +3288,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3334,7 +3352,7 @@ impl<S, C> Api<C> for Client<S, C> where
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -3362,7 +3380,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3460,7 +3478,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -3486,7 +3504,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3555,7 +3573,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3643,7 +3661,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,

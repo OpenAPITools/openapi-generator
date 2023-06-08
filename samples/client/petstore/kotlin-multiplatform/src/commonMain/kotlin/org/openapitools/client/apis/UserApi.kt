@@ -33,7 +33,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-class UserApi(
+open class UserApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
@@ -43,17 +43,16 @@ class UserApi(
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param body Created user object 
+     * @param body Created user object
      * @return void
      */
-    suspend fun createUser(body: User): HttpResponse<Unit> {
+    open suspend fun createUser(body: User): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -75,17 +74,16 @@ class UserApi(
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object 
+     * @param body List of user object
      * @return void
      */
-    suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+    open suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = CreateUsersWithArrayInputRequest(body)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -116,17 +114,16 @@ class UserApi(
     /**
      * Creates list of users with given input array
      * 
-     * @param body List of user object 
+     * @param body List of user object
      * @return void
      */
-    suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+    open suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = CreateUsersWithListInputRequest(body)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -157,10 +154,10 @@ class UserApi(
     /**
      * Delete user
      * This can only be done by the logged in user.
-     * @param username The name that needs to be deleted 
+     * @param username The name that needs to be deleted
      * @return void
      */
-    suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
+    open suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -168,7 +165,6 @@ class UserApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -189,11 +185,11 @@ class UserApi(
     /**
      * Get user by user name
      * 
-     * @param username The name that needs to be fetched. Use user1 for testing. 
+     * @param username The name that needs to be fetched. Use user1 for testing.
      * @return User
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun getUserByName(username: kotlin.String): HttpResponse<User> {
+    open suspend fun getUserByName(username: kotlin.String): HttpResponse<User> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -201,7 +197,6 @@ class UserApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -222,12 +217,12 @@ class UserApi(
     /**
      * Logs user into the system
      * 
-     * @param username The user name for login 
-     * @param password The password for login in clear text 
+     * @param username The user name for login
+     * @param password The password for login in clear text
      * @return kotlin.String
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun loginUser(username: kotlin.String, password: kotlin.String): HttpResponse<kotlin.String> {
+    open suspend fun loginUser(username: kotlin.String, password: kotlin.String): HttpResponse<kotlin.String> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -237,7 +232,6 @@ class UserApi(
         val localVariableQuery = mutableMapOf<String, List<String>>()
         username?.apply { localVariableQuery["username"] = listOf("$username") }
         password?.apply { localVariableQuery["password"] = listOf("$password") }
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -260,7 +254,7 @@ class UserApi(
      * 
      * @return void
      */
-    suspend fun logoutUser(): HttpResponse<Unit> {
+    open suspend fun logoutUser(): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -268,7 +262,6 @@ class UserApi(
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
@@ -289,18 +282,17 @@ class UserApi(
     /**
      * Updated user
      * This can only be done by the logged in user.
-     * @param username name that need to be deleted 
-     * @param body Updated user object 
+     * @param username name that need to be deleted
+     * @param body Updated user object
      * @return void
      */
-    suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {
+    open suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-
         val localVariableHeaders = mutableMapOf<String, String>()
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(

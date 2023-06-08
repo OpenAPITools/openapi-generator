@@ -20,6 +20,7 @@ fi
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
 
 ### run tests
+tox -l
 tox -e py27 || exit 1
 
 ### static analysis of code

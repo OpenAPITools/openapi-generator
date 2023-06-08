@@ -410,4 +410,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.FLASH; }
 }

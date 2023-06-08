@@ -104,19 +104,24 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                     {{#isContainer}}
                     result.{{{name}}}.replace(valueDes);
                     {{/isContainer}}
+                    {{^isContainer}}
+                    {{#isEnum}}
+                    result.{{{name}}} = valueDes;
+                    {{/isEnum}}
+                    {{^isEnum}}
                     {{#isModel}}
                     {{#isPrimitiveType}}
-                    {{! These are models that have nee manually marked as primitive via generator param. }}
+                    {{! These are models that have been manually marked as primitive via generator param. }}
                     result.{{{name}}} = valueDes;
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
                     result.{{{name}}}.replace(valueDes);
                     {{/isPrimitiveType}}
                     {{/isModel}}
-                    {{^isContainer}}
                     {{^isModel}}
                     result.{{{name}}} = valueDes;
                     {{/isModel}}
+                    {{/isEnum}}
                     {{/isContainer}}
                     break;
                 {{/vars}}
@@ -132,6 +137,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
     enum.mustache template.
 }}
 {{#vars}}
+    {{^isModel}}
     {{#isEnum}}
         {{^isContainer}}
 
@@ -144,4 +150,5 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             {{/mostInnerItems}}
         {{/isContainer}}
     {{/isEnum}}
+    {{/isModel}}
 {{/vars}}

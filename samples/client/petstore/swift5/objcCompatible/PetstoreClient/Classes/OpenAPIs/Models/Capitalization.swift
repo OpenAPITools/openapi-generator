@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class Capitalization: NSObject, Codable {
+@objc public class Capitalization: NSObject, Codable, JSONEncodable {
 
     public var smallCamel: String?
     public var capitalCamel: String?

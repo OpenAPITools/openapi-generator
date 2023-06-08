@@ -1,8 +1,8 @@
 {{>header}}
 import 'dart:async';
 
-{{#useBuiltValue}}import 'package:built_value/serializer.dart';{{/useBuiltValue}}
-import '{{dioImport}}';
+{{#includeLibraryTemplate}}api/imports{{/includeLibraryTemplate}}
+import 'package:dio/dio.dart';
 
 {{#operations}}
 {{#imports}}import '{{.}}';
@@ -11,12 +11,8 @@ import '{{dioImport}}';
 class {{classname}} {
 
   final Dio _dio;
-  {{#useBuiltValue}}
 
-  final Serializers _serializers;
-
-  {{/useBuiltValue}}
-  const {{classname}}(this._dio{{#useBuiltValue}}, this._serializers{{/useBuiltValue}});
+{{#includeLibraryTemplate}}api/constructor{{/includeLibraryTemplate}}
 
   {{#operation}}
   /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
@@ -88,14 +84,14 @@ class {{classname}} {
 
     final _queryParameters = <String, dynamic>{
       {{#queryParams}}
-      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#useBuiltValue}}{{>serialization/built_value/query_param}}{{/useBuiltValue}},
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
       {{/queryParams}}
     };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
 
     dynamic _bodyData;
 
     try {
-{{#useBuiltValue}}{{>serialization/built_value/serialize}}{{/useBuiltValue}}
+{{#includeLibraryTemplate}}api/serialize{{/includeLibraryTemplate}}
     } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
@@ -122,7 +118,7 @@ class {{classname}} {
     {{{returnType}}} _responseData;
 
     try {
-{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
+{{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,

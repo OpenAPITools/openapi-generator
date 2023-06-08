@@ -1,0 +1,13 @@
+{{#if useNose}}
+[nosetests]
+logging-clear-handlers=true
+verbosity=2
+randomize=true
+exe=true
+with-coverage=true
+cover-package={{{packageName}}}
+cover-erase=true
+
+{{/if}}
+[flake8]
+max-line-length=99

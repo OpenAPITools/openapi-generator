@@ -16,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Capitalization")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Capitalization  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Capitalization  implements Serializable {
   
   private @Valid String smallCamel;
   private @Valid String capitalCamel;
@@ -31,8 +32,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.smallCamel = smallCamel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -54,8 +53,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -73,8 +70,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.smallSnake = smallSnake;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -96,8 +91,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -115,8 +108,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -137,8 +128,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.ATT_NAME = ATT_NAME;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "Name of the pet ")

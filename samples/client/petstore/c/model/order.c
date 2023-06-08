@@ -61,52 +61,52 @@ cJSON *order_convertToJSON(order_t *order) {
     cJSON *item = cJSON_CreateObject();
 
     // order->id
-    if(order->id) { 
+    if(order->id) {
     if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // order->pet_id
-    if(order->pet_id) { 
+    if(order->pet_id) {
     if(cJSON_AddNumberToObject(item, "petId", order->pet_id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // order->quantity
-    if(order->quantity) { 
+    if(order->quantity) {
     if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // order->ship_date
-    if(order->ship_date) { 
+    if(order->ship_date) {
     if(cJSON_AddStringToObject(item, "shipDate", order->ship_date) == NULL) {
     goto fail; //Date-Time
     }
-     } 
+    }
 
 
     // order->status
-    
+    if(order->status != openapi_petstore_order_STATUS_NULL) {
     if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
     {
     goto fail; //Enum
     }
-    
+    }
 
 
     // order->complete
-    if(order->complete) { 
+    if(order->complete) {
     if(cJSON_AddBoolToObject(item, "complete", order->complete) == NULL) {
     goto fail; //Bool
     }
-     } 
+    }
 
     return item;
 fail:

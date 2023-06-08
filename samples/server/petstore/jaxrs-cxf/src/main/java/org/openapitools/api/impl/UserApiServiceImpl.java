@@ -1,6 +1,7 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
+import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -32,30 +33,30 @@ public class UserApiServiceImpl implements UserApi {
      */
     public void createUser(User body) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Creates list of users with given input array
      *
      */
     public void createUsersWithArrayInput(List<User> body) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Creates list of users with given input array
      *
      */
     public void createUsersWithListInput(List<User> body) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Delete user
      *
@@ -64,40 +65,40 @@ public class UserApiServiceImpl implements UserApi {
      */
     public void deleteUser(String username) {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Get user by user name
      *
      */
     public User getUserByName(String username) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Logs user into the system
      *
      */
     public String loginUser(String username, String password) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
+
     /**
      * Logs out current logged in user session
      *
      */
     public void logoutUser() {
         // TODO: Implement...
-        
+
         
     }
-    
+
     /**
      * Updated user
      *
@@ -106,9 +107,8 @@ public class UserApiServiceImpl implements UserApi {
      */
     public void updateUser(String username, User body) {
         // TODO: Implement...
-        
+
         
     }
-    
-}
 
+}

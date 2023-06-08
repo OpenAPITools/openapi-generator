@@ -24,12 +24,7 @@ import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 {{#jsr310}}
-{{#threetenbp}}
-import org.threeten.bp.OffsetDateTime;
-{{/threetenbp}}
-{{^threetenbp}}
 import java.time.OffsetDateTime;
-{{/threetenbp}}
 {{/jsr310}}
 
 import javax.ws.rs.client.Client;

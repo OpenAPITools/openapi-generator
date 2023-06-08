@@ -25,12 +25,12 @@ All the properties can be changed in the [application.yml][src/main/resources/ap
 
 Description on how to create Apis is given inside individual api guides:
 
-* [AnotherFakeApi](docs//AnotherFakeApi.md)
-* [FakeApi](docs//FakeApi.md)
-* [FakeClassnameTags123Api](docs//FakeClassnameTags123Api.md)
-* [PetApi](docs//PetApi.md)
-* [StoreApi](docs//StoreApi.md)
-* [UserApi](docs//UserApi.md)
+* [AnotherFakeApi](docs/apis/AnotherFakeApi.md)
+* [FakeApi](docs/apis/FakeApi.md)
+* [FakeClassnameTags123Api](docs/apis/FakeClassnameTags123Api.md)
+* [PetApi](docs/apis/PetApi.md)
+* [StoreApi](docs/apis/StoreApi.md)
+* [UserApi](docs/apis/UserApi.md)
 
 
 ## Auth methods

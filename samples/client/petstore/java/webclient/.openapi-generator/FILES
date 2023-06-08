@@ -1,3 +1,4 @@
+.github/workflows/maven.yml
 .gitignore
 .travis.yml
 README.md
@@ -5,6 +6,7 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
+docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -27,14 +29,16 @@ docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
+docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
-docs/InlineResponseDefault.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelApiResponse.md
+docs/ModelFile.md
+docs/ModelList.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
@@ -50,6 +54,7 @@ docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -84,6 +89,7 @@ src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/auth/OAuth.java
 src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
+src/main/java/org/openapitools/client/model/AllOfWithSingleRef.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
@@ -102,14 +108,16 @@ src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
+src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
-src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
+src/main/java/org/openapitools/client/model/ModelFile.java
+src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NullableClass.java
@@ -124,6 +132,7 @@ src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/OuterObjectWithEnumProperty.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/SingleRefType.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java

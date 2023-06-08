@@ -13,14 +13,14 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { Category } from './Category';
 import {
-    Category,
     CategoryFromJSON,
     CategoryFromJSONTyped,
     CategoryToJSON,
 } from './Category';
+import type { Tag } from './Tag';
 import {
-    Tag,
     TagFromJSON,
     TagFromJSONTyped,
     TagToJSON,
@@ -70,14 +70,27 @@ export interface Pet {
     status?: PetStatusEnum;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum PetStatusEnum {
-    Available = 'available',
-    Pending = 'pending',
-    Sold = 'sold'
+ * @export
+ */
+export const PetStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
+
+
+/**
+ * Check if a given object implements the Pet interface.
+ */
+export function instanceOfPet(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "photoUrls" in value;
+
+    return isInstance;
 }
 
 export function PetFromJSON(json: any): Pet {

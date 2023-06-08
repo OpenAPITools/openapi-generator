@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	sw "./go-petstore"
+	sw "github.com/OpenAPITools/openapi-generator/samples/client/petstore/go/go-petstore"
 )
 
 // TestPutBodyWithFileSchema ensures a model with the name 'File'
@@ -15,7 +15,7 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 
 	schema := sw.FileSchemaTestClass{
 		File:  &sw.File{SourceURI: sw.PtrString("https://example.com/image.png")},
-		Files: &[]sw.File{{SourceURI: sw.PtrString("https://example.com/image.png")}}}
+		Files: []sw.File{{SourceURI: sw.PtrString("https://example.com/image.png")}}}
 
 	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background()).Body(schema).Execute()
 

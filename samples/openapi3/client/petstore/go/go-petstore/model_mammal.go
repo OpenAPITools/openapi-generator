@@ -23,12 +23,16 @@ type Mammal struct {
 
 // WhaleAsMammal is a convenience function that returns Whale wrapped in Mammal
 func WhaleAsMammal(v *Whale) Mammal {
-	return Mammal{ Whale: v}
+	return Mammal{
+		Whale: v,
+	}
 }
 
 // ZebraAsMammal is a convenience function that returns Zebra wrapped in Mammal
 func ZebraAsMammal(v *Zebra) Mammal {
-	return Mammal{ Zebra: v}
+	return Mammal{
+		Zebra: v,
+	}
 }
 
 
@@ -37,7 +41,7 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into Whale
-	err = json.Unmarshal(data, &dst.Whale)
+	err = newStrictDecoder(data).Decode(&dst.Whale)
 	if err == nil {
 		jsonWhale, _ := json.Marshal(dst.Whale)
 		if string(jsonWhale) == "{}" { // empty struct
@@ -50,7 +54,7 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal data into Zebra
-	err = json.Unmarshal(data, &dst.Zebra)
+	err = newStrictDecoder(data).Decode(&dst.Zebra)
 	if err == nil {
 		jsonZebra, _ := json.Marshal(dst.Zebra)
 		if string(jsonZebra) == "{}" { // empty struct
@@ -90,6 +94,9 @@ func (src Mammal) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *Mammal) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.Whale != nil {
 		return obj.Whale
 	}

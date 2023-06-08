@@ -9,15 +9,15 @@ defmodule OpenapiPetstore.Model.ArrayTest do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"array_of_string",
-    :"array_array_of_integer",
-    :"array_array_of_model"
+    :array_of_string,
+    :array_array_of_integer,
+    :array_array_of_model
   ]
 
   @type t :: %__MODULE__{
-    :"array_of_string" => [String.t] | nil,
-    :"array_array_of_integer" => [[integer()]] | nil,
-    :"array_array_of_model" => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
+    :array_of_string => [String.t] | nil,
+    :array_array_of_integer => [[integer()]] | nil,
+    :array_array_of_model => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
   }
 end
 

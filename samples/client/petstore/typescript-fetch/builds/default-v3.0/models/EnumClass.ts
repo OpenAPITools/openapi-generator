@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum EnumClass {
-    Abc = '_abc',
-    Efg = '-efg',
-    Xyz = '(xyz)'
-}
+export const EnumClass = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type EnumClass = typeof EnumClass[keyof typeof EnumClass];
+
 
 export function EnumClassFromJSON(json: any): EnumClass {
     return EnumClassFromJSONTyped(json, false);

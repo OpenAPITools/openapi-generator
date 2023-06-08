@@ -22,7 +22,6 @@
  */
 namespace OpenAPIServer\Auth;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
@@ -37,12 +36,6 @@ use Dyorg\TokenAuthentication\Exceptions\UnauthorizedExceptionInterface;
  */
 abstract class AbstractAuthenticator
 {
-
-    /**
-     * @var ContainerInterface|null Slim app container instance
-     */
-    protected $container;
-
     /**
      * @var string[]|null List of required scopes
      */
@@ -62,12 +55,10 @@ abstract class AbstractAuthenticator
     /**
      * Authenticator constructor
      *
-     * @param ContainerInterface|null $container     Slim app container instance
-     * @param string[]|null           $requiredScope List of required scopes
+     * @param string[]|null $requiredScope List of required scopes
      */
-    public function __construct(ContainerInterface $container = null, $requiredScope = null)
+    public function __construct($requiredScope = null)
     {
-        $this->container = $container;
         $this->requiredScope = $requiredScope;
     }
 

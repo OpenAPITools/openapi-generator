@@ -9,7 +9,7 @@ from __future__ import absolute_import
 __version__ = "{{packageVersion}}"
 
 # import apis into sdk package
-{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classVarName}} import {{classname}}
+{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classFilename}} import {{classname}}
 {{/apis}}{{/apiInfo}}
 # import ApiClient
 from {{packageName}}.api_client import ApiClient

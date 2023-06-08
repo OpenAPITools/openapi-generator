@@ -9,17 +9,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 
 import java.util.*;
+import javax.annotation.Generated;
 
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
-public class ArrayTest   {
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+public class ArrayTest {
+
   @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString = null;
@@ -39,7 +43,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = new ArrayList<String>();
+      this.arrayOfString = new ArrayList<>();
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -49,9 +53,8 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   */
+  
   @ApiModelProperty(value = "")
-
-
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -67,7 +70,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = new ArrayList<List<Long>>();
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -77,10 +80,8 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -96,7 +97,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+      this.arrayArrayOfModel = new ArrayList<>();
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
@@ -106,10 +107,8 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   */
+  @Valid 
   @ApiModelProperty(value = "")
-
-  @Valid
-
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
@@ -117,7 +116,6 @@ public class ArrayTest   {
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(Object o) {
@@ -142,7 +140,6 @@ public class ArrayTest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayTest {\n");
-    
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");

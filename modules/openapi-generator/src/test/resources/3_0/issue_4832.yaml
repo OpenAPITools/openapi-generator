@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: ping that return primitive types
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8082/'
+paths:
+  /pingBoolean:
+    get:
+      operationId: pingGetBoolean
+      tags: [Ping]
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: boolean
+  /pingInteger:
+    get:
+      operationId: pingGetInteger
+      tags: [Ping]
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: integer
+                format: int32
+

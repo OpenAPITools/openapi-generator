@@ -28,7 +28,7 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
 import java.text.DateFormat;
 import java.util.*;
 import java.util.function.Consumer;

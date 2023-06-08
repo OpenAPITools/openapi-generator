@@ -1,12 +1,24 @@
 ---
-title: Config Options for r
-sidebar_label: r
+title: Documentation for the r Generator
 ---
 
+## METADATA
+
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | r | pass this to the generate command after -g |
+| generator stability | STABLE | |
+| generator type | CLIENT | |
+| generator language | R | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a R client library (beta). | |
+
+## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|errorObjectType|Error object type.| |null|
 |exceptionPackage|Specify the exception handling package|<dl><dt>**default**</dt><dd>Use stop() for raising exceptions.</dd><dt>**rlang**</dt><dd>Use rlang package for exceptions.</dd></dl>|default|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|R package name (convention: lowercase).| |openapi|
@@ -40,6 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>apiresponse</li>
 <li>break</li>
+<li>data_file</li>
 <li>else</li>
 <li>false</li>
 <li>for</li>
@@ -88,7 +101,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
+|Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
 |CollectionFormatMulti|✓|OAS2
@@ -148,6 +165,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
+|allOf|✗|OAS2,OAS3
+|anyOf|✗|OAS3
+|oneOf|✗|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |

@@ -1,13 +1,18 @@
 group '{{groupId}}'
 version '{{artifactVersion}}'
+{{^omitGradleWrapper}}
 
 wrapper {
     gradleVersion = '6.8.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
+{{/omitGradleWrapper}}
 
 buildscript {
     ext.kotlin_version = '1.5.10'
+    {{#jvm-ktor}}
+    ext.ktor_version = '1.6.7'
+    {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.9.0'
     {{/jvm-retrofit2}}
@@ -42,6 +47,9 @@ apply plugin: 'kotlin-parcelize'
 {{#kotlinx_serialization}}
 apply plugin: 'kotlinx-serialization'
 {{/kotlinx_serialization}}
+{{#idea}}
+apply plugin: 'idea'
+{{/idea}}
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -50,6 +58,15 @@ repositories {
 test {
     useJUnitPlatform()
 }
+{{#idea}}
+
+idea {
+    module {
+        sourceDirs += file('src/main/kotlin')
+        testSourceDirs += file('src/test/kotlin')
+    }
+}
+{{/idea}}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -81,6 +98,15 @@ dependencies {
     {{#kotlinx_serialization}}
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
     {{/kotlinx_serialization}}
+    {{#jvm-ktor}}
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    {{#gson}}
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
+    {{/gson}}
+    {{#jackson}}
+    implementation "io.ktor:ktor-client-jackson:$ktor_version"
+    {{/jackson}}
+    {{/jvm-ktor}}
     {{#jvm-okhttp3}}
     implementation "com.squareup.okhttp3:okhttp:3.12.13"
     {{/jvm-okhttp3}}

@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.*;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@JsonTypeName("Category")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)

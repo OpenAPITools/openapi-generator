@@ -13,7 +13,7 @@
 
 
 import ApiClient from "../ApiClient";
-import InlineResponseDefault from '../model/InlineResponseDefault';
+import FooGetDefaultResponse from '../model/FooGetDefaultResponse';
 
 /**
 * Default service.
@@ -38,13 +38,13 @@ export default class DefaultApi {
      * Callback function to receive the result of the fooGet operation.
      * @callback module:api/DefaultApi~fooGetCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/InlineResponseDefault} data The data returned by the service call.
+     * @param {module:model/FooGetDefaultResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
      * @param {module:api/DefaultApi~fooGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/InlineResponseDefault}
+     * data is of type: {@link module:model/FooGetDefaultResponse}
      */
     fooGet(callback) {
       let postBody = null;
@@ -61,7 +61,7 @@ export default class DefaultApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['application/json'];
-      let returnType = InlineResponseDefault;
+      let returnType = FooGetDefaultResponse;
       return this.apiClient.callApi(
         '/foo', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,

@@ -542,7 +542,7 @@ if (status != null)
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -551,8 +551,8 @@ if (status != null)
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-    return uploadFileWithHttpInfo(petId, additionalMetadata, file).getData();
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+    return uploadFileWithHttpInfo(petId, additionalMetadata, _file).getData();
   }
 
   /**
@@ -560,7 +560,7 @@ if (status != null)
    * 
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @param file file to upload (optional)
+   * @param _file file to upload (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -569,7 +569,7 @@ if (status != null)
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -592,8 +592,8 @@ if (status != null)
     
     if (additionalMetadata != null)
       localVarFormParams.put("additionalMetadata", additionalMetadata);
-if (file != null)
-      localVarFormParams.put("file", file);
+if (_file != null)
+      localVarFormParams.put("file", _file);
 
     final String[] localVarAccepts = {
       "application/json"

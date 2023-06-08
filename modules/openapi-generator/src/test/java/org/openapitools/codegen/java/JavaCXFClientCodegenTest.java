@@ -29,6 +29,8 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -52,9 +54,12 @@ public class JavaCXFClientCodegenTest {
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
         final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, null);
 
-        Map<String, Object> objs = new HashMap<>();
-        objs.put("operations", Collections.singletonMap("operation", Collections.singletonList(co)));
-        objs.put("imports", Collections.emptyList());
+        OperationMap operationMap = new OperationMap();
+        operationMap.setOperation(co);
+
+        OperationsMap objs = new OperationsMap();
+        objs.setOperation(operationMap);
+        objs.setImports(Collections.emptyList());
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assert.assertEquals(co.responses.size(), 2);

@@ -36,7 +36,7 @@ _How_ you provide values to options also depends on the tool. OpenAPI Generator 
 openApiGenerate {
     globalProperties = [
         apis: "",
-        models: "User,Pet"
+        models: "User:Pet"
     ]
 }
 ```

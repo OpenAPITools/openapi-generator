@@ -48,11 +48,16 @@ namespace Org.OpenAPITools.Model
         public Category(long id = default(long), string name = "default-name")
         {
             // to ensure "name" is required (not null)
-            if (name == null) {
+            if (name == null)
+            {
                 throw new ArgumentNullException("name is a required property for Category and cannot be null");
             }
             this._Name = name;
             this._Id = id;
+            if (this.Id != null)
+            {
+                this._flagId = true;
+            }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

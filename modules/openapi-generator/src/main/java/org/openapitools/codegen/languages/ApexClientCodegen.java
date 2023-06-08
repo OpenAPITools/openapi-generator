@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.GeneratorLanguage;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -326,5 +327,6 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
     }
 
-
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.APEX; }
 }

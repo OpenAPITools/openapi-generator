@@ -16,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("User")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class User  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class User  implements Serializable {
   
   private @Valid Long id;
   private @Valid String username;
@@ -33,8 +34,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.id = id;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -56,8 +55,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
@@ -75,8 +72,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.firstName = firstName;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -98,8 +93,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
@@ -117,8 +110,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.email = email;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -140,8 +131,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
@@ -159,8 +148,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.phone = phone;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -181,8 +168,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.userStatus = userStatus;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "User Status")

@@ -166,4 +166,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             return StringUtils.capitalize(enumName) + "Enum";
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 }

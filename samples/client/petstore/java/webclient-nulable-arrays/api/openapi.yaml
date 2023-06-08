@@ -8,6 +8,8 @@ servers:
 paths:
   /nullable-array-test:
     get:
+      description: ""
+      operationId: ""
       parameters: []
       responses:
         "200":
@@ -17,6 +19,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/ByteArrayObject'
                 type: array
+          description: ""
+      summary: ""
       x-accepts: application/json
 components:
   schemas:

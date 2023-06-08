@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -24,11 +28,17 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -46,6 +56,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean returnExceptionOnFailure = false;
     protected String exceptionPackage = "default";
     protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
+    protected Set<String> itemReservedWords = new TreeSet<String>();
 
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
@@ -55,6 +66,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
+    protected String errorObjectType;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -116,9 +128,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
                         "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
                         // reserved words in API client
-                        "ApiResponse"
+                        "ApiResponse", "data_file"
                 )
         );
+
+        // these are reserved words in items: https://github.com/r-lib/R6/blob/main/R/r6_class.R#L484
+        itemReservedWords.add("self");
+        itemReservedWords.add("private");
+        itemReservedWords.add("super");
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("integer");
@@ -165,6 +182,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         exceptionPackage.setEnum(exceptionPackages);
         exceptionPackage.setDefault(DEFAULT);
         cliOptions.add(exceptionPackage);
+
+        cliOptions.add(CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
     }
 
     @Override
@@ -197,13 +216,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             setExceptionPackageToUse(DEFAULT);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.ERROR_OBJECT_TYPE)) {
+            this.setErrorObjectType(additionalProperties.get(CodegenConstants.ERROR_OBJECT_TYPE).toString());
+        }
+        additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         additionalProperties.put(CodegenConstants.EXCEPTION_ON_FAILURE, returnExceptionOnFailure);
-
         additionalProperties.put(USE_DEFAULT_EXCEPTION, this.useDefaultExceptionHandling);
         additionalProperties.put(USE_RLANG_EXCEPTION, this.useRlangExceptionHandling);
-
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -228,6 +250,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
+
+        // add lambda for mustache templates to fix license field
+        additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                content = content.trim().replace("Apache-2.0", "Apache License 2.0");
+                writer.write(content);
+            }
+        });
+
     }
 
     @Override
@@ -273,17 +306,28 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
-            name = escapeReservedWord(name);
+            name = "var_" + name;
 
         // for reserved word or word starting with number, append _
         if (name.matches("^\\d.*"))
-            name = "Var" + name;
+            name = "var_" + name;
 
-        return name.replace("_", ".");
+        return name;
     }
 
     @Override
     public String toVarName(String name) {
+        // escape item reserved words with "item_" prefix
+        if (itemReservedWords.contains(name)) {
+            LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
+            return "item_" + name;
+        }
+
+        if ("".equals(name)) {
+            LOGGER.warn("Empty item name `` (empty string) has been renamed to `empty_string` to avoid compilation errors.");
+            return "empty_string";
+        }
+
         // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
@@ -360,7 +404,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]";
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";
@@ -412,9 +456,20 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            for (CodegenProperty var : cm.vars) {
+                // check to see if base name is an empty string
+                if ("".equals(var.baseName)) {
+                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    var.baseName = "empty_string";
+                }
+            }
+        }
+
         // remove model imports to avoid error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage();
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
@@ -424,17 +479,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
-        if (recursiveImports == null)
-            return objs;
-
-        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-        while (listIterator.hasNext()) {
-            String _import = listIterator.next().get("import");
-            // if the import package happens to be found in the importMapping (key)
-            // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
-                listIterator.add(createMapping("import", importMapping.get(_import)));
+        List<Map<String, String>> recursiveImports = objs.getImports();
+        if (recursiveImports != null) {
+            ListIterator<Map<String, String>> listIterator = imports.listIterator();
+            while (listIterator.hasNext()) {
+                String _import = listIterator.next().get("import");
+                // if the import package happens to be found in the importMapping (key)
+                // add the corresponding import package to the list
+                if (importMapping.containsKey(_import)) {
+                    listIterator.add(createMapping("import", importMapping.get(_import)));
+                }
             }
         }
 
@@ -459,12 +513,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public void setExceptionPackageToUse(String exceptionPackage) {
-        if(DEFAULT.equals(exceptionPackage))
-          this.useDefaultExceptionHandling = true;
-        if(RLANG.equals(exceptionPackage)){
-          supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
-          this.useRlangExceptionHandling = true;
+        if (DEFAULT.equals(exceptionPackage))
+            this.useDefaultExceptionHandling = true;
+        if (RLANG.equals(exceptionPackage)) {
+            supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
+            this.useRlangExceptionHandling = true;
         }
+    }
+
+    public void setErrorObjectType(final String errorObjectType) {
+        this.errorObjectType = errorObjectType;
     }
 
     @Override
@@ -655,7 +713,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -687,17 +745,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-r-example", constructExampleCode(cp, modelMaps));
@@ -796,4 +853,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         System.out.println("################################################################################");
     }
 
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.R;
+    }
 }

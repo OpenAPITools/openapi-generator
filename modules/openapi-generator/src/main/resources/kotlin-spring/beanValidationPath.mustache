@@ -1,4 +1,6 @@
-{{#pattern}}@Pattern(regexp="{{{.}}}") {{/pattern}}{{!
+{{#isEmail}}@Email {{/isEmail}}{{!
+pattern set
+}}{{#pattern}}@Pattern(regexp="{{{.}}}") {{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}}@Size(min={{minLength}},max={{maxLength}}) {{/maxLength}}{{/minLength}}{{!
 minLength set, maxLength not

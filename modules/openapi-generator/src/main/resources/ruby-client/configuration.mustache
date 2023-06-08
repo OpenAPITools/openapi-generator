@@ -84,17 +84,11 @@ module {{moduleName}}
     attr_accessor :client_side_validation
 
 {{^isFaraday}}
-{{> configuration_tls_typhoeus_partial}}
+{{> configuration_typhoeus_partial}}
 {{/isFaraday}}
 {{#isFaraday}}
-{{> configuration_tls_faraday_partial}}
+{{> configuration_faraday_partial}}
 {{/isFaraday}}
-    # Set this to customize parameters encoding of array parameter with multi collectionFormat.
-    # Default to nil.
-    #
-    # @see The params_encoding option of Ethon. Related source code:
-    # https://github.com/typhoeus/ethon/blob/master/lib/ethon/easy/queryable.rb#L96
-    attr_accessor :params_encoding
 
     attr_accessor :inject_format
 
@@ -121,14 +115,17 @@ module {{moduleName}}
       @request_middlewares = []
       @response_middlewares = []
       @timeout = 60
+      # return data as binary instead of file
+      @return_binary_data = false
+      @params_encoder = nil
       {{/isFaraday}}
       {{^isFaraday}}
       @verify_ssl = true
       @verify_ssl_host = true
-      @params_encoding = nil
       @cert_file = nil
       @key_file = nil
       @timeout = 0
+      @params_encoding = nil
       {{/isFaraday}}
       @debugging = false
       @inject_format = false

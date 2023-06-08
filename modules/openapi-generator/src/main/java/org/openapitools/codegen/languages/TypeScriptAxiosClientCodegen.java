@@ -22,6 +22,10 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
@@ -33,8 +37,12 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
     public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
+    public static final String WITH_NODE_IMPORTS = "withNodeImports";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
 
     protected String npmRepository = null;
+    protected Boolean stringEnums = false;
 
     private String tsModelPackage = "";
 
@@ -55,6 +63,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITH_NODE_IMPORTS, "Setting this property to true adds imports for NodeJS", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
@@ -125,6 +135,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            this.stringEnums = Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString());
+            additionalProperties.put("stringEnums", this.stringEnums);
+        }
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -132,10 +147,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> vals = (Map<String, Object>) objs.getOrDefault("operations", new HashMap<>());
-        List<CodegenOperation> operations = (List<CodegenOperation>) vals.getOrDefault("operation", new ArrayList<>());
+        OperationMap vals = objs.getOperations();
+        List<CodegenOperation> operations = vals.getOperation();
         /*
             Filter all the operations that are multipart/form-data operations and set the vendor extension flag
             'multipartFormData' for the template to work with.
@@ -143,9 +158,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         operations.stream()
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> {
-                    op.vendorExtensions.putIfAbsent("multipartFormData", true);
-                });
+                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
         return objs;
     }
 
@@ -158,13 +171,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> result = super.postProcessAllModels(objs);
-        for (Map.Entry<String, Object> entry : result.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> model : models) {
-                CodegenModel codegenModel = (CodegenModel) model.get("model");
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap model : entry.getModels()) {
+                CodegenModel codegenModel = model.getModel();
                 model.put("hasAllOf", codegenModel.allOf.size() > 0);
                 model.put("hasOneOf", codegenModel.oneOf.size() > 0);
             }
@@ -180,25 +191,23 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
 
         boolean withoutPrefixEnums = false;
         if (additionalProperties.containsKey(WITHOUT_PREFIX_ENUMS)) {
             withoutPrefixEnums = Boolean.parseBoolean(additionalProperties.get(WITHOUT_PREFIX_ENUMS).toString());
         }
 
-        for (Object _mo  : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo  : models) {
+            CodegenModel cm = mo.getModel();
 
             // Deduce the model file name in kebab case
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
 
             //processed enum names
             if(!withoutPrefixEnums) {
-                cm.imports = new TreeSet(cm.imports);
+                cm.imports = new TreeSet<>(cm.imports);
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 for (CodegenProperty var : cm.vars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
@@ -218,7 +227,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         // Apply the model file name to the imports as well
-        for (Map<String, String> m : (List<Map<String, String>>) objs.get("imports")) {
+        for (Map<String, String> m : objs.getImports()) {
             String javaImport = m.get("import").substring(modelPackage.length() + 1);
             String tsImport = tsModelPackage + "/" + javaImport;
             m.put("tsImport", tsImport);

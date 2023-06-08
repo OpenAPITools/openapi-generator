@@ -136,7 +136,7 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 	}
 	m := make(map[string]bool)
 	for _, h := range h.SignedHeaders {
-		if strings.ToLower(h) == strings.ToLower(HttpHeaderAuthorization) {
+		if strings.EqualFold(h, HttpHeaderAuthorization) {
 			return nil, fmt.Errorf("Signed headers cannot include the 'Authorization' header")
 		}
 		m[h] = true

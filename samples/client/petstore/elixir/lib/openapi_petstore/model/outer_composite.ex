@@ -9,15 +9,15 @@ defmodule OpenapiPetstore.Model.OuterComposite do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"my_number",
-    :"my_string",
-    :"my_boolean"
+    :my_number,
+    :my_string,
+    :my_boolean
   ]
 
   @type t :: %__MODULE__{
-    :"my_number" => float() | nil,
-    :"my_string" => String.t | nil,
-    :"my_boolean" => boolean() | nil
+    :my_number => float() | nil,
+    :my_string => String.t | nil,
+    :my_boolean => boolean() | nil
   }
 end
 

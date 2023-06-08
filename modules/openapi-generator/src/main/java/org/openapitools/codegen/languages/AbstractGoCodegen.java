@@ -22,6 +22,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -342,7 +346,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             // specification is aligned with the JSON schema specification.
             // When "items" is not specified, the elements of the array may be anything at all.
             if (inner != null) {
-                inner = ModelUtils.unaliasSchema(this.openAPI, inner);
+                inner = ModelUtils.unaliasSchema(this.openAPI, inner, schemaMapping);
             }
             String typDecl;
             if (inner != null) {
@@ -356,10 +360,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner));
+            return getSchemaType(p) + "[string]" +  getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner, schemaMapping));
         }
-        //return super.getTypeDeclaration(p);
 
+        //return super.getTypeDeclaration(p);
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
@@ -460,11 +464,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
 
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
@@ -472,7 +474,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // remove model imports to avoid error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         if (imports == null)
             return objs;
 
@@ -563,7 +565,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> recursiveImports = objs.getImports();
         if (recursiveImports == null)
             return objs;
 
@@ -601,15 +603,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
         // For containers (e.g. Array, Map), the generated code returns the type directly.
-        if (property.isContainer || property.isFreeFormObject || property.isAnyType) {
+        if (property.isContainer || property.isFreeFormObject
+                || (property.isAnyType && !property.isModel)) {
             property.vendorExtensions.put("x-golang-is-container", true);
         }
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // remove model imports to avoid error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage();
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
@@ -620,42 +623,38 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
-        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
-        for (Map<String, Object> m : models) {
-            Object v = m.get("model");
-            if (v instanceof CodegenModel) {
-                CodegenModel model = (CodegenModel) v;
-                for (CodegenProperty param : model.vars) {
-                    if (!addedTimeImport
-                            && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
-                        imports.add(createMapping("import", "time"));
-                        addedTimeImport = true;
-                    }
-                    if (!addedOSImport && "*os.File".equals(param.baseType)) {
-                        imports.add(createMapping("import", "os"));
-                        addedOSImport = true;
-                    }
+        for (ModelMap m : objs.getModels()) {
+            CodegenModel model = m.getModel();
+            for (CodegenProperty param : model.vars) {
+                if (!addedTimeImport
+                    && ("time.Time".equals(param.dataType) || ("[]time.Time".equals(param.dataType)))) {
+                    imports.add(createMapping("import", "time"));
+                    addedTimeImport = true;
                 }
+                if (!addedOSImport && "*os.File".equals(param.baseType)) {
+                    imports.add(createMapping("import", "os"));
+                    addedOSImport = true;
+                }
+            }
 
-                if (this instanceof GoClientCodegen && model.isEnum) {
-                    imports.add(createMapping("import", "fmt"));
-                }
+            if (this instanceof GoClientCodegen && model.isEnum) {
+                imports.add(createMapping("import", "fmt"));
+            }
 
-                // if oneOf contains "null" type
-                if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
-                    model.isNullable = true;
-                    model.oneOf.remove("nil");
-                }
+            // if oneOf contains "null" type
+            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {
+                model.isNullable = true;
+                model.oneOf.remove("nil");
+            }
 
-                // if anyOf contains "null" type
-                if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
-                    model.isNullable = true;
-                    model.anyOf.remove("nil");
-                }
+            // if anyOf contains "null" type
+            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("nil")) {
+                model.isNullable = true;
+                model.anyOf.remove("nil");
             }
         }
         // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> recursiveImports = objs.getImports();
         if (recursiveImports == null)
             return objs;
 
@@ -793,7 +792,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toDefaultValue(Schema schema) {
-        schema = ModelUtils.unaliasSchema(this.openAPI, schema);
+        schema = ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {
@@ -847,5 +846,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     protected boolean isNumberType(String datatype) {
         return numberTypes.contains(datatype);
+    }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.GO;
     }
 }

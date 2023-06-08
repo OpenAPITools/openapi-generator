@@ -2,8 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
-
-import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
 
@@ -12,134 +11,116 @@ class UserApiTest {
     private val service: UserApiService = UserApiServiceImpl()
     private val api: UserApiController = UserApiController(service)
 
-    
     /**
-    * Create user
-    *
-    * This can only be done by the logged in user.
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.createUser
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun createUserTest() = runBlockingTest {
-        val body:User? = null
-        val response: ResponseEntity<Unit> = api.createUser(body!!)
+        val body: User = TODO()
+        val response: ResponseEntity<Unit> = api.createUser(body)
 
         // TODO: test validations
     }
-    
+
     /**
-    * Creates list of users with given input array
-    *
-    * 
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.createUsersWithArrayInput
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun createUsersWithArrayInputTest() = runBlockingTest {
-        val body:kotlin.collections.List<User>? = null
-        val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body!!)
+        val body: kotlin.collections.List<User> = TODO()
+        val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body)
 
         // TODO: test validations
     }
-    
+
     /**
-    * Creates list of users with given input array
-    *
-    * 
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.createUsersWithListInput
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun createUsersWithListInputTest() = runBlockingTest {
-        val body:kotlin.collections.List<User>? = null
-        val response: ResponseEntity<Unit> = api.createUsersWithListInput(body!!)
+        val body: kotlin.collections.List<User> = TODO()
+        val response: ResponseEntity<Unit> = api.createUsersWithListInput(body)
 
         // TODO: test validations
     }
-    
+
     /**
-    * Delete user
-    *
-    * This can only be done by the logged in user.
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.deleteUser
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun deleteUserTest() = runBlockingTest {
-        val username:kotlin.String? = null
-        val response: ResponseEntity<Unit> = api.deleteUser(username!!)
+        val username: kotlin.String = TODO()
+        val response: ResponseEntity<Unit> = api.deleteUser(username)
 
         // TODO: test validations
     }
-    
+
     /**
-    * Get user by user name
-    *
-    * 
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.getUserByName
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun getUserByNameTest() = runBlockingTest {
-        val username:kotlin.String? = null
-        val response: ResponseEntity<User> = api.getUserByName(username!!)
+        val username: kotlin.String = TODO()
+        val response: ResponseEntity<User> = api.getUserByName(username)
 
         // TODO: test validations
     }
-    
+
     /**
-    * Logs user into the system
-    *
-    * 
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.loginUser
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun loginUserTest() = runBlockingTest {
-        val username:kotlin.String? = null
-        val password:kotlin.String? = null
-        val response: ResponseEntity<kotlin.String> = api.loginUser(username!!, password!!)
+        val username: kotlin.String = TODO()
+        val password: kotlin.String = TODO()
+        val response: ResponseEntity<kotlin.String> = api.loginUser(username, password)
 
         // TODO: test validations
     }
-    
+
     /**
-    * Logs out current logged in user session
-    *
-    * 
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.logoutUser
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun logoutUserTest() = runBlockingTest {
         val response: ResponseEntity<Unit> = api.logoutUser()
 
         // TODO: test validations
     }
-    
+
     /**
-    * Updated user
-    *
-    * This can only be done by the logged in user.
-    *
-    * @throws ApiException
-    *          if the Api call fails
-    */
+     * To test UserApiController.updateUser
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
     @Test
     fun updateUserTest() = runBlockingTest {
-        val username:kotlin.String? = null
-        val body:User? = null
-        val response: ResponseEntity<Unit> = api.updateUser(username!!, body!!)
+        val username: kotlin.String = TODO()
+        val body: User = TODO()
+        val response: ResponseEntity<Unit> = api.updateUser(username, body)
 
         // TODO: test validations
     }
-    
 }

@@ -60,12 +60,13 @@ data class Order (
     /**
      * Order Status
      *
-     * Values: placed,approved,delivered
+     * Values: placed,approved,delivered,unknownDefaultOpenApi
      */
     enum class Status(val value: kotlin.String) {
         @Json(name = "placed") placed("placed"),
         @Json(name = "approved") approved("approved"),
-        @Json(name = "delivered") delivered("delivered");
+        @Json(name = "delivered") delivered("delivered"),
+        @Json(name = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
     }
 }
 

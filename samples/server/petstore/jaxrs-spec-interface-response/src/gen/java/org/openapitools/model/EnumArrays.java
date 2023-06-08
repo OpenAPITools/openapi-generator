@@ -13,9 +13,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("EnumArrays")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumArrays  implements Serializable {
   
 
@@ -52,7 +54,7 @@ public enum JustSymbolEnum {
 }
 
   private @Valid JustSymbolEnum justSymbol;
- 
+
 public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
@@ -85,7 +87,7 @@ public enum ArrayEnumEnum {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   /**
    **/
@@ -103,6 +105,7 @@ public enum ArrayEnumEnum {
     return justSymbol;
   }
 
+  @JsonProperty("just_symbol")
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
@@ -123,10 +126,27 @@ public enum ArrayEnumEnum {
     return arrayEnum;
   }
 
+  @JsonProperty("array_enum")
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
 
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<>();
+    }
+
+    this.arrayEnum.add(arrayEnumItem);
+    return this;
+  }
+
+  public EnumArrays removeArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (arrayEnumItem != null && this.arrayEnum != null) {
+      this.arrayEnum.remove(arrayEnumItem);
+    }
+
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

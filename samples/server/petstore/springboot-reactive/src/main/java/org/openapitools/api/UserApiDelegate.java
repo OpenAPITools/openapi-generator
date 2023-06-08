@@ -1,9 +1,9 @@
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
-import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,13 @@ import org.springframework.http.codec.multipart.Part;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.annotation.Generated;
 
 /**
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface UserApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

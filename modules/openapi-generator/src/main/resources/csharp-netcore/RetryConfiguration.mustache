@@ -1,3 +1,5 @@
+{{>partial_header}}
+
 using Polly;
 {{#useRestSharp}}
 using RestSharp;
@@ -11,7 +13,7 @@ namespace {{packageName}}.Client
     /// <summary>
     /// Configuration class to set the polly retry policies to be applied to the requests.
     /// </summary>
-    public class RetryConfiguration
+    public static class RetryConfiguration
     {
 {{#useRestSharp}}
         /// <summary>

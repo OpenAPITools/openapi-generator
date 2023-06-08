@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct CatAllOf: Codable {
+public struct CatAllOf: Codable, JSONEncodable {
 
     public var declawed: Bool?
 

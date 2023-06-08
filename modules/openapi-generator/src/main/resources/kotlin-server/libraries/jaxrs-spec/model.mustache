@@ -1,0 +1,14 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+{{#useBeanValidation}}
+import javax.validation.constraints.*
+import javax.validation.Valid
+{{/useBeanValidation}}
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{>oneof_model}}{{/oneOf}}{{^oneOf}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/oneOf}}{{/isEnum}}
+{{/model}}
+{{/models}}

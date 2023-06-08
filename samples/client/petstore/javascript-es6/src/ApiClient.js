@@ -476,7 +476,7 @@ class ApiClient {
         if (returnType === 'Blob') {
           request.responseType('blob');
         } else if (returnType === 'String') {
-          request.responseType('string');
+          request.responseType('text');
         }
 
         // Attach previously saved cookies, if enabled

@@ -209,6 +209,7 @@ pub enum UploadFileError {
 }
 
 
+/// 
 pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
     let local_var_configuration = configuration;
 
@@ -246,6 +247,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     }
 }
 
+/// 
 pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
     let local_var_configuration = configuration;
 
@@ -299,7 +301,10 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
     let local_var_uri_str = format!("{}/pet/findByStatus", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    local_var_req_builder = local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+    local_var_req_builder = match "csv" {
+        "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -337,7 +342,10 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
     let local_var_uri_str = format!("{}/pet/findByTags", local_var_configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    local_var_req_builder = local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+    local_var_req_builder = match "csv" {
+        "multi" => local_var_req_builder.query(&tags.into_iter().map(|p| ("tags".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    };
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -404,6 +412,7 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     }
 }
 
+/// 
 pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
     let local_var_configuration = configuration;
 
@@ -441,6 +450,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     }
 }
 
+/// 
 pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
     let local_var_configuration = configuration;
 
@@ -487,6 +497,7 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     }
 }
 
+/// 
 pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
     let local_var_configuration = configuration;
 

@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -24,12 +27,19 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -40,6 +50,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean useSingleRequestParameter = false;
     private boolean supportAsync = true;
     private boolean supportMultipleResponses = false;
+    private boolean withAWSV4Signature = false;
+    private boolean preferUnsignedInt = false;
+    private boolean bestFitInt = false;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
@@ -47,6 +60,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String REQWEST_LIBRARY = "reqwest";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
+    public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
+    public static final String BEST_FIT_INT = "bestFitInt";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -55,6 +70,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
     protected String enumSuffix = ""; // default to empty string for backward compatibility
+    protected Map<String, String> unsignedMapping;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -164,6 +180,12 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("object", "serde_json::Value");
         typeMapping.put("AnyType", "serde_json::Value");
 
+        unsignedMapping = new HashMap<>();
+        unsignedMapping.put("i8", "u8");
+        unsignedMapping.put("i16", "u16");
+        unsignedMapping.put("i32", "u32");
+        unsignedMapping.put("i64", "u64");
+
         // no need for rust
         //importMapping = new HashMap<String, String>();
 
@@ -179,8 +201,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
-            .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
+        cliOptions.add(new CliOption(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(PREFER_UNSIGNED_INT, "Prefer unsigned integers where minimum value is >= 0", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(BEST_FIT_INT, "Use best fitting integer type where minimum or maximum is set", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
@@ -194,31 +222,29 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
 
-    @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+    @SuppressWarnings("static-method")
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
 
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+            List<ModelMap> models = entry.getValue().getModels();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
                 allModels.put(modelName, cm);
             }
         }
 
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            List<ModelMap> models = entry.getValue().getModels();
+            for (ModelMap mo : models) {
+                CodegenModel cm = mo.getModel();
                 if (cm.discriminator != null) {
                     List<Object> discriminatorVars = new ArrayList<>();
                     for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
@@ -248,6 +274,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
+            withAWSV4Signature = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString());
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
             enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
@@ -282,6 +312,16 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         writePropertyBack(SUPPORT_MULTIPLE_RESPONSES, getSupportMultipleReturns());
 
+        if (additionalProperties.containsKey(PREFER_UNSIGNED_INT)) {
+            this.setPreferUnsignedInt(convertPropertyToBoolean(PREFER_UNSIGNED_INT));
+        }
+        writePropertyBack(PREFER_UNSIGNED_INT, getPreferUnsignedInt());
+
+        if (additionalProperties.containsKey(BEST_FIT_INT)) {
+            this.setBestFitInt(convertPropertyToBoolean(BEST_FIT_INT));
+        }
+        writePropertyBack(BEST_FIT_INT, getBestFitInt());
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
@@ -315,6 +355,19 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
+
+        // add lambda for sanitize version (e.g. v1.2.3-beta => 1.2.3-beta)
+        additionalProperties.put("lambdaVersion", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                // remove v or V
+                content = content.trim().replace("v", "");
+                content = content.replace("V", "");
+                writer.write(content);
+            }
+        });
+
     }
 
     private boolean getSupportAsync() {
@@ -331,6 +384,22 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setSupportMultipleReturns(boolean supportMultipleResponses) {
         this.supportMultipleResponses = supportMultipleResponses;
+    }
+
+    public boolean getPreferUnsignedInt() {
+        return preferUnsignedInt;
+    }
+
+    public void setPreferUnsignedInt(boolean preferUnsignedInt) {
+        this.preferUnsignedInt = preferUnsignedInt;
+    }
+
+    public boolean getBestFitInt() {
+        return bestFitInt;
+    }
+
+    public void setBestFitInt(boolean bestFitInt) {
+        this.bestFitInt = bestFitInt;
     }
 
     private boolean getUseSingleRequestParameter() {
@@ -367,9 +436,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all upper case, do nothing
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$"))
-            return name;
+            return name.toLowerCase(Locale.ROOT);
 
         // snake_case, e.g. PetId => pet_id
         name = underscore(name);
@@ -498,10 +567,44 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        if (typeMapping.containsKey(schemaType)) {
-            return typeMapping.get(schemaType);
+        String type = typeMapping.getOrDefault(schemaType, schemaType);
+
+        boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
+        boolean unsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
+
+        if (bestFit || unsigned) {
+            BigDecimal maximum = p.getMaximum();
+            BigDecimal minimum = p.getMinimum();
+
+            try {
+              if (maximum != null && minimum != null) {
+                  long max = maximum.longValueExact();
+                  long min = minimum.longValueExact();
+
+                  if (unsigned && bestFit && max <= (Byte.MAX_VALUE * 2) + 1 && min >= 0) {
+                      type = "u8";
+                  } else if (bestFit && max <= Byte.MAX_VALUE && min >= Byte.MIN_VALUE) {
+                      type = "i8";
+                  } else if (unsigned && bestFit && max <= (Short.MAX_VALUE * 2) + 1 && min >= 0) {
+                      type = "u16";
+                  } else if (bestFit && max <= Short.MAX_VALUE && min >= Short.MIN_VALUE) {
+                      type = "i16";
+                  } else if (unsigned && bestFit && max <= (Integer.MAX_VALUE * 2L) + 1 && min >= 0) {
+                      type = "u32";
+                  } else if (bestFit && max <= Integer.MAX_VALUE && min >= Integer.MIN_VALUE) {
+                      type = "i32";
+                  }
+              }
+            } catch (ArithmeticException a) {
+                // no-op; case will be handled in the next if block
+            }
+
+            if (unsigned && minimum != null && minimum.compareTo(BigDecimal.ZERO) >= 0 && unsignedMapping.containsKey(type)) {
+                type = unsignedMapping.get(type);
+            }
         }
-        return schemaType;
+
+        return type;
     }
 
     @Override
@@ -518,11 +621,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
@@ -615,7 +716,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-
     @Override
     public String toEnumValue(String value, String datatype) {
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
@@ -690,4 +790,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return null;
         }
     }
+
+    @Override
+    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 }

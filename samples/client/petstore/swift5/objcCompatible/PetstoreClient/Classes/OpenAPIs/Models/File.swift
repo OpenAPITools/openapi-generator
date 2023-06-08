@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Must be named &#x60;File&#x60; for test. */
-@objc public class File: NSObject, Codable {
+@objc public class File: NSObject, Codable, JSONEncodable {
 
     /** Test capitalization */
     public var sourceURI: String?

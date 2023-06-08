@@ -48,7 +48,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
       :body => :body
 {{/isBodyParam}}
 {{^isBodyParam}}
-      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
+      {{#atom}}{{baseName}}{{/atom}} => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
 {{/isBodyParam}}
 {{#-last}}
     }
@@ -59,7 +59,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> url("{{replacedPathName}}")
 {{#requiredParams}}
 {{^isPathParam}}
-    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body, {{/isBodyParam}}{{^isBodyParam}}:"{{baseName}}", {{/isBodyParam}}{{#underscored}}{{paramName}}{{/underscored}})
+    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body, {{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}, {{/isBodyParam}}{{#underscored}}{{paramName}}{{/underscored}})
 {{/isPathParam}}
 {{/requiredParams}}
 {{#optionalParams}}

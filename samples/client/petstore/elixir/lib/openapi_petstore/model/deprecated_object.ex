@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.DeprecatedObject do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"name"
+    :name
   ]
 
   @type t :: %__MODULE__{
-    :"name" => String.t | nil
+    :name => String.t | nil
   }
 end
 

@@ -47,7 +47,7 @@ func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
 	return controller
 }
 
-// Routes returns all of the api route for the StoreApiController
+// Routes returns all the api routes for the StoreApiController
 func (c *StoreApiController) Routes() Routes {
 	return Routes{ 
 		{

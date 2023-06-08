@@ -1,0 +1,367 @@
+{{#models}}
+{{#model}}
+#' @docType class
+#' @title {{classname}}
+#' @description {{classname}} Class
+#' @format An \code{R6Class} generator object
+{{#vars}}
+#' @field {{name}} {{title}} {{#isContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/isContainer}}{{^isPrimitiveType}}\link{{=<% %>=}}{<%/isPrimitiveType%><%={{ }}=%>{{#isContainer}}{{#items}}{{dataType}}{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}{{=<% %>=}}<%^isPrimitiveType%>}<%={{ }}=%>{{/isPrimitiveType}}{{#isContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/isContainer}} {{^required}}[optional]{{/required}}
+{{/vars}}
+#' @importFrom R6 R6Class
+#' @importFrom jsonlite fromJSON toJSON
+{{#isEnum}}
+{{>modelEnum}}
+{{/isEnum}}
+{{^isEnum}}
+#' @export
+{{classname}} <- R6::R6Class(
+  '{{classname}}',
+  {{#parent}}
+  inherit = {{{.}}},
+  {{/parent}}
+  public = list(
+    {{#vars}}
+    `{{{name}}}` = NULL,
+    {{/vars}}
+    #' Initialize a new {{{classname}}} class.
+    #'
+    #' @description
+    #' Initialize a new {{{classname}}} class.
+    #'
+    {{#requiredVars}}
+    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+    #' @param {{name}} {{{description}}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
+    {{/optionalVars}}
+    #' @param ... Other optional arguments.
+    #' @export
+    initialize = function(
+        {{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+    ) {
+      {{#requiredVars}}
+      if (!missing(`{{name}}`)) {
+        {{^isContainer}}
+        {{#isInteger}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{nme}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(`{{nme}}`), length(`{{nme}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isBoolean}}
+        {{#isDate}}
+        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
+        sapply(`{{name}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
+        sapply(`{{name}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        self$`{{name}}` <- `{{name}}`
+      }
+      {{/requiredVars}}
+      {{#optionalVars}}
+      if (!is.null(`{{name}}`)) {
+        {{^isContainer}}
+        {{#isInteger}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isBoolean}}
+        {{#isDate}}
+        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(`{{name}}`), length(`{{name}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
+        sapply(`{{name}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
+        sapply(`{{name}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        self$`{{name}}` <- `{{name}}`
+      }
+      {{/optionalVars}}
+    },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return {{{classname}}} in JSON format
+    #' @export
+    toJSON = function() {
+      {{classname}}Object <- list()
+      {{#vars}}
+      if (!is.null(self$`{{name}}`)) {
+        {{classname}}Object[['{{baseName}}']] <-
+       {{#isContainer}}
+       {{#isArray}}
+       {{#isPrimitiveType}}
+          self$`{{name}}`
+       {{/isPrimitiveType}}
+       {{^isPrimitiveType}}
+          lapply(self$`{{name}}`, function(x) x$toJSON())
+        {{/isPrimitiveType}}
+       {{/isArray}}
+       {{#isMap}}
+       {{#isPrimitiveType}}
+          self$`{{name}}`
+       {{/isPrimitiveType}}
+       {{^isPrimitiveType}}
+          lapply(self$`{{name}}`, function(x) x$toJSON())
+       {{/isPrimitiveType}}
+       {{/isMap}}
+       {{/isContainer}}
+       {{^isContainer}}
+       {{#isPrimitiveType}}
+          self$`{{name}}`
+       {{/isPrimitiveType}}
+       {{^isPrimitiveType}}
+          self$`{{name}}`$toJSON()
+       {{/isPrimitiveType}}
+       {{/isContainer}}
+      }
+      {{/vars}}
+
+      {{classname}}Object
+    },
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of {{{classname}}}
+    #' @export
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      {{#vars}}
+      if (!is.null(this_object$`{{baseName}}`)) {
+        {{#isContainer}}
+        self$`{{name}}` <- ApiClient$new()$deserializeObj(this_object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        self$`{{name}}` <- this_object$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object <- {{dataType}}$new()
+        {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object$fromJSON(jsonlite::toJSON(this_object${{baseName}}, auto_unbox = TRUE, digits = NA))
+        self$`{{name}}` <- {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+      }
+      {{/vars}}
+      self
+    },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return {{{classname}}} in JSON format
+    #' @export
+    toJSONString = function() {
+      jsoncontent <- c(
+      {{#vars}}
+        if (!is.null(self$`{{name}}`)) {
+        sprintf(
+        '"{{baseName}}":
+        {{#isContainer}}
+        {{#isArray}}
+        {{#isPrimitiveType}}
+           {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}[%s]
+        {{/isPrimitiveType}}
+        {{/isArray}}
+        {{#isMap}}
+        {{#isPrimitiveType}}
+          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}%s
+        {{/isPrimitiveType}}
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+          {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}%s
+        {{/isPrimitiveType}}
+        {{/isContainer}}',
+        {{#isContainer}}
+        {{#isArray}}
+        {{#isPrimitiveType}}
+        paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse=",")
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        {{/isPrimitiveType}}
+        {{/isArray}}
+        {{#isMap}}
+        {{#isPrimitiveType}}
+        jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits=NA)
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits=NA)
+        {{/isPrimitiveType}}
+        {{/isMap}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox=TRUE, digits = NA)
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        )}{{^-last}},{{/-last}}
+      {{/vars}}
+      )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      as.character(jsonlite::minify(paste('{', jsoncontent, '}', sep = "")))
+    },
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of {{{classname}}}
+    #' @export
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      {{#vars}}
+      {{! AAPI - added condition for handling container type of parameters, map and array}}
+      {{#isContainer}}
+      self$`{{name}}` <- ApiClient$new()$deserializeObj(this_object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+      {{/isContainer}}
+      {{^isContainer}}
+      {{#isPrimitiveType}}
+      self$`{{name}}` <- this_object$`{{name}}`
+      {{/isPrimitiveType}}
+      {{^isPrimitiveType}}
+      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object${{name}}, auto_unbox = TRUE, digits = NA))
+      {{/isPrimitiveType}}
+      {{/isContainer}}
+      {{/vars}}
+      self
+    },
+    #' Validate JSON input with respect to {{classname}}
+    #'
+    #' @description
+    #' Validate JSON input with respect to {{classname}} and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+      {{#requiredVars}}
+      # check the required field `{{name}}`
+      if (!is.null(input_json$`{{name}}`)) {
+        {{^isContainer}}
+        {{#isInteger}}
+        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isString}}
+        {{#isBoolean}}
+        stopifnot(is.logical(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isBoolean}}
+        {{#isDate}}
+        stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(input_json$`{{name}}`), length(input_json$`{{name}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(input_json$`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(input_json$`{{name}}`), length(input_json$`{{name}}`) != 0)
+        tmp <- sapply(input_json$`{{name}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(input_json$`{{name}}`), length(json_input$`{{name}}`) != 0)
+        tmp <- sapply(input_json$`{{name}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for {{classname}}: the required field `{{name}}` is missing."))
+      }
+      {{/requiredVars}}
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of {{{classname}}}
+    #' @export
+    toString = function() {
+      self$toJSONString()
+    }
+  )
+)
+{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -53,7 +53,6 @@ paths:
   /multiple-identical-mime-types:
     post:
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           multipart/related:
             encoding:
@@ -64,26 +63,12 @@ paths:
                 contentType: application/octet-stream
                 style: form
             schema:
-              properties:
-                binary1:
-                  format: binary
-                  type: string
-                binary2:
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/_multiple_identical_mime_types_post_request'
         required: true
       responses:
         "200":
           description: OK
 components:
-  requestBodies:
-    inline_object:
-      content:
-        multipart/related:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   schemas:
     multipart_request:
       properties:
@@ -113,7 +98,7 @@ components:
       required:
       - required_binary_field
       type: object
-    inline_object:
+    _multiple_identical_mime_types_post_request:
       properties:
         binary1:
           format: binary

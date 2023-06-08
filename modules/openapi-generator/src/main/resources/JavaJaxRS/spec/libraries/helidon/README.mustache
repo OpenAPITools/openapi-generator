@@ -16,7 +16,7 @@ The jar can be used in combination with an other project providing the implement
 {{/interfaceOnly}}
 
 {{^interfaceOnly}}
-To build the server, run this maven command:
+To build the server, run this maven command (with JDK 11+):
 
 ```bash
 mvn package
@@ -25,7 +25,7 @@ mvn package
 To run the server, run this maven command:
 
 ```bash
-mvn exec:java
+java -jar target/{{artifactId}}.jar
 ```
 
 You can then call your server endpoints under:

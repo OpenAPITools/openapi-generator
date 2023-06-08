@@ -75,16 +75,19 @@ impl Request {
         self
     }
 
+    #[allow(unused)]
     pub fn with_query_param(mut self, basename: String, param: String) -> Self {
         self.query_params.insert(basename, param);
         self
     }
 
+    #[allow(unused)]
     pub fn with_path_param(mut self, basename: String, param: String) -> Self {
         self.path_params.insert(basename, param);
         self
     }
 
+    #[allow(unused)]
     pub fn with_form_param(mut self, basename: String, param: String) -> Self {
         self.form_params.insert(basename, param);
         self

@@ -2,6 +2,7 @@
 {{#models}}{{#model}}
 
 #include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
 
 namespace {{modelNamespace}}
 {
@@ -20,6 +21,56 @@ nlohmann::json {{classname}}::to_json() const
     return o;
 }
 
+void {{classname}}::validate() const
+{
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw {{helpersNamespace}}::ValidationException(msg.str());
+    }
+}
+
+bool {{classname}}::validate(std::stringstream& msg) const
+{
+    return validate(msg, "");
+}
+
+bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "{{classname}}" : pathPrefix;
+
+    {{#isEnum}}{{! Special case for enum types }}
+    if (m_value == {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED)
+    {
+        success = false;
+        msg << _pathPrefix << ": has no value;";
+    }
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#vars}}
+    {{#isArray}} {{! Always generate validation body for array types }}
+    {{^required}}if ({{name}}.has_value()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = {{name}}{{^required}}.value(){{/required}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/isArray}}{{^isArray}}{{#hasValidation}} {{! Only generate validation if necessary }}
+    {{^required}}if ({{name}}.has_value()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = {{name}}{{^required}}.value(){{/required}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/hasValidation}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
+    if (!m_value.validate(msg))
+    {
+        success = false;
+    }{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+    return success;
+}
+
 bool {{classname}}::operator==(const {{classname}}& other) const
 {
     return {{#vars}}{{name}} == other.{{name}}{{^-last}} && {{/-last}}{{/vars}};
@@ -33,8 +84,8 @@ bool {{classname}}::operator!=(const {{classname}}& other) const
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
     {{#vars}}
-    {{^required}}if (!o.{{name}}.isEmpty()){{/required}}
-        j["{{baseName}}"] = o.{{name}}{{^required}}.get(){{/required}};
+    {{^required}}if (o.{{name}}.has_value()){{/required}}
+        j["{{baseName}}"] = o.{{name}}{{^required}}.value(){{/required}};
     {{/vars}}
 }
 

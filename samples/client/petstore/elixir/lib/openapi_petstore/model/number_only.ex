@@ -9,11 +9,11 @@ defmodule OpenapiPetstore.Model.NumberOnly do
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JustNumber"
+    :JustNumber
   ]
 
   @type t :: %__MODULE__{
-    :"JustNumber" => float() | nil
+    :JustNumber => float() | nil
   }
 end
 

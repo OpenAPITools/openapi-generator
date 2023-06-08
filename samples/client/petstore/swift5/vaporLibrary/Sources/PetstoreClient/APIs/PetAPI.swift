@@ -68,7 +68,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Deletes a pet
      DELETE /pet/{petId}
@@ -129,7 +128,6 @@ open class PetAPI {
             }
         }
     }
-
 
     /**
      * enum for parameter status
@@ -203,7 +201,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Finds Pets by tags
      GET /pet/findByTags
@@ -269,7 +266,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Find pet by ID
      GET /pet/{petId}
@@ -332,7 +328,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Update an existing pet
      PUT /pet
@@ -393,7 +388,6 @@ open class PetAPI {
             }
         }
     }
-
 
     /**
      Updates a pet in the store with form data
@@ -458,7 +452,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      uploads an image
      POST /pet/{petId}/uploadImage
@@ -522,7 +515,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      uploads an image (required)
      POST /fake/{petId}/uploadImageWithRequiredFile
@@ -585,5 +577,4 @@ open class PetAPI {
             }
         }
     }
-
 }

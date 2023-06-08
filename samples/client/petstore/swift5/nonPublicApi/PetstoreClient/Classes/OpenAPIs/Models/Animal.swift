@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct Animal: Codable, Hashable {
+internal struct Animal: Codable, JSONEncodable, Hashable {
 
     internal var className: String
     internal var color: String? = "red"

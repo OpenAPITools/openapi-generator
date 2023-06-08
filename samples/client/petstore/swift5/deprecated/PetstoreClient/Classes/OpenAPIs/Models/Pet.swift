@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** A pet for sale in the pet store */
-public struct Pet: Codable, Hashable {
+public struct Pet: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"

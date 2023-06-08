@@ -1,0 +1,12 @@
+generatorName: spring
+outputDir: samples/openapi3/client/petstore/spring-cloud-async
+library: spring-cloud
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springdoc
+  async: "true"
+  java8: "true"
+  artifactId: petstore-spring-cloud
+  hideGenerationTimestamp: "true"

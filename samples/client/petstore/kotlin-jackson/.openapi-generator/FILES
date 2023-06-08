@@ -22,6 +22,7 @@ src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiResponse.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Errors.kt
+src/main/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/main/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/main/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ResponseExtensions.kt

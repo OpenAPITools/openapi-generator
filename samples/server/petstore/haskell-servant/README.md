@@ -87,3 +87,42 @@ main = do
       config = Config "http://localhost:8080/"
   runOpenAPIPetstoreMiddlewareServer config requestMiddlewares server
 ```
+
+## Authentication
+
+Currently basic, bearer and API key authentication is supported. The API key must be provided
+in the request header.
+
+For clients authentication the function `clientAuth` is generated automatically. For basic
+authentication the argument is of type `BasicAuthData` provided by `Servant.API.BasicAuth`.
+For bearer and API key authentication the argument is the key/token and is of type `Text`.
+Protected endpoints on the client will receive an extra argument. The value returned by
+`clientAuth keyTokenOrBasic` can then be used to make authenticated requests.
+
+For the server you are free to choose a custom data type. After you specified an instance of
+`AuthServerData` it is automatically added as a first argument to protected endpoints:
+
+```
+newtype Account = Account {unAccount :: Text}
+type instance AuthServerData Protected = Account
+```
+
+Additionally, you have to provide value for the `OpenAPIPetstoreAuth` type provided by the
+`OpenAPIPetstore.API` module:
+
+```
+auth :: OpenAPIPetstoreAuth
+auth =
+  OpenAPIPetstoreAuth
+    { lookupUser = lookupAccount,
+      authError = \request -> err401 {errBody = "Missing header"}
+    }
+```
+
+`lookupAccount` is a user defined function used to verify the key, token or basic auth data.
+`authError` takes a `Request` and returns a `ServerError`. The value is used by the server
+functions:
+
+```
+runOpenAPIPetstoreMiddlewareServer config requestMiddlewares auth server
+```

@@ -3,7 +3,7 @@ outputDir: samples/client/petstore/typescript-angular-v12-provided-in-root/build
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-angular
 additionalProperties:
-  ngVersion: 12.0.0
+  ngVersion: 12.2.0
   npmVersion: 1.0.0
   npmName: '@openapitools/typescript-angular-petstore'
   npmRepository: https://skimdb.npmjs.com/registry
