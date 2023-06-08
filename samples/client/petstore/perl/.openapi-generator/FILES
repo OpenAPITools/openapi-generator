@@ -24,6 +24,7 @@ docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
 docs/FakeApi.md
+docs/FakeBigDecimalMap200Response.md
 docs/FakeClassnameTags123Api.md
 docs/File.md
 docs/FileSchemaTestClass.md
@@ -84,6 +85,7 @@ lib/WWW/OpenAPIClient/Object/DogAllOf.pm
 lib/WWW/OpenAPIClient/Object/EnumArrays.pm
 lib/WWW/OpenAPIClient/Object/EnumClass.pm
 lib/WWW/OpenAPIClient/Object/EnumTest.pm
+lib/WWW/OpenAPIClient/Object/FakeBigDecimalMap200Response.pm
 lib/WWW/OpenAPIClient/Object/File.pm
 lib/WWW/OpenAPIClient/Object/FileSchemaTestClass.pm
 lib/WWW/OpenAPIClient/Object/Foo.pm

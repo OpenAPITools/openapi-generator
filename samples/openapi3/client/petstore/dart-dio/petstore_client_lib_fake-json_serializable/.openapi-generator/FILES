@@ -22,6 +22,7 @@ doc/DogAllOf.md
 doc/EnumArrays.md
 doc/EnumTest.md
 doc/FakeApi.md
+doc/FakeBigDecimalMap200Response.md
 doc/FakeClassnameTags123Api.md
 doc/FileSchemaTestClass.md
 doc/Foo.md
@@ -89,6 +90,7 @@ lib/src/model/dog.dart
 lib/src/model/dog_all_of.dart
 lib/src/model/enum_arrays.dart
 lib/src/model/enum_test.dart
+lib/src/model/fake_big_decimal_map200_response.dart
 lib/src/model/file_schema_test_class.dart
 lib/src/model/foo.dart
 lib/src/model/foo_get_default_response.dart

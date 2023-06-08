@@ -217,6 +217,8 @@ class ApiClient {
           return EnumClassTypeTransformer().decode(value);
         case 'EnumTest':
           return EnumTest.fromJson(value);
+        case 'FakeBigDecimalMap200Response':
+          return FakeBigDecimalMap200Response.fromJson(value);
         case 'FileSchemaTestClass':
           return FileSchemaTestClass.fromJson(value);
         case 'Foo':

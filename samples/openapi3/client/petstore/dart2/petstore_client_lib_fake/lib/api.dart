@@ -53,6 +53,7 @@ part 'model/dog_all_of.dart';
 part 'model/enum_arrays.dart';
 part 'model/enum_class.dart';
 part 'model/enum_test.dart';
+part 'model/fake_big_decimal_map200_response.dart';
 part 'model/file_schema_test_class.dart';
 part 'model/foo.dart';
 part 'model/foo_get_default_response.dart';
