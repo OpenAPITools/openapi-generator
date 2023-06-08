@@ -50,8 +50,8 @@ import java.util.stream.Stream;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(SwiftAltClientCodegen.class);
+public class SwiftCombineClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(SwiftCombineClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
@@ -65,9 +65,9 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     protected boolean anyDecoderWasAdded = false;
 
     /**
-     * Constructor for the swift alt language codegen module.
+     * Constructor for the swift language codegen module.
      */
-    public SwiftAltClientCodegen() {
+    public SwiftCombineClientCodegen() {
         super();
         this.supportsMultipleInheritance = true;
         this.useOneOfInterfaces = true;
@@ -80,7 +80,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
-        embeddedTemplateDir = templateDir = "swift-alt";
+        embeddedTemplateDir = templateDir = "swift-combine";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
 
@@ -210,12 +210,12 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String getName() {
-        return "swift-alt";
+        return "swift-combine";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Swift alternative client library.";
+        return "Generates a Swift Combine client library.";
     }
 
     @Override
@@ -799,8 +799,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     public void postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.22.0                                          #");
+        System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
+        System.out.println("# swift combine generator v0.23.0                                          #");
         System.out.println("################################################################################");
     }
 
