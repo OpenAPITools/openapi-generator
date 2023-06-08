@@ -38,15 +38,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="var123List">var123List.</param>
         public List(string var123List = default(string))
         {
-            this.var123List = var123List;
+            this.Var123List = var123List;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets var123List
+        /// Gets or Sets Var123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string var123List { get; set; }
+        public string Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  var123List: ").Append(var123List).Append("\n");
+            sb.Append("  Var123List: ").Append(Var123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.var123List != null)
+                if (this.Var123List != null)
                 {
-                    hashCode = (hashCode * 59) + this.var123List.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Var123List.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

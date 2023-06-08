@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 
 namespace Org.OpenAPITools.Extensions
 {
@@ -25,40 +24,14 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void AddApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(this IServiceCollection services, Action<HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>> options)
-            where TAnotherFakeApi : class, IApi.IAnotherFakeApi
-            where TDefaultApi : class, IApi.IDefaultApi
-            where TFakeApi : class, IApi.IFakeApi
-            where TFakeClassnameTags123Api : class, IApi.IFakeClassnameTags123Api
-            where TPetApi : class, IApi.IPetApi
-            where TStoreApi : class, IApi.IStoreApi
-            where TUserApi : class, IApi.IUserApi
+        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
         {
-            HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> config = new HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(services);
+            HostConfiguration config = new HostConfiguration(services);
             options(config);
             AddApi(services, config);
         }
 
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi>> options)
-        {
-            HostConfiguration<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi> config = new HostConfiguration<AnotherFakeApi, DefaultApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi>(services);
-            options(config);
-            AddApi(services, config);
-        }
-
-        internal static void AddApi<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi>(IServiceCollection services, HostConfiguration<TAnotherFakeApi, TDefaultApi, TFakeApi, TFakeClassnameTags123Api, TPetApi, TStoreApi, TUserApi> host)
-            where TAnotherFakeApi : class, IApi.IAnotherFakeApi
-            where TDefaultApi : class, IApi.IDefaultApi
-            where TFakeApi : class, IApi.IFakeApi
-            where TFakeClassnameTags123Api : class, IApi.IFakeClassnameTags123Api
-            where TPetApi : class, IApi.IPetApi
-            where TStoreApi : class, IApi.IStoreApi
-            where TUserApi : class, IApi.IUserApi
+        internal static void AddApi(IServiceCollection services, HostConfiguration host)
         {
             if (!host.HttpClientsAdded)
                 host.AddApiHttpClients();

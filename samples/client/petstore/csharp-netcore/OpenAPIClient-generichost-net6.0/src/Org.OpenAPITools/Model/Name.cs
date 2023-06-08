@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Model
             VarName = varName;
             Property = property;
             SnakeCase = snakeCase;
-            var123Number = var123Number;
+            Var123Number = var123Number;
             OnCreated();
         }
 
@@ -66,10 +66,10 @@ namespace Org.OpenAPITools.Model
         public int SnakeCase { get; }
 
         /// <summary>
-        /// Gets or Sets var123Number
+        /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int var123Number { get; }
+        public int Var123Number { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  VarName: ").Append(VarName).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
-            sb.Append("  var123Number: ").Append(var123Number).Append("\n");
+            sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
-                hashCode = (hashCode * 59) + var123Number.GetHashCode();
+                hashCode = (hashCode * 59) + Var123Number.GetHashCode();
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -234,7 +234,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("name", name.VarName);
             writer.WriteString("property", name.Property);
             writer.WriteNumber("snake_case", name.SnakeCase);
-            writer.WriteNumber("123Number", name.var123Number);
+            writer.WriteNumber("123Number", name.Var123Number);
 
             writer.WriteEndObject();
         }

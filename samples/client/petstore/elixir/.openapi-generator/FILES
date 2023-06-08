@@ -33,6 +33,7 @@ lib/openapi_petstore/model/dog_all_of.ex
 lib/openapi_petstore/model/enum_arrays.ex
 lib/openapi_petstore/model/enum_class.ex
 lib/openapi_petstore/model/enum_test.ex
+lib/openapi_petstore/model/fake_big_decimal_map_200_response.ex
 lib/openapi_petstore/model/file.ex
 lib/openapi_petstore/model/file_schema_test_class.ex
 lib/openapi_petstore/model/foo.ex

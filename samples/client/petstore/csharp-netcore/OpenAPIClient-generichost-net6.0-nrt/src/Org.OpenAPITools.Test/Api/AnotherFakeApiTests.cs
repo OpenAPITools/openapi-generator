@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IAnotherFakeApi>();
         }
 
-
         /// <summary>
         /// Test Call123TestSpecialTags
         /// </summary>

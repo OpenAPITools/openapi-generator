@@ -31,6 +31,7 @@ import 'package:openapi/src/model/dog.dart';
 import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
@@ -83,6 +84,7 @@ part 'serializers.g.dart';
   DogAllOf,$DogAllOf,
   EnumArrays,
   EnumTest,
+  FakeBigDecimalMap200Response,
   FileSchemaTestClass,
   Foo,
   FooGetDefaultResponse,

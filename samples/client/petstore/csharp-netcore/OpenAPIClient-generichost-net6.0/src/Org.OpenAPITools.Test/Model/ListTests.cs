@@ -55,12 +55,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'var123List'
+        /// Test the property 'Var123List'
         /// </summary>
         [Fact]
-        public void var123ListTest()
+        public void Var123ListTest()
         {
-            // TODO unit test for the property 'var123List'
+            // TODO unit test for the property 'Var123List'
         }
 
     }

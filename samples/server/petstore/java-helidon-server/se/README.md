@@ -13,6 +13,7 @@ java -jar target/petstore-helidon-server-se.jar
 ```
 curl -X PATCH http://petstore.swagger.io:80/v2/another-fake/dummy
 curl -X GET http://petstore.swagger.io:80/v2/foo
+curl -X GET http://petstore.swagger.io:80/v2/fake/BigDecimalMap
 curl -X GET http://petstore.swagger.io:80/v2/fake/health
 curl -X GET http://petstore.swagger.io:80/v2/fake/http-signature-test
 curl -X POST http://petstore.swagger.io:80/v2/fake/outer/boolean

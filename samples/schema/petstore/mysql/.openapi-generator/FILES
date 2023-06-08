@@ -18,6 +18,7 @@ Model/DogAllOf.sql
 Model/EnumArrays.sql
 Model/EnumClass.sql
 Model/EnumTest.sql
+Model/FakeBigDecimalMap200Response.sql
 Model/File.sql
 Model/FileSchemaTestClass.sql
 Model/Foo.sql

@@ -920,6 +920,21 @@ paths:
       - fake
       x-content-type: application/json
       x-accepts: '*/*'
+  /fake/BigDecimalMap:
+    get:
+      description: "for Java apache and Java native, test toUrlQueryString for maps\
+        \ with BegDecimal keys"
+      operationId: fakeBigDecimalMap
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/fakeBigDecimalMap_200_response'
+          description: successful operation
+      tags:
+      - fake
+      x-accepts: '*/*'
   /fake/jsonFormData:
     get:
       description: ""
@@ -2254,6 +2269,19 @@ components:
       - double
       - number
       - pattern_without_delimiter
+      type: object
+    fakeBigDecimalMap_200_response:
+      example:
+        someId: 0.8008281904610115
+        someMap:
+          key: 6.027456183070403
+      properties:
+        someId:
+          type: number
+        someMap:
+          additionalProperties:
+            type: number
+          type: object
       type: object
     testJsonFormData_request:
       properties:

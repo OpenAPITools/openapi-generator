@@ -110,6 +110,8 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTagsWithHttpInfo**](docs/AnotherFakeApi.md#call123testSpecialTagsWithHttpInfo) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *DefaultApi* | [**fooGetWithHttpInfo**](docs/DefaultApi.md#fooGetWithHttpInfo) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](docs/FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeBigDecimalMapWithHttpInfo**](docs/FakeApi.md#fakeBigDecimalMapWithHttpInfo) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHealthGetWithHttpInfo**](docs/FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -216,6 +218,7 @@ Class | Method | HTTP request | Description
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
