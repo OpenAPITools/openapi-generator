@@ -27,6 +27,9 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -211,24 +215,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String getHelp() {
-        return "Generates a Swift 5 alternative client library.";
+        return "Generates a Swift alternative client library.";
     }
-
-//    @Override
-//    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-//                                                       Schema schema) {
-//        final Schema additionalProperties = getAdditionalProperties(schema);
-//        if (additionalProperties != null) {
-//            Schema inner = null;
-//            if (ModelUtils.isArraySchema(schema)) {
-//                ArraySchema ap = (ArraySchema) schema;
-//                inner = ap.getItems();
-//            } else if (ModelUtils.isMapSchema(schema)) {
-//                inner = getAdditionalProperties(schema);
-//            }
-//            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
-//        }
-//    }
 
     @Override
     public void processOpts() {
@@ -466,7 +454,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toOperationId(String operationId) {
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // Throw exception if method name is empty.
         // This should not happen but keep the check just in case
@@ -476,15 +464,15 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(("call_" + operationId), true);
+            String newOperationId = camelize(("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
-            operationId = camelize(sanitizeName("call_" + operationId), true);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            operationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
         }
 
 
@@ -503,7 +491,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved words surround with `` or append _
         if (isReservedWord(name)) {
@@ -533,7 +521,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved words surround with ``
         if (isReservedWord(name)) {
@@ -601,18 +589,18 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
             String startingNumbers = startWithNumberMatcher.group(0);
             String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
 
-            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
+            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, LOWERCASE_FIRST_LETTER);
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), LOWERCASE_FIRST_LETTER);
         }
 
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
             camelized = true;
         }
 
@@ -641,7 +629,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
                         .replaceAll("[-_ :\\(\\)]", ""),
-                true);
+                LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -666,8 +654,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> postProcessedModelsEnum = postProcessModelsEnum(objs);
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap postProcessedModelsEnum = postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) postProcessedModelsEnum.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -734,7 +722,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
 
         HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
@@ -812,7 +800,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.21.0                                          #");
+        System.out.println("# swift alternative generator v0.22.0                                          #");
         System.out.println("################################################################################");
     }
 
