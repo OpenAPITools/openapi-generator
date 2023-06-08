@@ -32,7 +32,6 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   ModelList.JSON_PROPERTY_123LIST
 })
-@JsonTypeName("List")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
