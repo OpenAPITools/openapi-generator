@@ -25,6 +25,8 @@ class OpenISO8601DateFormatter: DateFormatter {
         dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     }
 
+    static var shared = OpenISO8601DateFormatter()
+
     override init() {
         super.init()
         setup()
