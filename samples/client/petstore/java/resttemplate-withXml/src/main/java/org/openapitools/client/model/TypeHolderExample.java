@@ -237,7 +237,6 @@ public class TypeHolderExample {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_item")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -248,7 +247,6 @@ public class TypeHolderExample {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_item")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayItem(List<Integer> arrayItem) {

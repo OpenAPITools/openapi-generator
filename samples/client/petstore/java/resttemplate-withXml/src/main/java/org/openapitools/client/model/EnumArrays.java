@@ -182,7 +182,6 @@ public class EnumArrays {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_enum")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -193,7 +192,6 @@ public class EnumArrays {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_enum")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {

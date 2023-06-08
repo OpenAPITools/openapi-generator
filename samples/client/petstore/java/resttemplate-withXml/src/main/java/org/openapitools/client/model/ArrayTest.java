@@ -88,7 +88,6 @@ public class ArrayTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_of_string")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -99,7 +98,6 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_of_string")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayOfString(List<String> arrayOfString) {
@@ -128,7 +126,6 @@ public class ArrayTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_array_of_integer")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -139,7 +136,6 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_array_of_integer")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
@@ -168,7 +164,6 @@ public class ArrayTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_array_of_model")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -179,7 +174,6 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "array_array_of_model")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {

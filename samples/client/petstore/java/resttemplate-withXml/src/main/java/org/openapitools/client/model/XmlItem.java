@@ -353,7 +353,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, localName = "wrapped_array")
 
@@ -364,7 +363,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, localName = "wrapped_array")
   public void setWrappedArray(List<Integer> wrappedArray) {
@@ -505,7 +503,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "name_array")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -516,7 +513,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "name_array")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setNameArray(List<Integer> nameArray) {
@@ -697,7 +693,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "prefix_array")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -708,7 +703,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "prefix_array")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setPrefixArray(List<Integer> prefixArray) {
@@ -737,7 +731,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "prefix_wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, localName = "prefix_wrapped_array")
 
@@ -748,7 +741,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "prefix_wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, localName = "prefix_wrapped_array")
   public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
@@ -889,7 +881,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "namespace_array")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -900,7 +891,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "namespace_array")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setNamespaceArray(List<Integer> namespaceArray) {
@@ -929,7 +919,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(namespace="http://f.com/schema", localName = "namespace_wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "namespace_wrapped_array")
 
@@ -940,7 +929,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(namespace="http://f.com/schema", localName = "namespace_wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "namespace_wrapped_array")
   public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
@@ -1081,7 +1069,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "prefix_ns_array")
   @JacksonXmlElementWrapper(useWrapping = false)
 
@@ -1092,7 +1079,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(localName = "prefix_ns_array")
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setPrefixNsArray(List<Integer> prefixNsArray) {
@@ -1121,7 +1107,6 @@ public class XmlItem {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(namespace="http://f.com/schema", localName = "prefix_ns_wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "prefix_ns_wrapped_array")
 
@@ -1132,7 +1117,6 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=
   @JacksonXmlProperty(namespace="http://f.com/schema", localName = "prefix_ns_wrapped_array")
   @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "prefix_ns_wrapped_array")
   public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
