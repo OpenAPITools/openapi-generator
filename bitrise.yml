@@ -30,4 +30,4 @@ workflows:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-14.2.x
+    stack: osx-xcode-14.3.x-ventura
