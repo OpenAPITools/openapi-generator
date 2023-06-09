@@ -73,7 +73,7 @@ public class PathApi {
     }
 
     /**
-     * Build call for testsPathStringPathStringIntegerPathInteger
+     * Build call for testsPathStringpathStringIntegerPathInteger
      * @param pathString  (required)
      * @param pathInteger  (required)
      * @param _callback Callback for upload/download progress
@@ -85,7 +85,7 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testsPathStringPathStringIntegerPathIntegerCall(String pathString, Integer pathInteger, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testsPathStringpathStringIntegerPathIntegerCall(String pathString, Integer pathInteger, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -132,18 +132,18 @@ public class PathApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testsPathStringPathStringIntegerPathIntegerValidateBeforeCall(String pathString, Integer pathInteger, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testsPathStringpathStringIntegerPathIntegerValidateBeforeCall(String pathString, Integer pathInteger, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'pathString' is set
         if (pathString == null) {
-            throw new ApiException("Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathInteger(Async)");
+            throw new ApiException("Missing the required parameter 'pathString' when calling testsPathStringpathStringIntegerPathInteger(Async)");
         }
 
         // verify the required parameter 'pathInteger' is set
         if (pathInteger == null) {
-            throw new ApiException("Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathInteger(Async)");
+            throw new ApiException("Missing the required parameter 'pathInteger' when calling testsPathStringpathStringIntegerPathInteger(Async)");
         }
 
-        return testsPathStringPathStringIntegerPathIntegerCall(pathString, pathInteger, _callback);
+        return testsPathStringpathStringIntegerPathIntegerCall(pathString, pathInteger, _callback);
 
     }
 
@@ -160,8 +160,8 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
-        ApiResponse<String> localVarResp = testsPathStringPathStringIntegerPathIntegerWithHttpInfo(pathString, pathInteger);
+    public String testsPathStringpathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
+        ApiResponse<String> localVarResp = testsPathStringpathStringIntegerPathIntegerWithHttpInfo(pathString, pathInteger);
         return localVarResp.getData();
     }
 
@@ -178,8 +178,8 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerWithHttpInfo(String pathString, Integer pathInteger) throws ApiException {
-        okhttp3.Call localVarCall = testsPathStringPathStringIntegerPathIntegerValidateBeforeCall(pathString, pathInteger, null);
+    public ApiResponse<String> testsPathStringpathStringIntegerPathIntegerWithHttpInfo(String pathString, Integer pathInteger) throws ApiException {
+        okhttp3.Call localVarCall = testsPathStringpathStringIntegerPathIntegerValidateBeforeCall(pathString, pathInteger, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -198,9 +198,9 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testsPathStringPathStringIntegerPathIntegerAsync(String pathString, Integer pathInteger, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testsPathStringpathStringIntegerPathIntegerAsync(String pathString, Integer pathInteger, final ApiCallback<String> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testsPathStringPathStringIntegerPathIntegerValidateBeforeCall(pathString, pathInteger, _callback);
+        okhttp3.Call localVarCall = testsPathStringpathStringIntegerPathIntegerValidateBeforeCall(pathString, pathInteger, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

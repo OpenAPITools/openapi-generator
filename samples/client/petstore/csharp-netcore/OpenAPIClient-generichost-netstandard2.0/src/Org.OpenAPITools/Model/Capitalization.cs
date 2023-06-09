@@ -31,19 +31,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="aTTNAME">Name of the pet </param>
+        /// <param name="attNAME">Name of the pet </param>
         /// <param name="capitalCamel">capitalCamel</param>
         /// <param name="capitalSnake">capitalSnake</param>
-        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
+        /// <param name="scaethFlowPoints">scaethFlowPoints</param>
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
+        public Capitalization(string attNAME, string capitalCamel, string capitalSnake, string scaethFlowPoints, string smallCamel, string smallSnake)
         {
-            ATT_NAME = aTTNAME;
+            ATT_NAME = attNAME;
             CapitalCamel = capitalCamel;
             CapitalSnake = capitalSnake;
-            SCAETHFlowPoints = sCAETHFlowPoints;
+            SCAETHFlowPoints = scaethFlowPoints;
             SmallCamel = smallCamel;
             SmallSnake = smallSnake;
             OnCreated();
@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string aTTNAME = default;
+            string attNAME = default;
             string capitalCamel = default;
             string capitalSnake = default;
-            string sCAETHFlowPoints = default;
+            string scaethFlowPoints = default;
             string smallCamel = default;
             string smallSnake = default;
 
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "ATT_NAME":
-                            aTTNAME = utf8JsonReader.GetString();
+                            attNAME = utf8JsonReader.GetString();
                             break;
                         case "CapitalCamel":
                             capitalCamel = utf8JsonReader.GetString();
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
                             capitalSnake = utf8JsonReader.GetString();
                             break;
                         case "SCA_ETH_Flow_Points":
-                            sCAETHFlowPoints = utf8JsonReader.GetString();
+                            scaethFlowPoints = utf8JsonReader.GetString();
                             break;
                         case "smallCamel":
                             smallCamel = utf8JsonReader.GetString();
@@ -192,8 +192,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (aTTNAME == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
+            if (attNAME == null)
+                throw new ArgumentNullException(nameof(attNAME), "Property is required for class Capitalization.");
 
             if (capitalCamel == null)
                 throw new ArgumentNullException(nameof(capitalCamel), "Property is required for class Capitalization.");
@@ -201,8 +201,8 @@ namespace Org.OpenAPITools.Model
             if (capitalSnake == null)
                 throw new ArgumentNullException(nameof(capitalSnake), "Property is required for class Capitalization.");
 
-            if (sCAETHFlowPoints == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is required for class Capitalization.");
+            if (scaethFlowPoints == null)
+                throw new ArgumentNullException(nameof(scaethFlowPoints), "Property is required for class Capitalization.");
 
             if (smallCamel == null)
                 throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Model
             if (smallSnake == null)
                 throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
 
-            return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
+            return new Capitalization(attNAME, capitalCamel, capitalSnake, scaethFlowPoints, smallCamel, smallSnake);
         }
 
         /// <summary>

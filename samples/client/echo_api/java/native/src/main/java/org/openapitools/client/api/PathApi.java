@@ -94,8 +94,8 @@ public class PathApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
-    ApiResponse<String> localVarResponse = testsPathStringPathStringIntegerPathIntegerWithHttpInfo(pathString, pathInteger);
+  public String testsPathStringpathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
+    ApiResponse<String> localVarResponse = testsPathStringpathStringIntegerPathIntegerWithHttpInfo(pathString, pathInteger);
     return localVarResponse.getData();
   }
 
@@ -107,8 +107,8 @@ public class PathApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerWithHttpInfo(String pathString, Integer pathInteger) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testsPathStringPathStringIntegerPathIntegerRequestBuilder(pathString, pathInteger);
+  public ApiResponse<String> testsPathStringpathStringIntegerPathIntegerWithHttpInfo(String pathString, Integer pathInteger) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testsPathStringpathStringIntegerPathIntegerRequestBuilder(pathString, pathInteger);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -118,7 +118,7 @@ public class PathApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testsPathStringPathStringIntegerPathInteger", localVarResponse);
+          throw getApiException("testsPathStringpathStringIntegerPathInteger", localVarResponse);
         }
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
@@ -144,14 +144,14 @@ public class PathApi {
     }
   }
 
-  private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerRequestBuilder(String pathString, Integer pathInteger) throws ApiException {
+  private HttpRequest.Builder testsPathStringpathStringIntegerPathIntegerRequestBuilder(String pathString, Integer pathInteger) throws ApiException {
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathInteger");
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringpathStringIntegerPathInteger");
     }
     // verify the required parameter 'pathInteger' is set
     if (pathInteger == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathInteger");
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringpathStringIntegerPathInteger");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

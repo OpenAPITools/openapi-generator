@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**tests_path_string_path_string_integer_path_integer**](PathApi.md#tests_path_string_path_string_integer_path_integer) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+[**tests_path_stringpath_string_integer_path_integer**](PathApi.md#tests_path_stringpath_string_integer_path_integer) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
 
 
-# **tests_path_string_path_string_integer_path_integer**
-> str tests_path_string_path_string_integer_path_integer(path_string, path_integer)
+# **tests_path_stringpath_string_integer_path_integer**
+> str tests_path_stringpath_string_integer_path_integer(path_string, path_integer)
 
 Test path parameter(s)
 
@@ -39,11 +39,11 @@ with openapi_client.ApiClient(configuration) as api_client:
 
     try:
         # Test path parameter(s)
-        api_response = api_instance.tests_path_string_path_string_integer_path_integer(path_string, path_integer)
-        print("The response of PathApi->tests_path_string_path_string_integer_path_integer:\n")
+        api_response = api_instance.tests_path_stringpath_string_integer_path_integer(path_string, path_integer)
+        print("The response of PathApi->tests_path_stringpath_string_integer_path_integer:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling PathApi->tests_path_string_path_string_integer_path_integer: %s\n" % e)
+        print("Exception when calling PathApi->tests_path_stringpath_string_integer_path_integer: %s\n" % e)
 ```
 
 

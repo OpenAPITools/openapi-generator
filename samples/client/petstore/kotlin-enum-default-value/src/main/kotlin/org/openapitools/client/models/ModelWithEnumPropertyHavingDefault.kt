@@ -30,7 +30,7 @@ import java.io.Serializable
 data class ModelWithEnumPropertyHavingDefault (
 
     @Json(name = "propertyName")
-    val propertyName: ModelWithEnumPropertyHavingDefault.PropertyName = PropertyName.vALUE
+    val propertyName: ModelWithEnumPropertyHavingDefault.PropertyName = PropertyName.`value`
 
 ) : Serializable {
     companion object {
@@ -40,11 +40,11 @@ data class ModelWithEnumPropertyHavingDefault (
     /**
      * 
      *
-     * Values: vALUE,unknownDefaultOpenApi
+     * Values: `value`,unknownDefaultOpenApi
      */
     @JsonClass(generateAdapter = false)
     enum class PropertyName(val value: kotlin.String) {
-        @Json(name = "VALUE") vALUE("VALUE"),
+        @Json(name = "VALUE") `value`("VALUE"),
         @Json(name = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
     }
 }

@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**testsPathStringPathStringIntegerPathInteger**](PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s) |
+| [**testsPathStringpathStringIntegerPathInteger**](PathApi.md#testsPathStringpathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s) |
 
 
-<a id="testsPathStringPathStringIntegerPathInteger"></a>
-# **testsPathStringPathStringIntegerPathInteger**
-> String testsPathStringPathStringIntegerPathInteger(pathString, pathInteger)
+<a id="testsPathStringpathStringIntegerPathInteger"></a>
+# **testsPathStringpathStringIntegerPathInteger**
+> String testsPathStringpathStringIntegerPathInteger(pathString, pathInteger)
 
 Test path parameter(s)
 
@@ -33,10 +33,10 @@ public class Example {
     String pathString = "pathString_example"; // String | 
     Integer pathInteger = 56; // Integer | 
     try {
-      String result = apiInstance.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
+      String result = apiInstance.testsPathStringpathStringIntegerPathInteger(pathString, pathInteger);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathInteger");
+      System.err.println("Exception when calling PathApi#testsPathStringpathStringIntegerPathInteger");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());

@@ -26,7 +26,7 @@ class Capitalization {
 
      this.capitalSnake,
 
-     this.sCAETHFlowPoints,
+     this.scaETHFlowPoints,
 
      this.ATT_NAME,
   });
@@ -87,7 +87,7 @@ class Capitalization {
   )
 
 
-  final String? sCAETHFlowPoints;
+  final String? scaETHFlowPoints;
 
 
 
@@ -110,7 +110,7 @@ class Capitalization {
      other.capitalCamel == capitalCamel &&
      other.smallSnake == smallSnake &&
      other.capitalSnake == capitalSnake &&
-     other.sCAETHFlowPoints == sCAETHFlowPoints &&
+     other.scaETHFlowPoints == scaETHFlowPoints &&
      other.ATT_NAME == ATT_NAME;
 
   @override
@@ -119,7 +119,7 @@ class Capitalization {
     capitalCamel.hashCode +
     smallSnake.hashCode +
     capitalSnake.hashCode +
-    sCAETHFlowPoints.hashCode +
+    scaETHFlowPoints.hashCode +
     ATT_NAME.hashCode;
 
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
