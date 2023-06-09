@@ -123,5 +123,4 @@ lib/petstore/version.rb
 petstore.gemspec
 spec/api_client_spec.rb
 spec/configuration_spec.rb
-spec/models/all_of_with_single_ref_spec.rb
 spec/spec_helper.rb

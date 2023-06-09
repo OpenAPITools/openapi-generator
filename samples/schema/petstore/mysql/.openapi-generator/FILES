@@ -8,13 +8,11 @@ Model/ArrayOfNumberOnly.sql
 Model/ArrayTest.sql
 Model/Capitalization.sql
 Model/Cat.sql
-Model/CatAllOf.sql
 Model/Category.sql
 Model/ClassModel.sql
 Model/Client.sql
 Model/DeprecatedObject.sql
 Model/Dog.sql
-Model/DogAllOf.sql
 Model/EnumArrays.sql
 Model/EnumClass.sql
 Model/EnumTest.sql
