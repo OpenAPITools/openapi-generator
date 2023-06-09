@@ -127,6 +127,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class IsoscelesTriangle.");
+
+            if (triangleInterface == null)
+                throw new ArgumentNullException(nameof(triangleInterface), "Property is required for class IsoscelesTriangle.");
+
             return new IsoscelesTriangle(shapeInterface, triangleInterface);
         }
 

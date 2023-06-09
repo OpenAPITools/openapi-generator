@@ -261,6 +261,7 @@ use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
+use WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
 use WWW::OpenAPIClient::Object::Foo;
@@ -329,6 +330,7 @@ use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
+use WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
 use WWW::OpenAPIClient::Object::Foo;
@@ -386,6 +388,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_big_decimal_map**](docs/FakeApi.md#fake_big_decimal_map) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -447,6 +450,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::OpenAPIClient::Object::EnumClass](docs/EnumClass.md)
  - [WWW::OpenAPIClient::Object::EnumTest](docs/EnumTest.md)
+ - [WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [WWW::OpenAPIClient::Object::File](docs/File.md)
  - [WWW::OpenAPIClient::Object::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [WWW::OpenAPIClient::Object::Foo](docs/Foo.md)

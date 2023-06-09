@@ -154,14 +154,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Whale.");
+
             if (hasBaleen == null)
                 throw new ArgumentNullException(nameof(hasBaleen), "Property is required for class Whale.");
 
             if (hasTeeth == null)
                 throw new ArgumentNullException(nameof(hasTeeth), "Property is required for class Whale.");
-
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Whale.");
 
             return new Whale(className, hasBaleen.Value, hasTeeth.Value);
         }

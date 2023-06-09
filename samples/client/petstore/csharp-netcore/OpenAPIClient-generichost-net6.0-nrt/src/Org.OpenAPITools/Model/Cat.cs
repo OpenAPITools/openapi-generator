@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -128,6 +128,18 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Cat.");
+
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary), "Property is required for class Cat.");
+
+            if (catAllOf == null)
+                throw new ArgumentNullException(nameof(catAllOf), "Property is required for class Cat.");
 
             return new Cat(dictionary, catAllOf, className, color);
         }

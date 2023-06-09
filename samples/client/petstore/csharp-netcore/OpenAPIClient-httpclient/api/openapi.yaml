@@ -1971,8 +1971,8 @@ components:
           type: string
     fruitReq:
       additionalProperties: false
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
     appleReq:
@@ -2021,8 +2021,8 @@ components:
         in OAS schema >= 3.1.
       discriminator:
         propertyName: shapeType
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/Triangle'
       - $ref: '#/components/schemas/Quadrilateral'
     NullableShape:

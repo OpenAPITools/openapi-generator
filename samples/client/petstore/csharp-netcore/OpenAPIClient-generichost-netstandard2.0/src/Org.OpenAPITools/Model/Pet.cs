@@ -281,11 +281,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
-
             if (category == null)
                 throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
 
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
@@ -293,11 +293,11 @@ namespace Org.OpenAPITools.Model
             if (photoUrls == null)
                 throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
 
-            if (tags == null)
-                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
-
             if (status == null)
                 throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
 
             return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
         }
@@ -319,11 +319,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WritePropertyName("tags");
             JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
 

@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ParentPet {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,6 +103,9 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+            if (petType == null)
+                throw new ArgumentNullException(nameof(petType), "Property is required for class ParentPet.");
 
             return new ParentPet(petType);
         }

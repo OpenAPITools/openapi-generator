@@ -186,6 +186,15 @@ CREATE TABLE IF NOT EXISTS `Enum_Test` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `fakeBigDecimalMap_200_response` generated from model 'fakeBigDecimalMapUnderscore200Underscoreresponse'
+--
+
+CREATE TABLE IF NOT EXISTS `fakeBigDecimalMap_200_response` (
+  `someId` DECIMAL(20, 9) DEFAULT NULL,
+  `someMap` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `File` generated from model 'File'
 -- Must be named &#x60;File&#x60; for test.
 --

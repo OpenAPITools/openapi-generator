@@ -35,6 +35,7 @@ src/main/java/org/openapitools/server/model/DogAllOf.java
 src/main/java/org/openapitools/server/model/EnumArrays.java
 src/main/java/org/openapitools/server/model/EnumClass.java
 src/main/java/org/openapitools/server/model/EnumTest.java
+src/main/java/org/openapitools/server/model/FakeBigDecimalMap200Response.java
 src/main/java/org/openapitools/server/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/server/model/Foo.java
 src/main/java/org/openapitools/server/model/FooGetDefaultResponse.java

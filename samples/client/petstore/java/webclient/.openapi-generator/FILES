@@ -26,6 +26,7 @@ docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
 docs/FakeApi.md
+docs/FakeBigDecimalMap200Response.md
 docs/FakeClassnameTags123Api.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
@@ -106,6 +107,7 @@ src/main/java/org/openapitools/client/model/DogAllOf.java
 src/main/java/org/openapitools/client/model/EnumArrays.java
 src/main/java/org/openapitools/client/model/EnumClass.java
 src/main/java/org/openapitools/client/model/EnumTest.java
+src/main/java/org/openapitools/client/model/FakeBigDecimalMap200Response.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java

@@ -132,6 +132,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class SimpleQuadrilateral.");
+
+            if (quadrilateralInterface == null)
+                throw new ArgumentNullException(nameof(quadrilateralInterface), "Property is required for class SimpleQuadrilateral.");
+
             return new SimpleQuadrilateral(shapeInterface, quadrilateralInterface);
         }
 

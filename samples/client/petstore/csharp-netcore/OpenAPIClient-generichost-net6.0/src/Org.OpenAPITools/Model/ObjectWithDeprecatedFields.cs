@@ -171,17 +171,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+            if (bars == null)
+                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
 
             if (deprecatedRef == null)
                 throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
 
-            if (bars == null)
-                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }

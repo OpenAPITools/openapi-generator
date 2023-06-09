@@ -55,12 +55,12 @@ namespace Org.OpenAPITools.Test.Model
 
 
         /// <summary>
-        /// Test the property 'ClassProperty'
+        /// Test the property 'VarClass'
         /// </summary>
         [Fact]
-        public void ClassPropertyTest()
+        public void VarClassTest()
         {
-            // TODO unit test for the property 'ClassProperty'
+            // TODO unit test for the property 'VarClass'
         }
 
     }

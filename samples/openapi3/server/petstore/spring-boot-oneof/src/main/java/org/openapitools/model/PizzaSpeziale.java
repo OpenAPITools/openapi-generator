@@ -60,6 +60,7 @@ public class PizzaSpeziale extends Pizza {
     this.toppings = toppings;
   }
 
+
   public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
     super.setPizzaSize(pizzaSize);
     return this;
@@ -89,7 +90,6 @@ public class PizzaSpeziale extends Pizza {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

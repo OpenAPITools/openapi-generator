@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -116,6 +116,15 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
+
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
+
+            if (dogAllOf == null)
+                throw new ArgumentNullException(nameof(dogAllOf), "Property is required for class Dog.");
 
             return new Dog(dogAllOf, className, color);
         }

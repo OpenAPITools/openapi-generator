@@ -67,6 +67,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AnotherFakeApi*](doc/AnotherFakeApi.md) | [**call123testSpecialTags**](doc/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 [*DefaultApi*](doc/DefaultApi.md) | [**fooGet**](doc/DefaultApi.md#fooget) | **GET** /foo | 
+[*FakeApi*](doc/FakeApi.md) | [**fakeBigDecimalMap**](doc/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 [*FakeApi*](doc/FakeApi.md) | [**fakeHealthGet**](doc/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [*FakeApi*](doc/FakeApi.md) | [**fakeHttpSignatureTest**](doc/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterBooleanSerialize**](doc/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -127,6 +128,7 @@ Class | Method | HTTP request | Description
  - [DogAllOf](doc/DogAllOf.md)
  - [EnumArrays](doc/EnumArrays.md)
  - [EnumTest](doc/EnumTest.md)
+ - [FakeBigDecimalMap200Response](doc/FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](doc/FileSchemaTestClass.md)
  - [Foo](doc/Foo.md)
  - [FooGetDefaultResponse](doc/FooGetDefaultResponse.md)

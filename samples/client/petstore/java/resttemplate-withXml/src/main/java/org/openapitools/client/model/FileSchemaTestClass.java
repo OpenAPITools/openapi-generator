@@ -105,6 +105,8 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<ModelFile> getFiles() {
     return files;
@@ -113,6 +115,8 @@ public class FileSchemaTestClass {
 
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setFiles(List<ModelFile> files) {
     this.files = files;
   }

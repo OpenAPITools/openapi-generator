@@ -181,17 +181,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (uuidWithPattern == null)
-                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
-            if (uuid == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
-
             if (dateTime == null)
                 throw new ArgumentNullException(nameof(dateTime), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             if (map == null)
                 throw new ArgumentNullException(nameof(map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuidWithPattern == null)
+                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             return new MixedPropertiesAndAdditionalPropertiesClass(dateTime.Value, map, uuid.Value, uuidWithPattern.Value);
         }

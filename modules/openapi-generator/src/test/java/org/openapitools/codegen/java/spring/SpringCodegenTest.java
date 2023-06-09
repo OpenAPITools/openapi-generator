@@ -606,6 +606,34 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAdditionalProperties_issue1466() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesAnyType.java"))
+            .hasProperty("additionalProperties").withType("Map<String, Object>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "Object")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("Object");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesArray.java"))
+            .hasProperty("additionalProperties").withType("Map<String, List>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "List")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("List");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesInteger.java"))
+            .hasProperty("additionalProperties").withType("Map<String, Integer>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "Integer")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("Integer");
+    }
+
+    @Test
     public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue_issue14418() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

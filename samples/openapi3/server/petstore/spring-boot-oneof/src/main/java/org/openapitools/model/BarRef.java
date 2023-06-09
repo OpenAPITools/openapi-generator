@@ -37,6 +37,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     super(atType);
   }
 
+
   public BarRef name(String name) {
     super.setName(name);
     return this;
@@ -71,7 +72,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

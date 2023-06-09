@@ -156,11 +156,11 @@ namespace Org.OpenAPITools.Model
             if (code == null)
                 throw new ArgumentNullException(nameof(code), "Property is required for class ApiResponse.");
 
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class ApiResponse.");
-
             if (message == null)
                 throw new ArgumentNullException(nameof(message), "Property is required for class ApiResponse.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class ApiResponse.");
 
             return new ApiResponse(code.Value, message, type);
         }

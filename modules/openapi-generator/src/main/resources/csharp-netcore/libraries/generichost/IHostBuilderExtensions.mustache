@@ -7,7 +7,6 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using {{packageName}}.{{clientPackage}};
-using {{packageName}}.{{apiPackage}};
 
 namespace {{packageName}}.Extensions
 {
@@ -21,16 +20,11 @@ namespace {{packageName}}.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="builder"></param>
-        public static IHostBuilder Configure{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IHostBuilder builder)
-            {{#apiInfo}}
-            {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-            {{/apis}}
-            {{/apiInfo}}
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => 
             {
-                HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
+                HostConfiguration config = new HostConfiguration(services);
 
                 IServiceCollectionExtensions.Add{{apiName}}(services, config);
             });
@@ -38,29 +32,17 @@ namespace {{packageName}}.Extensions
             return builder;
         }
 
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
-        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder)
-            => Configure{{apiName}}<{{>DefaultApis}}>(builder);
-
         {{/hasAuthMethods}}
         /// <summary>
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder Configure{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>> options)
-            {{#apiInfo}}
-            {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-            {{/apis}}
-            {{/apiInfo}}
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration> options)
         {
             builder.ConfigureServices((context, services) => 
             {
-                HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
+                HostConfiguration config = new HostConfiguration(services);
 
                 options(context, services, config);
 
@@ -69,13 +51,5 @@ namespace {{packageName}}.Extensions
 
             return builder;
         }
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="options"></param>
-        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<{{>DefaultApis}}>> options)
-            => Configure{{apiName}}<{{>DefaultApis}}>(builder, options);
     }
 }

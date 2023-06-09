@@ -134,6 +134,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class ScaleneTriangle.");
+
+            if (triangleInterface == null)
+                throw new ArgumentNullException(nameof(triangleInterface), "Property is required for class ScaleneTriangle.");
+
             return new ScaleneTriangle(shapeInterface, triangleInterface);
         }
 

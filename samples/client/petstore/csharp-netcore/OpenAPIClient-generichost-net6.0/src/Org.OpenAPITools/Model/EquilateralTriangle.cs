@@ -132,6 +132,12 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class EquilateralTriangle.");
+
+            if (triangleInterface == null)
+                throw new ArgumentNullException(nameof(triangleInterface), "Property is required for class EquilateralTriangle.");
+
             return new EquilateralTriangle(shapeInterface, triangleInterface);
         }
 

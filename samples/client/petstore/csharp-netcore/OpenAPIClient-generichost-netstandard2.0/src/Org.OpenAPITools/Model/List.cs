@@ -35,17 +35,17 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public List(string var123List)
         {
-            var123List = var123List;
+            Var123List = var123List;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets var123List
+        /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string var123List { get; set; }
+        public string Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  var123List: ").Append(var123List).Append("\n");
+            sb.Append("  Var123List: ").Append(Var123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("123-list", list.var123List);
+            writer.WriteString("123-list", list.Var123List);
 
             writer.WriteEndObject();
         }

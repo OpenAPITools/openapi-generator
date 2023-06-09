@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -223,11 +223,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
-
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
 
             return new Zebra(className, type.Value);
         }
@@ -244,6 +244,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("className", zebra.ClassName);
+
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
             if (typeRawValue != null)
                 writer.WriteString("type", typeRawValue);

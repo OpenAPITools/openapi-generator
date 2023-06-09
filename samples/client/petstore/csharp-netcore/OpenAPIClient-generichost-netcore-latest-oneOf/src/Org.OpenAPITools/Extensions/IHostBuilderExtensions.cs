@@ -13,7 +13,6 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 
 namespace Org.OpenAPITools.Extensions
 {
@@ -26,12 +25,11 @@ namespace Org.OpenAPITools.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="builder"></param>
-        public static IHostBuilder ConfigureApi<TDefaultApi>(this IHostBuilder builder)
-            where TDefaultApi : class, IApi.IDefaultApi
+        public static IHostBuilder ConfigureApi(this IHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => 
             {
-                HostConfiguration<TDefaultApi> config = new HostConfiguration<TDefaultApi>(services);
+                HostConfiguration config = new HostConfiguration(services);
 
                 IServiceCollectionExtensions.AddApi(services, config);
             });
@@ -43,20 +41,12 @@ namespace Org.OpenAPITools.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="builder"></param>
-        public static IHostBuilder ConfigureApi(this IHostBuilder builder)
-            => ConfigureApi<DefaultApi>(builder);
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi<TDefaultApi>(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<TDefaultApi>> options)
-            where TDefaultApi : class, IApi.IDefaultApi
+        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration> options)
         {
             builder.ConfigureServices((context, services) => 
             {
-                HostConfiguration<TDefaultApi> config = new HostConfiguration<TDefaultApi>(services);
+                HostConfiguration config = new HostConfiguration(services);
 
                 options(context, services, config);
 
@@ -65,13 +55,5 @@ namespace Org.OpenAPITools.Extensions
 
             return builder;
         }
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="options"></param>
-        public static IHostBuilder ConfigureApi(this IHostBuilder builder, Action<HostBuilderContext, IServiceCollection, HostConfiguration<DefaultApi>> options)
-            => ConfigureApi<DefaultApi>(builder, options);
     }
 }

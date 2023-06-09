@@ -16,6 +16,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
@@ -23,8 +25,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Provides hosting configuration for Org.OpenAPITools
     /// </summary>
-    public class HostConfiguration<TDefaultApi>
-        where TDefaultApi : class, IApi.IDefaultApi
+    public class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -46,7 +47,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new FruitJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
-            _services.AddTransient<TDefaultApi, TDefaultApi>();
+            _services.AddTransient<IDefaultApi, DefaultApi>();
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration<TDefaultApi> AddApiHttpClients
+        public HostConfiguration AddApiHttpClients
         (
             Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
         {
@@ -64,7 +65,7 @@ namespace Org.OpenAPITools.Client
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IApi.IDefaultApi, TDefaultApi>(client));
+            builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
             
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
@@ -80,7 +81,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        public HostConfiguration<TDefaultApi> ConfigureJsonOptions(Action<JsonSerializerOptions> options)
+        public HostConfiguration ConfigureJsonOptions(Action<JsonSerializerOptions> options)
         {
             options(_jsonOptions);
 
@@ -93,7 +94,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration<TDefaultApi> AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
             return AddTokens(new TTokenBase[]{ token });
         }
@@ -104,7 +105,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration<TDefaultApi> AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
             _services.AddSingleton(services => container);
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Client
         /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <returns></returns>
-        public HostConfiguration<TDefaultApi> UseProvider<TTokenProvider, TTokenBase>() 
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
             where TTokenProvider : TokenProvider<TTokenBase>
             where TTokenBase : TokenBase
         {

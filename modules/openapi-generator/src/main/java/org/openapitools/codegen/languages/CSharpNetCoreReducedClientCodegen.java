@@ -60,7 +60,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreReducedClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -113,7 +113,9 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.SignatureAuth
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -969,7 +971,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreReducedClientCodegen.class);
 
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
         };

@@ -142,11 +142,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
-
             if (varClass == null)
                 throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
 
             return new Model200Response(varClass, name.Value);
         }

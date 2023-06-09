@@ -59,6 +59,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/burkert.jpg" width="128" height="128">](https://www.burkert.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/finbourne.png" width="128" height="128">](https://www.finbourne.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/bumpsh.png" width="128" height="128">](https://bump.sh/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/bileto.png" width="128" height="128">](https://www.bileto.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -192,7 +193,9 @@ After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to sho
 For Mac users, please make sure Java 11 is installed (Tips: run `java -version` to check the version), and export `JAVA_HOME` in order to use the supported Java version:
 ```sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.11`
-export PATH=${JAVA_HOME}/bin:$PATH ```
+export PATH=${JAVA_HOME}/bin:$PATH
+```
+
 <!-- /RELEASE_VERSION -->
 ### Launcher Script
 

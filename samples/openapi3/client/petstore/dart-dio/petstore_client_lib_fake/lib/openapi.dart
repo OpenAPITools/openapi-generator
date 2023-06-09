@@ -34,6 +34,7 @@ export 'package:openapi/src/model/dog.dart';
 export 'package:openapi/src/model/dog_all_of.dart';
 export 'package:openapi/src/model/enum_arrays.dart';
 export 'package:openapi/src/model/enum_test.dart';
+export 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 export 'package:openapi/src/model/file_schema_test_class.dart';
 export 'package:openapi/src/model/foo.dart';
 export 'package:openapi/src/model/foo_get_default_response.dart';

@@ -52,20 +52,25 @@ namespace Org.OpenAPITools.Test.Api
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureApi((context, services, options) =>
             {
-                ApiKeyToken apiKeyToken = new ApiKeyToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+                string apiKeyTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                ApiKeyToken apiKeyToken = new ApiKeyToken(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
-                
-                BearerToken bearerToken = new BearerToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+
+                string bearerTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                BearerToken bearerToken = new BearerToken(bearerTokenValue, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(bearerToken);
-                
-                BasicToken basicToken = new BasicToken(context.Configuration["<username>"], context.Configuration["<password>"], timeout: TimeSpan.FromSeconds(1));
+
+                string basicTokenUsername = context.Configuration["<username>"] ?? throw new Exception("Username not found.");
+                string basicTokenPassword = context.Configuration["<password>"] ?? throw new Exception("Password not found.");
+                BasicToken basicToken = new BasicToken(basicTokenUsername, basicTokenPassword, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(basicToken);
-                
+
                 HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken);
-                
-                OAuthToken oauthToken = new OAuthToken(context.Configuration["<token>"], timeout: TimeSpan.FromSeconds(1));
+
+                string oauthTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                OAuthToken oauthToken = new OAuthToken(oauthTokenValue, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);
             });
     }

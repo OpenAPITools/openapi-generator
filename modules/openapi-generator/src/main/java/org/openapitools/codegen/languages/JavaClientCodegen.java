@@ -27,6 +27,7 @@ import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -164,6 +165,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         List<AnnotationLibrary> annotationLibraries = new ArrayList<>();
         annotationLibraries.add(AnnotationLibrary.NONE);
         annotationLibraries.add(AnnotationLibrary.SWAGGER1);
+        annotationLibraries.add(AnnotationLibrary.SWAGGER2);
         return annotationLibraries;
     }
 
@@ -174,6 +176,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
+                SecurityFeature.OAuth2_ClientCredentials,
+                SecurityFeature.OAuth2_Password,
+                SecurityFeature.SignatureAuth)//jersey only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
@@ -973,6 +979,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("ToStringSerializer");
         }
 
+        if (!BooleanUtils.toBoolean(model.isEnum)) {
+            // needed by all pojos, but not enums
+            if (AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+                model.imports.add("Schema");
+            }
+        }
+
         if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {
             // clean-up
             model.imports.remove("JsonDeserialize");
@@ -995,6 +1008,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // Remove io.swagger.annotations.* imports
             codegenModel.imports.remove("ApiModel");
             codegenModel.imports.remove("ApiModelProperty");
+        }
+
+        if (codegenModel.description != null) {
+            if (AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+                codegenModel.imports.add("Schema");
+            }
         }
 
         return codegenModel;

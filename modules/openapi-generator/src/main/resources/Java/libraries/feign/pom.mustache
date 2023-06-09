@@ -220,6 +220,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -373,7 +380,12 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        {{#swagger1AnnotationLibrary}}
         <swagger-annotations-version>1.6.6</swagger-annotations-version>
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations-version>2.2.9</swagger-annotations-version>
+        {{/swagger2AnnotationLibrary}}
         <feign-version>10.11</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         {{#jackson}}
