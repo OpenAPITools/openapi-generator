@@ -264,7 +264,7 @@ direnv allow
 ```
 and have `java` and `mvn` set up with correct versions each time you enter project directory.
 
-The default build contains minimal static analysis (via CheckStyle). To run your build with PMD and Spotbugs, use the `static-analysis` profile:
+The default build contains minimal static analysis (via Spotless). To run your build with PMD and Spotbugs, use the `static-analysis` profile:
 
 - Linux: `./mvnw -Pstatic-analysis clean install`
 - Windows: `mvnw.cmd -Pstatic-analysis clean install`

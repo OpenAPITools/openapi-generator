@@ -7,9 +7,6 @@ VOLUME  ${MAVEN_HOME}/.m2/repository
 # Required from a licensing standpoint
 COPY ./LICENSE ${GEN_DIR}
 
-# Required to compile openapi-generator
-COPY ./google_checkstyle.xml ${GEN_DIR}
-
 # Modules are copied individually here to allow for caching of docker layers between major.minor versions
 COPY ./modules/openapi-generator-gradle-plugin ${GEN_DIR}/modules/openapi-generator-gradle-plugin
 COPY ./modules/openapi-generator-maven-plugin ${GEN_DIR}/modules/openapi-generator-maven-plugin

@@ -105,17 +105,42 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${checkstyle.plugin.version}</version>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-plugin.version}</version>
                 <configuration>
-                    <consoleOutput>false</consoleOutput>
-                    <failsOnError>false</failsOnError>
-                    <excludes>**/samples/*.java</excludes>
+                    <ratchetFrom>origin/master</ratchetFrom>
+                    <lineEndings>UNIX</lineEndings>
+                    <java>
+                        <googleJavaFormat>
+                            <style>AOSP</style>
+                        </googleJavaFormat>
+                    </java>
+                    <pom />
+                    <formats>
+                        <format>
+                            <includes>
+                                <include>modules/openapi-generator/src/main/resources/kotlin-server/**/*.mustache</include>
+                                <include>modules/openapi-generator/src/main/resources/kotlin-spring/**/*.mustache</include>
+                                <include>modules/openapi-generator/src/main/resources/dart/**/*.mustache</include>
+                                <include>modules/openapi-generator/src/main/resources/dart2/**/*.mustache</include>
+                                <include>modules/openapi-generator/src/main/resources/aspnetcore/**/*.mustache</include>
+                                <include>modules/openapi-generator/src/main/resources/powershell/**/*.mustache</include>
+                                <include>modules/openapi-generator/src/main/resources/r/**/*.mustache</include>
+                            </includes>
+                            <excludes>
+                                <exclude>modules/openapi-generator/src/main/resources/**/*.jar.mustache</exclude>
+                            </excludes>
+                            <indent>
+                                <spaces>true</spaces>
+                                <spacesPerTab>4</spacesPerTab>
+                            </indent>
+                        </format>
+                    </formats>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>checkstyle-check</id>
+                        <id>spotless-check</id>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -378,12 +403,6 @@
                                 <folder>${project.basedir}</folder>
                                 <pattern>.*/pmd\.xml$</pattern>
                             </violation>
-                            <violation>
-                                <parser>CHECKSTYLE</parser>
-                                <reporter>Checkstyle</reporter>
-                                <folder>${project.basedir}</folder>
-                                <pattern>.*/checkstyle-result\.xml$</pattern>
-                            </violation>
                         </violations>
                     </configuration>
                     <executions>
@@ -404,11 +423,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
                     <version>${pmd-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${checkstyle.plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>pl.project13.maven</groupId>
@@ -1460,7 +1474,6 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <archunit.version>0.23.1</archunit.version>
-        <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang.version>3.12.0</commons-lang.version>
@@ -1496,6 +1509,7 @@
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
+        <spotless-plugin.version>2.37.0</spotless-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.1.14</swagger-parser.version>
         <testng.version>7.5</testng.version>
